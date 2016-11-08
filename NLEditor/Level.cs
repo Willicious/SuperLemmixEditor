@@ -39,6 +39,16 @@ namespace NLEditor
             this.fIsReleaseRateFix = false;
             this.fTimeLimit = -1; // Infinite time
 
+            this.fSkillCount = new int[C.SKI_COUNT];
+            for (int i = 0; i < Math.Min(8, C.SKI_COUNT); i++)
+            {
+                this.fSkillCount[i] = 10;
+            }
+            for (int i = 8; i < C.SKI_COUNT; i++)
+            {
+                this.fSkillCount[i] = -1;
+            }
+
             this.fScreenPos = new Point(0, 0);
         }
 
@@ -60,6 +70,8 @@ namespace NLEditor
         int fReleaseRate;
         bool fIsReleaseRateFix;
         int fTimeLimit;
+
+        int[] fSkillCount;
 
         Point fScreenPos;
 
