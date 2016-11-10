@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 namespace NLEditor
 {
@@ -12,13 +13,15 @@ namespace NLEditor
     {
         public static string CreatePieceKey(string FilePath)
         {
-            return Path.GetFullPath(FilePath).Remove(0, C.AppPathPieces.Length);
+            string FullPath = Path.GetFullPath(FilePath);
+            string RelativePath = FullPath.Remove(0, C.AppPathPieces.Length);
+            return Path.ChangeExtension(RelativePath, null);
         }
 
         public static string CreatePieceKey(string StyleName, string PieceName, bool IsObject)
         {
             return StyleName + C.DirSep + (IsObject ? "objects" : "terrain") 
-                             + C.DirSep + PieceName + ".png";
+                             + C.DirSep + PieceName;
         }
 
         public static List<Color> StyleColors(string StyleName)
@@ -65,11 +68,133 @@ namespace NLEditor
             List<string> NewStyleNames = new List<string>();
 
             // TODO
+            // --------------------------------------------------------!!!
             NewStyleNames = StyleNames;
 
             return NewStyleNames;
         }
 
+        public static Bitmap Image(string ImageName)
+        {
+            string ImagePath = C.AppPathPieces + ImageName;
+            
+            try
+            {
+                return new Bitmap(ImagePath + ".png");
+            }
+            catch (Exception Ex)
+            {
+                Utility.LogException(Ex);
 
+                // return empty image
+                return new Bitmap(1, 1);
+            }
+        }
+
+        public static BaseImageInfo ImageInfo(Bitmap Image, string ImageName)
+        {
+            string ImagePath = C.AppPathPieces + ImageName;
+
+            if (File.Exists(ImagePath + ".nxop"))
+            {
+                // create a new object piece
+                return CreateNewObjectInfo(Image, ImagePath + ".nxop");
+            }
+            else if (File.Exists(ImagePath + ".nxtp"))
+            {
+                // create a new object piece
+                return CreateNewTerrainInfo(Image, ImagePath + ".nxtp");
+            }
+            else
+            {
+                // create a new terrain piece
+                return new BaseImageInfo(Image);
+            }
+        }
+
+        private static BaseImageInfo CreateNewObjectInfo(Bitmap NewBitmap, string FilePathInfo)
+        {
+            int NumFrames = 1;
+            bool IsVert = false;
+            int ObjType = C.OBJ_NONE;
+            Rectangle TriggerRect = new Rectangle(0, 0, 0, 0);
+
+            try
+            {
+                using (StreamReader Stream = new StreamReader(FilePathInfo))
+                {
+                    string Line;
+                    while ((Line = Stream.ReadLine()) != null)
+                    {
+                        if (Line.Substring(0, 6).ToUpper() == "FRAMES")
+                        {
+                            NumFrames = Int32.Parse(Line.Substring(6).Trim());
+                        }
+                        else if (Line.Substring(0, 7).ToUpper() == "TRIGGER")
+                        {
+                            int TrigNum = Int32.Parse(Line.Substring(9).Trim());
+                            switch (Line.Substring(8, 1).ToUpper())
+                            {
+                                case "X": TriggerRect.X = TrigNum; break;
+                                case "Y": TriggerRect.Y = TrigNum; break;
+                                case "W": TriggerRect.Width = TrigNum; break;
+                                case "H": TriggerRect.Height = TrigNum; break;
+                            }
+                        }
+                        else if (Line.ToUpper().Trim() == "VERTICAL")
+                        {
+                            IsVert = true;
+                        }
+                        else if (Line.ToUpper().Trim() == "HORIZONTAL")
+                        {
+                            IsVert = false;
+                        }
+                        else if (Line.ToUpper().Trim() == "EXIT")
+                        {
+                            ObjType = C.OBJ_EXIT;
+                        }
+                        else if (Line.ToUpper().Trim() == "TRAP")
+                        {
+                            ObjType = C.OBJ_TRAP;
+                        }
+
+                    }
+                }
+            }
+            catch (Exception Ex)
+            {
+                Utility.LogException(Ex);
+                MessageBox.Show(Ex.Message);
+            }
+
+            return new BaseImageInfo(NewBitmap, ObjType, NumFrames, IsVert, TriggerRect);
+        }
+
+        private static BaseImageInfo CreateNewTerrainInfo(Bitmap NewBitmap, string FilePathInfo)
+        {
+            bool IsSteel = false;
+
+            try
+            {
+                using (StreamReader Stream = new StreamReader(FilePathInfo))
+                {
+                    string Line;
+                    while ((Line = Stream.ReadLine()) != null)
+                    {
+                        if (Line.ToUpper().Trim() == "STEEL")
+                        {
+                            IsSteel = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception Ex)
+            {
+                Utility.LogException(Ex);
+                MessageBox.Show(Ex.Message);
+            }
+
+            return new BaseImageInfo(NewBitmap, IsSteel);
+        }
     }
 }

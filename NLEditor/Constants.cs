@@ -94,5 +94,14 @@ namespace NLEditor
         {
             return args.Contains(obj);
         }
+
+        public static void LogException(Exception Ex)
+        {
+            String ErrorPath = C.AppPath + "ErrorLog.txt";
+            TextWriter TextFile = new StreamWriter(ErrorPath, true);
+            TextFile.WriteLine(Ex.ToString());
+            TextFile.Close();
+        }
+
     }
 }
