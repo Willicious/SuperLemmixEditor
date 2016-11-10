@@ -24,14 +24,7 @@ namespace NLEditor
             this.fRotation = Rotation;
             this.fInvert = IsInvert;
 
-            if (IsObj)
-            {
-                this.fKey = Style + "\\objects\\" + fName;
-            }
-            else
-            {
-                this.fKey = Style + "\\terrain\\" + fName;
-            }
+            this.fKey = LoadFromFile.CreatePieceKey(Style, Name, IsObj);
         }
 
         Point fPos;

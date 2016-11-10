@@ -86,13 +86,14 @@ namespace NLEditor
         }
 
         private Dictionary<string, BaseImageInfo> fImageList;
-        private ILookup<string, string> fImagePathList;
+        // The key is the file path below the "styles\\themes\\pieces" folder!
+        private ILookup<string, string> fImagePathList; 
 
 
         private ILookup<string, string> GetAllImagePaths()
         {
-            return Directory.GetFiles(C.AppPath + "styles\\themes", "*.png", SearchOption.AllDirectories)
-                            .ToLookup(file => Path.GetFileName(file),
+            return Directory.GetFiles(C.AppPathPieces, "*.png", SearchOption.AllDirectories)
+                            .ToLookup(file => LoadFromFile.CreatePieceKey(file),
                                       file => Path.GetDirectoryName(file));
         }
 

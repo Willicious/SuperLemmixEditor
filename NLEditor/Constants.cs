@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Windows.Forms;
 
 namespace NLEditor
 {
@@ -13,7 +15,22 @@ namespace NLEditor
         public static string AppPath
         {
             get { return "C:\\Stephan\\Programme\\NLEditor\\"; }
-            // get { return Application.StartupPath + "\\"; }
+            // get { return Application.StartupPath + DirSep; }
+        }
+
+        public static string AppPathPieces
+        {
+            get { return AppPath + "styles" + DirSep + "pieces" + DirSep; }
+        }
+
+        public static char DirSep
+        { 
+            get { return Path.DirectorySeparatorChar; }
+        }
+
+        public static string NewLine
+        {
+            get { return Environment.NewLine; }
         }
 
         public const int DIR_N = 0;
