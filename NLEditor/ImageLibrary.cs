@@ -63,7 +63,7 @@ namespace NLEditor
     }
     
     
-    public class ImageLibrary
+    static class ImageLibrary
     {
         /*---------------------------------------------------------
          *  This class contains and modifies a list of all images
@@ -72,33 +72,21 @@ namespace NLEditor
 
         /* --------------------------------------------------------
          *   public methods:
-         *     - ImageLibrary() // constructor
          *     - GetImage(string ImageName)
          *     - GetWidth(string ImageName)
          *     - GetHeight(string ImageName)
          *     - GetObjType(string ImageName)
          * -------------------------------------------------------- */
 
-        public ImageLibrary()
+        static ImageLibrary()
         {
             fImageList = new Dictionary<string, BaseImageInfo>();
-            fImagePathList = GetAllImagePaths();
         }
 
-        private Dictionary<string, BaseImageInfo> fImageList;
         // The key is the file path below the "styles\\themes\\pieces" folder!
-        private ILookup<string, string> fImagePathList; 
+        static Dictionary<string, BaseImageInfo> fImageList;
 
-
-        private ILookup<string, string> GetAllImagePaths()
-        {
-            return Directory.GetFiles(C.AppPathPieces, "*.png", SearchOption.AllDirectories)
-                            .ToLookup(file => LoadFromFile.CreatePieceKey(file),
-                                      file => Path.GetDirectoryName(file));
-        }
-
-
-        public Bitmap GetImage(string ImageName)
+        public static Bitmap GetImage(string ImageName)
         {
             if (!fImageList.ContainsKey(ImageName))
             {
@@ -109,7 +97,7 @@ namespace NLEditor
             return fImageList[ImageName].Image;
         }
 
-        public int GetWidth(string ImageName)
+        public static int GetWidth(string ImageName)
         {
             if (!fImageList.ContainsKey(ImageName))
             {
@@ -120,7 +108,7 @@ namespace NLEditor
             return fImageList[ImageName].Width;
         }
 
-        public int GetHeight(string ImageName)
+        public static int GetHeight(string ImageName)
         {
             if (!fImageList.ContainsKey(ImageName))
             {
@@ -131,7 +119,7 @@ namespace NLEditor
             return fImageList[ImageName].Height;
         }
 
-        public int GetObjType(string ImageName)
+        public static int GetObjType(string ImageName)
         {
             if (!fImageList.ContainsKey(ImageName))
             {
@@ -143,17 +131,13 @@ namespace NLEditor
         }
 
 
-
-        private bool AddNewImage(string ImageName)
+        static bool AddNewImage(string ImageName)
         {
-            // Find directory with this file
-            string DirPath = fImagePathList[ImageName + ".png"].FirstOrDefault();
-
-            // Check whether the image exists
-            if (DirPath == null) return false;
-
             // Load new image
             Bitmap NewBitmap = LoadFromFile.Image(ImageName);
+
+            // Check whether this Bitmap exists 
+            if (NewBitmap.Size == null) return false;
 
             BaseImageInfo NewImageInfo = LoadFromFile.ImageInfo(NewBitmap, ImageName);
 
@@ -161,6 +145,19 @@ namespace NLEditor
             fImageList.Add(ImageName, NewImageInfo);
 
             return true;
+        }
+
+        public static string CreatePieceKey(string FilePath)
+        {
+            string FullPath = Path.GetFullPath(FilePath);
+            string RelativePath = FullPath.Remove(0, C.AppPathPieces.Length);
+            return Path.ChangeExtension(RelativePath, null);
+        }
+
+        public static string CreatePieceKey(string StyleName, string PieceName, bool IsObject)
+        {
+            return StyleName + C.DirSep + (IsObject ? "objects" : "terrain")
+                             + C.DirSep + PieceName;
         }
     }
 }

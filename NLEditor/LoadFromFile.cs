@@ -11,19 +11,6 @@ namespace NLEditor
 {
     static class LoadFromFile
     {
-        public static string CreatePieceKey(string FilePath)
-        {
-            string FullPath = Path.GetFullPath(FilePath);
-            string RelativePath = FullPath.Remove(0, C.AppPathPieces.Length);
-            return Path.ChangeExtension(RelativePath, null);
-        }
-
-        public static string CreatePieceKey(string StyleName, string PieceName, bool IsObject)
-        {
-            return StyleName + C.DirSep + (IsObject ? "objects" : "terrain") 
-                             + C.DirSep + PieceName;
-        }
-
         public static List<Color> StyleColors(string StyleName)
         {
             string FilePath = C.AppPath + "styles" + C.DirSep + "themes" + C.DirSep;
@@ -85,9 +72,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-
-                // return empty image
-                return new Bitmap(1, 1);
+                return null;
             }
         }
 

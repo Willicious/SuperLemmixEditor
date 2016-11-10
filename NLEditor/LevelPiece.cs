@@ -13,10 +13,9 @@ namespace NLEditor
          *          This class stores infos about pieces
          * -------------------------------------------------------- */
 
-        public LevelPiece(ImageLibrary MyImageLib, string Style, string Name, bool IsObj, 
-                          Point Pos, int Rotation = 0, bool IsInvert = false)
+        public LevelPiece(string Style, string Name, bool IsObj, Point Pos, 
+                          int Rotation = 0, bool IsInvert = false)
         {
-            this.fMyImageLib = MyImageLib;
             this.fName = Name;
             this.fStyle = Style;
             this.Pos = Pos;
@@ -24,14 +23,13 @@ namespace NLEditor
             this.fRotation = Rotation;
             this.fInvert = IsInvert;
 
-            this.fKey = LoadFromFile.CreatePieceKey(Style, Name, IsObj);
+            this.fKey = ImageLibrary.CreatePieceKey(Style, Name, IsObj);
         }
 
         Point fPos;
         string fStyle;
         string fName;
         string fKey;
-        ImageLibrary fMyImageLib;
 
         // RULE: FIRST INVERT - THEN ROTATE
         int fRotation;
@@ -44,8 +42,8 @@ namespace NLEditor
         public string Name { get { return fName; } }
         
         // Metainfo from BaseImageInfo
-        public Bitmap Image { get { return fMyImageLib.GetImage(fKey); } }
-        public int ObjType { get { return fMyImageLib.GetObjType(fKey); } }
+        public Bitmap Image { get { return ImageLibrary.GetImage(fKey); } }
+        public int ObjType { get { return ImageLibrary.GetObjType(fKey); } }
 
         public void Move(int Direction, int Step = 1)
         {
@@ -82,17 +80,17 @@ namespace NLEditor
          *      This class stores infos about terrain pieces
          * -------------------------------------------------------- */    
     
-        public TerrainPiece(ImageLibrary MyImageLib, string Style, string Name, Point Pos)
-            : base(MyImageLib, Style, Name, false, Pos)
+        public TerrainPiece(string Style, string Name, Point Pos)
+            : base(Style, Name, false, Pos)
         {
             fIsErase = false;
             fIsNoOverwrite = false;
             fIsOneWay = true;
         }
 
-        public TerrainPiece(ImageLibrary MyImageLib, string Style, string Name, Point Pos,
+        public TerrainPiece(string Style, string Name, Point Pos,
                             int Rotation, bool IsInvert, bool IsErase, bool IsNoOv, bool IsOneWay)
-            : base(MyImageLib, Style, Name, false, Pos, Rotation, IsInvert)
+            : base(Style, Name, false, Pos, Rotation, IsInvert)
         {
             fIsErase = IsInvert;
             fIsNoOverwrite = IsNoOv;
@@ -106,16 +104,16 @@ namespace NLEditor
 
     public class GadgetPiece : LevelPiece
     { 
-        public GadgetPiece(ImageLibrary MyImageLib, string Style, string Name, Point Pos)
-            : base(MyImageLib, Style, Name, false, Pos)
+        public GadgetPiece(string Style, string Name, Point Pos)
+            : base(Style, Name, false, Pos)
         {
             fIsNoOverwrite = false;
             fIsOnlyOnTerrain = this.ObjType.In(C.OBJ_OWW_LEFT, C.OBJ_OWW_RIGHT, C.OBJ_OWW_DOWN);
         }
 
-        public GadgetPiece(ImageLibrary MyImageLib, string Style, string Name, Point Pos,
+        public GadgetPiece(string Style, string Name, Point Pos,
                             int Rotation, bool IsInvert, bool IsNoOv, bool IsOnlyOnTerr)
-            : base(MyImageLib, Style, Name, false, Pos, Rotation, IsInvert)
+            : base(Style, Name, false, Pos, Rotation, IsInvert)
         {
             fIsNoOverwrite = IsNoOv;
             fIsOnlyOnTerrain = IsOnlyOnTerr;

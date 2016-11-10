@@ -19,6 +19,11 @@ namespace NLEditor
 
             // Create the list of all styles
             CreateStyleList();
+            if (StyleList.Count > 0)
+            {
+                this.combo_MainStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.Name).ToArray());
+                this.combo_MainStyle.SelectedIndex = 0;
+            }
         }
 
         List<Style> fStyleList;

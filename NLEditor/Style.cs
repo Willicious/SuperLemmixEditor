@@ -44,7 +44,7 @@ namespace NLEditor
             string DirectoryPath = C.AppPathPieces + FileName + C.DirSep + "terrain";
 
             fPieceNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                   .Select(file => LoadFromFile.CreatePieceKey(file))
+                                   .Select(file => ImageLibrary.CreatePieceKey(file))
                                    .ToList();
         }
 
@@ -56,7 +56,7 @@ namespace NLEditor
             try
             {
                 fObjectNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                        .Select(file => LoadFromFile.CreatePieceKey(Path.GetFullPath(file)))
+                                        .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
                                         .ToList();
             }
             catch (Exception Ex)
@@ -76,7 +76,7 @@ namespace NLEditor
             DirectoryPath = C.AppPathPieces + FileName + C.DirSep + "objects";
 
             fObjectNames.AddRange(Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                           .Select(file => LoadFromFile.CreatePieceKey(Path.GetFullPath(file)))
+                                           .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
                                            .ToList());
         }
     }
