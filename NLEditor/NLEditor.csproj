@@ -59,6 +59,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Style.cs" />
+    <Compile Include="UpdateNLEditorForm.cs" />
     <EmbeddedResource Include="NLEditForm.resx">
       <DependentUpon>NLEditForm.cs</DependentUpon>
     </EmbeddedResource>
