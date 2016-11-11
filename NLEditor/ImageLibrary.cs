@@ -86,63 +86,63 @@ namespace NLEditor
         // The key is the file path below the "styles\\themes\\pieces" folder!
         static Dictionary<string, BaseImageInfo> fImageList;
 
-        public static Bitmap GetImage(string ImageName)
+        public static Bitmap GetImage(string ImageKey)
         {
-            if (!fImageList.ContainsKey(ImageName))
+            if (!fImageList.ContainsKey(ImageKey))
             {
-                bool Success = AddNewImage(ImageName);
+                bool Success = AddNewImage(ImageKey);
                 if (!Success) return null;
             }
 
-            return fImageList[ImageName].Image;
+            return fImageList[ImageKey].Image;
         }
 
-        public static int GetWidth(string ImageName)
+        public static int GetWidth(string ImageKey)
         {
-            if (!fImageList.ContainsKey(ImageName))
+            if (!fImageList.ContainsKey(ImageKey))
             {
-                bool Success = AddNewImage(ImageName);
+                bool Success = AddNewImage(ImageKey);
                 if (!Success) return -1;
             }
 
-            return fImageList[ImageName].Width;
+            return fImageList[ImageKey].Width;
         }
 
-        public static int GetHeight(string ImageName)
+        public static int GetHeight(string ImageKey)
         {
-            if (!fImageList.ContainsKey(ImageName))
+            if (!fImageList.ContainsKey(ImageKey))
             {
-                bool Success = AddNewImage(ImageName);
+                bool Success = AddNewImage(ImageKey);
                 if (!Success) return -1;
             }
 
-            return fImageList[ImageName].Height;
+            return fImageList[ImageKey].Height;
         }
 
-        public static int GetObjType(string ImageName)
+        public static int GetObjType(string ImageKey)
         {
-            if (!fImageList.ContainsKey(ImageName))
+            if (!fImageList.ContainsKey(ImageKey))
             {
-                bool Success = AddNewImage(ImageName);
+                bool Success = AddNewImage(ImageKey);
                 if (!Success) return -1;
             }
 
-            return fImageList[ImageName].ObjectType;
+            return fImageList[ImageKey].ObjectType;
         }
 
 
-        static bool AddNewImage(string ImageName)
+        static bool AddNewImage(string ImageKey)
         {
             // Load new image
-            Bitmap NewBitmap = LoadFromFile.Image(ImageName);
+            Bitmap NewBitmap = LoadFromFile.Image(ImageKey);
 
             // Check whether this Bitmap exists 
             if (NewBitmap.Size == null) return false;
 
-            BaseImageInfo NewImageInfo = LoadFromFile.ImageInfo(NewBitmap, ImageName);
+            BaseImageInfo NewImageInfo = LoadFromFile.ImageInfo(NewBitmap, ImageKey);
 
             // Add the image
-            fImageList.Add(ImageName, NewImageInfo);
+            fImageList.Add(ImageKey, NewImageInfo);
 
             return true;
         }

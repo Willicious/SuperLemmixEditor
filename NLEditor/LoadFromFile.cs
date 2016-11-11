@@ -61,9 +61,9 @@ namespace NLEditor
             return NewStyleNames;
         }
 
-        public static Bitmap Image(string ImageName)
+        public static Bitmap Image(string ImageKey)
         {
-            string ImagePath = C.AppPathPieces + ImageName;
+            string ImagePath = C.AppPathPieces + ImageKey;
             
             try
             {
