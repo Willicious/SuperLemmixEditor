@@ -33,12 +33,16 @@ namespace NLEditor
                 this.combo_PieceStyle.SelectedIndex = 0;
             }
 
+            // Create a new level
+            Style NewMainStyle = (StyleList == null || StyleList.Count == 0) ? null : StyleList[0];
+            fCurLevel = new Level(NewMainStyle);
+            UpdateForm.ChangeBackgroundColor(this, NewMainStyle);
+
             // Load pieces into the picPieces
             fPieceStartIndex = 0;
             fPieceDoDisplayObject = false;
             fPieceCurStyle = UpdateForm.ValidateStyleName(this, this.combo_PieceStyle.SelectedItem.ToString());
             UpdateForm.LoadPiecesIntoPictureBox(this, PieceCurStyle);
-            UpdateForm.ChangeBackgroundColor(this, this.combo_MainStyle.SelectedItem.ToString());
         }
 
         List<PictureBox> fpicPieceList;
@@ -48,12 +52,14 @@ namespace NLEditor
         int fPieceStartIndex;
         bool fPieceDoDisplayObject;
 
+        Level fCurLevel;
+
         public List<PictureBox> picPieceList { get { return fpicPieceList; } }
         public List<Style> StyleList { get { return fStyleList; } }
         public Style PieceCurStyle { get { return fPieceCurStyle; } private set { fPieceCurStyle = value; } }
         public int PieceStartIndex { get { return fPieceStartIndex; } set { fPieceStartIndex = value; } }
         public bool PieceDoDisplayObject { get { return fPieceDoDisplayObject; } private set { fPieceDoDisplayObject = value; } }
-
+        public Level CurLevel { get { return fCurLevel; } }
 
         private void CreateStyleList()
         { 
@@ -81,8 +87,7 @@ namespace NLEditor
             StyleNameList = LoadFromFile.OrderStyleNames(StyleNameList);
 
             // Add the actual styles
-            fStyleList = new List<Style>();
-            StyleNameList.ForEach(sty => fStyleList.Add(new Style(sty)));
+            fStyleList = StyleNameList.Select(sty => new Style(sty)).ToList();
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -144,6 +149,22 @@ namespace NLEditor
         {
             int Movement = (e.Button == MouseButtons.Right) ? 8 : 1;
             UpdateForm.ChangePieceStartIndex(this, Movement);
+        }
+
+        private void combo_MainStyle_TextChanged(object sender, EventArgs e)
+        {
+            Style NewStyle = UpdateForm.ValidateStyleName(this, this.combo_MainStyle.Text);
+
+            if (NewStyle == null || CurLevel == null || NewStyle == CurLevel.MainStyle) return;
+
+            // Load new style into PictureBoxes
+            CurLevel.MainStyle = NewStyle;
+            UpdateForm.ChangeBackgroundColor(this, NewStyle);
+        }
+
+        private void combo_MainStyle_Leave(object sender, EventArgs e)
+        {
+
         }
 
 

@@ -13,7 +13,7 @@ namespace NLEditor
     {
         public static List<Color> StyleColors(string StyleName)
         {
-            string FilePath = C.AppPath + "styles" + C.DirSep + "themes" + C.DirSep;
+            string FilePath = C.AppPath + "styles" + C.DirSep + "themes" + C.DirSep + StyleName + ".nxtm";
             
             List<Color> ColorList = new List<Color>();
             // Write default colors in it

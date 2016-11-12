@@ -570,6 +570,8 @@
             this.combo_MainStyle.Name = "combo_MainStyle";
             this.combo_MainStyle.Size = new System.Drawing.Size(98, 21);
             this.combo_MainStyle.TabIndex = 7;
+            this.combo_MainStyle.TextChanged += new System.EventHandler(this.combo_MainStyle_TextChanged);
+            this.combo_MainStyle.Leave += new System.EventHandler(this.combo_MainStyle_Leave);
             // 
             // lbl_Global_Style
             // 

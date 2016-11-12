@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace NLEditor
 {
-    class Level
+    public class Level
     {
         /*---------------------------------------------------------
          *          This class stores all global level infos
@@ -18,11 +18,11 @@ namespace NLEditor
 
          * -------------------------------------------------------- */
 
-        public Level()
+        public Level(Style MainStyle = null)
         {
             this.fName = "";
             this.fAuthor = "";
-            this.fMainStyle = ""; // DO WE REALLY WANT THIS???
+            this.fMainStyle = MainStyle;
             this.MusicFile = "";
 
             this.fWidth = 320;
@@ -54,7 +54,7 @@ namespace NLEditor
 
         string fName;
         string fAuthor;
-        string fMainStyle;
+        Style fMainStyle;
         string fMusicFile;
 
         int fWidth;
@@ -76,7 +76,7 @@ namespace NLEditor
 
         public string Name { get { return fName; } set { fName = value; } }
         public string Author { get { return fAuthor; } set { fAuthor = value; } }
-        public string MainStyle { get { return fMainStyle; } set { fMainStyle = value; } }
+        public Style MainStyle { get { return fMainStyle; } set { fMainStyle = value; } }
         public string MusicFile { get { return fMusicFile; } set { fMusicFile = value; } }
 
         public int Width { get { return fWidth; } set { fWidth = value; } }

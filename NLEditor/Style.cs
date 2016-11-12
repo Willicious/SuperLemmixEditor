@@ -22,7 +22,7 @@ namespace NLEditor
 
             SearchDirectoryForTerrain();
             SearchDirectoryForObjects();
-            List<Color> StyleColors = LoadFromFile.StyleColors(StyleName);
+            List<Color> StyleColors = LoadFromFile.StyleColors(FileName);
             fBackgroundColor = StyleColors[0];
         }
 

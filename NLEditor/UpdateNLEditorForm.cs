@@ -38,11 +38,7 @@ namespace NLEditor
 
         public static Style ValidateStyleName(NLEditForm MyForm, string NewStyleName)
         {
-            if (MyForm.StyleList == null || MyForm.StyleList.Count == 0)
-            {
-                ClearPiecesPictureBox(MyForm);
-                return null;
-            }
+            if (MyForm.StyleList == null || MyForm.StyleList.Count == 0) return null;
 
             return MyForm.StyleList.Find(sty => sty.Name == NewStyleName);
         }
@@ -52,15 +48,11 @@ namespace NLEditor
             MyForm.picPieceList.ForEach(pic => pic.Image = null);
         }
 
-        public static void ChangeBackgroundColor(NLEditForm MyForm, string NewStyleName)
+        public static void ChangeBackgroundColor(NLEditForm MyForm, Style NewStyle)
         {
-            if (MyForm.StyleList == null || MyForm.StyleList.Count == 0) return;
+            if (NewStyle == null) return;
 
-            // Get style
-            Style ThisStyle = MyForm.StyleList.Find(sty => sty.Name == NewStyleName);
-            if (ThisStyle == null) return;
-
-            Color NewBackColor = ThisStyle.BackgroundColor;
+            Color NewBackColor = NewStyle.BackgroundColor;
             if (NewBackColor == null) return;
 
             MyForm.picPieceList.ForEach(pic => pic.BackColor = NewBackColor);
