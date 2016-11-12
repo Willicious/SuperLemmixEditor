@@ -30,7 +30,7 @@ namespace NLEditor
                     string Line;
                     while ((Line = Stream.ReadLine()) != null)
                     {
-                        if (Line.Trim().Substring(0, 10).ToUpper() == "BACKGROUND")
+                        if (Line.Length > 10 && Line.Trim().Substring(0, 10).ToUpper() == "BACKGROUND")
                         {
                             ColorList[0] = ColorTranslator.FromHtml("#" + Line.Trim().Substring(10).Trim());
                         }
@@ -80,10 +80,10 @@ namespace NLEditor
         {
             string ImagePath = C.AppPathPieces + ImageName;
 
-            if (File.Exists(ImagePath + ".nxop"))
+            if (File.Exists(ImagePath + ".nxob"))
             {
                 // create a new object piece
-                return CreateNewObjectInfo(Image, ImagePath + ".nxop");
+                return CreateNewObjectInfo(Image, ImagePath + ".nxob");
             }
             else if (File.Exists(ImagePath + ".nxtp"))
             {
@@ -111,11 +111,11 @@ namespace NLEditor
                     string Line;
                     while ((Line = Stream.ReadLine()) != null)
                     {
-                        if (Line.Substring(0, 6).ToUpper() == "FRAMES")
+                        if (Line.Length > 6 && Line.Substring(0, 6).ToUpper() == "FRAMES")
                         {
                             NumFrames = Int32.Parse(Line.Substring(6).Trim());
                         }
-                        else if (Line.Substring(0, 7).ToUpper() == "TRIGGER")
+                        else if (Line.Length > 9 && Line.Substring(0, 7).ToUpper() == "TRIGGER")
                         {
                             int TrigNum = Int32.Parse(Line.Substring(9).Trim());
                             switch (Line.Substring(8, 1).ToUpper())

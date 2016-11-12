@@ -50,14 +50,23 @@ namespace NLEditor
 
         private void SearchDirectoryForObjects()
         {
-            // Load first the default objects into the list
-            string DirectoryPath = C.AppPathPieces + "default" + C.DirSep + "objects";
+            // Load first the style-specific objects
+            string DirectoryPath = C.AppPathPieces + FileName + C.DirSep + "objects";
+
+            fObjectNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                                    .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
+                                    .ToList();
+            
+
+            // Load now the default objects into the list
+            DirectoryPath = C.AppPathPieces + "default" + C.DirSep + "objects";
 
             try
             {
-                fObjectNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                        .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
-                                        .ToList();
+                fObjectNames.AddRange(Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                                               .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
+                                               .ToList()
+                                               .FindAll(key => !key.Contains("_mask_")));
             }
             catch (Exception Ex)
             {
@@ -67,17 +76,8 @@ namespace NLEditor
                 TextFile.Close();
 
                 MessageBox.Show(Ex.Message);
-
-                // Continue ignoring missing default style
-                fObjectNames = new List<string>();
+                // but then start the editor as usual
             }
-
-            // Load now the style-specific objects
-            DirectoryPath = C.AppPathPieces + FileName + C.DirSep + "objects";
-
-            fObjectNames.AddRange(Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                           .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
-                                           .ToList());
         }
     }
 }
