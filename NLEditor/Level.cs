@@ -20,7 +20,7 @@ namespace NLEditor
 
         public Level(Style MainStyle = null)
         {
-            this.fName = "";
+            this.fTitle = "";
             this.fAuthor = "";
             this.fMainStyle = MainStyle;
             this.MusicFile = "";
@@ -36,23 +36,24 @@ namespace NLEditor
             this.fSaveReq = 20;
             this.fReleaseRate = 50;
             this.fIsReleaseRateFix = false;
-            this.fTimeLimit = -1; // Infinite time
+            this.fTimeLimit = 0;
+            this.fIsNoTimeLimit = true;
 
-            this.fSkillCount = new int[C.SKI_COUNT];
+            this.SkillCount = new int[C.SKI_COUNT];
             for (int i = 0; i < Math.Min(8, C.SKI_COUNT); i++)
             {
-                this.fSkillCount[i] = 10;
+                this.SkillCount[i] = 10;
             }
             for (int i = 8; i < C.SKI_COUNT; i++)
             {
-                this.fSkillCount[i] = -1;
+                this.SkillCount[i] = 0;
             }
 
             this.fScreenPos = new Point(0, 0);
         }
 
 
-        string fName;
+        string fTitle;
         string fAuthor;
         Style fMainStyle;
         string fMusicFile;
@@ -69,12 +70,13 @@ namespace NLEditor
         int fReleaseRate;
         bool fIsReleaseRateFix;
         int fTimeLimit;
+        bool fIsNoTimeLimit;
 
-        int[] fSkillCount;
+        public int[] SkillCount { get; set; }
 
         Point fScreenPos;
 
-        public string Name { get { return fName; } set { fName = value; } }
+        public string Title { get { return fTitle; } set { fTitle = value; } }
         public string Author { get { return fAuthor; } set { fAuthor = value; } }
         public Style MainStyle { get { return fMainStyle; } set { fMainStyle = value; } }
         public string MusicFile { get { return fMusicFile; } set { fMusicFile = value; } }
@@ -93,6 +95,7 @@ namespace NLEditor
         public int ReleaseRate { get { return fReleaseRate; } set { fReleaseRate = value; } }
         public bool IsReleaseRateFix { get { return fIsReleaseRateFix; } set { fIsReleaseRateFix = value; } }
         public int TimeLimit { get { return fTimeLimit; } set { fTimeLimit = value; } }
+        public bool IsNoTimeLimit { get { return fIsNoTimeLimit; } set { fIsNoTimeLimit = value; } }
 
         public Point ScreenPos { get { return fScreenPos; } }
         public int ScreenPosX { get { return fScreenPos.X; } set { fScreenPos.X = value; } }

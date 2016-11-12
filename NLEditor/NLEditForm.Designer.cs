@@ -125,6 +125,7 @@
             this.picPiece7 = new System.Windows.Forms.PictureBox();
             this.picPiece8 = new System.Windows.Forms.PictureBox();
             this.but_PieceTerrObj = new System.Windows.Forms.Button();
+            this.check_Lvl_InfTime = new System.Windows.Forms.CheckBox();
             this.menuStrip.SuspendLayout();
             this.tabLvlProperties.SuspendLayout();
             this.tabGlobalInfo.SuspendLayout();
@@ -361,6 +362,7 @@
             // 
             // tabGlobalInfo
             // 
+            this.tabGlobalInfo.Controls.Add(this.check_Lvl_InfTime);
             this.tabGlobalInfo.Controls.Add(this.combo_Music);
             this.tabGlobalInfo.Controls.Add(this.num_Lvl_TimeSec);
             this.tabGlobalInfo.Controls.Add(this.num_Lvl_TimeMin);
@@ -991,20 +993,10 @@
             0,
             0,
             0});
-            this.num_Lvl_TimeMin.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
             this.num_Lvl_TimeMin.Name = "num_Lvl_TimeMin";
             this.num_Lvl_TimeMin.Size = new System.Drawing.Size(47, 20);
             this.num_Lvl_TimeMin.TabIndex = 22;
             this.num_Lvl_TimeMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.num_Lvl_TimeMin.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
             // 
             // lbl_Global_TimeLimit
             // 
@@ -1172,6 +1164,19 @@
             this.but_PieceTerrObj.UseVisualStyleBackColor = true;
             this.but_PieceTerrObj.Click += new System.EventHandler(this.but_PieceTerrObj_Click);
             // 
+            // check_Lvl_InfTime
+            // 
+            this.check_Lvl_InfTime.AutoSize = true;
+            this.check_Lvl_InfTime.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Lvl_InfTime.Checked = true;
+            this.check_Lvl_InfTime.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_Lvl_InfTime.Location = new System.Drawing.Point(59, 289);
+            this.check_Lvl_InfTime.Name = "check_Lvl_InfTime";
+            this.check_Lvl_InfTime.Size = new System.Drawing.Size(83, 17);
+            this.check_Lvl_InfTime.TabIndex = 24;
+            this.check_Lvl_InfTime.Text = "Infinite Time";
+            this.check_Lvl_InfTime.UseVisualStyleBackColor = true;
+            // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1337,6 +1342,7 @@
         private System.Windows.Forms.PictureBox picPiece7;
         private System.Windows.Forms.PictureBox picPiece8;
         private System.Windows.Forms.Button but_PieceTerrObj;
+        private System.Windows.Forms.CheckBox check_Lvl_InfTime;
     }
 }
 
