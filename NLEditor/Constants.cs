@@ -39,6 +39,13 @@ namespace NLEditor
         public const int DIR_W = 3;
 
 
+        public const int LAY_COUNT = 6;
+        public const int LAY_OBJBACK = 0;
+        public const int LAY_TERRAIN = 1;
+        public const int LAY_OBJTOP = 3;
+        public const int LAY_TRIGGER = 4;
+        public const int LAY_OWWTERRAIN = 5;
+
         public const int OBJ_NULL = -1; // usual terrain piece!
         public const int OBJ_STEEL = -2; // steel terrain pieces!
         public const int OBJ_NONE = 0;

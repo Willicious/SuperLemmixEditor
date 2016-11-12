@@ -72,10 +72,11 @@ namespace NLEditor
 
         /* --------------------------------------------------------
          *   public methods:
-         *     - GetImage(string ImageName)
-         *     - GetWidth(string ImageName)
-         *     - GetHeight(string ImageName)
-         *     - GetObjType(string ImageName)
+         *     - GetImage(string ImageKey)
+         *     - GetWidth(string ImageKey)
+         *     - GetHeight(string ImageKey)
+         *     - GetObjType(string ImageKey)
+         *     - GetTrigger(string ImageKey)
          * -------------------------------------------------------- */
 
         static ImageLibrary()
@@ -128,6 +129,17 @@ namespace NLEditor
             }
 
             return fImageList[ImageKey].ObjectType;
+        }
+
+        public static Rectangle GetTrigger(string ImageKey)
+        {
+            if (!fImageList.ContainsKey(ImageKey))
+            {
+                bool Success = AddNewImage(ImageKey);
+                if (!Success) return new Rectangle(0, 0, 0, 0);
+            }
+
+            return fImageList[ImageKey].TriggerRect;
         }
 
 

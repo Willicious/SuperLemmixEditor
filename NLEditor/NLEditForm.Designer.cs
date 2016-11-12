@@ -126,6 +126,7 @@
             this.picPiece8 = new System.Windows.Forms.PictureBox();
             this.but_PieceTerrObj = new System.Windows.Forms.Button();
             this.check_Lvl_InfTime = new System.Windows.Forms.CheckBox();
+            this.pic_Level = new System.Windows.Forms.PictureBox();
             this.menuStrip.SuspendLayout();
             this.tabLvlProperties.SuspendLayout();
             this.tabGlobalInfo.SuspendLayout();
@@ -163,6 +164,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picPiece6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -1177,11 +1179,22 @@
             this.check_Lvl_InfTime.Text = "Infinite Time";
             this.check_Lvl_InfTime.UseVisualStyleBackColor = true;
             // 
+            // pic_Level
+            // 
+            this.pic_Level.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pic_Level.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pic_Level.Location = new System.Drawing.Point(193, 27);
+            this.pic_Level.Name = "pic_Level";
+            this.pic_Level.Size = new System.Drawing.Size(595, 445);
+            this.pic_Level.TabIndex = 36;
+            this.pic_Level.TabStop = false;
+            // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 573);
+            this.Controls.Add(this.pic_Level);
             this.Controls.Add(this.but_PieceTerrObj);
             this.Controls.Add(this.picPiece8);
             this.Controls.Add(this.picPiece7);
@@ -1238,6 +1251,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picPiece6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1343,6 +1357,7 @@
         private System.Windows.Forms.PictureBox picPiece8;
         private System.Windows.Forms.Button but_PieceTerrObj;
         private System.Windows.Forms.CheckBox check_Lvl_InfTime;
+        private System.Windows.Forms.PictureBox pic_Level;
     }
 }
 

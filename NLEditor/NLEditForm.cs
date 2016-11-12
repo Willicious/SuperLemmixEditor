@@ -39,6 +39,9 @@ namespace NLEditor
             WriteLevelInfoToForm();
             UpdateForm.ChangeBackgroundColor(this, NewMainStyle);
 
+            // Create a new renderer
+            fCurRenderer = new Renderer(fCurLevel, this.pic_Level);
+
             // Load pieces into the picPieces
             fPieceStartIndex = 0;
             fPieceDoDisplayObject = false;
@@ -54,6 +57,7 @@ namespace NLEditor
         bool fPieceDoDisplayObject;
 
         Level fCurLevel;
+        Renderer fCurRenderer;
 
         public List<PictureBox> picPieceList { get { return fpicPieceList; } }
         public List<Style> StyleList { get { return fStyleList; } }

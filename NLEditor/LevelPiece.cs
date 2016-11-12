@@ -29,7 +29,7 @@ namespace NLEditor
         Point fPos;
         string fStyle;
         string fName;
-        string fKey;
+        protected string fKey;
 
         // RULE: FIRST INVERT - THEN ROTATE
         int fRotation;
@@ -100,6 +100,10 @@ namespace NLEditor
         bool fIsErase;
         bool fIsNoOverwrite;
         bool fIsOneWay;
+
+        public bool IsErase { get { return fIsErase; } set { fIsErase = value; } }
+        public bool IsNoOverwrite { get { return fIsNoOverwrite; } set { fIsNoOverwrite = value; } }
+        public bool IsOneWay { get { return fIsOneWay; } set { fIsOneWay = value; } }
     }
 
     public class GadgetPiece : LevelPiece
@@ -121,6 +125,16 @@ namespace NLEditor
 
         bool fIsNoOverwrite;
         bool fIsOnlyOnTerrain;
+
+        public bool IsNoOverwrite { get { return fIsNoOverwrite; } set { fIsNoOverwrite = value; } }
+        public bool IsOnlyOnTerrain { get { return fIsOnlyOnTerrain; } set { fIsOnlyOnTerrain = value; } }
+
+        public Rectangle TriggerRect { get 
+        { 
+            // TODO: Rotation, ...
+            return ImageLibrary.GetTrigger(fKey);
+        } }
+
     }
 
 }

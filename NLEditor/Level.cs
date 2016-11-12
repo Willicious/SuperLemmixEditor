@@ -13,11 +13,6 @@ namespace NLEditor
          *          This class stores all global level infos
          * -------------------------------------------------------- */
 
-        /* --------------------------------------------------------
-         *   public methods:
-
-         * -------------------------------------------------------- */
-
         public Level(Style MainStyle = null)
         {
             this.fTitle = "";
@@ -48,8 +43,6 @@ namespace NLEditor
             {
                 this.SkillCount[i] = 0;
             }
-
-            this.fScreenPos = new Point(0, 0);
         }
 
 
@@ -74,8 +67,6 @@ namespace NLEditor
 
         public int[] SkillCount { get; set; }
 
-        Point fScreenPos;
-
         public string Title { get { return fTitle; } set { fTitle = value; } }
         public string Author { get { return fAuthor; } set { fAuthor = value; } }
         public Style MainStyle { get { return fMainStyle; } set { fMainStyle = value; } }
@@ -96,9 +87,5 @@ namespace NLEditor
         public bool IsReleaseRateFix { get { return fIsReleaseRateFix; } set { fIsReleaseRateFix = value; } }
         public int TimeLimit { get { return fTimeLimit; } set { fTimeLimit = value; } }
         public bool IsNoTimeLimit { get { return fIsNoTimeLimit; } set { fIsNoTimeLimit = value; } }
-
-        public Point ScreenPos { get { return fScreenPos; } }
-        public int ScreenPosX { get { return fScreenPos.X; } set { fScreenPos.X = value; } }
-        public int ScreenPosY { get { return fScreenPos.Y; } set { fScreenPos.Y = value; } }
     }
 }
