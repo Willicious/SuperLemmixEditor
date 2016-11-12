@@ -1051,6 +1051,8 @@
             this.combo_PieceStyle.Name = "combo_PieceStyle";
             this.combo_PieceStyle.Size = new System.Drawing.Size(98, 21);
             this.combo_PieceStyle.TabIndex = 24;
+            this.combo_PieceStyle.TextChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
+            this.combo_PieceStyle.Leave += new System.EventHandler(this.combo_PieceStyle_Leave);
             // 
             // picPiece1
             // 
@@ -1070,6 +1072,7 @@
             this.but_PieceLeft.Size = new System.Drawing.Size(32, 84);
             this.but_PieceLeft.TabIndex = 26;
             this.but_PieceLeft.UseVisualStyleBackColor = true;
+            this.but_PieceLeft.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseDown);
             // 
             // picPiece2
             // 
@@ -1100,6 +1103,7 @@
             this.but_PieceRight.Size = new System.Drawing.Size(32, 84);
             this.but_PieceRight.TabIndex = 29;
             this.but_PieceRight.UseVisualStyleBackColor = true;
+            this.but_PieceRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceRight_MouseDown);
             // 
             // picPiece4
             // 
@@ -1164,6 +1168,7 @@
             this.but_PieceTerrObj.TabIndex = 35;
             this.but_PieceTerrObj.Text = "Get Objects";
             this.but_PieceTerrObj.UseVisualStyleBackColor = true;
+            this.but_PieceTerrObj.Click += new System.EventHandler(this.but_PieceTerrObj_Click);
             // 
             // NLEditForm
             // 

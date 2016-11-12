@@ -36,19 +36,23 @@ namespace NLEditor
             // Load pieces into the picPieces
             fPieceStartIndex = 0;
             fPieceDoDisplayObject = false;
-            UpdateForm.LoadPiecesIntoPictureBox(this, this.combo_PieceStyle.SelectedItem.ToString());
+            fPieceCurStyle = UpdateForm.ValidateStyleName(this, this.combo_PieceStyle.SelectedItem.ToString());
+            UpdateForm.LoadPiecesIntoPictureBox(this, PieceCurStyle);
+            UpdateForm.ChangeBackgroundColor(this, this.combo_MainStyle.SelectedItem.ToString());
         }
 
         List<PictureBox> fpicPieceList;
 
         List<Style> fStyleList;
+        Style fPieceCurStyle;
         int fPieceStartIndex;
         bool fPieceDoDisplayObject;
 
         public List<PictureBox> picPieceList { get { return fpicPieceList; } }
         public List<Style> StyleList { get { return fStyleList; } }
-        public int PieceStartIndex { get { return fPieceStartIndex; } }
-        public bool PieceDoDisplayObject { get { return fPieceDoDisplayObject; } }
+        public Style PieceCurStyle { get { return fPieceCurStyle; } private set { fPieceCurStyle = value; } }
+        public int PieceStartIndex { get { return fPieceStartIndex; } set { fPieceStartIndex = value; } }
+        public bool PieceDoDisplayObject { get { return fPieceDoDisplayObject; } private set { fPieceDoDisplayObject = value; } }
 
 
         private void CreateStyleList()
@@ -92,5 +96,58 @@ namespace NLEditor
             // Exit editor
             Application.Exit();
         }
+
+        private void combo_PieceStyle_TextChanged(object sender, EventArgs e)
+        {
+            Style NewStyle = UpdateForm.ValidateStyleName(this, this.combo_PieceStyle.Text);
+
+            if (NewStyle == null || NewStyle == PieceCurStyle) return;
+
+            // Load new style into PictureBoxes
+            PieceCurStyle = NewStyle;
+            PieceStartIndex = 0;
+            UpdateForm.LoadPiecesIntoPictureBox(this, PieceCurStyle);
+        }
+
+        private void combo_PieceStyle_Leave(object sender, EventArgs e)
+        {
+            // Check whether to delete all pieces due to wrong style name
+            Style NewStyle = UpdateForm.ValidateStyleName(this, this.combo_PieceStyle.Text);
+
+            if (NewStyle == null)
+            {
+                PieceCurStyle = null;
+                PieceStartIndex = 0;
+                UpdateForm.ClearPiecesPictureBox(this);           
+            }
+
+        }
+
+        private void but_PieceTerrObj_Click(object sender, EventArgs e)
+        {
+            // Switch between displaying objects and terrain pieces
+            PieceDoDisplayObject = !PieceDoDisplayObject;
+
+            PieceStartIndex = 0;
+            UpdateForm.LoadPiecesIntoPictureBox(this, PieceCurStyle);
+
+            this.but_PieceTerrObj.Text = PieceDoDisplayObject ? "Get Terrain" : "Get Objects";
+        }
+
+        private void but_PieceLeft_MouseDown(object sender, MouseEventArgs e)
+        {
+            int Movement = (e.Button == MouseButtons.Right) ? -8 : -1;
+            UpdateForm.ChangePieceStartIndex(this, Movement);
+        }
+
+        private void but_PieceRight_MouseDown(object sender, MouseEventArgs e)
+        {
+            int Movement = (e.Button == MouseButtons.Right) ? 8 : 1;
+            UpdateForm.ChangePieceStartIndex(this, Movement);
+        }
+
+
+
+
     }
 }
