@@ -149,7 +149,7 @@ namespace NLEditor
             Bitmap NewBitmap = LoadFromFile.Image(ImageKey);
 
             // Check whether this Bitmap exists 
-            if (NewBitmap.Size == null) return false;
+            if (NewBitmap == null) return false;
 
             BaseImageInfo NewImageInfo = LoadFromFile.ImageInfo(NewBitmap, ImageKey);
 

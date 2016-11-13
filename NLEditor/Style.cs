@@ -28,13 +28,13 @@ namespace NLEditor
 
         string fFileName; // name that is used in the directory
         string fName; // name that is displayed in the editor
-        List<string> fPieceNames;
+        List<string> fTerrainNames;
         List<string> fObjectNames;
         Color fBackgroundColor;
 
         public string FileName { get { return fFileName; } }
         public string Name { get { return fName; } set { fName = value; } }
-        public List<string> PieceNames { get { return fPieceNames; } }
+        public List<string> TerrainNames { get { return fTerrainNames; } }
         public List<string> ObjectNames { get { return fObjectNames; } }
         public Color BackgroundColor { get { return fBackgroundColor; } }
 
@@ -47,9 +47,9 @@ namespace NLEditor
         {
             string DirectoryPath = C.AppPathPieces + FileName + C.DirSep + "terrain";
 
-            fPieceNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                   .Select(file => ImageLibrary.CreatePieceKey(file))
-                                   .ToList();
+            fTerrainNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                                     .Select(file => ImageLibrary.CreatePieceKey(file))
+                                     .ToList();
         }
 
         private void SearchDirectoryForObjects()

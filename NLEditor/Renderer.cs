@@ -20,6 +20,8 @@ namespace NLEditor
          *  public methods:
          *    Renderer(Level MyLevel) // constructor
          *    
+         *    GetCenterPoint()
+         * 
          *    CreateLevelImage() // recreates all layers and combines them
          *    CombineLayers() // only combines existing layers
          * 
@@ -105,6 +107,14 @@ namespace NLEditor
         {
             fMyLevel = NewLevel;
         }
+
+        public Point GetCenterPoint()
+        { 
+            Size LevelBmpSize = GetLevelBmpSize(); // Size without zoom!
+
+            return new Point(fScreenPos.X + LevelBmpSize.Width / 2, fScreenPos.Y + LevelBmpSize.Height / 2);
+        }
+
 
         public Bitmap CreateLevelImage()
         {

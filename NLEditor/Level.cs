@@ -13,6 +13,13 @@ namespace NLEditor
          *          This class stores all global level infos
          * -------------------------------------------------------- */
 
+        /*---------------------------------------------------------
+         *  public methods:
+         *    Level(Style MainStyle = null)
+         *    
+         *    AddPiece(Style NewStyle, bool IsObject, int NewPieceIndex, Point CenterPos)
+         * -------------------------------------------------------- */
+
         public Level(Style MainStyle = null)
         {
             this.fTitle = "";
@@ -87,5 +94,25 @@ namespace NLEditor
         public bool IsReleaseRateFix { get { return fIsReleaseRateFix; } set { fIsReleaseRateFix = value; } }
         public int TimeLimit { get { return fTimeLimit; } set { fTimeLimit = value; } }
         public bool IsNoTimeLimit { get { return fIsNoTimeLimit; } set { fIsNoTimeLimit = value; } }
+
+
+        public void AddPiece(Style NewStyle, bool IsObject, int NewPieceIndex, Point CenterPos)
+        {
+            string PieceKey = IsObject ? NewStyle.ObjectNames[NewPieceIndex] : NewStyle.TerrainNames[NewPieceIndex];
+            string PieceName = System.IO.Path.GetFileName(PieceKey);
+
+            Point PiecePos = new Point(CenterPos.X - ImageLibrary.GetWidth(PieceKey) / 2,
+                                       CenterPos.Y - ImageLibrary.GetHeight(PieceKey) / 2);
+
+            if (IsObject)
+            {
+                GadgetList.Add(new GadgetPiece(NewStyle.FileName, PieceName, PiecePos));
+            }
+            else
+            {
+                TerrainList.Add(new TerrainPiece(NewStyle.FileName, PieceName, PiecePos));
+            }
+        }
+
     }
 }

@@ -24,7 +24,7 @@ namespace NLEditor
             }
 
             // Get correct list of piece names
-            List<string> ThisPieceNameList = MyForm.PieceDoDisplayObject ? NewStyle.ObjectNames : NewStyle.PieceNames;
+            List<string> ThisPieceNameList = MyForm.PieceDoDisplayObject ? NewStyle.ObjectNames : NewStyle.TerrainNames;
             if (ThisPieceNameList == null || ThisPieceNameList.Count == 0)
             {
                 ClearPiecesPictureBox(MyForm);

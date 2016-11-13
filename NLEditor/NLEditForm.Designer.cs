@@ -55,6 +55,14 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabLvlProperties = new System.Windows.Forms.TabControl();
             this.tabGlobalInfo = new System.Windows.Forms.TabPage();
+            this.check_Lvl_InfTime = new System.Windows.Forms.CheckBox();
+            this.combo_Music = new System.Windows.Forms.ComboBox();
+            this.num_Lvl_TimeSec = new System.Windows.Forms.NumericUpDown();
+            this.num_Lvl_TimeMin = new System.Windows.Forms.NumericUpDown();
+            this.lbl_Global_TimeLimit = new System.Windows.Forms.Label();
+            this.check_Lvl_LockRR = new System.Windows.Forms.CheckBox();
+            this.num_Lvl_RR = new System.Windows.Forms.NumericUpDown();
+            this.lbl_Global_RR = new System.Windows.Forms.Label();
             this.num_Lvl_Rescue = new System.Windows.Forms.NumericUpDown();
             this.lbl_Global_Rescue = new System.Windows.Forms.Label();
             this.num_Lvl_Lems = new System.Windows.Forms.NumericUpDown();
@@ -106,30 +114,25 @@
             this.lbl_Skill_Blocker = new System.Windows.Forms.Label();
             this.lbl_Skill_Floater = new System.Windows.Forms.Label();
             this.lbl_Skill_Climber = new System.Windows.Forms.Label();
-            this.num_Lvl_RR = new System.Windows.Forms.NumericUpDown();
-            this.lbl_Global_RR = new System.Windows.Forms.Label();
-            this.check_Lvl_LockRR = new System.Windows.Forms.CheckBox();
-            this.num_Lvl_TimeSec = new System.Windows.Forms.NumericUpDown();
-            this.num_Lvl_TimeMin = new System.Windows.Forms.NumericUpDown();
-            this.lbl_Global_TimeLimit = new System.Windows.Forms.Label();
-            this.combo_Music = new System.Windows.Forms.ComboBox();
             this.combo_PieceStyle = new System.Windows.Forms.ComboBox();
-            this.picPiece1 = new System.Windows.Forms.PictureBox();
+            this.picPiece0 = new System.Windows.Forms.PictureBox();
             this.but_PieceLeft = new System.Windows.Forms.Button();
+            this.picPiece1 = new System.Windows.Forms.PictureBox();
             this.picPiece2 = new System.Windows.Forms.PictureBox();
-            this.picPiece3 = new System.Windows.Forms.PictureBox();
             this.but_PieceRight = new System.Windows.Forms.Button();
+            this.picPiece3 = new System.Windows.Forms.PictureBox();
             this.picPiece4 = new System.Windows.Forms.PictureBox();
             this.picPiece5 = new System.Windows.Forms.PictureBox();
             this.picPiece6 = new System.Windows.Forms.PictureBox();
             this.picPiece7 = new System.Windows.Forms.PictureBox();
-            this.picPiece8 = new System.Windows.Forms.PictureBox();
             this.but_PieceTerrObj = new System.Windows.Forms.Button();
-            this.check_Lvl_InfTime = new System.Windows.Forms.CheckBox();
             this.pic_Level = new System.Windows.Forms.PictureBox();
             this.menuStrip.SuspendLayout();
             this.tabLvlProperties.SuspendLayout();
             this.tabGlobalInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_TimeSec)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_TimeMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_RR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_Rescue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_Lems)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_StartY)).BeginInit();
@@ -153,9 +156,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Blocker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_RR)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_TimeSec)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_TimeMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece3)).BeginInit();
@@ -163,7 +164,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.picPiece5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).BeginInit();
             this.SuspendLayout();
             // 
@@ -396,6 +396,127 @@
             this.tabGlobalInfo.TabIndex = 0;
             this.tabGlobalInfo.Text = "Globals";
             this.tabGlobalInfo.UseVisualStyleBackColor = true;
+            // 
+            // check_Lvl_InfTime
+            // 
+            this.check_Lvl_InfTime.AutoSize = true;
+            this.check_Lvl_InfTime.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Lvl_InfTime.Checked = true;
+            this.check_Lvl_InfTime.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_Lvl_InfTime.Location = new System.Drawing.Point(59, 289);
+            this.check_Lvl_InfTime.Name = "check_Lvl_InfTime";
+            this.check_Lvl_InfTime.Size = new System.Drawing.Size(83, 17);
+            this.check_Lvl_InfTime.TabIndex = 24;
+            this.check_Lvl_InfTime.Text = "Infinite Time";
+            this.check_Lvl_InfTime.UseVisualStyleBackColor = true;
+            // 
+            // combo_Music
+            // 
+            this.combo_Music.FormattingEnabled = true;
+            this.combo_Music.Items.AddRange(new object[] {
+            "Can-Can",
+            "Lemming 1 (DOS 1)",
+            "Tim 2 (DOS 8)",
+            "Lemming 2 (DOS 2)",
+            "Tim 8 (DOS 15)",
+            "Tim 3 (DOS 13)",
+            "Tim 5 (DOS 12)",
+            "How Much Is That Doggie",
+            "Dance of the Red Flutes",
+            "Lemming 3 (DOS 3)",
+            "Rondo Alla Turca",
+            "London Bridge",
+            "Tim 1 (DOS 7)",
+            "Forest Green",
+            "Tim 4 (DOS 10)",
+            "Ten Green Bottles",
+            "Coming Round the Mountain",
+            "ONML 1",
+            "ONML 2",
+            "ONML 3",
+            "ONML 4",
+            "ONML 5",
+            "ONML 6"});
+            this.combo_Music.Location = new System.Drawing.Point(70, 57);
+            this.combo_Music.Name = "combo_Music";
+            this.combo_Music.Size = new System.Drawing.Size(98, 21);
+            this.combo_Music.TabIndex = 5;
+            // 
+            // num_Lvl_TimeSec
+            // 
+            this.num_Lvl_TimeSec.Location = new System.Drawing.Point(121, 263);
+            this.num_Lvl_TimeSec.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
+            this.num_Lvl_TimeSec.Name = "num_Lvl_TimeSec";
+            this.num_Lvl_TimeSec.Size = new System.Drawing.Size(47, 20);
+            this.num_Lvl_TimeSec.TabIndex = 23;
+            this.num_Lvl_TimeSec.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // num_Lvl_TimeMin
+            // 
+            this.num_Lvl_TimeMin.Location = new System.Drawing.Point(70, 263);
+            this.num_Lvl_TimeMin.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.num_Lvl_TimeMin.Name = "num_Lvl_TimeMin";
+            this.num_Lvl_TimeMin.Size = new System.Drawing.Size(47, 20);
+            this.num_Lvl_TimeMin.TabIndex = 22;
+            this.num_Lvl_TimeMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // lbl_Global_TimeLimit
+            // 
+            this.lbl_Global_TimeLimit.Location = new System.Drawing.Point(8, 268);
+            this.lbl_Global_TimeLimit.Name = "lbl_Global_TimeLimit";
+            this.lbl_Global_TimeLimit.Size = new System.Drawing.Size(56, 15);
+            this.lbl_Global_TimeLimit.TabIndex = 21;
+            this.lbl_Global_TimeLimit.Text = "Time Limit";
+            // 
+            // check_Lvl_LockRR
+            // 
+            this.check_Lvl_LockRR.AutoSize = true;
+            this.check_Lvl_LockRR.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Lvl_LockRR.Location = new System.Drawing.Point(73, 240);
+            this.check_Lvl_LockRR.Name = "check_Lvl_LockRR";
+            this.check_Lvl_LockRR.Size = new System.Drawing.Size(69, 17);
+            this.check_Lvl_LockRR.TabIndex = 20;
+            this.check_Lvl_LockRR.Text = "Lock RR";
+            this.check_Lvl_LockRR.UseVisualStyleBackColor = true;
+            // 
+            // num_Lvl_RR
+            // 
+            this.num_Lvl_RR.Location = new System.Drawing.Point(95, 214);
+            this.num_Lvl_RR.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.num_Lvl_RR.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_Lvl_RR.Name = "num_Lvl_RR";
+            this.num_Lvl_RR.Size = new System.Drawing.Size(47, 20);
+            this.num_Lvl_RR.TabIndex = 19;
+            this.num_Lvl_RR.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Lvl_RR.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // lbl_Global_RR
+            // 
+            this.lbl_Global_RR.Location = new System.Drawing.Point(8, 219);
+            this.lbl_Global_RR.Name = "lbl_Global_RR";
+            this.lbl_Global_RR.Size = new System.Drawing.Size(81, 15);
+            this.lbl_Global_RR.TabIndex = 18;
+            this.lbl_Global_RR.Text = "Release Rate";
             // 
             // num_Lvl_Rescue
             // 
@@ -932,114 +1053,6 @@
             this.lbl_Skill_Climber.TabIndex = 0;
             this.lbl_Skill_Climber.Text = "Climber";
             // 
-            // num_Lvl_RR
-            // 
-            this.num_Lvl_RR.Location = new System.Drawing.Point(95, 214);
-            this.num_Lvl_RR.Maximum = new decimal(new int[] {
-            99,
-            0,
-            0,
-            0});
-            this.num_Lvl_RR.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.num_Lvl_RR.Name = "num_Lvl_RR";
-            this.num_Lvl_RR.Size = new System.Drawing.Size(47, 20);
-            this.num_Lvl_RR.TabIndex = 19;
-            this.num_Lvl_RR.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.num_Lvl_RR.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // lbl_Global_RR
-            // 
-            this.lbl_Global_RR.Location = new System.Drawing.Point(8, 219);
-            this.lbl_Global_RR.Name = "lbl_Global_RR";
-            this.lbl_Global_RR.Size = new System.Drawing.Size(81, 15);
-            this.lbl_Global_RR.TabIndex = 18;
-            this.lbl_Global_RR.Text = "Release Rate";
-            // 
-            // check_Lvl_LockRR
-            // 
-            this.check_Lvl_LockRR.AutoSize = true;
-            this.check_Lvl_LockRR.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Lvl_LockRR.Location = new System.Drawing.Point(73, 240);
-            this.check_Lvl_LockRR.Name = "check_Lvl_LockRR";
-            this.check_Lvl_LockRR.Size = new System.Drawing.Size(69, 17);
-            this.check_Lvl_LockRR.TabIndex = 20;
-            this.check_Lvl_LockRR.Text = "Lock RR";
-            this.check_Lvl_LockRR.UseVisualStyleBackColor = true;
-            // 
-            // num_Lvl_TimeSec
-            // 
-            this.num_Lvl_TimeSec.Location = new System.Drawing.Point(121, 263);
-            this.num_Lvl_TimeSec.Maximum = new decimal(new int[] {
-            59,
-            0,
-            0,
-            0});
-            this.num_Lvl_TimeSec.Name = "num_Lvl_TimeSec";
-            this.num_Lvl_TimeSec.Size = new System.Drawing.Size(47, 20);
-            this.num_Lvl_TimeSec.TabIndex = 23;
-            this.num_Lvl_TimeSec.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // num_Lvl_TimeMin
-            // 
-            this.num_Lvl_TimeMin.Location = new System.Drawing.Point(70, 263);
-            this.num_Lvl_TimeMin.Maximum = new decimal(new int[] {
-            99,
-            0,
-            0,
-            0});
-            this.num_Lvl_TimeMin.Name = "num_Lvl_TimeMin";
-            this.num_Lvl_TimeMin.Size = new System.Drawing.Size(47, 20);
-            this.num_Lvl_TimeMin.TabIndex = 22;
-            this.num_Lvl_TimeMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // lbl_Global_TimeLimit
-            // 
-            this.lbl_Global_TimeLimit.Location = new System.Drawing.Point(8, 268);
-            this.lbl_Global_TimeLimit.Name = "lbl_Global_TimeLimit";
-            this.lbl_Global_TimeLimit.Size = new System.Drawing.Size(56, 15);
-            this.lbl_Global_TimeLimit.TabIndex = 21;
-            this.lbl_Global_TimeLimit.Text = "Time Limit";
-            // 
-            // combo_Music
-            // 
-            this.combo_Music.FormattingEnabled = true;
-            this.combo_Music.Items.AddRange(new object[] {
-            "Can-Can",
-            "Lemming 1 (DOS 1)",
-            "Tim 2 (DOS 8)",
-            "Lemming 2 (DOS 2)",
-            "Tim 8 (DOS 15)",
-            "Tim 3 (DOS 13)",
-            "Tim 5 (DOS 12)",
-            "How Much Is That Doggie",
-            "Dance of the Red Flutes",
-            "Lemming 3 (DOS 3)",
-            "Rondo Alla Turca",
-            "London Bridge",
-            "Tim 1 (DOS 7)",
-            "Forest Green",
-            "Tim 4 (DOS 10)",
-            "Ten Green Bottles",
-            "Coming Round the Mountain",
-            "ONML 1",
-            "ONML 2",
-            "ONML 3",
-            "ONML 4",
-            "ONML 5",
-            "ONML 6"});
-            this.combo_Music.Location = new System.Drawing.Point(70, 57);
-            this.combo_Music.Name = "combo_Music";
-            this.combo_Music.Size = new System.Drawing.Size(98, 21);
-            this.combo_Music.TabIndex = 5;
-            // 
             // combo_PieceStyle
             // 
             this.combo_PieceStyle.FormattingEnabled = true;
@@ -1050,16 +1063,17 @@
             this.combo_PieceStyle.TextChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
             this.combo_PieceStyle.Leave += new System.EventHandler(this.combo_PieceStyle_Leave);
             // 
-            // picPiece1
+            // picPiece0
             // 
-            this.picPiece1.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece1.Location = new System.Drawing.Point(36, 478);
-            this.picPiece1.Name = "picPiece1";
-            this.picPiece1.Size = new System.Drawing.Size(84, 84);
-            this.picPiece1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece1.TabIndex = 25;
-            this.picPiece1.TabStop = false;
+            this.picPiece0.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece0.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece0.Location = new System.Drawing.Point(36, 478);
+            this.picPiece0.Name = "picPiece0";
+            this.picPiece0.Size = new System.Drawing.Size(84, 84);
+            this.picPiece0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece0.TabIndex = 25;
+            this.picPiece0.TabStop = false;
+            this.picPiece0.Click += new System.EventHandler(this.picPiece0_Click);
             // 
             // but_PieceLeft
             // 
@@ -1070,27 +1084,29 @@
             this.but_PieceLeft.UseVisualStyleBackColor = true;
             this.but_PieceLeft.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseDown);
             // 
+            // picPiece1
+            // 
+            this.picPiece1.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece1.Location = new System.Drawing.Point(126, 478);
+            this.picPiece1.Name = "picPiece1";
+            this.picPiece1.Size = new System.Drawing.Size(84, 84);
+            this.picPiece1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece1.TabIndex = 27;
+            this.picPiece1.TabStop = false;
+            this.picPiece1.Click += new System.EventHandler(this.picPiece1_Click);
+            // 
             // picPiece2
             // 
             this.picPiece2.BackColor = System.Drawing.SystemColors.Control;
             this.picPiece2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece2.Location = new System.Drawing.Point(126, 478);
+            this.picPiece2.Location = new System.Drawing.Point(216, 478);
             this.picPiece2.Name = "picPiece2";
             this.picPiece2.Size = new System.Drawing.Size(84, 84);
             this.picPiece2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece2.TabIndex = 27;
+            this.picPiece2.TabIndex = 28;
             this.picPiece2.TabStop = false;
-            // 
-            // picPiece3
-            // 
-            this.picPiece3.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece3.Location = new System.Drawing.Point(216, 478);
-            this.picPiece3.Name = "picPiece3";
-            this.picPiece3.Size = new System.Drawing.Size(84, 84);
-            this.picPiece3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece3.TabIndex = 28;
-            this.picPiece3.TabStop = false;
+            this.picPiece2.Click += new System.EventHandler(this.picPiece2_Click);
             // 
             // but_PieceRight
             // 
@@ -1101,60 +1117,65 @@
             this.but_PieceRight.UseVisualStyleBackColor = true;
             this.but_PieceRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceRight_MouseDown);
             // 
+            // picPiece3
+            // 
+            this.picPiece3.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece3.Location = new System.Drawing.Point(306, 478);
+            this.picPiece3.Name = "picPiece3";
+            this.picPiece3.Size = new System.Drawing.Size(84, 84);
+            this.picPiece3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece3.TabIndex = 30;
+            this.picPiece3.TabStop = false;
+            this.picPiece3.Click += new System.EventHandler(this.picPiece3_Click);
+            // 
             // picPiece4
             // 
             this.picPiece4.BackColor = System.Drawing.SystemColors.Control;
             this.picPiece4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece4.Location = new System.Drawing.Point(306, 478);
+            this.picPiece4.Location = new System.Drawing.Point(396, 478);
             this.picPiece4.Name = "picPiece4";
             this.picPiece4.Size = new System.Drawing.Size(84, 84);
             this.picPiece4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece4.TabIndex = 30;
+            this.picPiece4.TabIndex = 31;
             this.picPiece4.TabStop = false;
+            this.picPiece4.Click += new System.EventHandler(this.picPiece4_Click);
             // 
             // picPiece5
             // 
             this.picPiece5.BackColor = System.Drawing.SystemColors.Control;
             this.picPiece5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece5.Location = new System.Drawing.Point(396, 478);
+            this.picPiece5.Location = new System.Drawing.Point(486, 478);
             this.picPiece5.Name = "picPiece5";
             this.picPiece5.Size = new System.Drawing.Size(84, 84);
             this.picPiece5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece5.TabIndex = 31;
+            this.picPiece5.TabIndex = 32;
             this.picPiece5.TabStop = false;
+            this.picPiece5.Click += new System.EventHandler(this.picPiece5_Click);
             // 
             // picPiece6
             // 
             this.picPiece6.BackColor = System.Drawing.SystemColors.Control;
             this.picPiece6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece6.Location = new System.Drawing.Point(486, 478);
+            this.picPiece6.Location = new System.Drawing.Point(576, 478);
             this.picPiece6.Name = "picPiece6";
             this.picPiece6.Size = new System.Drawing.Size(84, 84);
             this.picPiece6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece6.TabIndex = 32;
+            this.picPiece6.TabIndex = 33;
             this.picPiece6.TabStop = false;
+            this.picPiece6.Click += new System.EventHandler(this.picPiece6_Click);
             // 
             // picPiece7
             // 
             this.picPiece7.BackColor = System.Drawing.SystemColors.Control;
             this.picPiece7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece7.Location = new System.Drawing.Point(576, 478);
+            this.picPiece7.Location = new System.Drawing.Point(666, 478);
             this.picPiece7.Name = "picPiece7";
             this.picPiece7.Size = new System.Drawing.Size(84, 84);
             this.picPiece7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece7.TabIndex = 33;
+            this.picPiece7.TabIndex = 34;
             this.picPiece7.TabStop = false;
-            // 
-            // picPiece8
-            // 
-            this.picPiece8.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece8.Location = new System.Drawing.Point(666, 478);
-            this.picPiece8.Name = "picPiece8";
-            this.picPiece8.Size = new System.Drawing.Size(84, 84);
-            this.picPiece8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece8.TabIndex = 34;
-            this.picPiece8.TabStop = false;
+            this.picPiece7.Click += new System.EventHandler(this.picPiece7_Click);
             // 
             // but_PieceTerrObj
             // 
@@ -1165,19 +1186,6 @@
             this.but_PieceTerrObj.Text = "Get Objects";
             this.but_PieceTerrObj.UseVisualStyleBackColor = true;
             this.but_PieceTerrObj.Click += new System.EventHandler(this.but_PieceTerrObj_Click);
-            // 
-            // check_Lvl_InfTime
-            // 
-            this.check_Lvl_InfTime.AutoSize = true;
-            this.check_Lvl_InfTime.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Lvl_InfTime.Checked = true;
-            this.check_Lvl_InfTime.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.check_Lvl_InfTime.Location = new System.Drawing.Point(59, 289);
-            this.check_Lvl_InfTime.Name = "check_Lvl_InfTime";
-            this.check_Lvl_InfTime.Size = new System.Drawing.Size(83, 17);
-            this.check_Lvl_InfTime.TabIndex = 24;
-            this.check_Lvl_InfTime.Text = "Infinite Time";
-            this.check_Lvl_InfTime.UseVisualStyleBackColor = true;
             // 
             // pic_Level
             // 
@@ -1197,16 +1205,16 @@
             this.ClientSize = new System.Drawing.Size(792, 573);
             this.Controls.Add(this.pic_Level);
             this.Controls.Add(this.but_PieceTerrObj);
-            this.Controls.Add(this.picPiece8);
             this.Controls.Add(this.picPiece7);
             this.Controls.Add(this.picPiece6);
             this.Controls.Add(this.picPiece5);
             this.Controls.Add(this.picPiece4);
-            this.Controls.Add(this.but_PieceRight);
             this.Controls.Add(this.picPiece3);
+            this.Controls.Add(this.but_PieceRight);
             this.Controls.Add(this.picPiece2);
-            this.Controls.Add(this.but_PieceLeft);
             this.Controls.Add(this.picPiece1);
+            this.Controls.Add(this.but_PieceLeft);
+            this.Controls.Add(this.picPiece0);
             this.Controls.Add(this.combo_PieceStyle);
             this.Controls.Add(this.tabLvlProperties);
             this.Controls.Add(this.menuStrip);
@@ -1220,6 +1228,9 @@
             this.tabLvlProperties.ResumeLayout(false);
             this.tabGlobalInfo.ResumeLayout(false);
             this.tabGlobalInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_TimeSec)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_TimeMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_RR)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_Rescue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_Lems)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_StartY)).EndInit();
@@ -1243,9 +1254,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Blocker)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_RR)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_TimeSec)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_TimeMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece3)).EndInit();
@@ -1253,7 +1262,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.picPiece5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1348,16 +1356,16 @@
         private System.Windows.Forms.Label lbl_Global_RR;
         private System.Windows.Forms.ComboBox combo_Music;
         private System.Windows.Forms.ComboBox combo_PieceStyle;
-        private System.Windows.Forms.PictureBox picPiece1;
+        private System.Windows.Forms.PictureBox picPiece0;
         private System.Windows.Forms.Button but_PieceLeft;
+        private System.Windows.Forms.PictureBox picPiece1;
         private System.Windows.Forms.PictureBox picPiece2;
-        private System.Windows.Forms.PictureBox picPiece3;
         private System.Windows.Forms.Button but_PieceRight;
+        private System.Windows.Forms.PictureBox picPiece3;
         private System.Windows.Forms.PictureBox picPiece4;
         private System.Windows.Forms.PictureBox picPiece5;
         private System.Windows.Forms.PictureBox picPiece6;
         private System.Windows.Forms.PictureBox picPiece7;
-        private System.Windows.Forms.PictureBox picPiece8;
         private System.Windows.Forms.Button but_PieceTerrObj;
         private System.Windows.Forms.CheckBox check_Lvl_InfTime;
         private System.Windows.Forms.PictureBox pic_Level;

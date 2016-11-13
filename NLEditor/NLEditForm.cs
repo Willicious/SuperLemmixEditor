@@ -24,8 +24,8 @@ namespace NLEditor
             InitializeComponent();
 
             // Set list of all piectures for single pieces
-            PictureBox[] PicBoxArr = { this.picPiece1, this.picPiece2, this.picPiece3, this.picPiece4,
-                                       this.picPiece5, this.picPiece6, this.picPiece7, this.picPiece8 };
+            PictureBox[] PicBoxArr = { this.picPiece0, this.picPiece1, this.picPiece2, this.picPiece3,
+                                       this.picPiece4, this.picPiece5, this.picPiece6, this.picPiece7 };
             fpicPieceList = new List<PictureBox>(PicBoxArr);
 
             // Create the list of all styles
@@ -181,5 +181,44 @@ namespace NLEditor
             fStopWatch.Restart();
         }
 
+        private void picPiece0_Click(object sender, EventArgs e)
+        {
+            AddNewTerrainPiece(0);
+        }
+
+        private void picPiece1_Click(object sender, EventArgs e)
+        {
+            AddNewTerrainPiece(1);
+        }
+
+        private void picPiece2_Click(object sender, EventArgs e)
+        {
+            AddNewTerrainPiece(2);
+        }
+
+        private void picPiece3_Click(object sender, EventArgs e)
+        {
+            AddNewTerrainPiece(3);
+        }
+
+        private void picPiece4_Click(object sender, EventArgs e)
+        {
+            AddNewTerrainPiece(4);
+        }
+
+        private void picPiece5_Click(object sender, EventArgs e)
+        {
+            AddNewTerrainPiece(5);
+        }
+
+        private void picPiece6_Click(object sender, EventArgs e)
+        {
+            AddNewTerrainPiece(6);
+        }
+
+        private void picPiece7_Click(object sender, EventArgs e)
+        {
+            AddNewTerrainPiece(7);
+        }
     }
 }

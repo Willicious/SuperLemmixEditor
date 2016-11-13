@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace NLEditor
 {
@@ -137,7 +138,7 @@ namespace NLEditor
             Style CurStyle = PieceCurStyle;
             if (CurStyle == null) return;
 
-            List<string> PieceNameList = PieceDoDisplayObject ? CurStyle.ObjectNames : CurStyle.PieceNames;
+            List<string> PieceNameList = PieceDoDisplayObject ? CurStyle.ObjectNames : CurStyle.TerrainNames;
             if (PieceNameList == null || PieceNameList.Count == 0) return;
 
             // Pass to correct piece index
@@ -173,7 +174,15 @@ namespace NLEditor
             this.combo_PieceStyle.SelectedIndex = NewStyleIndex;
         }
 
+        private void AddNewTerrainPiece(int picPieceIndex)
+        { 
+            List<string> CurPieceList = fPieceDoDisplayObject ?  fPieceCurStyle.ObjectNames : fPieceCurStyle.ObjectNames;
+            int PieceIndex = (picPieceIndex + fPieceStartIndex) % CurPieceList.Count;
 
+            CurLevel.AddPiece(fPieceCurStyle, fPieceDoDisplayObject, PieceIndex, fCurRenderer.GetCenterPoint());
+
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
 
     }
 }

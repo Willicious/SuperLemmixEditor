@@ -109,15 +109,15 @@ namespace NLEditor
     public class GadgetPiece : LevelPiece
     { 
         public GadgetPiece(string Style, string Name, Point Pos)
-            : base(Style, Name, false, Pos)
+            : base(Style, Name, true, Pos)
         {
-            fIsNoOverwrite = false;
+            fIsNoOverwrite = !this.ObjType.In(C.OBJ_OWW_LEFT, C.OBJ_OWW_RIGHT, C.OBJ_OWW_DOWN);
             fIsOnlyOnTerrain = this.ObjType.In(C.OBJ_OWW_LEFT, C.OBJ_OWW_RIGHT, C.OBJ_OWW_DOWN);
         }
 
         public GadgetPiece(string Style, string Name, Point Pos,
                             int Rotation, bool IsInvert, bool IsNoOv, bool IsOnlyOnTerr)
-            : base(Style, Name, false, Pos, Rotation, IsInvert)
+            : base(Style, Name, true, Pos, Rotation, IsInvert)
         {
             fIsNoOverwrite = IsNoOv;
             fIsOnlyOnTerrain = IsOnlyOnTerr;
