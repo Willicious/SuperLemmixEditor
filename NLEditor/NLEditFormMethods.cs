@@ -176,7 +176,7 @@ namespace NLEditor
 
         private void AddNewTerrainPiece(int picPieceIndex)
         { 
-            List<string> CurPieceList = fPieceDoDisplayObject ?  fPieceCurStyle.ObjectNames : fPieceCurStyle.ObjectNames;
+            List<string> CurPieceList = fPieceDoDisplayObject ?  fPieceCurStyle.ObjectNames : fPieceCurStyle.TerrainNames;
             int PieceIndex = (picPieceIndex + fPieceStartIndex) % CurPieceList.Count;
 
             CurLevel.AddPiece(fPieceCurStyle, fPieceDoDisplayObject, PieceIndex, fCurRenderer.GetCenterPoint());
