@@ -1186,6 +1186,7 @@
             this.pic_Level.Location = new System.Drawing.Point(193, 27);
             this.pic_Level.Name = "pic_Level";
             this.pic_Level.Size = new System.Drawing.Size(595, 445);
+            this.pic_Level.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pic_Level.TabIndex = 36;
             this.pic_Level.TabStop = false;
             // 

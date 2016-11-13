@@ -42,8 +42,11 @@ namespace NLEditor
             Debug.Assert(MyLevel != null, "Renderer created while passing a null level!");
 
             this.fLayerList = new List<Bitmap>(C.LAY_COUNT);
-            this.fLayerList.ForEach(bmp => bmp = new Bitmap(MyLevel.Width, MyLevel.Height));
-
+            for (int i = 0; i < C.LAY_COUNT; i++)
+            {
+                this.fLayerList.Add(new Bitmap(MyLevel.Width, MyLevel.Height));
+            }
+                
             this.fIsClearPhysics = false;
             this.fIsTerrainLayer = true;
             this.fIsObjectLayer = true;
@@ -204,8 +207,12 @@ namespace NLEditor
 
         public Bitmap CombineLayers()
         {
-            Bitmap LevelBmp = new Bitmap(null, GetLevelBmpSize());
-            Point NegScreenPos = new Point(-fScreenPos.X, -fScreenPos.Y);
+            Size LevelBmpSize = GetLevelBmpSize();
+            Bitmap LevelBmp = new Bitmap(LevelBmpSize.Width, LevelBmpSize.Height);
+
+            int NegScreenPosX = (LevelBmpSize.Width != fMyLevel.Width) ? -fScreenPos.X : 0;
+            int NegScreenPosY = (LevelBmpSize.Height != fMyLevel.Height) ? -fScreenPos.Y : 0;
+            Point NegScreenPos = new Point(NegScreenPosX, NegScreenPosY);
 
             // Set background color
             LevelBmp.Clear(fMyLevel.MainStyle.BackgroundColor);
@@ -231,7 +238,11 @@ namespace NLEditor
             }
 
             // Zoom the LevelBmp correctly
-            LevelBmp = LevelBmp.Zoom(fZoom, fPicBoxSize);
+            LevelBmp = LevelBmp.Zoom(fZoom);
+            if (fPicBoxSize.Width < LevelBmp.Width || fPicBoxSize.Height < LevelBmp.Height)
+            {
+                LevelBmp.Crop(new Rectangle(0, 0, fPicBoxSize.Width, fPicBoxSize.Height));
+            }
 
             // Add rectangles around selected pieces
             LevelBmp = AddSelectedRectangles(LevelBmp);
@@ -241,20 +252,25 @@ namespace NLEditor
 
         private Size GetLevelBmpSize()
         {
-            int LevelBmpWidth = fPicBoxSize.Width;
-            int LevelBmpHeight = fPicBoxSize.Height;
+            int LevelBmpWidth;
+            int LevelBmpHeight;
 
             if (Zoom < 0)
             {
-                LevelBmpWidth *= (Math.Abs(Zoom) + 1);
-                LevelBmpHeight *= (Math.Abs(Zoom) + 1);
+                LevelBmpWidth = fPicBoxSize.Width * (Math.Abs(Zoom) + 1);
+                LevelBmpHeight = fPicBoxSize.Height * (Math.Abs(Zoom) + 1);
             }
             else
             {
-                LevelBmpWidth = (LevelBmpWidth + Zoom) / (Zoom + 1);
-                LevelBmpHeight = (LevelBmpHeight + Zoom) / (Zoom + 1);
+                // we are always rounding up here
+                LevelBmpWidth = (fPicBoxSize.Width + Zoom) / (Zoom + 1); 
+                LevelBmpHeight = (fPicBoxSize.Height + Zoom) / (Zoom + 1);
             }
 
+            // Ensure that the LevelBmpSize is at most the size of the level
+            LevelBmpWidth = Math.Min(LevelBmpWidth, fMyLevel.Width);
+            LevelBmpHeight = Math.Min(LevelBmpHeight, fMyLevel.Height);
+                
             return new Size(LevelBmpWidth, LevelBmpHeight);
         }
 

@@ -41,6 +41,7 @@ namespace NLEditor
 
             // Create a new renderer
             fCurRenderer = new Renderer(fCurLevel, this.pic_Level);
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
 
             // Load pieces into the picPieces
             fPieceStartIndex = 0;

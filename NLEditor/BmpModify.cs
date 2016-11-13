@@ -34,6 +34,7 @@ namespace NLEditor
             //------------------------------------------------
             // This method crops OrigBmp along the CropRect
             //------------------------------------------------
+            CropRect.Intersect(new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height));
 
             return OrigBmp.Clone(CropRect, OrigBmp.PixelFormat);
         }
@@ -403,7 +404,9 @@ namespace NLEditor
 
 
         public static Bitmap Zoom(this Bitmap OrigBmp, int ZoomFactor, Size NewBmpSize)
-        { 
+        {
+            //if (ZoomFactor == 0 && OrigBmp.Size == NewBmpSize) return OrigBmp;
+            
             Bitmap NewBmp = new Bitmap(NewBmpSize.Width, NewBmpSize.Height);
 
             unsafe
@@ -427,7 +430,7 @@ namespace NLEditor
                     ZoomFactor = Math.Abs(ZoomFactor) + 1;
 
                     // Copy the pixels
-                    Parallel.For(0, NewBmp.Height, y =>
+                    for(int y = 0; y < NewBmp.Height; y++)
                     {
                         byte* CurNewLine = PtrNewFirstPixel + y * NewBmpData.Stride;
                         byte* CurOrigLine = PtrOrigFirstPixel + y * ZoomFactor * OrigBmpData.Stride;
@@ -439,14 +442,14 @@ namespace NLEditor
                             CurNewLine[x * BytesPerPixel + 2] = (byte)CurOrigLine[x * BytesPerPixel * ZoomFactor + 2];
                             CurNewLine[x * BytesPerPixel + 3] = (byte)CurOrigLine[x * BytesPerPixel * ZoomFactor + 3];
                         }
-                    });
+                    }
                 }
                 else
                 {
                     ZoomFactor++;
                     
                     // Copy the pixels
-                    Parallel.For(0, OrigBmp.Height, y =>
+                    for(int y = 0; y < OrigBmp.Height; y++)
                     {
                         byte* CurOrigLine = PtrOrigFirstPixel + y * OrigBmpData.Stride;
 
@@ -456,7 +459,7 @@ namespace NLEditor
 
                             for (int x = 0; x < OrigBmp.Width; x++)
                             {
-                                for (int j = 0; j < ZoomFactor; j++)
+                                for (int j = 0; j < ZoomFactor; j++) 
                                 {
                                     CurNewLine[(ZoomFactor * x + j) * BytesPerPixel + 0] = (byte)CurOrigLine[x * BytesPerPixel + 0];
                                     CurNewLine[(ZoomFactor * x + j) * BytesPerPixel + 1] = (byte)CurOrigLine[x * BytesPerPixel + 1];
@@ -465,7 +468,7 @@ namespace NLEditor
                                 }
                             }
                         }
-                    });
+                    }
                 }
 
                 // Unlock all pixel data
