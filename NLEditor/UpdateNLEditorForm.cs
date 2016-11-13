@@ -57,22 +57,5 @@ namespace NLEditor
 
             MyForm.picPieceList.ForEach(pic => pic.BackColor = NewBackColor);
         }
-
-        public static void ChangePieceStartIndex(NLEditForm MyForm, int Movement)
-        {
-            Style CurStyle = MyForm.PieceCurStyle;
-            if (CurStyle == null) return;
-
-            List<string> PieceNameList = MyForm.PieceDoDisplayObject ? CurStyle.ObjectNames : CurStyle.PieceNames;
-            if (PieceNameList == null || PieceNameList.Count == 0) return;
-
-            // Pass to correct piece index
-            MyForm.PieceStartIndex = (MyForm.PieceStartIndex + Movement) % PieceNameList.Count;
-            // ensure that PieceStartIndex is positive
-            MyForm.PieceStartIndex = (MyForm.PieceStartIndex + PieceNameList.Count) % PieceNameList.Count;
-
-            UpdateForm.LoadPiecesIntoPictureBox(MyForm, CurStyle);
-        }
-
     }
 }

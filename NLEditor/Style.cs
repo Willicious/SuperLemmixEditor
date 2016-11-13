@@ -38,6 +38,10 @@ namespace NLEditor
         public List<string> ObjectNames { get { return fObjectNames; } }
         public Color BackgroundColor { get { return fBackgroundColor; } }
 
+        public bool Equals(Style OtherStyle)
+        {
+            return this.FileName.Equals(OtherStyle.FileName);
+        }
 
         private void SearchDirectoryForTerrain()
         {

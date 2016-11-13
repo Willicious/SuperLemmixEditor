@@ -1210,9 +1210,11 @@
             this.Controls.Add(this.combo_PieceStyle);
             this.Controls.Add(this.tabLvlProperties);
             this.Controls.Add(this.menuStrip);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "NLEditForm";
             this.Text = "NLEditor";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NLEditForm_KeyDown);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.tabLvlProperties.ResumeLayout(false);
