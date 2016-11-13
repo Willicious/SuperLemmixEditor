@@ -66,7 +66,7 @@ namespace NLEditor
         public const int OBJ_RADIATION = 18;
         public const int OBJ_OWW_DOWN = 19;
         public const int OBJ_UPDRAFT = 20;
-        public const int OBJ_FLIPPER = 21;
+        public const int OBJ_SPLITTER = 21;
         public const int OBJ_SLOWFREEZE = 22;
         public const int OBJ_HATCH = 23;
         public const int OBJ_ANIMATION = 24;

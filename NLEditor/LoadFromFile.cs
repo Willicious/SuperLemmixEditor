@@ -134,6 +134,10 @@ namespace NLEditor
                         {
                             IsVert = false;
                         }
+                        else if (Line.ToUpper().Trim() == "WINDOW")
+                        {
+                            ObjType = C.OBJ_HATCH;
+                        }
                         else if (Line.ToUpper().Trim() == "EXIT")
                         {
                             ObjType = C.OBJ_EXIT;
@@ -141,6 +145,82 @@ namespace NLEditor
                         else if (Line.ToUpper().Trim() == "TRAP")
                         {
                             ObjType = C.OBJ_TRAP;
+                        }
+                        else if (Line.ToUpper().Trim() == "WATER")
+                        {
+                            ObjType = C.OBJ_WATER;
+                        }
+                        else if (Line.ToUpper().Trim() == "FIRE")
+                        {
+                            ObjType = C.OBJ_FIRE;
+                        }
+                        else if (Line.ToUpper().Trim() == "OWR_ARROW")
+                        {
+                            ObjType = C.OBJ_OWW_LEFT;
+                        }
+                        else if (Line.ToUpper().Trim() == "OWL_ARROW")
+                        {
+                            ObjType = C.OBJ_OWW_LEFT;
+                        }
+                        else if (Line.ToUpper().Trim() == "OWD_ARROW")
+                        {
+                            ObjType = C.OBJ_OWW_DOWN;
+                        }
+                        else if (Line.ToUpper().Trim() == "BUTTON")
+                        {
+                            ObjType = C.OBJ_BUTTON;
+                        }
+                        else if (Line.ToUpper().Trim() == "LOCKED_EXIT")
+                        {
+                            ObjType = C.OBJ_EXIT_LOCKED;
+                        }
+                        else if (Line.ToUpper().Trim() == "PICKUP")
+                        {
+                            ObjType = C.OBJ_PICKUP;
+                        }
+                        else if (Line.ToUpper().Trim() == "TELEPORTER")
+                        {
+                            ObjType = C.OBJ_TELEPORTER;
+                        }
+                        else if (Line.ToUpper().Trim() == "RECEIVER")
+                        {
+                            ObjType = C.OBJ_RECEIVER;
+                        }
+                        else if (Line.ToUpper().Trim() == "SPLITTER")
+                        {
+                            ObjType = C.OBJ_SPLITTER;
+                        }
+                        else if (Line.ToUpper().Trim() == "RADIATION")
+                        {
+                            ObjType = C.OBJ_RADIATION;
+                        }
+                        else if (Line.ToUpper().Trim() == "SLOWFREEZE")
+                        {
+                            ObjType = C.OBJ_SLOWFREEZE;
+                        }
+                        else if (Line.ToUpper().Trim() == "UPDRAFT")
+                        {
+                            ObjType = C.OBJ_UPDRAFT;
+                        }
+                        else if (Line.ToUpper().Trim() == "SPLAT")
+                        {
+                            ObjType = C.OBJ_SPLAT;
+                        }
+                        else if (Line.ToUpper().Trim() == "ANTISPLAT")
+                        {
+                            ObjType = C.OBJ_NOSPLAT;
+                        }
+                        else if (Line.ToUpper().Trim() == "OWR_FIELD")
+                        {
+                            ObjType = C.OBJ_FORCE_RIGHT;
+                        }
+                        else if (Line.ToUpper().Trim() == "OWL_FIELD")
+                        {
+                            ObjType = C.OBJ_FORCE_LEFT;
+                        }
+                        else if (Line.ToUpper().Trim() == "BACKGROUND")
+                        {
+                            ObjType = C.OBJ_BACKGROUND;
                         }
 
                     }
