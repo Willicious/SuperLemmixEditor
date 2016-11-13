@@ -1081,6 +1081,7 @@
             this.but_PieceLeft.Name = "but_PieceLeft";
             this.but_PieceLeft.Size = new System.Drawing.Size(32, 84);
             this.but_PieceLeft.TabIndex = 26;
+            this.but_PieceLeft.TabStop = false;
             this.but_PieceLeft.UseVisualStyleBackColor = true;
             this.but_PieceLeft.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseDown);
             // 
@@ -1114,6 +1115,7 @@
             this.but_PieceRight.Name = "but_PieceRight";
             this.but_PieceRight.Size = new System.Drawing.Size(32, 84);
             this.but_PieceRight.TabIndex = 29;
+            this.but_PieceRight.TabStop = false;
             this.but_PieceRight.UseVisualStyleBackColor = true;
             this.but_PieceRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceRight_MouseDown);
             // 
@@ -1222,6 +1224,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.Name = "NLEditForm";
             this.Text = "NLEditor";
+            this.Click += new System.EventHandler(this.NLEditForm_Click);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NLEditForm_KeyDown);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();

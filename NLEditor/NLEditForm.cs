@@ -78,6 +78,10 @@ namespace NLEditor
         public bool PieceDoDisplayObject { get { return fPieceDoDisplayObject; } private set { fPieceDoDisplayObject = value; } }
         public Level CurLevel { get { return fCurLevel; } }
 
+        private void NLEditForm_Click(object sender, EventArgs e)
+        {
+            this.ActiveControl = this.menuStrip; // remove focus
+        }
         
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -100,6 +104,8 @@ namespace NLEditor
             PieceCurStyle = NewStyle;
             PieceStartIndex = 0;
             LoadPiecesIntoPictureBox(this, PieceCurStyle);
+
+            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void combo_PieceStyle_Leave(object sender, EventArgs e)
@@ -124,12 +130,14 @@ namespace NLEditor
         {
             int Movement = (e.Button == MouseButtons.Right) ? -8 : -1;
             MoveTerrPieceSelection(Movement);
+            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void but_PieceRight_MouseDown(object sender, MouseEventArgs e)
         {
             int Movement = (e.Button == MouseButtons.Right) ? 8 : 1;
             MoveTerrPieceSelection(Movement);
+            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void combo_MainStyle_TextChanged(object sender, EventArgs e)
@@ -141,6 +149,8 @@ namespace NLEditor
             // Load new style into PictureBoxes
             CurLevel.MainStyle = NewStyle;
             ChangeBackgroundColor(this, NewStyle);
+
+            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void combo_MainStyle_Leave(object sender, EventArgs e)
@@ -184,41 +194,49 @@ namespace NLEditor
         private void picPiece0_Click(object sender, EventArgs e)
         {
             AddNewTerrainPiece(0);
+            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void picPiece1_Click(object sender, EventArgs e)
         {
             AddNewTerrainPiece(1);
+            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void picPiece2_Click(object sender, EventArgs e)
         {
             AddNewTerrainPiece(2);
+            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void picPiece3_Click(object sender, EventArgs e)
         {
             AddNewTerrainPiece(3);
+            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void picPiece4_Click(object sender, EventArgs e)
         {
             AddNewTerrainPiece(4);
+            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void picPiece5_Click(object sender, EventArgs e)
         {
             AddNewTerrainPiece(5);
+            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void picPiece6_Click(object sender, EventArgs e)
         {
             AddNewTerrainPiece(6);
+            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void picPiece7_Click(object sender, EventArgs e)
         {
             AddNewTerrainPiece(7);
+            this.ActiveControl = this.menuStrip; // remove focus
         }
     }
 }
