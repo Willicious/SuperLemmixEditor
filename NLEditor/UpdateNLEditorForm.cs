@@ -5,13 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
+
 namespace NLEditor
 {
-    static class UpdateForm
+    public partial class NLEditForm
     {
-        public static void LoadPiecesIntoPictureBox(NLEditForm MyForm, Style NewStyle)
+        /*---------------------------------------------------------
+        *   Main Form: This part defines the methods
+        *     updating the form members
+        * -------------------------------------------------------- */
+        
+        private void LoadPiecesIntoPictureBox(NLEditForm MyForm, Style NewStyle)
         {
-            // Style ThisStyle = ValidateStyleName(MyForm, NewStyleName);
             if (NewStyle == null)
             {
                 ClearPiecesPictureBox(MyForm);
@@ -36,19 +41,19 @@ namespace NLEditor
             return;
         }
 
-        public static Style ValidateStyleName(NLEditForm MyForm, string NewStyleName)
+        private Style ValidateStyleName(NLEditForm MyForm, string NewStyleName)
         {
             if (MyForm.StyleList == null || MyForm.StyleList.Count == 0) return null;
 
             return MyForm.StyleList.Find(sty => sty.Name == NewStyleName);
         }
 
-        public static void ClearPiecesPictureBox(NLEditForm MyForm)
+        private void ClearPiecesPictureBox(NLEditForm MyForm)
         {
             MyForm.picPieceList.ForEach(pic => pic.Image = null);
         }
 
-        public static void ChangeBackgroundColor(NLEditForm MyForm, Style NewStyle)
+        private void ChangeBackgroundColor(NLEditForm MyForm, Style NewStyle)
         {
             if (NewStyle == null) return;
 

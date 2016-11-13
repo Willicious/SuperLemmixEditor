@@ -43,7 +43,7 @@ namespace NLEditor
             Style NewMainStyle = (StyleList == null || StyleList.Count == 0) ? null : StyleList[0];
             fCurLevel = new Level(NewMainStyle);
             WriteLevelInfoToForm();
-            UpdateForm.ChangeBackgroundColor(this, NewMainStyle);
+            ChangeBackgroundColor(this, NewMainStyle);
 
             // Create a new renderer
             fCurRenderer = new Renderer(fCurLevel, this.pic_Level);
@@ -52,8 +52,8 @@ namespace NLEditor
             // Load pieces into the picPieces
             fPieceStartIndex = 0;
             fPieceDoDisplayObject = false;
-            fPieceCurStyle = UpdateForm.ValidateStyleName(this, this.combo_PieceStyle.SelectedItem.ToString());
-            UpdateForm.LoadPiecesIntoPictureBox(this, PieceCurStyle);
+            fPieceCurStyle = ValidateStyleName(this, this.combo_PieceStyle.SelectedItem.ToString());
+            LoadPiecesIntoPictureBox(this, PieceCurStyle);
 
             fStopWatch = new Stopwatch();
             fStopWatch.Start();
@@ -92,26 +92,26 @@ namespace NLEditor
 
         private void combo_PieceStyle_TextChanged(object sender, EventArgs e)
         {
-            Style NewStyle = UpdateForm.ValidateStyleName(this, this.combo_PieceStyle.Text);
+            Style NewStyle = ValidateStyleName(this, this.combo_PieceStyle.Text);
 
             if (NewStyle == null || NewStyle == PieceCurStyle) return;
 
             // Load new style into PictureBoxes
             PieceCurStyle = NewStyle;
             PieceStartIndex = 0;
-            UpdateForm.LoadPiecesIntoPictureBox(this, PieceCurStyle);
+            LoadPiecesIntoPictureBox(this, PieceCurStyle);
         }
 
         private void combo_PieceStyle_Leave(object sender, EventArgs e)
         {
             // Check whether to delete all pieces due to wrong style name
-            Style NewStyle = UpdateForm.ValidateStyleName(this, this.combo_PieceStyle.Text);
+            Style NewStyle = ValidateStyleName(this, this.combo_PieceStyle.Text);
 
             if (NewStyle == null)
             {
                 PieceCurStyle = null;
                 PieceStartIndex = 0;
-                UpdateForm.ClearPiecesPictureBox(this);           
+                ClearPiecesPictureBox(this);           
             }
         }
 
@@ -134,13 +134,13 @@ namespace NLEditor
 
         private void combo_MainStyle_TextChanged(object sender, EventArgs e)
         {
-            Style NewStyle = UpdateForm.ValidateStyleName(this, this.combo_MainStyle.Text);
+            Style NewStyle = ValidateStyleName(this, this.combo_MainStyle.Text);
 
             if (NewStyle == null || CurLevel == null || NewStyle == CurLevel.MainStyle) return;
 
             // Load new style into PictureBoxes
             CurLevel.MainStyle = NewStyle;
-            UpdateForm.ChangeBackgroundColor(this, NewStyle);
+            ChangeBackgroundColor(this, NewStyle);
         }
 
         private void combo_MainStyle_Leave(object sender, EventArgs e)
@@ -153,26 +153,32 @@ namespace NLEditor
             if (fStopWatch.ElapsedMilliseconds < 50) return;
 
             // The main key-handling routine
-            if (e.Alt && e.KeyCode == Keys.Left)
+            if (e.KeyCode == Keys.Escape || (e.Alt && e.KeyCode == Keys.F4))
+            {
+                ExitEditor();
+            }
+            else if (e.Alt && e.KeyCode == Keys.Left)
             {
                 MoveTerrPieceSelection(-1);
-                fStopWatch.Restart();
             }
             else if (e.Alt && e.KeyCode == Keys.Right)
             {
                 MoveTerrPieceSelection(1);
-                fStopWatch.Restart();
             }
             else if (e.Alt && e.KeyCode == Keys.Up)
             {
                 ChangeNewPieceStyleSelection(-1);
-                fStopWatch.Restart();
             }
             else if (e.Alt && e.KeyCode == Keys.Down)
             {
                 ChangeNewPieceStyleSelection(1);
-                fStopWatch.Restart();
             }
+            else
+            {
+                return; // and don't restart the StopWatch
+            }
+
+            fStopWatch.Restart();
         }
 
     }

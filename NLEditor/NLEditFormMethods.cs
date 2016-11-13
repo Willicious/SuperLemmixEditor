@@ -47,7 +47,7 @@ namespace NLEditor
             CurLevel.Author = this.txt_LevelAuthor.Text;
             CurLevel.Title = this.txt_LevelTitle.Text;
             CurLevel.MusicFile = this.combo_Music.Text;
-            CurLevel.MainStyle = UpdateForm.ValidateStyleName(this, this.combo_MainStyle.Text);
+            CurLevel.MainStyle = ValidateStyleName(this, this.combo_MainStyle.Text);
             CurLevel.Width = Decimal.ToInt32(this.num_Lvl_SizeX.Value);
             CurLevel.Height = Decimal.ToInt32(this.num_Lvl_SizeY.Value);
             CurLevel.StartPosX = Decimal.ToInt32(this.num_Lvl_StartX.Value);
@@ -126,7 +126,7 @@ namespace NLEditor
             PieceDoDisplayObject = !PieceDoDisplayObject;
 
             PieceStartIndex = 0;
-            UpdateForm.LoadPiecesIntoPictureBox(this, PieceCurStyle);
+            LoadPiecesIntoPictureBox(this, PieceCurStyle);
 
             this.but_PieceTerrObj.Text = PieceDoDisplayObject ? "Get Terrain" : "Get Objects";
         }
@@ -145,7 +145,7 @@ namespace NLEditor
             // ensure that PieceStartIndex is positive
             PieceStartIndex = (PieceStartIndex + PieceNameList.Count) % PieceNameList.Count;
 
-            UpdateForm.LoadPiecesIntoPictureBox(this, CurStyle);
+            LoadPiecesIntoPictureBox(this, CurStyle);
         }
 
         private void ChangeNewPieceStyleSelection(int Movement)
@@ -168,7 +168,7 @@ namespace NLEditor
 
             PieceCurStyle = StyleList[NewStyleIndex];
             PieceStartIndex = 0;
-            UpdateForm.LoadPiecesIntoPictureBox(this, PieceCurStyle);
+            LoadPiecesIntoPictureBox(this, PieceCurStyle);
 
             this.combo_PieceStyle.SelectedIndex = NewStyleIndex;
         }
