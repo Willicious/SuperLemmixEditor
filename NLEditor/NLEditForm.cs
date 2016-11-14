@@ -22,6 +22,7 @@ namespace NLEditor
         public NLEditForm()
         {
             InitializeComponent();
+            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(NLEditForm_MouseWheel);
 
             // Set list of all piectures for single pieces
             PictureBox[] PicBoxArr = { this.picPiece0, this.picPiece1, this.picPiece2, this.picPiece3,
@@ -158,39 +159,6 @@ namespace NLEditor
             // can't really do anything here
         }
 
-        private void NLEditForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (fStopWatch.ElapsedMilliseconds < 50) return;
-
-            // The main key-handling routine
-            if (e.KeyCode == Keys.Escape || (e.Alt && e.KeyCode == Keys.F4))
-            {
-                ExitEditor();
-            }
-            else if (e.Alt && e.KeyCode == Keys.Left)
-            {
-                MoveTerrPieceSelection(-1);
-            }
-            else if (e.Alt && e.KeyCode == Keys.Right)
-            {
-                MoveTerrPieceSelection(1);
-            }
-            else if (e.Alt && e.KeyCode == Keys.Up)
-            {
-                ChangeNewPieceStyleSelection(-1);
-            }
-            else if (e.Alt && e.KeyCode == Keys.Down)
-            {
-                ChangeNewPieceStyleSelection(1);
-            }
-            else
-            {
-                return; // and don't restart the StopWatch
-            }
-
-            fStopWatch.Restart();
-        }
-
         private void picPiece0_Click(object sender, EventArgs e)
         {
             AddNewTerrainPiece(0);
@@ -238,5 +206,58 @@ namespace NLEditor
             AddNewTerrainPiece(7);
             this.ActiveControl = this.menuStrip; // remove focus
         }
+
+
+
+
+        private void NLEditForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (fStopWatch.ElapsedMilliseconds < 50) return;
+
+            // The main key-handling routine
+            if (e.KeyCode == Keys.Escape || (e.Alt && e.KeyCode == Keys.F4))
+            {
+                ExitEditor();
+            }
+            else if (e.Alt && e.KeyCode == Keys.Left)
+            {
+                MoveTerrPieceSelection(-1);
+            }
+            else if (e.Alt && e.KeyCode == Keys.Right)
+            {
+                MoveTerrPieceSelection(1);
+            }
+            else if (e.Alt && e.KeyCode == Keys.Up)
+            {
+                ChangeNewPieceStyleSelection(-1);
+            }
+            else if (e.Alt && e.KeyCode == Keys.Down)
+            {
+                ChangeNewPieceStyleSelection(1);
+            }
+            else
+            {
+                return; // and don't restart the StopWatch
+            }
+
+            fStopWatch.Restart();
+        }
+
+        private void NLEditForm_MouseWheel(object sender, MouseEventArgs e)
+        {
+            int Movement = e.Delta / SystemInformation.MouseWheelScrollDelta;
+            if (Movement > 0)
+            {
+                fCurRenderer.ChangeZoom(true);
+            }
+            else if (Movement < 0)
+            {
+                fCurRenderer.ChangeZoom(false);
+            }
+
+            // Update level image
+            this.pic_Level.Image = fCurRenderer.CombineLayers();
+        }
+
     }
 }

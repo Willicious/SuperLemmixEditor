@@ -31,6 +31,8 @@ namespace NLEditor
          *    ChangeIsScreenStart() 
          *    SetLevel(Level NewLevel)
          *    
+         *    ChangeZoom(bool DoZoomIn)
+         * 
          *  public varaibles:
          *    ScreenPos
          *    ScreenPosX
@@ -288,6 +290,41 @@ namespace NLEditor
         {
             // TODO ----------------------------------------->>
             return LevelBmp;
+        }
+
+        public void ChangeZoom(bool DoZoomIn)
+        {
+            int OldZoom = Zoom;
+            Zoom = OldZoom + (DoZoomIn ? 1 : -1);
+            Zoom = Math.Max(Math.Min(Zoom, 7), -2);
+
+            if (OldZoom == Zoom) return;
+
+            // Change screen position
+            float ChangeFactor;
+            if (Zoom + OldZoom > 0) // both at least equal to 0
+            {
+                ChangeFactor = (Zoom - OldZoom) / ((OldZoom + 1) * (Zoom + 1) * 2);
+            }
+            else // both at most equal to 0
+            {
+                ChangeFactor = (Zoom - OldZoom) / 2;
+            }
+
+            ChangeScreenCoord(ChangeFactor, true);
+            ChangeScreenCoord(ChangeFactor, false);
+        }
+
+        private int ChangeScreenCoord(float ChangeFactor, bool IsVert)
+        {
+            int OrigCoord = IsVert ? ScreenPosY : ScreenPosX;
+            int PicBoxLength = IsVert ? fPicBoxSize.Height : fPicBoxSize.Width;
+            int LevelLength = (IsVert ? fMyLevel.Height : fMyLevel.Width);
+            int ZoomedPicBoxLength = (Zoom < 0) ? (PicBoxLength * (1 - Zoom)) : PicBoxLength / (Zoom + 1);
+            int MaxCoord = LevelLength - ZoomedPicBoxLength;
+            
+            int NewCoord = (int)(OrigCoord + PicBoxLength * ChangeFactor);
+            return Math.Max(Math.Min(NewCoord, MaxCoord), 0);
         }
 
 
