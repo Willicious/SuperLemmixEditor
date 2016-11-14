@@ -285,30 +285,35 @@
             this.clearPhysicsToolStripMenuItem.Name = "clearPhysicsToolStripMenuItem";
             this.clearPhysicsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearPhysicsToolStripMenuItem.Text = "Clear Physics (F1)";
+            this.clearPhysicsToolStripMenuItem.Click += new System.EventHandler(this.clearPhysicsToolStripMenuItem_Click);
             // 
             // terrainRenderingToolStripMenuItem
             // 
             this.terrainRenderingToolStripMenuItem.Name = "terrainRenderingToolStripMenuItem";
             this.terrainRenderingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.terrainRenderingToolStripMenuItem.Text = "Terrain rendering (F2)";
+            this.terrainRenderingToolStripMenuItem.Click += new System.EventHandler(this.terrainRenderingToolStripMenuItem_Click);
             // 
             // objectRenderingToolStripMenuItem
             // 
             this.objectRenderingToolStripMenuItem.Name = "objectRenderingToolStripMenuItem";
             this.objectRenderingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.objectRenderingToolStripMenuItem.Text = "Object rendering (F3)";
+            this.objectRenderingToolStripMenuItem.Click += new System.EventHandler(this.objectRenderingToolStripMenuItem_Click);
             // 
             // triggerAreasToolStripMenuItem
             // 
             this.triggerAreasToolStripMenuItem.Name = "triggerAreasToolStripMenuItem";
             this.triggerAreasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.triggerAreasToolStripMenuItem.Text = "Trigger areas (F4)";
+            this.triggerAreasToolStripMenuItem.Click += new System.EventHandler(this.triggerAreasToolStripMenuItem_Click);
             // 
             // screenStartToolStripMenuItem
             // 
             this.screenStartToolStripMenuItem.Name = "screenStartToolStripMenuItem";
             this.screenStartToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.screenStartToolStripMenuItem.Text = "Screen start (F5)";
+            this.screenStartToolStripMenuItem.Click += new System.EventHandler(this.screenStartToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -376,6 +381,7 @@
             // 
             // but_PieceLeft
             // 
+            this.but_PieceLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.but_PieceLeft.Location = new System.Drawing.Point(0, 478);
             this.but_PieceLeft.Name = "but_PieceLeft";
             this.but_PieceLeft.Size = new System.Drawing.Size(32, 84);
@@ -410,6 +416,7 @@
             // 
             // but_PieceRight
             // 
+            this.but_PieceRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.but_PieceRight.Location = new System.Drawing.Point(756, 478);
             this.but_PieceRight.Name = "but_PieceRight";
             this.but_PieceRight.Size = new System.Drawing.Size(32, 84);

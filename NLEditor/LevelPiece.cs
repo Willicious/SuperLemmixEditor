@@ -130,9 +130,13 @@ namespace NLEditor
         public bool IsOnlyOnTerrain { get { return fIsOnlyOnTerrain; } set { fIsOnlyOnTerrain = value; } }
 
         public Rectangle TriggerRect { get 
-        { 
+        {
+            Rectangle TrigRect = ImageLibrary.GetTrigger(fKey);
             // TODO: Rotation, ...
-            return ImageLibrary.GetTrigger(fKey);
+            // shift to correct position
+            TrigRect.X += this.PosX;
+            TrigRect.Y += this.PosY;
+            return TrigRect;
         } }
 
     }

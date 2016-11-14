@@ -24,6 +24,9 @@ namespace NLEditor
             InitializeComponent();
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(NLEditForm_MouseWheel);
 
+            this.but_PieceLeft.Text = "\u21E6";
+            this.but_PieceRight.Text = "\u21E8";
+
             // Set list of all piectures for single pieces
             PictureBox[] PicBoxArr = { this.picPiece0, this.picPiece1, this.picPiece2, this.picPiece3,
                                        this.picPiece4, this.picPiece5, this.picPiece6, this.picPiece7 };
@@ -96,6 +99,36 @@ namespace NLEditor
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ExitEditor();
+        }
+
+        private void clearPhysicsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fCurRenderer.ChangeIsClearPhsyics();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+        private void terrainRenderingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fCurRenderer.ChangeIsTerrainLayer();
+            this.pic_Level.Image = fCurRenderer.CombineLayers();
+        }
+
+        private void objectRenderingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fCurRenderer.ChangeIsObjectLayer();
+            this.pic_Level.Image = fCurRenderer.CombineLayers();
+        }
+
+        private void triggerAreasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fCurRenderer.ChangeIsTriggerLayer();
+            this.pic_Level.Image = fCurRenderer.CombineLayers();
+        }
+
+        private void screenStartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fCurRenderer.ChangeIsScreenStart();
+            this.pic_Level.Image = fCurRenderer.CombineLayers();
         }
 
         /* -----------------------------------------------------------
@@ -251,6 +284,26 @@ namespace NLEditor
             {
                 CreateNewLevel();
             }
+            else if (e.KeyCode == Keys.F1)
+            {
+                clearPhysicsToolStripMenuItem_Click(null, null);
+            }
+            else if (e.KeyCode == Keys.F2)
+            {
+                terrainRenderingToolStripMenuItem_Click(null, null);
+            }
+            else if (e.KeyCode == Keys.F3)
+            {
+                objectRenderingToolStripMenuItem_Click(null, null);
+            }
+            else if (e.KeyCode == Keys.F4)
+            {
+                triggerAreasToolStripMenuItem_Click(null, null);
+            }
+            else if (e.KeyCode == Keys.F5)
+            {
+                screenStartToolStripMenuItem_Click(null, null);
+            }
             else if (e.Shift && e.KeyCode == Keys.Left)
             {
                 MoveTerrPieceSelection(-1);
@@ -290,11 +343,6 @@ namespace NLEditor
             // Update level image
             this.pic_Level.Image = fCurRenderer.CombineLayers();
         }
-
-
-
-
-
 
     }
 }
