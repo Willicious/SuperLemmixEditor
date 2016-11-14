@@ -53,6 +53,19 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.combo_PieceStyle = new System.Windows.Forms.ComboBox();
+            this.picPiece0 = new System.Windows.Forms.PictureBox();
+            this.but_PieceLeft = new System.Windows.Forms.Button();
+            this.picPiece1 = new System.Windows.Forms.PictureBox();
+            this.picPiece2 = new System.Windows.Forms.PictureBox();
+            this.but_PieceRight = new System.Windows.Forms.Button();
+            this.picPiece3 = new System.Windows.Forms.PictureBox();
+            this.picPiece4 = new System.Windows.Forms.PictureBox();
+            this.picPiece5 = new System.Windows.Forms.PictureBox();
+            this.picPiece6 = new System.Windows.Forms.PictureBox();
+            this.picPiece7 = new System.Windows.Forms.PictureBox();
+            this.but_PieceTerrObj = new System.Windows.Forms.Button();
+            this.pic_Level = new System.Windows.Forms.PictureBox();
             this.tabLvlProperties = new System.Windows.Forms.TabControl();
             this.tabGlobalInfo = new System.Windows.Forms.TabPage();
             this.check_Lvl_InfTime = new System.Windows.Forms.CheckBox();
@@ -114,20 +127,17 @@
             this.lbl_Skill_Blocker = new System.Windows.Forms.Label();
             this.lbl_Skill_Floater = new System.Windows.Forms.Label();
             this.lbl_Skill_Climber = new System.Windows.Forms.Label();
-            this.combo_PieceStyle = new System.Windows.Forms.ComboBox();
-            this.picPiece0 = new System.Windows.Forms.PictureBox();
-            this.but_PieceLeft = new System.Windows.Forms.Button();
-            this.picPiece1 = new System.Windows.Forms.PictureBox();
-            this.picPiece2 = new System.Windows.Forms.PictureBox();
-            this.but_PieceRight = new System.Windows.Forms.Button();
-            this.picPiece3 = new System.Windows.Forms.PictureBox();
-            this.picPiece4 = new System.Windows.Forms.PictureBox();
-            this.picPiece5 = new System.Windows.Forms.PictureBox();
-            this.picPiece6 = new System.Windows.Forms.PictureBox();
-            this.picPiece7 = new System.Windows.Forms.PictureBox();
-            this.but_PieceTerrObj = new System.Windows.Forms.Button();
-            this.pic_Level = new System.Windows.Forms.PictureBox();
+            this.txt_Focus = new System.Windows.Forms.TextBox();
             this.menuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).BeginInit();
             this.tabLvlProperties.SuspendLayout();
             this.tabGlobalInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_TimeSec)).BeginInit();
@@ -156,15 +166,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Blocker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -351,6 +352,153 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.aboutToolStripMenuItem.Text = "About...";
             // 
+            // combo_PieceStyle
+            // 
+            this.combo_PieceStyle.FormattingEnabled = true;
+            this.combo_PieceStyle.Location = new System.Drawing.Point(0, 451);
+            this.combo_PieceStyle.Name = "combo_PieceStyle";
+            this.combo_PieceStyle.Size = new System.Drawing.Size(98, 21);
+            this.combo_PieceStyle.TabIndex = 24;
+            this.combo_PieceStyle.TextChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
+            this.combo_PieceStyle.Leave += new System.EventHandler(this.combo_PieceStyle_Leave);
+            // 
+            // picPiece0
+            // 
+            this.picPiece0.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece0.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece0.Location = new System.Drawing.Point(36, 478);
+            this.picPiece0.Name = "picPiece0";
+            this.picPiece0.Size = new System.Drawing.Size(84, 84);
+            this.picPiece0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece0.TabIndex = 25;
+            this.picPiece0.TabStop = false;
+            this.picPiece0.Click += new System.EventHandler(this.picPiece0_Click);
+            // 
+            // but_PieceLeft
+            // 
+            this.but_PieceLeft.Location = new System.Drawing.Point(0, 478);
+            this.but_PieceLeft.Name = "but_PieceLeft";
+            this.but_PieceLeft.Size = new System.Drawing.Size(32, 84);
+            this.but_PieceLeft.TabIndex = 26;
+            this.but_PieceLeft.TabStop = false;
+            this.but_PieceLeft.UseVisualStyleBackColor = true;
+            this.but_PieceLeft.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseDown);
+            // 
+            // picPiece1
+            // 
+            this.picPiece1.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece1.Location = new System.Drawing.Point(126, 478);
+            this.picPiece1.Name = "picPiece1";
+            this.picPiece1.Size = new System.Drawing.Size(84, 84);
+            this.picPiece1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece1.TabIndex = 27;
+            this.picPiece1.TabStop = false;
+            this.picPiece1.Click += new System.EventHandler(this.picPiece1_Click);
+            // 
+            // picPiece2
+            // 
+            this.picPiece2.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece2.Location = new System.Drawing.Point(216, 478);
+            this.picPiece2.Name = "picPiece2";
+            this.picPiece2.Size = new System.Drawing.Size(84, 84);
+            this.picPiece2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece2.TabIndex = 28;
+            this.picPiece2.TabStop = false;
+            this.picPiece2.Click += new System.EventHandler(this.picPiece2_Click);
+            // 
+            // but_PieceRight
+            // 
+            this.but_PieceRight.Location = new System.Drawing.Point(756, 478);
+            this.but_PieceRight.Name = "but_PieceRight";
+            this.but_PieceRight.Size = new System.Drawing.Size(32, 84);
+            this.but_PieceRight.TabIndex = 29;
+            this.but_PieceRight.TabStop = false;
+            this.but_PieceRight.UseVisualStyleBackColor = true;
+            this.but_PieceRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceRight_MouseDown);
+            // 
+            // picPiece3
+            // 
+            this.picPiece3.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece3.Location = new System.Drawing.Point(306, 478);
+            this.picPiece3.Name = "picPiece3";
+            this.picPiece3.Size = new System.Drawing.Size(84, 84);
+            this.picPiece3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece3.TabIndex = 30;
+            this.picPiece3.TabStop = false;
+            this.picPiece3.Click += new System.EventHandler(this.picPiece3_Click);
+            // 
+            // picPiece4
+            // 
+            this.picPiece4.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece4.Location = new System.Drawing.Point(396, 478);
+            this.picPiece4.Name = "picPiece4";
+            this.picPiece4.Size = new System.Drawing.Size(84, 84);
+            this.picPiece4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece4.TabIndex = 31;
+            this.picPiece4.TabStop = false;
+            this.picPiece4.Click += new System.EventHandler(this.picPiece4_Click);
+            // 
+            // picPiece5
+            // 
+            this.picPiece5.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece5.Location = new System.Drawing.Point(486, 478);
+            this.picPiece5.Name = "picPiece5";
+            this.picPiece5.Size = new System.Drawing.Size(84, 84);
+            this.picPiece5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece5.TabIndex = 32;
+            this.picPiece5.TabStop = false;
+            this.picPiece5.Click += new System.EventHandler(this.picPiece5_Click);
+            // 
+            // picPiece6
+            // 
+            this.picPiece6.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece6.Location = new System.Drawing.Point(576, 478);
+            this.picPiece6.Name = "picPiece6";
+            this.picPiece6.Size = new System.Drawing.Size(84, 84);
+            this.picPiece6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece6.TabIndex = 33;
+            this.picPiece6.TabStop = false;
+            this.picPiece6.Click += new System.EventHandler(this.picPiece6_Click);
+            // 
+            // picPiece7
+            // 
+            this.picPiece7.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece7.Location = new System.Drawing.Point(666, 478);
+            this.picPiece7.Name = "picPiece7";
+            this.picPiece7.Size = new System.Drawing.Size(84, 84);
+            this.picPiece7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece7.TabIndex = 34;
+            this.picPiece7.TabStop = false;
+            this.picPiece7.Click += new System.EventHandler(this.picPiece7_Click);
+            // 
+            // but_PieceTerrObj
+            // 
+            this.but_PieceTerrObj.Location = new System.Drawing.Point(103, 451);
+            this.but_PieceTerrObj.Name = "but_PieceTerrObj";
+            this.but_PieceTerrObj.Size = new System.Drawing.Size(79, 21);
+            this.but_PieceTerrObj.TabIndex = 35;
+            this.but_PieceTerrObj.Text = "Get Objects";
+            this.but_PieceTerrObj.UseVisualStyleBackColor = true;
+            this.but_PieceTerrObj.Click += new System.EventHandler(this.but_PieceTerrObj_Click);
+            // 
+            // pic_Level
+            // 
+            this.pic_Level.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pic_Level.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pic_Level.Location = new System.Drawing.Point(188, 27);
+            this.pic_Level.Name = "pic_Level";
+            this.pic_Level.Size = new System.Drawing.Size(600, 445);
+            this.pic_Level.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pic_Level.TabIndex = 36;
+            this.pic_Level.TabStop = false;
+            // 
             // tabLvlProperties
             // 
             this.tabLvlProperties.Controls.Add(this.tabGlobalInfo);
@@ -361,6 +509,7 @@
             this.tabLvlProperties.SelectedIndex = 0;
             this.tabLvlProperties.Size = new System.Drawing.Size(182, 422);
             this.tabLvlProperties.TabIndex = 1;
+            this.tabLvlProperties.TabStop = false;
             this.tabLvlProperties.Click += new System.EventHandler(this.tabLvlProperties_Click);
             // 
             // tabGlobalInfo
@@ -680,6 +829,8 @@
             0,
             0,
             0});
+            this.num_Lvl_SizeX.ValueChanged += new System.EventHandler(this.num_Lvl_SizeX_ValueChanged);
+            this.num_Lvl_SizeX.Leave += new System.EventHandler(this.num_Lvl_SizeX_Leave);
             // 
             // lbl_Global_Size
             // 
@@ -1054,158 +1205,21 @@
             this.lbl_Skill_Climber.TabIndex = 0;
             this.lbl_Skill_Climber.Text = "Climber";
             // 
-            // combo_PieceStyle
+            // txt_Focus
             // 
-            this.combo_PieceStyle.FormattingEnabled = true;
-            this.combo_PieceStyle.Location = new System.Drawing.Point(0, 451);
-            this.combo_PieceStyle.Name = "combo_PieceStyle";
-            this.combo_PieceStyle.Size = new System.Drawing.Size(98, 21);
-            this.combo_PieceStyle.TabIndex = 24;
-            this.combo_PieceStyle.TextChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
-            this.combo_PieceStyle.Leave += new System.EventHandler(this.combo_PieceStyle_Leave);
-            // 
-            // picPiece0
-            // 
-            this.picPiece0.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece0.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece0.Location = new System.Drawing.Point(36, 478);
-            this.picPiece0.Name = "picPiece0";
-            this.picPiece0.Size = new System.Drawing.Size(84, 84);
-            this.picPiece0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece0.TabIndex = 25;
-            this.picPiece0.TabStop = false;
-            this.picPiece0.Click += new System.EventHandler(this.picPiece0_Click);
-            // 
-            // but_PieceLeft
-            // 
-            this.but_PieceLeft.Location = new System.Drawing.Point(0, 478);
-            this.but_PieceLeft.Name = "but_PieceLeft";
-            this.but_PieceLeft.Size = new System.Drawing.Size(32, 84);
-            this.but_PieceLeft.TabIndex = 26;
-            this.but_PieceLeft.TabStop = false;
-            this.but_PieceLeft.UseVisualStyleBackColor = true;
-            this.but_PieceLeft.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseDown);
-            // 
-            // picPiece1
-            // 
-            this.picPiece1.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece1.Location = new System.Drawing.Point(126, 478);
-            this.picPiece1.Name = "picPiece1";
-            this.picPiece1.Size = new System.Drawing.Size(84, 84);
-            this.picPiece1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece1.TabIndex = 27;
-            this.picPiece1.TabStop = false;
-            this.picPiece1.Click += new System.EventHandler(this.picPiece1_Click);
-            // 
-            // picPiece2
-            // 
-            this.picPiece2.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece2.Location = new System.Drawing.Point(216, 478);
-            this.picPiece2.Name = "picPiece2";
-            this.picPiece2.Size = new System.Drawing.Size(84, 84);
-            this.picPiece2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece2.TabIndex = 28;
-            this.picPiece2.TabStop = false;
-            this.picPiece2.Click += new System.EventHandler(this.picPiece2_Click);
-            // 
-            // but_PieceRight
-            // 
-            this.but_PieceRight.Location = new System.Drawing.Point(756, 478);
-            this.but_PieceRight.Name = "but_PieceRight";
-            this.but_PieceRight.Size = new System.Drawing.Size(32, 84);
-            this.but_PieceRight.TabIndex = 29;
-            this.but_PieceRight.TabStop = false;
-            this.but_PieceRight.UseVisualStyleBackColor = true;
-            this.but_PieceRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceRight_MouseDown);
-            // 
-            // picPiece3
-            // 
-            this.picPiece3.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece3.Location = new System.Drawing.Point(306, 478);
-            this.picPiece3.Name = "picPiece3";
-            this.picPiece3.Size = new System.Drawing.Size(84, 84);
-            this.picPiece3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece3.TabIndex = 30;
-            this.picPiece3.TabStop = false;
-            this.picPiece3.Click += new System.EventHandler(this.picPiece3_Click);
-            // 
-            // picPiece4
-            // 
-            this.picPiece4.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece4.Location = new System.Drawing.Point(396, 478);
-            this.picPiece4.Name = "picPiece4";
-            this.picPiece4.Size = new System.Drawing.Size(84, 84);
-            this.picPiece4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece4.TabIndex = 31;
-            this.picPiece4.TabStop = false;
-            this.picPiece4.Click += new System.EventHandler(this.picPiece4_Click);
-            // 
-            // picPiece5
-            // 
-            this.picPiece5.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece5.Location = new System.Drawing.Point(486, 478);
-            this.picPiece5.Name = "picPiece5";
-            this.picPiece5.Size = new System.Drawing.Size(84, 84);
-            this.picPiece5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece5.TabIndex = 32;
-            this.picPiece5.TabStop = false;
-            this.picPiece5.Click += new System.EventHandler(this.picPiece5_Click);
-            // 
-            // picPiece6
-            // 
-            this.picPiece6.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece6.Location = new System.Drawing.Point(576, 478);
-            this.picPiece6.Name = "picPiece6";
-            this.picPiece6.Size = new System.Drawing.Size(84, 84);
-            this.picPiece6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece6.TabIndex = 33;
-            this.picPiece6.TabStop = false;
-            this.picPiece6.Click += new System.EventHandler(this.picPiece6_Click);
-            // 
-            // picPiece7
-            // 
-            this.picPiece7.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece7.Location = new System.Drawing.Point(666, 478);
-            this.picPiece7.Name = "picPiece7";
-            this.picPiece7.Size = new System.Drawing.Size(84, 84);
-            this.picPiece7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece7.TabIndex = 34;
-            this.picPiece7.TabStop = false;
-            this.picPiece7.Click += new System.EventHandler(this.picPiece7_Click);
-            // 
-            // but_PieceTerrObj
-            // 
-            this.but_PieceTerrObj.Location = new System.Drawing.Point(103, 451);
-            this.but_PieceTerrObj.Name = "but_PieceTerrObj";
-            this.but_PieceTerrObj.Size = new System.Drawing.Size(79, 21);
-            this.but_PieceTerrObj.TabIndex = 35;
-            this.but_PieceTerrObj.Text = "Get Objects";
-            this.but_PieceTerrObj.UseVisualStyleBackColor = true;
-            this.but_PieceTerrObj.Click += new System.EventHandler(this.but_PieceTerrObj_Click);
-            // 
-            // pic_Level
-            // 
-            this.pic_Level.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pic_Level.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pic_Level.Location = new System.Drawing.Point(193, 27);
-            this.pic_Level.Name = "pic_Level";
-            this.pic_Level.Size = new System.Drawing.Size(595, 445);
-            this.pic_Level.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pic_Level.TabIndex = 36;
-            this.pic_Level.TabStop = false;
+            this.txt_Focus.Location = new System.Drawing.Point(-100, 1);
+            this.txt_Focus.Name = "txt_Focus";
+            this.txt_Focus.Size = new System.Drawing.Size(40, 20);
+            this.txt_Focus.TabIndex = 37;
+            this.txt_Focus.TabStop = false;
+            this.txt_Focus.Text = "asdf";
             // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 573);
+            this.Controls.Add(this.txt_Focus);
             this.Controls.Add(this.pic_Level);
             this.Controls.Add(this.but_PieceTerrObj);
             this.Controls.Add(this.picPiece7);
@@ -1229,6 +1243,15 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NLEditForm_KeyDown);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).EndInit();
             this.tabLvlProperties.ResumeLayout(false);
             this.tabGlobalInfo.ResumeLayout(false);
             this.tabGlobalInfo.PerformLayout();
@@ -1258,15 +1281,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Blocker)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1299,7 +1313,6 @@
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabLvlProperties;
         private System.Windows.Forms.TabPage tabGlobalInfo;
         private System.Windows.Forms.TabPage tabPieces;
         private System.Windows.Forms.TabPage tabSkills;
@@ -1373,6 +1386,8 @@
         private System.Windows.Forms.Button but_PieceTerrObj;
         private System.Windows.Forms.CheckBox check_Lvl_InfTime;
         private System.Windows.Forms.PictureBox pic_Level;
+        private System.Windows.Forms.TabControl tabLvlProperties;
+        private System.Windows.Forms.TextBox txt_Focus;
     }
 }
 
