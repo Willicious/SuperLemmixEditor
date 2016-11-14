@@ -361,6 +361,7 @@
             this.tabLvlProperties.SelectedIndex = 0;
             this.tabLvlProperties.Size = new System.Drawing.Size(182, 422);
             this.tabLvlProperties.TabIndex = 1;
+            this.tabLvlProperties.Click += new System.EventHandler(this.tabLvlProperties_Click);
             // 
             // tabGlobalInfo
             // 

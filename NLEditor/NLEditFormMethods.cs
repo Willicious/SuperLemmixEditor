@@ -10,7 +10,7 @@ using System.Drawing;
 
 namespace NLEditor
 {
-    public partial class NLEditForm : Form
+    public partial class NLEditForm
     {
         /*---------------------------------------------------------
          *   Main Form: This part defines the methods
@@ -119,6 +119,22 @@ namespace NLEditor
         private void ExitEditor()
         {
             Application.Exit();
+        }
+
+        private void CreateNewLevel()
+        {
+            Style NewMainStyle = null;
+            if (StyleList != null)
+            {
+                NewMainStyle = StyleList.Find(sty => sty.Name == this.combo_MainStyle.Text);
+            }
+            fCurLevel = new Level(NewMainStyle);
+            WriteLevelInfoToForm();
+            ChangeBackgroundColor(this, NewMainStyle);
+
+            // Create new renderer for the level
+            fCurRenderer = new Renderer(fCurLevel, this.pic_Level);
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
         private void ChangeObjTerrPieceDisplay()

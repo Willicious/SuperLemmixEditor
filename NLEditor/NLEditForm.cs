@@ -40,15 +40,8 @@ namespace NLEditor
                 this.combo_PieceStyle.SelectedIndex = 0;
             }
 
-            // Create a new level
-            Style NewMainStyle = (StyleList == null || StyleList.Count == 0) ? null : StyleList[0];
-            fCurLevel = new Level(NewMainStyle);
-            WriteLevelInfoToForm();
-            ChangeBackgroundColor(this, NewMainStyle);
-
-            // Create a new renderer
-            fCurRenderer = new Renderer(fCurLevel, this.pic_Level);
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            // Create a new level and a new renderer
+            CreateNewLevel();
 
             // Load pieces into the picPieces
             fPieceStartIndex = 0;
@@ -83,11 +76,16 @@ namespace NLEditor
         {
             this.ActiveControl = this.menuStrip; // remove focus
         }
+
+        private void tabLvlProperties_Click(object sender, EventArgs e)
+        {
+            this.ActiveControl = this.menuStrip; // remove focus
+        }
         
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Create new level
-            // TODO
+            CreateNewLevel();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -105,8 +103,6 @@ namespace NLEditor
             PieceCurStyle = NewStyle;
             PieceStartIndex = 0;
             LoadPiecesIntoPictureBox(this, PieceCurStyle);
-
-            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void combo_PieceStyle_Leave(object sender, EventArgs e)
@@ -150,13 +146,12 @@ namespace NLEditor
             // Load new style into PictureBoxes
             CurLevel.MainStyle = NewStyle;
             ChangeBackgroundColor(this, NewStyle);
-
-            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void combo_MainStyle_Leave(object sender, EventArgs e)
         {
-            // can't really do anything here
+            // can't really do much here
+            this.ActiveControl = this.menuStrip; // remove focus
         }
 
         private void picPiece0_Click(object sender, EventArgs e)
@@ -219,6 +214,10 @@ namespace NLEditor
             {
                 ExitEditor();
             }
+            else if (e.Control && e.KeyCode == Keys.N)
+            {
+                CreateNewLevel();
+            }
             else if (e.Alt && e.KeyCode == Keys.Left)
             {
                 MoveTerrPieceSelection(-1);
@@ -258,6 +257,8 @@ namespace NLEditor
             // Update level image
             this.pic_Level.Image = fCurRenderer.CombineLayers();
         }
+
+
 
     }
 }

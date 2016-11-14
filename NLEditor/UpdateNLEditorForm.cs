@@ -61,6 +61,12 @@ namespace NLEditor
             if (NewBackColor == null) return;
 
             MyForm.picPieceList.ForEach(pic => pic.BackColor = NewBackColor);
+
+            // recreate level with the new background color (assuming we already have a renderer)
+            if (fCurRenderer != null)
+            {
+                this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            }
         }
     }
 }
