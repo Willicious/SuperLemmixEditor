@@ -24,9 +24,6 @@ namespace NLEditor
             InitializeComponent();
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(NLEditForm_MouseWheel);
 
-            this.but_PieceLeft.Text = "\u21E6";
-            this.but_PieceRight.Text = "\u21E8";
-
             // Set list of all piectures for single pieces
             PictureBox[] PicBoxArr = { this.picPiece0, this.picPiece1, this.picPiece2, this.picPiece3,
                                        this.picPiece4, this.picPiece5, this.picPiece6, this.picPiece7 };
@@ -146,12 +143,6 @@ namespace NLEditor
             ChangeBackgroundColor(this, NewStyle);
         }
 
-        private void combo_MainStyle_Leave(object sender, EventArgs e)
-        {
-            // can't really do much here
-            this.ActiveControl = this.txt_Focus; // remove focus
-        }
-
         private void num_Lvl_SizeX_ValueChanged(object sender, EventArgs e)
         {
             // Adapt max start position
@@ -165,9 +156,17 @@ namespace NLEditor
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
-        private void num_Lvl_SizeX_Leave(object sender, EventArgs e)
+        private void num_Lvl_SizeY_ValueChanged(object sender, EventArgs e)
         {
-            this.ActiveControl = this.txt_Focus; // remove focus
+            // Adapt max start position
+            num_Lvl_StartY.Maximum = num_Lvl_SizeY.Value - 160;
+
+            fCurLevel.Height = (int)num_Lvl_SizeY.Value;
+            fCurLevel.StartPosY = (int)num_Lvl_StartY.Value;
+
+            // Update screen position and render level
+            fCurRenderer.ChangeZoom(0);
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
         /* -----------------------------------------------------------
@@ -202,6 +201,7 @@ namespace NLEditor
         private void but_PieceTerrObj_Click(object sender, EventArgs e)
         {
             ChangeObjTerrPieceDisplay();
+            this.ActiveControl = this.txt_Focus; // remove focus
         }
 
         private void but_PieceLeft_MouseDown(object sender, MouseEventArgs e)
@@ -343,6 +343,8 @@ namespace NLEditor
             // Update level image
             this.pic_Level.Image = fCurRenderer.CombineLayers();
         }
+
+
 
     }
 }

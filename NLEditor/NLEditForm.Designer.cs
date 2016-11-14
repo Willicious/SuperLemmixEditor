@@ -387,6 +387,7 @@
             this.but_PieceLeft.Size = new System.Drawing.Size(32, 84);
             this.but_PieceLeft.TabIndex = 26;
             this.but_PieceLeft.TabStop = false;
+            this.but_PieceLeft.Text = "\u21E6";
             this.but_PieceLeft.UseVisualStyleBackColor = true;
             this.but_PieceLeft.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseDown);
             // 
@@ -422,6 +423,7 @@
             this.but_PieceRight.Size = new System.Drawing.Size(32, 84);
             this.but_PieceRight.TabIndex = 29;
             this.but_PieceRight.TabStop = false;
+            this.but_PieceRight.Text = "\u21E8";
             this.but_PieceRight.UseVisualStyleBackColor = true;
             this.but_PieceRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceRight_MouseDown);
             // 
@@ -808,6 +810,7 @@
             0,
             0,
             0});
+            this.num_Lvl_SizeY.ValueChanged += new System.EventHandler(this.num_Lvl_SizeY_ValueChanged);
             // 
             // num_Lvl_SizeX
             // 
@@ -837,7 +840,6 @@
             0,
             0});
             this.num_Lvl_SizeX.ValueChanged += new System.EventHandler(this.num_Lvl_SizeX_ValueChanged);
-            this.num_Lvl_SizeX.Leave += new System.EventHandler(this.num_Lvl_SizeX_Leave);
             // 
             // lbl_Global_Size
             // 
@@ -855,7 +857,6 @@
             this.combo_MainStyle.Size = new System.Drawing.Size(98, 21);
             this.combo_MainStyle.TabIndex = 7;
             this.combo_MainStyle.TextChanged += new System.EventHandler(this.combo_MainStyle_TextChanged);
-            this.combo_MainStyle.Leave += new System.EventHandler(this.combo_MainStyle_Leave);
             // 
             // lbl_Global_Style
             // 

@@ -113,6 +113,9 @@ namespace NLEditor
             this.num_Ski_Platformer.Value = CurLevel.SkillCount[C.SKI_PLATFORMER];
             this.num_Ski_Stacker.Value = CurLevel.SkillCount[C.SKI_STACKER];
             this.num_Ski_Cloner.Value = CurLevel.SkillCount[C.SKI_CLONER];
+
+            this.num_Lvl_StartX.Maximum = CurLevel.Width - 320;
+            this.num_Lvl_StartY.Maximum = CurLevel.Height - 160;
         }
 
 
