@@ -82,6 +82,11 @@ namespace NLEditor
             this.ActiveControl = this.menuStrip; // remove focus
         }
         
+        /* -----------------------------------------------------------
+         *              Menu Items
+         * ----------------------------------------------------------- */
+
+
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Create new level
@@ -92,6 +97,49 @@ namespace NLEditor
         {
             ExitEditor();
         }
+
+        /* -----------------------------------------------------------
+         *              Global Level Info Tab
+         * ----------------------------------------------------------- */
+
+        private void combo_MainStyle_TextChanged(object sender, EventArgs e)
+        {
+            Style NewStyle = ValidateStyleName(this, this.combo_MainStyle.Text);
+
+            if (NewStyle == null || CurLevel == null || NewStyle == CurLevel.MainStyle) return;
+
+            // Load new style into PictureBoxes
+            CurLevel.MainStyle = NewStyle;
+            ChangeBackgroundColor(this, NewStyle);
+        }
+
+        private void combo_MainStyle_Leave(object sender, EventArgs e)
+        {
+            // can't really do much here
+            this.ActiveControl = this.menuStrip; // remove focus
+        }
+
+        private void num_Lvl_SizeX_ValueChanged(object sender, EventArgs e)
+        {
+            // Adapt max start position
+            num_Lvl_StartX.Maximum = num_Lvl_SizeX.Value - 320;
+            
+            fCurLevel.Width = (int)num_Lvl_SizeX.Value;
+            fCurLevel.StartPosX = (int)num_Lvl_StartX.Value;
+
+            // Update screen position and render level
+            fCurRenderer.ChangeZoom(0); 
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+        private void num_Lvl_SizeX_Leave(object sender, EventArgs e)
+        {
+            this.ActiveControl = this.menuStrip; // remove focus
+        }
+
+        /* -----------------------------------------------------------
+         *              Piece Selection
+         * ----------------------------------------------------------- */
 
         private void combo_PieceStyle_TextChanged(object sender, EventArgs e)
         {
@@ -134,23 +182,6 @@ namespace NLEditor
         {
             int Movement = (e.Button == MouseButtons.Right) ? 8 : 1;
             MoveTerrPieceSelection(Movement);
-            this.ActiveControl = this.menuStrip; // remove focus
-        }
-
-        private void combo_MainStyle_TextChanged(object sender, EventArgs e)
-        {
-            Style NewStyle = ValidateStyleName(this, this.combo_MainStyle.Text);
-
-            if (NewStyle == null || CurLevel == null || NewStyle == CurLevel.MainStyle) return;
-
-            // Load new style into PictureBoxes
-            CurLevel.MainStyle = NewStyle;
-            ChangeBackgroundColor(this, NewStyle);
-        }
-
-        private void combo_MainStyle_Leave(object sender, EventArgs e)
-        {
-            // can't really do much here
             this.ActiveControl = this.menuStrip; // remove focus
         }
 
@@ -203,7 +234,9 @@ namespace NLEditor
         }
 
 
-
+        /* -----------------------------------------------------------
+         *              Direct Key and Mouse imput
+         * ----------------------------------------------------------- */
 
         private void NLEditForm_KeyDown(object sender, KeyEventArgs e)
         {
@@ -218,19 +251,19 @@ namespace NLEditor
             {
                 CreateNewLevel();
             }
-            else if (e.Alt && e.KeyCode == Keys.Left)
+            else if (e.Shift && e.KeyCode == Keys.Left)
             {
                 MoveTerrPieceSelection(-1);
             }
-            else if (e.Alt && e.KeyCode == Keys.Right)
+            else if (e.Shift && e.KeyCode == Keys.Right)
             {
                 MoveTerrPieceSelection(1);
             }
-            else if (e.Alt && e.KeyCode == Keys.Up)
+            else if (e.Shift && e.KeyCode == Keys.Up)
             {
                 ChangeNewPieceStyleSelection(-1);
             }
-            else if (e.Alt && e.KeyCode == Keys.Down)
+            else if (e.Shift && e.KeyCode == Keys.Down)
             {
                 ChangeNewPieceStyleSelection(1);
             }
@@ -247,16 +280,19 @@ namespace NLEditor
             int Movement = e.Delta / SystemInformation.MouseWheelScrollDelta;
             if (Movement > 0)
             {
-                fCurRenderer.ChangeZoom(true);
+                fCurRenderer.ChangeZoom(1);
             }
             else if (Movement < 0)
             {
-                fCurRenderer.ChangeZoom(false);
+                fCurRenderer.ChangeZoom(-1);
             }
 
             // Update level image
             this.pic_Level.Image = fCurRenderer.CombineLayers();
         }
+
+
+
 
 
 

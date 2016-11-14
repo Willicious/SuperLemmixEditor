@@ -120,6 +120,8 @@ namespace NLEditor
 
         public Bitmap CreateLevelImage()
         {
+            UpdateLayerBmpSize();
+            
             CreateObjectBackLayer();
             if (!fIsClearPhysics)
             {
@@ -133,6 +135,14 @@ namespace NLEditor
             CreateTriggerLayer();
 
             return CombineLayers();
+        }
+
+        private void UpdateLayerBmpSize()
+        {
+            if (fMyLevel.Width != fLayerList[0].Width || fMyLevel.Height != fLayerList[0].Height)
+            { 
+                fLayerList.Select(bmp => bmp = new Bitmap(fMyLevel.Width, fMyLevel.Height));
+            }
         }
 
         private void CreateObjectBackLayer()
@@ -225,7 +235,7 @@ namespace NLEditor
             int NegScreenPosX = (LevelBmpSize.Width != fMyLevel.Width) ? -fScreenPos.X : 0;
             int NegScreenPosY = (LevelBmpSize.Height != fMyLevel.Height) ? -fScreenPos.Y : 0;
             Point NegScreenPos = new Point(NegScreenPosX, NegScreenPosY);
-
+            
             // Set background color
             LevelBmp.Clear(fMyLevel.MainStyle.BackgroundColor);
 
@@ -292,13 +302,10 @@ namespace NLEditor
             return LevelBmp;
         }
 
-        public void ChangeZoom(bool DoZoomIn)
+        public void ChangeZoom(int Change)
         {
             int OldZoom = Zoom;
-            Zoom = OldZoom + (DoZoomIn ? 1 : -1);
-            Zoom = Math.Max(Math.Min(Zoom, 7), -2);
-
-            if (OldZoom == Zoom) return;
+            Zoom = Math.Max(Math.Min(OldZoom + Change, 7), -2);
 
             // Change screen position
             float ChangeFactor;
