@@ -14,9 +14,19 @@ namespace NLEditor
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new NLEditForm());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new NLEditForm());
+            }
+            catch (Exception Ex)
+            {
+                Utility.LogException(Ex);
+                MessageBox.Show("Fatal Error:" + Ex.Message);
+
+                Application.Exit();
+            }
         }
     }
 }
