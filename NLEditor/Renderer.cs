@@ -129,14 +129,37 @@ namespace NLEditor
             return (Zoom < 0) ? (ZoomCoord * (1 - Zoom)) : (ZoomCoord / (Zoom + 1));
         }
 
-        public Point GetLevelPosFromMousePos(Point MousePos)
+        public Point? GetLevelPosFromMousePos(Point MousePos)
         {
-            int OrigPosX = Math.Min(Math.Max(MousePos.X, 0), fPicBoxSize.Width);
-            int OrigPosY = Math.Min(Math.Max(MousePos.Y, 0), fPicBoxSize.Height);
+            if (!IsInImageArea(MousePos)) return null;
 
+            int OrigPosX = MousePos.X;
+            int OrigPosY = MousePos.Y;
+
+            // Adapt to images that do not fill the whole pic_Level
+            if (ApplyZoom(fMyLevel.Width) < fPicBoxSize.Width)
+            {
+                OrigPosX -= (fPicBoxSize.Width - ApplyZoom(fMyLevel.Width)) / 2;
+            }
+            if (ApplyZoom(fMyLevel.Height) < fPicBoxSize.Height)
+            {
+                OrigPosY -= (fPicBoxSize.Height - ApplyZoom(fMyLevel.Height)) / 2;
+            }
+            
             int PosX = ScreenPosX + ApplyUnZoom(OrigPosX);
             int PosY = ScreenPosY + ApplyUnZoom(OrigPosY) ;
             return new Point(PosX, PosY);
+        }
+
+        private bool IsInImageArea(Point Pos)
+        {
+            bool IsHoriz = (Pos.X >= 0) && (Pos.X < fPicBoxSize.Width)
+                            && (Pos.X >= (fPicBoxSize.Width - ApplyZoom(fMyLevel.Width)) / 2)
+                            && (Pos.X < (fPicBoxSize.Width + ApplyZoom(fMyLevel.Width)) / 2);
+            bool IsVert = (Pos.Y >= 0) && (Pos.Y < fPicBoxSize.Height)
+                            && (Pos.Y >= (fPicBoxSize.Height - ApplyZoom(fMyLevel.Height)) / 2)
+                            && (Pos.Y < (fPicBoxSize.Height + ApplyZoom(fMyLevel.Height)) / 2);
+            return IsHoriz && IsVert;
         }
 
 
@@ -174,7 +197,6 @@ namespace NLEditor
 
             foreach (GadgetPiece MyGadget in fMyLevel.GadgetList.FindAll(obj => obj.IsNoOverwrite))
             {
-                Bitmap ThisBmp = MyGadget.Image;
                 fLayerList[C.LAY_OBJBACK].DrawOn(MyGadget.Image, MyGadget.Pos);
             }
         }

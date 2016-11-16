@@ -210,8 +210,11 @@ namespace NLEditor
             if (!this.pic_Level.DisplayRectangle.Contains(e.Location)) return;
             
             // Add or remove a single piece to selection
-            Point MousePos = new Point(e.Location.X - this.pic_Level.Left, e.Location.Y - this.pic_Level.Top);
-            Point LevelPos = this.fCurRenderer.GetLevelPosFromMousePos(MousePos);
+            Point MousePos = new Point(e.Location.X, e.Location.Y);
+            //Point MousePos = new Point(e.Location.X - this.pic_Level.Left, e.Location.Y - this.pic_Level.Top);
+            Point? LevelPos = this.fCurRenderer.GetLevelPosFromMousePos(MousePos);
+            // Do nothing if we didn't click on image
+            if (LevelPos == null) return;
 
 
             if (fMouseButtonPressed == MouseButtons.Left)
@@ -223,12 +226,12 @@ namespace NLEditor
                 }
                 
                 // Add a single piece
-                fCurLevel.SelectOnePiece(LevelPos, true, !fIsAltPressed);
+                fCurLevel.SelectOnePiece((Point)LevelPos, true, !fIsAltPressed);
             }
             else if (fMouseButtonPressed == MouseButtons.Right)
             {
                 // Remove a single piece
-                fCurLevel.SelectOnePiece(LevelPos, false, !fIsAltPressed);
+                fCurLevel.SelectOnePiece((Point)LevelPos, false, !fIsAltPressed);
             }
         }
 
@@ -237,8 +240,8 @@ namespace NLEditor
             if (fMouseStartPos == null) return;
             
             // Add or remove a single piece to selection
-            Point MouseEndPos = GetPicLevelPosFromMousePos(e.Location);
-            Rectangle SelectArea = GetSelectedArea((Point)fMouseStartPos, MouseEndPos);
+            Rectangle? SelectArea = GetSelectedArea((Point)fMouseStartPos, e.Location);
+            if (SelectArea == null) return;
 
             if (fMouseButtonPressed == MouseButtons.Left)
             {
@@ -249,20 +252,25 @@ namespace NLEditor
                 }
 
                 // Add a single piece
-                fCurLevel.SelectAreaPiece(SelectArea, true);
+                fCurLevel.SelectAreaPiece((Rectangle)SelectArea, true);
             }
             else if (fMouseButtonPressed == MouseButtons.Right)
             {
                 // Remove a single piece
-                fCurLevel.SelectAreaPiece(SelectArea, false);
+                fCurLevel.SelectAreaPiece((Rectangle)SelectArea, false);
             }
         }
 
 
-        private Rectangle GetSelectedArea(Point StartPos, Point EndPos)
+        private Rectangle? GetSelectedArea(Point StartPos, Point EndPos)
         {
-            Point LevelStartPos = this.fCurRenderer.GetLevelPosFromMousePos(StartPos);
-            Point LevelEndPos = this.fCurRenderer.GetLevelPosFromMousePos(EndPos);
+            Point? EvtlLevelStartPos = this.fCurRenderer.GetLevelPosFromMousePos(StartPos);
+            Point? EvtlLevelEndPos = this.fCurRenderer.GetLevelPosFromMousePos(EndPos);
+
+            if (EvtlLevelStartPos == null || EvtlLevelEndPos == null) return null;
+
+            Point LevelStartPos = (Point)EvtlLevelStartPos;
+            Point LevelEndPos = (Point)EvtlLevelEndPos;
 
             int Left = Math.Min(LevelStartPos.X, LevelEndPos.X);
             int Top = Math.Min(LevelStartPos.Y, LevelEndPos.Y);
@@ -272,11 +280,12 @@ namespace NLEditor
             return new Rectangle(Left, Top, Width, Height);        
         }
 
+        /*
         private Point GetPicLevelPosFromMousePos(Point MousePosOnForm)
         {
             return new Point(MousePosOnForm.X - this.pic_Level.Left, MousePosOnForm.Y - this.pic_Level.Top);
         }
-
+        */
 
     }
 }

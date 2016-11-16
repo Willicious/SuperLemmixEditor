@@ -385,7 +385,7 @@ namespace NLEditor
         private void pic_Level_MouseDown(object sender, MouseEventArgs e)
         {
             fMouseButtonPressed = e.Button;
-            fMouseStartPos = GetPicLevelPosFromMousePos(e.Location);
+            fMouseStartPos = e.Location;
             fStopWatchMouse.Restart();
             //fTimerMouse.Enabled = true;
         }
@@ -408,7 +408,8 @@ namespace NLEditor
             {
                 LevelSelectAreaPieces(e);
             }
-            
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+
             fMouseButtonPressed = null;
             //fTimerMouse.Enabled = false;
         }
