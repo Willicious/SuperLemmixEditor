@@ -21,6 +21,7 @@ namespace NLEditor
          *    Renderer(Level MyLevel) // constructor
          *    
          *    GetCenterPoint()
+         *    GetLevelPosFromMousePos(Point MousePos)
          * 
          *    CreateLevelImage() // recreates all layers and combines them
          *    CombineLayers() // only combines existing layers
@@ -32,6 +33,7 @@ namespace NLEditor
          *    SetLevel(Level NewLevel)
          *    
          *    ChangeZoom(bool DoZoomIn)
+         *    ChangeScreenPos(int DeltaX, int Delta Y);
          * 
          *  public varaibles:
          *    ScreenPos
@@ -76,9 +78,9 @@ namespace NLEditor
         Size fPicBoxSize;
 
         public Point ScreenPos { get { return fScreenPos; } }
-        public int ScreenPosX { get { return fScreenPos.X; } set { fScreenPos.X = value; } }
-        public int ScreenPosY { get { return fScreenPos.Y; } set { fScreenPos.Y = value; } }
-        public int Zoom { get { return fZoom; } set { fZoom = value; } }
+        public int ScreenPosX { get { return fScreenPos.X; } }
+        public int ScreenPosY { get { return fScreenPos.Y; } }
+        public int Zoom { get { return fZoom; } }
 
         public void ChangeIsClearPhsyics() 
         {
@@ -116,6 +118,26 @@ namespace NLEditor
 
             return new Point(fScreenPos.X + LevelBmpSize.Width / 2, fScreenPos.Y + LevelBmpSize.Height / 2);
         }
+
+        public Point GetLevelPosFromMousePos(Point MousePos)
+        {
+            int OrigPosX = Math.Min(Math.Max(MousePos.X, 0), fPicBoxSize.Width);
+            int OrigPosY = Math.Min(Math.Max(MousePos.Y, 0), fPicBoxSize.Height);
+
+            if (Zoom < 0)
+            {
+                int PosX = ScreenPosX + OrigPosX * (1 - Zoom);
+                int PosY = ScreenPosY + OrigPosY * (1 - Zoom);
+                return new Point(PosX, PosY);
+            }
+            else
+            {
+                int PosX = ScreenPosX + OrigPosX / (1 + Zoom);
+                int PosY = ScreenPosY + OrigPosY / (1 + Zoom);
+                return new Point(PosX, PosY);
+            }
+        }
+
 
 
         public Bitmap CreateLevelImage()
@@ -305,35 +327,55 @@ namespace NLEditor
         public void ChangeZoom(int Change)
         {
             int OldZoom = Zoom;
-            Zoom = Math.Max(Math.Min(OldZoom + Change, 7), -2);
+            fZoom = Math.Max(Math.Min(OldZoom + Change, 7), -2);
 
             // Change screen position
             float ChangeFactor;
             if (Zoom + OldZoom > 0) // both at least equal to 0
             {
-                ChangeFactor = (Zoom - OldZoom) / ((OldZoom + 1) * (Zoom + 1) * 2);
+                ChangeFactor = ((float)(Zoom - OldZoom)) / ((OldZoom + 1) * (Zoom + 1) * 2);
             }
             else // both at most equal to 0
             {
-                ChangeFactor = (Zoom - OldZoom) / 2;
+                ChangeFactor = ((float)(Zoom - OldZoom)) / 2;
             }
 
-            ChangeScreenCoord(ChangeFactor, true);
-            ChangeScreenCoord(ChangeFactor, false);
+            fScreenPos.X += (int)(fPicBoxSize.Width * ChangeFactor);
+            fScreenPos.Y += (int)(fPicBoxSize.Height * ChangeFactor);
+            EnsureScreenPosInLevel();
         }
 
-        private int ChangeScreenCoord(float ChangeFactor, bool IsVert)
+        private void EnsureScreenPosInLevel()
         {
-            int OrigCoord = IsVert ? ScreenPosY : ScreenPosX;
-            int PicBoxLength = IsVert ? fPicBoxSize.Height : fPicBoxSize.Width;
-            int LevelLength = (IsVert ? fMyLevel.Height : fMyLevel.Width);
-            int ZoomedPicBoxLength = (Zoom < 0) ? (PicBoxLength * (1 - Zoom)) : PicBoxLength / (Zoom + 1);
-            int MaxCoord = LevelLength - ZoomedPicBoxLength;
-            
-            int NewCoord = (int)(OrigCoord + PicBoxLength * ChangeFactor);
-            return Math.Max(Math.Min(NewCoord, MaxCoord), 0);
+            EnsureScreenPosInLevel(true);
+            EnsureScreenPosInLevel(false);
         }
 
+        private void EnsureScreenPosInLevel(bool IsVert)
+        {
+            int LevelLength = IsVert ? fMyLevel.Height : fMyLevel.Width;
+            int PicBoxLength = IsVert ? fPicBoxSize.Height : fPicBoxSize.Width;
+            int ZoomedPicBoxLength = (Zoom < 0) ? (PicBoxLength * (1 - Zoom)) : (PicBoxLength / (Zoom + 1));
+            int MaxCoord = LevelLength - ZoomedPicBoxLength;
+
+            // do not interchange Max and Min because of possibly negative MaxCoord
+            if (IsVert)
+            {
+                fScreenPos.Y = Math.Max(Math.Min(fScreenPos.Y, MaxCoord), 0); 
+            }
+            else 
+            {
+                fScreenPos.X = Math.Max(Math.Min(fScreenPos.X, MaxCoord), 0);
+            }      
+        }
+
+        public void ChangeScreenPos(int DeltaX, int DeltaY)
+        {
+            fScreenPos.X += DeltaX;
+            fScreenPos.Y += DeltaY;
+
+            EnsureScreenPosInLevel();
+        }
 
     }
 }

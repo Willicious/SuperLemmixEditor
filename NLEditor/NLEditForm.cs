@@ -49,8 +49,18 @@ namespace NLEditor
             fPieceCurStyle = ValidateStyleName(this, this.combo_PieceStyle.SelectedItem.ToString());
             LoadPiecesIntoPictureBox(this, PieceCurStyle);
 
-            fStopWatch = new Stopwatch();
-            fStopWatch.Start();
+            fStopWatchKey = new Stopwatch();
+            fStopWatchKey.Start();
+            fStopWatchMouse = new Stopwatch();
+            fStopWatchMouse.Start();
+            /*
+            fTimerMouse = new Timer();
+            fTimerMouse.Enabled = false;
+            fTimerMouse.Interval = 30;
+            fTimerMouse.Tick += new EventHandler(delegate(Object obj, EventArgs e) { TimerMouse_Tick(); });
+            */
+            fMouseButtonPressed = null;
+            fMouseStartPos = null;
         }
 
         List<PictureBox> fpicPieceList;
@@ -63,7 +73,17 @@ namespace NLEditor
         Level fCurLevel;
         Renderer fCurRenderer;
 
-        Stopwatch fStopWatch;
+        Stopwatch fStopWatchKey;
+        Stopwatch fStopWatchMouse;
+        //Timer fTimerMouse;
+        MouseButtons? fMouseButtonPressed;
+        Point? fMouseStartPos;
+
+        bool fIsShiftPressed;
+        bool fIsCtrlPressed;
+        bool fIsAltPressed;
+        
+
           
         public List<PictureBox> picPieceList { get { return fpicPieceList; } }
         public List<Style> StyleList { get { return fStyleList; } }
@@ -273,7 +293,15 @@ namespace NLEditor
 
         private void NLEditForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (fStopWatch.ElapsedMilliseconds < 50) return;
+            switch (e.KeyCode)
+            {
+                case Keys.Shift: fIsShiftPressed = true; break;
+                case Keys.Control: fIsCtrlPressed = true; break;
+                case Keys.Alt: fIsAltPressed = true; break;
+            }
+
+            
+            if (fStopWatchKey.ElapsedMilliseconds < 50) return;
 
             // The main key-handling routine
             if (e.KeyCode == Keys.Escape || (e.Alt && e.KeyCode == Keys.F4))
@@ -325,7 +353,17 @@ namespace NLEditor
                 return; // and don't restart the StopWatch
             }
 
-            fStopWatch.Restart();
+            fStopWatchKey.Restart();
+        }
+
+        private void NLEditForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Shift: fIsShiftPressed = false; break;
+                case Keys.Control: fIsCtrlPressed = false; break;
+                case Keys.Alt: fIsAltPressed = false; break;
+            }
         }
 
         private void NLEditForm_MouseWheel(object sender, MouseEventArgs e)
@@ -343,6 +381,40 @@ namespace NLEditor
             // Update level image
             this.pic_Level.Image = fCurRenderer.CombineLayers();
         }
+
+        private void pic_Level_MouseDown(object sender, MouseEventArgs e)
+        {
+            fMouseButtonPressed = e.Button;
+            fMouseStartPos = GetPicLevelPosFromMousePos(e.Location);
+            fStopWatchMouse.Restart();
+            //fTimerMouse.Enabled = true;
+        }
+
+        private void pic_Level_MouseMove(object sender, MouseEventArgs e)
+        {
+
+
+            // TODO
+
+        }
+
+        private void pic_Level_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (fStopWatchMouse.ElapsedMilliseconds < 200) // usual click takes <100ms
+            {
+                LevelSelectSinglePiece(e);
+            }
+            else
+            {
+                LevelSelectAreaPieces(e);
+            }
+            
+            fMouseButtonPressed = null;
+            //fTimerMouse.Enabled = false;
+        }
+
+
+
 
 
 

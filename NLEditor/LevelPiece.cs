@@ -35,6 +35,8 @@ namespace NLEditor
         int fRotation;
         bool fInvert;
 
+        bool fIsSelected;
+
         public Point Pos { get { return fPos; } set { fPos = value; } }
         public int PosX { get { return fPos.X; } set { fPos.X = value; } }
         public int PosY { get { return fPos.Y; } set { fPos.Y = value; } }
@@ -44,6 +46,27 @@ namespace NLEditor
         // Metainfo from BaseImageInfo
         public Bitmap Image { get { return ImageLibrary.GetImage(fKey); } }
         public int ObjType { get { return ImageLibrary.GetObjType(fKey); } }
+
+        public bool IsSelected { get { return fIsSelected; } set { fIsSelected = value; } }
+
+        public Rectangle ImageRectangle { get 
+        {
+            int ImageWidth;
+            int ImageHeight;
+
+            if (fRotation / 2 == 0)
+            {
+                ImageWidth = ImageLibrary.GetWidth(fKey);
+                ImageHeight = ImageLibrary.GetHeight(fKey);
+            }
+            else
+            {
+                ImageWidth = ImageLibrary.GetHeight(fKey);
+                ImageHeight = ImageLibrary.GetWidth(fKey); 
+            }
+
+            return new Rectangle(fPos.X, fPos.Y, ImageWidth, ImageHeight);
+        } }
 
         public void Move(int Direction, int Step = 1)
         {

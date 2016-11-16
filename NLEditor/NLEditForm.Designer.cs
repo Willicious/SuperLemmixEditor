@@ -387,7 +387,7 @@
             this.but_PieceLeft.Size = new System.Drawing.Size(32, 84);
             this.but_PieceLeft.TabIndex = 26;
             this.but_PieceLeft.TabStop = false;
-            this.but_PieceLeft.Text = "\u21E6";
+            this.but_PieceLeft.Text = "⇦";
             this.but_PieceLeft.UseVisualStyleBackColor = true;
             this.but_PieceLeft.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseDown);
             // 
@@ -423,7 +423,7 @@
             this.but_PieceRight.Size = new System.Drawing.Size(32, 84);
             this.but_PieceRight.TabIndex = 29;
             this.but_PieceRight.TabStop = false;
-            this.but_PieceRight.Text = "\u21E8";
+            this.but_PieceRight.Text = "⇨";
             this.but_PieceRight.UseVisualStyleBackColor = true;
             this.but_PieceRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceRight_MouseDown);
             // 
@@ -507,6 +507,9 @@
             this.pic_Level.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pic_Level.TabIndex = 36;
             this.pic_Level.TabStop = false;
+            this.pic_Level.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseDown);
+            this.pic_Level.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseMove);
+            this.pic_Level.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
             // 
             // tabLvlProperties
             // 
@@ -1249,6 +1252,7 @@
             this.Text = "NLEditor";
             this.Click += new System.EventHandler(this.NLEditForm_Click);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NLEditForm_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.NLEditForm_KeyUp);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).EndInit();

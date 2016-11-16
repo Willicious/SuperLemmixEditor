@@ -18,6 +18,10 @@ namespace NLEditor
          *    Level(Style MainStyle = null)
          *    
          *    AddPiece(Style NewStyle, bool IsObject, int NewPieceIndex, Point CenterPos)
+         *    
+         *    SelectOnePiece(Point Pos, bool IsAdded, bool IsHighest)
+         *    SelectAreaPiece(Rectangle Rect, bool IsAdded)
+         *    DeleteAllSelections()
          * -------------------------------------------------------- */
 
         public Level(Style MainStyle = null)
@@ -112,6 +116,55 @@ namespace NLEditor
             {
                 TerrainList.Add(new TerrainPiece(NewStyle.FileName, PieceName, PiecePos));
             }
+        }
+
+
+        public void SelectOnePiece(Point Pos, bool IsAdded, bool IsHighest)
+        {
+            LevelPiece SelPiece = GetOnePiece(Pos, IsHighest);
+
+            if (SelPiece != null)
+            {
+                SelPiece.IsSelected = IsAdded;
+            }
+        }
+
+        private LevelPiece GetOnePiece(Point Pos, bool IsHighest)
+        {
+            LevelPiece SelPiece;
+
+            if (IsHighest)
+            {
+                SelPiece = GadgetList.FindLast(obj => obj.ImageRectangle.Contains(Pos));
+                if (SelPiece == null)
+                {
+                    SelPiece = TerrainList.FindLast(ter => ter.ImageRectangle.Contains(Pos));
+                }
+            }
+            else
+            {
+                SelPiece = TerrainList.Find(ter => ter.ImageRectangle.Contains(Pos));
+                if (SelPiece == null)
+                {
+                    SelPiece = GadgetList.Find(obj => obj.ImageRectangle.Contains(Pos));
+                }
+            }
+
+            return SelPiece;
+        }
+
+        public void SelectAreaPiece(Rectangle Rect, bool IsAdded)
+        {
+            TerrainList.FindAll(ter => ter.ImageRectangle.IntersectsWith(Rect))
+                       .ForEach(ter => ter.IsSelected = IsAdded);
+            GadgetList.FindAll(obj => obj.ImageRectangle.IntersectsWith(Rect))
+                      .ForEach(obj => obj.IsSelected = IsAdded);
+        }
+
+        public void DeleteAllSelections()
+        {
+            TerrainList.ForEach(ter => ter.IsSelected = false);
+            GadgetList.ForEach(obj => obj.IsSelected = false);
         }
 
     }
