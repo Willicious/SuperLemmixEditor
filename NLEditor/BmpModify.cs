@@ -27,6 +27,8 @@ namespace NLEditor
          *     - DrawOnMask(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, Bitmap MaskBmp)
          *     - Zoom(this Bitmap OrigBmp, int ZoomFactor)
          *     - Zoom(this Bitmap OrigBmp, int ZoomFactor, Size NewBmpSize)
+         *     - DrawOnRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
+         *     - DrawOnFilledRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
          * -------------------------------------------------------- */
 
         public static Bitmap Crop(this Bitmap OrigBmp, Rectangle CropRect)
@@ -478,6 +480,32 @@ namespace NLEditor
 
             return NewBmp;
         }
+
+
+        public static void DrawOnFilledRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
+        {
+            using (Graphics g = Graphics.FromImage(OrigBmp))
+            {
+                using (Brush b = new SolidBrush(RectColor))
+                {
+                    RectList.ForEach(rect => g.FillRectangle(b, rect));
+                }
+                g.Dispose();
+            }
+        }
+
+        public static void DrawOnRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
+        {
+            using (Graphics g = Graphics.FromImage(OrigBmp))
+            {
+                using (Pen p = new Pen(RectColor))
+                {
+                    RectList.ForEach(rect => g.DrawRectangle(p, rect));
+                }
+                g.Dispose();
+            }
+        }
+
 
 
     }

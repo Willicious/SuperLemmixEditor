@@ -119,23 +119,24 @@ namespace NLEditor
             return new Point(fScreenPos.X + LevelBmpSize.Width / 2, fScreenPos.Y + LevelBmpSize.Height / 2);
         }
 
+        private int ApplyZoom(int LvlCoord)
+        {
+            return (Zoom < 0) ? (LvlCoord / (1 - Zoom)) : (LvlCoord * (Zoom + 1));
+        }
+
+        private int ApplyUnZoom(int ZoomCoord)
+        {
+            return (Zoom < 0) ? (ZoomCoord * (1 - Zoom)) : (ZoomCoord / (Zoom + 1));
+        }
+
         public Point GetLevelPosFromMousePos(Point MousePos)
         {
             int OrigPosX = Math.Min(Math.Max(MousePos.X, 0), fPicBoxSize.Width);
             int OrigPosY = Math.Min(Math.Max(MousePos.Y, 0), fPicBoxSize.Height);
 
-            if (Zoom < 0)
-            {
-                int PosX = ScreenPosX + OrigPosX * (1 - Zoom);
-                int PosY = ScreenPosY + OrigPosY * (1 - Zoom);
-                return new Point(PosX, PosY);
-            }
-            else
-            {
-                int PosX = ScreenPosX + OrigPosX / (1 + Zoom);
-                int PosY = ScreenPosY + OrigPosY / (1 + Zoom);
-                return new Point(PosX, PosY);
-            }
+            int PosX = ScreenPosX + ApplyUnZoom(OrigPosX);
+            int PosY = ScreenPosY + ApplyUnZoom(OrigPosY) ;
+            return new Point(PosX, PosY);
         }
 
 
@@ -173,6 +174,7 @@ namespace NLEditor
 
             foreach (GadgetPiece MyGadget in fMyLevel.GadgetList.FindAll(obj => obj.IsNoOverwrite))
             {
+                Bitmap ThisBmp = MyGadget.Image;
                 fLayerList[C.LAY_OBJBACK].DrawOn(MyGadget.Image, MyGadget.Pos);
             }
         }
@@ -239,14 +241,8 @@ namespace NLEditor
         {
             fLayerList[C.LAY_TRIGGER].Clear();
 
-            using (Graphics g = Graphics.FromImage(fLayerList[C.LAY_TRIGGER]))
-            {
-                using (Brush b = new SolidBrush(Color.Violet))
-                {
-                    fMyLevel.GadgetList.ForEach(obj => g.FillRectangle(b, obj.TriggerRect));
-                }
-                g.Dispose();
-            }
+            List<Rectangle> TriggerRectList = fMyLevel.GadgetList.Select(obj => obj.TriggerRect).ToList();
+            fLayerList[C.LAY_TRIGGER].DrawOnFilledRectangles(TriggerRectList, Color.Violet);
         }
 
         public Bitmap CombineLayers()
@@ -296,20 +292,8 @@ namespace NLEditor
 
         private Size GetLevelBmpSize()
         {
-            int LevelBmpWidth;
-            int LevelBmpHeight;
-
-            if (Zoom < 0)
-            {
-                LevelBmpWidth = fPicBoxSize.Width * (Math.Abs(Zoom) + 1);
-                LevelBmpHeight = fPicBoxSize.Height * (Math.Abs(Zoom) + 1);
-            }
-            else
-            {
-                // we are always rounding up here
-                LevelBmpWidth = (fPicBoxSize.Width + Zoom) / (Zoom + 1); 
-                LevelBmpHeight = (fPicBoxSize.Height + Zoom) / (Zoom + 1);
-            }
+            int LevelBmpWidth = ApplyUnZoom(fPicBoxSize.Width);
+            int LevelBmpHeight = ApplyUnZoom(fPicBoxSize.Height);
 
             // Ensure that the LevelBmpSize is at most the size of the level
             LevelBmpWidth = Math.Min(LevelBmpWidth, fMyLevel.Width);
@@ -320,8 +304,35 @@ namespace NLEditor
 
         private Bitmap AddSelectedRectangles(Bitmap LevelBmp)
         {
-            // TODO ----------------------------------------->>
+            // Get List of all Rectangled to draw
+            List<Rectangle> RectList = fMyLevel.TerrainList.FindAll(ter => ter.IsSelected)
+                                                           .Select(ter => ter.ImageRectangle)
+                                                           .ToList();
+            RectList.Concat(fMyLevel.GadgetList.FindAll(obj => obj.IsSelected)
+                                               .Select(obj => obj.ImageRectangle));
+
+            List<Rectangle> RectOnPicList = RectList.Select(rect => GetPicRectFromLevelRect(rect)).ToList();
+
+            LevelBmp.DrawOnRectangles(RectOnPicList, Color.Gold);
+
             return LevelBmp;
+        }
+
+        private Rectangle GetPicRectFromLevelRect(Rectangle OrigRect)
+        {
+            int PosX = ApplyZoom(OrigRect.X - fScreenPos.X);
+            int PosY = ApplyZoom(OrigRect.Y - fScreenPos.Y);
+
+            int Width = ApplyZoom(OrigRect.Width);
+            int Height = ApplyZoom(OrigRect.Height);
+
+            if (Zoom > 0)
+            {
+                Width += Zoom;
+                Height += Zoom;
+            }
+
+            return new Rectangle(PosX, PosY, Width, Height);
         }
 
         public void ChangeZoom(int Change)
