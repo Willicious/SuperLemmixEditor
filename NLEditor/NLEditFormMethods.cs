@@ -194,7 +194,9 @@ namespace NLEditor
         }
 
         private void AddNewTerrainPiece(int picPieceIndex)
-        { 
+        {
+            fCurLevel.DeleteAllSelections();
+            
             List<string> CurPieceList = fPieceDoDisplayObject ?  fPieceCurStyle.ObjectNames : fPieceCurStyle.TerrainNames;
             int PieceIndex = (picPieceIndex + fPieceStartIndex) % CurPieceList.Count;
 
@@ -280,12 +282,14 @@ namespace NLEditor
             return new Rectangle(Left, Top, Width, Height);        
         }
 
-        /*
-        private Point GetPicLevelPosFromMousePos(Point MousePosOnForm)
+        private void MoveLevelPieces(C.DIR Direction, int Step = 1)
         {
-            return new Point(MousePosOnForm.X - this.pic_Level.Left, MousePosOnForm.Y - this.pic_Level.Top);
+            fCurLevel.MovePieces(Direction, Step);
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
-        */
+
+
+
 
     }
 }

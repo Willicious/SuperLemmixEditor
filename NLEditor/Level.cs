@@ -22,6 +22,7 @@ namespace NLEditor
          *    SelectOnePiece(Point Pos, bool IsAdded, bool IsHighest)
          *    SelectAreaPiece(Rectangle Rect, bool IsAdded)
          *    DeleteAllSelections()
+         *    MovePieces(C.DIR Direcion)
          * -------------------------------------------------------- */
 
         public Level(Style MainStyle = null)
@@ -171,6 +172,14 @@ namespace NLEditor
         {
             TerrainList.ForEach(ter => ter.IsSelected = false);
             GadgetList.ForEach(obj => obj.IsSelected = false);
+        }
+
+        public void MovePieces(C.DIR Direction, int Step = 1)
+        {
+            TerrainList.FindAll(ter => ter.IsSelected)
+                       .ForEach(ter => ter.Move(Direction, Step));
+            GadgetList.FindAll(obj => obj.IsSelected)
+                      .ForEach(obj => obj.Move(Direction, Step));
         }
 
     }

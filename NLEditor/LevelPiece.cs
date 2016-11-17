@@ -24,6 +24,7 @@ namespace NLEditor
 
             this.fRotation = Rotation;
             this.fInvert = IsInvert;
+            this.fIsSelected = true;
 
             System.Diagnostics.Debug.Assert(ImageLibrary.CreatePieceKey(this.fStyle, this.fName, IsObj) == this.fKey, "Style and name of level piece incompatible with key.");
         }
@@ -77,7 +78,7 @@ namespace NLEditor
                 case C.DIR.N: PosY = Math.Max(PosY - Step, -1000); break;
                 case C.DIR.E: PosX = Math.Min(PosX + Step, 3400); break;
                 case C.DIR.S: PosY = Math.Min(PosY + Step, 3400); break;
-                case C.DIR.W: PosX = Math.Max(PosY - Step, -1000); break;
+                case C.DIR.W: PosX = Math.Max(PosX - Step, -1000); break;
             }
         }
 

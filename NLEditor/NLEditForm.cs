@@ -348,6 +348,38 @@ namespace NLEditor
             {
                 ChangeNewPieceStyleSelection(1);
             }
+            else if (e.Control && e.KeyCode == Keys.Left)
+            {
+                MoveLevelPieces(C.DIR.W, 8);
+            }
+            else if (e.Control && e.KeyCode == Keys.Right)
+            {
+                MoveLevelPieces(C.DIR.E, 8);
+            }
+            else if (e.Control && e.KeyCode == Keys.Up)
+            {
+                MoveLevelPieces(C.DIR.N, 8);
+            }
+            else if (e.Control && e.KeyCode == Keys.Down)
+            {
+                MoveLevelPieces(C.DIR.S, 8);
+            }
+            else if (e.KeyCode == Keys.Left)
+            {
+                MoveLevelPieces(C.DIR.W);
+            }
+            else if (e.KeyCode == Keys.Right)
+            {
+                MoveLevelPieces(C.DIR.E);
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                MoveLevelPieces(C.DIR.N);
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                MoveLevelPieces(C.DIR.S);
+            }
             else
             {
                 return; // and don't restart the StopWatch
