@@ -28,20 +28,6 @@ namespace NLEditor
             System.Diagnostics.Debug.Assert(ImageLibrary.CreatePieceKey(this.fStyle, this.fName, IsObj) == this.fKey, "Style and name of level piece incompatible with key.");
         }
 
-        [Obsolete]
-        public LevelPiece(string Style, string Name, bool IsObj, Point Pos, 
-                          int Rotation = 0, bool IsInvert = false)
-        {
-            this.fName = Name;
-            this.fStyle = Style;
-            this.Pos = Pos;
-
-            this.fRotation = Rotation;
-            this.fInvert = IsInvert;
-
-            this.fKey = ImageLibrary.CreatePieceKey(Style, Name, IsObj);
-        }
-
         Point fPos;
         string fStyle;
         string fName;
@@ -135,25 +121,6 @@ namespace NLEditor
             fIsOneWay = IsOneWay;
         }
 
-        [Obsolete]
-        public TerrainPiece(string Style, string Name, Point Pos)
-            : base(Style, Name, false, Pos)
-        {
-            fIsErase = false;
-            fIsNoOverwrite = false;
-            fIsOneWay = true;
-        }
-
-        [Obsolete]
-        public TerrainPiece(string Style, string Name, Point Pos,
-                            int Rotation, bool IsInvert, bool IsErase, bool IsNoOv, bool IsOneWay)
-            : base(Style, Name, false, Pos, Rotation, IsInvert)
-        {
-            fIsErase = IsInvert;
-            fIsNoOverwrite = IsNoOv;
-            fIsOneWay = IsOneWay;
-        }
-
         bool fIsErase;
         bool fIsNoOverwrite;
         bool fIsOneWay;
@@ -174,23 +141,6 @@ namespace NLEditor
 
         public GadgetPiece(string Key, Point Pos, int Rotation, bool IsInvert, bool IsNoOv, bool IsOnlyOnTerr)
             : base(Key, true, Pos, Rotation, IsInvert)
-        {
-            fIsNoOverwrite = IsNoOv;
-            fIsOnlyOnTerrain = IsOnlyOnTerr;
-        }
-
-        [Obsolete]
-        public GadgetPiece(string Style, string Name, Point Pos)
-            : base(Style, Name, true, Pos)
-        {
-            fIsNoOverwrite = !this.ObjType.In(C.OBJ_OWW_LEFT, C.OBJ_OWW_RIGHT, C.OBJ_OWW_DOWN);
-            fIsOnlyOnTerrain = this.ObjType.In(C.OBJ_OWW_LEFT, C.OBJ_OWW_RIGHT, C.OBJ_OWW_DOWN);
-        }
-
-        [Obsolete]
-        public GadgetPiece(string Style, string Name, Point Pos,
-                            int Rotation, bool IsInvert, bool IsNoOv, bool IsOnlyOnTerr)
-            : base(Style, Name, true, Pos, Rotation, IsInvert)
         {
             fIsNoOverwrite = IsNoOv;
             fIsOnlyOnTerrain = IsOnlyOnTerr;
