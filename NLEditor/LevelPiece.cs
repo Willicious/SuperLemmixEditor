@@ -47,7 +47,7 @@ namespace NLEditor
         
         // Metainfo from BaseImageInfo
         public Bitmap Image { get { return ImageLibrary.GetImage(fKey); } }
-        public int ObjType { get { return ImageLibrary.GetObjType(fKey); } }
+        public C.OBJ ObjType { get { return ImageLibrary.GetObjType(fKey); } }
 
         public bool IsSelected { get { return fIsSelected; } set { fIsSelected = value; } }
 
@@ -70,14 +70,14 @@ namespace NLEditor
             return new Rectangle(fPos.X, fPos.Y, ImageWidth, ImageHeight);
         } }
 
-        public void Move(int Direction, int Step = 1)
+        public void Move(C.DIR Direction, int Step = 1)
         {
             switch (Direction)
             {
-                case C.DIR_N: PosY = Math.Max(PosY - Step, -1000); break;
-                case C.DIR_E: PosX = Math.Min(PosX + Step, 3400); break;
-                case C.DIR_S: PosY = Math.Min(PosY + Step, 3400); break;
-                case C.DIR_W: PosX = Math.Max(PosY - Step, -1000); break;
+                case C.DIR.N: PosY = Math.Max(PosY - Step, -1000); break;
+                case C.DIR.E: PosX = Math.Min(PosX + Step, 3400); break;
+                case C.DIR.S: PosY = Math.Min(PosY + Step, 3400); break;
+                case C.DIR.W: PosX = Math.Max(PosY - Step, -1000); break;
             }
         }
 
@@ -135,8 +135,8 @@ namespace NLEditor
         public GadgetPiece(string Key, Point Pos)
             : base(Key, true, Pos)
         {
-            fIsNoOverwrite = !this.ObjType.In(C.OBJ_OWW_LEFT, C.OBJ_OWW_RIGHT, C.OBJ_OWW_DOWN);
-            fIsOnlyOnTerrain = this.ObjType.In(C.OBJ_OWW_LEFT, C.OBJ_OWW_RIGHT, C.OBJ_OWW_DOWN);
+            fIsNoOverwrite = !this.ObjType.In(C.OBJ.OWW_LEFT, C.OBJ.OWW_RIGHT, C.OBJ.OWW_DOWN);
+            fIsOnlyOnTerrain = this.ObjType.In(C.OBJ.OWW_LEFT, C.OBJ.OWW_RIGHT, C.OBJ.OWW_DOWN);
         }
 
         public GadgetPiece(string Key, Point Pos, int Rotation, bool IsInvert, bool IsNoOv, bool IsOnlyOnTerr)

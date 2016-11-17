@@ -101,7 +101,7 @@ namespace NLEditor
         {
             int NumFrames = 1;
             bool IsVert = false;
-            int ObjType = C.OBJ_NONE;
+            C.OBJ ObjType = C.OBJ.NONE;
             Rectangle TriggerRect = new Rectangle(0, 0, 0, 0);
 
             try
@@ -136,91 +136,91 @@ namespace NLEditor
                         }
                         else if (Line.ToUpper().Trim() == "WINDOW")
                         {
-                            ObjType = C.OBJ_HATCH;
+                            ObjType = C.OBJ.HATCH;
                         }
                         else if (Line.ToUpper().Trim() == "EXIT")
                         {
-                            ObjType = C.OBJ_EXIT;
+                            ObjType = C.OBJ.EXIT;
                         }
                         else if (Line.ToUpper().Trim() == "TRAP")
                         {
-                            ObjType = C.OBJ_TRAP;
+                            ObjType = C.OBJ.TRAP;
                         }
                         else if (Line.ToUpper().Trim() == "WATER")
                         {
-                            ObjType = C.OBJ_WATER;
+                            ObjType = C.OBJ.WATER;
                         }
                         else if (Line.ToUpper().Trim() == "FIRE")
                         {
-                            ObjType = C.OBJ_FIRE;
+                            ObjType = C.OBJ.FIRE;
                         }
                         else if (Line.ToUpper().Trim() == "OWR_ARROW")
                         {
-                            ObjType = C.OBJ_OWW_LEFT;
+                            ObjType = C.OBJ.OWW_LEFT;
                         }
                         else if (Line.ToUpper().Trim() == "OWL_ARROW")
                         {
-                            ObjType = C.OBJ_OWW_LEFT;
+                            ObjType = C.OBJ.OWW_LEFT;
                         }
                         else if (Line.ToUpper().Trim() == "OWD_ARROW")
                         {
-                            ObjType = C.OBJ_OWW_DOWN;
+                            ObjType = C.OBJ.OWW_DOWN;
                         }
                         else if (Line.ToUpper().Trim() == "BUTTON")
                         {
-                            ObjType = C.OBJ_BUTTON;
+                            ObjType = C.OBJ.BUTTON;
                         }
                         else if (Line.ToUpper().Trim() == "LOCKED_EXIT")
                         {
-                            ObjType = C.OBJ_EXIT_LOCKED;
+                            ObjType = C.OBJ.EXIT_LOCKED;
                         }
                         else if (Line.ToUpper().Trim() == "PICKUP")
                         {
-                            ObjType = C.OBJ_PICKUP;
+                            ObjType = C.OBJ.PICKUP;
                         }
                         else if (Line.ToUpper().Trim() == "TELEPORTER")
                         {
-                            ObjType = C.OBJ_TELEPORTER;
+                            ObjType = C.OBJ.TELEPORTER;
                         }
                         else if (Line.ToUpper().Trim() == "RECEIVER")
                         {
-                            ObjType = C.OBJ_RECEIVER;
+                            ObjType = C.OBJ.RECEIVER;
                         }
                         else if (Line.ToUpper().Trim() == "SPLITTER")
                         {
-                            ObjType = C.OBJ_SPLITTER;
+                            ObjType = C.OBJ.SPLITTER;
                         }
                         else if (Line.ToUpper().Trim() == "RADIATION")
                         {
-                            ObjType = C.OBJ_RADIATION;
+                            ObjType = C.OBJ.RADIATION;
                         }
                         else if (Line.ToUpper().Trim() == "SLOWFREEZE")
                         {
-                            ObjType = C.OBJ_SLOWFREEZE;
+                            ObjType = C.OBJ.SLOWFREEZE;
                         }
                         else if (Line.ToUpper().Trim() == "UPDRAFT")
                         {
-                            ObjType = C.OBJ_UPDRAFT;
+                            ObjType = C.OBJ.UPDRAFT;
                         }
                         else if (Line.ToUpper().Trim() == "SPLAT")
                         {
-                            ObjType = C.OBJ_SPLAT;
+                            ObjType = C.OBJ.SPLAT;
                         }
                         else if (Line.ToUpper().Trim() == "ANTISPLAT")
                         {
-                            ObjType = C.OBJ_NOSPLAT;
+                            ObjType = C.OBJ.NOSPLAT;
                         }
                         else if (Line.ToUpper().Trim() == "OWR_FIELD")
                         {
-                            ObjType = C.OBJ_FORCE_RIGHT;
+                            ObjType = C.OBJ.FORCE_RIGHT;
                         }
                         else if (Line.ToUpper().Trim() == "OWL_FIELD")
                         {
-                            ObjType = C.OBJ_FORCE_LEFT;
+                            ObjType = C.OBJ.FORCE_LEFT;
                         }
                         else if (Line.ToUpper().Trim() == "BACKGROUND")
                         {
-                            ObjType = C.OBJ_BACKGROUND;
+                            ObjType = C.OBJ.BACKGROUND;
                         }
 
                     }

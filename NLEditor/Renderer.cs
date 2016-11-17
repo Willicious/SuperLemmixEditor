@@ -238,21 +238,21 @@ namespace NLEditor
             fLayerList[C.LAY_OBJTOP].Clear();
 
             List<GadgetPiece> OnlyOnTerrainGadgetList = fMyLevel.GadgetList.FindAll(obj => 
-                    obj.IsOnlyOnTerrain && !obj.ObjType.In(C.OBJ_OWW_LEFT, C.OBJ_OWW_RIGHT, C.OBJ_OWW_DOWN));
+                    obj.IsOnlyOnTerrain && !obj.ObjType.In(C.OBJ.OWW_LEFT, C.OBJ.OWW_RIGHT, C.OBJ.OWW_DOWN));
             foreach (GadgetPiece MyGadget in OnlyOnTerrainGadgetList)
             {
                 fLayerList[C.LAY_OBJTOP].DrawOnMask(MyGadget.Image, MyGadget.Pos, fLayerList[C.LAY_TERRAIN]);
             }
 
             List<GadgetPiece> OWWGadgetList = fMyLevel.GadgetList.FindAll(obj => 
-                    obj.ObjType.In(C.OBJ_OWW_LEFT, C.OBJ_OWW_RIGHT, C.OBJ_OWW_DOWN));
+                    obj.ObjType.In(C.OBJ.OWW_LEFT, C.OBJ.OWW_RIGHT, C.OBJ.OWW_DOWN));
             foreach (GadgetPiece MyGadget in OWWGadgetList)
             {
                 fLayerList[C.LAY_OBJTOP].DrawOnMask(MyGadget.Image, MyGadget.Pos, fLayerList[C.LAY_OWWTERRAIN]);
             }
 
             List<GadgetPiece> UsualGadgetList = fMyLevel.GadgetList.FindAll(obj => 
-                    !obj.IsNoOverwrite && !obj.IsOnlyOnTerrain && !obj.ObjType.In(C.OBJ_OWW_LEFT, C.OBJ_OWW_RIGHT, C.OBJ_OWW_DOWN));
+                    !obj.IsNoOverwrite && !obj.IsOnlyOnTerrain && !obj.ObjType.In(C.OBJ.OWW_LEFT, C.OBJ.OWW_RIGHT, C.OBJ.OWW_DOWN));
             foreach (GadgetPiece MyGadget in UsualGadgetList)
             {
                 fLayerList[C.LAY_OBJTOP].DrawOn(MyGadget.Image, MyGadget.Pos);

@@ -18,15 +18,15 @@ namespace NLEditor
             this.TriggerRect = new Rectangle(0, 0, 0, 0);
             if (IsSteel)
             {
-                this.ObjectType = C.OBJ_SPLAT;
+                this.ObjectType = C.OBJ.SPLAT;
             }
             else 
             {
-                this.ObjectType = C.OBJ_NULL;
+                this.ObjectType = C.OBJ.NULL;
             }
         }
 
-        public BaseImageInfo(Bitmap NewImage, int ObjType, int NumFrames, bool IsVert, Rectangle TriggerRect)
+        public BaseImageInfo(Bitmap NewImage, C.OBJ ObjType, int NumFrames, bool IsVert, Rectangle TriggerRect)
         {
             this.Image = SeparateFrames(NewImage, NumFrames, IsVert);
             this.Width = this.Image.Width;
@@ -38,7 +38,7 @@ namespace NLEditor
         public Bitmap Image;
         public int Width;
         public int Height;
-        public int ObjectType;
+        public C.OBJ ObjectType;
         public Rectangle TriggerRect;
 
 
@@ -120,12 +120,12 @@ namespace NLEditor
             return fImageList[ImageKey].Height;
         }
 
-        public static int GetObjType(string ImageKey)
+        public static C.OBJ GetObjType(string ImageKey)
         {
             if (!fImageList.ContainsKey(ImageKey))
             {
                 bool Success = AddNewImage(ImageKey);
-                if (!Success) return -1;
+                if (!Success) return C.OBJ.NULL;
             }
 
             return fImageList[ImageKey].ObjectType;

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace NLEditor
 {
-    class C // for Constants
+    public class C // for Constants
     {
         static C() { }
 
@@ -33,10 +33,17 @@ namespace NLEditor
             get { return Environment.NewLine; }
         }
 
-        public const int DIR_N = 0;
-        public const int DIR_E = 1;
-        public const int DIR_S = 2;
-        public const int DIR_W = 3;
+        public enum DIR { N, E, S, W }
+
+        public enum OBJ 
+        { 
+            NULL = -1, STEEL = -2, NONE = 0, EXIT = 1, FORCE_LEFT = 2,
+            FORCE_RIGHT = 3, TRAP = 4, WATER = 5, FIRE = 6, OWW_LEFT = 7,
+            OWW_RIGHT = 8, TELEPORTER = 11, RECEIVER = 12, LEMMING = 13, PICKUP = 14,
+            EXIT_LOCKED = 15, BUTTON = 17, RADIATION = 18, OWW_DOWN = 19, UPDRAFT = 20,
+            SPLITTER = 21, SLOWFREEZE = 22, HATCH = 23, ANIMATION = 24, NOSPLAT = 26,
+            SPLAT = 27, BACKGROUND = 30, TRAPONCE = 31
+        }
 
 
         public const int LAY_COUNT = 6;
@@ -46,34 +53,6 @@ namespace NLEditor
         public const int LAY_TRIGGER = 4;
         public const int LAY_OWWTERRAIN = 5;
 
-        public const int OBJ_NULL = -1; // usual terrain piece!
-        public const int OBJ_STEEL = -2; // steel terrain pieces!
-        public const int OBJ_NONE = 0;
-        public const int OBJ_EXIT = 1;
-        public const int OBJ_FORCE_LEFT = 2;
-        public const int OBJ_FORCE_RIGHT = 3;
-        public const int OBJ_TRAP = 4;
-        public const int OBJ_WATER = 5;
-        public const int OBJ_FIRE = 6;
-        public const int OBJ_OWW_LEFT = 7;
-        public const int OBJ_OWW_RIGHT = 8;
-        public const int OBJ_TELEPORTER = 11;
-        public const int OBJ_RECEIVER = 12;
-        public const int OBJ_LEMMING = 13;
-        public const int OBJ_PICKUP = 14;
-        public const int OBJ_EXIT_LOCKED = 15;
-        public const int OBJ_BUTTON = 17;
-        public const int OBJ_RADIATION = 18;
-        public const int OBJ_OWW_DOWN = 19;
-        public const int OBJ_UPDRAFT = 20;
-        public const int OBJ_SPLITTER = 21;
-        public const int OBJ_SLOWFREEZE = 22;
-        public const int OBJ_HATCH = 23;
-        public const int OBJ_ANIMATION = 24;
-        public const int OBJ_NOSPLAT = 26;
-        public const int OBJ_SPLAT = 27;
-        public const int OBJ_BACKGROUND = 30;
-        public const int OBJ_TRAPONCE = 31;
 
         public const int SKI_COUNT = 16;
         public const int SKI_CLIMBER = 0;
