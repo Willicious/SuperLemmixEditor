@@ -103,18 +103,20 @@ namespace NLEditor
         public void AddPiece(Style NewStyle, bool IsObject, int NewPieceIndex, Point CenterPos)
         {
             string PieceKey = IsObject ? NewStyle.ObjectNames[NewPieceIndex] : NewStyle.TerrainNames[NewPieceIndex];
-            string PieceName = System.IO.Path.GetFileName(PieceKey);
+            //string PieceName = System.IO.Path.GetFileName(PieceKey);
 
             Point PiecePos = new Point(CenterPos.X - ImageLibrary.GetWidth(PieceKey) / 2,
                                        CenterPos.Y - ImageLibrary.GetHeight(PieceKey) / 2);
 
             if (IsObject)
             {
-                GadgetList.Add(new GadgetPiece(NewStyle.FileName, PieceName, PiecePos));
+                // GadgetList.Add(new GadgetPiece(NewStyle.FileName, PieceName, PiecePos));
+                GadgetList.Add(new GadgetPiece(PieceKey, PiecePos));
             }
             else
             {
-                TerrainList.Add(new TerrainPiece(NewStyle.FileName, PieceName, PiecePos));
+                // TerrainList.Add(new TerrainPiece(NewStyle.FileName, PieceName, PiecePos));
+                TerrainList.Add(new TerrainPiece(PieceKey, PiecePos));
             }
         }
 

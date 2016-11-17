@@ -13,6 +13,22 @@ namespace NLEditor
          *          This class stores infos about pieces
          * -------------------------------------------------------- */
 
+        public LevelPiece(string Key, bool IsObj, Point Pos,
+                          int Rotation = 0, bool IsInvert = false)
+        {
+            this.fKey = Key;
+           
+            this.fName = System.IO.Path.GetFileName(Key);
+            this.fStyle = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(Key));
+            this.Pos = Pos;
+
+            this.fRotation = Rotation;
+            this.fInvert = IsInvert;
+
+            System.Diagnostics.Debug.Assert(ImageLibrary.CreatePieceKey(this.fStyle, this.fName, IsObj) == this.fKey, "Style and name of level piece incompatible with key.");
+        }
+
+        [Obsolete]
         public LevelPiece(string Style, string Name, bool IsObj, Point Pos, 
                           int Rotation = 0, bool IsInvert = false)
         {
@@ -101,8 +117,25 @@ namespace NLEditor
     {
         /*---------------------------------------------------------
          *      This class stores infos about terrain pieces
-         * -------------------------------------------------------- */    
-    
+         * -------------------------------------------------------- */
+
+        public TerrainPiece(string Key, Point Pos)
+            : base(Key, false, Pos)
+        {
+            fIsErase = false;
+            fIsNoOverwrite = false;
+            fIsOneWay = true;
+        }
+
+        public TerrainPiece(string Key, Point Pos, int Rotation, bool IsInvert, bool IsErase, bool IsNoOv, bool IsOneWay)
+            : base(Key, false, Pos, Rotation, IsInvert)
+        {
+            fIsErase = IsInvert;
+            fIsNoOverwrite = IsNoOv;
+            fIsOneWay = IsOneWay;
+        }
+
+        [Obsolete]
         public TerrainPiece(string Style, string Name, Point Pos)
             : base(Style, Name, false, Pos)
         {
@@ -111,6 +144,7 @@ namespace NLEditor
             fIsOneWay = true;
         }
 
+        [Obsolete]
         public TerrainPiece(string Style, string Name, Point Pos,
                             int Rotation, bool IsInvert, bool IsErase, bool IsNoOv, bool IsOneWay)
             : base(Style, Name, false, Pos, Rotation, IsInvert)
@@ -131,6 +165,21 @@ namespace NLEditor
 
     public class GadgetPiece : LevelPiece
     { 
+        public GadgetPiece(string Key, Point Pos)
+            : base(Key, true, Pos)
+        {
+            fIsNoOverwrite = !this.ObjType.In(C.OBJ_OWW_LEFT, C.OBJ_OWW_RIGHT, C.OBJ_OWW_DOWN);
+            fIsOnlyOnTerrain = this.ObjType.In(C.OBJ_OWW_LEFT, C.OBJ_OWW_RIGHT, C.OBJ_OWW_DOWN);
+        }
+
+        public GadgetPiece(string Key, Point Pos, int Rotation, bool IsInvert, bool IsNoOv, bool IsOnlyOnTerr)
+            : base(Key, true, Pos, Rotation, IsInvert)
+        {
+            fIsNoOverwrite = IsNoOv;
+            fIsOnlyOnTerrain = IsOnlyOnTerr;
+        }
+
+        [Obsolete]
         public GadgetPiece(string Style, string Name, Point Pos)
             : base(Style, Name, true, Pos)
         {
@@ -138,6 +187,7 @@ namespace NLEditor
             fIsOnlyOnTerrain = this.ObjType.In(C.OBJ_OWW_LEFT, C.OBJ_OWW_RIGHT, C.OBJ_OWW_DOWN);
         }
 
+        [Obsolete]
         public GadgetPiece(string Style, string Name, Point Pos,
                             int Rotation, bool IsInvert, bool IsNoOv, bool IsOnlyOnTerr)
             : base(Style, Name, true, Pos, Rotation, IsInvert)
