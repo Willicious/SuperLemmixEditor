@@ -121,7 +121,7 @@ namespace NLEditor
 
         public void SelectOnePiece(Point Pos, bool IsAdded, bool IsHighest)
         {
-            LevelPiece SelPiece = GetOnePiece(Pos, IsHighest);
+            LevelPiece SelPiece = GetOnePiece(Pos, IsAdded, IsHighest);
 
             if (SelPiece != null)
             {
@@ -129,24 +129,28 @@ namespace NLEditor
             }
         }
 
-        private LevelPiece GetOnePiece(Point Pos, bool IsHighest)
+        private LevelPiece GetOnePiece(Point Pos, bool IsAdded, bool IsHighest)
         {
             LevelPiece SelPiece;
 
             if (IsHighest)
             {
-                SelPiece = GadgetList.FindLast(obj => obj.ImageRectangle.Contains(Pos));
+                SelPiece = GadgetList.FindLast(obj => obj.ImageRectangle.Contains(Pos) 
+                                                      && (IsAdded ^ obj.IsSelected));
                 if (SelPiece == null)
                 {
-                    SelPiece = TerrainList.FindLast(ter => ter.ImageRectangle.Contains(Pos));
+                    SelPiece = TerrainList.FindLast(ter => ter.ImageRectangle.Contains(Pos)
+                                                           && (IsAdded ^ ter.IsSelected)); 
                 }
             }
             else
             {
-                SelPiece = TerrainList.Find(ter => ter.ImageRectangle.Contains(Pos));
+                SelPiece = TerrainList.Find(ter => ter.ImageRectangle.Contains(Pos)
+                                                   && (IsAdded ^ ter.IsSelected)); 
                 if (SelPiece == null)
                 {
-                    SelPiece = GadgetList.Find(obj => obj.ImageRectangle.Contains(Pos));
+                    SelPiece = GadgetList.Find(obj => obj.ImageRectangle.Contains(Pos)
+                                                      && (IsAdded ^ obj.IsSelected));
                 }
             }
 

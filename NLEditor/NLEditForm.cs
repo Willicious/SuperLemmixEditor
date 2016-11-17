@@ -295,9 +295,9 @@ namespace NLEditor
         {
             switch (e.KeyCode)
             {
-                case Keys.Shift: fIsShiftPressed = true; break;
-                case Keys.Control: fIsCtrlPressed = true; break;
-                case Keys.Alt: fIsAltPressed = true; break;
+                case Keys.ShiftKey: fIsShiftPressed = true; break;
+                case Keys.ControlKey: fIsCtrlPressed = true; break;
+                case Keys.Menu: fIsAltPressed = true; break;
             }
 
             
@@ -360,9 +360,9 @@ namespace NLEditor
         {
             switch (e.KeyCode)
             {
-                case Keys.Shift: fIsShiftPressed = false; break;
-                case Keys.Control: fIsCtrlPressed = false; break;
-                case Keys.Alt: fIsAltPressed = false; break;
+                case Keys.ShiftKey: fIsShiftPressed = false; break;
+                case Keys.ControlKey: fIsCtrlPressed = false; break;
+                case Keys.Menu: fIsAltPressed = false; break;
             }
         }
 
