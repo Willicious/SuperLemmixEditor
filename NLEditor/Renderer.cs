@@ -330,8 +330,8 @@ namespace NLEditor
             List<Rectangle> RectList = fMyLevel.TerrainList.FindAll(ter => ter.IsSelected)
                                                            .Select(ter => ter.ImageRectangle)
                                                            .ToList();
-            RectList.Concat(fMyLevel.GadgetList.FindAll(obj => obj.IsSelected)
-                                               .Select(obj => obj.ImageRectangle));
+            RectList.AddRange(fMyLevel.GadgetList.FindAll(obj => obj.IsSelected)
+                                                 .Select(obj => obj.ImageRectangle));
 
             List<Rectangle> RectOnPicList = RectList.Select(rect => GetPicRectFromLevelRect(rect)).ToList();
 
