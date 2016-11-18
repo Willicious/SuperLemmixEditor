@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="BmpModify.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="FileParser.cs" />
     <Compile Include="ImageLibrary.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelPiece.cs" />
