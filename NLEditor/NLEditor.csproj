@@ -51,6 +51,7 @@
     <Compile Include="FileParser.cs" />
     <Compile Include="ImageLibrary.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="LevelFile.cs" />
     <Compile Include="LevelPiece.cs" />
     <Compile Include="LoadFromFile.cs" />
     <Compile Include="NLEditForm.cs">

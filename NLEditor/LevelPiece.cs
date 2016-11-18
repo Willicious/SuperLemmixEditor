@@ -140,18 +140,25 @@ namespace NLEditor
             fIsOnlyOnTerrain = this.ObjType.In(C.OBJ.OWW_LEFT, C.OBJ.OWW_RIGHT, C.OBJ.OWW_DOWN);
         }
 
-        public GadgetPiece(string Key, Point Pos, int Rotation, bool IsInvert, bool IsNoOv, bool IsOnlyOnTerr)
+        public GadgetPiece(string Key, Point Pos, int Rotation, bool IsInvert, bool IsNoOv, 
+                           bool IsOnlyOnTerr, int valL, int valS)
             : base(Key, true, Pos, Rotation, IsInvert)
         {
             fIsNoOverwrite = IsNoOv;
             fIsOnlyOnTerrain = IsOnlyOnTerr;
+            fVal_L = valL;
+            fVal_S = valS;
         }
 
         bool fIsNoOverwrite;
         bool fIsOnlyOnTerrain;
+        int fVal_L;
+        int fVal_S;
 
         public bool IsNoOverwrite { get { return fIsNoOverwrite; } set { fIsNoOverwrite = value; } }
         public bool IsOnlyOnTerrain { get { return fIsOnlyOnTerrain; } set { fIsOnlyOnTerrain = value; } }
+        public int Val_L { get { return fVal_L; } set { fVal_L = value; } }
+        public int Val_S { get { return fVal_S; } set { fVal_S = value; } }
 
         public Rectangle TriggerRect { get 
         {

@@ -33,8 +33,10 @@ namespace NLEditor
             {
                 MyParser = new FileParser(FilePath);
             }
-            catch
+            catch (Exception Ex)
             {
+                Utility.LogException(Ex);
+                MessageBox.Show(Ex.Message);
                 return ColorList;
             }
 
