@@ -76,11 +76,18 @@ namespace NLEditor
         Point fScreenPos;
         int fZoom;
         Size fPicBoxSize;
+        Rectangle PicBoxRect { get { return new Rectangle(0, 0, fPicBoxSize.Width, fPicBoxSize.Height); } }
+
+        Point? fMouseStartPos;
+        Point? fMouseCurPos;
 
         public Point ScreenPos { get { return fScreenPos; } }
         public int ScreenPosX { get { return fScreenPos.X; } }
         public int ScreenPosY { get { return fScreenPos.Y; } }
         public int Zoom { get { return fZoom; } }
+
+        public Point? MouseStartPos { get { return fMouseStartPos; } set { fMouseStartPos = value; } }
+        public Point? MouseCurPos { get { return fMouseCurPos; } set { fMouseCurPos = value; } }
 
         public void ChangeIsClearPhsyics() 
         {
@@ -129,21 +136,37 @@ namespace NLEditor
             return (Zoom < 0) ? (ZoomCoord * (1 - Zoom)) : (ZoomCoord / (Zoom + 1));
         }
 
-        public Point? GetLevelPosFromMousePos(Point MousePos)
+        private int BorderWidth()
         {
-            if (!IsInImageArea(MousePos)) return null;
+            return Math.Max(0, (fPicBoxSize.Width - ApplyZoom(fMyLevel.Width)) / 2);
+        }
 
-            int OrigPosX = MousePos.X;
-            int OrigPosY = MousePos.Y;
+        private int BorderHeight()
+        {
+            return Math.Max(0, (fPicBoxSize.Height - ApplyZoom(fMyLevel.Height)) / 2);
+        }
+
+
+        public Point? GetMousePosInLevel(bool IsCurrent = true)
+        {
+            Point? MousePos = IsCurrent ? fMouseCurPos : fMouseStartPos;
+
+            if (MousePos == null) return null;
+            if (!PicBoxRect.Contains((Point)MousePos)) return null;
+
+            int OrigPosX = ((Point)MousePos).X;
+            int OrigPosY = ((Point)MousePos).Y;
 
             // Adapt to images that do not fill the whole pic_Level
-            if (ApplyZoom(fMyLevel.Width) < fPicBoxSize.Width)
+            if (BorderWidth() > 0)
             {
-                OrigPosX -= (fPicBoxSize.Width - ApplyZoom(fMyLevel.Width)) / 2;
+                OrigPosX = Math.Min(Math.Max(OrigPosX, BorderWidth()), fPicBoxSize.Width - BorderWidth());
+                OrigPosX -= BorderWidth();
             }
-            if (ApplyZoom(fMyLevel.Height) < fPicBoxSize.Height)
+            if (BorderHeight() > 0)
             {
-                OrigPosY -= (fPicBoxSize.Height - ApplyZoom(fMyLevel.Height)) / 2;
+                OrigPosY = Math.Min(Math.Max(OrigPosY, BorderHeight()), fPicBoxSize.Height - BorderHeight());
+                OrigPosY -= BorderHeight();
             }
             
             int PosX = ScreenPosX + ApplyUnZoom(OrigPosX);
@@ -151,17 +174,15 @@ namespace NLEditor
             return new Point(PosX, PosY);
         }
 
-        private bool IsInImageArea(Point Pos)
+        public Rectangle? GetCurSelectionInLevel()
         {
-            bool IsHoriz = (Pos.X >= 0) && (Pos.X < fPicBoxSize.Width)
-                            && (Pos.X >= (fPicBoxSize.Width - ApplyZoom(fMyLevel.Width)) / 2)
-                            && (Pos.X < (fPicBoxSize.Width + ApplyZoom(fMyLevel.Width)) / 2);
-            bool IsVert = (Pos.Y >= 0) && (Pos.Y < fPicBoxSize.Height)
-                            && (Pos.Y >= (fPicBoxSize.Height - ApplyZoom(fMyLevel.Height)) / 2)
-                            && (Pos.Y < (fPicBoxSize.Height + ApplyZoom(fMyLevel.Height)) / 2);
-            return IsHoriz && IsVert;
-        }
+            Point? LevelPos1 = GetMousePosInLevel(false);
+            Point? LevelPos2 = GetMousePosInLevel(true);
 
+            if (LevelPos1 == null || LevelPos2 == null) return null;
+
+            return Utility.RectangleFrom((Point)LevelPos1, (Point)LevelPos2);
+        }
 
 
         public Bitmap CreateLevelImage()
@@ -308,6 +329,7 @@ namespace NLEditor
 
             // Add rectangles around selected pieces
             LevelBmp = AddSelectedRectangles(LevelBmp);
+            LevelBmp = AddMouseSelectionArea(LevelBmp);
 
             return LevelBmp;
         }
@@ -337,6 +359,21 @@ namespace NLEditor
 
             LevelBmp.DrawOnRectangles(RectOnPicList, Color.Gold);
 
+            return LevelBmp;
+        }
+
+        private Bitmap AddMouseSelectionArea(Bitmap LevelBmp)
+        {
+            if (MouseStartPos == null || MouseCurPos == null) return LevelBmp;
+
+            Rectangle MouseRect = Utility.RectangleFrom((Point)MouseStartPos, (Point)MouseCurPos);
+            
+            // Adapt to borders
+            MouseRect.X -= BorderWidth();
+            MouseRect.Y -= BorderHeight();
+
+            LevelBmp.DrawOnDottedRectangle((Rectangle)MouseRect);
+            
             return LevelBmp;
         }
 
@@ -388,8 +425,8 @@ namespace NLEditor
         {
             int LevelLength = IsVert ? fMyLevel.Height : fMyLevel.Width;
             int PicBoxLength = IsVert ? fPicBoxSize.Height : fPicBoxSize.Width;
-            int ZoomedPicBoxLength = (Zoom < 0) ? (PicBoxLength * (1 - Zoom)) : (PicBoxLength / (Zoom + 1));
-            int MaxCoord = LevelLength - ZoomedPicBoxLength;
+            int PicBoxLengthUnzoomed = ApplyUnZoom(PicBoxLength);
+            int MaxCoord = LevelLength - PicBoxLengthUnzoomed;
 
             // do not interchange Max and Min because of possibly negative MaxCoord
             if (IsVert)

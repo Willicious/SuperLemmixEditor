@@ -235,17 +235,11 @@ namespace NLEditor
         /// <summary>
         /// Changes the selection of existing pieces by adding or removing one piece.
         /// </summary>
-        /// <param name="e"></param>
-        private void LevelSelectSinglePiece(MouseEventArgs e)
+        private void LevelSelectSinglePiece()
         {
             // Check whether MousePos is actually in pic_Level
-            if (!this.pic_Level.DisplayRectangle.Contains(e.Location)) return;
-            
-            // Add or remove a single piece to selection
-            Point MousePos = new Point(e.Location.X, e.Location.Y);
-            Point? LevelPos = this.fCurRenderer.GetLevelPosFromMousePos(MousePos);
+            Point? LevelPos = fCurRenderer.GetMousePosInLevel();
             if (LevelPos == null) return;
-
 
             if (fMouseButtonPressed == MouseButtons.Left)
             {
@@ -268,13 +262,10 @@ namespace NLEditor
         /// <summary>
         /// Changes the selection of existing pieces by adding or removing all pieces in a certain area.
         /// </summary>
-        /// <param name="e"></param>
-        private void LevelSelectAreaPieces(MouseEventArgs e)
+        private void LevelSelectAreaPieces()
         {
-            if (fMouseStartPos == null) return;
-            
             // Get rectangle from user input
-            Rectangle? SelectArea = GetSelectedArea((Point)fMouseStartPos, e.Location);
+            Rectangle? SelectArea = fCurRenderer.GetCurSelectionInLevel();
             if (SelectArea == null) return;
 
             if (fMouseButtonPressed == MouseButtons.Left)
@@ -293,32 +284,6 @@ namespace NLEditor
                 // Remove all pieces intersection SelectArea
                 fCurLevel.SelectAreaPiece((Rectangle)SelectArea, false);
             }
-        }
-
-        /// <summary>
-        /// Returns the rectangle with vertices StartPos and EndPos in level coordinates.
-        /// <para> Returns null, if either point is not on pic_Level. </para>
-        /// <para> BUG: Returns null, even if the points are outside the level area. </para>
-        /// </summary>
-        /// <param name="StartPos"></param>
-        /// <param name="EndPos"></param>
-        /// <returns></returns>
-        private Rectangle? GetSelectedArea(Point StartPos, Point EndPos)
-        {
-            Point? EvtlLevelStartPos = this.fCurRenderer.GetLevelPosFromMousePos(StartPos);
-            Point? EvtlLevelEndPos = this.fCurRenderer.GetLevelPosFromMousePos(EndPos);
-
-            if (EvtlLevelStartPos == null || EvtlLevelEndPos == null) return null;
-
-            Point LevelStartPos = (Point)EvtlLevelStartPos;
-            Point LevelEndPos = (Point)EvtlLevelEndPos;
-
-            int Left = Math.Min(LevelStartPos.X, LevelEndPos.X);
-            int Top = Math.Min(LevelStartPos.Y, LevelEndPos.Y);
-            int Width = Math.Abs(LevelStartPos.X - LevelEndPos.X);
-            int Height = Math.Abs(LevelStartPos.Y - LevelEndPos.Y);
-
-            return new Rectangle(Left, Top, Width, Height);        
         }
 
         /// <summary>

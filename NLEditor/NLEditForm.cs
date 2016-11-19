@@ -66,7 +66,6 @@ namespace NLEditor
             fTimerMouse.Tick += new EventHandler(delegate(Object obj, EventArgs e) { TimerMouse_Tick(); });
             */
             fMouseButtonPressed = null;
-            fMouseStartPos = null;
         }
 
         List<PictureBox> fpicPieceList;
@@ -83,7 +82,8 @@ namespace NLEditor
         Stopwatch fStopWatchMouse;
         //Timer fTimerMouse;
         MouseButtons? fMouseButtonPressed;
-        Point? fMouseStartPos;
+        //Point? fMouseStartPos;
+        //Point? fMouseCurPos;
 
         bool fIsShiftPressed;
         bool fIsCtrlPressed;
@@ -425,32 +425,43 @@ namespace NLEditor
         private void pic_Level_MouseDown(object sender, MouseEventArgs e)
         {
             fMouseButtonPressed = e.Button;
-            fMouseStartPos = e.Location;
+            fCurRenderer.MouseStartPos = e.Location;
+            fCurRenderer.MouseCurPos = e.Location;
             fStopWatchMouse.Restart();
             //fTimerMouse.Enabled = true;
         }
 
         private void pic_Level_MouseMove(object sender, MouseEventArgs e)
         {
-
-
-            // TODO
-
+            if (fCurRenderer.MouseStartPos != null)
+            {
+                // Update selection area
+                fCurRenderer.MouseCurPos = e.Location;
+                this.pic_Level.Image = fCurRenderer.CombineLayers();
+            }
         }
 
         private void pic_Level_MouseUp(object sender, MouseEventArgs e)
         {
+            fCurRenderer.MouseCurPos = e.Location;
+            
             if (fStopWatchMouse.ElapsedMilliseconds < 200) // usual click takes <100ms
             {
-                LevelSelectSinglePiece(e);
+                LevelSelectSinglePiece();
             }
             else
             {
-                LevelSelectAreaPieces(e);
+                LevelSelectAreaPieces();
             }
+
+            // Delete mouse selection area...
+            fCurRenderer.MouseStartPos = null;
+            fCurRenderer.MouseCurPos = null;
+            // before updating the level image
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
 
             fMouseButtonPressed = null;
+
             //fTimerMouse.Enabled = false;
         }
 

@@ -29,6 +29,7 @@ namespace NLEditor
          *     - Zoom(this Bitmap OrigBmp, int ZoomFactor, Size NewBmpSize)
          *     - DrawOnRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
          *     - DrawOnFilledRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
+         *     - DrawOnDottedRectangles(this Bitmap OrigBmp, Rectangle Rect)
          * -------------------------------------------------------- */
 
         public static Bitmap Crop(this Bitmap OrigBmp, Rectangle CropRect)
@@ -506,7 +507,90 @@ namespace NLEditor
             }
         }
 
+        public static void DrawOnDottedRectangle(this Bitmap OrigBmp, Rectangle Rect)
+        {
+            //----------------------------------------------------
+            //   This method draws a dotted Rectangle on OrigBmp
+            //----------------------------------------------------   
 
+            // Get rectangle giving the area that is drawn onto
+            Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
+
+            // Shrink rectangle to Bitmap size
+            Rect.Intersect(OrigBmpRect);
+
+            unsafe
+            {
+                // Get BitmapData for OrigBitmap
+                BitmapData OrigBmpData = OrigBmp.LockBits(OrigBmpRect, ImageLockMode.WriteOnly, OrigBmp.PixelFormat);
+                // Get pointer to pixel-array
+                byte* PtrOrigFirstPixel = (byte*)OrigBmpData.Scan0;
+                // Check number of bytes per pixel
+                const int BytesPerPixel = 4;
+                Debug.Assert(Bitmap.GetPixelFormatSize(OrigBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
+       
+                byte* OrigLine;
+
+                // Top and bottom
+                for (int i = 0; i < 2; i++)
+                {
+                    int PosY = (i == 0) ? Rect.Top : Rect.Bottom - 1;
+                    
+                    OrigLine = PtrOrigFirstPixel + PosY * OrigBmpData.Stride;
+
+                    for (int x = Rect.Left; x < Rect.Right; x++)
+                    {
+                        if ((PosY + x) % 6 < 3)
+                        {
+                            // dark gray
+                            OrigLine[BytesPerPixel * x] = 30;
+                            OrigLine[BytesPerPixel * x + 1] = 30;
+                            OrigLine[BytesPerPixel * x + 2] = 30;
+                            OrigLine[BytesPerPixel * x + 3] = 255;
+                        }
+                        else
+                        {
+                            // off-white
+                            OrigLine[BytesPerPixel * x] = 240;
+                            OrigLine[BytesPerPixel * x + 1] = 240;
+                            OrigLine[BytesPerPixel * x + 2] = 240;
+                            OrigLine[BytesPerPixel * x + 3] = 255;
+                        }
+                    }
+                }
+
+                // Right and left side
+                for (int y = Rect.Top; y < Rect.Bottom; y++)
+                {
+                    OrigLine = PtrOrigFirstPixel + y * OrigBmpData.Stride;
+
+                    for (int i = 0; i < 2; i++)
+                    {
+                        int PosX = (i == 0) ? Rect.Left : Rect.Right - 1;
+                        
+                        if ((y + PosX) % 6 < 3)
+                        {
+                            // dark gray
+                            OrigLine[BytesPerPixel * PosX] = 30;
+                            OrigLine[BytesPerPixel * PosX + 1] = 30;
+                            OrigLine[BytesPerPixel * PosX + 2] = 30;
+                            OrigLine[BytesPerPixel * PosX + 3] = 255;
+                        }
+                        else
+                        {
+                            // off-white
+                            OrigLine[BytesPerPixel * PosX] = 240;
+                            OrigLine[BytesPerPixel * PosX + 1] = 240;
+                            OrigLine[BytesPerPixel * PosX + 2] = 240;
+                            OrigLine[BytesPerPixel * PosX + 3] = 255;
+                        }
+                    }
+                }
+
+                // Unlock all pixel data
+                OrigBmp.UnlockBits(OrigBmpData);
+            }
+        }
 
     }
 }

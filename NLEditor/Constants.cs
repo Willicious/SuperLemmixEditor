@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace NLEditor
 {
@@ -79,6 +80,16 @@ namespace NLEditor
         public static bool In<T>(this T obj, params T[] args)
         {
             return args.Contains(obj);
+        }
+
+        public static Rectangle RectangleFrom(Point Pos1, Point Pos2)
+        {
+            int Left = Math.Min(Pos1.X, Pos2.X);
+            int Top = Math.Min(Pos1.Y, Pos2.Y);
+            int Width = Math.Abs(Pos1.X - Pos2.X);
+            int Height = Math.Abs(Pos1.Y - Pos2.Y);
+
+            return new Rectangle(Left, Top, Width, Height);  
         }
 
         public static void LogException(Exception Ex)
