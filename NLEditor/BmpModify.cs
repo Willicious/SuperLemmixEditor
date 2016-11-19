@@ -32,29 +32,35 @@ namespace NLEditor
          *     - DrawOnDottedRectangles(this Bitmap OrigBmp, Rectangle Rect)
          * -------------------------------------------------------- */
 
+        /// <summary>
+        /// Crops the bitmap along a rectangle.
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="CropRect"></param>
+        /// <returns></returns>
         public static Bitmap Crop(this Bitmap OrigBmp, Rectangle CropRect)
         {
-            //------------------------------------------------
-            // This method crops OrigBmp along the CropRect
-            //------------------------------------------------
             CropRect.Intersect(new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height));
 
             return OrigBmp.Clone(CropRect, OrigBmp.PixelFormat);
         }
 
+        /// <summary>
+        /// Sets all pixels to transparent black.
+        /// </summary>
+        /// <param name="OrigBmp"></param>
         public static void Clear(this Bitmap OrigBmp)
         {
-            //------------------------------------------------
-            //   This sets all pixels to transparent black
-            //------------------------------------------------
             OrigBmp.Clear(ColorTranslator.FromHtml("#00000000"));
         }
 
+        /// <summary>
+        /// Fills the bitmap with a uniform color.
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="ClearColor"></param>
         public static void Clear(this Bitmap OrigBmp, Color ClearColor)
         {
-            //------------------------------------------------
-            //   This sets all pixels to ClearColor
-            //------------------------------------------------
             unsafe
             {
                 // Get BitmapData for OrigBitmap
@@ -86,13 +92,14 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Copies pixels from a new bitmap to the base bitmap. 
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="NewBmp"></param>
+        /// <param name="Pos"></param>
         public static void DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
         {
-            //------------------------------------------------
-            //   This method draws NewBmp on OrigBmp
-            //   The top left corner of NewBmp is given by Pos
-            //------------------------------------------------       
-
             if (NewBmp == null) return;
 
             // Get rectangle giving the area that is drawn onto
@@ -144,13 +151,14 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Erases all pixels from the base bitmap, where the new bitmap is non-transparent 
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="NewBmp"></param>
+        /// <param name="Pos"></param>
         public static void DrawOnErase(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
         {
-            //--------------------------------------------------
-            //   This method erases NewBmp from OrigBmp
-            //   The top left corner of NewBmp is given by Pos
-            //--------------------------------------------------       
-
             if (NewBmp == null) return;
 
             // Get rectangle giving the area that is drawn onto
@@ -202,14 +210,14 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Copies pixels from a new bitmap at all pixels where the base bitmap is transparent. 
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="NewBmp"></param>
+        /// <param name="Pos"></param>
         public static void DrawOnNoOw(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
         {
-            //--------------------------------------------------
-            //   This method draws NewBmp on OrigBmp, 
-            //   but does not overwrite any pixels.
-            //   The top left corner of NewBmp is given by Pos
-            //--------------------------------------------------       
-
             if (NewBmp == null) return;
 
             // Get rectangle giving the area that is drawn onto
@@ -261,15 +269,16 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Copies pixels from a new bitmap at all pixels where the base bitmap is transparent.
+        /// <para> These pixels are copied onto the AddBmp as well. </para>
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="NewBmp"></param>
+        /// <param name="Pos"></param>
+        /// <param name="AddBmp"></param>
         public static void DrawOnNoOw(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, Bitmap AddBmp)
         {
-            //--------------------------------------------------
-            //   This method draws NewBmp on OrigBmp, 
-            //   but does not overwrite any pixels.
-            //   It adds the same pixels to AddBmp.
-            //   The top left corner of NewBmp is given by Pos
-            //--------------------------------------------------       
-
             if (NewBmp == null || AddBmp == null) return;
 
             // Get rectangle giving the area that is drawn onto
@@ -336,14 +345,15 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Copies pixels from a new bitmap at all pixels where the mask bitmap is non-transparent. 
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="NewBmp"></param>
+        /// <param name="Pos"></param>
+        /// <param name="MaskBmp"></param>
         public static void DrawOnMask(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, Bitmap MaskBmp)
         {
-            //----------------------------------------------------
-            //   This method draws NewBmp on OrigBmp, 
-            //   only on non-transparent pixels in MaskBmp.
-            //   The top left corner of NewBmp is given by Pos
-            //----------------------------------------------------       
-
             if (NewBmp == null || MaskBmp == null) return;
 
             // Get rectangle giving the area that is drawn onto
@@ -406,7 +416,12 @@ namespace NLEditor
             }
         }
 
-
+        /// <summary>
+        /// Zooms a bitmap.
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="ZoomFactor"></param>
+        /// <returns></returns>
         public static Bitmap Zoom(this Bitmap OrigBmp, int ZoomFactor)
         {
             int NewWidth = (ZoomFactor < 0) ? OrigBmp.Width / (Math.Abs(ZoomFactor) + 1) : OrigBmp.Width * (ZoomFactor + 1);
@@ -416,10 +431,15 @@ namespace NLEditor
         }
 
 
+        /// <summary>
+        /// Zooms a bitmap and crops it to a smaller size.
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="ZoomFactor"></param>
+        /// <param name="NewBmpSize"></param>
+        /// <returns></returns>
         public static Bitmap Zoom(this Bitmap OrigBmp, int ZoomFactor, Size NewBmpSize)
         {
-            //if (ZoomFactor == 0 && OrigBmp.Size == NewBmpSize) return OrigBmp;
-            
             Bitmap NewBmp = new Bitmap(NewBmpSize.Width, NewBmpSize.Height);
 
             unsafe
@@ -492,7 +512,12 @@ namespace NLEditor
             return NewBmp;
         }
 
-
+        /// <summary>
+        /// Draws a list of filled rectangles on a bitmap.
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="RectList"></param>
+        /// <param name="RectColor"></param>
         public static void DrawOnFilledRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
         {
             if (RectList == null) return;
@@ -507,6 +532,12 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Draws a list of rectangles on a bitmap.
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="RectList"></param>
+        /// <param name="RectColor"></param>
         public static void DrawOnRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
         {
             if (RectList == null) return;
@@ -521,13 +552,13 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Draws a dotted rectangle on a bitmap.
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="Rect"></param>
         public static void DrawOnDottedRectangle(this Bitmap OrigBmp, Rectangle Rect)
         {
-            //----------------------------------------------------
-            //   This method draws a dotted Rectangle on OrigBmp
-            //----------------------------------------------------   
-
-            // Get rectangle giving the area that is drawn onto
             Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
 
             // Shrink rectangle to Bitmap size
