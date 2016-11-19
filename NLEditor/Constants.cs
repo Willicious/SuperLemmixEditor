@@ -100,5 +100,13 @@ namespace NLEditor
             TextFile.Close();
         }
 
+        public static void LogProfiling(long Time)
+        {
+            String LogPath = C.AppPath + "ProfilingLog.txt";
+            TextWriter TextFile = new StreamWriter(LogPath, true);
+            TextFile.WriteLine(Time.ToString());
+            TextFile.Close();
+        }
+
     }
 }

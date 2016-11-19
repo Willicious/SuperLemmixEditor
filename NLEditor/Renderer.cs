@@ -40,6 +40,8 @@ namespace NLEditor
          *    ScreenPosX
          *    ScreenPosY
          *    Zoom
+         *    MouseStartPos
+         *    MouseCurPos
          * -------------------------------------------------------- */
 
         public Renderer(Level MyLevel, PictureBox pic_Level)
@@ -362,6 +364,23 @@ namespace NLEditor
             return LevelBmp;
         }
 
+        private Rectangle GetPicRectFromLevelRect(Rectangle OrigRect)
+        {
+            int PosX = ApplyZoom(OrigRect.X - fScreenPos.X);
+            int PosY = ApplyZoom(OrigRect.Y - fScreenPos.Y);
+
+            int Width = ApplyZoom(OrigRect.Width - 1);
+            int Height = ApplyZoom(OrigRect.Height - 1);
+
+            if (Zoom > 0)
+            {
+                Width += Zoom;
+                Height += Zoom;
+            }
+
+            return new Rectangle(PosX, PosY, Width, Height);
+        }
+
         private Bitmap AddMouseSelectionArea(Bitmap LevelBmp)
         {
             if (MouseStartPos == null || MouseCurPos == null) return LevelBmp;
@@ -377,22 +396,6 @@ namespace NLEditor
             return LevelBmp;
         }
 
-        private Rectangle GetPicRectFromLevelRect(Rectangle OrigRect)
-        {
-            int PosX = ApplyZoom(OrigRect.X - fScreenPos.X);
-            int PosY = ApplyZoom(OrigRect.Y - fScreenPos.Y);
-
-            int Width = ApplyZoom(OrigRect.Width);
-            int Height = ApplyZoom(OrigRect.Height);
-
-            if (Zoom > 0)
-            {
-                Width += Zoom;
-                Height += Zoom;
-            }
-
-            return new Rectangle(PosX, PosY, Width, Height);
-        }
 
         public void ChangeZoom(int Change)
         {

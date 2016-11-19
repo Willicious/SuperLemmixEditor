@@ -59,13 +59,17 @@ namespace NLEditor
             fStopWatchKey.Start();
             fStopWatchMouse = new Stopwatch();
             fStopWatchMouse.Start();
+            
             /*
             fTimerMouse = new Timer();
             fTimerMouse.Enabled = false;
             fTimerMouse.Interval = 30;
             fTimerMouse.Tick += new EventHandler(delegate(Object obj, EventArgs e) { TimerMouse_Tick(); });
             */
+
             fMouseButtonPressed = null;
+
+            fStopWatchProfiling = new Stopwatch();
         }
 
         List<PictureBox> fpicPieceList;
@@ -82,8 +86,9 @@ namespace NLEditor
         Stopwatch fStopWatchMouse;
         //Timer fTimerMouse;
         MouseButtons? fMouseButtonPressed;
-        //Point? fMouseStartPos;
-        //Point? fMouseCurPos;
+
+
+        Stopwatch fStopWatchProfiling;
 
         bool fIsShiftPressed;
         bool fIsCtrlPressed;
@@ -428,7 +433,6 @@ namespace NLEditor
             fCurRenderer.MouseStartPos = e.Location;
             fCurRenderer.MouseCurPos = e.Location;
             fStopWatchMouse.Restart();
-            //fTimerMouse.Enabled = true;
         }
 
         private void pic_Level_MouseMove(object sender, MouseEventArgs e)
@@ -444,7 +448,7 @@ namespace NLEditor
         private void pic_Level_MouseUp(object sender, MouseEventArgs e)
         {
             fCurRenderer.MouseCurPos = e.Location;
-            
+
             if (fStopWatchMouse.ElapsedMilliseconds < 200) // usual click takes <100ms
             {
                 LevelSelectSinglePiece();
@@ -461,9 +465,9 @@ namespace NLEditor
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
 
             fMouseButtonPressed = null;
-
-            //fTimerMouse.Enabled = false;
         }
+
+
 
 
 
