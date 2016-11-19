@@ -92,7 +92,11 @@ namespace NLEditor
             if (!fImageList.ContainsKey(ImageKey))
             {
                 bool Success = AddNewImage(ImageKey);
-                if (!Success) return null;
+                if (!Success)
+                {
+                    System.Windows.Forms.MessageBox.Show("Cannot find image " + ImageKey + ".");
+                    return null;
+                }
             }
 
             return fImageList[ImageKey].Image;

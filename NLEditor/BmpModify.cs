@@ -93,6 +93,8 @@ namespace NLEditor
             //   The top left corner of NewBmp is given by Pos
             //------------------------------------------------       
 
+            if (NewBmp == null) return;
+
             // Get rectangle giving the area that is drawn onto
             Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
             Rectangle NewBmpRect = new Rectangle(Pos, NewBmp.Size);
@@ -148,6 +150,8 @@ namespace NLEditor
             //   This method erases NewBmp from OrigBmp
             //   The top left corner of NewBmp is given by Pos
             //--------------------------------------------------       
+
+            if (NewBmp == null) return;
 
             // Get rectangle giving the area that is drawn onto
             Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
@@ -206,6 +210,8 @@ namespace NLEditor
             //   The top left corner of NewBmp is given by Pos
             //--------------------------------------------------       
 
+            if (NewBmp == null) return;
+
             // Get rectangle giving the area that is drawn onto
             Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
             Rectangle NewBmpRect = new Rectangle(Pos, NewBmp.Size);
@@ -263,6 +269,8 @@ namespace NLEditor
             //   It adds the same pixels to AddBmp.
             //   The top left corner of NewBmp is given by Pos
             //--------------------------------------------------       
+
+            if (NewBmp == null || AddBmp == null) return;
 
             // Get rectangle giving the area that is drawn onto
             Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
@@ -335,6 +343,8 @@ namespace NLEditor
             //   only on non-transparent pixels in MaskBmp.
             //   The top left corner of NewBmp is given by Pos
             //----------------------------------------------------       
+
+            if (NewBmp == null || MaskBmp == null) return;
 
             // Get rectangle giving the area that is drawn onto
             Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
@@ -485,6 +495,8 @@ namespace NLEditor
 
         public static void DrawOnFilledRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
         {
+            if (RectList == null) return;
+            
             using (Graphics g = Graphics.FromImage(OrigBmp))
             {
                 using (Brush b = new SolidBrush(RectColor))
@@ -497,6 +509,8 @@ namespace NLEditor
 
         public static void DrawOnRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
         {
+            if (RectList == null) return;
+            
             using (Graphics g = Graphics.FromImage(OrigBmp))
             {
                 using (Pen p = new Pen(RectColor))

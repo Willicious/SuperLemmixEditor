@@ -47,9 +47,12 @@ namespace NLEditor
         {
             string DirectoryPath = C.AppPathPieces + FileName + C.DirSep + "terrain";
 
-            fTerrainNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                     .Select(file => ImageLibrary.CreatePieceKey(file))
-                                     .ToList();
+            if (Directory.Exists(DirectoryPath))
+            {
+                fTerrainNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                                         .Select(file => ImageLibrary.CreatePieceKey(file))
+                                         .ToList();
+            }
         }
 
         private void SearchDirectoryForObjects()
@@ -57,10 +60,16 @@ namespace NLEditor
             // Load first the style-specific objects
             string DirectoryPath = C.AppPathPieces + FileName + C.DirSep + "objects";
 
-            fObjectNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                    .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
-                                    .ToList();
-            
+            if (Directory.Exists(DirectoryPath))
+            {
+                fObjectNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                                        .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
+                                        .ToList();
+            }
+            else
+            {
+                fObjectNames = new List<string>();
+            }
 
             // Load now the default objects into the list
             DirectoryPath = C.AppPathPieces + "default" + C.DirSep + "objects";
