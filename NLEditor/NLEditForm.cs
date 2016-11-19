@@ -122,8 +122,12 @@ namespace NLEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Create new level
             CreateNewLevel();
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadNewLevel();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -325,6 +329,10 @@ namespace NLEditor
             {
                 CreateNewLevel();
             }
+            else if (e.Control && e.KeyCode == Keys.O)
+            {
+                LoadNewLevel();
+            }
             else if (e.KeyCode == Keys.F1)
             {
                 clearPhysicsToolStripMenuItem_Click(null, null);
@@ -466,6 +474,8 @@ namespace NLEditor
 
             fMouseButtonPressed = null;
         }
+
+
 
 
 

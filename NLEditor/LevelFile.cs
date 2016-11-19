@@ -19,8 +19,21 @@ namespace NLEditor
         /// <returns></returns>
         static public Level LoadLevel(List<Style> StyleList)
         {
+            OpenFileDialog CurOpenFileDialog = new OpenFileDialog();
 
-            return null;
+            CurOpenFileDialog.InitialDirectory = C.AppPath;
+            CurOpenFileDialog.Multiselect = false;
+            CurOpenFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
+            CurOpenFileDialog.RestoreDirectory = true;
+
+            string FilePath = "";
+
+            if (CurOpenFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                FilePath = CurOpenFileDialog.FileName;
+            }
+
+            return LoadLevelFromFile(FilePath, StyleList);
         }
 
         /// <summary>
@@ -158,6 +171,8 @@ namespace NLEditor
             if (DoFlip) NewGadget.Flip();
             if (DoInvert) NewGadget.Invert();
 
+            NewGadget.IsSelected = false;
+
             return NewGadget;
         }
 
@@ -208,6 +223,8 @@ namespace NLEditor
             if (DoFlip) NewTerrain.Flip();
             if (DoInvert) NewTerrain.Invert();
 
+            NewTerrain.IsSelected = false;
+
             return NewTerrain;
         }
 
@@ -253,6 +270,8 @@ namespace NLEditor
             GadgetPiece NewLem = new GadgetPiece(Key, Pos, 0, false, false, false, Val_L, Val_S);
 
             if (DoFlip) NewLem.Flip();
+
+            NewLem.IsSelected = false;
 
             return NewLem;
         }

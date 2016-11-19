@@ -155,6 +155,21 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Displays a file browse and loads the selected level
+        /// </summary>
+        private void LoadNewLevel()
+        {
+            Level NewLevel = LevelFile.LoadLevel(StyleList);
+            if (NewLevel == null) return;
+
+            fCurLevel = NewLevel;
+            fCurRenderer.SetLevel(fCurLevel);
+            WriteLevelInfoToForm();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+
+        /// <summary>
         /// Switches between displaying objects and terrain for newly added pieces.
         /// </summary>
         private void ChangeObjTerrPieceDisplay()

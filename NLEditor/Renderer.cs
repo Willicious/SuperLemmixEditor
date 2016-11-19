@@ -127,6 +127,7 @@ namespace NLEditor
         public void SetLevel(Level NewLevel)
         {
             fMyLevel = NewLevel;
+            EnsureScreenPosInLevel();
         }
 
         /// <summary>
