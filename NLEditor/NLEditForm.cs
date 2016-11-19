@@ -12,6 +12,9 @@ using System.Diagnostics;
 
 namespace NLEditor
 {
+    /// <summary>
+    /// Main editor form.
+    /// </summary>
     public partial class NLEditForm : Form
     {
         /*---------------------------------------------------------
@@ -19,6 +22,9 @@ namespace NLEditor
          *     and reads all the user input
          * -------------------------------------------------------- */
         
+        /// <summary>
+        /// Initializes all important components and load an empty level.
+        /// </summary>
         public NLEditForm()
         {
             InitializeComponent();
@@ -242,49 +248,49 @@ namespace NLEditor
 
         private void picPiece0_Click(object sender, EventArgs e)
         {
-            AddNewTerrainPiece(0);
+            AddNewPieceToLevel(0);
             this.ActiveControl = this.txt_Focus; // remove focus
         }
 
         private void picPiece1_Click(object sender, EventArgs e)
         {
-            AddNewTerrainPiece(1);
+            AddNewPieceToLevel(1);
             this.ActiveControl = this.txt_Focus; // remove focus
         }
 
         private void picPiece2_Click(object sender, EventArgs e)
         {
-            AddNewTerrainPiece(2);
+            AddNewPieceToLevel(2);
             this.ActiveControl = this.txt_Focus; // remove focus
         }
 
         private void picPiece3_Click(object sender, EventArgs e)
         {
-            AddNewTerrainPiece(3);
+            AddNewPieceToLevel(3);
             this.ActiveControl = this.txt_Focus; // remove focus
         }
 
         private void picPiece4_Click(object sender, EventArgs e)
         {
-            AddNewTerrainPiece(4);
+            AddNewPieceToLevel(4);
             this.ActiveControl = this.txt_Focus; // remove focus
         }
 
         private void picPiece5_Click(object sender, EventArgs e)
         {
-            AddNewTerrainPiece(5);
+            AddNewPieceToLevel(5);
             this.ActiveControl = this.txt_Focus; // remove focus
         }
 
         private void picPiece6_Click(object sender, EventArgs e)
         {
-            AddNewTerrainPiece(6);
+            AddNewPieceToLevel(6);
             this.ActiveControl = this.txt_Focus; // remove focus
         }
 
         private void picPiece7_Click(object sender, EventArgs e)
         {
-            AddNewTerrainPiece(7);
+            AddNewPieceToLevel(7);
             this.ActiveControl = this.txt_Focus; // remove focus
         }
 

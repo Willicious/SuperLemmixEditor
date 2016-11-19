@@ -17,6 +17,9 @@ namespace NLEditor
          *     called from user input
          * -------------------------------------------------------- */
 
+        /// <summary>
+        /// Sets fStyleList and creates the styles, but does not yet load sprites.
+        /// </summary>
         private void CreateStyleList()
         {
             // get list of all existing style names
@@ -43,6 +46,9 @@ namespace NLEditor
             fStyleList = StyleNameList.Select(sty => new Style(sty)).ToList();
         }
 
+        /// <summary>
+        /// Takes the global level data input on the form and stores it in the current level.
+        /// </summary>
         private void ReadLevelInfoFromForm()
         {
             CurLevel.Author = this.txt_LevelAuthor.Text;
@@ -79,6 +85,9 @@ namespace NLEditor
             CurLevel.SkillCount[C.SKI_CLONER] = Decimal.ToInt32(this.num_Ski_Cloner.Value);
         }
 
+        /// <summary>
+        /// Takes the global level settings and displays them in the correct form fields.
+        /// </summary>
         private void WriteLevelInfoToForm()
         {
             this.txt_LevelAuthor.Text = CurLevel.Author;
@@ -118,12 +127,17 @@ namespace NLEditor
             this.num_Lvl_StartY.Maximum = CurLevel.Height - 160;
         }
 
-
+        /// <summary>
+        /// Warning: Does not yet check whether the level was saved!
+        /// </summary>
         private void ExitEditor()
         {
             Application.Exit();
         }
 
+        /// <summary>
+        /// Creates a new instance of a Level and displays it on the form.
+        /// </summary>
         private void CreateNewLevel()
         {
             Style NewMainStyle = null;
@@ -140,9 +154,11 @@ namespace NLEditor
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
+        /// <summary>
+        /// Switches between displaying objects and terrain for newly added pieces.
+        /// </summary>
         private void ChangeObjTerrPieceDisplay()
         {
-            // Switch between displaying objects and terrain pieces
             PieceDoDisplayObject = !PieceDoDisplayObject;
 
             PieceStartIndex = 0;
@@ -151,7 +167,10 @@ namespace NLEditor
             this.but_PieceTerrObj.Text = PieceDoDisplayObject ? "Get Terrain" : "Get Objects";
         }
 
-
+        /// <summary>
+        /// Displays new pieces on the piece selection bar.
+        /// </summary>
+        /// <param name="Movement"></param>
         private void MoveTerrPieceSelection(int Movement)
         {
             Style CurStyle = PieceCurStyle;
@@ -168,6 +187,10 @@ namespace NLEditor
             LoadPiecesIntoPictureBox(this, CurStyle);
         }
 
+        /// <summary>
+        /// Changes the style for newly added pieces and displays the new pieces.
+        /// </summary>
+        /// <param name="Movement"></param>
         private void ChangeNewPieceStyleSelection(int Movement)
         {
             if (StyleList == null || StyleList.Count == 0) return;
@@ -193,7 +216,11 @@ namespace NLEditor
             this.combo_PieceStyle.SelectedIndex = NewStyleIndex;
         }
 
-        private void AddNewTerrainPiece(int picPieceIndex)
+        /// <summary>
+        /// Adds a new piece to the level and displays the result to the user.
+        /// </summary>
+        /// <param name="picPieceIndex"></param>
+        private void AddNewPieceToLevel(int picPieceIndex)
         {
             fCurLevel.DeleteAllSelections();
             
@@ -205,7 +232,10 @@ namespace NLEditor
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
-
+        /// <summary>
+        /// Changes the selection of existing pieces by adding or removing one piece.
+        /// </summary>
+        /// <param name="e"></param>
         private void LevelSelectSinglePiece(MouseEventArgs e)
         {
             // Check whether MousePos is actually in pic_Level
@@ -213,9 +243,7 @@ namespace NLEditor
             
             // Add or remove a single piece to selection
             Point MousePos = new Point(e.Location.X, e.Location.Y);
-            //Point MousePos = new Point(e.Location.X - this.pic_Level.Left, e.Location.Y - this.pic_Level.Top);
             Point? LevelPos = this.fCurRenderer.GetLevelPosFromMousePos(MousePos);
-            // Do nothing if we didn't click on image
             if (LevelPos == null) return;
 
 
@@ -228,20 +256,24 @@ namespace NLEditor
                 }
                 
                 // Add a single piece
-                fCurLevel.SelectOnePiece((Point)LevelPos, true, !fIsAltPressed);
+                fCurLevel.SelectOnePiece((Point)LevelPos, true, fIsAltPressed);
             }
             else if (fMouseButtonPressed == MouseButtons.Right)
             {
                 // Remove a single piece
-                fCurLevel.SelectOnePiece((Point)LevelPos, false, !fIsAltPressed);
+                fCurLevel.SelectOnePiece((Point)LevelPos, false, fIsAltPressed);
             }
         }
 
+        /// <summary>
+        /// Changes the selection of existing pieces by adding or removing all pieces in a certain area.
+        /// </summary>
+        /// <param name="e"></param>
         private void LevelSelectAreaPieces(MouseEventArgs e)
         {
             if (fMouseStartPos == null) return;
             
-            // Add or remove a single piece to selection
+            // Get rectangle from user input
             Rectangle? SelectArea = GetSelectedArea((Point)fMouseStartPos, e.Location);
             if (SelectArea == null) return;
 
@@ -253,17 +285,24 @@ namespace NLEditor
                     fCurLevel.DeleteAllSelections();
                 }
 
-                // Add a single piece
+                // Add all pieces intersection SelectArea
                 fCurLevel.SelectAreaPiece((Rectangle)SelectArea, true);
             }
             else if (fMouseButtonPressed == MouseButtons.Right)
             {
-                // Remove a single piece
+                // Remove all pieces intersection SelectArea
                 fCurLevel.SelectAreaPiece((Rectangle)SelectArea, false);
             }
         }
 
-
+        /// <summary>
+        /// Returns the rectangle with vertices StartPos and EndPos in level coordinates.
+        /// <para> Returns null, if either point is not on pic_Level. </para>
+        /// <para> BUG: Returns null, even if the points are outside the level area. </para>
+        /// </summary>
+        /// <param name="StartPos"></param>
+        /// <param name="EndPos"></param>
+        /// <returns></returns>
         private Rectangle? GetSelectedArea(Point StartPos, Point EndPos)
         {
             Point? EvtlLevelStartPos = this.fCurRenderer.GetLevelPosFromMousePos(StartPos);
@@ -282,6 +321,11 @@ namespace NLEditor
             return new Rectangle(Left, Top, Width, Height);        
         }
 
+        /// <summary>
+        /// Moves all selected pieces of the level and displays the result.
+        /// </summary>
+        /// <param name="Direction"></param>
+        /// <param name="Step"></param>
         private void MoveLevelPieces(C.DIR Direction, int Step = 1)
         {
             fCurLevel.MovePieces(Direction, Step);

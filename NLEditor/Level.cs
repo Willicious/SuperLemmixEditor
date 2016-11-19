@@ -7,6 +7,9 @@ using System.Drawing;
 
 namespace NLEditor
 {
+    /// <summary>
+    /// Stores and modifies the data of a lemming level.
+    /// </summary>
     public class Level
     {
         /*---------------------------------------------------------
@@ -25,6 +28,10 @@ namespace NLEditor
          *    MovePieces(C.DIR Direcion)
          * -------------------------------------------------------- */
 
+        /// <summary>
+        /// Creates a new level with the default values.
+        /// </summary>
+        /// <param name="MainStyle"></param>
         public Level(Style MainStyle = null)
         {
             this.fTitle = "";
@@ -47,11 +54,7 @@ namespace NLEditor
             this.fIsNoTimeLimit = true;
 
             this.SkillCount = new int[C.SKI_COUNT];
-            for (int i = 0; i < Math.Min(8, C.SKI_COUNT); i++)
-            {
-                this.SkillCount[i] = 10;
-            }
-            for (int i = 8; i < C.SKI_COUNT; i++)
+            for (int i = 0; i < C.SKI_COUNT; i++)
             {
                 this.SkillCount[i] = 0;
             }
@@ -100,31 +103,39 @@ namespace NLEditor
         public int TimeLimit { get { return fTimeLimit; } set { fTimeLimit = value; } }
         public bool IsNoTimeLimit { get { return fIsNoTimeLimit; } set { fIsNoTimeLimit = value; } }
 
-
+        /// <summary>
+        /// Creates a new piece and adds it to the level.
+        /// </summary>
+        /// <param name="NewStyle"></param>
+        /// <param name="IsObject"></param>
+        /// <param name="NewPieceIndex"></param>
+        /// <param name="CenterPos"></param>
         public void AddPiece(Style NewStyle, bool IsObject, int NewPieceIndex, Point CenterPos)
         {
             string PieceKey = IsObject ? NewStyle.ObjectNames[NewPieceIndex] : NewStyle.TerrainNames[NewPieceIndex];
-            //string PieceName = System.IO.Path.GetFileName(PieceKey);
 
             Point PiecePos = new Point(CenterPos.X - ImageLibrary.GetWidth(PieceKey) / 2,
                                        CenterPos.Y - ImageLibrary.GetHeight(PieceKey) / 2);
 
             if (IsObject)
             {
-                // GadgetList.Add(new GadgetPiece(NewStyle.FileName, PieceName, PiecePos));
                 GadgetList.Add(new GadgetPiece(PieceKey, PiecePos));
             }
             else
             {
-                // TerrainList.Add(new TerrainPiece(NewStyle.FileName, PieceName, PiecePos));
                 TerrainList.Add(new TerrainPiece(PieceKey, PiecePos));
             }
         }
 
-
-        public void SelectOnePiece(Point Pos, bool IsAdded, bool IsHighest)
+        /// <summary>
+        /// Sets the "IsSelected" flag for the first piece that can receive it.
+        /// </summary>
+        /// <param name="Pos"></param>
+        /// <param name="IsAdded"></param>
+        /// <param name="DoPriorityInvert"></param>
+        public void SelectOnePiece(Point Pos, bool IsAdded, bool DoPriorityInvert)
         {
-            LevelPiece SelPiece = GetOnePiece(Pos, IsAdded, IsHighest);
+            LevelPiece SelPiece = GetOnePiece(Pos, IsAdded, DoPriorityInvert);
 
             if (SelPiece != null)
             {
@@ -132,34 +143,46 @@ namespace NLEditor
             }
         }
 
-        private LevelPiece GetOnePiece(Point Pos, bool IsAdded, bool IsHighest)
+        /// <summary>
+        /// Determines the piece to select.
+        /// </summary>
+        /// <param name="Pos"></param>
+        /// <param name="IsUnselected"></param>
+        /// <param name="DoPriorityInvert"></param>
+        /// <returns></returns>
+        private LevelPiece GetOnePiece(Point Pos, bool IsUnselected, bool DoPriorityInvert)
         {
             LevelPiece SelPiece;
 
-            if (IsHighest)
+            if (DoPriorityInvert)
             {
-                SelPiece = GadgetList.FindLast(obj => obj.ImageRectangle.Contains(Pos) 
-                                                      && (IsAdded ^ obj.IsSelected));
+                SelPiece = TerrainList.Find(ter => ter.ImageRectangle.Contains(Pos)
+                                   && (IsUnselected ^ ter.IsSelected));
                 if (SelPiece == null)
                 {
-                    SelPiece = TerrainList.FindLast(ter => ter.ImageRectangle.Contains(Pos)
-                                                           && (IsAdded ^ ter.IsSelected)); 
+                    SelPiece = GadgetList.Find(obj => obj.ImageRectangle.Contains(Pos)
+                                                      && (IsUnselected ^ obj.IsSelected));
                 }
             }
             else
             {
-                SelPiece = TerrainList.Find(ter => ter.ImageRectangle.Contains(Pos)
-                                                   && (IsAdded ^ ter.IsSelected)); 
+                SelPiece = GadgetList.FindLast(obj => obj.ImageRectangle.Contains(Pos)
+                                      && (IsUnselected ^ obj.IsSelected));
                 if (SelPiece == null)
                 {
-                    SelPiece = GadgetList.Find(obj => obj.ImageRectangle.Contains(Pos)
-                                                      && (IsAdded ^ obj.IsSelected));
+                    SelPiece = TerrainList.FindLast(ter => ter.ImageRectangle.Contains(Pos)
+                                                           && (IsUnselected ^ ter.IsSelected));
                 }
             }
 
             return SelPiece;
         }
 
+        /// <summary>
+        /// Select all pieces that intersect with a given area.
+        /// </summary>
+        /// <param name="Rect"></param>
+        /// <param name="IsAdded"></param>
         public void SelectAreaPiece(Rectangle Rect, bool IsAdded)
         {
             TerrainList.FindAll(ter => ter.ImageRectangle.IntersectsWith(Rect))
@@ -168,12 +191,20 @@ namespace NLEditor
                       .ForEach(obj => obj.IsSelected = IsAdded);
         }
 
+        /// <summary>
+        /// Removes the "IsSelected" flag from all pieces.
+        /// </summary>
         public void DeleteAllSelections()
         {
             TerrainList.ForEach(ter => ter.IsSelected = false);
             GadgetList.ForEach(obj => obj.IsSelected = false);
         }
 
+        /// <summary>
+        /// Moves a piece a given number of pixels into a given direction. 
+        /// </summary>
+        /// <param name="Direction"></param>
+        /// <param name="Step"></param>
         public void MovePieces(C.DIR Direction, int Step = 1)
         {
             TerrainList.FindAll(ter => ter.IsSelected)

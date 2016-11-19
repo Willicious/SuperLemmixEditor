@@ -7,10 +7,13 @@ using System.IO;
 
 namespace NLEditor
 {
+    /// <summary>
+    /// Stores content of one line in a text file.
+    /// </summary>
     class FileLine
     {
         /// <summary>
-        /// Stores content of one line in a text file.
+        /// Initializes a new instance of the NLEditor.FileLine class.
         /// </summary>
         /// <param name="key"></param>
         /// <param name="text"></param>
@@ -31,7 +34,10 @@ namespace NLEditor
         public int Value { get { return fValue;}}
     }
     
-    
+
+    /// <summary>
+    /// Can read from a text file and parse single lines or blocks of them. 
+    /// </summary>
     class FileParser
     {
         /*---------------------------------------------------------
@@ -46,7 +52,7 @@ namespace NLEditor
          * -------------------------------------------------------- */
 
         /// <summary>
-        /// Opens a text file to be parsed. 
+        /// Initializes a new instance of the NLEditor.FileParser class and opens the text file to be parsed. 
         /// <para> You have to catch exceptions in the method creating the FileParser. </para>
         /// </summary>
         /// <param name="FilePath"></param>
