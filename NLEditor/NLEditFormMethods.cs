@@ -278,8 +278,8 @@ namespace NLEditor
         /// </summary>
         private void LevelSelectSinglePiece()
         {
-            // Check whether MousePos is actually in pic_Level
-            Point? LevelPos = fCurRenderer.GetMousePosInLevel();
+            // Check whether MouseStartPos is actually in pic_Level
+            Point? LevelPos = fCurRenderer.GetMousePosInLevel(false);
             if (LevelPos == null) return;
 
             if (fMouseButtonPressed == MouseButtons.Left)

@@ -181,7 +181,7 @@ namespace NLEditor
 
         /// <summary>
         /// Translates a point in screen coordinates (relative to pic_Level) into level coordinates.
-        /// <para> Returns null if the original point lies outside pic_Level. </para>
+        /// <para> Returns null if we modify the start position and it lies outside pic_Level. </para>
         /// </summary>
         /// <param name="IsCurrent"></param>
         /// <returns></returns>
@@ -190,23 +190,17 @@ namespace NLEditor
             Point? MousePos = IsCurrent ? fMouseCurPos : fMouseStartPos;
 
             if (MousePos == null) return null;
-            if (!PicBoxRect.Contains((Point)MousePos)) return null;
+            if (!IsCurrent && !PicBoxRect.Contains((Point)MousePos)) return null;
 
             int OrigPosX = ((Point)MousePos).X;
             int OrigPosY = ((Point)MousePos).Y;
 
-            // Adapt to images that do not fill the whole pic_Level
-            if (BorderWidth() > 0)
-            {
-                OrigPosX = Math.Min(Math.Max(OrigPosX, BorderWidth()), fPicBoxSize.Width - BorderWidth());
-                OrigPosX -= BorderWidth();
-            }
-            if (BorderHeight() > 0)
-            {
-                OrigPosY = Math.Min(Math.Max(OrigPosY, BorderHeight()), fPicBoxSize.Height - BorderHeight());
-                OrigPosY -= BorderHeight();
-            }
-            
+            // Adapt to images that do not fill the whole pic_Level and to Mouse positions outside the level
+            OrigPosX = Math.Min(Math.Max(OrigPosX, BorderWidth()), fPicBoxSize.Width - BorderWidth());
+            OrigPosX -= BorderWidth();
+            OrigPosY = Math.Min(Math.Max(OrigPosY, BorderHeight()), fPicBoxSize.Height - BorderHeight());
+            OrigPosY -= BorderHeight();
+        
             int PosX = ScreenPosX + ApplyUnZoom(OrigPosX);
             int PosY = ScreenPosY + ApplyUnZoom(OrigPosY) ;
             return new Point(PosX, PosY);
