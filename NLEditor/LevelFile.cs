@@ -25,15 +25,19 @@ namespace NLEditor
             CurOpenFileDialog.Multiselect = false;
             CurOpenFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
             CurOpenFileDialog.RestoreDirectory = true;
+            CurOpenFileDialog.CheckFileExists = true;
 
-            string FilePath = "";
+            Level NewLevel = null;
 
             if (CurOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
-                FilePath = CurOpenFileDialog.FileName;
+                string FilePath = CurOpenFileDialog.FileName;
+                NewLevel = LoadLevelFromFile(FilePath, StyleList);
             }
 
-            return LoadLevelFromFile(FilePath, StyleList);
+            CurOpenFileDialog.Dispose();
+
+            return NewLevel;
         }
 
         /// <summary>
@@ -274,6 +278,281 @@ namespace NLEditor
             NewLem.IsSelected = false;
 
             return NewLem;
+        }
+
+        /// <summary>
+        /// Opens file browser and saves the current level to a .nxlv file.
+        /// </summary>
+        /// <param name="CurLevel"></param>
+        static public void SaveLevel(Level CurLevel)
+        {
+            SaveFileDialog CurSaveFileDialog = new SaveFileDialog();
+
+            CurSaveFileDialog.AddExtension = true;
+            CurSaveFileDialog.InitialDirectory = C.AppPath;
+            CurSaveFileDialog.OverwritePrompt = true;
+            CurSaveFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
+            CurSaveFileDialog.RestoreDirectory = true;
+
+            if (CurSaveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string FilePath = CurSaveFileDialog.FileName;
+                try
+                {
+                    SaveLevelToFile(FilePath, CurLevel);
+                    CurLevel.FilePathToSave = FilePath;
+                }
+                catch (Exception Ex)
+                {
+                    Utility.LogException(Ex);
+                    MessageBox.Show("Could not save the level file!" + Environment.NewLine + Ex.Message);
+                }
+            }
+
+            CurSaveFileDialog.Dispose();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="FilePath"></param>
+        /// <param name="CurLevel"></param>
+        static public void SaveLevelToFile(string FilePath, Level CurLevel)
+        {
+            // Create new empty file
+            try
+            {
+                File.Create(FilePath).Close();
+            }
+            catch (Exception Ex)
+            {
+                Utility.LogException(Ex);
+                MessageBox.Show(Ex.Message);
+                return;
+            }
+            
+            TextWriter TextFile = new StreamWriter(FilePath, true);
+
+            TextFile.WriteLine("# NeoLemmix Level");
+            TextFile.WriteLine("# Created with NLEditor " + C.Version);
+            TextFile.WriteLine(" ");
+            TextFile.WriteLine("# Level info");
+            TextFile.WriteLine(" TITLE " + CurLevel.Title);
+            TextFile.WriteLine(" AUTHOR " + CurLevel.Author);
+            if (CurLevel.MusicFile != null & CurLevel.MusicFile.Length > 0)
+            {
+                TextFile.WriteLine(" MUSIC " + CurLevel.MusicFile);
+            }
+            TextFile.WriteLine(" ID " + "???"); // TODO --------------------> !!!
+            TextFile.WriteLine(" ");
+
+            TextFile.WriteLine("# Level dimensions");
+            TextFile.WriteLine(" WIDTH   " + CurLevel.Width.ToString().PadLeft(4));
+            TextFile.WriteLine(" HEIGHT  " + CurLevel.Height.ToString().PadLeft(4));
+            TextFile.WriteLine(" START_X " + CurLevel.StartPosX.ToString().PadLeft(4));
+            TextFile.WriteLine(" START_Y " + CurLevel.StartPosY.ToString().PadLeft(4));
+            TextFile.WriteLine(" THEME " + CurLevel.MainStyle.FileName);
+            TextFile.WriteLine(" ");
+
+            TextFile.WriteLine("# Level stats");
+            TextFile.WriteLine(" LEMMINGS    " + CurLevel.NumLems.ToString().PadLeft(4));
+            TextFile.WriteLine(" REQUIREMENT " + CurLevel.SaveReq.ToString().PadLeft(4));
+            if (!CurLevel.IsNoTimeLimit)
+            {
+                TextFile.WriteLine(" TIME_LIMIT  " + CurLevel.TimeLimit.ToString().PadLeft(4));
+            }
+            if (CurLevel.IsReleaseRateFix)
+            {
+                TextFile.WriteLine(" FIXED_RR    " + CurLevel.ReleaseRate.ToString().PadLeft(4));
+            }
+            else
+            {
+                TextFile.WriteLine(" MIN_RR      " + CurLevel.ReleaseRate.ToString().PadLeft(4));
+            }
+            TextFile.WriteLine(" ");
+
+            TextFile.WriteLine("# Level skillset");
+            string[] SkillNames = { 
+                "    CLIMBER ", "    FLOATER ", "     BOMBER ", "    BLOCKER ",
+                "    BUILDER ", "     BASHER ", "      MINER ", "     DIGGER ",               
+                "     WALKER ", "    SWIMMER ", "     GLIDER ", "   DISARMER ",                  
+                "     STONER ", " PLATFORMER ", "    STACKER ", "     CLONER "};
+            for (int SkillNum = 0; SkillNum < C.SKI_COUNT; SkillNum++)
+            {
+                if (IsSkillRequired(CurLevel, SkillNum))
+                {
+                    TextFile.WriteLine(SkillNames[SkillNum] + CurLevel.SkillCount[SkillNum].ToString().PadLeft(4));
+                }
+            }
+            TextFile.WriteLine(" ");
+            TextFile.WriteLine(" ");
+
+            TextFile.WriteLine("# Interactive objects");
+            CurLevel.GadgetList.FindAll(obj => obj.ObjType != C.OBJ.LEMMING)
+                               .ForEach(obj => WriteObject(TextFile, obj));
+
+            TextFile.WriteLine("# Terrains");
+            CurLevel.TerrainList.ForEach(ter => WriteTerrain(TextFile, ter));
+
+            TextFile.WriteLine("# Preplaced lemmings");
+            CurLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.LEMMING)
+                               .ForEach(lem => WriteLemming(TextFile, lem));
+
+            TextFile.WriteLine(" ");
+
+            TextFile.Close();
+        }
+
+        /// <summary>
+        /// Returns whether the skill is in the skill set or available as a pickup skill. 
+        /// </summary>
+        /// <param name="CurLevel"></param>
+        /// <param name="SkillNum"></param>
+        /// <returns></returns>
+        static private bool IsSkillRequired(Level CurLevel, int SkillNum)
+        {
+            return    (CurLevel.SkillCount[SkillNum] > 0)
+                   || (CurLevel.GadgetList.Exists(obj => obj.ObjType == C.OBJ.PICKUP && obj.Val_S == SkillNum));
+        }
+
+        /// <summary>
+        /// Writes all object infos in a text file.
+        /// </summary>
+        /// <param name="TextFile"></param>
+        /// <param name="MyGadget"></param>
+        static private void WriteObject(TextWriter TextFile, GadgetPiece MyGadget)
+        {
+            TextFile.WriteLine(" OBJECT");
+            TextFile.WriteLine("  SET    " + MyGadget.Style);
+            TextFile.WriteLine("  PIECE  " + MyGadget.Name);
+            TextFile.WriteLine("  X " + MyGadget.PosX.ToString().PadLeft(5));
+            TextFile.WriteLine("  Y " + MyGadget.PosY.ToString().PadLeft(5));
+            if (MyGadget.Val_L != 0)
+            {
+                TextFile.WriteLine("  L " + MyGadget.Val_L.ToString().PadLeft(5));
+            }
+            if (MyGadget.Val_S != 0)
+            {
+                TextFile.WriteLine("  S " + MyGadget.Val_S.ToString().PadLeft(5));
+            }
+            if (MyGadget.SpecWidth > 0)
+            {
+                TextFile.WriteLine("  WIDTH  " + MyGadget.SpecWidth.ToString().PadLeft(5));
+            }
+            if (MyGadget.SpecHeight > 0)
+            {
+                TextFile.WriteLine("  HEIGHT " + MyGadget.SpecWidth.ToString().PadLeft(5));
+            }
+            if (MyGadget.IsNoOverwrite)
+            {
+                TextFile.WriteLine("  NO_OVERWRITE");
+            }
+            if (MyGadget.IsOnlyOnTerrain)
+            {
+                TextFile.WriteLine("  ONLY_ON_TERRAIN");
+            }
+            if (MyGadget.IsRotated)
+            {
+                TextFile.WriteLine("  ROTATE");
+            }
+            if (MyGadget.IsInverted)
+            {
+                TextFile.WriteLine("  FLIP_VERTICAL");
+            }
+            if (MyGadget.IsFlipped)
+            {
+                TextFile.WriteLine("  FLIP_HORIZONTAL");
+                TextFile.WriteLine("  FACE_LEFT");
+            }
+            TextFile.WriteLine(" ");
+        }
+
+        /// <summary>
+        /// Writes all terrain piece infos in a text file.
+        /// </summary>
+        /// <param name="TextFile"></param>
+        /// <param name="MyTerrain"></param>
+        static private void WriteTerrain(TextWriter TextFile, TerrainPiece MyTerrain)
+        {
+            TextFile.WriteLine(" TERRAIN");
+            TextFile.WriteLine("  SET    " + MyTerrain.Style);
+            TextFile.WriteLine("  PIECE  " + MyTerrain.Name);
+            TextFile.WriteLine("  X " + MyTerrain.PosX.ToString().PadLeft(5));
+            TextFile.WriteLine("  Y " + MyTerrain.PosY.ToString().PadLeft(5));
+            if (MyTerrain.IsNoOverwrite)
+            {
+                TextFile.WriteLine("  NO_OVERWRITE");
+            }
+            if (MyTerrain.IsErase)
+            {
+                TextFile.WriteLine("  ERASE");
+            }
+            if (MyTerrain.IsRotated)
+            {
+                TextFile.WriteLine("  ROTATE");
+            }
+            if (MyTerrain.IsInverted)
+            {
+                TextFile.WriteLine("  FLIP_VERTICAL");
+            }
+            if (MyTerrain.IsFlipped)
+            {
+                TextFile.WriteLine("  FLIP_HORIZONTAL");
+            }
+            if (MyTerrain.IsOneWay)
+            {
+                TextFile.WriteLine("  ONE_WAY");
+            }
+            TextFile.WriteLine(" ");
+
+        }
+
+        /// <summary>
+        /// Writes all infos about a preplaced lemming in a text file.
+        /// </summary>
+        /// <param name="TextFile"></param>
+        /// <param name="MyLem"></param>
+        static private void WriteLemming(TextWriter TextFile, GadgetPiece MyLem)
+        {
+            System.Diagnostics.Debug.Assert(MyLem.ObjType == C.OBJ.LEMMING, "WriteLemming called for non-lemming object.");
+
+            TextFile.WriteLine(" LEMMING");
+            TextFile.WriteLine("  X " + MyLem.PosX.ToString().PadLeft(5));
+            TextFile.WriteLine("  Y " + MyLem.PosY.ToString().PadLeft(5));
+            if (MyLem.IsFlipped)
+            {
+                TextFile.WriteLine("  FACE_LEFT");
+            }
+            if ((MyLem.Val_S & (1 << C.SKI_CLIMBER)) != 0)
+            {
+                TextFile.WriteLine("  CLIMBER");
+            }
+            if ((MyLem.Val_S & (1 << C.SKI_SWIMMER)) != 0)
+            {
+                TextFile.WriteLine("  SWIMMER");
+            }
+            if ((MyLem.Val_S & (1 << C.SKI_FLOATER)) != 0)
+            {
+                TextFile.WriteLine("  FLOATER");
+            }
+            if ((MyLem.Val_S & (1 << C.SKI_GLIDER)) != 0)
+            {
+                TextFile.WriteLine("  GLIDER");
+            }
+            if ((MyLem.Val_S & (1 << C.SKI_DISARMER)) != 0)
+            {
+                TextFile.WriteLine("  DISARMER");
+            }
+            if ((MyLem.Val_S & (1 << C.SKI_BLOCKER)) != 0)
+            {
+                TextFile.WriteLine("  BLOCKER");
+            }
+            if ((MyLem.Val_S & (1 << C.SKI_ZOMBIE)) != 0)
+            {
+                TextFile.WriteLine("  ZOMBIE");
+            }
+
+            TextFile.WriteLine(" ");
         }
 
 

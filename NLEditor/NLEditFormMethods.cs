@@ -168,6 +168,32 @@ namespace NLEditor
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
+        /// <summary>
+        /// Displays a file browser and saves the current level in chosen location. 
+        /// </summary>
+        private void SaveInNewFileLevel()
+        {
+            // get most up-to-date global info
+            ReadLevelInfoFromForm();
+
+            LevelFile.SaveLevel(fCurLevel);
+        }
+
+        private void SaveLevel()
+        { 
+            if (fCurLevel.FilePathToSave == null)
+            {
+                SaveInNewFileLevel();
+            }
+            else 
+            {
+                // get most up-to-date global info
+                ReadLevelInfoFromForm();
+
+                LevelFile.SaveLevelToFile(fCurLevel.FilePathToSave, fCurLevel);
+            }
+        }
+
 
         /// <summary>
         /// Switches between displaying objects and terrain for newly added pieces.

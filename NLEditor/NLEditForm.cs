@@ -130,6 +130,16 @@ namespace NLEditor
             LoadNewLevel();
         }
 
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveInNewFileLevel();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveLevel();
+        }
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ExitEditor();
@@ -333,6 +343,14 @@ namespace NLEditor
             {
                 LoadNewLevel();
             }
+            else if (e.Control && e.Shift && e.KeyCode == Keys.S)
+            {
+                SaveInNewFileLevel();
+            }
+            else if (e.Control && e.KeyCode == Keys.S)
+            {
+                SaveLevel();
+            }
             else if (e.KeyCode == Keys.F1)
             {
                 clearPhysicsToolStripMenuItem_Click(null, null);
@@ -474,6 +492,10 @@ namespace NLEditor
 
             fMouseButtonPressed = null;
         }
+
+
+
+
 
 
 

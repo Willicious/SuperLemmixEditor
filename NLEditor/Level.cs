@@ -66,6 +66,9 @@ namespace NLEditor
         Style fMainStyle;
         string fMusicFile;
 
+        int fLevelID;
+        string fFilePathToSave;
+
         int fWidth;
         int fHeight;
         Point fStartPos;
@@ -86,6 +89,9 @@ namespace NLEditor
         public string Author { get { return fAuthor; } set { fAuthor = value; } }
         public Style MainStyle { get { return fMainStyle; } set { fMainStyle = value; } }
         public string MusicFile { get { return fMusicFile; } set { fMusicFile = value; } }
+
+        public int LevelID { get { return fLevelID; } set { fLevelID = value; } }
+        public string FilePathToSave { get { return fFilePathToSave; } set { fFilePathToSave = value; } }
 
         public int Width { get { return fWidth; } set { fWidth = value; } }
         public int Height { get { return fHeight; } set { fHeight = value; } }

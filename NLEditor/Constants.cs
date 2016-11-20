@@ -13,6 +13,11 @@ namespace NLEditor
     {
         static C() { }
 
+        public static string Version
+        {
+            get { return "V0.1"; }
+        }
+
         public static string AppPath
         {
             get { return "C:\\Stephan\\Programme\\NLEditor\\"; }
@@ -55,7 +60,7 @@ namespace NLEditor
         public const int LAY_OWWTERRAIN = 5;
 
 
-        public const int SKI_COUNT = 16;
+        public const int SKI_COUNT = 16; // count without zombie!
         public const int SKI_CLIMBER = 0;
         public const int SKI_FLOATER = 1;
         public const int SKI_BLOCKER = 2;
@@ -72,6 +77,7 @@ namespace NLEditor
         public const int SKI_PLATFORMER = 13;
         public const int SKI_STACKER = 14;
         public const int SKI_CLONER = 15;
+        public const int SKI_ZOMBIE = 16;
 
     }
 

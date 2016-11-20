@@ -34,7 +34,7 @@ namespace NLEditor
         string fName;
         protected string fKey;
 
-        // RULE: FIRST INVERT - THEN ROTATE
+        // RULE: FIRST INVERT - THEN ROTATE COUNTERCLOCKWISE
         int fRotation;
         bool fInvert;
 
@@ -45,7 +45,11 @@ namespace NLEditor
         public int PosY { get { return fPos.Y; } set { fPos.Y = value; } }
         public string Style { get { return fStyle; } }
         public string Name { get { return fName; } }
-        
+
+        public bool IsRotated { get { return (fRotation % 2 == 1); } }
+        public bool IsInverted { get { return true; } } // TODO -----------------> !!
+        public bool IsFlipped { get { return true; } } // TODO ------------------> !!
+
         // Metainfo from BaseImageInfo
         public Bitmap Image { get { return ImageLibrary.GetImage(fKey); } }
         public C.OBJ ObjType { get { return ImageLibrary.GetObjType(fKey); } }
@@ -154,11 +158,15 @@ namespace NLEditor
         bool fIsOnlyOnTerrain;
         int fVal_L;
         int fVal_S;
+        int fSpecWidth;
+        int fSpecHeight;
 
         public bool IsNoOverwrite { get { return fIsNoOverwrite; } set { fIsNoOverwrite = value; } }
         public bool IsOnlyOnTerrain { get { return fIsOnlyOnTerrain; } set { fIsOnlyOnTerrain = value; } }
         public int Val_L { get { return fVal_L; } set { fVal_L = value; } }
         public int Val_S { get { return fVal_S; } set { fVal_S = value; } }
+        public int SpecWidth { get { return fSpecWidth; } set { fSpecWidth = value; } }
+        public int SpecHeight { get { return fSpecHeight; } set { fSpecHeight = value; } }
 
         public Rectangle TriggerRect { get 
         {
