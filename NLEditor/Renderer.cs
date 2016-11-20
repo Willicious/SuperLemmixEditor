@@ -418,12 +418,7 @@ namespace NLEditor
         private Bitmap AddSelectedRectangles(Bitmap LevelBmp)
         {
             // Get List of all Rectangled to draw
-            List<Rectangle> RectList = fMyLevel.TerrainList.FindAll(ter => ter.IsSelected)
-                                                           .Select(ter => ter.ImageRectangle)
-                                                           .ToList();
-            RectList.AddRange(fMyLevel.GadgetList.FindAll(obj => obj.IsSelected)
-                                                 .Select(obj => obj.ImageRectangle));
-
+            List<Rectangle> RectList = fMyLevel.SelectionList().Select(ter => ter.ImageRectangle).ToList();
             List<Rectangle> RectOnPicList = RectList.Select(rect => GetPicRectFromLevelRect(rect)).ToList();
 
             LevelBmp.DrawOnRectangles(RectOnPicList, Color.Gold);
