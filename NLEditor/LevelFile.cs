@@ -451,15 +451,15 @@ namespace NLEditor
             {
                 TextFile.WriteLine("  ONLY_ON_TERRAIN");
             }
-            if (MyGadget.IsRotated)
+            if (MyGadget.IsRotatedInPlayer)
             {
                 TextFile.WriteLine("  ROTATE");
             }
-            if (MyGadget.IsInverted)
+            if (MyGadget.IsInvertedInPlayer)
             {
                 TextFile.WriteLine("  FLIP_VERTICAL");
             }
-            if (MyGadget.IsFlipped)
+            if (MyGadget.IsFlippedInPlayer)
             {
                 TextFile.WriteLine("  FLIP_HORIZONTAL");
                 TextFile.WriteLine("  FACE_LEFT");
@@ -487,15 +487,15 @@ namespace NLEditor
             {
                 TextFile.WriteLine("  ERASE");
             }
-            if (MyTerrain.IsRotated)
+            if (MyTerrain.IsRotatedInPlayer)
             {
                 TextFile.WriteLine("  ROTATE");
             }
-            if (MyTerrain.IsInverted)
+            if (MyTerrain.IsInvertedInPlayer)
             {
                 TextFile.WriteLine("  FLIP_VERTICAL");
             }
-            if (MyTerrain.IsFlipped)
+            if (MyTerrain.IsFlippedInPlayer)
             {
                 TextFile.WriteLine("  FLIP_HORIZONTAL");
             }
@@ -519,7 +519,7 @@ namespace NLEditor
             TextFile.WriteLine(" LEMMING");
             TextFile.WriteLine("  X " + MyLem.PosX.ToString().PadLeft(5));
             TextFile.WriteLine("  Y " + MyLem.PosY.ToString().PadLeft(5));
-            if (MyLem.IsFlipped)
+            if (MyLem.IsFlippedInPlayer)
             {
                 TextFile.WriteLine("  FACE_LEFT");
             }

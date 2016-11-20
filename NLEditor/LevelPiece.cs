@@ -34,7 +34,7 @@ namespace NLEditor
         string fName;
         protected string fKey;
 
-        // RULE: FIRST INVERT - THEN ROTATE COUNTERCLOCKWISE
+        // RULE: FIRST INVERT - THEN ROTATE CLOCKWISE
         int fRotation;
         bool fInvert;
 
@@ -46,9 +46,9 @@ namespace NLEditor
         public string Style { get { return fStyle; } }
         public string Name { get { return fName; } }
 
-        public bool IsRotated { get { return (fRotation % 2 == 1); } }
-        public bool IsInverted { get { return true; } } // TODO -----------------> !!
-        public bool IsFlipped { get { return true; } } // TODO ------------------> !!
+        public bool IsRotatedInPlayer { get { return (fRotation % 2 == 1); } }
+        public bool IsInvertedInPlayer { get { return (fInvert && fRotation % 4 < 2) || (!fInvert && fRotation % 4 > 1); } }
+        public bool IsFlippedInPlayer { get { return (fRotation % 4 > 1); } }
 
         // Metainfo from BaseImageInfo
         public Bitmap Image { get { return ImageLibrary.GetImage(fKey); } }
@@ -88,18 +88,17 @@ namespace NLEditor
 
         public void Rotate()
         {
-            fRotation = (++fRotation) % 4;
+            fRotation = (fInvert ? 4 - fRotation : ++fRotation) % 4;
         }
 
         public void Invert()
         {
-            fRotation = (4 - fRotation) % 4;
             fInvert = !fInvert;
         }
 
-        public void Flip()
+        public void Flip() // = Invert + Rotate^2
         {
-            fRotation = (6 - fRotation) % 4;
+            fRotation = (fRotation + 2) % 4;
             fInvert = !fInvert;
         }
     }
