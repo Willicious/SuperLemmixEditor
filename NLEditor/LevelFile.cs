@@ -171,9 +171,11 @@ namespace NLEditor
             Point Pos = new Point(PosX, PosY);
             GadgetPiece NewGadget = new GadgetPiece(Key, Pos, 0, false, IsNoOverwrite, IsOnlyOnTerrain, Val_L, Val_S);
 
-            if (DoRotate) NewGadget.Rotate();
-            if (DoFlip) NewGadget.Flip();
-            if (DoInvert) NewGadget.Invert();
+            if (DoRotate) NewGadget.RotateInRect(NewGadget.ImageRectangle);
+            if (DoFlip) NewGadget.FlipInRect(NewGadget.ImageRectangle);
+            if (DoInvert) NewGadget.InvertInRect(NewGadget.ImageRectangle);
+            //Reposition gadget to be sure...
+            NewGadget.Pos = Pos;
 
             NewGadget.IsSelected = false;
 
@@ -223,9 +225,11 @@ namespace NLEditor
             Point Pos = new Point(PosX, PosY);
             TerrainPiece NewTerrain = new TerrainPiece(Key, Pos, 0, false, IsErase, IsNoOverwrite, IsOneWay);
 
-            if (DoRotate) NewTerrain.Rotate();
-            if (DoFlip) NewTerrain.Flip();
-            if (DoInvert) NewTerrain.Invert();
+            if (DoRotate) NewTerrain.RotateInRect(NewTerrain.ImageRectangle);
+            if (DoFlip) NewTerrain.FlipInRect(NewTerrain.ImageRectangle);
+            if (DoInvert) NewTerrain.InvertInRect(NewTerrain.ImageRectangle);
+            //Reposition gadget to be sure...
+            NewTerrain.Pos = Pos;
 
             NewTerrain.IsSelected = false;
 
@@ -273,7 +277,7 @@ namespace NLEditor
             Point Pos = new Point(PosX, PosY);
             GadgetPiece NewLem = new GadgetPiece(Key, Pos, 0, false, false, false, Val_L, Val_S);
 
-            if (DoFlip) NewLem.Flip();
+            if (DoFlip) NewLem.FlipInRect(NewLem.ImageRectangle);
 
             NewLem.IsSelected = false;
 

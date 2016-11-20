@@ -136,7 +136,7 @@ namespace NLEditor
         /// <summary>
         /// Rotates the piece while keeping its top left coordianate.
         /// </summary>
-        public void Rotate()
+        private void Rotate()
         {
             fRotation = (fInvert ? 4 - fRotation : ++fRotation) % 4;
         }
@@ -159,7 +159,7 @@ namespace NLEditor
         /// <summary>
         /// Inverts the piece while keeping its top left coordinate.
         /// </summary>
-        public void Invert()
+        private void Invert()
         {
             fInvert = !fInvert;
         }
@@ -177,7 +177,7 @@ namespace NLEditor
         /// <summary>
         /// Flips the piece while keeping its top left coordinate.
         /// </summary>
-        public void Flip() // = Invert + Rotate^2
+        private void Flip() // = Invert + Rotate^2
         {
             fRotation = (fRotation + 2) % 4;
             fInvert = !fInvert;
