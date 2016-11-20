@@ -12,35 +12,40 @@ namespace NLEditor
     {
         public BaseImageInfo(Bitmap NewImage, bool IsSteel = false)
         {
-            this.Image = NewImage;
-            this.Width = this.Image.Width;
-            this.Height = this.Image.Height;
-            this.TriggerRect = new Rectangle(0, 0, 0, 0);
+            this.fImage = NewImage;
+            this.fWidth = this.Image.Width;
+            this.fHeight = this.Image.Height;
+            this.fTriggerRect = new Rectangle(0, 0, 0, 0);
             if (IsSteel)
             {
-                this.ObjectType = C.OBJ.SPLAT;
+                this.fObjectType = C.OBJ.SPLAT;
             }
             else 
             {
-                this.ObjectType = C.OBJ.NULL;
+                this.fObjectType = C.OBJ.NULL;
             }
         }
 
         public BaseImageInfo(Bitmap NewImage, C.OBJ ObjType, int NumFrames, bool IsVert, Rectangle TriggerRect)
         {
-            this.Image = SeparateFrames(NewImage, NumFrames, IsVert);
-            this.Width = this.Image.Width;
-            this.Height = this.Image.Height;
-            this.ObjectType = ObjType;
-            this.TriggerRect = TriggerRect;
+            this.fImage = SeparateFrames(NewImage, NumFrames, IsVert);
+            this.fWidth = this.fImage.Width;
+            this.fHeight = this.fImage.Height;
+            this.fObjectType = ObjType;
+            this.fTriggerRect = TriggerRect;
         }
 
-        public Bitmap Image;
-        public int Width;
-        public int Height;
-        public C.OBJ ObjectType;
-        public Rectangle TriggerRect;
+        readonly Bitmap fImage;
+        readonly int fWidth;
+        readonly int fHeight;
+        readonly C.OBJ fObjectType;
+        readonly Rectangle fTriggerRect;
 
+        public Bitmap Image { get { return (Bitmap)fImage.Clone(); } }
+        public int Width { get { return fWidth; } }
+        public int Height { get { return fHeight; } }
+        public C.OBJ ObjectType { get { return fObjectType; } }
+        public Rectangle TriggerRect { get { return fTriggerRect; } }
 
         private Bitmap SeparateFrames(Bitmap NewBitmap, int NumFrames, bool IsVert)
         {
@@ -99,6 +104,7 @@ namespace NLEditor
                 }
             }
 
+            // return (Bitmap)fImageList[ImageKey].Image.Clone();
             return fImageList[ImageKey].Image;
         }
 

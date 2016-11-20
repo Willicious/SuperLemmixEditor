@@ -62,7 +62,7 @@ namespace NLEditor
         /// </summary>
         public Bitmap Image { get 
         {
-            Bitmap MyImage = (Bitmap)ImageLibrary.GetImage(fKey).Clone();
+            Bitmap MyImage = ImageLibrary.GetImage(fKey);
             MyImage.RotateFlip(GetRotateFlipType());
             return MyImage;
         } }
@@ -110,28 +110,19 @@ namespace NLEditor
         /// Determines whether this piece can be rotated.
         /// </summary>
         /// <returns></returns>
-        public virtual bool MayRotate()
-        {
-            return true;
-        }
+        public abstract bool MayRotate();
 
         /// <summary>
         /// Determines whether this piece can be flipped.
         /// </summary>
         /// <returns></returns>
-        public virtual bool MayFlip()
-        {
-            return true;
-        }
+        public abstract bool MayFlip();
 
         /// <summary>
         /// Determines whether this piece can be inverted.
         /// </summary>
         /// <returns></returns>
-        public virtual bool MayInvert()
-        {
-            return true;
-        }
+        public abstract bool MayInvert();
 
         /// <summary>
         /// Rotates the piece while keeping its top left coordianate.
@@ -242,6 +233,21 @@ namespace NLEditor
         public bool IsErase { get { return fIsErase; } set { fIsErase = value; } }
         public bool IsNoOverwrite { get { return fIsNoOverwrite; } set { fIsNoOverwrite = value; } }
         public bool IsOneWay { get { return fIsOneWay; } set { fIsOneWay = value; } }
+
+        public override bool MayRotate()
+        {
+            return true;
+        }
+
+        public override bool MayFlip()
+        {
+            return true;
+        }
+
+        public override bool MayInvert()
+        {
+            return true;
+        }
     }
 
     /// <summary>
@@ -307,6 +313,11 @@ namespace NLEditor
             return ObjType.In(C.OBJ.ANIMATION, C.OBJ.BACKGROUND, C.OBJ.FIRE, C.OBJ.HATCH, C.OBJ.LEMMING,
                               C.OBJ.NONE, C.OBJ.NOSPLAT, C.OBJ.RADIATION, C.OBJ.RECEIVER, C.OBJ.SLOWFREEZE,
                               C.OBJ.SPLAT, C.OBJ.SPLITTER, C.OBJ.TELEPORTER, C.OBJ.TRAP, C.OBJ.TRAPONCE);
+        }
+
+        public override bool MayInvert()
+        {
+            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE);
         }
 
     }
