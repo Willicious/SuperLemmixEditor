@@ -128,6 +128,9 @@
             this.lbl_Skill_Floater = new System.Windows.Forms.Label();
             this.lbl_Skill_Climber = new System.Windows.Forms.Label();
             this.txt_Focus = new System.Windows.Forms.TextBox();
+            this.but_RotatePieces = new System.Windows.Forms.Button();
+            this.but_Invert = new System.Windows.Forms.Button();
+            this.but_Flip = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -149,6 +152,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_StartX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeX)).BeginInit();
+            this.tabPieces.SuspendLayout();
             this.tabSkills.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Cloner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stacker)).BeginInit();
@@ -914,6 +918,9 @@
             // 
             // tabPieces
             // 
+            this.tabPieces.Controls.Add(this.but_Flip);
+            this.tabPieces.Controls.Add(this.but_Invert);
+            this.tabPieces.Controls.Add(this.but_RotatePieces);
             this.tabPieces.Location = new System.Drawing.Point(4, 22);
             this.tabPieces.Name = "tabPieces";
             this.tabPieces.Padding = new System.Windows.Forms.Padding(3);
@@ -1228,6 +1235,36 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
+            // but_RotatePieces
+            // 
+            this.but_RotatePieces.Location = new System.Drawing.Point(6, 8);
+            this.but_RotatePieces.Name = "but_RotatePieces";
+            this.but_RotatePieces.Size = new System.Drawing.Size(49, 30);
+            this.but_RotatePieces.TabIndex = 0;
+            this.but_RotatePieces.Text = "Rotate";
+            this.but_RotatePieces.UseVisualStyleBackColor = true;
+            this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
+            // 
+            // but_Invert
+            // 
+            this.but_Invert.Location = new System.Drawing.Point(61, 8);
+            this.but_Invert.Name = "but_Invert";
+            this.but_Invert.Size = new System.Drawing.Size(49, 30);
+            this.but_Invert.TabIndex = 1;
+            this.but_Invert.Text = "Invert";
+            this.but_Invert.UseVisualStyleBackColor = true;
+            this.but_Invert.Click += new System.EventHandler(this.but_Invert_Click);
+            // 
+            // but_Flip
+            // 
+            this.but_Flip.Location = new System.Drawing.Point(119, 8);
+            this.but_Flip.Name = "but_Flip";
+            this.but_Flip.Size = new System.Drawing.Size(49, 30);
+            this.but_Flip.TabIndex = 2;
+            this.but_Flip.Text = "Flip";
+            this.but_Flip.UseVisualStyleBackColor = true;
+            this.but_Flip.Click += new System.EventHandler(this.but_Flip_Click);
+            // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1279,6 +1316,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_StartX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeX)).EndInit();
+            this.tabPieces.ResumeLayout(false);
             this.tabSkills.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Cloner)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stacker)).EndInit();
@@ -1403,6 +1441,9 @@
         private System.Windows.Forms.PictureBox pic_Level;
         private System.Windows.Forms.TabControl tabLvlProperties;
         private System.Windows.Forms.TextBox txt_Focus;
+        private System.Windows.Forms.Button but_Flip;
+        private System.Windows.Forms.Button but_Invert;
+        private System.Windows.Forms.Button but_RotatePieces;
     }
 }
 

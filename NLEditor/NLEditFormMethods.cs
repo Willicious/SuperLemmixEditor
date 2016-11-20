@@ -338,8 +338,32 @@ namespace NLEditor
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
+        /// <summary>
+        /// Rotates all selected pieces in the level and displays the result.
+        /// </summary>
+        private void RotateLevelPieces()
+        {
+            fCurLevel.RotatePieces();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
 
+        /// <summary>
+        /// Inverts all selected pieces in the level and displays the result.
+        /// </summary>
+        private void InvertLevelPieces()
+        {
+            fCurLevel.InvertPieces();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
 
+        /// <summary>
+        /// Flips all selected pieces in the level and displays the result.
+        /// </summary>
+        private void FlipLevelPieces()
+        {
+            fCurLevel.FlipPieces();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
 
     }
 }

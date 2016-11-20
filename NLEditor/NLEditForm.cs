@@ -217,6 +217,25 @@ namespace NLEditor
         }
 
         /* -----------------------------------------------------------
+         *              Piece Info Tab
+         * ----------------------------------------------------------- */
+
+        private void but_RotatePieces_Click(object sender, EventArgs e)
+        {
+            RotateLevelPieces();
+        }
+
+        private void but_Invert_Click(object sender, EventArgs e)
+        {
+            InvertLevelPieces();
+        }
+
+        private void but_Flip_Click(object sender, EventArgs e)
+        {
+            FlipLevelPieces();
+        }
+
+        /* -----------------------------------------------------------
          *              Piece Selection
          * ----------------------------------------------------------- */
 
@@ -492,6 +511,12 @@ namespace NLEditor
 
             fMouseButtonPressed = null;
         }
+
+
+
+
+
+
 
 
 

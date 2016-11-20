@@ -46,8 +46,8 @@ namespace NLEditor
         public Point Pos { get { return fPos; } set { fPos = value; } }
         public int PosX { get { return fPos.X; } set { fPos.X = value; } }
         public int PosY { get { return fPos.Y; } set { fPos.Y = value; } }
-        public virtual int Width { get { return ImageLibrary.GetWidth(fKey); } }
-        public virtual int Height { get { return ImageLibrary.GetHeight(fKey); } }
+        public virtual int Width { get { return (fRotation % 2 == 0) ? ImageLibrary.GetWidth(fKey) : ImageLibrary.GetHeight(fKey); } }
+        public virtual int Height { get { return (fRotation % 2 == 0) ? ImageLibrary.GetHeight(fKey) : ImageLibrary.GetWidth(fKey); } }
         public string Style { get { return fStyle; } }
         public string Name { get { return fName; } }
 
@@ -62,7 +62,7 @@ namespace NLEditor
         /// </summary>
         public Bitmap Image { get 
         {
-            Bitmap MyImage = ImageLibrary.GetImage(fKey);
+            Bitmap MyImage = (Bitmap)ImageLibrary.GetImage(fKey).Clone();
             MyImage.RotateFlip(GetRotateFlipType());
             return MyImage;
         } }
@@ -138,7 +138,7 @@ namespace NLEditor
         /// </summary>
         private void Rotate()
         {
-            fRotation = (fInvert ? 4 - fRotation : ++fRotation) % 4;
+            fRotation = (fInvert ? fRotation + 3 : ++fRotation) % 4;
         }
 
         /// <summary>
@@ -151,7 +151,9 @@ namespace NLEditor
             Point OldCorner = new Point(PosX, PosY + Height);
 
             int NewPosX = Center.X + Center.Y - OldCorner.Y;
-            int NewPosY = Center.Y + OldCorner.X - Center.Y;
+            int NewPosY = Center.Y + OldCorner.X - Center.X;
+
+            Pos = new Point(NewPosX, NewPosY);
 
             if (MayRotate()) Rotate();
         }
