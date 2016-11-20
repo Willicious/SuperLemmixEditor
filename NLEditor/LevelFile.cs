@@ -76,7 +76,7 @@ namespace NLEditor
                     {
                         case "TITLE": NewLevel.Title = Line.Text; break;
                         case "AUTHOR": NewLevel.Author = Line.Text; break;
-                        case "ID": /*nothing*/ break;
+                        case "ID": NewLevel.LevelID = uint.Parse(Line.Text, System.Globalization.NumberStyles.HexNumber); break;
                         case "WIDTH": NewLevel.Width = Line.Value; break;
                         case "HEIGHT": NewLevel.Height = Line.Value; break;
                         case "START_X": NewLevel.StartPosX = Line.Value; break;
@@ -343,7 +343,7 @@ namespace NLEditor
             {
                 TextFile.WriteLine(" MUSIC " + CurLevel.MusicFile);
             }
-            TextFile.WriteLine(" ID " + "???"); // TODO --------------------> !!!
+            TextFile.WriteLine(" ID " + CurLevel.LevelID.ToString("X"));
             TextFile.WriteLine(" ");
 
             TextFile.WriteLine("# Level dimensions");

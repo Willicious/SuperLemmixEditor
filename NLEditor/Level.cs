@@ -39,6 +39,9 @@ namespace NLEditor
             this.fMainStyle = MainStyle;
             this.MusicFile = "";
 
+            Random rnd = new Random();
+            this.LevelID = (uint)rnd.Next();
+
             this.fWidth = 320;
             this.fHeight = 160;
             this.fStartPos = new Point(0, 0);
@@ -66,7 +69,7 @@ namespace NLEditor
         Style fMainStyle;
         string fMusicFile;
 
-        int fLevelID;
+        uint fLevelID;
         string fFilePathToSave;
 
         int fWidth;
@@ -90,7 +93,7 @@ namespace NLEditor
         public Style MainStyle { get { return fMainStyle; } set { fMainStyle = value; } }
         public string MusicFile { get { return fMusicFile; } set { fMusicFile = value; } }
 
-        public int LevelID { get { return fLevelID; } set { fLevelID = value; } }
+        public uint LevelID { get { return fLevelID; } set { fLevelID = value; } }
         public string FilePathToSave { get { return fFilePathToSave; } set { fFilePathToSave = value; } }
 
         public int Width { get { return fWidth; } set { fWidth = value; } }
