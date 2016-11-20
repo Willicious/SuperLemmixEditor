@@ -25,7 +25,8 @@ namespace NLEditor
          *    SelectOnePiece(Point Pos, bool IsAdded, bool IsHighest)
          *    SelectAreaPiece(Rectangle Rect, bool IsAdded)
          *    DeleteAllSelections()
-         *    MovePieces(C.DIR Direcion)
+         *    SelectionList()
+         *    MovePieces(C.DIR Direcion, int Step = 1)
          * -------------------------------------------------------- */
 
         /// <summary>
@@ -210,17 +211,70 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Moves a piece a given number of pixels into a given direction. 
+        /// Gets a list of a currently selected pieces in the level.
+        /// </summary>
+        /// <returns></returns>
+        public List<LevelPiece> SelectionList()
+        {
+            List<LevelPiece> SelectedPieceList = new List<LevelPiece>();
+            SelectedPieceList.AddRange(TerrainList.FindAll(ter => ter.IsSelected));
+            SelectedPieceList.AddRange(GadgetList.FindAll(obj => obj.IsSelected));
+            return SelectedPieceList;
+        }
+
+        /// <summary>
+        /// Gets the smallest rectangle around all selected pieces in the level.
+        /// </summary>
+        /// <returns></returns>
+        private Rectangle SelectionRectangle()
+        {
+            List<LevelPiece> SelectedPieceList = SelectionList();
+
+            int Left = SelectedPieceList.Min(item => item.PosX);
+            int Right = SelectedPieceList.Max(item => item.PosX + item.Width);
+            int Top = SelectedPieceList.Min(item => item.PosY);
+            int Bottom = SelectedPieceList.Max(item => item.PosY + item.Height);
+
+            return new Rectangle(Left, Top, Right - Left, Bottom - Top);
+        }
+
+        /// <summary>
+        /// Moves all selected pieces a given number of pixels into a given direction. 
         /// </summary>
         /// <param name="Direction"></param>
         /// <param name="Step"></param>
         public void MovePieces(C.DIR Direction, int Step = 1)
         {
-            TerrainList.FindAll(ter => ter.IsSelected)
-                       .ForEach(ter => ter.Move(Direction, Step));
-            GadgetList.FindAll(obj => obj.IsSelected)
-                      .ForEach(obj => obj.Move(Direction, Step));
+            SelectionList().ForEach(item => item.Move(Direction, Step));
         }
+
+        /// <summary>
+        /// Rotates all selected pieces in their rectangular hull.
+        /// </summary>
+        public void RotatePieces()
+        { 
+            Rectangle BorderRect = SelectionRectangle();
+            SelectionList().ForEach(item => item.RotateInRect(BorderRect));
+        }
+
+        /// <summary>
+        /// Inverts all selected pieces in their rectangular hull.
+        /// </summary>
+        public void InvertPieces()
+        {
+            Rectangle BorderRect = SelectionRectangle();
+            SelectionList().ForEach(item => item.InvertInRect(BorderRect));
+        }
+
+        /// <summary>
+        /// Flips all selected pieces in their rectangular hull.
+        /// </summary>
+        public void FlipPieces()
+        {
+            Rectangle BorderRect = SelectionRectangle();
+            SelectionList().ForEach(item => item.FlipInRect(BorderRect));
+        }
+
 
     }
 }

@@ -7,6 +7,9 @@ using System.Drawing;
 
 namespace NLEditor
 {
+    /// <summary>
+    /// Abstract class for all pieces.
+    /// </summary>
     public abstract class LevelPiece
     {
         /*---------------------------------------------------------
@@ -43,17 +46,29 @@ namespace NLEditor
         public Point Pos { get { return fPos; } set { fPos = value; } }
         public int PosX { get { return fPos.X; } set { fPos.X = value; } }
         public int PosY { get { return fPos.Y; } set { fPos.Y = value; } }
+        public virtual int Width { get { return ImageLibrary.GetWidth(fKey); } }
+        public virtual int Height { get { return ImageLibrary.GetHeight(fKey); } }
         public string Style { get { return fStyle; } }
         public string Name { get { return fName; } }
 
+        // For writing the save file
         public bool IsRotatedInPlayer { get { return (fRotation % 2 == 1); } }
         public bool IsInvertedInPlayer { get { return (fInvert && fRotation % 4 < 2) || (!fInvert && fRotation % 4 > 1); } }
         public bool IsFlippedInPlayer { get { return (fRotation % 4 > 1); } }
 
         // Metainfo from BaseImageInfo
-        public Bitmap Image { get { return ImageLibrary.GetImage(fKey); } }
+        /// <summary>
+        /// Get piece image correctly rotated and flipped.
+        /// </summary>
+        public Bitmap Image { get 
+        {
+            Bitmap MyImage = ImageLibrary.GetImage(fKey);
+            MyImage.RotateFlip(GetRotateFlipType());
+            return MyImage;
+        } }
         public C.OBJ ObjType { get { return ImageLibrary.GetObjType(fKey); } }
 
+        // Whether selected in the editor
         public bool IsSelected { get { return fIsSelected; } set { fIsSelected = value; } }
 
         public Rectangle ImageRectangle { get 
@@ -61,7 +76,7 @@ namespace NLEditor
             int ImageWidth;
             int ImageHeight;
 
-            if (fRotation / 2 == 0)
+            if (fRotation % 2 == 0)
             {
                 ImageWidth = ImageLibrary.GetWidth(fKey);
                 ImageHeight = ImageLibrary.GetHeight(fKey);
@@ -75,6 +90,11 @@ namespace NLEditor
             return new Rectangle(fPos.X, fPos.Y, ImageWidth, ImageHeight);
         } }
 
+        /// <summary>
+        /// Moves the piece in the level.
+        /// </summary>
+        /// <param name="Direction"></param>
+        /// <param name="Step"></param>
         public void Move(C.DIR Direction, int Step = 1)
         {
             switch (Direction)
@@ -86,23 +106,111 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Determines whether this piece can be rotated.
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool MayRotate()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Determines whether this piece can be flipped.
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool MayFlip()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Determines whether this piece can be inverted.
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool MayInvert()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Rotates the piece while keeping its top left coordianate.
+        /// </summary>
         public void Rotate()
         {
             fRotation = (fInvert ? 4 - fRotation : ++fRotation) % 4;
         }
 
+        /// <summary>
+        /// Rotates the piece around the center of a specified rectangle, if allowed for this piece.
+        /// </summary>
+        /// <param name="BorderRect"></param>
+        public void RotateInRect(Rectangle BorderRect)
+        {
+            Point Center = new Point(BorderRect.Left + BorderRect.Width / 2, BorderRect.Top + BorderRect.Height / 2);
+            Point OldCorner = new Point(PosX, PosY + Height);
+
+            int NewPosX = Center.X + Center.Y - OldCorner.Y;
+            int NewPosY = Center.Y + OldCorner.X - Center.Y;
+
+            if (MayRotate()) Rotate();
+        }
+
+        /// <summary>
+        /// Inverts the piece while keeping its top left coordinate.
+        /// </summary>
         public void Invert()
         {
             fInvert = !fInvert;
         }
 
+        /// <summary>
+        /// Inverts the piece wrt. a specified rectangle, if allowed for this piece.
+        /// </summary>
+        /// <param name="BorderRect"></param>
+        public void InvertInRect(Rectangle BorderRect)
+        {
+            PosY = BorderRect.Top + BorderRect.Bottom - PosY - Height;
+            if (MayInvert()) Invert();
+        }
+
+        /// <summary>
+        /// Flips the piece while keeping its top left coordinate.
+        /// </summary>
         public void Flip() // = Invert + Rotate^2
         {
             fRotation = (fRotation + 2) % 4;
             fInvert = !fInvert;
         }
+
+        /// <summary>
+        /// Flips the piece wrt. a specified rectangle, if allowed for this piece.
+        /// </summary>
+        /// <param name="BorderRect"></param>
+        public void FlipInRect(Rectangle BorderRect)
+        {
+            PosX = BorderRect.Left + BorderRect.Right - PosX - Width;
+            if (MayFlip()) Flip();
+        }
+
+
+        private RotateFlipType GetRotateFlipType()
+        {
+            switch (fRotation)
+            { 
+                case 0: return fInvert ? RotateFlipType.RotateNoneFlipY : RotateFlipType.RotateNoneFlipNone;
+                case 1: return fInvert ? RotateFlipType.Rotate90FlipY : RotateFlipType.Rotate90FlipNone;
+                case 2: return fInvert ? RotateFlipType.Rotate180FlipY : RotateFlipType.Rotate180FlipNone;
+                case 3: return fInvert ? RotateFlipType.Rotate270FlipY : RotateFlipType.Rotate270FlipNone;
+                default: return RotateFlipType.RotateNoneFlipNone;
+            }
+        }
+
     }
 
+    /// <summary>
+    /// This stored all data of a terrain piece. Inherits from LevelPiece.
+    /// </summary>
     public class TerrainPiece : LevelPiece
     {
         /*---------------------------------------------------------
@@ -134,6 +242,9 @@ namespace NLEditor
         public bool IsOneWay { get { return fIsOneWay; } set { fIsOneWay = value; } }
     }
 
+    /// <summary>
+    /// This stored all data of a gadget. Inherits from LevelPiece.
+    /// </summary>
     public class GadgetPiece : LevelPiece
     { 
         public GadgetPiece(string Key, Point Pos)
@@ -167,15 +278,34 @@ namespace NLEditor
         public int SpecWidth { get { return fSpecWidth; } set { fSpecWidth = value; } }
         public int SpecHeight { get { return fSpecHeight; } set { fSpecHeight = value; } }
 
+        /// <summary>
+        /// Returns the position of the trigger area.
+        /// </summary>
         public Rectangle TriggerRect { get 
         {
             Rectangle TrigRect = ImageLibrary.GetTrigger(fKey);
-            // TODO: Rotation, ...
-            // shift to correct position
+            // Adjust to flipping
+            if (IsFlippedInPlayer && !IsInvertedInPlayer && !IsRotatedInPlayer)
+            {
+                TrigRect.X = this.ImageRectangle.Width - TrigRect.Right;
+            }
+            // Shift to correct position
             TrigRect.X += this.PosX;
             TrigRect.Y += this.PosY;
             return TrigRect;
         } }
+
+        public override bool MayRotate()
+        {
+            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE);
+        }
+
+        public override bool MayFlip()
+        {
+            return ObjType.In(C.OBJ.ANIMATION, C.OBJ.BACKGROUND, C.OBJ.FIRE, C.OBJ.HATCH, C.OBJ.LEMMING,
+                              C.OBJ.NONE, C.OBJ.NOSPLAT, C.OBJ.RADIATION, C.OBJ.RECEIVER, C.OBJ.SLOWFREEZE,
+                              C.OBJ.SPLAT, C.OBJ.SPLITTER, C.OBJ.TELEPORTER, C.OBJ.TRAP, C.OBJ.TRAPONCE);
+        }
 
     }
 
