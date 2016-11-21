@@ -251,8 +251,8 @@ namespace NLEditor
         private void UpdateLayerBmpSize()
         {
             if (fMyLevel.Width != fLayerList[0].Width || fMyLevel.Height != fLayerList[0].Height)
-            { 
-                fLayerList.Select(bmp => bmp = new Bitmap(fMyLevel.Width, fMyLevel.Height));
+            {
+                fLayerList = fLayerList.Select(bmp => bmp = new Bitmap(fMyLevel.Width, fMyLevel.Height)).ToList();
             }
         }
 
