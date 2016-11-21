@@ -237,14 +237,29 @@ namespace NLEditor
             RotateLevelPieces();
         }
 
-        private void but_Invert_Click(object sender, EventArgs e)
+        private void but_RotatePieces_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.ActiveControl = this.txt_Focus; // remove focus
+        }
+
+        private void but_InvertPieces_Click(object sender, EventArgs e)
         {
             InvertLevelPieces();
         }
 
-        private void but_Flip_Click(object sender, EventArgs e)
+        private void but_InvertPieces_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.ActiveControl = this.txt_Focus; // remove focus
+        }
+
+        private void but_FlipPieces_Click(object sender, EventArgs e)
         {
             FlipLevelPieces();
+        }
+
+        private void but_FlipPieces_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.ActiveControl = this.txt_Focus; // remove focus
         }
 
         /* -----------------------------------------------------------
@@ -284,8 +299,7 @@ namespace NLEditor
 
         private void but_PieceLeft_MouseDown(object sender, MouseEventArgs e)
         {
-            int NewInterval = (e.Button == MouseButtons.Right) ? 300 : 100;
-            but_PieceLeft.SetInterval(NewInterval);
+            but_PieceLeft.Interval = (e.Button == MouseButtons.Right) ? 300 : 100;
         }
 
         private void but_PieceLeft_MouseUp(object sender, MouseEventArgs e)
@@ -315,8 +329,7 @@ namespace NLEditor
 
         private void but_PieceRight_MouseDown(object sender, MouseEventArgs e)
         {
-            int NewInterval = (e.Button == MouseButtons.Right) ? 300 : 100;
-            but_PieceRight.SetInterval(NewInterval);
+            but_PieceRight.Interval = (e.Button == MouseButtons.Right) ? 300 : 100;
         }
 
         private void but_PieceRight_MouseUp(object sender, MouseEventArgs e)

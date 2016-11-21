@@ -26,6 +26,12 @@ namespace NLEditor
         Timer fButtonTimer;
         MouseEventArgs fLastMouseEventArgs;
 
+        public int Interval 
+        { 
+            get { return fButtonTimer.Interval; }  
+            set { fButtonTimer.Interval = Math.Max(value, 1); }
+        }
+
         private void RepeatButton_MouseDown(MouseEventArgs e)
         {
             fLastMouseEventArgs = e;
@@ -37,11 +43,6 @@ namespace NLEditor
         private void RepeatButton_MouseUp(MouseEventArgs e)
         {
             fButtonTimer.Enabled = false;
-        }
-
-        public void SetInterval(int Interval)
-        {
-            fButtonTimer.Interval = Interval;
         }
 
         private void ButtonTimer_Tick()

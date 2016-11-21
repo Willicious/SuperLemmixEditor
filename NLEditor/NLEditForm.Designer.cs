@@ -94,24 +94,24 @@
             this.txt_LevelTitle = new System.Windows.Forms.TextBox();
             this.lbl_Global_Title = new System.Windows.Forms.Label();
             this.tabPieces = new System.Windows.Forms.TabPage();
-            this.checkBox17 = new System.Windows.Forms.CheckBox();
-            this.checkBox9 = new System.Windows.Forms.CheckBox();
-            this.checkBox10 = new System.Windows.Forms.CheckBox();
-            this.checkBox11 = new System.Windows.Forms.CheckBox();
-            this.checkBox12 = new System.Windows.Forms.CheckBox();
-            this.checkBox13 = new System.Windows.Forms.CheckBox();
-            this.checkBox14 = new System.Windows.Forms.CheckBox();
-            this.checkBox15 = new System.Windows.Forms.CheckBox();
-            this.checkBox16 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.check_Piece_Zombie = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Cloner = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Stacker = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Platformer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Stoner = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Disarmer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Glider = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Swimmer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Walker = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Digger = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Miner = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Basher = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Builder = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Exploder = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Blocker = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Floater = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Climber = new System.Windows.Forms.CheckBox();
+            this.but_MoveBackOne = new System.Windows.Forms.Button();
             this.but_MoveFrontOne = new System.Windows.Forms.Button();
             this.but_MoveBack = new System.Windows.Forms.Button();
             this.but_MoveFront = new System.Windows.Forms.Button();
@@ -119,9 +119,9 @@
             this.check_Pieces_OnlyOnTerrain = new System.Windows.Forms.CheckBox();
             this.check_Pieces_NoOv = new System.Windows.Forms.CheckBox();
             this.check_Pieces_Erase = new System.Windows.Forms.CheckBox();
-            this.but_Flip = new System.Windows.Forms.Button();
-            this.but_Invert = new System.Windows.Forms.Button();
-            this.but_RotatePieces = new System.Windows.Forms.Button();
+            this.but_FlipPieces = new NLEditor.RepeatButton();
+            this.but_InvertPieces = new NLEditor.RepeatButton();
+            this.but_RotatePieces = new NLEditor.RepeatButton();
             this.tabSkills = new System.Windows.Forms.TabPage();
             this.num_Ski_Cloner = new System.Windows.Forms.NumericUpDown();
             this.num_Ski_Stacker = new System.Windows.Forms.NumericUpDown();
@@ -414,6 +414,7 @@
             // but_PieceLeft
             // 
             this.but_PieceLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.but_PieceLeft.Interval = 100;
             this.but_PieceLeft.Location = new System.Drawing.Point(0, 478);
             this.but_PieceLeft.Name = "but_PieceLeft";
             this.but_PieceLeft.Size = new System.Drawing.Size(32, 84);
@@ -451,6 +452,7 @@
             // but_PieceRight
             // 
             this.but_PieceRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.but_PieceRight.Interval = 100;
             this.but_PieceRight.Location = new System.Drawing.Point(756, 478);
             this.but_PieceRight.Name = "but_PieceRight";
             this.but_PieceRight.Size = new System.Drawing.Size(32, 84);
@@ -945,24 +947,24 @@
             // 
             // tabPieces
             // 
-            this.tabPieces.Controls.Add(this.checkBox17);
-            this.tabPieces.Controls.Add(this.checkBox9);
-            this.tabPieces.Controls.Add(this.checkBox10);
-            this.tabPieces.Controls.Add(this.checkBox11);
-            this.tabPieces.Controls.Add(this.checkBox12);
-            this.tabPieces.Controls.Add(this.checkBox13);
-            this.tabPieces.Controls.Add(this.checkBox14);
-            this.tabPieces.Controls.Add(this.checkBox15);
-            this.tabPieces.Controls.Add(this.checkBox16);
-            this.tabPieces.Controls.Add(this.checkBox8);
-            this.tabPieces.Controls.Add(this.checkBox7);
-            this.tabPieces.Controls.Add(this.checkBox6);
-            this.tabPieces.Controls.Add(this.checkBox5);
-            this.tabPieces.Controls.Add(this.checkBox4);
-            this.tabPieces.Controls.Add(this.checkBox3);
-            this.tabPieces.Controls.Add(this.checkBox2);
-            this.tabPieces.Controls.Add(this.checkBox1);
-            this.tabPieces.Controls.Add(this.button1);
+            this.tabPieces.Controls.Add(this.check_Piece_Zombie);
+            this.tabPieces.Controls.Add(this.check_Piece_Cloner);
+            this.tabPieces.Controls.Add(this.check_Piece_Stacker);
+            this.tabPieces.Controls.Add(this.check_Piece_Platformer);
+            this.tabPieces.Controls.Add(this.check_Piece_Stoner);
+            this.tabPieces.Controls.Add(this.check_Piece_Disarmer);
+            this.tabPieces.Controls.Add(this.check_Piece_Glider);
+            this.tabPieces.Controls.Add(this.check_Piece_Swimmer);
+            this.tabPieces.Controls.Add(this.check_Piece_Walker);
+            this.tabPieces.Controls.Add(this.check_Piece_Digger);
+            this.tabPieces.Controls.Add(this.check_Piece_Miner);
+            this.tabPieces.Controls.Add(this.check_Piece_Basher);
+            this.tabPieces.Controls.Add(this.check_Piece_Builder);
+            this.tabPieces.Controls.Add(this.check_Piece_Exploder);
+            this.tabPieces.Controls.Add(this.check_Piece_Blocker);
+            this.tabPieces.Controls.Add(this.check_Piece_Floater);
+            this.tabPieces.Controls.Add(this.check_Piece_Climber);
+            this.tabPieces.Controls.Add(this.but_MoveBackOne);
             this.tabPieces.Controls.Add(this.but_MoveFrontOne);
             this.tabPieces.Controls.Add(this.but_MoveBack);
             this.tabPieces.Controls.Add(this.but_MoveFront);
@@ -970,8 +972,8 @@
             this.tabPieces.Controls.Add(this.check_Pieces_OnlyOnTerrain);
             this.tabPieces.Controls.Add(this.check_Pieces_NoOv);
             this.tabPieces.Controls.Add(this.check_Pieces_Erase);
-            this.tabPieces.Controls.Add(this.but_Flip);
-            this.tabPieces.Controls.Add(this.but_Invert);
+            this.tabPieces.Controls.Add(this.but_FlipPieces);
+            this.tabPieces.Controls.Add(this.but_InvertPieces);
             this.tabPieces.Controls.Add(this.but_RotatePieces);
             this.tabPieces.Location = new System.Drawing.Point(4, 22);
             this.tabPieces.Name = "tabPieces";
@@ -981,184 +983,184 @@
             this.tabPieces.Text = "Pieces";
             this.tabPieces.UseVisualStyleBackColor = true;
             // 
-            // checkBox17
+            // check_Piece_Zombie
             // 
-            this.checkBox17.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox17.Location = new System.Drawing.Point(92, 328);
-            this.checkBox17.Name = "checkBox17";
-            this.checkBox17.Size = new System.Drawing.Size(76, 17);
-            this.checkBox17.TabIndex = 27;
-            this.checkBox17.Text = "Zombie";
-            this.checkBox17.UseVisualStyleBackColor = true;
+            this.check_Piece_Zombie.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Zombie.Location = new System.Drawing.Point(92, 328);
+            this.check_Piece_Zombie.Name = "check_Piece_Zombie";
+            this.check_Piece_Zombie.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Zombie.TabIndex = 27;
+            this.check_Piece_Zombie.Text = "Zombie";
+            this.check_Piece_Zombie.UseVisualStyleBackColor = true;
             // 
-            // checkBox9
+            // check_Piece_Cloner
             // 
-            this.checkBox9.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox9.Location = new System.Drawing.Point(92, 313);
-            this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(76, 17);
-            this.checkBox9.TabIndex = 26;
-            this.checkBox9.Text = "Cloner";
-            this.checkBox9.UseVisualStyleBackColor = true;
+            this.check_Piece_Cloner.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Cloner.Location = new System.Drawing.Point(92, 313);
+            this.check_Piece_Cloner.Name = "check_Piece_Cloner";
+            this.check_Piece_Cloner.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Cloner.TabIndex = 26;
+            this.check_Piece_Cloner.Text = "Cloner";
+            this.check_Piece_Cloner.UseVisualStyleBackColor = true;
             // 
-            // checkBox10
+            // check_Piece_Stacker
             // 
-            this.checkBox10.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox10.Location = new System.Drawing.Point(92, 298);
-            this.checkBox10.Name = "checkBox10";
-            this.checkBox10.Size = new System.Drawing.Size(76, 17);
-            this.checkBox10.TabIndex = 25;
-            this.checkBox10.Text = "Stacker";
-            this.checkBox10.UseVisualStyleBackColor = true;
+            this.check_Piece_Stacker.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Stacker.Location = new System.Drawing.Point(92, 298);
+            this.check_Piece_Stacker.Name = "check_Piece_Stacker";
+            this.check_Piece_Stacker.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Stacker.TabIndex = 25;
+            this.check_Piece_Stacker.Text = "Stacker";
+            this.check_Piece_Stacker.UseVisualStyleBackColor = true;
             // 
-            // checkBox11
+            // check_Piece_Platformer
             // 
-            this.checkBox11.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox11.Location = new System.Drawing.Point(92, 283);
-            this.checkBox11.Name = "checkBox11";
-            this.checkBox11.Size = new System.Drawing.Size(76, 17);
-            this.checkBox11.TabIndex = 24;
-            this.checkBox11.Text = "Platformer";
-            this.checkBox11.UseVisualStyleBackColor = true;
+            this.check_Piece_Platformer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Platformer.Location = new System.Drawing.Point(92, 283);
+            this.check_Piece_Platformer.Name = "check_Piece_Platformer";
+            this.check_Piece_Platformer.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Platformer.TabIndex = 24;
+            this.check_Piece_Platformer.Text = "Platformer";
+            this.check_Piece_Platformer.UseVisualStyleBackColor = true;
             // 
-            // checkBox12
+            // check_Piece_Stoner
             // 
-            this.checkBox12.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox12.Location = new System.Drawing.Point(92, 268);
-            this.checkBox12.Name = "checkBox12";
-            this.checkBox12.Size = new System.Drawing.Size(76, 17);
-            this.checkBox12.TabIndex = 23;
-            this.checkBox12.Text = "Stoner";
-            this.checkBox12.UseVisualStyleBackColor = true;
+            this.check_Piece_Stoner.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Stoner.Location = new System.Drawing.Point(92, 268);
+            this.check_Piece_Stoner.Name = "check_Piece_Stoner";
+            this.check_Piece_Stoner.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Stoner.TabIndex = 23;
+            this.check_Piece_Stoner.Text = "Stoner";
+            this.check_Piece_Stoner.UseVisualStyleBackColor = true;
             // 
-            // checkBox13
+            // check_Piece_Disarmer
             // 
-            this.checkBox13.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox13.Location = new System.Drawing.Point(92, 253);
-            this.checkBox13.Name = "checkBox13";
-            this.checkBox13.Size = new System.Drawing.Size(76, 17);
-            this.checkBox13.TabIndex = 22;
-            this.checkBox13.Text = "Disarmer";
-            this.checkBox13.UseVisualStyleBackColor = true;
+            this.check_Piece_Disarmer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Disarmer.Location = new System.Drawing.Point(92, 253);
+            this.check_Piece_Disarmer.Name = "check_Piece_Disarmer";
+            this.check_Piece_Disarmer.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Disarmer.TabIndex = 22;
+            this.check_Piece_Disarmer.Text = "Disarmer";
+            this.check_Piece_Disarmer.UseVisualStyleBackColor = true;
             // 
-            // checkBox14
+            // check_Piece_Glider
             // 
-            this.checkBox14.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox14.Location = new System.Drawing.Point(92, 238);
-            this.checkBox14.Name = "checkBox14";
-            this.checkBox14.Size = new System.Drawing.Size(76, 17);
-            this.checkBox14.TabIndex = 21;
-            this.checkBox14.Text = "Glider";
-            this.checkBox14.UseVisualStyleBackColor = true;
+            this.check_Piece_Glider.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Glider.Location = new System.Drawing.Point(92, 238);
+            this.check_Piece_Glider.Name = "check_Piece_Glider";
+            this.check_Piece_Glider.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Glider.TabIndex = 21;
+            this.check_Piece_Glider.Text = "Glider";
+            this.check_Piece_Glider.UseVisualStyleBackColor = true;
             // 
-            // checkBox15
+            // check_Piece_Swimmer
             // 
-            this.checkBox15.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox15.Location = new System.Drawing.Point(92, 223);
-            this.checkBox15.Name = "checkBox15";
-            this.checkBox15.Size = new System.Drawing.Size(76, 17);
-            this.checkBox15.TabIndex = 20;
-            this.checkBox15.Text = "Swimmer";
-            this.checkBox15.UseVisualStyleBackColor = true;
+            this.check_Piece_Swimmer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Swimmer.Location = new System.Drawing.Point(92, 223);
+            this.check_Piece_Swimmer.Name = "check_Piece_Swimmer";
+            this.check_Piece_Swimmer.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Swimmer.TabIndex = 20;
+            this.check_Piece_Swimmer.Text = "Swimmer";
+            this.check_Piece_Swimmer.UseVisualStyleBackColor = true;
             // 
-            // checkBox16
+            // check_Piece_Walker
             // 
-            this.checkBox16.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox16.Location = new System.Drawing.Point(92, 208);
-            this.checkBox16.Name = "checkBox16";
-            this.checkBox16.Size = new System.Drawing.Size(76, 17);
-            this.checkBox16.TabIndex = 19;
-            this.checkBox16.Text = "Walker";
-            this.checkBox16.UseVisualStyleBackColor = true;
+            this.check_Piece_Walker.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Walker.Location = new System.Drawing.Point(92, 208);
+            this.check_Piece_Walker.Name = "check_Piece_Walker";
+            this.check_Piece_Walker.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Walker.TabIndex = 19;
+            this.check_Piece_Walker.Text = "Walker";
+            this.check_Piece_Walker.UseVisualStyleBackColor = true;
             // 
-            // checkBox8
+            // check_Piece_Digger
             // 
-            this.checkBox8.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox8.Location = new System.Drawing.Point(8, 313);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(76, 17);
-            this.checkBox8.TabIndex = 18;
-            this.checkBox8.Text = "Digger";
-            this.checkBox8.UseVisualStyleBackColor = true;
+            this.check_Piece_Digger.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Digger.Location = new System.Drawing.Point(8, 313);
+            this.check_Piece_Digger.Name = "check_Piece_Digger";
+            this.check_Piece_Digger.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Digger.TabIndex = 18;
+            this.check_Piece_Digger.Text = "Digger";
+            this.check_Piece_Digger.UseVisualStyleBackColor = true;
             // 
-            // checkBox7
+            // check_Piece_Miner
             // 
-            this.checkBox7.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox7.Location = new System.Drawing.Point(8, 298);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(76, 17);
-            this.checkBox7.TabIndex = 17;
-            this.checkBox7.Text = "Miner";
-            this.checkBox7.UseVisualStyleBackColor = true;
+            this.check_Piece_Miner.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Miner.Location = new System.Drawing.Point(8, 298);
+            this.check_Piece_Miner.Name = "check_Piece_Miner";
+            this.check_Piece_Miner.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Miner.TabIndex = 17;
+            this.check_Piece_Miner.Text = "Miner";
+            this.check_Piece_Miner.UseVisualStyleBackColor = true;
             // 
-            // checkBox6
+            // check_Piece_Basher
             // 
-            this.checkBox6.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox6.Location = new System.Drawing.Point(8, 283);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(76, 17);
-            this.checkBox6.TabIndex = 16;
-            this.checkBox6.Text = "Basher";
-            this.checkBox6.UseVisualStyleBackColor = true;
+            this.check_Piece_Basher.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Basher.Location = new System.Drawing.Point(8, 283);
+            this.check_Piece_Basher.Name = "check_Piece_Basher";
+            this.check_Piece_Basher.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Basher.TabIndex = 16;
+            this.check_Piece_Basher.Text = "Basher";
+            this.check_Piece_Basher.UseVisualStyleBackColor = true;
             // 
-            // checkBox5
+            // check_Piece_Builder
             // 
-            this.checkBox5.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox5.Location = new System.Drawing.Point(8, 268);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(76, 17);
-            this.checkBox5.TabIndex = 15;
-            this.checkBox5.Text = "Builder";
-            this.checkBox5.UseVisualStyleBackColor = true;
+            this.check_Piece_Builder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Builder.Location = new System.Drawing.Point(8, 268);
+            this.check_Piece_Builder.Name = "check_Piece_Builder";
+            this.check_Piece_Builder.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Builder.TabIndex = 15;
+            this.check_Piece_Builder.Text = "Builder";
+            this.check_Piece_Builder.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // check_Piece_Exploder
             // 
-            this.checkBox4.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox4.Location = new System.Drawing.Point(8, 253);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(76, 17);
-            this.checkBox4.TabIndex = 14;
-            this.checkBox4.Text = "Exploder";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.check_Piece_Exploder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Exploder.Location = new System.Drawing.Point(8, 253);
+            this.check_Piece_Exploder.Name = "check_Piece_Exploder";
+            this.check_Piece_Exploder.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Exploder.TabIndex = 14;
+            this.check_Piece_Exploder.Text = "Exploder";
+            this.check_Piece_Exploder.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // check_Piece_Blocker
             // 
-            this.checkBox3.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox3.Location = new System.Drawing.Point(8, 238);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(76, 17);
-            this.checkBox3.TabIndex = 13;
-            this.checkBox3.Text = "Blocker";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.check_Piece_Blocker.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Blocker.Location = new System.Drawing.Point(8, 238);
+            this.check_Piece_Blocker.Name = "check_Piece_Blocker";
+            this.check_Piece_Blocker.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Blocker.TabIndex = 13;
+            this.check_Piece_Blocker.Text = "Blocker";
+            this.check_Piece_Blocker.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // check_Piece_Floater
             // 
-            this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox2.Location = new System.Drawing.Point(8, 223);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(76, 17);
-            this.checkBox2.TabIndex = 12;
-            this.checkBox2.Text = "Floater";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.check_Piece_Floater.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Floater.Location = new System.Drawing.Point(8, 223);
+            this.check_Piece_Floater.Name = "check_Piece_Floater";
+            this.check_Piece_Floater.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Floater.TabIndex = 12;
+            this.check_Piece_Floater.Text = "Floater";
+            this.check_Piece_Floater.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // check_Piece_Climber
             // 
-            this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox1.Location = new System.Drawing.Point(8, 208);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(76, 17);
-            this.checkBox1.TabIndex = 11;
-            this.checkBox1.Text = "Climber";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.check_Piece_Climber.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Climber.Location = new System.Drawing.Point(8, 208);
+            this.check_Piece_Climber.Name = "check_Piece_Climber";
+            this.check_Piece_Climber.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Climber.TabIndex = 11;
+            this.check_Piece_Climber.Text = "Climber";
+            this.check_Piece_Climber.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // but_MoveBackOne
             // 
-            this.button1.Location = new System.Drawing.Point(92, 80);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(76, 30);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "One to Back";
-            this.button1.UseVisualStyleBackColor = true;
+            this.but_MoveBackOne.Location = new System.Drawing.Point(92, 80);
+            this.but_MoveBackOne.Name = "but_MoveBackOne";
+            this.but_MoveBackOne.Size = new System.Drawing.Size(76, 30);
+            this.but_MoveBackOne.TabIndex = 6;
+            this.but_MoveBackOne.Text = "One to Back";
+            this.but_MoveBackOne.UseVisualStyleBackColor = true;
             // 
             // but_MoveFrontOne
             // 
@@ -1227,28 +1229,33 @@
             this.check_Pieces_Erase.Text = "Erase Terrain";
             this.check_Pieces_Erase.UseVisualStyleBackColor = true;
             // 
-            // but_Flip
+            // but_FlipPieces
             // 
-            this.but_Flip.Location = new System.Drawing.Point(119, 8);
-            this.but_Flip.Name = "but_Flip";
-            this.but_Flip.Size = new System.Drawing.Size(49, 30);
-            this.but_Flip.TabIndex = 2;
-            this.but_Flip.Text = "Flip";
-            this.but_Flip.UseVisualStyleBackColor = true;
-            this.but_Flip.Click += new System.EventHandler(this.but_Flip_Click);
+            this.but_FlipPieces.Interval = 500;
+            this.but_FlipPieces.Location = new System.Drawing.Point(119, 8);
+            this.but_FlipPieces.Name = "but_FlipPieces";
+            this.but_FlipPieces.Size = new System.Drawing.Size(49, 30);
+            this.but_FlipPieces.TabIndex = 2;
+            this.but_FlipPieces.Text = "Flip";
+            this.but_FlipPieces.UseVisualStyleBackColor = true;
+            this.but_FlipPieces.Click += new System.EventHandler(this.but_FlipPieces_Click);
+            this.but_FlipPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_FlipPieces_MouseUp);
             // 
-            // but_Invert
+            // but_InvertPieces
             // 
-            this.but_Invert.Location = new System.Drawing.Point(61, 8);
-            this.but_Invert.Name = "but_Invert";
-            this.but_Invert.Size = new System.Drawing.Size(49, 30);
-            this.but_Invert.TabIndex = 1;
-            this.but_Invert.Text = "Invert";
-            this.but_Invert.UseVisualStyleBackColor = true;
-            this.but_Invert.Click += new System.EventHandler(this.but_Invert_Click);
+            this.but_InvertPieces.Interval = 500;
+            this.but_InvertPieces.Location = new System.Drawing.Point(61, 8);
+            this.but_InvertPieces.Name = "but_InvertPieces";
+            this.but_InvertPieces.Size = new System.Drawing.Size(49, 30);
+            this.but_InvertPieces.TabIndex = 1;
+            this.but_InvertPieces.Text = "Invert";
+            this.but_InvertPieces.UseVisualStyleBackColor = true;
+            this.but_InvertPieces.Click += new System.EventHandler(this.but_InvertPieces_Click);
+            this.but_InvertPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_InvertPieces_MouseUp);
             // 
             // but_RotatePieces
             // 
+            this.but_RotatePieces.Interval = 500;
             this.but_RotatePieces.Location = new System.Drawing.Point(6, 8);
             this.but_RotatePieces.Name = "but_RotatePieces";
             this.but_RotatePieces.Size = new System.Drawing.Size(49, 30);
@@ -1256,6 +1263,7 @@
             this.but_RotatePieces.Text = "Rotate";
             this.but_RotatePieces.UseVisualStyleBackColor = true;
             this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
+            this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
             // 
             // tabSkills
             // 
@@ -1739,34 +1747,34 @@
         private System.Windows.Forms.PictureBox pic_Level;
         private System.Windows.Forms.TabControl tabLvlProperties;
         private System.Windows.Forms.TextBox txt_Focus;
-        private System.Windows.Forms.Button but_Flip;
-        private System.Windows.Forms.Button but_Invert;
-        private System.Windows.Forms.Button but_RotatePieces;
+        private NLEditor.RepeatButton but_FlipPieces;
+        private NLEditor.RepeatButton but_InvertPieces;
+        private NLEditor.RepeatButton but_RotatePieces;
         private System.Windows.Forms.CheckBox check_Pieces_OneWay;
         private System.Windows.Forms.CheckBox check_Pieces_OnlyOnTerrain;
         private System.Windows.Forms.CheckBox check_Pieces_NoOv;
         private System.Windows.Forms.CheckBox check_Pieces_Erase;
-        private System.Windows.Forms.CheckBox checkBox9;
-        private System.Windows.Forms.CheckBox checkBox10;
-        private System.Windows.Forms.CheckBox checkBox11;
-        private System.Windows.Forms.CheckBox checkBox12;
-        private System.Windows.Forms.CheckBox checkBox13;
-        private System.Windows.Forms.CheckBox checkBox14;
-        private System.Windows.Forms.CheckBox checkBox15;
-        private System.Windows.Forms.CheckBox checkBox16;
-        private System.Windows.Forms.CheckBox checkBox8;
-        private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.CheckBox checkBox6;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox check_Piece_Cloner;
+        private System.Windows.Forms.CheckBox check_Piece_Stacker;
+        private System.Windows.Forms.CheckBox check_Piece_Platformer;
+        private System.Windows.Forms.CheckBox check_Piece_Stoner;
+        private System.Windows.Forms.CheckBox check_Piece_Disarmer;
+        private System.Windows.Forms.CheckBox check_Piece_Glider;
+        private System.Windows.Forms.CheckBox check_Piece_Swimmer;
+        private System.Windows.Forms.CheckBox check_Piece_Walker;
+        private System.Windows.Forms.CheckBox check_Piece_Digger;
+        private System.Windows.Forms.CheckBox check_Piece_Miner;
+        private System.Windows.Forms.CheckBox check_Piece_Basher;
+        private System.Windows.Forms.CheckBox check_Piece_Builder;
+        private System.Windows.Forms.CheckBox check_Piece_Exploder;
+        private System.Windows.Forms.CheckBox check_Piece_Blocker;
+        private System.Windows.Forms.CheckBox check_Piece_Floater;
+        private System.Windows.Forms.CheckBox check_Piece_Climber;
+        private System.Windows.Forms.Button but_MoveBackOne;
         private System.Windows.Forms.Button but_MoveFrontOne;
         private System.Windows.Forms.Button but_MoveBack;
         private System.Windows.Forms.Button but_MoveFront;
-        private System.Windows.Forms.CheckBox checkBox17;
+        private System.Windows.Forms.CheckBox check_Piece_Zombie;
     }
 }
 
