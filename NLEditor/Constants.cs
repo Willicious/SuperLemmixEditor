@@ -52,32 +52,32 @@ namespace NLEditor
         }
 
 
-        public const int LAY_COUNT = 6;
-        public const int LAY_OBJBACK = 0;
-        public const int LAY_TERRAIN = 1;
-        public const int LAY_OBJTOP = 3;
-        public const int LAY_TRIGGER = 4;
-        public const int LAY_OWWTERRAIN = 5;
+        public static readonly int LAY_COUNT = 6;
+        public static readonly int LAY_OBJBACK = 0;
+        public static readonly int LAY_TERRAIN = 1;
+        public static readonly int LAY_OBJTOP = 3;
+        public static readonly int LAY_TRIGGER = 4;
+        public static readonly int LAY_OWWTERRAIN = 5;
 
 
-        public const int SKI_COUNT = 16; // count without zombie!
-        public const int SKI_CLIMBER = 0;
-        public const int SKI_FLOATER = 1;
-        public const int SKI_BLOCKER = 2;
-        public const int SKI_EXPLODER = 3;
-        public const int SKI_BUILDER = 4;
-        public const int SKI_BASHER = 5;
-        public const int SKI_MINER = 6;
-        public const int SKI_DIGGER = 7;
-        public const int SKI_WALKER = 8;
-        public const int SKI_SWIMMER = 9;
-        public const int SKI_GLIDER = 10;
-        public const int SKI_DISARMER = 11;
-        public const int SKI_STONER = 12;
-        public const int SKI_PLATFORMER = 13;
-        public const int SKI_STACKER = 14;
-        public const int SKI_CLONER = 15;
-        public const int SKI_ZOMBIE = 16;
+        public static readonly int SKI_COUNT = 16; // count without zombie!
+        public static readonly int SKI_CLIMBER = 0;
+        public static readonly int SKI_FLOATER = 1;
+        public static readonly int SKI_BLOCKER = 2;
+        public static readonly int SKI_EXPLODER = 3;
+        public static readonly int SKI_BUILDER = 4;
+        public static readonly int SKI_BASHER = 5;
+        public static readonly int SKI_MINER = 6;
+        public static readonly int SKI_DIGGER = 7;
+        public static readonly int SKI_WALKER = 8;
+        public static readonly int SKI_SWIMMER = 9;
+        public static readonly int SKI_GLIDER = 10;
+        public static readonly int SKI_DISARMER = 11;
+        public static readonly int SKI_STONER = 12;
+        public static readonly int SKI_PLATFORMER = 13;
+        public static readonly int SKI_STACKER = 14;
+        public static readonly int SKI_CLONER = 15;
+        public static readonly int SKI_ZOMBIE = 16;
 
     }
 
