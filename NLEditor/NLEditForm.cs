@@ -60,12 +60,10 @@ namespace NLEditor
             fStopWatchMouse = new Stopwatch();
             fStopWatchMouse.Start();
             
-            /*
             fTimerMouse = new Timer();
             fTimerMouse.Enabled = false;
             fTimerMouse.Interval = 30;
             fTimerMouse.Tick += new EventHandler(delegate(Object obj, EventArgs e) { TimerMouse_Tick(); });
-            */
 
             fMouseButtonPressed = null;
 
@@ -84,7 +82,8 @@ namespace NLEditor
 
         Stopwatch fStopWatchKey;
         Stopwatch fStopWatchMouse;
-        //Timer fTimerMouse;
+        Timer fTimerMouse;
+        Action fTimerAction;
         MouseButtons? fMouseButtonPressed;
 
 
@@ -114,7 +113,19 @@ namespace NLEditor
         {
             this.ActiveControl = this.txt_Focus; // remove focus
         }
-        
+
+        private void TimerMouse_Tick()
+        {
+            if (fTimerAction != null)
+            {
+                fTimerAction();
+            }
+            else
+            {
+                fTimerMouse.Enabled = false;
+            }
+        }
+
         /* -----------------------------------------------------------
          *              Menu Items
          * ----------------------------------------------------------- */
@@ -272,16 +283,64 @@ namespace NLEditor
 
         private void but_PieceLeft_MouseDown(object sender, MouseEventArgs e)
         {
-            int Movement = (e.Button == MouseButtons.Right) ? -8 : -1;
-            MoveTerrPieceSelection(Movement);
+            if (e.Button == MouseButtons.Right)
+            {
+                fTimerAction = MoveTerrPieceSelection_8_Left;
+                fTimerMouse.Interval = 300;
+            }
+            else 
+            {
+                fTimerAction = MoveTerrPieceSelection_1_Left;
+                fTimerMouse.Interval = 100;
+            }
+
+            fTimerAction(); // Do first action now.
+            fTimerMouse.Enabled = true;
+        }
+
+        private void but_PieceLeft_MouseUp(object sender, MouseEventArgs e)
+        {
+            fTimerMouse.Enabled = false;
             this.ActiveControl = this.txt_Focus; // remove focus
+        }
+
+        private void but_PieceLeft_Click(object sender, EventArgs e)
+        {
+            if (!(e is MouseEventArgs))
+            {
+                MoveTerrPieceSelection(-1);
+            }
         }
 
         private void but_PieceRight_MouseDown(object sender, MouseEventArgs e)
         {
-            int Movement = (e.Button == MouseButtons.Right) ? 8 : 1;
-            MoveTerrPieceSelection(Movement);
+            if (e.Button == MouseButtons.Right)
+            {
+                fTimerAction = MoveTerrPieceSelection_8_Right;
+                fTimerMouse.Interval = 300;
+            }
+            else
+            {
+                fTimerAction = MoveTerrPieceSelection_1_Right;
+                fTimerMouse.Interval = 100;
+            }
+
+            fTimerAction(); // Do first action now.
+            fTimerMouse.Enabled = true;
+        }
+
+        private void but_PieceRight_MouseUp(object sender, MouseEventArgs e)
+        {
+            fTimerMouse.Enabled = false;
             this.ActiveControl = this.txt_Focus; // remove focus
+        }
+
+        private void but_PieceRight_Click(object sender, EventArgs e)
+        {
+            if (!(e is MouseEventArgs))
+            {
+                MoveTerrPieceSelection(1);
+            }
         }
 
         private void picPiece0_Click(object sender, EventArgs e)
@@ -511,24 +570,6 @@ namespace NLEditor
 
             fMouseButtonPressed = null;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     }
