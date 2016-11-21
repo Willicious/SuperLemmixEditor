@@ -55,10 +55,10 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.combo_PieceStyle = new System.Windows.Forms.ComboBox();
             this.picPiece0 = new System.Windows.Forms.PictureBox();
-            this.but_PieceLeft = new System.Windows.Forms.Button();
+            this.but_PieceLeft = new NLEditor.RepeatButton();
             this.picPiece1 = new System.Windows.Forms.PictureBox();
             this.picPiece2 = new System.Windows.Forms.PictureBox();
-            this.but_PieceRight = new System.Windows.Forms.Button();
+            this.but_PieceRight = new NLEditor.RepeatButton();
             this.picPiece3 = new System.Windows.Forms.PictureBox();
             this.picPiece4 = new System.Windows.Forms.PictureBox();
             this.picPiece5 = new System.Windows.Forms.PictureBox();
@@ -1725,10 +1725,10 @@
         private System.Windows.Forms.ComboBox combo_Music;
         private System.Windows.Forms.ComboBox combo_PieceStyle;
         private System.Windows.Forms.PictureBox picPiece0;
-        private System.Windows.Forms.Button but_PieceLeft;
+        private NLEditor.RepeatButton but_PieceLeft;
         private System.Windows.Forms.PictureBox picPiece1;
         private System.Windows.Forms.PictureBox picPiece2;
-        private System.Windows.Forms.Button but_PieceRight;
+        private NLEditor.RepeatButton but_PieceRight;
         private System.Windows.Forms.PictureBox picPiece3;
         private System.Windows.Forms.PictureBox picPiece4;
         private System.Windows.Forms.PictureBox picPiece5;

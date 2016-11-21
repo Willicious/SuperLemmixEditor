@@ -59,12 +59,12 @@ namespace NLEditor
             fStopWatchKey.Start();
             fStopWatchMouse = new Stopwatch();
             fStopWatchMouse.Start();
-            
+            /*
             fTimerMouse = new Timer();
             fTimerMouse.Enabled = false;
             fTimerMouse.Interval = 30;
             fTimerMouse.Tick += new EventHandler(delegate(Object obj, EventArgs e) { TimerMouse_Tick(); });
-
+            */
             fMouseButtonPressed = null;
 
             fStopWatchProfiling = new Stopwatch();
@@ -82,8 +82,8 @@ namespace NLEditor
 
         Stopwatch fStopWatchKey;
         Stopwatch fStopWatchMouse;
-        Timer fTimerMouse;
-        Action fTimerAction;
+        //Timer fTimerMouse;
+        //Action fTimerAction;
         MouseButtons? fMouseButtonPressed;
 
 
@@ -114,6 +114,7 @@ namespace NLEditor
             this.ActiveControl = this.txt_Focus; // remove focus
         }
 
+        /*
         private void TimerMouse_Tick()
         {
             if (fTimerAction != null)
@@ -124,7 +125,7 @@ namespace NLEditor
             {
                 fTimerMouse.Enabled = false;
             }
-        }
+        } */
 
         /* -----------------------------------------------------------
          *              Menu Items
@@ -283,64 +284,64 @@ namespace NLEditor
 
         private void but_PieceLeft_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
-            {
-                fTimerAction = MoveTerrPieceSelection_8_Left;
-                fTimerMouse.Interval = 300;
-            }
-            else 
-            {
-                fTimerAction = MoveTerrPieceSelection_1_Left;
-                fTimerMouse.Interval = 100;
-            }
-
-            fTimerAction(); // Do first action now.
-            fTimerMouse.Enabled = true;
+            int NewInterval = (e.Button == MouseButtons.Right) ? 300 : 100;
+            but_PieceLeft.SetInterval(NewInterval);
         }
 
         private void but_PieceLeft_MouseUp(object sender, MouseEventArgs e)
         {
-            fTimerMouse.Enabled = false;
             this.ActiveControl = this.txt_Focus; // remove focus
         }
 
         private void but_PieceLeft_Click(object sender, EventArgs e)
         {
+            int Movement;
+            
             if (!(e is MouseEventArgs))
             {
-                MoveTerrPieceSelection(-1);
+                Movement = -1;
             }
+            else if ((e as MouseEventArgs).Button == MouseButtons.Right)
+            {
+                Movement = -8;
+            }
+            else
+            {
+                Movement = -1;
+            }
+
+            MoveTerrPieceSelection(Movement);
         }
 
         private void but_PieceRight_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
-            {
-                fTimerAction = MoveTerrPieceSelection_8_Right;
-                fTimerMouse.Interval = 300;
-            }
-            else
-            {
-                fTimerAction = MoveTerrPieceSelection_1_Right;
-                fTimerMouse.Interval = 100;
-            }
-
-            fTimerAction(); // Do first action now.
-            fTimerMouse.Enabled = true;
+            int NewInterval = (e.Button == MouseButtons.Right) ? 300 : 100;
+            but_PieceRight.SetInterval(NewInterval);
         }
 
         private void but_PieceRight_MouseUp(object sender, MouseEventArgs e)
         {
-            fTimerMouse.Enabled = false;
             this.ActiveControl = this.txt_Focus; // remove focus
         }
 
         private void but_PieceRight_Click(object sender, EventArgs e)
         {
+            int Movement;
+
             if (!(e is MouseEventArgs))
             {
-                MoveTerrPieceSelection(1);
+                Movement = 1;
             }
+            else if ((e as MouseEventArgs).Button == MouseButtons.Right)
+            {
+                Movement = 8;
+            }
+            else
+            {
+                Movement = 1;
+            }
+
+            MoveTerrPieceSelection(Movement);
         }
 
         private void picPiece0_Click(object sender, EventArgs e)

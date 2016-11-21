@@ -229,42 +229,6 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Moves the piece selection bar one to the left.
-        /// <para> Should only be used as a fTimerAction. </para>
-        /// </summary>
-        private void MoveTerrPieceSelection_1_Left()
-        {
-            MoveTerrPieceSelection(-1);
-        }
-
-        /// <summary>
-        /// Moves the piece selection bar eight images to the left.
-        /// <para> Should only be used as a fTimerAction. </para>
-        /// </summary>
-        private void MoveTerrPieceSelection_8_Left()
-        {
-            MoveTerrPieceSelection(-8);
-        }
-
-        /// <summary>
-        /// Moves the piece selection bar one to the right.
-        /// <para> Should only be used as a fTimerAction. </para>
-        /// </summary>
-        private void MoveTerrPieceSelection_1_Right()
-        {
-            MoveTerrPieceSelection(1);
-        }
-
-        /// <summary>
-        /// Moves the piece selection bar eight images to the right.
-        /// <para> Should only be used as a fTimerAction. </para>
-        /// </summary>
-        private void MoveTerrPieceSelection_8_Right()
-        {
-            MoveTerrPieceSelection(8);
-        }
-
-        /// <summary>
         /// Changes the style for newly added pieces and displays the new pieces.
         /// </summary>
         /// <param name="Movement"></param>
