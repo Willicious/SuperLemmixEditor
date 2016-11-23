@@ -282,24 +282,27 @@ namespace NLEditor
             {
                 if (MyTerrPiece.IsErase)
                 {
-                    fLayerList[C.LAY_TERRAIN].DrawOnErase(MyTerrPiece.Image, MyTerrPiece.Pos);
-                    fLayerList[C.LAY_OWWTERRAIN].DrawOnErase(MyTerrPiece.Image, MyTerrPiece.Pos);
+                    fLayerList[C.LAY_TERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos, C.CustDrawMode.Erase);
+                    fLayerList[C.LAY_OWWTERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos, C.CustDrawMode.Erase);
                 }
                 else if (MyTerrPiece.IsNoOverwrite)
                 {
-                    if (!MyTerrPiece.IsOneWay)
+                    if(MyTerrPiece.IsOneWay)
                     {
-                        fLayerList[C.LAY_TERRAIN].DrawOnNoOw(MyTerrPiece.Image, MyTerrPiece.Pos);
+                        // Write on this layer before changing the actual terrain layer. Otherwise nothing gets added!
+                        fLayerList[C.LAY_OWWTERRAIN].DrawOn(MyTerrPiece.Image, fLayerList[C.LAY_TERRAIN], MyTerrPiece.Pos, C.CustDrawMode.NotAtMask);
                     }
-                    else
-                    {
-                        fLayerList[C.LAY_TERRAIN].DrawOnNoOw(MyTerrPiece.Image, MyTerrPiece.Pos, fLayerList[C.LAY_OWWTERRAIN]);
-                    }
+
+                    fLayerList[C.LAY_TERRAIN].DrawOn(MyTerrPiece.Image, (Bitmap)fLayerList[C.LAY_TERRAIN].Clone(), MyTerrPiece.Pos, C.CustDrawMode.NotAtMask);
                 }
                 else
                 {
+                    if (MyTerrPiece.IsOneWay)
+                    {
+                        fLayerList[C.LAY_OWWTERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos);
+                    }
+
                     fLayerList[C.LAY_TERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos);
-                    if (MyTerrPiece.IsOneWay) fLayerList[C.LAY_OWWTERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos);
                 }
             }
         }
@@ -315,14 +318,14 @@ namespace NLEditor
                     obj.IsOnlyOnTerrain && !obj.ObjType.In(C.OBJ.OWW_LEFT, C.OBJ.OWW_RIGHT, C.OBJ.OWW_DOWN));
             foreach (GadgetPiece MyGadget in OnlyOnTerrainGadgetList)
             {
-                fLayerList[C.LAY_OBJTOP].DrawOnMask(MyGadget.Image, MyGadget.Pos, fLayerList[C.LAY_TERRAIN]);
+                fLayerList[C.LAY_OBJTOP].DrawOn(MyGadget.Image, fLayerList[C.LAY_TERRAIN], MyGadget.Pos, C.CustDrawMode.OnlyAtMask);
             }
 
             List<GadgetPiece> OWWGadgetList = fMyLevel.GadgetList.FindAll(obj => 
                     obj.ObjType.In(C.OBJ.OWW_LEFT, C.OBJ.OWW_RIGHT, C.OBJ.OWW_DOWN));
             foreach (GadgetPiece MyGadget in OWWGadgetList)
             {
-                fLayerList[C.LAY_OBJTOP].DrawOnMask(MyGadget.Image, MyGadget.Pos, fLayerList[C.LAY_OWWTERRAIN]);
+                fLayerList[C.LAY_OBJTOP].DrawOn(MyGadget.Image, fLayerList[C.LAY_OWWTERRAIN], MyGadget.Pos, C.CustDrawMode.OnlyAtMask);
             }
 
             List<GadgetPiece> UsualGadgetList = fMyLevel.GadgetList.FindAll(obj => 

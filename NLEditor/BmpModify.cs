@@ -31,6 +31,109 @@ namespace NLEditor
          *     - DrawOnFilledRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
          *     - DrawOnDottedRectangles(this Bitmap OrigBmp, Rectangle Rect)
          * -------------------------------------------------------- */
+        
+        /// <summary>
+        /// Initializes the dictionary ColorFuncDict.
+        /// </summary>
+        static BmpModify()
+        {
+            ColorFuncDict = new Dictionary<C.CustDrawMode, Func<int, int, byte[]>>();
+            ColorFuncDict.Add(C.CustDrawMode.Default, null);
+            ColorFuncDict.Add(C.CustDrawMode.Erase, ColorFunc_Erase);
+            ColorFuncDict.Add(C.CustDrawMode.NotAtMask, null);
+            ColorFuncDict.Add(C.CustDrawMode.OnlyAtMask, null);
+            ColorFuncDict.Add(C.CustDrawMode.ClearPhysics, ColorFunc_ClearPhysics);
+            ColorFuncDict.Add(C.CustDrawMode.ClearPhysicsSteel, ColorFunc_ClearPhysicsSteel);
+
+            DoDrawThisPixelDict = new Dictionary<C.CustDrawMode, Func<byte, byte, bool>>();
+            DoDrawThisPixelDict.Add(C.CustDrawMode.Default, DoDrawThisPixel_DrawNew);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.Erase, DoDrawThisPixel_DrawNew);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.NotAtMask, DoDrawThisPixel_NotAtMask);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.OnlyAtMask, DoDrawThisPixel_OnlyAtMask);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysics, DoDrawThisPixel_DrawNew);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsSteel, DoDrawThisPixel_DrawNew);
+        }
+
+        private static Dictionary<C.CustDrawMode, Func<int, int, byte[]>> ColorFuncDict;
+        private static Dictionary<C.CustDrawMode, Func<byte, byte, bool>> DoDrawThisPixelDict;
+
+        private static readonly byte[] ColorErase = { 0, 0, 0, 0 };
+        private static readonly byte[] ColorClearPhysicsLight = { 200, 200, 200, 255 };
+        private static readonly byte[] ColorClearPhysicsDark = { 150, 150, 150, 255 };
+        private static readonly byte[] ColorClearPhysicsSteelLight = { 100, 100, 100, 255 };
+        private static readonly byte[] ColorClearPhysicsSteelDark = { 50, 50, 50, 255 };
+
+        private static byte[] ColorFunc_Erase(int PosX, int PosY)
+        {
+            return ColorErase;
+        }
+
+        private static byte[] ColorFunc_ClearPhysics(int PosX, int PosY)
+        {
+            if (PosX + PosY % 2 == 0)
+            {
+                return ColorClearPhysicsLight;
+            }
+            else
+            {
+                return ColorClearPhysicsDark;
+            }
+        }
+
+        private static byte[] ColorFunc_ClearPhysicsSteel(int PosX, int PosY)
+        {
+            if (PosX + PosY % 2 == 0)
+            {
+                return ColorClearPhysicsSteelLight;
+            }
+            else
+            {
+                return ColorClearPhysicsSteelDark;
+            }
+        }
+
+        private static bool DoDrawThisPixel_DrawNew(byte NewBmpAlpha, byte MaskBmpAlpha)
+        {
+            return (NewBmpAlpha > 63);
+        }
+
+        private static bool DoDrawThisPixel_OnlyAtMask(byte NewBmpAlpha, byte MaskBmpAlpha)
+        {
+            return (NewBmpAlpha > 63) && (MaskBmpAlpha > 63);
+        }
+
+        private static bool DoDrawThisPixel_NotAtMask(byte NewBmpAlpha, byte MaskBmpAlpha)
+        {
+            return (NewBmpAlpha > 63) && (MaskBmpAlpha < 63);
+        }
+
+        /// <summary>
+        /// Copies the ColorBytes to the pixel pointed to.
+        /// <para> WARNING: Always make sure that ColorBytes has at least length 4. </para>
+        /// </summary>
+        /// <param name="PtrToPixel"></param>
+        /// <param name="ColorBytes"></param>
+        private static unsafe void ChangePixel(byte* PtrToPixel, byte[] ColorBytes)
+        {
+            PtrToPixel[0] = ColorBytes[0];
+            PtrToPixel[1] = ColorBytes[1];
+            PtrToPixel[2] = ColorBytes[2];
+            PtrToPixel[3] = ColorBytes[3];
+        }
+
+        /// <summary>
+        /// Copies the bytes of the NewPixel to the pixel pointed to in the first argument.
+        /// </summary>
+        /// <param name="PtrToPixel"></param>
+        /// <param name="PtrToNewPixel"></param>
+        private static unsafe void ChangePixel(byte* PtrToPixel, byte* PtrToNewPixel)
+        {
+            PtrToPixel[0] = (byte)PtrToNewPixel[0];
+            PtrToPixel[1] = (byte)PtrToNewPixel[1];
+            PtrToPixel[2] = (byte)PtrToNewPixel[2];
+            PtrToPixel[3] = (byte)PtrToNewPixel[3];
+        }
+
 
         /// <summary>
         /// Crops the bitmap along a rectangle.
@@ -61,6 +164,8 @@ namespace NLEditor
         /// <param name="ClearColor"></param>
         public static void Clear(this Bitmap OrigBmp, Color ClearColor)
         {
+            byte[] ColorBytes = { ClearColor.B, ClearColor.G, ClearColor.R, ClearColor.A };
+            
             unsafe
             {
                 // Get BitmapData for OrigBitmap
@@ -80,10 +185,7 @@ namespace NLEditor
 
                     for (int x = 0; x < Width; x++)
                     {
-                        CurOrigLine[BytesPerPixel * x + 0] = ClearColor.B;
-                        CurOrigLine[BytesPerPixel * x + 1] = ClearColor.G;
-                        CurOrigLine[BytesPerPixel * x + 2] = ClearColor.R;
-                        CurOrigLine[BytesPerPixel * x + 3] = ClearColor.A;
+                        ChangePixel(CurOrigLine + BytesPerPixel * x, ColorBytes);
                     }
                 });
 
@@ -100,261 +202,179 @@ namespace NLEditor
         /// <param name="Pos"></param>
         public static void DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
         {
-            if (NewBmp == null) return;
-
-            // Get rectangle giving the area that is drawn onto
-            Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
-            Rectangle NewBmpRect = new Rectangle(Pos, NewBmp.Size);
-            Rectangle DrawRect = Rectangle.Intersect(OrigBmpRect, NewBmpRect);
-
-            unsafe
-            {
-                // Get BitmapData for OrigBitmap
-                BitmapData OrigBmpData = OrigBmp.LockBits(OrigBmpRect, ImageLockMode.WriteOnly, OrigBmp.PixelFormat);
-                // Get pointer to pixel-array
-                byte* PtrOrigFirstPixel = (byte*)OrigBmpData.Scan0;
-                // Check number of bytes per pixel
-                const int BytesPerPixel = 4;
-                Debug.Assert(Bitmap.GetPixelFormatSize(OrigBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
-
-                // Get BitmapData for NewBitmap
-                BitmapData NewBmpData = NewBmp.LockBits(new Rectangle(0, 0, NewBmp.Width, NewBmp.Height), ImageLockMode.ReadOnly, NewBmp.PixelFormat);
-                // Get pointer to pixel-array
-                byte* PtrNewFirstPixel = (byte*)NewBmpData.Scan0;
-                // Check number of bytes per pixel
-                Debug.Assert(Bitmap.GetPixelFormatSize(NewBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
-
-                // Copy the pixels
-                Parallel.For(0, DrawRect.Height, y =>
-                {
-                    // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-                    byte* CurOrigLine = PtrOrigFirstPixel + ((y + DrawRect.Top) * OrigBmpData.Stride) + DrawRect.Left * BytesPerPixel;
-                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-                    byte* CurNewLine = PtrNewFirstPixel + ((y + DrawRect.Top - NewBmpRect.Top) * NewBmpData.Stride) + (DrawRect.Left - NewBmpRect.Left) * BytesPerPixel;
-
-                    for (int x = 0; x < DrawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
-                    {
-                        // We require an alpha value of 25%
-                        if ((byte)CurNewLine[x + 3] > 63)
-                        {
-                            CurOrigLine[x] = (byte)CurNewLine[x]; // Blue
-                            CurOrigLine[x + 1] = (byte)CurNewLine[x + 1]; // Green
-                            CurOrigLine[x + 2] = (byte)CurNewLine[x + 2]; // Red
-                            CurOrigLine[x + 3] = 255; // alpha = full non-transparent
-                        }
-                    }
-                });
-
-                // Unlock all pixel data
-                OrigBmp.UnlockBits(OrigBmpData);
-                NewBmp.UnlockBits(NewBmpData);
-            }
+            OrigBmp.DrawOn(NewBmp, Pos, DoDrawThisPixel_DrawNew);
         }
 
         /// <summary>
-        /// Erases all pixels from the base bitmap, where the new bitmap is non-transparent 
+        /// Draws NewBmp to the base bitmap using the selected CustDrawMode.
         /// </summary>
         /// <param name="OrigBmp"></param>
         /// <param name="NewBmp"></param>
         /// <param name="Pos"></param>
-        public static void DrawOnErase(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
+        /// <param name="ColorSelect"></param>
+        public static void DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, C.CustDrawMode ColorSelect)
         {
-            if (NewBmp == null) return;
+            Func<int, int, byte[]> ColorFunc = ColorFuncDict[ColorSelect];
+            Func<byte, byte, bool> DoDrawThisPixel = DoDrawThisPixelDict[ColorSelect];
 
-            // Get rectangle giving the area that is drawn onto
-            Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
-            Rectangle NewBmpRect = new Rectangle(Pos, NewBmp.Size);
-            Rectangle DrawRect = Rectangle.Intersect(OrigBmpRect, NewBmpRect);
-
-            unsafe
+            if (ColorFunc == null)
             {
-                // Get BitmapData for OrigBitmap
-                BitmapData OrigBmpData = OrigBmp.LockBits(OrigBmpRect, ImageLockMode.WriteOnly, OrigBmp.PixelFormat);
-                // Get pointer to pixel-array
-                byte* PtrOrigFirstPixel = (byte*)OrigBmpData.Scan0;
-                // Check number of bytes per pixel
-                const int BytesPerPixel = 4;
-                Debug.Assert(Bitmap.GetPixelFormatSize(OrigBmp.PixelFormat) == 32, "Bitmap erased from has no alpha channel!");
-
-                // Get BitmapData for NewBitmap
-                BitmapData NewBmpData = NewBmp.LockBits(new Rectangle(0, 0, NewBmp.Width, NewBmp.Height), ImageLockMode.ReadOnly, NewBmp.PixelFormat);
-                // Get pointer to pixel-array
-                byte* PtrNewFirstPixel = (byte*)NewBmpData.Scan0;
-                // Check number of bytes per pixel
-                Debug.Assert(Bitmap.GetPixelFormatSize(NewBmp.PixelFormat) == 32, "Bitmap to erase has no alpha channel!");
-
-                // Copy the pixels
-                Parallel.For(0, DrawRect.Height, y =>
-                {
-                    // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-                    byte* CurOrigLine = PtrOrigFirstPixel + ((y + DrawRect.Top) * OrigBmpData.Stride) + DrawRect.Left * BytesPerPixel;
-                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-                    byte* CurNewLine = PtrNewFirstPixel + ((y + DrawRect.Top - NewBmpRect.Top) * NewBmpData.Stride) + (DrawRect.Left - NewBmpRect.Left) * BytesPerPixel;
-
-                    for (int x = 0; x < DrawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
-                    {
-                        // We require an alpha value of 25%
-                        if ((byte)CurNewLine[x + 3] > 63)
-                        {
-                            CurOrigLine[x] = 0;
-                            CurOrigLine[x + 1] = 0;
-                            CurOrigLine[x + 2] = 0;
-                            CurOrigLine[x + 3] = 0;
-                        }
-                    }
-                });
-
-                // Unlock all pixel data
-                OrigBmp.UnlockBits(OrigBmpData);
-                NewBmp.UnlockBits(NewBmpData);
+                OrigBmp.DrawOn(NewBmp, Pos, DoDrawThisPixel_DrawNew);
+            }
+            else
+            {
+                OrigBmp.DrawOn(NewBmp, Pos, ColorFunc, DoDrawThisPixel_DrawNew);
             }
         }
 
         /// <summary>
-        /// Copies pixels from a new bitmap at all pixels where the base bitmap is transparent. 
+        /// Draws NewBmp to the base bitmap using the selected CustDrawMode using a mask.
         /// </summary>
         /// <param name="OrigBmp"></param>
         /// <param name="NewBmp"></param>
-        /// <param name="Pos"></param>
-        public static void DrawOnNoOw(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
-        {
-            if (NewBmp == null) return;
-
-            // Get rectangle giving the area that is drawn onto
-            Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
-            Rectangle NewBmpRect = new Rectangle(Pos, NewBmp.Size);
-            Rectangle DrawRect = Rectangle.Intersect(OrigBmpRect, NewBmpRect);
-
-            unsafe
-            {
-                // Get BitmapData for OrigBitmap
-                BitmapData OrigBmpData = OrigBmp.LockBits(OrigBmpRect, ImageLockMode.ReadWrite, OrigBmp.PixelFormat);
-                // Get pointer to pixel-array
-                byte* PtrOrigFirstPixel = (byte*)OrigBmpData.Scan0;
-                // Check number of bytes per pixel
-                const int BytesPerPixel = 4;
-                Debug.Assert(Bitmap.GetPixelFormatSize(OrigBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
-
-                // Get BitmapData for NewBitmap
-                BitmapData NewBmpData = NewBmp.LockBits(new Rectangle(0, 0, NewBmp.Width, NewBmp.Height), ImageLockMode.ReadOnly, NewBmp.PixelFormat);
-                // Get pointer to pixel-array
-                byte* PtrNewFirstPixel = (byte*)NewBmpData.Scan0;
-                // Check number of bytes per pixel
-                Debug.Assert(Bitmap.GetPixelFormatSize(NewBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
-
-                // Copy the pixels
-                Parallel.For(0, DrawRect.Height, y =>
-                {
-                    // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-                    byte* CurOrigLine = PtrOrigFirstPixel + ((y + DrawRect.Top) * OrigBmpData.Stride) + DrawRect.Left * BytesPerPixel;
-                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-                    byte* CurNewLine = PtrNewFirstPixel + ((y + DrawRect.Top - NewBmpRect.Top) * NewBmpData.Stride) + (DrawRect.Left - NewBmpRect.Left) * BytesPerPixel;
-
-                    for (int x = 0; x < DrawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
-                    {
-                        // We require an alpha value of 25%
-                        if ((byte)CurNewLine[x + 3] > 63 && (byte)CurOrigLine[x + 3] > 63)
-                        {
-                            CurOrigLine[x] = (byte)CurNewLine[x]; // Blue
-                            CurOrigLine[x + 1] = (byte)CurNewLine[x + 1]; // Green
-                            CurOrigLine[x + 2] = (byte)CurNewLine[x + 2]; // Red
-                            CurOrigLine[x + 3] = 255; // alpha = full non-transparent
-                        }
-                    }
-                });
-
-                // Unlock all pixel data
-                OrigBmp.UnlockBits(OrigBmpData);
-                NewBmp.UnlockBits(NewBmpData);
-            }
-        }
-
-        /// <summary>
-        /// Copies pixels from a new bitmap at all pixels where the base bitmap is transparent.
-        /// <para> These pixels are copied onto the AddBmp as well. </para>
-        /// </summary>
-        /// <param name="OrigBmp"></param>
-        /// <param name="NewBmp"></param>
-        /// <param name="Pos"></param>
-        /// <param name="AddBmp"></param>
-        public static void DrawOnNoOw(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, Bitmap AddBmp)
-        {
-            if (NewBmp == null || AddBmp == null) return;
-
-            // Get rectangle giving the area that is drawn onto
-            Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
-            Rectangle NewBmpRect = new Rectangle(Pos, NewBmp.Size);
-            Rectangle DrawRect = Rectangle.Intersect(OrigBmpRect, NewBmpRect);
-            Debug.Assert(OrigBmp.Width == AddBmp.Width && OrigBmp.Height == AddBmp.Height, "Additional bitmap has different size than target bitmap.");
-
-            unsafe
-            {
-                // Get BitmapData for OrigBitmap
-                BitmapData OrigBmpData = OrigBmp.LockBits(OrigBmpRect, ImageLockMode.ReadWrite, OrigBmp.PixelFormat);
-                // Get pointer to pixel-array
-                byte* PtrOrigFirstPixel = (byte*)OrigBmpData.Scan0;
-                // Check number of bytes per pixel
-                const int BytesPerPixel = 4;
-                Debug.Assert(Bitmap.GetPixelFormatSize(OrigBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
-
-                // Get BitmapData for NewBitmap
-                BitmapData NewBmpData = NewBmp.LockBits(new Rectangle(0, 0, NewBmp.Width, NewBmp.Height), ImageLockMode.ReadOnly, NewBmp.PixelFormat);
-                // Get pointer to pixel-array
-                byte* PtrNewFirstPixel = (byte*)NewBmpData.Scan0;
-                // Check number of bytes per pixel
-                Debug.Assert(Bitmap.GetPixelFormatSize(NewBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
-
-                // Get BitmapData for AddBitmap
-                BitmapData AddBmpData = AddBmp.LockBits(OrigBmpRect, ImageLockMode.WriteOnly, AddBmp.PixelFormat);
-                // Get pointer to pixel-array
-                byte* PtrAddFirstPixel = (byte*)AddBmpData.Scan0;
-                // Check number of bytes per pixel
-                Debug.Assert(Bitmap.GetPixelFormatSize(AddBmp.PixelFormat) == 32, "Additional bitmap has no alpha channel!");
-
-                // Copy the pixels
-                Parallel.For(0, DrawRect.Height, y =>
-                {
-                    // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-                    byte* CurOrigLine = PtrOrigFirstPixel + ((y + DrawRect.Top) * OrigBmpData.Stride) + DrawRect.Left * BytesPerPixel;
-                    byte* CurAddLine = PtrAddFirstPixel + ((y + DrawRect.Top) * AddBmpData.Stride) + DrawRect.Left * BytesPerPixel;
-                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-                    byte* CurNewLine = PtrNewFirstPixel + ((y + DrawRect.Top - NewBmpRect.Top) * NewBmpData.Stride) + (DrawRect.Left - NewBmpRect.Left) * BytesPerPixel;
-
-                    for (int x = 0; x < DrawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
-                    {
-                        // We require an alpha value of 25%
-                        if ((byte)CurNewLine[x + 3] > 63 && (byte)CurOrigLine[x + 3] > 63)
-                        {
-                            CurOrigLine[x] = (byte)CurNewLine[x]; // Blue
-                            CurOrigLine[x + 1] = (byte)CurNewLine[x + 1]; // Green
-                            CurOrigLine[x + 2] = (byte)CurNewLine[x + 2]; // Red
-                            CurOrigLine[x + 3] = 255; // alpha = full non-transparent
-
-                            CurAddLine[x] = (byte)CurNewLine[x]; 
-                            CurAddLine[x + 1] = (byte)CurNewLine[x + 1]; 
-                            CurAddLine[x + 2] = (byte)CurNewLine[x + 2]; 
-                            CurAddLine[x + 3] = 255;
-                        }
-                    }
-                });
-
-                // Unlock all pixel data
-                OrigBmp.UnlockBits(OrigBmpData);
-                NewBmp.UnlockBits(NewBmpData);
-                AddBmp.UnlockBits(AddBmpData);
-            }
-        }
-
-        /// <summary>
-        /// Copies pixels from a new bitmap at all pixels where the mask bitmap is non-transparent. 
-        /// </summary>
-        /// <param name="OrigBmp"></param>
-        /// <param name="NewBmp"></param>
-        /// <param name="Pos"></param>
         /// <param name="MaskBmp"></param>
-        public static void DrawOnMask(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, Bitmap MaskBmp)
+        /// <param name="Pos"></param>
+        /// <param name="ColorSelect"></param>
+        public static void DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Bitmap MaskBmp, Point Pos, C.CustDrawMode ColorSelect)
         {
-            if (NewBmp == null || MaskBmp == null) return;
+            Func<int, int, byte[]> ColorFunc = ColorFuncDict[ColorSelect];
+            Func<byte, byte, bool> DoDrawThisPixel = DoDrawThisPixelDict[ColorSelect];
+
+            if (ColorFunc == null)
+            {
+                OrigBmp.DrawOn(NewBmp, MaskBmp, Pos, DoDrawThisPixel);
+            }
+            else
+            {
+                OrigBmp.DrawOn(NewBmp, MaskBmp, Pos, ColorFunc, DoDrawThisPixel);
+            }
+        }
+
+
+        /// <summary>
+        /// Copies pixels from a new bitmap to the base bitmap under condition specified by DoDrawThisPixel. 
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="NewBmp"></param>
+        /// <param name="Pos"></param>
+        private static void DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, Func<byte, byte, bool> DoDrawThisPixel)
+        {
+            if (NewBmp == null || DoDrawThisPixel == null) return;
+
+            // Get rectangle giving the area that is drawn onto
+            Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
+            Rectangle NewBmpRect = new Rectangle(Pos, NewBmp.Size);
+            Rectangle DrawRect = Rectangle.Intersect(OrigBmpRect, NewBmpRect);
+
+            unsafe
+            {
+                // Get BitmapData for OrigBitmap
+                BitmapData OrigBmpData = OrigBmp.LockBits(OrigBmpRect, ImageLockMode.WriteOnly, OrigBmp.PixelFormat);
+                // Get pointer to pixel-array
+                byte* PtrOrigFirstPixel = (byte*)OrigBmpData.Scan0;
+                // Check number of bytes per pixel
+                const int BytesPerPixel = 4;
+                Debug.Assert(Bitmap.GetPixelFormatSize(OrigBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
+
+                // Get BitmapData for NewBitmap
+                BitmapData NewBmpData = NewBmp.LockBits(new Rectangle(0, 0, NewBmp.Width, NewBmp.Height), ImageLockMode.ReadOnly, NewBmp.PixelFormat);
+                // Get pointer to pixel-array
+                byte* PtrNewFirstPixel = (byte*)NewBmpData.Scan0;
+                // Check number of bytes per pixel
+                Debug.Assert(Bitmap.GetPixelFormatSize(NewBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
+
+                // Copy the pixels
+                Parallel.For(0, DrawRect.Height, y =>
+                {
+                    // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                    byte* CurOrigLine = PtrOrigFirstPixel + ((y + DrawRect.Top) * OrigBmpData.Stride) + DrawRect.Left * BytesPerPixel;
+                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                    byte* CurNewLine = PtrNewFirstPixel + ((y + DrawRect.Top - NewBmpRect.Top) * NewBmpData.Stride) + (DrawRect.Left - NewBmpRect.Left) * BytesPerPixel;
+
+                    for (int x = 0; x < DrawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
+                    {
+                        // We require an alpha value of 25%
+                        if (DoDrawThisPixel((byte)CurNewLine[x + 3], 0))
+                        {
+                            ChangePixel(CurOrigLine + x, CurNewLine + x);
+                        }
+                    }
+                });
+
+                // Unlock all pixel data
+                OrigBmp.UnlockBits(OrigBmpData);
+                NewBmp.UnlockBits(NewBmpData);
+            }
+        }
+
+        /// <summary>
+        /// Copies pixels from a new bitmap to the base bitmap as specified by ColorFunc and DoDrawThisPixel. 
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="NewBmp"></param>
+        /// <param name="Pos"></param>
+        /// <param name="ColorSelect"></param>
+        private static void DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, Func<int, int, byte[]> ColorFunc, Func<byte, byte, bool> DoDrawThisPixel)
+        {
+            if (NewBmp == null || ColorFunc == null || DoDrawThisPixel == null) return;
+
+            // Get rectangle giving the area that is drawn onto
+            Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
+            Rectangle NewBmpRect = new Rectangle(Pos, NewBmp.Size);
+            Rectangle DrawRect = Rectangle.Intersect(OrigBmpRect, NewBmpRect);
+
+            unsafe
+            {
+                // Get BitmapData for OrigBitmap
+                BitmapData OrigBmpData = OrigBmp.LockBits(OrigBmpRect, ImageLockMode.WriteOnly, OrigBmp.PixelFormat);
+                // Get pointer to pixel-array
+                byte* PtrOrigFirstPixel = (byte*)OrigBmpData.Scan0;
+                // Check number of bytes per pixel
+                const int BytesPerPixel = 4;
+                Debug.Assert(Bitmap.GetPixelFormatSize(OrigBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
+
+                // Get BitmapData for NewBitmap
+                BitmapData NewBmpData = NewBmp.LockBits(new Rectangle(0, 0, NewBmp.Width, NewBmp.Height), ImageLockMode.ReadOnly, NewBmp.PixelFormat);
+                // Get pointer to pixel-array
+                byte* PtrNewFirstPixel = (byte*)NewBmpData.Scan0;
+                // Check number of bytes per pixel
+                Debug.Assert(Bitmap.GetPixelFormatSize(NewBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
+
+                // Copy the pixels
+                Parallel.For(0, DrawRect.Height, y =>
+                {
+                    // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                    byte* CurOrigLine = PtrOrigFirstPixel + ((y + DrawRect.Top) * OrigBmpData.Stride) + DrawRect.Left * BytesPerPixel;
+                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                    byte* CurNewLine = PtrNewFirstPixel + ((y + DrawRect.Top - NewBmpRect.Top) * NewBmpData.Stride) + (DrawRect.Left - NewBmpRect.Left) * BytesPerPixel;
+
+                    for (int x = 0; x < DrawRect.Width; x++)
+                    {
+                        // We require an alpha value of 25%
+                        if (DoDrawThisPixel((byte)CurNewLine[x * BytesPerPixel + 3], 0))
+                        {
+                            ChangePixel(CurOrigLine + x * BytesPerPixel, ColorFunc(x, y));
+                        }
+                    }
+                });
+
+                // Unlock all pixel data
+                OrigBmp.UnlockBits(OrigBmpData);
+                NewBmp.UnlockBits(NewBmpData);
+            }
+        }
+
+        /// <summary>
+        /// Copies pixels from a new bitmap to the base bitmap under condition specified by DoDrawThisPixel, using a mask.
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="NewBmp"></param>
+        /// <param name="MaskBmp"></param>
+        /// <param name="Pos"></param>
+        /// <param name="DoDrawThisPixel"></param>
+        private static void DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Bitmap MaskBmp, Point Pos, Func<byte, byte, bool> DoDrawThisPixel)
+        {
+            if (NewBmp == null || MaskBmp == null || DoDrawThisPixel == null) return;
 
             // Get rectangle giving the area that is drawn onto
             Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
@@ -398,13 +418,12 @@ namespace NLEditor
 
                     for (int x = 0; x < DrawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
                     {
-                        // We require an alpha value of 25%
-                        if ((byte)CurNewLine[x + 3] > 63 && (byte)CurMaskLine[x + 3] > 63)
+                        byte CurNewAlpha = (byte)CurNewLine[x + 3];
+                        byte CurMaskAlpha = (byte)CurMaskLine[x + 3];
+                        
+                        if (DoDrawThisPixel(CurNewAlpha, CurMaskAlpha))
                         {
-                            CurOrigLine[x] = (byte)CurNewLine[x]; // Blue
-                            CurOrigLine[x + 1] = (byte)CurNewLine[x + 1]; // Green
-                            CurOrigLine[x + 2] = (byte)CurNewLine[x + 2]; // Red
-                            CurOrigLine[x + 3] = 255; // alpha = full non-transparent
+                            ChangePixel(CurOrigLine + x, CurNewLine + x);
                         }
                     }
                 });
@@ -415,6 +434,79 @@ namespace NLEditor
                 MaskBmp.UnlockBits(MaskBmpData);
             }
         }
+
+        /// <summary>
+        /// Copies pixels from a new bitmap to the base bitmap as specified by ColorFunc and DoDrawThisPixel, using a mask. 
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="NewBmp"></param>
+        /// <param name="MaskBmp"></param>
+        /// <param name="Pos"></param>
+        /// <param name="ColorFunc"></param>
+        /// <param name="DoDrawThisPixel"></param>
+        private static void DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Bitmap MaskBmp, Point Pos, Func<int, int, byte[]> ColorFunc, Func<byte, byte, bool> DoDrawThisPixel)
+        {
+            if (NewBmp == null || MaskBmp == null || ColorFunc == null || DoDrawThisPixel == null) return;
+
+            // Get rectangle giving the area that is drawn onto
+            Rectangle OrigBmpRect = new Rectangle(0, 0, OrigBmp.Width, OrigBmp.Height);
+            Rectangle NewBmpRect = new Rectangle(Pos, NewBmp.Size);
+            Rectangle DrawRect = Rectangle.Intersect(OrigBmpRect, NewBmpRect);
+            Debug.Assert(OrigBmp.Width == MaskBmp.Width && OrigBmp.Height == MaskBmp.Height, "Bitmap mask has different size than target bitmap.");
+
+            unsafe
+            {
+                // Get BitmapData for OrigBitmap
+                BitmapData OrigBmpData = OrigBmp.LockBits(OrigBmpRect, ImageLockMode.ReadWrite, OrigBmp.PixelFormat);
+                // Get pointer to pixel-array
+                byte* PtrOrigFirstPixel = (byte*)OrigBmpData.Scan0;
+                // Check number of bytes per pixel
+                const int BytesPerPixel = 4;
+                Debug.Assert(Bitmap.GetPixelFormatSize(OrigBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
+
+                // Get BitmapData for NewBitmap
+                BitmapData NewBmpData = NewBmp.LockBits(new Rectangle(0, 0, NewBmp.Width, NewBmp.Height), ImageLockMode.ReadOnly, NewBmp.PixelFormat);
+                // Get pointer to pixel-array
+                byte* PtrNewFirstPixel = (byte*)NewBmpData.Scan0;
+                // Check number of bytes per pixel
+                Debug.Assert(Bitmap.GetPixelFormatSize(NewBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
+
+                // Get BitmapData for MaskBitmap
+                BitmapData MaskBmpData = MaskBmp.LockBits(OrigBmpRect, ImageLockMode.ReadOnly, MaskBmp.PixelFormat);
+                // Get pointer to pixel-array
+                byte* PtrMaskFirstPixel = (byte*)MaskBmpData.Scan0;
+                // Check number of bytes per pixel
+                Debug.Assert(Bitmap.GetPixelFormatSize(MaskBmp.PixelFormat) == 32, "Mask bitmap has no alpha channel!");
+
+
+                // Copy the pixels
+                Parallel.For(0, DrawRect.Height, y =>
+                {
+                    // We start CurOrigLine and CurMaskLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                    byte* CurOrigLine = PtrOrigFirstPixel + ((y + DrawRect.Top) * OrigBmpData.Stride) + DrawRect.Left * BytesPerPixel;
+                    byte* CurMaskLine = PtrMaskFirstPixel + ((y + DrawRect.Top) * MaskBmpData.Stride) + DrawRect.Left * BytesPerPixel;
+                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                    byte* CurNewLine = PtrNewFirstPixel + ((y + DrawRect.Top - NewBmpRect.Top) * NewBmpData.Stride) + (DrawRect.Left - NewBmpRect.Left) * BytesPerPixel;
+
+                    for (int x = 0; x < DrawRect.Width; x++)
+                    {
+                        byte CurNewAlpha = (byte)CurNewLine[x * BytesPerPixel + 3];
+                        byte CurMaskAlpha = (byte)CurMaskLine[x * BytesPerPixel + 3];
+
+                        if (DoDrawThisPixel(CurNewAlpha, CurMaskAlpha))
+                        {
+                            ChangePixel(CurOrigLine + x * BytesPerPixel, ColorFunc(x, y));
+                        }
+                    }
+                });
+
+                // Unlock all pixel data
+                OrigBmp.UnlockBits(OrigBmpData);
+                NewBmp.UnlockBits(NewBmpData);
+                MaskBmp.UnlockBits(MaskBmpData);
+            }
+        }
+
 
         /// <summary>
         /// Zooms a bitmap.
