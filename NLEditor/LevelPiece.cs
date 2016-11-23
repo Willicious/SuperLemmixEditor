@@ -37,7 +37,7 @@ namespace NLEditor
         string fName;
         protected string fKey;
 
-        // RULE: FIRST INVERT - THEN ROTATE CLOCKWISE
+        // RULE: FIRST ROTATE CLOCKWISE - THEN INVERT
         int fRotation;
         bool fInvert;
 
@@ -56,7 +56,6 @@ namespace NLEditor
         public bool IsInvertedInPlayer { get { return (fInvert && fRotation % 4 < 2) || (!fInvert && fRotation % 4 > 1); } }
         public bool IsFlippedInPlayer { get { return (fRotation % 4 > 1); } }
 
-        // Metainfo from BaseImageInfo
         /// <summary>
         /// Get piece image correctly rotated and flipped.
         /// </summary>
@@ -66,9 +65,9 @@ namespace NLEditor
             MyImage.RotateFlip(GetRotateFlipType());
             return MyImage;
         } }
+
         public C.OBJ ObjType { get { return ImageLibrary.GetObjType(fKey); } }
 
-        // Whether selected in the editor
         public bool IsSelected { get { return fIsSelected; } set { fIsSelected = value; } }
 
         public Rectangle ImageRectangle { get 
@@ -123,6 +122,12 @@ namespace NLEditor
         /// </summary>
         /// <returns></returns>
         public abstract bool MayInvert();
+
+        /// <summary>
+        /// Determines whether this piece can receive a flag for a given skill.
+        /// </summary>
+        /// <returns></returns>
+        public abstract bool MayReceive(int Skill);
 
         /// <summary>
         /// Rotates the piece while keeping its top left coordianate.
@@ -186,7 +191,10 @@ namespace NLEditor
             if (MayFlip()) Flip();
         }
 
-
+        /// <summary>
+        /// Translates stored piece data to a RotateFlipType that can be applied to images.
+        /// </summary>
+        /// <returns></returns>
         private RotateFlipType GetRotateFlipType()
         {
             switch (fRotation)
@@ -249,6 +257,12 @@ namespace NLEditor
         {
             return true;
         }
+
+        public override bool MayReceive(int Skill)
+        {
+            return false;
+        }
+
     }
 
     /// <summary>
@@ -298,7 +312,7 @@ namespace NLEditor
             {
                 TrigRect.X = this.ImageRectangle.Width - TrigRect.Right;
             }
-            // Shift to correct position
+            // Shift to position relative to level
             TrigRect.X += this.PosX;
             TrigRect.Y += this.PosY;
             return TrigRect;
@@ -321,6 +335,30 @@ namespace NLEditor
             return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE);
         }
 
+        public override bool MayReceive(int Skill)
+        {
+            switch (ObjType)
+            {
+                case C.OBJ.HATCH:
+                    {
+                        return Skill.In(C.SKI_CLIMBER, C.SKI_FLOATER, C.SKI_GLIDER, C.SKI_DISARMER,
+                                        C.SKI_SWIMMER, C.SKI_ZOMBIE); 
+                    }
+                case C.OBJ.LEMMING:
+                    {
+                        return Skill.In(C.SKI_CLIMBER, C.SKI_FLOATER, C.SKI_GLIDER, C.SKI_DISARMER,
+                                        C.SKI_SWIMMER, C.SKI_ZOMBIE, C.SKI_BLOCKER);
+                    }
+                case C.OBJ.PICKUP:
+                    {
+                        return Skill != C.SKI_ZOMBIE;
+                    }
+                default: return false; 
+            }
+
+
+
+        }
     }
 
 }
