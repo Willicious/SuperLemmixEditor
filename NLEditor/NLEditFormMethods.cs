@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Diagnostics;
 using System.Drawing;
 
 namespace NLEditor
@@ -27,9 +25,9 @@ namespace NLEditor
 
             try
             {
-                StyleNameList = Directory.GetDirectories(C.AppPathPieces)
-                                         .Select(dir => Path.GetFileName(dir))
-                                         .ToList();
+                StyleNameList = System.IO.Directory.GetDirectories(C.AppPathPieces)
+                                                   .Select(dir => System.IO.Path.GetFileName(dir))
+                                                   .ToList();
             }
             catch (Exception Ex)
             {
@@ -40,11 +38,20 @@ namespace NLEditor
             }
 
             StyleNameList.RemoveAll(sty => sty == "default");
-            StyleNameList = LoadFromFile.OrderStyleNames(StyleNameList);
+            StyleNameList = LoadStylesFromFile.OrderStyleNames(StyleNameList);
 
             // Add the actual styles
             fStyleList = StyleNameList.Select(sty => new Style(sty)).ToList();
         }
+
+        /// <summary>
+        /// Removes focus from the current control and moves it to the default location txt_Focus.
+        /// </summary>
+        private void RemoveFocus()
+        {
+            this.ActiveControl = this.txt_Focus;
+        }
+
 
         /// <summary>
         /// Takes the global level data input on the form and stores it in the current level.
@@ -93,7 +100,7 @@ namespace NLEditor
             this.txt_LevelAuthor.Text = CurLevel.Author;
             this.txt_LevelTitle.Text = CurLevel.Title;
             this.combo_Music.Text = CurLevel.MusicFile;
-            this.combo_MainStyle.Text = (CurLevel.MainStyle != null) ? CurLevel.MainStyle.Name : "";
+            this.combo_MainStyle.Text = (CurLevel.MainStyle != null) ? CurLevel.MainStyle.NameInEditor : "";
             this.num_Lvl_SizeX.Value = CurLevel.Width;
             this.num_Lvl_SizeY.Value = CurLevel.Height;
             this.num_Lvl_StartX.Value = CurLevel.StartPosX;
@@ -136,14 +143,14 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Creates a new instance of a Level and displays it on the form.
+        /// Creates a new instance of a Level and a new Renderer, then displays it on the form.
         /// </summary>
-        private void CreateNewLevel()
+        private void CreateNewLevelAndRenderer()
         {
             Style NewMainStyle = null;
             if (StyleList != null)
             {
-                NewMainStyle = StyleList.Find(sty => sty.Name == this.combo_MainStyle.Text);
+                NewMainStyle = StyleList.Find(sty => sty.NameInEditor == this.combo_MainStyle.Text);
             }
             fCurLevel = new Level(NewMainStyle);
             WriteLevelInfoToForm();
@@ -245,7 +252,7 @@ namespace NLEditor
             else 
             {
                 int CurStyleIndex = StyleList.FindIndex(sty => sty.Equals(PieceCurStyle));
-                Debug.Assert(CurStyleIndex != -1, "Current style for new pieces not found in StyleList.");
+                System.Diagnostics.Debug.Assert(CurStyleIndex != -1, "Current style for new pieces not found in StyleList.");
 
                 NewStyleIndex = Math.Min(Math.Max(CurStyleIndex + Movement, 0), StyleList.Count - 1);
             }

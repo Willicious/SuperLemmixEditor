@@ -4,12 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
-using System.IO;
 
 namespace NLEditor
 {
+    /// <summary>
+    /// Stores the common unchangable data of pieces.
+    /// </summary>
     public class BaseImageInfo
     {
+        /// <summary>
+        /// Use this to create the base-info of a new terrain piece.
+        /// </summary>
+        /// <param name="NewImage"></param>
+        /// <param name="IsSteel"></param>
         public BaseImageInfo(Bitmap NewImage, bool IsSteel = false)
         {
             this.fImage = NewImage;
@@ -26,6 +33,14 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Use this to create the base-info of a new object piece.
+        /// </summary>
+        /// <param name="NewImage"></param>
+        /// <param name="ObjType"></param>
+        /// <param name="NumFrames"></param>
+        /// <param name="IsVert"></param>
+        /// <param name="TriggerRect"></param>
         public BaseImageInfo(Bitmap NewImage, C.OBJ ObjType, int NumFrames, bool IsVert, Rectangle TriggerRect)
         {
             this.fImage = SeparateFrames(NewImage, NumFrames, IsVert);
@@ -47,6 +62,13 @@ namespace NLEditor
         public C.OBJ ObjectType { get { return fObjectType; } }
         public Rectangle TriggerRect { get { return fTriggerRect; } }
 
+        /// <summary>
+        /// Removes additional frames from an image and keeps only frame 0.
+        /// </summary>
+        /// <param name="NewBitmap"></param>
+        /// <param name="NumFrames"></param>
+        /// <param name="IsVert"></param>
+        /// <returns></returns>
         private Bitmap SeparateFrames(Bitmap NewBitmap, int NumFrames, bool IsVert)
         {
             int NewWidth = NewBitmap.Width;
@@ -67,7 +89,10 @@ namespace NLEditor
         
     }
     
-    
+    /// <summary>
+    /// Provides images and associated data of pieces.
+    /// <para> It loads them upon first usage of said piece. </para>
+    /// </summary>
     static class ImageLibrary
     {
         /*---------------------------------------------------------
@@ -82,16 +107,22 @@ namespace NLEditor
          *     - GetHeight(string ImageKey)
          *     - GetObjType(string ImageKey)
          *     - GetTrigger(string ImageKey)
+         *     - CreatePieceKey(string FilePath)
+         *     - CreatePieceKey(string StyleName, string PieceName, bool IsObject)
          * -------------------------------------------------------- */
-
         static ImageLibrary()
         {
             fImageList = new Dictionary<string, BaseImageInfo>();
         }
 
-        // The key is the file path below the "styles\\themes\\pieces" folder!
+        // The key is the file path below the "styles\\pieces" folder!
         static Dictionary<string, BaseImageInfo> fImageList;
 
+        /// <summary>
+        /// Returns the image corresponding to the key, or null if image cannot be found. 
+        /// </summary>
+        /// <param name="ImageKey"></param>
+        /// <returns></returns>
         public static Bitmap GetImage(string ImageKey)
         {
             if (!fImageList.ContainsKey(ImageKey))
@@ -104,10 +135,14 @@ namespace NLEditor
                 }
             }
 
-            // return (Bitmap)fImageList[ImageKey].Image.Clone();
             return fImageList[ImageKey].Image;
         }
 
+        /// <summary>
+        /// Returns the width of the piece corresponding to the key, or -1 if image cannot be found. 
+        /// </summary>
+        /// <param name="ImageKey"></param>
+        /// <returns></returns>
         public static int GetWidth(string ImageKey)
         {
             if (!fImageList.ContainsKey(ImageKey))
@@ -119,6 +154,11 @@ namespace NLEditor
             return fImageList[ImageKey].Width;
         }
 
+        /// <summary>
+        /// Returns the height of the piece corresponding to the key, or -1 if image cannot be found. 
+        /// </summary>
+        /// <param name="ImageKey"></param>
+        /// <returns></returns>
         public static int GetHeight(string ImageKey)
         {
             if (!fImageList.ContainsKey(ImageKey))
@@ -130,6 +170,11 @@ namespace NLEditor
             return fImageList[ImageKey].Height;
         }
 
+        /// <summary>
+        /// Returns the object type of the piece corresponding to the key, or C.OBJ.NULL if image cannot be found. 
+        /// </summary>
+        /// <param name="ImageKey"></param>
+        /// <returns></returns>
         public static C.OBJ GetObjType(string ImageKey)
         {
             if (!fImageList.ContainsKey(ImageKey))
@@ -141,6 +186,11 @@ namespace NLEditor
             return fImageList[ImageKey].ObjectType;
         }
 
+        /// <summary>
+        /// Returns the trigger area of the piece corresponding to the key, or an empty rectangle if image cannot be found. 
+        /// </summary>
+        /// <param name="ImageKey"></param>
+        /// <returns></returns>
         public static Rectangle GetTrigger(string ImageKey)
         {
             if (!fImageList.ContainsKey(ImageKey))
@@ -152,30 +202,41 @@ namespace NLEditor
             return fImageList[ImageKey].TriggerRect;
         }
 
-
+        /// <summary>
+        /// Loads a new image into the ImageLibrary. Returns false, if image cannot be found.
+        /// </summary>
+        /// <param name="ImageKey"></param>
+        /// <returns></returns>
         static bool AddNewImage(string ImageKey)
         {
-            // Load new image
-            Bitmap NewBitmap = LoadFromFile.Image(ImageKey);
-
-            // Check whether this Bitmap exists 
+            Bitmap NewBitmap = LoadStylesFromFile.Image(ImageKey);
             if (NewBitmap == null) return false;
 
-            BaseImageInfo NewImageInfo = LoadFromFile.ImageInfo(NewBitmap, ImageKey);
-
-            // Add the image
+            BaseImageInfo NewImageInfo = LoadStylesFromFile.ImageInfo(NewBitmap, ImageKey);
             fImageList.Add(ImageKey, NewImageInfo);
 
             return true;
         }
 
+        /// <summary>
+        /// Creates the image key from a file path (relative or absolute). 
+        /// </summary>
+        /// <param name="FilePath"></param>
+        /// <returns></returns>
         public static string CreatePieceKey(string FilePath)
         {
-            string FullPath = Path.GetFullPath(FilePath);
+            string FullPath = System.IO.Path.GetFullPath(FilePath);
             string RelativePath = FullPath.Remove(0, C.AppPathPieces.Length);
-            return Path.ChangeExtension(RelativePath, null);
+            return System.IO.Path.ChangeExtension(RelativePath, null);
         }
 
+        /// <summary>
+        /// Creates the image key from the style and piece name.
+        /// </summary>
+        /// <param name="StyleName"></param>
+        /// <param name="PieceName"></param>
+        /// <param name="IsObject"></param>
+        /// <returns></returns>
         public static string CreatePieceKey(string StyleName, string PieceName, bool IsObject)
         {
             return StyleName + C.DirSep + (IsObject ? "objects" : "terrain")

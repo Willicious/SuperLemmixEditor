@@ -21,17 +21,15 @@ namespace NLEditor
          *     - Clear(this Bitmap OrigBmp)
          *     - Clear(this Bitmap OrigBmp, Color ClearColor)
          *     - DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
-         *     - DrawOnErase(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
-         *     - DrawOnNoOw(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
-         *     - DrawOnNoOw(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, Bitmap AddBmp)
-         *     - DrawOnMask(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, Bitmap MaskBmp)
+         *     - DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, C.CustDrawMode ColorSelect)
+         *     - DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Bitmap MaskBmp, Point Pos, C.CustDrawMode ColorSelect)
          *     - Zoom(this Bitmap OrigBmp, int ZoomFactor)
          *     - Zoom(this Bitmap OrigBmp, int ZoomFactor, Size NewBmpSize)
          *     - DrawOnRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
          *     - DrawOnFilledRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
          *     - DrawOnDottedRectangles(this Bitmap OrigBmp, Rectangle Rect)
          * -------------------------------------------------------- */
-        
+
         /// <summary>
         /// Initializes the dictionary ColorFuncDict.
         /// </summary>

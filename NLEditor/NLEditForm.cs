@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 using System.Diagnostics;
 
 namespace NLEditor
@@ -30,26 +29,22 @@ namespace NLEditor
             InitializeComponent();
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(NLEditForm_MouseWheel);
 
-            // Set list of all piectures for single pieces
             PictureBox[] PicBoxArr = { this.picPiece0, this.picPiece1, this.picPiece2, this.picPiece3,
                                        this.picPiece4, this.picPiece5, this.picPiece6, this.picPiece7 };
             fpicPieceList = new List<PictureBox>(PicBoxArr);
 
-            // Create the list of all styles
             CreateStyleList();
             if (StyleList.Count > 0)
             {
-                this.combo_MainStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.Name).ToArray());
+                this.combo_MainStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.NameInEditor).ToArray());
                 this.combo_MainStyle.SelectedIndex = 0;
 
-                this.combo_PieceStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.Name).ToArray());
+                this.combo_PieceStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.NameInEditor).ToArray());
                 this.combo_PieceStyle.SelectedIndex = 0;
             }
 
-            // Create a new level and a new renderer
-            CreateNewLevel();
+            CreateNewLevelAndRenderer();
 
-            // Load pieces into the picPieces
             fPieceStartIndex = 0;
             fPieceDoDisplayObject = false;
             fPieceCurStyle = ValidateStyleName(this, this.combo_PieceStyle.SelectedItem.ToString());
@@ -59,12 +54,7 @@ namespace NLEditor
             fStopWatchKey.Start();
             fStopWatchMouse = new Stopwatch();
             fStopWatchMouse.Start();
-            /*
-            fTimerMouse = new Timer();
-            fTimerMouse.Enabled = false;
-            fTimerMouse.Interval = 30;
-            fTimerMouse.Tick += new EventHandler(delegate(Object obj, EventArgs e) { TimerMouse_Tick(); });
-            */
+
             fMouseButtonPressed = null;
 
             fStopWatchProfiling = new Stopwatch();
@@ -82,12 +72,10 @@ namespace NLEditor
 
         Stopwatch fStopWatchKey;
         Stopwatch fStopWatchMouse;
-        //Timer fTimerMouse;
-        //Action fTimerAction;
         MouseButtons? fMouseButtonPressed;
 
 
-        Stopwatch fStopWatchProfiling;
+        Stopwatch fStopWatchProfiling; // use ONLY for debugging/profiling purposes!
 
         bool fIsShiftPressed;
         bool fIsCtrlPressed;
@@ -106,26 +94,13 @@ namespace NLEditor
 
         private void NLEditForm_Click(object sender, EventArgs e)
         {
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         private void tabLvlProperties_Click(object sender, EventArgs e)
         {
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
-
-        /*
-        private void TimerMouse_Tick()
-        {
-            if (fTimerAction != null)
-            {
-                fTimerAction();
-            }
-            else
-            {
-                fTimerMouse.Enabled = false;
-            }
-        } */
 
         /* -----------------------------------------------------------
          *              Menu Items
@@ -134,7 +109,7 @@ namespace NLEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CreateNewLevel();
+            CreateNewLevelAndRenderer();
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -239,7 +214,7 @@ namespace NLEditor
 
         private void but_RotatePieces_MouseUp(object sender, MouseEventArgs e)
         {
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         private void but_InvertPieces_Click(object sender, EventArgs e)
@@ -249,7 +224,7 @@ namespace NLEditor
 
         private void but_InvertPieces_MouseUp(object sender, MouseEventArgs e)
         {
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         private void but_FlipPieces_Click(object sender, EventArgs e)
@@ -259,7 +234,7 @@ namespace NLEditor
 
         private void but_FlipPieces_MouseUp(object sender, MouseEventArgs e)
         {
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         /* -----------------------------------------------------------
@@ -294,7 +269,7 @@ namespace NLEditor
         private void but_PieceTerrObj_Click(object sender, EventArgs e)
         {
             ChangeObjTerrPieceDisplay();
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         private void but_PieceLeft_MouseDown(object sender, MouseEventArgs e)
@@ -304,7 +279,7 @@ namespace NLEditor
 
         private void but_PieceLeft_MouseUp(object sender, MouseEventArgs e)
         {
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         private void but_PieceLeft_Click(object sender, EventArgs e)
@@ -334,7 +309,7 @@ namespace NLEditor
 
         private void but_PieceRight_MouseUp(object sender, MouseEventArgs e)
         {
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         private void but_PieceRight_Click(object sender, EventArgs e)
@@ -360,49 +335,49 @@ namespace NLEditor
         private void picPiece0_Click(object sender, EventArgs e)
         {
             AddNewPieceToLevel(0);
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         private void picPiece1_Click(object sender, EventArgs e)
         {
             AddNewPieceToLevel(1);
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         private void picPiece2_Click(object sender, EventArgs e)
         {
             AddNewPieceToLevel(2);
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         private void picPiece3_Click(object sender, EventArgs e)
         {
             AddNewPieceToLevel(3);
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         private void picPiece4_Click(object sender, EventArgs e)
         {
             AddNewPieceToLevel(4);
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         private void picPiece5_Click(object sender, EventArgs e)
         {
             AddNewPieceToLevel(5);
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         private void picPiece6_Click(object sender, EventArgs e)
         {
             AddNewPieceToLevel(6);
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
         private void picPiece7_Click(object sender, EventArgs e)
         {
             AddNewPieceToLevel(7);
-            this.ActiveControl = this.txt_Focus; // remove focus
+            RemoveFocus();
         }
 
 
@@ -429,7 +404,7 @@ namespace NLEditor
             }
             else if (e.Control && e.KeyCode == Keys.N)
             {
-                CreateNewLevel();
+                CreateNewLevelAndRenderer();
             }
             else if (e.Control && e.KeyCode == Keys.O)
             {
@@ -579,10 +554,11 @@ namespace NLEditor
             // Delete mouse selection area...
             fCurRenderer.MouseStartPos = null;
             fCurRenderer.MouseCurPos = null;
-            // before updating the level image
+            // ...before updating the level image
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
 
             fMouseButtonPressed = null;
+            RemoveFocus();
         }
 
 

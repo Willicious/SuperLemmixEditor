@@ -53,7 +53,7 @@
     <Compile Include="Level.cs" />
     <Compile Include="LevelFile.cs" />
     <Compile Include="LevelPiece.cs" />
-    <Compile Include="LoadFromFile.cs" />
+    <Compile Include="LoadStylesFromFile.cs" />
     <Compile Include="NLEditForm.cs">
       <SubType>Form</SubType>
     </Compile>

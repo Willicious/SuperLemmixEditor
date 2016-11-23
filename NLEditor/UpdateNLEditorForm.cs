@@ -14,7 +14,11 @@ namespace NLEditor
         *   Main Form: This part defines the methods
         *     updating the form members
         * -------------------------------------------------------- */
-        
+        /// <summary>
+        /// Displays the correct piece images for the piece selection.
+        /// </summary>
+        /// <param name="MyForm"></param>
+        /// <param name="NewStyle"></param>
         private void LoadPiecesIntoPictureBox(NLEditForm MyForm, Style NewStyle)
         {
             if (NewStyle == null)
@@ -41,18 +45,33 @@ namespace NLEditor
             return;
         }
 
+        /// <summary>
+        /// Returns a style with the requested name, or null if none such is found. 
+        /// </summary>
+        /// <param name="MyForm"></param>
+        /// <param name="NewStyleName"></param>
+        /// <returns></returns>
         private Style ValidateStyleName(NLEditForm MyForm, string NewStyleName)
         {
             if (MyForm.StyleList == null || MyForm.StyleList.Count == 0) return null;
 
-            return MyForm.StyleList.Find(sty => sty.Name == NewStyleName);
+            return MyForm.StyleList.Find(sty => sty.NameInEditor == NewStyleName);
         }
 
+        /// <summary>
+        /// Clears all piece selection PictureBoxes.
+        /// </summary>
+        /// <param name="MyForm"></param>
         private void ClearPiecesPictureBox(NLEditForm MyForm)
         {
             MyForm.picPieceList.ForEach(pic => pic.Image = null);
         }
 
+        /// <summary>
+        /// Changes the background color of the main level image and the piece selection.
+        /// </summary>
+        /// <param name="MyForm"></param>
+        /// <param name="NewStyle"></param>
         private void ChangeBackgroundColor(NLEditForm MyForm, Style NewStyle)
         {
             if (NewStyle == null) return;

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Drawing;
-using System.Diagnostics;
 
 namespace NLEditor
 {
@@ -52,10 +50,10 @@ namespace NLEditor
         /// </summary>
         /// <param name="MyLevel"></param>
         /// <param name="pic_Level"></param>
-        public Renderer(Level MyLevel, PictureBox pic_Level)
+        public Renderer(Level MyLevel, System.Windows.Forms.PictureBox pic_Level)
         {
             this.fMyLevel = MyLevel;
-            Debug.Assert(MyLevel != null, "Renderer created while passing a null level!");
+            System.Diagnostics.Debug.Assert(MyLevel != null, "Renderer created while passing a null level!");
 
             this.fLayerList = new List<Bitmap>(C.LAY_COUNT);
             for (int i = 0; i < C.LAY_COUNT; i++)

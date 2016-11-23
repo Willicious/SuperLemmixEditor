@@ -9,7 +9,10 @@ using System.Windows.Forms;
 
 namespace NLEditor
 {
-    class LevelFile
+    /// <summary>
+    /// Contains static methods to load and save levels.
+    /// </summary>
+    static class LevelFile
     {
         /// <summary>
         /// Opens file browser and creates level from a .nxlv file.
@@ -81,7 +84,7 @@ namespace NLEditor
                         case "HEIGHT": NewLevel.Height = Line.Value; break;
                         case "START_X": NewLevel.StartPosX = Line.Value; break;
                         case "START_Y": NewLevel.StartPosY = Line.Value; break;
-                        case "THEME": NewLevel.MainStyle = StyleList.Find(sty => sty.FileName == Line.Text); break;
+                        case "THEME": NewLevel.MainStyle = StyleList.Find(sty => sty.NameInDirectory == Line.Text); break;
                         case "LEMMINGS": NewLevel.NumLems = Line.Value; break;
                         case "REQUIREMENT": NewLevel.SaveReq = Line.Value; break;
                         case "TIME_LIMIT": NewLevel.TimeLimit = Line.Value;
@@ -355,7 +358,7 @@ namespace NLEditor
             TextFile.WriteLine(" HEIGHT  " + CurLevel.Height.ToString().PadLeft(4));
             TextFile.WriteLine(" START_X " + CurLevel.StartPosX.ToString().PadLeft(4));
             TextFile.WriteLine(" START_Y " + CurLevel.StartPosY.ToString().PadLeft(4));
-            TextFile.WriteLine(" THEME " + CurLevel.MainStyle.FileName);
+            TextFile.WriteLine(" THEME " + CurLevel.MainStyle.NameInDirectory);
             TextFile.WriteLine(" ");
 
             TextFile.WriteLine("# Level stats");

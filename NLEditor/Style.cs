@@ -4,48 +4,61 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
-using System.Windows.Forms;
 using System.IO;
 
 namespace NLEditor
 {
+    /// <summary>
+    /// Stores all data of a graphics style, except the images themselves.
+    /// </summary>
     public class Style
     {
         /*---------------------------------------------------------
          *          This class stores all style infos
          * -------------------------------------------------------- */
-
+        /// <summary>
+        /// Initializes a new instance of a Style by searching for pieces in the directory AppPath/StyleName/.
+        /// </summary>
+        /// <param name="StyleName"></param>
         public Style(string StyleName)
         {
-            this.fFileName = StyleName;
-            this.fName = StyleName; // may be overwritten later when forming the StyleList
+            this.fNameInDirectory = StyleName;
+            this.fNameInEditor = StyleName; // may be overwritten later when forming the StyleList
 
             SearchDirectoryForTerrain();
             SearchDirectoryForObjects();
-            List<Color> StyleColors = LoadFromFile.StyleColors(FileName);
+            List<Color> StyleColors = LoadStylesFromFile.StyleColors(NameInDirectory);
             fBackgroundColor = StyleColors[0];
         }
 
-        string fFileName; // name that is used in the directory
-        string fName; // name that is displayed in the editor
+        string fNameInDirectory;
+        string fNameInEditor;
         List<string> fTerrainNames;
         List<string> fObjectNames;
         Color fBackgroundColor;
 
-        public string FileName { get { return fFileName; } }
-        public string Name { get { return fName; } set { fName = value; } }
+        public string NameInDirectory { get { return fNameInDirectory; } }
+        public string NameInEditor { get { return fNameInEditor; } set { fNameInEditor = value; } }
         public List<string> TerrainNames { get { return fTerrainNames; } }
         public List<string> ObjectNames { get { return fObjectNames; } }
         public Color BackgroundColor { get { return fBackgroundColor; } }
 
+        /// <summary>
+        /// Checks for equality of the style's FileName.
+        /// </summary>
+        /// <param name="OtherStyle"></param>
+        /// <returns></returns>
         public bool Equals(Style OtherStyle)
         {
-            return this.FileName.Equals(OtherStyle.FileName);
+            return this.NameInDirectory.Equals(OtherStyle.NameInDirectory);
         }
 
+        /// <summary>
+        /// Writes all pieces in AppPath/StyleName/terrain to the list of TerrainNames.
+        /// </summary>
         private void SearchDirectoryForTerrain()
         {
-            string DirectoryPath = C.AppPathPieces + FileName + C.DirSep + "terrain";
+            string DirectoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "terrain";
 
             if (Directory.Exists(DirectoryPath))
             {
@@ -55,10 +68,13 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Writes all pieces in AppPath/StyleName/objects and /default to the list of ObjectNames.
+        /// </summary>
         private void SearchDirectoryForObjects()
         {
             // Load first the style-specific objects
-            string DirectoryPath = C.AppPathPieces + FileName + C.DirSep + "objects";
+            string DirectoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "objects";
 
             if (Directory.Exists(DirectoryPath))
             {
@@ -83,13 +99,10 @@ namespace NLEditor
             }
             catch (Exception Ex)
             {
-                String ErrorPath = C.AppPath + "ErrorLog.txt";
-                TextWriter TextFile = new StreamWriter(ErrorPath, true);
-                TextFile.WriteLine(Ex.ToString());
-                TextFile.Close();
+                Utility.LogException(Ex);
 
-                MessageBox.Show(Ex.Message);
-                // but then start the editor as usual
+                System.Windows.Forms.MessageBox.Show("Warning:" + Ex.Message);
+                // ...but then start the editor as usual
             }
         }
     }

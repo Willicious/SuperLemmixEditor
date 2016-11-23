@@ -9,7 +9,10 @@ using System.Windows.Forms;
 
 namespace NLEditor
 {
-    static class LoadFromFile
+    /// <summary>
+    /// Contains static methods to load styles and meta-infos of objects.
+    /// </summary>
+    static class LoadStylesFromFile
     {
         /// <summary>
         /// Reads style colors from a .nxtm file.

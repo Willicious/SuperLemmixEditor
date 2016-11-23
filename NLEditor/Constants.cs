@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using System.Windows.Forms;
 using System.Drawing;
 
 namespace NLEditor
@@ -21,7 +19,7 @@ namespace NLEditor
         public static string AppPath
         {
             get { return "C:\\Stephan\\Programme\\NLEditor\\"; }
-            // get { return Application.StartupPath + DirSep; }
+            // get { return System.Windows.Forms.Application.StartupPath + DirSep; }
         }
 
         public static string AppPathPieces
@@ -30,8 +28,8 @@ namespace NLEditor
         }
 
         public static char DirSep
-        { 
-            get { return Path.DirectorySeparatorChar; }
+        {
+            get { return System.IO.Path.DirectorySeparatorChar; }
         }
 
         public static string NewLine
@@ -89,11 +87,24 @@ namespace NLEditor
 
     static class Utility
     {
+        /// <summary>
+        /// Checks if an object is contained in an array.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static bool In<T>(this T obj, params T[] args)
         {
             return args.Contains(obj);
         }
 
+        /// <summary>
+        /// Creates a new rectangle having the two points as diagonally opposite vertices.
+        /// </summary>
+        /// <param name="Pos1"></param>
+        /// <param name="Pos2"></param>
+        /// <returns></returns>
         public static Rectangle RectangleFrom(Point Pos1, Point Pos2)
         {
             int Left = Math.Min(Pos1.X, Pos2.X);
@@ -104,18 +115,26 @@ namespace NLEditor
             return new Rectangle(Left, Top, Width, Height);  
         }
 
+        /// <summary>
+        /// Logs an exception message to AppPath/ErrorLog.txt.
+        /// </summary>
+        /// <param name="Ex"></param>
         public static void LogException(Exception Ex)
         {
             String ErrorPath = C.AppPath + "ErrorLog.txt";
-            TextWriter TextFile = new StreamWriter(ErrorPath, true);
+            System.IO.TextWriter TextFile = new System.IO.StreamWriter(ErrorPath, true);
             TextFile.WriteLine(Ex.ToString());
             TextFile.Close();
         }
 
+        /// <summary>
+        /// Logs a profiling result to AppPath/ProfilingLog.txt.
+        /// </summary>
+        /// <param name="Time"></param>
         public static void LogProfiling(long Time)
         {
             String LogPath = C.AppPath + "ProfilingLog.txt";
-            TextWriter TextFile = new StreamWriter(LogPath, true);
+            System.IO.TextWriter TextFile = new System.IO.StreamWriter(LogPath, true);
             TextFile.WriteLine(Time.ToString());
             TextFile.Close();
         }
