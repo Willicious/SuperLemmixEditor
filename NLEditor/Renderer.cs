@@ -231,14 +231,7 @@ namespace NLEditor
             UpdateLayerBmpSize();
             
             CreateObjectBackLayer();
-            if (!fIsClearPhysics)
-            {
-                CreateTerrainLayer();
-            }
-            else
-            { 
-                // TODO ----------> !!!
-            }
+            CreateTerrainLayer();
             CreateObjectTopLayer();
             CreateTriggerLayer();
 
@@ -287,10 +280,15 @@ namespace NLEditor
                 }
                 else if (MyTerrPiece.IsNoOverwrite)
                 {
+                    C.CustDrawMode CurDrawMode = 
+                        (!fIsClearPhysics)    ? C.CustDrawMode.NotAtMask :
+                        (MyTerrPiece.IsSteel) ? C.CustDrawMode.ClearPhysicsSteelNotAtMask : 
+                                                C.CustDrawMode.ClearPhysicsNotAtMask;
+                    
                     if(MyTerrPiece.IsOneWay)
                     {
                         // Write on this layer before changing the actual terrain layer. Otherwise nothing gets added!
-                        fLayerList[C.LAY_OWWTERRAIN].DrawOn(MyTerrPiece.Image, fLayerList[C.LAY_TERRAIN], MyTerrPiece.Pos, C.CustDrawMode.NotAtMask);
+                        fLayerList[C.LAY_OWWTERRAIN].DrawOn(MyTerrPiece.Image, fLayerList[C.LAY_TERRAIN], MyTerrPiece.Pos, CurDrawMode);
                     }
 
                     fLayerList[C.LAY_TERRAIN].DrawOn(MyTerrPiece.Image, (Bitmap)fLayerList[C.LAY_TERRAIN].Clone(), MyTerrPiece.Pos, C.CustDrawMode.NotAtMask);
@@ -302,7 +300,12 @@ namespace NLEditor
                         fLayerList[C.LAY_OWWTERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos);
                     }
 
-                    fLayerList[C.LAY_TERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos);
+                    C.CustDrawMode CurDrawMode =
+                        (!fIsClearPhysics) ?    C.CustDrawMode.Default :
+                        (MyTerrPiece.IsSteel) ? C.CustDrawMode.ClearPhysicsSteel :
+                                                C.CustDrawMode.ClearPhysics;
+
+                    fLayerList[C.LAY_TERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos, CurDrawMode);
                 }
             }
         }

@@ -233,6 +233,7 @@ namespace NLEditor
         public bool IsErase { get { return fIsErase; } set { fIsErase = value; } }
         public bool IsNoOverwrite { get { return fIsNoOverwrite; } set { fIsNoOverwrite = value; } }
         public bool IsOneWay { get { return fIsOneWay; } set { fIsOneWay = value; } }
+        public bool IsSteel { get { return this.ObjType == C.OBJ.STEEL; } }
 
         public override bool MayRotate()
         {

@@ -18,7 +18,7 @@ namespace NLEditor
             this.fTriggerRect = new Rectangle(0, 0, 0, 0);
             if (IsSteel)
             {
-                this.fObjectType = C.OBJ.SPLAT;
+                this.fObjectType = C.OBJ.STEEL;
             }
             else 
             {

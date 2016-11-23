@@ -39,7 +39,11 @@ namespace NLEditor
             get { return Environment.NewLine; }
         }
 
-        public enum CustDrawMode { Default, Erase, OnlyAtMask, NotAtMask, ClearPhysics, ClearPhysicsSteel }
+        public enum CustDrawMode 
+        { 
+            Default, Erase, OnlyAtMask, NotAtMask,
+            ClearPhysics, ClearPhysicsSteel, ClearPhysicsNotAtMask, ClearPhysicsSteelNotAtMask
+        }
 
         public enum DIR { N, E, S, W }
 

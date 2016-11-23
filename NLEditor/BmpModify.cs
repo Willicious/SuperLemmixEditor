@@ -44,6 +44,8 @@ namespace NLEditor
             ColorFuncDict.Add(C.CustDrawMode.OnlyAtMask, null);
             ColorFuncDict.Add(C.CustDrawMode.ClearPhysics, ColorFunc_ClearPhysics);
             ColorFuncDict.Add(C.CustDrawMode.ClearPhysicsSteel, ColorFunc_ClearPhysicsSteel);
+            ColorFuncDict.Add(C.CustDrawMode.ClearPhysicsNotAtMask, ColorFunc_ClearPhysics);
+            ColorFuncDict.Add(C.CustDrawMode.ClearPhysicsSteelNotAtMask, ColorFunc_ClearPhysicsSteel);
 
             DoDrawThisPixelDict = new Dictionary<C.CustDrawMode, Func<byte, byte, bool>>();
             DoDrawThisPixelDict.Add(C.CustDrawMode.Default, DoDrawThisPixel_DrawNew);
@@ -52,6 +54,8 @@ namespace NLEditor
             DoDrawThisPixelDict.Add(C.CustDrawMode.OnlyAtMask, DoDrawThisPixel_OnlyAtMask);
             DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysics, DoDrawThisPixel_DrawNew);
             DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsSteel, DoDrawThisPixel_DrawNew);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsNotAtMask, DoDrawThisPixel_NotAtMask);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsSteelNotAtMask, DoDrawThisPixel_NotAtMask);
         }
 
         private static Dictionary<C.CustDrawMode, Func<int, int, byte[]>> ColorFuncDict;
@@ -59,8 +63,8 @@ namespace NLEditor
 
         private static readonly byte[] ColorErase = { 0, 0, 0, 0 };
         private static readonly byte[] ColorClearPhysicsLight = { 200, 200, 200, 255 };
-        private static readonly byte[] ColorClearPhysicsDark = { 150, 150, 150, 255 };
-        private static readonly byte[] ColorClearPhysicsSteelLight = { 100, 100, 100, 255 };
+        private static readonly byte[] ColorClearPhysicsDark = { 170, 170, 170, 255 };
+        private static readonly byte[] ColorClearPhysicsSteelLight = { 80, 80, 80, 255 };
         private static readonly byte[] ColorClearPhysicsSteelDark = { 50, 50, 50, 255 };
 
         private static byte[] ColorFunc_Erase(int PosX, int PosY)
@@ -70,7 +74,7 @@ namespace NLEditor
 
         private static byte[] ColorFunc_ClearPhysics(int PosX, int PosY)
         {
-            if (PosX + PosY % 2 == 0)
+            if ((PosX + PosY) % 2 == 0)
             {
                 return ColorClearPhysicsLight;
             }
@@ -82,7 +86,7 @@ namespace NLEditor
 
         private static byte[] ColorFunc_ClearPhysicsSteel(int PosX, int PosY)
         {
-            if (PosX + PosY % 2 == 0)
+            if ((PosX + PosY) % 2 == 0)
             {
                 return ColorClearPhysicsSteelLight;
             }
