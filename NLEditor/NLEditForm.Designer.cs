@@ -409,7 +409,7 @@
             this.picPiece0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picPiece0.TabIndex = 25;
             this.picPiece0.TabStop = false;
-            this.picPiece0.Click += new System.EventHandler(this.picPiece0_Click);
+            this.picPiece0.Click += new System.EventHandler(this.picPieces_Click);
             // 
             // but_PieceLeft
             // 
@@ -435,7 +435,7 @@
             this.picPiece1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picPiece1.TabIndex = 27;
             this.picPiece1.TabStop = false;
-            this.picPiece1.Click += new System.EventHandler(this.picPiece1_Click);
+            this.picPiece1.Click += new System.EventHandler(this.picPieces_Click);
             // 
             // picPiece2
             // 
@@ -447,7 +447,7 @@
             this.picPiece2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picPiece2.TabIndex = 28;
             this.picPiece2.TabStop = false;
-            this.picPiece2.Click += new System.EventHandler(this.picPiece2_Click);
+            this.picPiece2.Click += new System.EventHandler(this.picPieces_Click);
             // 
             // but_PieceRight
             // 
@@ -473,7 +473,7 @@
             this.picPiece3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picPiece3.TabIndex = 30;
             this.picPiece3.TabStop = false;
-            this.picPiece3.Click += new System.EventHandler(this.picPiece3_Click);
+            this.picPiece3.Click += new System.EventHandler(this.picPieces_Click);
             // 
             // picPiece4
             // 
@@ -485,7 +485,7 @@
             this.picPiece4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picPiece4.TabIndex = 31;
             this.picPiece4.TabStop = false;
-            this.picPiece4.Click += new System.EventHandler(this.picPiece4_Click);
+            this.picPiece4.Click += new System.EventHandler(this.picPieces_Click);
             // 
             // picPiece5
             // 
@@ -497,7 +497,7 @@
             this.picPiece5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picPiece5.TabIndex = 32;
             this.picPiece5.TabStop = false;
-            this.picPiece5.Click += new System.EventHandler(this.picPiece5_Click);
+            this.picPiece5.Click += new System.EventHandler(this.picPieces_Click);
             // 
             // picPiece6
             // 
@@ -509,7 +509,7 @@
             this.picPiece6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picPiece6.TabIndex = 33;
             this.picPiece6.TabStop = false;
-            this.picPiece6.Click += new System.EventHandler(this.picPiece6_Click);
+            this.picPiece6.Click += new System.EventHandler(this.picPieces_Click);
             // 
             // picPiece7
             // 
@@ -521,7 +521,7 @@
             this.picPiece7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picPiece7.TabIndex = 34;
             this.picPiece7.TabStop = false;
-            this.picPiece7.Click += new System.EventHandler(this.picPiece7_Click);
+            this.picPiece7.Click += new System.EventHandler(this.picPieces_Click);
             // 
             // but_PieceTerrObj
             // 

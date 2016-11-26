@@ -360,51 +360,13 @@ namespace NLEditor
             MoveTerrPieceSelection(Movement);
         }
 
-        private void picPiece0_Click(object sender, EventArgs e)
+        private void picPieces_Click(object sender, EventArgs e)
         {
-            AddNewPieceToLevel(0);
-            RemoveFocus();
-        }
+            int PicIndex = fpicPieceList.FindIndex(pic => pic.Equals(sender));
 
-        private void picPiece1_Click(object sender, EventArgs e)
-        {
-            AddNewPieceToLevel(1);
-            RemoveFocus();
-        }
+            System.Diagnostics.Debug.Assert(PicIndex != -1, "PicBox not found in ´fpicPieceList.");
 
-        private void picPiece2_Click(object sender, EventArgs e)
-        {
-            AddNewPieceToLevel(2);
-            RemoveFocus();
-        }
-
-        private void picPiece3_Click(object sender, EventArgs e)
-        {
-            AddNewPieceToLevel(3);
-            RemoveFocus();
-        }
-
-        private void picPiece4_Click(object sender, EventArgs e)
-        {
-            AddNewPieceToLevel(4);
-            RemoveFocus();
-        }
-
-        private void picPiece5_Click(object sender, EventArgs e)
-        {
-            AddNewPieceToLevel(5);
-            RemoveFocus();
-        }
-
-        private void picPiece6_Click(object sender, EventArgs e)
-        {
-            AddNewPieceToLevel(6);
-            RemoveFocus();
-        }
-
-        private void picPiece7_Click(object sender, EventArgs e)
-        {
-            AddNewPieceToLevel(7);
+            AddNewPieceToLevel(PicIndex);
             RemoveFocus();
         }
 
