@@ -124,13 +124,11 @@ namespace NLEditor
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CreateNewLevelAndRenderer();
-            UpdateFlagsForPieceActions();
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadNewLevel();
-            UpdateFlagsForPieceActions();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -446,12 +444,10 @@ namespace NLEditor
             else if (e.Control && e.KeyCode == Keys.N)
             {
                 CreateNewLevelAndRenderer();
-                UpdateFlagsForPieceActions();
             }
             else if (e.Control && e.KeyCode == Keys.O)
             {
                 LoadNewLevel();
-                UpdateFlagsForPieceActions();
             }
             else if (e.Control && e.Shift && e.KeyCode == Keys.S)
             {

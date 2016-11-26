@@ -156,8 +156,8 @@ namespace NLEditor
             WriteLevelInfoToForm();
             ChangeBackgroundColor(this, NewMainStyle);
 
-            // Create new renderer for the level
             fCurRenderer = new Renderer(fCurLevel, this.pic_Level);
+            UpdateFlagsForPieceActions();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
@@ -172,6 +172,7 @@ namespace NLEditor
             fCurLevel = NewLevel;
             fCurRenderer.SetLevel(fCurLevel);
             WriteLevelInfoToForm();
+            UpdateFlagsForPieceActions();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
