@@ -367,6 +367,7 @@ namespace NLEditor
             System.Diagnostics.Debug.Assert(PicIndex != -1, "PicBox not found in ´fpicPieceList.");
 
             AddNewPieceToLevel(PicIndex);
+            UpdateFlagsForPieceActions();
             RemoveFocus();
         }
 

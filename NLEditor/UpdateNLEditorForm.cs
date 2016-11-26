@@ -101,17 +101,15 @@ namespace NLEditor
 
             // MOVE FRONT/BACK ---------------------------> TODO!!
 
-            GadgetPiece LastObject = (GadgetPiece)SelectionList.FindLast(p => p is GadgetPiece);
+
             for (int Skill = 0; Skill < fcheckSkillFlagList.Count; Skill++)
             {
                 fcheckSkillFlagList[Skill].Enabled = SelectionList.Exists(p => p.MayReceiveSkill(Skill));
-                if (LastObject != null)
-                {
-                    // Set check-mark correctly, without firing the CheckedChanged event
-                    fcheckSkillFlagList[Skill].CheckedChanged -= check_Piece_Skill_CheckedChanged;
-                    fcheckSkillFlagList[Skill].Checked = LastObject.HasSkillFlag(Skill);
-                    fcheckSkillFlagList[Skill].CheckedChanged += check_Piece_Skill_CheckedChanged;
-                }
+
+                // Set check-mark correctly, without firing the CheckedChanged event
+                fcheckSkillFlagList[Skill].CheckedChanged -= check_Piece_Skill_CheckedChanged;
+                fcheckSkillFlagList[Skill].Checked = SelectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).HasSkillFlag(Skill));
+                fcheckSkillFlagList[Skill].CheckedChanged += check_Piece_Skill_CheckedChanged;
             }
         }
 
