@@ -27,6 +27,14 @@ namespace NLEditor
          *    DeleteAllSelections()
          *    SelectionList()
          *    MovePieces(C.DIR Direcion, int Step = 1)
+         *    RotatePieces()
+         *    InvertPieces()
+         *    FlipPieces()
+         *    SetNoOverwrite(bool DoAdd)
+         *    SetErase(bool DoAdd)
+         *    SetOnlyOnTerrain(bool DoAdd)
+         *    SetOneWay(bool DoAdd)
+         *    SetSkillForObjects(int Skill, bool DoAdd)
          * -------------------------------------------------------- */
 
         /// <summary>
@@ -273,6 +281,48 @@ namespace NLEditor
         {
             Rectangle BorderRect = SelectionRectangle();
             SelectionList().ForEach(item => item.FlipInRect(BorderRect));
+        }
+
+        /// <summary>
+        /// Sets the NoOverwrite flag for all objects and terrain pieces.
+        /// </summary>
+        /// <param name="DoAdd"></param>
+        public void SetNoOverwrite(bool DoAdd)
+        {
+            TerrainList.FindAll(ter => ter.IsSelected)
+                       .ForEach(ter => { ter.IsNoOverwrite = DoAdd; if (DoAdd) ter.IsErase = false; });
+            GadgetList.FindAll(obj => obj.IsSelected)
+                      .ForEach(obj => { obj.IsNoOverwrite = DoAdd; if (DoAdd) obj.IsOnlyOnTerrain = false; });
+        }
+
+        /// <summary>
+        /// Sets the Erase flag for all terrain pieces.
+        /// </summary>
+        /// <param name="DoAdd"></param>
+        public void SetErase(bool DoAdd)
+        {
+            TerrainList.FindAll(ter => ter.IsSelected)
+                       .ForEach(ter => { ter.IsErase = DoAdd; if (DoAdd) ter.IsNoOverwrite = false; });
+        }
+
+        /// <summary>
+        /// Sets the OnlyOnTerrain flag for all objects.
+        /// </summary>
+        /// <param name="DoAdd"></param>
+        public void SetOnlyOnTerrain(bool DoAdd)
+        {
+            GadgetList.FindAll(obj => obj.IsSelected)
+                      .ForEach(obj => { obj.IsOnlyOnTerrain = DoAdd; if (DoAdd) obj.IsNoOverwrite = false; });
+        }
+
+        /// <summary>
+        /// Sets the OneWay flag for all terrain pieces.
+        /// </summary>
+        /// <param name="DoAdd"></param>
+        public void SetOneWay(bool DoAdd)
+        {
+            TerrainList.FindAll(ter => ter.IsSelected)
+                       .ForEach(ter => ter.IsOneWay = DoAdd);
         }
 
         /// <summary>

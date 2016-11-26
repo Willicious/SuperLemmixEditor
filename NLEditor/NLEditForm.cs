@@ -266,14 +266,42 @@ namespace NLEditor
         }
 
 
+        private void check_Pieces_Erase_CheckedChanged(object sender, EventArgs e)
+        {
+            bool IsChecked = (check_Pieces_Erase.CheckState == CheckState.Checked);
+            SetErase(IsChecked);
+            RemoveFocus();
+        }
+
+        private void check_Pieces_NoOv_CheckedChanged(object sender, EventArgs e)
+        {
+            bool IsChecked = (check_Pieces_NoOv.CheckState == CheckState.Checked);
+            SetNoOverwrite(IsChecked);
+            RemoveFocus();
+        }
+
+        private void check_Pieces_OnlyOnTerrain_CheckedChanged(object sender, EventArgs e)
+        {
+            bool IsChecked = (check_Pieces_OnlyOnTerrain.CheckState == CheckState.Checked);
+            SetOnlyOnTerrain(IsChecked);
+            RemoveFocus();
+        }
+
+        private void check_Pieces_OneWay_CheckedChanged(object sender, EventArgs e)
+        {
+            bool IsChecked = (check_Pieces_OneWay.CheckState == CheckState.Checked);
+            SetOneWay(IsChecked);
+            RemoveFocus();
+        }
+
+
 
         private void check_Piece_Skill_CheckedChanged(object sender, EventArgs e)
         {
             int Skill = fcheckSkillFlagList.FindIndex(check => check.Equals((CheckBox)sender));
             bool IsChecked = ((CheckBox)sender).CheckState == CheckState.Checked;
             SetSkillForObjects(Skill, IsChecked);
-
-            UpdateFlagsForPieceActions();
+            RemoveFocus();
         }
 
 
@@ -576,6 +604,7 @@ namespace NLEditor
             fMouseButtonPressed = null;
             RemoveFocus();
         }
+
 
 
 

@@ -373,6 +373,49 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Sets the NoOverwrite flag for all selected pieces and displays the result.
+        /// </summary>
+        /// <param name="DoAdd"></param>
+        private void SetNoOverwrite(bool DoAdd)
+        {
+            fCurLevel.SetNoOverwrite(DoAdd);
+            UpdateFlagsForPieceActions();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+        /// <summary>
+        /// Sets the Erase flag for all selected pieces and displays the result.
+        /// </summary>
+        /// <param name="DoAdd"></param>
+        private void SetErase(bool DoAdd)
+        {
+            fCurLevel.SetErase(DoAdd);
+            UpdateFlagsForPieceActions();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+        /// <summary>
+        /// Sets the OnlyOnTerrain flag for all selected pieces and displays the result.
+        /// </summary>
+        /// <param name="DoAdd"></param>
+        private void SetOnlyOnTerrain(bool DoAdd)
+        {
+            fCurLevel.SetOnlyOnTerrain(DoAdd);
+            UpdateFlagsForPieceActions();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+        /// <summary>
+        /// Sets the OneWayAdmissible flag for all selected pieces and displays the result.
+        /// </summary>
+        /// <param name="DoAdd"></param>
+        private void SetOneWay(bool DoAdd)
+        {
+            fCurLevel.SetOneWay(DoAdd);
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+        /// <summary>
         /// Sets skill flags for all selected objects.
         /// </summary>
         /// <param name="Skill"></param>
@@ -380,6 +423,7 @@ namespace NLEditor
         private void SetSkillForObjects(int Skill, bool DoAdd)
         {
             fCurLevel.SetSkillForObjects(Skill, DoAdd);
+            UpdateFlagsForPieceActions();
         }
 
     }

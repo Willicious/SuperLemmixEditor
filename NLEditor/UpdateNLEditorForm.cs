@@ -101,6 +101,31 @@ namespace NLEditor
 
             // MOVE FRONT/BACK ---------------------------> TODO!!
 
+            check_Pieces_NoOv.Enabled = (SelectionList.Count > 0);
+            // Set check-mark correctly, without firing the CheckedChanged event
+            check_Pieces_NoOv.CheckedChanged -= check_Pieces_NoOv_CheckedChanged;
+            check_Pieces_NoOv.Checked = SelectionList.Exists(p => (p is GadgetPiece && (p as GadgetPiece).IsNoOverwrite) 
+                                                               || (p is TerrainPiece && (p as TerrainPiece).IsNoOverwrite));
+            check_Pieces_NoOv.CheckedChanged += check_Pieces_NoOv_CheckedChanged;
+
+            check_Pieces_Erase.Enabled = SelectionList.Exists(p => p is TerrainPiece);
+            // Set check-mark correctly, without firing the CheckedChanged event
+            check_Pieces_Erase.CheckedChanged -= check_Pieces_Erase_CheckedChanged;
+            check_Pieces_Erase.Checked = SelectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsErase);
+            check_Pieces_Erase.CheckedChanged += check_Pieces_Erase_CheckedChanged;
+            
+            check_Pieces_OneWay.Enabled = SelectionList.Exists(p => p is TerrainPiece);
+            // Set check-mark correctly, without firing the CheckedChanged event
+            check_Pieces_OneWay.CheckedChanged -= check_Pieces_OneWay_CheckedChanged;
+            check_Pieces_OneWay.Checked = SelectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsOneWay);
+            check_Pieces_OneWay.CheckedChanged += check_Pieces_OneWay_CheckedChanged;
+
+            check_Pieces_OnlyOnTerrain.Enabled = SelectionList.Exists(p => p is GadgetPiece);
+            // Set check-mark correctly, without firing the CheckedChanged event
+            check_Pieces_OnlyOnTerrain.CheckedChanged -= check_Pieces_OnlyOnTerrain_CheckedChanged;
+            check_Pieces_OnlyOnTerrain.Checked = SelectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).IsOnlyOnTerrain);
+            check_Pieces_OnlyOnTerrain.CheckedChanged += check_Pieces_OnlyOnTerrain_CheckedChanged;
+
 
             for (int Skill = 0; Skill < fcheckSkillFlagList.Count; Skill++)
             {

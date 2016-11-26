@@ -55,10 +55,8 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.combo_PieceStyle = new System.Windows.Forms.ComboBox();
             this.picPiece0 = new System.Windows.Forms.PictureBox();
-            this.but_PieceLeft = new NLEditor.RepeatButton();
             this.picPiece1 = new System.Windows.Forms.PictureBox();
             this.picPiece2 = new System.Windows.Forms.PictureBox();
-            this.but_PieceRight = new NLEditor.RepeatButton();
             this.picPiece3 = new System.Windows.Forms.PictureBox();
             this.picPiece4 = new System.Windows.Forms.PictureBox();
             this.picPiece5 = new System.Windows.Forms.PictureBox();
@@ -119,9 +117,6 @@
             this.check_Pieces_OnlyOnTerrain = new System.Windows.Forms.CheckBox();
             this.check_Pieces_NoOv = new System.Windows.Forms.CheckBox();
             this.check_Pieces_Erase = new System.Windows.Forms.CheckBox();
-            this.but_FlipPieces = new NLEditor.RepeatButton();
-            this.but_InvertPieces = new NLEditor.RepeatButton();
-            this.but_RotatePieces = new NLEditor.RepeatButton();
             this.tabSkills = new System.Windows.Forms.TabPage();
             this.num_Ski_Cloner = new System.Windows.Forms.NumericUpDown();
             this.num_Ski_Stacker = new System.Windows.Forms.NumericUpDown();
@@ -156,6 +151,11 @@
             this.lbl_Skill_Floater = new System.Windows.Forms.Label();
             this.lbl_Skill_Climber = new System.Windows.Forms.Label();
             this.txt_Focus = new System.Windows.Forms.TextBox();
+            this.but_PieceRight = new NLEditor.RepeatButton();
+            this.but_PieceLeft = new NLEditor.RepeatButton();
+            this.but_FlipPieces = new NLEditor.RepeatButton();
+            this.but_InvertPieces = new NLEditor.RepeatButton();
+            this.but_RotatePieces = new NLEditor.RepeatButton();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -411,20 +411,6 @@
             this.picPiece0.TabStop = false;
             this.picPiece0.Click += new System.EventHandler(this.picPieces_Click);
             // 
-            // but_PieceLeft
-            // 
-            this.but_PieceLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.but_PieceLeft.Interval = 100;
-            this.but_PieceLeft.Location = new System.Drawing.Point(0, 478);
-            this.but_PieceLeft.Name = "but_PieceLeft";
-            this.but_PieceLeft.Size = new System.Drawing.Size(32, 84);
-            this.but_PieceLeft.TabIndex = 26;
-            this.but_PieceLeft.Text = "⇦";
-            this.but_PieceLeft.UseVisualStyleBackColor = true;
-            this.but_PieceLeft.Click += new System.EventHandler(this.but_PieceLeft_Click);
-            this.but_PieceLeft.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseDown);
-            this.but_PieceLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseUp);
-            // 
             // picPiece1
             // 
             this.picPiece1.BackColor = System.Drawing.SystemColors.Control;
@@ -448,20 +434,6 @@
             this.picPiece2.TabIndex = 28;
             this.picPiece2.TabStop = false;
             this.picPiece2.Click += new System.EventHandler(this.picPieces_Click);
-            // 
-            // but_PieceRight
-            // 
-            this.but_PieceRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.but_PieceRight.Interval = 100;
-            this.but_PieceRight.Location = new System.Drawing.Point(756, 478);
-            this.but_PieceRight.Name = "but_PieceRight";
-            this.but_PieceRight.Size = new System.Drawing.Size(32, 84);
-            this.but_PieceRight.TabIndex = 29;
-            this.but_PieceRight.Text = "⇨";
-            this.but_PieceRight.UseVisualStyleBackColor = true;
-            this.but_PieceRight.Click += new System.EventHandler(this.but_PieceRight_Click);
-            this.but_PieceRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceRight_MouseDown);
-            this.but_PieceRight.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceRight_MouseUp);
             // 
             // picPiece3
             // 
@@ -1215,6 +1187,7 @@
             this.check_Pieces_OneWay.TabIndex = 10;
             this.check_Pieces_OneWay.Text = "Allow One-Way";
             this.check_Pieces_OneWay.UseVisualStyleBackColor = true;
+            this.check_Pieces_OneWay.CheckedChanged += new System.EventHandler(this.check_Pieces_OneWay_CheckedChanged);
             // 
             // check_Pieces_OnlyOnTerrain
             // 
@@ -1225,6 +1198,7 @@
             this.check_Pieces_OnlyOnTerrain.TabIndex = 9;
             this.check_Pieces_OnlyOnTerrain.Text = "Only On Terrain";
             this.check_Pieces_OnlyOnTerrain.UseVisualStyleBackColor = true;
+            this.check_Pieces_OnlyOnTerrain.CheckedChanged += new System.EventHandler(this.check_Pieces_OnlyOnTerrain_CheckedChanged);
             // 
             // check_Pieces_NoOv
             // 
@@ -1235,6 +1209,7 @@
             this.check_Pieces_NoOv.TabIndex = 8;
             this.check_Pieces_NoOv.Text = "No Overwrite";
             this.check_Pieces_NoOv.UseVisualStyleBackColor = true;
+            this.check_Pieces_NoOv.CheckedChanged += new System.EventHandler(this.check_Pieces_NoOv_CheckedChanged);
             // 
             // check_Pieces_Erase
             // 
@@ -1245,42 +1220,7 @@
             this.check_Pieces_Erase.TabIndex = 7;
             this.check_Pieces_Erase.Text = "Erase Terrain";
             this.check_Pieces_Erase.UseVisualStyleBackColor = true;
-            // 
-            // but_FlipPieces
-            // 
-            this.but_FlipPieces.Interval = 500;
-            this.but_FlipPieces.Location = new System.Drawing.Point(119, 8);
-            this.but_FlipPieces.Name = "but_FlipPieces";
-            this.but_FlipPieces.Size = new System.Drawing.Size(49, 30);
-            this.but_FlipPieces.TabIndex = 2;
-            this.but_FlipPieces.Text = "Flip";
-            this.but_FlipPieces.UseVisualStyleBackColor = true;
-            this.but_FlipPieces.Click += new System.EventHandler(this.but_FlipPieces_Click);
-            this.but_FlipPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_FlipPieces_MouseUp);
-            // 
-            // but_InvertPieces
-            // 
-            this.but_InvertPieces.Interval = 500;
-            this.but_InvertPieces.Location = new System.Drawing.Point(61, 8);
-            this.but_InvertPieces.Name = "but_InvertPieces";
-            this.but_InvertPieces.Size = new System.Drawing.Size(49, 30);
-            this.but_InvertPieces.TabIndex = 1;
-            this.but_InvertPieces.Text = "Invert";
-            this.but_InvertPieces.UseVisualStyleBackColor = true;
-            this.but_InvertPieces.Click += new System.EventHandler(this.but_InvertPieces_Click);
-            this.but_InvertPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_InvertPieces_MouseUp);
-            // 
-            // but_RotatePieces
-            // 
-            this.but_RotatePieces.Interval = 500;
-            this.but_RotatePieces.Location = new System.Drawing.Point(6, 8);
-            this.but_RotatePieces.Name = "but_RotatePieces";
-            this.but_RotatePieces.Size = new System.Drawing.Size(49, 30);
-            this.but_RotatePieces.TabIndex = 0;
-            this.but_RotatePieces.Text = "Rotate";
-            this.but_RotatePieces.UseVisualStyleBackColor = true;
-            this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
-            this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
+            this.check_Pieces_Erase.CheckedChanged += new System.EventHandler(this.check_Pieces_Erase_CheckedChanged);
             // 
             // tabSkills
             // 
@@ -1587,6 +1527,70 @@
             this.txt_Focus.TabIndex = 37;
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
+            // 
+            // but_PieceRight
+            // 
+            this.but_PieceRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.but_PieceRight.Interval = 100;
+            this.but_PieceRight.Location = new System.Drawing.Point(756, 478);
+            this.but_PieceRight.Name = "but_PieceRight";
+            this.but_PieceRight.Size = new System.Drawing.Size(32, 84);
+            this.but_PieceRight.TabIndex = 29;
+            this.but_PieceRight.Text = "⇨";
+            this.but_PieceRight.UseVisualStyleBackColor = true;
+            this.but_PieceRight.Click += new System.EventHandler(this.but_PieceRight_Click);
+            this.but_PieceRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceRight_MouseDown);
+            this.but_PieceRight.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceRight_MouseUp);
+            // 
+            // but_PieceLeft
+            // 
+            this.but_PieceLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.but_PieceLeft.Interval = 100;
+            this.but_PieceLeft.Location = new System.Drawing.Point(0, 478);
+            this.but_PieceLeft.Name = "but_PieceLeft";
+            this.but_PieceLeft.Size = new System.Drawing.Size(32, 84);
+            this.but_PieceLeft.TabIndex = 26;
+            this.but_PieceLeft.Text = "⇦";
+            this.but_PieceLeft.UseVisualStyleBackColor = true;
+            this.but_PieceLeft.Click += new System.EventHandler(this.but_PieceLeft_Click);
+            this.but_PieceLeft.MouseDown += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseDown);
+            this.but_PieceLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseUp);
+            // 
+            // but_FlipPieces
+            // 
+            this.but_FlipPieces.Interval = 500;
+            this.but_FlipPieces.Location = new System.Drawing.Point(119, 8);
+            this.but_FlipPieces.Name = "but_FlipPieces";
+            this.but_FlipPieces.Size = new System.Drawing.Size(49, 30);
+            this.but_FlipPieces.TabIndex = 2;
+            this.but_FlipPieces.Text = "Flip";
+            this.but_FlipPieces.UseVisualStyleBackColor = true;
+            this.but_FlipPieces.Click += new System.EventHandler(this.but_FlipPieces_Click);
+            this.but_FlipPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_FlipPieces_MouseUp);
+            // 
+            // but_InvertPieces
+            // 
+            this.but_InvertPieces.Interval = 500;
+            this.but_InvertPieces.Location = new System.Drawing.Point(61, 8);
+            this.but_InvertPieces.Name = "but_InvertPieces";
+            this.but_InvertPieces.Size = new System.Drawing.Size(49, 30);
+            this.but_InvertPieces.TabIndex = 1;
+            this.but_InvertPieces.Text = "Invert";
+            this.but_InvertPieces.UseVisualStyleBackColor = true;
+            this.but_InvertPieces.Click += new System.EventHandler(this.but_InvertPieces_Click);
+            this.but_InvertPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_InvertPieces_MouseUp);
+            // 
+            // but_RotatePieces
+            // 
+            this.but_RotatePieces.Interval = 500;
+            this.but_RotatePieces.Location = new System.Drawing.Point(6, 8);
+            this.but_RotatePieces.Name = "but_RotatePieces";
+            this.but_RotatePieces.Size = new System.Drawing.Size(49, 30);
+            this.but_RotatePieces.TabIndex = 0;
+            this.but_RotatePieces.Text = "Rotate";
+            this.but_RotatePieces.UseVisualStyleBackColor = true;
+            this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
+            this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
             // 
             // NLEditForm
             // 
