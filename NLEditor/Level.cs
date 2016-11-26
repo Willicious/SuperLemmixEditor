@@ -35,6 +35,7 @@ namespace NLEditor
          *    SetOnlyOnTerrain(bool DoAdd)
          *    SetOneWay(bool DoAdd)
          *    SetSkillForObjects(int Skill, bool DoAdd)
+         *    MoveSelectedIndex(bool ToTop, bool OnlyOneStep)
          * -------------------------------------------------------- */
 
         /// <summary>
@@ -335,5 +336,99 @@ namespace NLEditor
                       .ForEach(obj => obj.SetSkillFlag(Skill, DoAdd));
         }
 
+        /// <summary>
+        /// Changes the index of all selected pieces.
+        /// </summary>
+        /// <param name="ToTop"></param>
+        /// <param name="OnlyOneStep"></param>
+        public void MoveSelectedIndex(bool ToTop, bool OnlyOneStep)
+        {
+            if (OnlyOneStep && ToTop)
+            {
+                MoveSelectedIndexOneToTop();
+            }
+            else if (OnlyOneStep && !ToTop)
+            {
+                MoveSelectedIndexOneToBottom();
+            }
+            else
+            {
+                MoveSelectedIndexMaximally(ToTop);
+            }
+        }
+
+        /// <summary>
+        /// Moves all selected pieces to the beginning or the end of their respective lists.
+        /// </summary>
+        /// <param name="ToTop"></param>
+        private void MoveSelectedIndexMaximally(bool ToTop)
+        {
+            List<GadgetPiece> SelectedGadgets = GadgetList.FindAll(obj => obj.IsSelected);
+            List<GadgetPiece> NonSelectedGadgets = GadgetList.FindAll(obj => !obj.IsSelected);
+            if (ToTop)
+            {
+                GadgetList = NonSelectedGadgets.Concat(SelectedGadgets).ToList();
+            }
+            else
+            {
+                GadgetList = SelectedGadgets.Concat(NonSelectedGadgets).ToList();
+            }
+
+            List<TerrainPiece> SelectedTerrain = TerrainList.FindAll(obj => obj.IsSelected);
+            List<TerrainPiece> NonSelectedTerrain = TerrainList.FindAll(obj => !obj.IsSelected);
+            if (ToTop)
+            {
+                TerrainList = NonSelectedTerrain.Concat(SelectedTerrain).ToList();
+            }
+            else
+            {
+                TerrainList = SelectedTerrain.Concat(NonSelectedTerrain).ToList();
+            }
+        }
+
+        /// <summary>
+        /// Moves all selected pieces one index upwards.
+        /// </summary>
+        private void MoveSelectedIndexOneToTop()
+        {
+            for (int Index = TerrainList.Count - 1; Index > 0; Index--)
+            {
+                if (!TerrainList[Index].IsSelected && TerrainList[Index - 1].IsSelected)
+                {
+                    TerrainList.Swap(Index, Index - 1);
+                }
+            }
+
+            for (int Index = GadgetList.Count - 1; Index > 0; Index--)
+            {
+                if (!GadgetList[Index].IsSelected && GadgetList[Index - 1].IsSelected)
+                {
+                    GadgetList.Swap(Index, Index - 1);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Moves all selected pieces one index downwards.
+        /// </summary>
+        private void MoveSelectedIndexOneToBottom()
+        {
+            for (int Index = 0; Index < TerrainList.Count - 1; Index++)
+            {
+                if (!TerrainList[Index].IsSelected && TerrainList[Index + 1].IsSelected)
+                {
+                    TerrainList.Swap(Index, Index + 1);
+                }
+            }
+
+            for (int Index = 0; Index < GadgetList.Count - 1; Index++)
+            {
+                if (!GadgetList[Index].IsSelected && GadgetList[Index + 1].IsSelected)
+                {
+                    GadgetList.Swap(Index, Index + 1);
+                }
+            }
+        }
+ 
     }
 }

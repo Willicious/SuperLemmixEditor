@@ -24,6 +24,20 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Swaps two elements of given index in the list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="MyList"></param>
+        /// <param name="Index1"></param>
+        /// <param name="Index2"></param>
+        public static void Swap<T>(this IList<T> MyList, int Index1, int Index2)
+        {
+            T item = MyList[Index1];
+            MyList[Index1] = MyList[Index2];
+            MyList[Index2] = item;
+        }
+
+        /// <summary>
         /// Creates a new rectangle having the two points as diagonally opposite vertices.
         /// </summary>
         /// <param name="Pos1"></param>

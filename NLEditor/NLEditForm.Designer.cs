@@ -109,10 +109,10 @@
             this.check_Piece_Blocker = new System.Windows.Forms.CheckBox();
             this.check_Piece_Floater = new System.Windows.Forms.CheckBox();
             this.check_Piece_Climber = new System.Windows.Forms.CheckBox();
-            this.but_MoveBackOne = new System.Windows.Forms.Button();
-            this.but_MoveFrontOne = new System.Windows.Forms.Button();
-            this.but_MoveBack = new System.Windows.Forms.Button();
-            this.but_MoveFront = new System.Windows.Forms.Button();
+            this.but_MoveBackOne = new NLEditor.RepeatButton();
+            this.but_MoveFrontOne = new NLEditor.RepeatButton();
+            this.but_MoveBack = new NLEditor.RepeatButton();
+            this.but_MoveFront = new NLEditor.RepeatButton();
             this.check_Pieces_OneWay = new System.Windows.Forms.CheckBox();
             this.check_Pieces_OnlyOnTerrain = new System.Windows.Forms.CheckBox();
             this.check_Pieces_NoOv = new System.Windows.Forms.CheckBox();
@@ -1144,39 +1144,51 @@
             // 
             // but_MoveBackOne
             // 
+            this.but_MoveBackOne.Interval = 200;
             this.but_MoveBackOne.Location = new System.Drawing.Point(92, 80);
             this.but_MoveBackOne.Name = "but_MoveBackOne";
             this.but_MoveBackOne.Size = new System.Drawing.Size(76, 30);
             this.but_MoveBackOne.TabIndex = 6;
             this.but_MoveBackOne.Text = "One to Back";
             this.but_MoveBackOne.UseVisualStyleBackColor = true;
+            this.but_MoveBackOne.Click += new System.EventHandler(this.but_MoveBackOne_Click);
+            this.but_MoveBackOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveBackOne_MouseUp);
             // 
             // but_MoveFrontOne
             // 
+            this.but_MoveFrontOne.Interval = 200;
             this.but_MoveFrontOne.Location = new System.Drawing.Point(8, 80);
             this.but_MoveFrontOne.Name = "but_MoveFrontOne";
             this.but_MoveFrontOne.Size = new System.Drawing.Size(76, 30);
             this.but_MoveFrontOne.TabIndex = 5;
             this.but_MoveFrontOne.Text = "One to Front";
             this.but_MoveFrontOne.UseVisualStyleBackColor = true;
+            this.but_MoveFrontOne.Click += new System.EventHandler(this.but_MoveFrontOne_Click);
+            this.but_MoveFrontOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveFrontOne_MouseUp);
             // 
             // but_MoveBack
             // 
+            this.but_MoveBack.Interval = 1000;
             this.but_MoveBack.Location = new System.Drawing.Point(92, 44);
             this.but_MoveBack.Name = "but_MoveBack";
             this.but_MoveBack.Size = new System.Drawing.Size(76, 30);
             this.but_MoveBack.TabIndex = 4;
             this.but_MoveBack.Text = "All to Back";
             this.but_MoveBack.UseVisualStyleBackColor = true;
+            this.but_MoveBack.Click += new System.EventHandler(this.but_MoveBack_Click);
+            this.but_MoveBack.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveBack_MouseUp);
             // 
             // but_MoveFront
             // 
+            this.but_MoveFront.Interval = 1000;
             this.but_MoveFront.Location = new System.Drawing.Point(8, 44);
             this.but_MoveFront.Name = "but_MoveFront";
             this.but_MoveFront.Size = new System.Drawing.Size(76, 30);
             this.but_MoveFront.TabIndex = 3;
             this.but_MoveFront.Text = "All to Front";
             this.but_MoveFront.UseVisualStyleBackColor = true;
+            this.but_MoveFront.Click += new System.EventHandler(this.but_MoveFront_Click);
+            this.but_MoveFront.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveFront_MouseUp);
             // 
             // check_Pieces_OneWay
             // 
@@ -1793,10 +1805,10 @@
         private System.Windows.Forms.CheckBox check_Piece_Blocker;
         private System.Windows.Forms.CheckBox check_Piece_Floater;
         private System.Windows.Forms.CheckBox check_Piece_Climber;
-        private System.Windows.Forms.Button but_MoveBackOne;
-        private System.Windows.Forms.Button but_MoveFrontOne;
-        private System.Windows.Forms.Button but_MoveBack;
-        private System.Windows.Forms.Button but_MoveFront;
+        private NLEditor.RepeatButton but_MoveBackOne;
+        private NLEditor.RepeatButton but_MoveFrontOne;
+        private NLEditor.RepeatButton but_MoveBack;
+        private NLEditor.RepeatButton but_MoveFront;
         private System.Windows.Forms.CheckBox check_Piece_Zombie;
     }
 }

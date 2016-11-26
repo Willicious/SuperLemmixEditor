@@ -264,6 +264,63 @@ namespace NLEditor
         }
 
 
+        private void but_MoveFront_Click(object sender, EventArgs e)
+        {
+            if (!but_MoveFront.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveFront.Interval / 2)
+            {
+                fStopWatchMouse.Restart();
+                MovePieceIndex(true, false);
+            }
+        }
+
+        private void but_MoveFront_MouseUp(object sender, MouseEventArgs e)
+        {
+            RemoveFocus();
+        }
+
+        private void but_MoveBack_Click(object sender, EventArgs e)
+        {
+            if (!but_MoveBack.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveBack.Interval / 2)
+            {
+                fStopWatchMouse.Restart();
+                MovePieceIndex(false, false);
+            }
+        }
+
+        private void but_MoveBack_MouseUp(object sender, MouseEventArgs e)
+        {
+            RemoveFocus();
+        }
+
+        private void but_MoveFrontOne_Click(object sender, EventArgs e)
+        {
+            if (!but_MoveFrontOne.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveFrontOne.Interval / 2)
+            {
+                fStopWatchMouse.Restart();
+                MovePieceIndex(true, true);
+            }
+        }
+
+        private void but_MoveFrontOne_MouseUp(object sender, MouseEventArgs e)
+        {
+            RemoveFocus();
+        }
+
+        private void but_MoveBackOne_Click(object sender, EventArgs e)
+        {
+            if (!but_MoveBackOne.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveBackOne.Interval / 2)
+            {
+                fStopWatchMouse.Restart();
+                MovePieceIndex(false, true);
+            }
+        }
+
+        private void but_MoveBackOne_MouseUp(object sender, MouseEventArgs e)
+        {
+            RemoveFocus();
+        }
+
+
         private void check_Pieces_Erase_CheckedChanged(object sender, EventArgs e)
         {
             bool IsChecked = (check_Pieces_Erase.CheckState == CheckState.Checked);
@@ -600,6 +657,7 @@ namespace NLEditor
             fMouseButtonPressed = null;
             RemoveFocus();
         }
+
 
 
     }

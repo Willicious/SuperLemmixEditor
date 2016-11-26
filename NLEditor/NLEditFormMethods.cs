@@ -426,5 +426,17 @@ namespace NLEditor
             UpdateFlagsForPieceActions();
         }
 
+        /// <summary>
+        /// Changes the index of all selected pieces and displays the result.
+        /// </summary>
+        /// <param name="ToTop"></param>
+        /// <param name="OnlyOneStep"></param>
+        private void MovePieceIndex(bool ToFront, bool OnlyOneStep)
+        {
+            fCurLevel.MoveSelectedIndex(!ToFront, OnlyOneStep);
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+
     }
 }
