@@ -174,6 +174,9 @@ namespace NLEditor
             Point Pos = new Point(PosX, PosY);
             GadgetPiece NewGadget = new GadgetPiece(Key, Pos, 0, false, IsNoOverwrite, IsOnlyOnTerrain, Val_L, Val_S);
 
+            // For compatibility with player: NoOverwrite + OnlyOnTerrain gadgets work like OnlyOnTerrain 
+            if (NewGadget.IsNoOverwrite && NewGadget.IsOnlyOnTerrain) NewGadget.IsNoOverwrite = false;
+
             if (DoRotate) NewGadget.RotateInRect(NewGadget.ImageRectangle);
             if (DoFlip) NewGadget.FlipInRect(NewGadget.ImageRectangle);
             if (DoInvert) NewGadget.InvertInRect(NewGadget.ImageRectangle);
@@ -227,6 +230,9 @@ namespace NLEditor
             string Key = ImageLibrary.CreatePieceKey(StyleName, TerrainName, false);
             Point Pos = new Point(PosX, PosY);
             TerrainPiece NewTerrain = new TerrainPiece(Key, Pos, 0, false, IsErase, IsNoOverwrite, IsOneWay);
+
+            // For compatibility with player: NoOverwrite + Erase pieces work like NoOverWrite
+            if (NewTerrain.IsNoOverwrite && NewTerrain.IsErase) NewTerrain.IsErase = false;
 
             if (DoRotate) NewTerrain.RotateInRect(NewTerrain.ImageRectangle);
             if (DoFlip) NewTerrain.FlipInRect(NewTerrain.ImageRectangle);
