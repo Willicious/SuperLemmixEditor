@@ -127,7 +127,7 @@ namespace NLEditor
         /// Determines whether this piece can receive a flag for a given skill.
         /// </summary>
         /// <returns></returns>
-        public abstract bool MayReceive(int Skill);
+        public abstract bool MayReceiveSkill(int Skill);
 
         /// <summary>
         /// Rotates the piece while keeping its top left coordianate.
@@ -258,7 +258,7 @@ namespace NLEditor
             return true;
         }
 
-        public override bool MayReceive(int Skill)
+        public override bool MayReceiveSkill(int Skill)
         {
             return false;
         }
@@ -296,8 +296,8 @@ namespace NLEditor
 
         public bool IsNoOverwrite { get { return fIsNoOverwrite; } set { fIsNoOverwrite = value; } }
         public bool IsOnlyOnTerrain { get { return fIsOnlyOnTerrain; } set { fIsOnlyOnTerrain = value; } }
-        public int Val_L { get { return fVal_L; } set { fVal_L = value; } }
-        public int Val_S { get { return fVal_S; } set { fVal_S = value; } }
+        public int Val_L { get { return fVal_L; } }
+        public int Val_S { get { return fVal_S; } }
         public int SpecWidth { get { return fSpecWidth; } set { fSpecWidth = value; } }
         public int SpecHeight { get { return fSpecHeight; } set { fSpecHeight = value; } }
 
@@ -335,7 +335,7 @@ namespace NLEditor
             return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE);
         }
 
-        public override bool MayReceive(int Skill)
+        public override bool MayReceiveSkill(int Skill)
         {
             switch (ObjType)
             {
@@ -364,17 +364,20 @@ namespace NLEditor
         /// <param name="DoAdd"></param>
         public void SetSkillFlag(int Skill, bool DoAdd)
         {
-            if (!MayReceive(Skill)) return;
+            if (!MayReceiveSkill(Skill)) return;
 
             switch (ObjType)
             {
                 case C.OBJ.HATCH:
                 case C.OBJ.LEMMING:
                     {
-                        if (Skill.In(C.SKI_FLOATER, C.SKI_GLIDER))
+                        if (Skill == C.SKI_FLOATER)
+                        {
+                            SetOneSkillFlag(C.SKI_GLIDER, false);
+                        }
+                        else if (Skill == C.SKI_GLIDER)
                         {
                             SetOneSkillFlag(C.SKI_FLOATER, false);
-                            SetOneSkillFlag(C.SKI_GLIDER, false);
                         }
                         
                         SetOneSkillFlag(Skill, DoAdd);
@@ -399,11 +402,19 @@ namespace NLEditor
         /// <param name="DoAdd"></param>
         private void SetOneSkillFlag(int Skill, bool DoAdd)
         {
-            Val_L |= 1 << Skill;
-            if (!DoAdd) Val_L ^= 1 << Skill;
+            fVal_L |= 1 << Skill;
+            if (!DoAdd) fVal_L ^= 1 << Skill;
         }
 
-
+        /// <summary>
+        /// Retruns whether the object has the flag for a specific skill.
+        /// </summary>
+        /// <param name="Skill"></param>
+        /// <returns></returns>
+        public bool HasSkillFlag(int Skill)
+        { 
+            return (fVal_L & 1 << Skill) != 0;
+        }
 
     }
 

@@ -29,9 +29,21 @@ namespace NLEditor
             InitializeComponent();
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(NLEditForm_MouseWheel);
 
-            PictureBox[] PicBoxArr = { this.picPiece0, this.picPiece1, this.picPiece2, this.picPiece3,
-                                       this.picPiece4, this.picPiece5, this.picPiece6, this.picPiece7 };
-            fpicPieceList = new List<PictureBox>(PicBoxArr);
+            fpicPieceList = new List<PictureBox> 
+                { 
+                    this.picPiece0, this.picPiece1, this.picPiece2, this.picPiece3,
+                    this.picPiece4, this.picPiece5, this.picPiece6, this.picPiece7 
+                };
+
+            fcheckSkillFlagList = new List<CheckBox>
+                { 
+                    this.check_Piece_Climber, this.check_Piece_Floater, this.check_Piece_Blocker,
+                    this.check_Piece_Exploder, this.check_Piece_Builder, this.check_Piece_Basher,
+                    this.check_Piece_Miner, this.check_Piece_Digger, this.check_Piece_Walker,
+                    this.check_Piece_Swimmer, this.check_Piece_Glider, this.check_Piece_Disarmer,
+                    this.check_Piece_Stoner, this.check_Piece_Platformer, this.check_Piece_Stacker,
+                    this.check_Piece_Cloner, this.check_Piece_Zombie
+                };
 
             CreateStyleList();
             if (StyleList.Count > 0)
@@ -44,6 +56,7 @@ namespace NLEditor
             }
 
             CreateNewLevelAndRenderer();
+            UpdateFlagsForPieceActions();
 
             fPieceStartIndex = 0;
             fPieceDoDisplayObject = false;
@@ -61,6 +74,7 @@ namespace NLEditor
         }
 
         List<PictureBox> fpicPieceList;
+        List<CheckBox> fcheckSkillFlagList;
 
         List<Style> fStyleList;
         Style fPieceCurStyle;
@@ -110,11 +124,13 @@ namespace NLEditor
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CreateNewLevelAndRenderer();
+            UpdateFlagsForPieceActions();
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadNewLevel();
+            UpdateFlagsForPieceActions();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -241,20 +257,12 @@ namespace NLEditor
 
         private void check_Piece_Skill_CheckedChanged(object sender, EventArgs e)
         {
-            Dictionary<string, int> SkillIndexDict = new Dictionary<string, int> 
-            { 
-                {"Climber", 0}, {"Floater", 1}, {"Blocker", 2}, {"Exploder", 3},
-                {"Builder", 4}, {"Basher", 5}, {"Miner", 6}, {"Digger", 7},
-                {"Walker", 8}, {"Swimmer", 9}, {"Glider", 10}, {"Disarmer", 11},
-                {"Stoner", 12}, {"Platformer", 13}, {"Stacker", 14}, {"Cloner", 15}, {"Zombie", 16}
-            };
-
-            string SkillName = ((CheckBox)sender).Text;
+            int Skill = fcheckSkillFlagList.FindIndex(check => check.Equals((CheckBox)sender));
             bool IsChecked = ((CheckBox)sender).CheckState == CheckState.Checked;
-            SetSkillForObjects(SkillIndexDict[SkillName], IsChecked);
+            SetSkillForObjects(Skill, IsChecked);
+
+            UpdateFlagsForPieceActions();
         }
-
-
 
 
         /* -----------------------------------------------------------
@@ -425,10 +433,12 @@ namespace NLEditor
             else if (e.Control && e.KeyCode == Keys.N)
             {
                 CreateNewLevelAndRenderer();
+                UpdateFlagsForPieceActions();
             }
             else if (e.Control && e.KeyCode == Keys.O)
             {
                 LoadNewLevel();
+                UpdateFlagsForPieceActions();
             }
             else if (e.Control && e.Shift && e.KeyCode == Keys.S)
             {
@@ -576,6 +586,7 @@ namespace NLEditor
             fCurRenderer.MouseCurPos = null;
             // ...before updating the level image
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            UpdateFlagsForPieceActions();
 
             fMouseButtonPressed = null;
             RemoveFocus();

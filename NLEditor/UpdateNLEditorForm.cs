@@ -87,5 +87,35 @@ namespace NLEditor
                 this.pic_Level.Image = fCurRenderer.CreateLevelImage();
             }
         }
+
+        /// <summary>
+        /// Enables actionable commands for selected pieces and sets checkbox checks correctly.
+        /// </summary>
+        private void UpdateFlagsForPieceActions()
+        {
+            List<LevelPiece> SelectionList = fCurLevel.SelectionList();
+
+            but_RotatePieces.Enabled = SelectionList.Exists(p => p.MayRotate());
+            but_FlipPieces.Enabled = SelectionList.Exists(p => p.MayFlip());
+            but_InvertPieces.Enabled = SelectionList.Exists(p => p.MayInvert());
+
+            // MOVE FRONT/BACK ---------------------------> TODO!!
+
+            GadgetPiece LastObject = (GadgetPiece)SelectionList.FindLast(p => p is GadgetPiece);
+            for (int Skill = 0; Skill < fcheckSkillFlagList.Count; Skill++)
+            {
+                fcheckSkillFlagList[Skill].Enabled = SelectionList.Exists(p => p.MayReceiveSkill(Skill));
+                if (LastObject != null)
+                {
+                    // Set check-mark correctly, without firing the CheckedChanged event
+                    fcheckSkillFlagList[Skill].CheckedChanged -= check_Piece_Skill_CheckedChanged;
+                    fcheckSkillFlagList[Skill].Checked = LastObject.HasSkillFlag(Skill);
+                    fcheckSkillFlagList[Skill].CheckedChanged += check_Piece_Skill_CheckedChanged;
+                }
+            }
+        }
+
+
+
     }
 }

@@ -73,6 +73,7 @@
     <Compile Include="UpdateNLEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Utility.cs" />
     <EmbeddedResource Include="NLEditForm.resx">
       <DependentUpon>NLEditForm.cs</DependentUpon>
     </EmbeddedResource>
