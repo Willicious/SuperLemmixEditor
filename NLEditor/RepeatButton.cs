@@ -21,33 +21,49 @@ namespace NLEditor
 
             this.MouseDown += new MouseEventHandler(delegate(Object obj, MouseEventArgs e) { RepeatButton_MouseDown(e); });
             this.MouseUp += new MouseEventHandler(delegate(Object obj, MouseEventArgs e) { RepeatButton_MouseUp(e); });
+
+            fIsRepeatedAction = false;
         }
 
         Timer fButtonTimer;
         MouseEventArgs fLastMouseEventArgs;
+        bool fIsRepeatedAction;
 
+        /// <summary>
+        /// Gets and sets the interval between two repeated actions.
+        /// </summary>
         public int Interval 
         { 
             get { return fButtonTimer.Interval; }  
             set { fButtonTimer.Interval = Math.Max(value, 1); }
         }
 
+
+        /// <summary>
+        /// Returns whether a prepeated action was already triggered.
+        /// </summary>
+        public bool IsRepeatedAction
+        {
+            get { return fIsRepeatedAction; }
+        }
+
         private void RepeatButton_MouseDown(MouseEventArgs e)
         {
             fLastMouseEventArgs = e;
             fButtonTimer.Enabled = true;
-            // Call the click even right away
-            OnClick(fLastMouseEventArgs);
+            fIsRepeatedAction = false; // just to be sure
         }
 
         private void RepeatButton_MouseUp(MouseEventArgs e)
         {
             fButtonTimer.Enabled = false;
+            fIsRepeatedAction = false;
         }
 
         private void ButtonTimer_Tick()
         {
             OnClick(fLastMouseEventArgs);
+            fIsRepeatedAction = true;
         }
     }
 }

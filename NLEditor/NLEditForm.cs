@@ -225,7 +225,11 @@ namespace NLEditor
 
         private void but_RotatePieces_Click(object sender, EventArgs e)
         {
-            RotateLevelPieces();
+            if (!but_RotatePieces.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_RotatePieces.Interval / 2)
+            {
+                fStopWatchMouse.Restart();
+                RotateLevelPieces();
+            }
         }
 
         private void but_RotatePieces_MouseUp(object sender, MouseEventArgs e)
@@ -235,7 +239,11 @@ namespace NLEditor
 
         private void but_InvertPieces_Click(object sender, EventArgs e)
         {
-            InvertLevelPieces();
+            if (!but_InvertPieces.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_InvertPieces.Interval / 2)
+            {
+                fStopWatchMouse.Restart();
+                InvertLevelPieces();
+            }
         }
 
         private void but_InvertPieces_MouseUp(object sender, MouseEventArgs e)
@@ -245,7 +253,11 @@ namespace NLEditor
 
         private void but_FlipPieces_Click(object sender, EventArgs e)
         {
-            FlipLevelPieces();
+            if (!but_FlipPieces.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_FlipPieces.Interval / 2)
+            {
+                fStopWatchMouse.Restart();
+                FlipLevelPieces();
+            }
         }
 
         private void but_FlipPieces_MouseUp(object sender, MouseEventArgs e)
@@ -312,22 +324,27 @@ namespace NLEditor
 
         private void but_PieceLeft_Click(object sender, EventArgs e)
         {
-            int Movement;
-            
-            if (!(e is MouseEventArgs))
+            if (!but_PieceLeft.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_PieceLeft.Interval / 2)
             {
-                Movement = -1;
-            }
-            else if ((e as MouseEventArgs).Button == MouseButtons.Right)
-            {
-                Movement = -8;
-            }
-            else
-            {
-                Movement = -1;
-            }
+                fStopWatchMouse.Restart();
+                
+                int Movement;
 
-            MoveTerrPieceSelection(Movement);
+                if (!(e is MouseEventArgs))
+                {
+                    Movement = -1;
+                }
+                else if ((e as MouseEventArgs).Button == MouseButtons.Right)
+                {
+                    Movement = -8;
+                }
+                else
+                {
+                    Movement = -1;
+                }
+
+                MoveTerrPieceSelection(Movement);
+            }
         }
 
         private void but_PieceRight_MouseDown(object sender, MouseEventArgs e)
@@ -342,22 +359,27 @@ namespace NLEditor
 
         private void but_PieceRight_Click(object sender, EventArgs e)
         {
-            int Movement;
+            if (!but_PieceRight.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_PieceRight.Interval / 2)
+            {
+                fStopWatchMouse.Restart();
 
-            if (!(e is MouseEventArgs))
-            {
-                Movement = 1;
-            }
-            else if ((e as MouseEventArgs).Button == MouseButtons.Right)
-            {
-                Movement = 8;
-            }
-            else
-            {
-                Movement = 1;
-            }
+                int Movement;
 
-            MoveTerrPieceSelection(Movement);
+                if (!(e is MouseEventArgs))
+                {
+                    Movement = 1;
+                }
+                else if ((e as MouseEventArgs).Button == MouseButtons.Right)
+                {
+                    Movement = 8;
+                }
+                else
+                {
+                    Movement = 1;
+                }
+
+                MoveTerrPieceSelection(Movement);
+            }
         }
 
         private void picPieces_Click(object sender, EventArgs e)
