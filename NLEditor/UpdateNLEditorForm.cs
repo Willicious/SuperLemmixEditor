@@ -19,27 +19,27 @@ namespace NLEditor
         /// </summary>
         /// <param name="MyForm"></param>
         /// <param name="NewStyle"></param>
-        private void LoadPiecesIntoPictureBox(NLEditForm MyForm, Style NewStyle)
+        private void LoadPiecesIntoPictureBox()
         {
-            if (NewStyle == null)
+            if (fPieceCurStyle == null)
             {
-                ClearPiecesPictureBox(MyForm);
+                ClearPiecesPictureBox();
                 return;
             }
 
             // Get correct list of piece names
-            List<string> ThisPieceNameList = MyForm.PieceDoDisplayObject ? NewStyle.ObjectNames : NewStyle.TerrainNames;
+            List<string> ThisPieceNameList = fPieceDoDisplayObject ? fPieceCurStyle.ObjectNames : fPieceCurStyle.TerrainNames;
             if (ThisPieceNameList == null || ThisPieceNameList.Count == 0)
             {
-                ClearPiecesPictureBox(MyForm);
+                ClearPiecesPictureBox();
                 return;
             }
 
             // load correct pictures
-            for (int i = 0; i < MyForm.picPieceList.Count; i++)
+            for (int i = 0; i < picPieceList.Count; i++)
             {
-                string ThisPieceName = ThisPieceNameList[(MyForm.PieceStartIndex + i) % ThisPieceNameList.Count];
-                MyForm.picPieceList[i].Image = ImageLibrary.GetImage(ThisPieceName);
+                string ThisPieceName = ThisPieceNameList[(fPieceStartIndex + i) % ThisPieceNameList.Count];
+                picPieceList[i].Image = ImageLibrary.GetImage(ThisPieceName);
             }
 
             return;
@@ -51,35 +51,35 @@ namespace NLEditor
         /// <param name="MyForm"></param>
         /// <param name="NewStyleName"></param>
         /// <returns></returns>
-        private Style ValidateStyleName(NLEditForm MyForm, string NewStyleName)
+        private Style ValidateStyleName(string NewStyleName)
         {
-            if (MyForm.StyleList == null || MyForm.StyleList.Count == 0) return null;
+            if (StyleList == null || StyleList.Count == 0) return null;
 
-            return MyForm.StyleList.Find(sty => sty.NameInEditor == NewStyleName);
+            return StyleList.Find(sty => sty.NameInEditor == NewStyleName);
         }
 
         /// <summary>
         /// Clears all piece selection PictureBoxes.
         /// </summary>
         /// <param name="MyForm"></param>
-        private void ClearPiecesPictureBox(NLEditForm MyForm)
+        private void ClearPiecesPictureBox()
         {
-            MyForm.picPieceList.ForEach(pic => pic.Image = null);
+            picPieceList.ForEach(pic => pic.Image = null);
         }
 
         /// <summary>
-        /// Changes the background color of the main level image and the piece selection.
+        /// Updates the background color of the main level image and the piece selection according to the current main style.
         /// </summary>
         /// <param name="MyForm"></param>
         /// <param name="NewStyle"></param>
-        private void ChangeBackgroundColor(NLEditForm MyForm, Style NewStyle)
+        private void UpdateBackgroundColor()
         {
-            if (NewStyle == null) return;
+            if (fCurLevel.MainStyle == null) return;
 
-            Color NewBackColor = NewStyle.BackgroundColor;
+            Color NewBackColor = fCurLevel.MainStyle.BackgroundColor;
             if (NewBackColor == null) return;
 
-            MyForm.picPieceList.ForEach(pic => pic.BackColor = NewBackColor);
+            picPieceList.ForEach(pic => pic.BackColor = NewBackColor);
 
             // recreate level with the new background color (assuming we already have a renderer)
             if (fCurRenderer != null)

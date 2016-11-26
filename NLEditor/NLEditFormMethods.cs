@@ -61,7 +61,7 @@ namespace NLEditor
             CurLevel.Author = this.txt_LevelAuthor.Text;
             CurLevel.Title = this.txt_LevelTitle.Text;
             CurLevel.MusicFile = this.combo_Music.Text;
-            CurLevel.MainStyle = ValidateStyleName(this, this.combo_MainStyle.Text);
+            CurLevel.MainStyle = ValidateStyleName(this.combo_MainStyle.Text);
             CurLevel.Width = Decimal.ToInt32(this.num_Lvl_SizeX.Value);
             CurLevel.Height = Decimal.ToInt32(this.num_Lvl_SizeY.Value);
             CurLevel.StartPosX = Decimal.ToInt32(this.num_Lvl_StartX.Value);
@@ -154,7 +154,7 @@ namespace NLEditor
             }
             fCurLevel = new Level(NewMainStyle);
             WriteLevelInfoToForm();
-            ChangeBackgroundColor(this, NewMainStyle);
+            UpdateBackgroundColor();
 
             fCurRenderer = new Renderer(fCurLevel, this.pic_Level);
             UpdateFlagsForPieceActions();
@@ -208,12 +208,12 @@ namespace NLEditor
         /// </summary>
         private void ChangeObjTerrPieceDisplay()
         {
-            PieceDoDisplayObject = !PieceDoDisplayObject;
+            fPieceDoDisplayObject = !fPieceDoDisplayObject;
 
-            PieceStartIndex = 0;
-            LoadPiecesIntoPictureBox(this, PieceCurStyle);
+            fPieceStartIndex = 0;
+            LoadPiecesIntoPictureBox();
 
-            this.but_PieceTerrObj.Text = PieceDoDisplayObject ? "Get Terrain" : "Get Objects";
+            this.but_PieceTerrObj.Text = fPieceDoDisplayObject ? "Get Terrain" : "Get Objects";
         }
 
         /// <summary>
@@ -222,18 +222,17 @@ namespace NLEditor
         /// <param name="Movement"></param>
         private void MoveTerrPieceSelection(int Movement)
         {
-            Style CurStyle = PieceCurStyle;
-            if (CurStyle == null) return;
+            if (fPieceCurStyle == null) return;
 
-            List<string> PieceNameList = PieceDoDisplayObject ? CurStyle.ObjectNames : CurStyle.TerrainNames;
+            List<string> PieceNameList = fPieceDoDisplayObject ? fPieceCurStyle.ObjectNames : fPieceCurStyle.TerrainNames;
             if (PieceNameList == null || PieceNameList.Count == 0) return;
 
             // Pass to correct piece index
-            PieceStartIndex = (PieceStartIndex + Movement) % PieceNameList.Count;
+            fPieceStartIndex = (fPieceStartIndex + Movement) % PieceNameList.Count;
             // ensure that PieceStartIndex is positive
-            PieceStartIndex = (PieceStartIndex + PieceNameList.Count) % PieceNameList.Count;
+            fPieceStartIndex = (fPieceStartIndex + PieceNameList.Count) % PieceNameList.Count;
 
-            LoadPiecesIntoPictureBox(this, CurStyle);
+            LoadPiecesIntoPictureBox();
         }
 
         /// <summary>
@@ -246,21 +245,21 @@ namespace NLEditor
 
             int NewStyleIndex;
 
-            if (PieceCurStyle == null)
+            if (fPieceCurStyle == null)
             {
                 NewStyleIndex = ((Movement % StyleList.Count) + StyleList.Count) % StyleList.Count;
             }
             else 
             {
-                int CurStyleIndex = StyleList.FindIndex(sty => sty.Equals(PieceCurStyle));
+                int CurStyleIndex = StyleList.FindIndex(sty => sty.Equals(fPieceCurStyle));
                 System.Diagnostics.Debug.Assert(CurStyleIndex != -1, "Current style for new pieces not found in StyleList.");
 
                 NewStyleIndex = Math.Min(Math.Max(CurStyleIndex + Movement, 0), StyleList.Count - 1);
             }
 
-            PieceCurStyle = StyleList[NewStyleIndex];
-            PieceStartIndex = 0;
-            LoadPiecesIntoPictureBox(this, PieceCurStyle);
+            fPieceCurStyle = StyleList[NewStyleIndex];
+            fPieceStartIndex = 0;
+            LoadPiecesIntoPictureBox();
 
             this.combo_PieceStyle.SelectedIndex = NewStyleIndex;
         }

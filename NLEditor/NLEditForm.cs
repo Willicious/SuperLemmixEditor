@@ -60,8 +60,8 @@ namespace NLEditor
 
             fPieceStartIndex = 0;
             fPieceDoDisplayObject = false;
-            fPieceCurStyle = ValidateStyleName(this, this.combo_PieceStyle.SelectedItem.ToString());
-            LoadPiecesIntoPictureBox(this, PieceCurStyle);
+            fPieceCurStyle = ValidateStyleName(this.combo_PieceStyle.SelectedItem.ToString());
+            LoadPiecesIntoPictureBox();
 
             fStopWatchKey = new Stopwatch();
             fStopWatchKey.Start();
@@ -101,14 +101,19 @@ namespace NLEditor
         public Level CurLevel { get { return fCurLevel; } }
 
         // Variables for the piece selection menu
-        public Style PieceCurStyle { get { return fPieceCurStyle; } private set { fPieceCurStyle = value; } }
-        public int PieceStartIndex { get { return fPieceStartIndex; } set { fPieceStartIndex = value; } }
-        public bool PieceDoDisplayObject { get { return fPieceDoDisplayObject; } private set { fPieceDoDisplayObject = value; } }
+        // public Style PieceCurStyle { get { return fPieceCurStyle; } private set { fPieceCurStyle = value; } }
+        // public int PieceStartIndex { get { return fPieceStartIndex; } set { fPieceStartIndex = value; } }
+        // public bool PieceDoDisplayObject { get { return fPieceDoDisplayObject; } private set { fPieceDoDisplayObject = value; } }
         
 
         private void NLEditForm_Click(object sender, EventArgs e)
         {
             RemoveFocus();
+        }
+
+        private void NLEditForm_Resize(object sender, EventArgs e)
+        {
+
         }
 
         private void tabLvlProperties_Click(object sender, EventArgs e)
@@ -182,13 +187,13 @@ namespace NLEditor
 
         private void combo_MainStyle_TextChanged(object sender, EventArgs e)
         {
-            Style NewStyle = ValidateStyleName(this, this.combo_MainStyle.Text);
+            Style NewStyle = ValidateStyleName(this.combo_MainStyle.Text);
 
             if (NewStyle == null || CurLevel == null || NewStyle == CurLevel.MainStyle) return;
 
             // Load new style into PictureBoxes
             CurLevel.MainStyle = NewStyle;
-            ChangeBackgroundColor(this, NewStyle);
+            UpdateBackgroundColor();
         }
 
         private void num_Lvl_SizeX_ValueChanged(object sender, EventArgs e)
@@ -309,26 +314,26 @@ namespace NLEditor
 
         private void combo_PieceStyle_TextChanged(object sender, EventArgs e)
         {
-            Style NewStyle = ValidateStyleName(this, this.combo_PieceStyle.Text);
+            Style NewStyle = ValidateStyleName(this.combo_PieceStyle.Text);
 
-            if (NewStyle == null || NewStyle == PieceCurStyle) return;
+            if (NewStyle == null || NewStyle == fPieceCurStyle) return;
 
             // Load new style into PictureBoxes
-            PieceCurStyle = NewStyle;
-            PieceStartIndex = 0;
-            LoadPiecesIntoPictureBox(this, PieceCurStyle);
+            fPieceCurStyle = NewStyle;
+            fPieceStartIndex = 0;
+            LoadPiecesIntoPictureBox();
         }
 
         private void combo_PieceStyle_Leave(object sender, EventArgs e)
         {
             // Check whether to delete all pieces due to wrong style name
-            Style NewStyle = ValidateStyleName(this, this.combo_PieceStyle.Text);
+            Style NewStyle = ValidateStyleName(this.combo_PieceStyle.Text);
 
             if (NewStyle == null)
             {
-                PieceCurStyle = null;
-                PieceStartIndex = 0;
-                ClearPiecesPictureBox(this);           
+                fPieceCurStyle = null;
+                fPieceStartIndex = 0;
+                ClearPiecesPictureBox();           
             }
         }
 
@@ -600,9 +605,6 @@ namespace NLEditor
             fMouseButtonPressed = null;
             RemoveFocus();
         }
-
-
-
 
 
     }
