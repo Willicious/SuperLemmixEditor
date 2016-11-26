@@ -98,13 +98,7 @@ namespace NLEditor
 
         public List<PictureBox> picPieceList { get { return fpicPieceList; } }
         public List<Style> StyleList { get { return fStyleList; } }
-        public Level CurLevel { get { return fCurLevel; } }
-
-        // Variables for the piece selection menu
-        // public Style PieceCurStyle { get { return fPieceCurStyle; } private set { fPieceCurStyle = value; } }
-        // public int PieceStartIndex { get { return fPieceStartIndex; } set { fPieceStartIndex = value; } }
-        // public bool PieceDoDisplayObject { get { return fPieceDoDisplayObject; } private set { fPieceDoDisplayObject = value; } }
-        
+        public Level CurLevel { get { return fCurLevel; } }      
 
         private void NLEditForm_Click(object sender, EventArgs e)
         {
@@ -113,7 +107,8 @@ namespace NLEditor
 
         private void NLEditForm_Resize(object sender, EventArgs e)
         {
-
+            MoveControlsOnFormResize();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
         private void tabLvlProperties_Click(object sender, EventArgs e)

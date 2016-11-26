@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
-
+using System.Windows.Forms;
 
 namespace NLEditor
 {
@@ -138,7 +138,77 @@ namespace NLEditor
             }
         }
 
+        private void MoveControlsOnFormResize()
+        {
+            pic_Level.Width = this.Width - 200;
+            pic_Level.Height = this.Height - 155;
+            
+            tabLvlProperties.Height = this.Height - 178;
 
+            combo_PieceStyle.Top = this.Height - 149;
+            but_PieceTerrObj.Top = this.Height - 149;
+
+            but_PieceLeft.Top = this.Height - 122;
+            but_PieceRight.Top = this.Height - 122;
+            but_PieceRight.Left = this.Width - 44;
+
+            bool UpdateImages = MovePicPiecesOnResize();
+            if (UpdateImages)
+            {
+                UpdateBackgroundColor();
+                LoadPiecesIntoPictureBox();
+            }
+        }
+
+        private bool MovePicPiecesOnResize()
+        {
+            fpicPieceList.ForEach(pic => pic.Top = this.Height - 122);
+
+            int NumPicPieces = (this.Width - 170) / 90 + 1;
+
+            while (fpicPieceList.Count > NumPicPieces)
+            {
+                PictureBox OldPicPieces = fpicPieceList[fpicPieceList.Count - 1];
+                fpicPieceList.Remove(OldPicPieces);
+                this.Controls.Remove(OldPicPieces);
+                OldPicPieces.Dispose();
+            }
+            
+            if (fpicPieceList.Count > NumPicPieces)
+            {
+                
+                fpicPieceList.RemoveRange(NumPicPieces, fpicPieceList.Count - NumPicPieces);
+            }
+
+            bool NeedUpdatePicPieceImages = (fpicPieceList.Count < NumPicPieces);
+            while (fpicPieceList.Count < NumPicPieces)
+            {
+                fpicPieceList.Add(CreatePicPiece());
+            }
+
+            for (int PicPieceIndex = 0; PicPieceIndex < NumPicPieces; PicPieceIndex++)
+            {
+                fpicPieceList[PicPieceIndex].Left = 36 + PicPieceIndex * (this.Width - 170) / (NumPicPieces - 1);
+            }
+
+            return NeedUpdatePicPieceImages;
+        }
+
+        private PictureBox CreatePicPiece()
+        { 
+            PictureBox NewPicPiece = new PictureBox();
+            NewPicPiece.Width = 84;
+            NewPicPiece.Height = 84;
+            NewPicPiece.Top = this.Height - 122;
+            NewPicPiece.BorderStyle = BorderStyle.Fixed3D;
+            NewPicPiece.SizeMode = PictureBoxSizeMode.CenterImage;
+
+            NewPicPiece.Click += new EventHandler(picPieces_Click);
+
+            this.Controls.Add(NewPicPiece);
+
+            return NewPicPiece;
+        }
 
     }
 }
