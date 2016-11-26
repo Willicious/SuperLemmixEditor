@@ -70,7 +70,7 @@ namespace NLEditor
             this.fScreenPos = new Point(0, 0);
             this.fZoom = 0;
 
-            this.fPicBoxSize = pic_Level.Size;
+            this.LevelPicBox = pic_Level;
         }
 
         List<Bitmap> fLayerList;
@@ -83,7 +83,8 @@ namespace NLEditor
         
         Point fScreenPos;
         int fZoom;
-        Size fPicBoxSize;
+        System.Windows.Forms.PictureBox LevelPicBox;
+        Size fPicBoxSize { get { return LevelPicBox.Size; } }
         Rectangle PicBoxRect { get { return new Rectangle(0, 0, fPicBoxSize.Width, fPicBoxSize.Height); } }
 
         Point? fMouseStartPos;
