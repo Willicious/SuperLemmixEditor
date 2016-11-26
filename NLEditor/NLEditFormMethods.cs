@@ -433,7 +433,7 @@ namespace NLEditor
         /// <param name="OnlyOneStep"></param>
         private void MovePieceIndex(bool ToFront, bool OnlyOneStep)
         {
-            fCurLevel.MoveSelectedIndex(!ToFront, OnlyOneStep);
+            fCurLevel.MoveSelectedIndex(ToFront, OnlyOneStep);
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
