@@ -99,7 +99,12 @@ namespace NLEditor
             but_FlipPieces.Enabled = SelectionList.Exists(p => p.MayFlip());
             but_InvertPieces.Enabled = SelectionList.Exists(p => p.MayInvert());
 
-            // MOVE FRONT/BACK ---------------------------> TODO!!
+
+            but_MoveBack.Enabled = (SelectionList.Count > 0);
+            but_MoveFront.Enabled = (SelectionList.Count > 0);
+            but_MoveBackOne.Enabled = (SelectionList.Count > 0);
+            but_MoveFrontOne.Enabled = (SelectionList.Count > 0);
+
 
             check_Pieces_NoOv.Enabled = (SelectionList.Count > 0);
             // Set check-mark correctly, without firing the CheckedChanged event
@@ -114,7 +119,7 @@ namespace NLEditor
             check_Pieces_Erase.Checked = SelectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsErase);
             check_Pieces_Erase.CheckedChanged += check_Pieces_Erase_CheckedChanged;
             
-            check_Pieces_OneWay.Enabled = SelectionList.Exists(p => p is TerrainPiece);
+            check_Pieces_OneWay.Enabled = SelectionList.Exists(p => p is TerrainPiece && !(p as TerrainPiece).IsSteel);
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_OneWay.CheckedChanged -= check_Pieces_OneWay_CheckedChanged;
             check_Pieces_OneWay.Checked = SelectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsOneWay);

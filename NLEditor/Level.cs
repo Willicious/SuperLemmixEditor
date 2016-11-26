@@ -322,7 +322,7 @@ namespace NLEditor
         /// <param name="DoAdd"></param>
         public void SetOneWay(bool DoAdd)
         {
-            TerrainList.FindAll(ter => ter.IsSelected)
+            TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSteel)
                        .ForEach(ter => ter.IsOneWay = DoAdd);
         }
 

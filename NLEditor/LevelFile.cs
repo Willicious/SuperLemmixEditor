@@ -233,6 +233,7 @@ namespace NLEditor
 
             // For compatibility with player: NoOverwrite + Erase pieces work like NoOverWrite
             if (NewTerrain.IsNoOverwrite && NewTerrain.IsErase) NewTerrain.IsErase = false;
+            if (NewTerrain.IsSteel) NewTerrain.IsOneWay = false;
 
             if (DoRotate) NewTerrain.RotateInRect(NewTerrain.ImageRectangle);
             if (DoFlip) NewTerrain.FlipInRect(NewTerrain.ImageRectangle);
