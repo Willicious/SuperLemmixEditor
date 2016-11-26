@@ -372,5 +372,15 @@ namespace NLEditor
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
+        /// <summary>
+        /// Sets skill flags for all selected objects.
+        /// </summary>
+        /// <param name="Skill"></param>
+        /// <param name="DoAdd"></param>
+        private void SetSkillForObjects(int Skill, bool DoAdd)
+        {
+            fCurLevel.SetSkillForObjects(Skill, DoAdd);
+        }
+
     }
 }

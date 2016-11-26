@@ -275,6 +275,15 @@ namespace NLEditor
             SelectionList().ForEach(item => item.FlipInRect(BorderRect));
         }
 
+        /// <summary>
+        /// Adds or removes a skill flag from all selected objects 
+        /// </summary>
+        /// <param name="Skill"></param>
+        public void SetSkillForObjects(int Skill, bool DoAdd)
+        {
+            GadgetList.FindAll(obj => obj.IsSelected)
+                      .ForEach(obj => obj.SetSkillFlag(Skill, DoAdd));
+        }
 
     }
 }

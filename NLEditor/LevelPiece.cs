@@ -355,10 +355,56 @@ namespace NLEditor
                     }
                 default: return false; 
             }
-
-
-
         }
+
+        /// <summary>
+        /// Adjusts the flag for the specified skill, depending on the object type.
+        /// </summary>
+        /// <param name="Skill"></param>
+        /// <param name="DoAdd"></param>
+        public void SetSkillFlag(int Skill, bool DoAdd)
+        {
+            if (!MayReceive(Skill)) return;
+
+            switch (ObjType)
+            {
+                case C.OBJ.HATCH:
+                case C.OBJ.LEMMING:
+                    {
+                        if (Skill.In(C.SKI_FLOATER, C.SKI_GLIDER))
+                        {
+                            SetOneSkillFlag(C.SKI_FLOATER, false);
+                            SetOneSkillFlag(C.SKI_GLIDER, false);
+                        }
+                        
+                        SetOneSkillFlag(Skill, DoAdd);
+                        break;
+                    }
+                case C.OBJ.PICKUP:
+                    {
+                        for (int CurSkill = 0; CurSkill < C.SKI_COUNT; CurSkill++)
+                        {
+                            SetOneSkillFlag(CurSkill, false);
+                        }
+                        SetOneSkillFlag(Skill, DoAdd);
+                        break;
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Changes the skill flag of this object.
+        /// </summary>
+        /// <param name="Skill"></param>
+        /// <param name="DoAdd"></param>
+        private void SetOneSkillFlag(int Skill, bool DoAdd)
+        {
+            Val_L |= 1 << Skill;
+            if (!DoAdd) Val_L ^= 1 << Skill;
+        }
+
+
+
     }
 
 }

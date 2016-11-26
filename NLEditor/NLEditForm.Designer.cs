@@ -992,6 +992,7 @@
             this.check_Piece_Zombie.TabIndex = 27;
             this.check_Piece_Zombie.Text = "Zombie";
             this.check_Piece_Zombie.UseVisualStyleBackColor = true;
+            this.check_Piece_Zombie.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Cloner
             // 
@@ -1002,6 +1003,7 @@
             this.check_Piece_Cloner.TabIndex = 26;
             this.check_Piece_Cloner.Text = "Cloner";
             this.check_Piece_Cloner.UseVisualStyleBackColor = true;
+            this.check_Piece_Cloner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Stacker
             // 
@@ -1012,6 +1014,7 @@
             this.check_Piece_Stacker.TabIndex = 25;
             this.check_Piece_Stacker.Text = "Stacker";
             this.check_Piece_Stacker.UseVisualStyleBackColor = true;
+            this.check_Piece_Stacker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Platformer
             // 
@@ -1022,6 +1025,7 @@
             this.check_Piece_Platformer.TabIndex = 24;
             this.check_Piece_Platformer.Text = "Platformer";
             this.check_Piece_Platformer.UseVisualStyleBackColor = true;
+            this.check_Piece_Platformer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Stoner
             // 
@@ -1032,6 +1036,7 @@
             this.check_Piece_Stoner.TabIndex = 23;
             this.check_Piece_Stoner.Text = "Stoner";
             this.check_Piece_Stoner.UseVisualStyleBackColor = true;
+            this.check_Piece_Stoner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Disarmer
             // 
@@ -1042,6 +1047,7 @@
             this.check_Piece_Disarmer.TabIndex = 22;
             this.check_Piece_Disarmer.Text = "Disarmer";
             this.check_Piece_Disarmer.UseVisualStyleBackColor = true;
+            this.check_Piece_Disarmer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Glider
             // 
@@ -1052,6 +1058,7 @@
             this.check_Piece_Glider.TabIndex = 21;
             this.check_Piece_Glider.Text = "Glider";
             this.check_Piece_Glider.UseVisualStyleBackColor = true;
+            this.check_Piece_Glider.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Swimmer
             // 
@@ -1062,6 +1069,7 @@
             this.check_Piece_Swimmer.TabIndex = 20;
             this.check_Piece_Swimmer.Text = "Swimmer";
             this.check_Piece_Swimmer.UseVisualStyleBackColor = true;
+            this.check_Piece_Swimmer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Walker
             // 
@@ -1072,6 +1080,7 @@
             this.check_Piece_Walker.TabIndex = 19;
             this.check_Piece_Walker.Text = "Walker";
             this.check_Piece_Walker.UseVisualStyleBackColor = true;
+            this.check_Piece_Walker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Digger
             // 
@@ -1082,6 +1091,7 @@
             this.check_Piece_Digger.TabIndex = 18;
             this.check_Piece_Digger.Text = "Digger";
             this.check_Piece_Digger.UseVisualStyleBackColor = true;
+            this.check_Piece_Digger.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Miner
             // 
@@ -1092,6 +1102,7 @@
             this.check_Piece_Miner.TabIndex = 17;
             this.check_Piece_Miner.Text = "Miner";
             this.check_Piece_Miner.UseVisualStyleBackColor = true;
+            this.check_Piece_Miner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Basher
             // 
@@ -1102,6 +1113,7 @@
             this.check_Piece_Basher.TabIndex = 16;
             this.check_Piece_Basher.Text = "Basher";
             this.check_Piece_Basher.UseVisualStyleBackColor = true;
+            this.check_Piece_Basher.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Builder
             // 
@@ -1112,6 +1124,7 @@
             this.check_Piece_Builder.TabIndex = 15;
             this.check_Piece_Builder.Text = "Builder";
             this.check_Piece_Builder.UseVisualStyleBackColor = true;
+            this.check_Piece_Builder.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Exploder
             // 
@@ -1122,6 +1135,7 @@
             this.check_Piece_Exploder.TabIndex = 14;
             this.check_Piece_Exploder.Text = "Exploder";
             this.check_Piece_Exploder.UseVisualStyleBackColor = true;
+            this.check_Piece_Exploder.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Blocker
             // 
@@ -1132,6 +1146,7 @@
             this.check_Piece_Blocker.TabIndex = 13;
             this.check_Piece_Blocker.Text = "Blocker";
             this.check_Piece_Blocker.UseVisualStyleBackColor = true;
+            this.check_Piece_Blocker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Floater
             // 
@@ -1142,6 +1157,7 @@
             this.check_Piece_Floater.TabIndex = 12;
             this.check_Piece_Floater.Text = "Floater";
             this.check_Piece_Floater.UseVisualStyleBackColor = true;
+            this.check_Piece_Floater.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Climber
             // 
@@ -1152,6 +1168,7 @@
             this.check_Piece_Climber.TabIndex = 11;
             this.check_Piece_Climber.Text = "Climber";
             this.check_Piece_Climber.UseVisualStyleBackColor = true;
+            this.check_Piece_Climber.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // but_MoveBackOne
             // 

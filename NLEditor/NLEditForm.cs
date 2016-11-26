@@ -237,6 +237,26 @@ namespace NLEditor
             RemoveFocus();
         }
 
+
+
+        private void check_Piece_Skill_CheckedChanged(object sender, EventArgs e)
+        {
+            Dictionary<string, int> SkillIndexDict = new Dictionary<string, int> 
+            { 
+                {"Climber", 0}, {"Floater", 1}, {"Blocker", 2}, {"Exploder", 3},
+                {"Builder", 4}, {"Basher", 5}, {"Miner", 6}, {"Digger", 7},
+                {"Walker", 8}, {"Swimmer", 9}, {"Glider", 10}, {"Disarmer", 11},
+                {"Stoner", 12}, {"Platformer", 13}, {"Stacker", 14}, {"Cloner", 15}, {"Zombie", 16}
+            };
+
+            string SkillName = ((CheckBox)sender).Text;
+            bool IsChecked = ((CheckBox)sender).CheckState == CheckState.Checked;
+            SetSkillForObjects(SkillIndexDict[SkillName], IsChecked);
+        }
+
+
+
+
         /* -----------------------------------------------------------
          *              Piece Selection
          * ----------------------------------------------------------- */
@@ -560,6 +580,8 @@ namespace NLEditor
             fMouseButtonPressed = null;
             RemoveFocus();
         }
+
+
 
 
     }
