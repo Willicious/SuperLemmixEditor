@@ -74,8 +74,8 @@ namespace NLEditor
         private static readonly byte[] ColorClearPhysicsDark = { 170, 170, 170, 254 };
         private static readonly byte[] ColorClearPhysicsLightOWW = { 200, 200, 200, 255 };
         private static readonly byte[] ColorClearPhysicsDarkOWW = { 170, 170, 170, 255 };
-        private static readonly byte[] ColorClearPhysicsSteelLight = { 80, 80, 80, 255 };
-        private static readonly byte[] ColorClearPhysicsSteelDark = { 50, 50, 50, 255 };
+        private static readonly byte[] ColorClearPhysicsSteelLight = { 80, 80, 80, 254 };
+        private static readonly byte[] ColorClearPhysicsSteelDark = { 50, 50, 50, 254 };
 
         private static byte[] ColorFunc_Erase(int PosX, int PosY)
         {
@@ -333,7 +333,7 @@ namespace NLEditor
                     {
                         if (DoDrawThisPixel((byte)CurNewLine[x + 3], (byte)CurOrigLine[x + 3]))
                         {
-                            ChangePixel(CurOrigLine + x, CurNewLine + x);
+                            ChangePixel(CurOrigLine + x, CurNewLine + x, Alpha);
                         }
                     }
                 });
@@ -457,7 +457,7 @@ namespace NLEditor
                     {
                         byte CurNewAlpha = (byte)CurNewLine[x + 3];
                         byte CurMaskAlpha = (byte)CurMaskLine[x + 3];
-                        
+
                         if (DoDrawThisPixel(CurNewAlpha, CurMaskAlpha))
                         {
                             ChangePixel(CurOrigLine + x, CurNewLine + x);
