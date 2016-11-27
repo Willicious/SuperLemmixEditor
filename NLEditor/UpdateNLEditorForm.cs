@@ -15,6 +15,24 @@ namespace NLEditor
         *     updating the form members
         * -------------------------------------------------------- */
         /// <summary>
+        /// Initializes the intervals for all repeat buttons.
+        /// </summary>
+        private void SetRepeatButtonIntervals()
+        {
+            but_RotatePieces.SetInterval(1000);
+            but_InvertPieces.SetInterval(1000);
+            but_FlipPieces.SetInterval(1000);
+            but_MoveBack.SetInterval(1000);
+            but_MoveFront.SetInterval(1000);
+            but_MoveBackOne.SetInterval(150);
+            but_MoveFrontOne.SetInterval(150);
+            but_PieceLeft.SetInterval(100, MouseButtons.Left);
+            but_PieceLeft.SetInterval(300, MouseButtons.Right);
+            but_PieceRight.SetInterval(100, MouseButtons.Left);
+            but_PieceRight.SetInterval(300, MouseButtons.Right);
+        }
+        
+        /// <summary>
         /// Displays the correct piece images for the piece selection.
         /// </summary>
         /// <param name="MyForm"></param>

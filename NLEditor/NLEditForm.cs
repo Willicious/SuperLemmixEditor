@@ -28,6 +28,7 @@ namespace NLEditor
         {
             InitializeComponent();
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(NLEditForm_MouseWheel);
+            SetRepeatButtonIntervals();
 
             fpicPieceList = new List<PictureBox> 
                 { 
@@ -391,11 +392,6 @@ namespace NLEditor
             RemoveFocus();
         }
 
-        private void but_PieceLeft_MouseDown(object sender, MouseEventArgs e)
-        {
-            but_PieceLeft.Interval = (e.Button == MouseButtons.Right) ? 300 : 100;
-        }
-
         private void but_PieceLeft_MouseUp(object sender, MouseEventArgs e)
         {
             RemoveFocus();
@@ -415,7 +411,7 @@ namespace NLEditor
                 }
                 else if ((e as MouseEventArgs).Button == MouseButtons.Right)
                 {
-                    Movement = -8;
+                    Movement = -fpicPieceList.Count;
                 }
                 else
                 {
@@ -424,11 +420,6 @@ namespace NLEditor
 
                 MoveTerrPieceSelection(Movement);
             }
-        }
-
-        private void but_PieceRight_MouseDown(object sender, MouseEventArgs e)
-        {
-            but_PieceRight.Interval = (e.Button == MouseButtons.Right) ? 300 : 100;
         }
 
         private void but_PieceRight_MouseUp(object sender, MouseEventArgs e)
@@ -450,7 +441,7 @@ namespace NLEditor
                 }
                 else if ((e as MouseEventArgs).Button == MouseButtons.Right)
                 {
-                    Movement = 8;
+                    Movement = fpicPieceList.Count;
                 }
                 else
                 {

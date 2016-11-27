@@ -23,22 +23,44 @@ namespace NLEditor
             this.MouseUp += new MouseEventHandler(delegate(Object obj, MouseEventArgs e) { RepeatButton_MouseUp(e); });
 
             fIsRepeatedAction = false;
+
+            fButtonIntervals = new Dictionary<MouseButtons, int>();
+            fButtonIntervals.Add(MouseButtons.Left, 100);
+            fButtonIntervals.Add(MouseButtons.Right, 100);
+            fButtonIntervals.Add(MouseButtons.Middle, 100);
         }
 
         Timer fButtonTimer;
         MouseEventArgs fLastMouseEventArgs;
         bool fIsRepeatedAction;
+        Dictionary<MouseButtons, int> fButtonIntervals;
 
         /// <summary>
-        /// Gets and sets the interval between two repeated actions.
+        /// Gets the interval between two repeated actions.
         /// </summary>
         public int Interval 
         { 
             get { return fButtonTimer.Interval; }  
-            set { fButtonTimer.Interval = Math.Max(value, 1); }
+            //set { fButtonTimer.Interval = Math.Max(value, 1); }
         }
 
-
+        /// <summary>
+        /// Sets the interval for a specified button.
+        /// </summary>
+        /// <param name="Interval"></param>
+        /// <param name="Button"></param>
+        public void SetInterval(int Interval, MouseButtons Button = MouseButtons.Left)
+        {
+            if (fButtonIntervals.Keys.Contains(Button))
+            {
+                fButtonIntervals[Button] = Interval;
+            }
+            else
+            {
+                fButtonIntervals.Add(Button, Interval);
+            }
+        }
+          
         /// <summary>
         /// Returns whether a prepeated action was already triggered.
         /// </summary>
@@ -49,9 +71,24 @@ namespace NLEditor
 
         private void RepeatButton_MouseDown(MouseEventArgs e)
         {
+            if (!fButtonIntervals.Keys.Contains(e.Button)) return;
+            
             fLastMouseEventArgs = e;
+
+            fButtonTimer.Interval = fButtonIntervals[e.Button];
             fButtonTimer.Enabled = true;
-            fIsRepeatedAction = false; // just to be sure
+
+            if (fButtonTimer.Interval < 200)
+            {
+                fIsRepeatedAction = false; // just to be sure
+            }
+            else
+            {
+                fIsRepeatedAction = false;
+                OnClick(fLastMouseEventArgs);
+                fIsRepeatedAction = true; // just to be sure
+            }
+            
         }
 
         private void RepeatButton_MouseUp(MouseEventArgs e)
