@@ -18,10 +18,12 @@ namespace NLEditor
         /// <param name="NewImage"></param>
         /// <param name="IsSteel"></param>
         public BaseImageInfo(Bitmap NewImage, bool IsSteel = false)
+            : this(NewImage, IsSteel ? C.OBJ.STEEL : C.OBJ.NULL, 1, false, new Rectangle(0, 0, 0, 0))
         {
+            /*
             this.fImage = NewImage;
-            this.fWidth = this.Image.Width;
-            this.fHeight = this.Image.Height;
+            this.fWidth = this.fImage.Width;
+            this.fHeight = this.fImage.Height;
             this.fTriggerRect = new Rectangle(0, 0, 0, 0);
             if (IsSteel)
             {
@@ -31,6 +33,15 @@ namespace NLEditor
             {
                 this.fObjectType = C.OBJ.NULL;
             }
+
+            this.fImageRotated = new Dictionary<RotateFlipType, Bitmap>();
+            foreach (RotateFlipType RotFlipType in Enum.GetValues(typeof(RotateFlipType)))
+            {
+                Bitmap RotImage = (Bitmap)fImage.Clone();
+                RotImage.RotateFlip(RotFlipType);
+                this.fImageRotated.Add(RotFlipType, RotImage);
+            }
+             * */
         }
 
         /// <summary>
@@ -48,6 +59,15 @@ namespace NLEditor
             this.fHeight = this.fImage.Height;
             this.fObjectType = ObjType;
             this.fTriggerRect = TriggerRect;
+
+            RotateFlipType[] RotFlipTypeArray = (RotateFlipType[])Enum.GetValues(typeof(RotateFlipType));
+            this.fImageRotated = new Dictionary<RotateFlipType, Bitmap>();
+            foreach (RotateFlipType RotFlipType in RotFlipTypeArray.Distinct())
+            {
+                Bitmap RotImage = (Bitmap)fImage.Clone();
+                RotImage.RotateFlip(RotFlipType);
+                this.fImageRotated.Add(RotFlipType, RotImage);
+            }
         }
 
         readonly Bitmap fImage;
@@ -56,7 +76,17 @@ namespace NLEditor
         readonly C.OBJ fObjectType;
         readonly Rectangle fTriggerRect;
 
-        public Bitmap Image { get { return (Bitmap)fImage.Clone(); } }
+        readonly Dictionary<RotateFlipType, Bitmap> fImageRotated;
+
+        [Obsolete]
+        public Bitmap Image()
+        {
+            return (Bitmap)fImage.Clone();
+        }
+        public Bitmap Image(RotateFlipType RotFlipType)
+        {
+            return fImageRotated[RotFlipType];
+        }
         public int Width { get { return fWidth; } }
         public int Height { get { return fHeight; } }
         public C.OBJ ObjectType { get { return fObjectType; } }
@@ -102,7 +132,8 @@ namespace NLEditor
 
         /* --------------------------------------------------------
          *   public methods:
-         *     - GetImage(string ImageKey)
+         *     - GetImage(string ImageKey) // [Obsolete]
+         *     - GetImage(string ImageKey, RotateFlipType RotFlipType)
          *     - GetWidth(string ImageKey)
          *     - GetHeight(string ImageKey)
          *     - GetObjType(string ImageKey)
@@ -118,12 +149,26 @@ namespace NLEditor
         // The key is the file path below the "styles\\pieces" folder!
         static Dictionary<string, BaseImageInfo> fImageList;
 
+
         /// <summary>
         /// Returns the image corresponding to the key, or null if image cannot be found. 
+        /// <para> Warning: The Bitmap is passed by reference, so NEVER change its value! </para>
         /// </summary>
         /// <param name="ImageKey"></param>
         /// <returns></returns>
         public static Bitmap GetImage(string ImageKey)
+        {
+            return GetImage(ImageKey, RotateFlipType.RotateNoneFlipNone);
+        }
+
+        /// <summary>
+        /// Returns a correctly oriented image corresponding to the key, or null if image cannot be found. 
+        /// <para> Warning: The Bitmap is passed by reference, so NEVER change its value! </para>
+        /// </summary>
+        /// <param name="ImageKey"></param>
+        /// <param name="RotFlipType"></param>
+        /// <returns></returns>
+        public static Bitmap GetImage(string ImageKey, RotateFlipType RotFlipType)
         {
             if (!fImageList.ContainsKey(ImageKey))
             {
@@ -135,8 +180,9 @@ namespace NLEditor
                 }
             }
 
-            return fImageList[ImageKey].Image;
+            return fImageList[ImageKey].Image(RotFlipType);
         }
+
 
         /// <summary>
         /// Returns the width of the piece corresponding to the key, or -1 if image cannot be found. 
