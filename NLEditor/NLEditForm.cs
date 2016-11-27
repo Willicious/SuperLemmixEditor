@@ -173,6 +173,11 @@ namespace NLEditor
             this.pic_Level.Image = fCurRenderer.CombineLayers();
         }
 
+        private void playLevelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PlaytestLevel();
+        }
+
         /* -----------------------------------------------------------
          *              Global Level Info Tab
          * ----------------------------------------------------------- */
@@ -521,6 +526,10 @@ namespace NLEditor
             {
                 screenStartToolStripMenuItem_Click(null, null);
             }
+            else if (e.KeyCode == Keys.F12)
+            {
+                PlaytestLevel();
+            }
             else if (e.Shift && e.KeyCode == Keys.Left)
             {
                 MoveTerrPieceSelection(-1);
@@ -644,6 +653,8 @@ namespace NLEditor
             fMouseButtonPressed = null;
             RemoveFocus();
         }
+
+
 
 
 

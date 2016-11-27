@@ -139,7 +139,29 @@ namespace NLEditor
         /// </summary>
         private void ExitEditor()
         {
+            DeleteFile(C.AppPath + "TempTestLevel.nxlv");
+            DeleteFile(C.AppPath + "TempTestLevel.nxsv");
+            
             Application.Exit();
+        }
+
+        /// <summary>
+        /// Deletes the specified file, if it exists.
+        /// </summary>
+        /// <param name="FilePath"></param>
+        private void DeleteFile(string FilePath)
+        {
+            if (System.IO.File.Exists(FilePath))
+            {
+                try
+                {
+                    System.IO.File.Delete(FilePath);
+                }
+                finally
+                {
+                    // do nothing.
+                }
+            }
         }
 
         /// <summary>
@@ -187,6 +209,9 @@ namespace NLEditor
             LevelFile.SaveLevel(fCurLevel);
         }
 
+        /// <summary>
+        /// Saves the current level in the current location. If no location is known, the file browser is opened.
+        /// </summary>
         private void SaveLevel()
         { 
             if (fCurLevel.FilePathToSave == null)
@@ -199,6 +224,32 @@ namespace NLEditor
                 ReadLevelInfoFromForm();
 
                 LevelFile.SaveLevelToFile(fCurLevel.FilePathToSave, fCurLevel);
+            }
+        }
+
+        /// <summary>
+        /// Saves the level as TempTestLevel.nxlv and loads this level in the NeoLemmix player.
+        /// </summary>
+        private void PlaytestLevel()
+        {
+            // Save the level as TempTestLevel.nxlv.
+            string OrigFilePath = fCurLevel.FilePathToSave;
+            fCurLevel.FilePathToSave = C.AppPath + "TempTestLevel.nxlv";
+            SaveLevel();
+            fCurLevel.FilePathToSave = OrigFilePath;
+
+            // Start the NeoLemmix player.
+            System.Diagnostics.ProcessStartInfo PlayerStartInfo = new System.Diagnostics.ProcessStartInfo();
+            PlayerStartInfo.FileName = C.AppPath + "NeoLemmix.exe";
+            PlayerStartInfo.Arguments = C.AppPath + "TempTestLevel.nxlv";
+
+            if (!System.IO.File.Exists(PlayerStartInfo.FileName))
+            {
+                MessageBox.Show("Error: Player NeoLemmix.exe not found in editor directory.");
+            }
+            else
+            {
+                System.Diagnostics.Process.Start(PlayerStartInfo);
             }
         }
 
