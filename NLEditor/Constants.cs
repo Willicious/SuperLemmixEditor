@@ -38,8 +38,10 @@ namespace NLEditor
 
         public enum CustDrawMode 
         { 
-            Default, Erase, OnlyAtMask, NotAtMask,
-            ClearPhysics, ClearPhysicsSteel, ClearPhysicsNotAtMask, ClearPhysicsSteelNotAtMask
+            Default, DefaultOWW, Erase, OnlyAtMask, OnlyAtOWW,
+            NoOverwrite, NoOverwriteOWW,
+            ClearPhysics, ClearPhysicsOWW, ClearPhysicsSteel,
+            ClearPhysicsNoOverwrite, ClearPhysicsNoOverwriteOWW, ClearPhysicsSteelNoOverwrite
         }
 
         public enum DIR { N, E, S, W }
@@ -54,13 +56,15 @@ namespace NLEditor
             SPLAT = 27, BACKGROUND = 30, TRAPONCE = 31
         }
 
+        public static readonly byte ALPHA_OWW = 255;
+        public static readonly byte ALPHA_NOOWW = 254;
 
-        public static readonly int LAY_COUNT = 6;
+
+        public static readonly int LAY_COUNT = 5;
         public static readonly int LAY_OBJBACK = 0;
         public static readonly int LAY_TERRAIN = 1;
         public static readonly int LAY_OBJTOP = 3;
         public static readonly int LAY_TRIGGER = 4;
-        public static readonly int LAY_OWWTERRAIN = 5;
 
 
         public static readonly int SKI_COUNT = 16; // count without zombie!

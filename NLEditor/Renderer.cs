@@ -18,6 +18,13 @@ namespace NLEditor
          * -------------------------------------------------------- */
 
         /*---------------------------------------------------------
+         *  IMPORTANT: The Terrain layer uses the alpha value 
+         *             to encode the OWW-flag:
+         *              One-Way-able     = C.ALPHA_OWW   = 255
+         *              Not One-Way-able = C.ALPHA_NOOWW = 254
+         * -------------------------------------------------------- */
+
+        /*---------------------------------------------------------
          *  public methods:
          *    Renderer(Level MyLevel) // constructor
          *    
@@ -227,7 +234,7 @@ namespace NLEditor
         /// <returns></returns>
         public Bitmap CreateLevelImage()
         {
-            Profiler.Start();
+            //Profiler.Start();
             
             UpdateLayerBmpSize();
             
@@ -236,7 +243,7 @@ namespace NLEditor
             CreateObjectTopLayer();
             CreateTriggerLayer();
 
-            Profiler.Stop();
+            //Profiler.Stop();
 
             return CombineLayers();
         }
@@ -270,48 +277,55 @@ namespace NLEditor
         /// </summary>
         private void CreateTerrainLayer()
         {
-            // We create the OWW-layer as well!
             fLayerList[C.LAY_TERRAIN].Clear();
-            fLayerList[C.LAY_OWWTERRAIN].Clear();
 
             foreach (TerrainPiece MyTerrPiece in fMyLevel.TerrainList)
             {
-                if (MyTerrPiece.IsErase)
-                {
-                    fLayerList[C.LAY_TERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos, C.CustDrawMode.Erase);
-                    fLayerList[C.LAY_OWWTERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos, C.CustDrawMode.Erase);
-                }
-                else if (MyTerrPiece.IsNoOverwrite)
-                {
-                    C.CustDrawMode CurDrawMode = 
-                        (!fIsClearPhysics)    ? C.CustDrawMode.NotAtMask :
-                        (MyTerrPiece.IsSteel) ? C.CustDrawMode.ClearPhysicsSteelNotAtMask : 
-                                                C.CustDrawMode.ClearPhysicsNotAtMask;
-                    
-                    if(MyTerrPiece.IsOneWay)
-                    {
-                        // Write on this layer before changing the actual terrain layer. Otherwise nothing gets added!
-                        fLayerList[C.LAY_OWWTERRAIN].DrawOn(MyTerrPiece.Image, fLayerList[C.LAY_TERRAIN], MyTerrPiece.Pos, CurDrawMode);
-                    }
+                C.CustDrawMode MyDrawMode = GetDrawModeForTerrain(MyTerrPiece);
+                fLayerList[C.LAY_TERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos, MyDrawMode);
+            }
+        }
 
-                    fLayerList[C.LAY_TERRAIN].DrawOn(MyTerrPiece.Image, (Bitmap)fLayerList[C.LAY_TERRAIN].Clone(), MyTerrPiece.Pos, C.CustDrawMode.NotAtMask);
+        /// <summary>
+        /// Returns the correct CustDrawMode for the terrain piece.
+        /// </summary>
+        /// <param name="MyTerrPiece"></param>
+        /// <returns></returns>
+        private C.CustDrawMode GetDrawModeForTerrain(TerrainPiece MyTerrPiece)
+        {
+            if (MyTerrPiece.IsErase) return C.CustDrawMode.Erase;
+            else if (MyTerrPiece.IsNoOverwrite)
+            {
+                if (fIsClearPhysics)
+                { 
+                    if (MyTerrPiece.IsSteel) return C.CustDrawMode.ClearPhysicsSteelNoOverwrite;
+                    else if (MyTerrPiece.IsOneWay) return C.CustDrawMode.ClearPhysicsNoOverwriteOWW;
+                    else return C.CustDrawMode.ClearPhysicsNoOverwrite; 
+                }
+                else 
+                {
+                    if (MyTerrPiece.IsSteel) return C.CustDrawMode.NoOverwrite;
+                    else if (MyTerrPiece.IsOneWay) return C.CustDrawMode.NoOverwriteOWW;
+                    else return C.CustDrawMode.NoOverwrite;
+                }
+            }
+            else
+            {
+                if (fIsClearPhysics)
+                {
+                    if (MyTerrPiece.IsSteel) return C.CustDrawMode.ClearPhysicsSteel;
+                    else if (MyTerrPiece.IsOneWay) return C.CustDrawMode.ClearPhysicsOWW;
+                    else return C.CustDrawMode.ClearPhysics;
                 }
                 else
                 {
-                    if (MyTerrPiece.IsOneWay)
-                    {
-                        fLayerList[C.LAY_OWWTERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos);
-                    }
-
-                    C.CustDrawMode CurDrawMode =
-                        (!fIsClearPhysics) ?    C.CustDrawMode.Default :
-                        (MyTerrPiece.IsSteel) ? C.CustDrawMode.ClearPhysicsSteel :
-                                                C.CustDrawMode.ClearPhysics;
-
-                    fLayerList[C.LAY_TERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos, CurDrawMode);
+                    if (MyTerrPiece.IsSteel) return C.CustDrawMode.Default;
+                    else if (MyTerrPiece.IsOneWay) return C.CustDrawMode.DefaultOWW;
+                    else return C.CustDrawMode.Default;
                 }
             }
         }
+
 
         /// <summary>
         /// Renders all object, that overwrite usual terrain.
@@ -331,7 +345,7 @@ namespace NLEditor
                     obj.ObjType.In(C.OBJ.OWW_LEFT, C.OBJ.OWW_RIGHT, C.OBJ.OWW_DOWN));
             foreach (GadgetPiece MyGadget in OWWGadgetList)
             {
-                fLayerList[C.LAY_OBJTOP].DrawOn(MyGadget.Image, fLayerList[C.LAY_OWWTERRAIN], MyGadget.Pos, C.CustDrawMode.OnlyAtMask);
+                fLayerList[C.LAY_OBJTOP].DrawOn(MyGadget.Image, fLayerList[C.LAY_TERRAIN], MyGadget.Pos, C.CustDrawMode.OnlyAtOWW);
             }
 
             List<GadgetPiece> UsualGadgetList = fMyLevel.GadgetList.FindAll(obj => 

@@ -37,31 +37,43 @@ namespace NLEditor
         {
             ColorFuncDict = new Dictionary<C.CustDrawMode, Func<int, int, byte[]>>();
             ColorFuncDict.Add(C.CustDrawMode.Default, null);
+            ColorFuncDict.Add(C.CustDrawMode.DefaultOWW, null);
             ColorFuncDict.Add(C.CustDrawMode.Erase, ColorFunc_Erase);
-            ColorFuncDict.Add(C.CustDrawMode.NotAtMask, null);
+            ColorFuncDict.Add(C.CustDrawMode.NoOverwrite, null);
+            ColorFuncDict.Add(C.CustDrawMode.NoOverwriteOWW, null);
             ColorFuncDict.Add(C.CustDrawMode.OnlyAtMask, null);
+            ColorFuncDict.Add(C.CustDrawMode.OnlyAtOWW, null);
             ColorFuncDict.Add(C.CustDrawMode.ClearPhysics, ColorFunc_ClearPhysics);
+            ColorFuncDict.Add(C.CustDrawMode.ClearPhysicsOWW, ColorFunc_ClearPhysicsOWW);
             ColorFuncDict.Add(C.CustDrawMode.ClearPhysicsSteel, ColorFunc_ClearPhysicsSteel);
-            ColorFuncDict.Add(C.CustDrawMode.ClearPhysicsNotAtMask, ColorFunc_ClearPhysics);
-            ColorFuncDict.Add(C.CustDrawMode.ClearPhysicsSteelNotAtMask, ColorFunc_ClearPhysicsSteel);
+            ColorFuncDict.Add(C.CustDrawMode.ClearPhysicsNoOverwrite, ColorFunc_ClearPhysics);
+            ColorFuncDict.Add(C.CustDrawMode.ClearPhysicsNoOverwriteOWW, ColorFunc_ClearPhysicsOWW);
+            ColorFuncDict.Add(C.CustDrawMode.ClearPhysicsSteelNoOverwrite, ColorFunc_ClearPhysicsSteel);
 
             DoDrawThisPixelDict = new Dictionary<C.CustDrawMode, Func<byte, byte, bool>>();
             DoDrawThisPixelDict.Add(C.CustDrawMode.Default, DoDrawThisPixel_DrawNew);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.DefaultOWW, DoDrawThisPixel_DrawNew);
             DoDrawThisPixelDict.Add(C.CustDrawMode.Erase, DoDrawThisPixel_DrawNew);
-            DoDrawThisPixelDict.Add(C.CustDrawMode.NotAtMask, DoDrawThisPixel_NotAtMask);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.NoOverwrite, DoDrawThisPixel_NotAtMask);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.NoOverwriteOWW, DoDrawThisPixel_NotAtMask);
             DoDrawThisPixelDict.Add(C.CustDrawMode.OnlyAtMask, DoDrawThisPixel_OnlyAtMask);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.OnlyAtOWW, DoDrawThisPixel_OnlyAtOWW);
             DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysics, DoDrawThisPixel_DrawNew);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsOWW, DoDrawThisPixel_DrawNew);
             DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsSteel, DoDrawThisPixel_DrawNew);
-            DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsNotAtMask, DoDrawThisPixel_NotAtMask);
-            DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsSteelNotAtMask, DoDrawThisPixel_NotAtMask);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsNoOverwrite, DoDrawThisPixel_NotAtMask);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsNoOverwriteOWW, DoDrawThisPixel_NotAtMask);
+            DoDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsSteelNoOverwrite, DoDrawThisPixel_NotAtMask);
         }
 
         private static Dictionary<C.CustDrawMode, Func<int, int, byte[]>> ColorFuncDict;
         private static Dictionary<C.CustDrawMode, Func<byte, byte, bool>> DoDrawThisPixelDict;
 
         private static readonly byte[] ColorErase = { 0, 0, 0, 0 };
-        private static readonly byte[] ColorClearPhysicsLight = { 200, 200, 200, 255 };
-        private static readonly byte[] ColorClearPhysicsDark = { 170, 170, 170, 255 };
+        private static readonly byte[] ColorClearPhysicsLight = { 200, 200, 200, 254 };
+        private static readonly byte[] ColorClearPhysicsDark = { 170, 170, 170, 254 };
+        private static readonly byte[] ColorClearPhysicsLightOWW = { 200, 200, 200, 255 };
+        private static readonly byte[] ColorClearPhysicsDarkOWW = { 170, 170, 170, 255 };
         private static readonly byte[] ColorClearPhysicsSteelLight = { 80, 80, 80, 255 };
         private static readonly byte[] ColorClearPhysicsSteelDark = { 50, 50, 50, 255 };
 
@@ -79,6 +91,18 @@ namespace NLEditor
             else
             {
                 return ColorClearPhysicsDark;
+            }
+        }
+
+        private static byte[] ColorFunc_ClearPhysicsOWW(int PosX, int PosY)
+        {
+            if ((PosX + PosY) % 2 == 0)
+            {
+                return ColorClearPhysicsLightOWW;
+            }
+            else
+            {
+                return ColorClearPhysicsDarkOWW;
             }
         }
 
@@ -102,6 +126,11 @@ namespace NLEditor
         private static bool DoDrawThisPixel_OnlyAtMask(byte NewBmpAlpha, byte MaskBmpAlpha)
         {
             return (NewBmpAlpha > 63) && (MaskBmpAlpha > 63);
+        }
+
+        private static bool DoDrawThisPixel_OnlyAtOWW(byte NewBmpAlpha, byte MaskBmpAlpha)
+        {
+            return (NewBmpAlpha > 63) && (MaskBmpAlpha == 255);
         }
 
         private static bool DoDrawThisPixel_NotAtMask(byte NewBmpAlpha, byte MaskBmpAlpha)
@@ -128,12 +157,12 @@ namespace NLEditor
         /// </summary>
         /// <param name="PtrToPixel"></param>
         /// <param name="PtrToNewPixel"></param>
-        private static unsafe void ChangePixel(byte* PtrToPixel, byte* PtrToNewPixel)
+        private static unsafe void ChangePixel(byte* PtrToPixel, byte* PtrToNewPixel, byte Alpha = 255)
         {
             PtrToPixel[0] = (byte)PtrToNewPixel[0];
             PtrToPixel[1] = (byte)PtrToNewPixel[1];
             PtrToPixel[2] = (byte)PtrToNewPixel[2];
-            PtrToPixel[3] = (byte)PtrToNewPixel[3];
+            PtrToPixel[3] = Alpha;
         }
 
 
@@ -204,7 +233,7 @@ namespace NLEditor
         /// <param name="Pos"></param>
         public static void DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
         {
-            OrigBmp.DrawOn(NewBmp, Pos, DoDrawThisPixel_DrawNew);
+            OrigBmp.DrawOn(NewBmp, Pos, DoDrawThisPixel_DrawNew, 255);
         }
 
         /// <summary>
@@ -221,11 +250,18 @@ namespace NLEditor
 
             if (ColorFunc == null)
             {
-                OrigBmp.DrawOn(NewBmp, Pos, DoDrawThisPixel_DrawNew);
+                if (ColorSelect.In(C.CustDrawMode.DefaultOWW, C.CustDrawMode.NoOverwriteOWW))
+                {
+                    OrigBmp.DrawOn(NewBmp, Pos, DoDrawThisPixel, C.ALPHA_OWW);
+                }
+                else
+                {
+                    OrigBmp.DrawOn(NewBmp, Pos, DoDrawThisPixel, C.ALPHA_NOOWW);
+                }
             }
             else
             {
-                OrigBmp.DrawOn(NewBmp, Pos, ColorFunc, DoDrawThisPixel_DrawNew);
+                OrigBmp.DrawOn(NewBmp, Pos, ColorFunc, DoDrawThisPixel);
             }
         }
 
@@ -259,7 +295,7 @@ namespace NLEditor
         /// <param name="OrigBmp"></param>
         /// <param name="NewBmp"></param>
         /// <param name="Pos"></param>
-        private static void DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, Func<byte, byte, bool> DoDrawThisPixel)
+        private static void DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, Func<byte, byte, bool> DoDrawThisPixel, byte Alpha)
         {
             if (NewBmp == null || DoDrawThisPixel == null) return;
 
@@ -271,7 +307,7 @@ namespace NLEditor
             unsafe
             {
                 // Get BitmapData for OrigBitmap
-                BitmapData OrigBmpData = OrigBmp.LockBits(OrigBmpRect, ImageLockMode.WriteOnly, OrigBmp.PixelFormat);
+                BitmapData OrigBmpData = OrigBmp.LockBits(OrigBmpRect, ImageLockMode.ReadWrite, OrigBmp.PixelFormat);
                 // Get pointer to pixel-array
                 byte* PtrOrigFirstPixel = (byte*)OrigBmpData.Scan0;
                 // Check number of bytes per pixel
@@ -295,8 +331,7 @@ namespace NLEditor
 
                     for (int x = 0; x < DrawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
                     {
-                        // We require an alpha value of 25%
-                        if (DoDrawThisPixel((byte)CurNewLine[x + 3], 0))
+                        if (DoDrawThisPixel((byte)CurNewLine[x + 3], (byte)CurOrigLine[x + 3]))
                         {
                             ChangePixel(CurOrigLine + x, CurNewLine + x);
                         }
@@ -328,7 +363,7 @@ namespace NLEditor
             unsafe
             {
                 // Get BitmapData for OrigBitmap
-                BitmapData OrigBmpData = OrigBmp.LockBits(OrigBmpRect, ImageLockMode.WriteOnly, OrigBmp.PixelFormat);
+                BitmapData OrigBmpData = OrigBmp.LockBits(OrigBmpRect, ImageLockMode.ReadWrite, OrigBmp.PixelFormat);
                 // Get pointer to pixel-array
                 byte* PtrOrigFirstPixel = (byte*)OrigBmpData.Scan0;
                 // Check number of bytes per pixel
@@ -353,7 +388,7 @@ namespace NLEditor
                     for (int x = 0; x < DrawRect.Width; x++)
                     {
                         // We require an alpha value of 25%
-                        if (DoDrawThisPixel((byte)CurNewLine[x * BytesPerPixel + 3], 0))
+                        if (DoDrawThisPixel((byte)CurNewLine[x * BytesPerPixel + 3], (byte)CurOrigLine[x * BytesPerPixel + 3]))
                         {
                             ChangePixel(CurOrigLine + x * BytesPerPixel, ColorFunc(x, y));
                         }
