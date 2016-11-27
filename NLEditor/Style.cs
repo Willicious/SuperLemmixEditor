@@ -96,6 +96,8 @@ namespace NLEditor
                                                .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
                                                .ToList()
                                                .FindAll(key => !key.Contains("_mask_")));
+
+                fObjectNames.Add("default" + C.DirSep + "objects" + C.DirSep + "lemming");
             }
             catch (Exception Ex)
             {

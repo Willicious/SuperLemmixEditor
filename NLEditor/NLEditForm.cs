@@ -27,8 +27,10 @@ namespace NLEditor
         public NLEditForm()
         {
             InitializeComponent();
-            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(NLEditForm_MouseWheel);
             SetRepeatButtonIntervals();
+            LoadStylesFromFile.AddInitialImagesToLibrary();
+
+            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(NLEditForm_MouseWheel);
 
             fpicPieceList = new List<PictureBox> 
                 { 

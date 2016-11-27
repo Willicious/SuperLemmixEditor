@@ -14,6 +14,15 @@ namespace NLEditor
     /// </summary>
     static class LoadStylesFromFile
     {
+        public static void AddInitialImagesToLibrary()
+        { 
+            // preplaced lemming
+            string ImageKey = "default" + C.DirSep + "objects" + C.DirSep + "lemming";
+            Bitmap Image = Properties.Resources.Lemming;
+            ImageLibrary.AddNewImage(ImageKey, Image, C.OBJ.LEMMING, new Rectangle(2, 9, 1, 1));
+        }
+        
+        
         /// <summary>
         /// Reads style colors from a .nxtm file.
         /// <para> Color 0: Background (default: black) </para>

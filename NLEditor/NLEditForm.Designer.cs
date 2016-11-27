@@ -359,14 +359,14 @@
             // playLevelToolStripMenuItem
             // 
             this.playLevelToolStripMenuItem.Name = "playLevelToolStripMenuItem";
-            this.playLevelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.playLevelToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.playLevelToolStripMenuItem.Text = "Play Level (F12)";
             this.playLevelToolStripMenuItem.Click += new System.EventHandler(this.playLevelToolStripMenuItem_Click);
             // 
             // validateLevelToolStripMenuItem
             // 
             this.validateLevelToolStripMenuItem.Name = "validateLevelToolStripMenuItem";
-            this.validateLevelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.validateLevelToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.validateLevelToolStripMenuItem.Text = "Validate Level";
             // 
             // helpToolStripMenuItem

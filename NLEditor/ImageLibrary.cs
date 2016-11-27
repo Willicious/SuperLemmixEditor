@@ -20,28 +20,7 @@ namespace NLEditor
         public BaseImageInfo(Bitmap NewImage, bool IsSteel = false)
             : this(NewImage, IsSteel ? C.OBJ.STEEL : C.OBJ.NULL, 1, false, new Rectangle(0, 0, 0, 0))
         {
-            /*
-            this.fImage = NewImage;
-            this.fWidth = this.fImage.Width;
-            this.fHeight = this.fImage.Height;
-            this.fTriggerRect = new Rectangle(0, 0, 0, 0);
-            if (IsSteel)
-            {
-                this.fObjectType = C.OBJ.STEEL;
-            }
-            else 
-            {
-                this.fObjectType = C.OBJ.NULL;
-            }
-
-            this.fImageRotated = new Dictionary<RotateFlipType, Bitmap>();
-            foreach (RotateFlipType RotFlipType in Enum.GetValues(typeof(RotateFlipType)))
-            {
-                Bitmap RotImage = (Bitmap)fImage.Clone();
-                RotImage.RotateFlip(RotFlipType);
-                this.fImageRotated.Add(RotFlipType, RotImage);
-            }
-             * */
+            // nothing more
         }
 
         /// <summary>
@@ -263,6 +242,22 @@ namespace NLEditor
 
             return true;
         }
+
+        /// <summary>
+        /// Adds by hand a new image to the ImagelIbrary, assuming the ImageKey doesn't exist yet. 
+        /// </summary>
+        /// <param name="ImageKey"></param>
+        /// <param name="Image"></param>
+        /// <param name="ObjType"></param>
+        /// <param name="TriggerRect"></param>
+        public static void AddNewImage(string ImageKey, Bitmap Image, C.OBJ ObjType, Rectangle TriggerRect)
+        {
+            if (fImageList.ContainsKey(ImageKey)) return;
+
+            BaseImageInfo NewImageInfo = new BaseImageInfo(Image, ObjType, 1, false, TriggerRect);
+            fImageList.Add(ImageKey, NewImageInfo);
+        }
+
 
         /// <summary>
         /// Creates the image key from a file path (relative or absolute). 
