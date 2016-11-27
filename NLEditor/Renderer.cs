@@ -41,7 +41,8 @@ namespace NLEditor
          *    SetLevel(Level NewLevel)
          *    
          *    ChangeZoom(bool DoZoomIn)
-         *    ChangeScreenPos(int DeltaX, int Delta Y);
+         *    UpdateScreenPos()
+         *    GetDeltaPos()
          * 
          *  public varaibles:
          *    ScreenPos
@@ -577,10 +578,21 @@ namespace NLEditor
             if (fMouseDragAction != C.DragActions.MoveEditorPos) return;
             if (fMouseStartPos == null || fMouseCurPos == null) return;
 
-            fScreenPos.X += ApplyUnZoom(((Point)fMouseCurPos).X - ((Point)fMouseStartPos).X);
-            fScreenPos.Y += ApplyUnZoom(((Point)fMouseCurPos).Y - ((Point)fMouseStartPos).Y);
+            Point DeltaScreenPos = GetDeltaPos();
+            fScreenPos.X += DeltaScreenPos.X;
+            fScreenPos.Y += DeltaScreenPos.Y;
 
             EnsureScreenPosInLevel();
+        }
+
+        /// <summary>
+        /// Returns the difference between the original and the current mouse position in level coordinates.
+        /// </summary>
+        /// <returns></returns>
+        public Point GetDeltaPos()
+        {
+            return new Point(ApplyUnZoom(((Point)fMouseCurPos).X - ((Point)fMouseStartPos).X),
+                             ApplyUnZoom(((Point)fMouseCurPos).Y - ((Point)fMouseStartPos).Y));
         }
 
     }

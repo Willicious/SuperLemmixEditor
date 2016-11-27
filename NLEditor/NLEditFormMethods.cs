@@ -397,6 +397,17 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Drags all selected pieces from the original mouse position to the current one and displays the result.
+        /// </summary>
+        private void DragSelectedPieces()
+        {
+            Point DeltaPos = fCurRenderer.GetDeltaPos();
+            fCurLevel.MovePieces(C.DIR.E, DeltaPos.X);
+            fCurLevel.MovePieces(C.DIR.S, DeltaPos.Y);
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+        /// <summary>
         /// Rotates all selected pieces in the level and displays the result.
         /// </summary>
         private void RotateLevelPieces()

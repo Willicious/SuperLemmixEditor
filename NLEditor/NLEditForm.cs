@@ -645,13 +645,16 @@ namespace NLEditor
             switch (fCurRenderer.MouseDragAction)
             {
                 case C.DragActions.SelectArea:
+                case C.DragActions.MoveEditorPos:
                     {
                         this.pic_Level.Image = fCurRenderer.CombineLayers();
                         break;
                     }
-                case C.DragActions.MoveEditorPos:
+                case C.DragActions.DragPieces:
                     {
-                        this.pic_Level.Image = fCurRenderer.CombineLayers();
+                        DragSelectedPieces();
+                        fCurRenderer.MouseStartPos = fCurRenderer.MouseCurPos;
+                        fCurRenderer.MouseCurPos = null;
                         break;
                     }
             }
@@ -678,6 +681,11 @@ namespace NLEditor
                 case C.DragActions.MoveEditorPos:
                     {
                         fCurRenderer.UpdateScreenPos();
+                        break;
+                    }
+                case C.DragActions.DragPieces:
+                    {
+                        DragSelectedPieces();
                         break;
                     }
             }
