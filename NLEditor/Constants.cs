@@ -56,6 +56,9 @@ namespace NLEditor
             SPLAT = 27, BACKGROUND = 30, TRAPONCE = 31
         }
 
+        public enum DragActions { Null, SelectArea, DragPieces, MoveEditorPos }
+
+
         public static readonly byte ALPHA_OWW = 255;
         public static readonly byte ALPHA_NOOWW = 254;
 

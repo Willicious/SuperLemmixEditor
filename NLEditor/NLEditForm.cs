@@ -618,15 +618,42 @@ namespace NLEditor
             fCurRenderer.MouseStartPos = e.Location;
             fCurRenderer.MouseCurPos = e.Location;
             fStopWatchMouse.Restart();
+
+            bool HasSelectedPieceAtPos = fCurRenderer.GetMousePosInLevel() != null 
+                                       && fCurLevel.HasSelectionAtPos((Point)fCurRenderer.GetMousePosInLevel());
+
+            if (e.Button == MouseButtons.Right)
+            {
+                fCurRenderer.MouseDragAction = C.DragActions.MoveEditorPos;
+            }
+            else if (HasSelectedPieceAtPos && !fIsAltPressed && !fIsCtrlPressed && !fIsShiftPressed)
+            {
+                fCurRenderer.MouseDragAction = C.DragActions.DragPieces;
+            }
+            else
+            {
+                fCurRenderer.MouseDragAction = C.DragActions.SelectArea;
+            }
         }
 
         private void pic_Level_MouseMove(object sender, MouseEventArgs e)
         {
-            if (fCurRenderer.MouseStartPos != null)
+            if (fCurRenderer.MouseStartPos == null) return;
+
+            fCurRenderer.MouseCurPos = e.Location;
+
+            switch (fCurRenderer.MouseDragAction)
             {
-                // Update selection area
-                fCurRenderer.MouseCurPos = e.Location;
-                this.pic_Level.Image = fCurRenderer.CombineLayers();
+                case C.DragActions.SelectArea:
+                    {
+                        this.pic_Level.Image = fCurRenderer.CombineLayers();
+                        break;
+                    }
+                case C.DragActions.MoveEditorPos:
+                    {
+                        this.pic_Level.Image = fCurRenderer.CombineLayers();
+                        break;
+                    }
             }
         }
 
@@ -634,18 +661,31 @@ namespace NLEditor
         {
             fCurRenderer.MouseCurPos = e.Location;
 
-            if (fStopWatchMouse.ElapsedMilliseconds < 200) // usual click takes <100ms
+            switch (fCurRenderer.MouseDragAction)
             {
-                LevelSelectSinglePiece();
-            }
-            else
-            {
-                LevelSelectAreaPieces();
+                case C.DragActions.SelectArea:
+                    {
+                        if (fStopWatchMouse.ElapsedMilliseconds < 200) // usual click takes <100ms
+                        {
+                            LevelSelectSinglePiece();
+                        }
+                        else
+                        {
+                            LevelSelectAreaPieces();
+                        }
+                        break;
+                    }
+                case C.DragActions.MoveEditorPos:
+                    {
+                        fCurRenderer.UpdateScreenPos();
+                        break;
+                    }
             }
 
             // Delete mouse selection area...
             fCurRenderer.MouseStartPos = null;
             fCurRenderer.MouseCurPos = null;
+            fCurRenderer.MouseDragAction = C.DragActions.Null;
             // ...before updating the level image
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
             UpdateFlagsForPieceActions();

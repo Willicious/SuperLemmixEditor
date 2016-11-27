@@ -96,6 +96,7 @@ namespace NLEditor
 
         Point? fMouseStartPos;
         Point? fMouseCurPos;
+        C.DragActions fMouseDragAction;
 
         public Point ScreenPos { get { return fScreenPos; } }
         public int ScreenPosX { get { return fScreenPos.X; } }
@@ -104,6 +105,7 @@ namespace NLEditor
 
         public Point? MouseStartPos { get { return fMouseStartPos; } set { fMouseStartPos = value; } }
         public Point? MouseCurPos { get { return fMouseCurPos; } set { fMouseCurPos = value; } }
+        public C.DragActions MouseDragAction { get { return fMouseDragAction; } set { fMouseDragAction = value; } }
 
         public void ChangeIsClearPhsyics() 
         {
@@ -372,10 +374,10 @@ namespace NLEditor
             Size LevelBmpSize = GetLevelBmpSize();
             Bitmap LevelBmp = new Bitmap(LevelBmpSize.Width, LevelBmpSize.Height);
 
-            int NegScreenPosX = (LevelBmpSize.Width != fMyLevel.Width) ? -fScreenPos.X : 0;
-            int NegScreenPosY = (LevelBmpSize.Height != fMyLevel.Height) ? -fScreenPos.Y : 0;
-            Point NegScreenPos = new Point(NegScreenPosX, NegScreenPosY);
-            
+            Point OldScreenPos = new Point(fScreenPos.X, fScreenPos.Y);
+            UpdateScreenPos();
+            Point NegScreenPos = new Point(-fScreenPos.X, -fScreenPos.Y);  
+
             // Set background color
             LevelBmp.Clear(fMyLevel.MainStyle.BackgroundColor);
 
@@ -410,8 +412,36 @@ namespace NLEditor
             LevelBmp = AddSelectedRectangles(LevelBmp);
             LevelBmp = AddMouseSelectionArea(LevelBmp);
 
+            // Revert changes to the screen position, until calling it properly
+            fScreenPos = OldScreenPos;
+
             return LevelBmp;
         }
+
+        /*
+        /// <summary>
+        /// Returns the negative of the current screen position, including the mouse editor movement.
+        /// </summary>
+        /// <returns></returns>
+        private Point GetNegScreenPos()
+        {
+            Size LevelBmpSize = GetLevelBmpSize();
+
+            int MouseDragX = 0;
+            int MouseDragY = 0;
+
+            if (MouseDragAction == C.DragActions.MoveEditorPos && fMouseStartPos != null && fMouseCurPos != null)
+            {
+                MouseDragX = ApplyUnZoom(((Point)fMouseCurPos).X - ((Point)fMouseStartPos).X);
+                MouseDragY = ApplyUnZoom(((Point)fMouseCurPos).Y - ((Point)fMouseStartPos).Y);
+            }
+
+            int NewScreenPosX = EnsureScreenPosInLevel(false, fScreenPos.X + MouseDragX);
+            int NewScreenPosY = EnsureScreenPosInLevel(true, fScreenPos.Y + MouseDragY);
+
+            return new Point(-NewScreenPosX, -NewScreenPosY);
+        }
+        */
 
         /// <summary>
         /// Gets the size of the displayable area in level coordinates.
@@ -474,6 +504,7 @@ namespace NLEditor
         /// <returns></returns>
         private Bitmap AddMouseSelectionArea(Bitmap LevelBmp)
         {
+            if (MouseDragAction != C.DragActions.SelectArea) return LevelBmp;
             if (MouseStartPos == null || MouseCurPos == null) return LevelBmp;
 
             Rectangle MouseRect = Utility.RectangleFrom((Point)MouseStartPos, (Point)MouseCurPos);
@@ -517,15 +548,15 @@ namespace NLEditor
         /// </summary>
         private void EnsureScreenPosInLevel()
         {
-            EnsureScreenPosInLevel(true);
-            EnsureScreenPosInLevel(false);
+            fScreenPos.X = EnsureScreenPosInLevel(false, fScreenPos.X);
+            fScreenPos.Y = EnsureScreenPosInLevel(true, fScreenPos.Y);
         }
 
         /// <summary>
         /// Ensures that the screen top resp left position is chosen such that no unnecessary boundaries appear 
         /// </summary>
         /// <param name="IsVert"></param>
-        private void EnsureScreenPosInLevel(bool IsVert)
+        private int EnsureScreenPosInLevel(bool IsVert, int CurPos)
         {
             int LevelLength = IsVert ? fMyLevel.Height : fMyLevel.Width;
             int PicBoxLength = IsVert ? fPicBoxSize.Height : fPicBoxSize.Width;
@@ -533,14 +564,7 @@ namespace NLEditor
             int MaxCoord = LevelLength - PicBoxLengthUnzoomed;
 
             // do not interchange Max and Min because of possibly negative MaxCoord
-            if (IsVert)
-            {
-                fScreenPos.Y = Math.Max(Math.Min(fScreenPos.Y, MaxCoord), 0); 
-            }
-            else 
-            {
-                fScreenPos.X = Math.Max(Math.Min(fScreenPos.X, MaxCoord), 0);
-            }      
+            return Math.Max(Math.Min(CurPos, MaxCoord), 0);    
         }
 
         /// <summary>
@@ -548,10 +572,13 @@ namespace NLEditor
         /// </summary>
         /// <param name="DeltaX"></param>
         /// <param name="DeltaY"></param>
-        public void ChangeScreenPos(int DeltaX, int DeltaY)
+        public void UpdateScreenPos()
         {
-            fScreenPos.X += DeltaX;
-            fScreenPos.Y += DeltaY;
+            if (fMouseDragAction != C.DragActions.MoveEditorPos) return;
+            if (fMouseStartPos == null || fMouseCurPos == null) return;
+
+            fScreenPos.X += ApplyUnZoom(((Point)fMouseCurPos).X - ((Point)fMouseStartPos).X);
+            fScreenPos.Y += ApplyUnZoom(((Point)fMouseCurPos).Y - ((Point)fMouseStartPos).Y);
 
             EnsureScreenPosInLevel();
         }

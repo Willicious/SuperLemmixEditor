@@ -26,6 +26,7 @@ namespace NLEditor
          *    SelectAreaPiece(Rectangle Rect, bool IsAdded)
          *    DeleteAllSelections()
          *    SelectionList()
+         *    HasSelectionAtPos(Point Pos)
          *    MovePieces(C.DIR Direcion, int Step = 1)
          *    RotatePieces()
          *    InvertPieces()
@@ -245,6 +246,16 @@ namespace NLEditor
             int Bottom = SelectedPieceList.Max(item => item.PosY + item.Height);
 
             return new Rectangle(Left, Top, Right - Left, Bottom - Top);
+        }
+
+        /// <summary>
+        /// Returns whether there is a selected terrain piece at a point.
+        /// </summary>
+        /// <param name="Pos"></param>
+        /// <returns></returns>
+        public bool HasSelectionAtPos(Point Pos)
+        {
+            return SelectionList().Exists(item => item.ImageRectangle.Contains(Pos));
         }
 
         /// <summary>
