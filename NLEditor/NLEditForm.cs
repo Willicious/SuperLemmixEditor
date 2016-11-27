@@ -69,8 +69,6 @@ namespace NLEditor
             fStopWatchMouse.Start();
 
             fMouseButtonPressed = null;
-
-            fStopWatchProfiling = new Stopwatch();
         }
 
         List<PictureBox> fpicPieceList;
@@ -88,8 +86,6 @@ namespace NLEditor
         Stopwatch fStopWatchMouse;
         MouseButtons? fMouseButtonPressed;
 
-
-        Stopwatch fStopWatchProfiling; // use ONLY for debugging/profiling purposes!
 
         bool fIsShiftPressed;
         bool fIsCtrlPressed;

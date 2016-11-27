@@ -78,4 +78,26 @@ namespace NLEditor
         }
 
     }
+
+
+    static class Profiler
+    { 
+        static Profiler()
+        {
+            fStopWatch = new System.Diagnostics.Stopwatch();
+        }
+
+        static System.Diagnostics.Stopwatch fStopWatch;
+
+        public static void Start()
+        {
+            fStopWatch.Restart();
+        }
+
+        public static void Stop()
+        {
+            fStopWatch.Stop();
+            Utility.LogProfiling(fStopWatch.ElapsedMilliseconds);
+        }
+    }
 }

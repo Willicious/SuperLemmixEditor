@@ -227,12 +227,16 @@ namespace NLEditor
         /// <returns></returns>
         public Bitmap CreateLevelImage()
         {
+            Profiler.Start();
+            
             UpdateLayerBmpSize();
             
             CreateObjectBackLayer();
             CreateTerrainLayer();
             CreateObjectTopLayer();
             CreateTriggerLayer();
+
+            Profiler.Stop();
 
             return CombineLayers();
         }
