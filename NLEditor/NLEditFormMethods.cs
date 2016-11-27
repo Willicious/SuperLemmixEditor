@@ -351,7 +351,7 @@ namespace NLEditor
                 // Add a single piece
                 fCurLevel.SelectOnePiece((Point)LevelPos, true, fIsAltPressed);
             }
-            else if (fMouseButtonPressed == MouseButtons.Right)
+            else if (fMouseButtonPressed == MouseButtons.Middle)
             {
                 // Remove a single piece
                 fCurLevel.SelectOnePiece((Point)LevelPos, false, fIsAltPressed);
@@ -378,7 +378,7 @@ namespace NLEditor
                 // Add all pieces intersection SelectArea
                 fCurLevel.SelectAreaPiece((Rectangle)SelectArea, true);
             }
-            else if (fMouseButtonPressed == MouseButtons.Right)
+            else if (fMouseButtonPressed == MouseButtons.Middle)
             {
                 // Remove all pieces intersection SelectArea
                 fCurLevel.SelectAreaPiece((Rectangle)SelectArea, false);
