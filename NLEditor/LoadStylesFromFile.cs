@@ -73,25 +73,119 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Reads the styles.ini file and orders styles accordingly.
-        /// <para> UNFINISHED: CURRENTLY DOES NOTHING! </para>
+        /// Reads the styles.ini file and orders and renames styles accordingly.
         /// </summary>
-        /// <param name="StyleNames"></param>
+        /// <param name="StyleList"></param>
         /// <returns></returns>
-        public static List<string> OrderStyleNames(List<string> StyleNames)
+        public static List<Style> OrderAndRenameStyles(List<Style> StyleList)
         {
             string FilePath = C.AppPath + "styles" + C.DirSep + "styles.ini";
 
-            if (!File.Exists(FilePath)) return StyleNames;
+            if (!File.Exists(FilePath)) return StyleList;
             
             // Otherwise order the styles according to styles.ini
-            List<string> NewStyleNames = new List<string>();
+            Dictionary<string, int> StyleOrderDict;
+            Dictionary<string, string> NewStyleNameDict;
+            ReadStyleOderFromFile(FilePath, out StyleOrderDict, out NewStyleNameDict);
+            
+            // Rename all custom names
+            foreach (string StyleFileName in NewStyleNameDict.Keys)
+            {
+                Style ThisStyle = StyleList.Find(sty => sty.NameInDirectory.Equals(StyleFileName));
+                if (ThisStyle != null)
+                {
+                    ThisStyle.NameInEditor = NewStyleNameDict[StyleFileName];
+                }
+            }
 
-            // TODO
-            // --------------------------------------------------------!!!
-            NewStyleNames = StyleNames;
+            // Reorder the styles
+            StyleList.Sort((sty1, sty2) =>
+                {
+                    if (StyleOrderDict.ContainsKey(sty1.NameInDirectory) && StyleOrderDict.ContainsKey(sty2.NameInDirectory))
+                    {
+                        return StyleOrderDict[sty1.NameInDirectory].CompareTo(StyleOrderDict[sty2.NameInDirectory]);
+                    }
+                    else if (StyleOrderDict.ContainsKey(sty1.NameInDirectory))
+                    {
+                        return -1;
+                    }
+                    else if (StyleOrderDict.ContainsKey(sty2.NameInDirectory))
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return StyleList.FindIndex(sty => sty == sty1).CompareTo(StyleList.FindIndex(sty => sty == sty2));
+                    }
+                });
 
-            return NewStyleNames;
+            return StyleList;
+        }
+
+        /// <summary>
+        /// Reads a style file and returns new positions and custom names for styles.
+        /// </summary>
+        /// <param name="FilePath"></param>
+        /// <param name="StyleOrderDict"></param>
+        /// <param name="NewStyleNameDict"></param>
+        private static void ReadStyleOderFromFile(string FilePath, out Dictionary<string, int> StyleOrderDict, out Dictionary<string, string> NewStyleNameDict)
+        {
+            StyleOrderDict = new Dictionary<string, int>();
+            NewStyleNameDict = new Dictionary<string, string>();
+            
+            StreamReader fFileStream = new StreamReader(FilePath);
+
+            string Line;
+
+            string StyleFileName = null;
+            string StyleNewName = null;
+            int StyleNewPos = -1;
+
+            do
+            {
+                Line = fFileStream.ReadLine();
+                if (Line != null) Line = Line.Trim();
+
+                // Add current style infos
+                if (Line == null || Line.StartsWith("["))
+                {
+                    if (StyleFileName != null && StyleNewPos != -1)
+                    {
+                        if (!StyleOrderDict.ContainsKey(StyleFileName))
+                        {
+                            StyleOrderDict.Add(StyleFileName, StyleNewPos);
+                        }
+                    }
+                    if (StyleFileName != null && StyleNewName != null)
+                    {
+                        if (!NewStyleNameDict.ContainsKey(StyleFileName))
+                        {
+                            NewStyleNameDict.Add(StyleFileName, StyleNewName);
+                        }
+                    }
+
+                    StyleFileName = null;
+                    StyleNewName = null;
+                    StyleNewPos = -1;
+                }
+
+                if (Line == null) 
+                { 
+                    // nothing 
+                }
+                else if (Line.StartsWith("["))
+                {
+                    StyleFileName = Line.Substring(1, Line.Length - 2);
+                }
+                else if (Line.ToUpper().StartsWith("NAME"))
+                {
+                    StyleNewName = Line.Substring(5).Trim();
+                }
+                else if (Line.ToUpper().StartsWith("ORDER"))
+                {
+                    Int32.TryParse(Line.Substring(6).Trim(), out StyleNewPos);
+                }
+            } while (Line != null);
         }
 
         /// <summary>
