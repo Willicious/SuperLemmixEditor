@@ -38,6 +38,23 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Loads a bitmap from a file and closes the file again.
+        /// </summary>
+        /// <param name="FilePath"></param>
+        /// <returns></returns>
+        public static Bitmap CreateBitmapFromFile(string FilePath)
+        {
+            Bitmap MyImage;
+            using (var TempImage = new Bitmap(FilePath))
+            {
+                MyImage = new Bitmap(TempImage);
+            }
+            return MyImage;
+        }
+
+
+
+        /// <summary>
         /// Creates a new rectangle having the two points as diagonally opposite vertices.
         /// </summary>
         /// <param name="Pos1"></param>

@@ -200,7 +200,7 @@ namespace NLEditor
             
             try
             {
-                return new Bitmap(ImagePath + ".png");
+                return Utility.CreateBitmapFromFile(ImagePath + ".png");
             }
             catch (Exception Ex)
             {
