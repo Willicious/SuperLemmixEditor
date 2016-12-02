@@ -100,9 +100,10 @@ namespace NLEditor
                 bool DoAddNextLine;
                 do
                 {
+                    DoAddNextLine = true;
                     CurFileLine = GetNewLine();
 
-                    if (CurFileLine == null || CurFileLine.Key == "")
+                    if (CurFileLine == null)
                     {
                         DoAddNextLine = false;
                     }
@@ -111,10 +112,9 @@ namespace NLEditor
                         fFileLatestLine = CurFileLine;
                         DoAddNextLine = false;
                     }
-                    else
+                    else if (CurFileLine.Key != "")
                     {
                         FileLineList.Add(CurFileLine);
-                        DoAddNextLine = true;
                     }
                 } while (DoAddNextLine); 
             }
