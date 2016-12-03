@@ -51,6 +51,10 @@ namespace NLEditor
         public string Style { get { return fStyle; } }
         public string Name { get { return fName; } }
 
+        // For cloning the piece
+        protected int Rotation { get { return fRotation; } }
+        protected bool IsInvert { get { return fInvert; } }
+
         // For writing the save file
         public bool IsRotatedInPlayer { get { return (fRotation % 2 == 1); } }
         public bool IsInvertedInPlayer { get { return (fInvert && fRotation % 4 < 2) || (!fInvert && fRotation % 4 > 1); } }
@@ -99,6 +103,12 @@ namespace NLEditor
                 case C.DIR.W: PosX = Math.Max(PosX - Step, -1000); break;
             }
         }
+
+        /// <summary>
+        /// Creates a deep copy of the piece.
+        /// </summary>
+        /// <returns></returns>
+        public abstract LevelPiece Clone();
 
         /// <summary>
         /// Determines whether this piece can be rotated.
@@ -238,6 +248,12 @@ namespace NLEditor
         public bool IsOneWay { get { return fIsOneWay; } set { fIsOneWay = value; } }
         public bool IsSteel { get { return this.ObjType == C.OBJ.STEEL; } }
 
+        public override LevelPiece Clone()
+        {
+            return new TerrainPiece(this.fKey, new Point(this.PosX, this.PosY), this.Rotation, 
+                                    this.IsInvert, this.IsErase, this.IsNoOverwrite, this.IsOneWay);
+        }
+
         public override bool MayRotate()
         {
             return true;
@@ -273,13 +289,15 @@ namespace NLEditor
         }
 
         public GadgetPiece(string Key, Point Pos, int Rotation, bool IsInvert, bool IsNoOv, 
-                           bool IsOnlyOnTerr, int valL, int valS)
+                           bool IsOnlyOnTerr, int valL, int valS, int SpecWidth = -1, int SpecHeight = -1)
             : base(Key, true, Pos, Rotation, IsInvert)
         {
             fIsNoOverwrite = IsNoOv;
             fIsOnlyOnTerrain = IsOnlyOnTerr;
             fVal_L = valL;
             fVal_S = valS;
+            fSpecWidth = SpecWidth;
+            fSpecHeight = SpecHeight;
         }
 
         bool fIsNoOverwrite;
@@ -295,6 +313,13 @@ namespace NLEditor
         public int Val_S { get { return fVal_S; } }
         public int SpecWidth { get { return fSpecWidth; } set { fSpecWidth = value; } }
         public int SpecHeight { get { return fSpecHeight; } set { fSpecHeight = value; } }
+
+        public override LevelPiece Clone()
+        {
+            return new GadgetPiece(this.fKey, new Point(this.PosX, this.PosY), this.Rotation, 
+                                   this.IsInvert, this.IsNoOverwrite, this.IsOnlyOnTerrain, 
+                                   this.Val_L, this.Val_S, this.SpecWidth, this.SpecHeight);
+        }
 
         /// <summary>
         /// Returns the position of the trigger area.

@@ -20,6 +20,7 @@ namespace NLEditor
          *  public methods:
          *    Level(Style MainStyle = null)
          *    
+         *    Clone()
          *    AddPiece(Style NewStyle, bool IsObject, int NewPieceIndex, Point CenterPos)
          *    
          *    SelectOnePiece(Point Pos, bool IsAdded, bool IsHighest)
@@ -122,6 +123,44 @@ namespace NLEditor
         public bool IsReleaseRateFix { get { return fIsReleaseRateFix; } set { fIsReleaseRateFix = value; } }
         public int TimeLimit { get { return fTimeLimit; } set { fTimeLimit = value; } }
         public bool IsNoTimeLimit { get { return fIsNoTimeLimit; } set { fIsNoTimeLimit = value; } }
+
+
+        /// <summary>
+        /// Creates a deep copy of the level.
+        /// </summary>
+        /// <returns></returns>
+        public Level Clone()
+        {
+            Level NewLevel = new Level();
+            NewLevel.fTitle = String.Copy(this.fTitle);
+            NewLevel.fAuthor = String.Copy(this.fTitle);
+            NewLevel.fMainStyle = this.fMainStyle;
+            NewLevel.fMusicFile = String.Copy(this.fMusicFile);
+            NewLevel.fLevelID = this.fLevelID;
+            NewLevel.fFilePathToSave = this.fFilePathToSave; // shallow copy is fine here
+
+            NewLevel.fWidth = this.fWidth;
+            NewLevel.fHeight = this.fHeight;
+            NewLevel.fStartPos = new Point(this.fStartPos.X, this.fStartPos.Y);
+
+            NewLevel.fTerrainList = new List<TerrainPiece>(this.fTerrainList.Select(ter => (TerrainPiece)ter.Clone()));
+            NewLevel.fGadgetList = new List<GadgetPiece>(this.fGadgetList.Select(obj => (GadgetPiece)obj.Clone()));
+
+            NewLevel.fNumLems = this.fNumLems;
+            NewLevel.fSaveReq = this.fSaveReq;
+            NewLevel.fReleaseRate = this.fReleaseRate;
+            NewLevel.fIsReleaseRateFix = this.fIsReleaseRateFix;
+            NewLevel.fTimeLimit = this.fTimeLimit;
+            NewLevel.fIsNoTimeLimit = this.fIsNoTimeLimit;
+
+            NewLevel.SkillCount = new int[C.SKI_COUNT];
+            for (int Skill = 0; Skill < C.SKI_COUNT; Skill++)
+            {
+                NewLevel.SkillCount[Skill] = this.SkillCount[Skill];
+            }
+
+            return NewLevel;
+        }
 
         /// <summary>
         /// Creates a new piece and adds it to the level.
