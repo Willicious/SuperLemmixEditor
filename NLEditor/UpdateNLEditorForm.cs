@@ -268,9 +268,33 @@ namespace NLEditor
                     HotkeyGraphics.DrawString(C.DescriptionList[i], MyFont, MyBrush, 156, 6 + 13*i);
                 }
             }
-
-            
         }
+
+        /// <summary>
+        /// Displays the "About..." page with attribution and license.
+        /// </summary>
+        private void DisplayVersionForm()
+        {
+            Form VersionForm = new Form();
+            VersionForm.Width = 310;
+            VersionForm.Height = 170;
+            VersionForm.MaximizeBox = false;
+            VersionForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            VersionForm.Text = "NLEditor - About";
+
+            VersionForm.Show();
+
+            using (Graphics HotkeyGraphics = VersionForm.CreateGraphics())
+            using (SolidBrush MyBrush = new SolidBrush(Color.Black))
+            using (Font MyFont = new Font("Microsoft Sans Serif", 8))
+            {
+                for (int i = 0; i < C.VersionList.Count; i++)
+                {
+                    HotkeyGraphics.DrawString(C.VersionList[i], MyFont, MyBrush, 6, 6 + 13 * i);
+                }
+            }
+        }
+
 
 
     }

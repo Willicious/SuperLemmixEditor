@@ -151,5 +151,22 @@ namespace NLEditor
                 "Display this hotkey help window.",
                 "Playtest the level in the NeoLemmix player."
             };
+
+        public static readonly List<string> VersionList = new List<string>
+        {
+            "Version 0.1",
+            "   by Stephan Neupert",
+            "",
+            "Thanks to...",
+            "  DMA for creating the original Lemmings games.",
+            "  Namida Verasche for the NeoLemmix player.",
+            "  the LemmingsForums at http://www.lemmingsforums.net.",
+            "",
+            "This work and all its source code is licensed under",
+            "   CC BY-NC 4.0"
+        };
+
+
+
     }
 }

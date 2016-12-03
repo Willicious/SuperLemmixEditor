@@ -201,6 +201,11 @@ namespace NLEditor
             DisplayHotkeyForm();
         }
 
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplayVersionForm();
+        }
+
         /* -----------------------------------------------------------
          *              Global Level Info Tab
          * ----------------------------------------------------------- */
@@ -728,7 +733,6 @@ namespace NLEditor
             fMouseButtonPressed = null;
             RemoveFocus();
         }
-
 
     }
 }
