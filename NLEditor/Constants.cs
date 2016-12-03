@@ -17,8 +17,8 @@ namespace NLEditor
 
         public static string AppPath
         {
-            get { return "C:\\Stephan\\Programme\\NLEditor\\"; }
-            // get { return System.Windows.Forms.Application.StartupPath + DirSep; }
+            // get { return "C:\\Stephan\\Programme\\NLEditor\\"; }
+            get { return System.Windows.Forms.Application.StartupPath + DirSep; }
         }
 
         public static string AppPathPieces
@@ -172,10 +172,10 @@ namespace NLEditor
             "Thanks to...",
             "  DMA for creating the original Lemmings games.",
             "  Namida Verasche for the NeoLemmix player.",
-            "  the LemmingsForums at http://www.lemmingsforums.net.",
+            "  The LemmingsForums at http://www.lemmingsforums.net.",
             "",
             "This work and all its source code is licensed under",
-            "   CC BY-NC 4.0"
+            "   CC BY-NC 4.0."
         };
 
 
