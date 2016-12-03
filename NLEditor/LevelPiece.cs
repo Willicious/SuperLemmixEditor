@@ -59,15 +59,7 @@ namespace NLEditor
         /// <summary>
         /// Get piece image correctly rotated and flipped.
         /// </summary>
-        public Bitmap Image { get 
-        {
-            return ImageLibrary.GetImage(fKey, GetRotateFlipType());
-            /*
-            Bitmap MyImage = ImageLibrary.GetImage(fKey);
-            MyImage.RotateFlip(GetRotateFlipType());
-            return MyImage;
-             */
-        } }
+        public Bitmap Image { get { return ImageLibrary.GetImage(fKey, GetRotateFlipType()); } }
 
         public C.OBJ ObjType { get { return ImageLibrary.GetObjType(fKey); } }
 
