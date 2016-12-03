@@ -149,6 +149,7 @@ namespace NLEditor
             fOldLevelList = new List<Level>();
             fOldLevelList.Add(fCurLevel.Clone());
             fCurOldLevelIndex = 0;
+            fOldSelectedList = new List<LevelPiece>();
 
             WriteLevelInfoToForm();
             UpdateBackgroundColor();
@@ -170,6 +171,7 @@ namespace NLEditor
             fOldLevelList = new List<Level>();
             fOldLevelList.Add(fCurLevel.Clone());
             fCurOldLevelIndex = 0;
+            fOldSelectedList = new List<LevelPiece>();
 
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
@@ -547,6 +549,72 @@ namespace NLEditor
                 fCurOldLevelIndex++;
                 LoadFromOldLevelList();
             }
+        }
+
+        /// <summary>
+        /// Copies all currently selected pieces to the fOldSelectedList.
+        /// </summary>
+        private void WriteOldSelectedList()
+        {
+            fOldSelectedList = fCurLevel.SelectionList().Select(piece => piece.Clone()).ToList();
+        }
+
+        /// <summary>
+        /// Adds copies of the pieces in fOldSelectedList to the level.
+        /// </summary>
+        private void AddOldSelectedListToLevel()
+        {
+            if (fOldSelectedList == null) return;
+
+            foreach (LevelPiece Piece in fOldSelectedList)
+            {
+                LevelPiece NewPiece = Piece.Clone();
+                NewPiece.IsSelected = true;
+
+                if (NewPiece is TerrainPiece)
+                {
+                    fCurLevel.TerrainList.Add((TerrainPiece)NewPiece);
+                }
+                else if (NewPiece is GadgetPiece)
+                {
+                    fCurLevel.GadgetList.Add((GadgetPiece)NewPiece);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Duplicates all selected pieces and displays the result.
+        /// </summary>
+        private void CopySelectedPieces()
+        {
+            WriteOldSelectedList();
+            fCurLevel.DeleteAllSelections();
+            AddOldSelectedListToLevel();
+            SaveChangesToOldLevelList();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+        /// <summary>
+        /// Deletes all selected pieces, saves them in memory and displays the result.
+        /// </summary>
+        private void DeleteSelectedPieces()
+        {
+            WriteOldSelectedList();
+            fCurLevel.TerrainList.RemoveAll(ter => ter.IsSelected);
+            fCurLevel.GadgetList.RemoveAll(obj => obj.IsSelected);
+            SaveChangesToOldLevelList();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+        /// <summary>
+        /// Adds all pieces that are stored in memory by previously deleting/copying them.
+        /// </summary>
+        private void AddPiecesFromMemory()
+        {
+            fCurLevel.DeleteAllSelections();
+            AddOldSelectedListToLevel();
+            SaveChangesToOldLevelList();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
     }

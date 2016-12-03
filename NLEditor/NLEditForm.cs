@@ -86,6 +86,7 @@ namespace NLEditor
         Renderer fCurRenderer;
         List<Level> fOldLevelList;
         int fCurOldLevelIndex;
+        List<LevelPiece> fOldSelectedList;
 
         Stopwatch fStopWatchKey;
         Stopwatch fStopWatchMouse;
@@ -196,6 +197,21 @@ namespace NLEditor
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CancelLastUndo();
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeleteSelectedPieces();
+        }
+
+        private void insertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddPiecesFromMemory();
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopySelectedPieces();
         }
 
         private void playLevelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -553,6 +569,18 @@ namespace NLEditor
             else if (e.Control && e.KeyCode == Keys.Y)
             {
                 CancelLastUndo();
+            }
+            else if (e.Control && e.KeyCode == Keys.X)
+            {
+                DeleteSelectedPieces();
+            }
+            else if (e.Control && e.KeyCode == Keys.V)
+            {
+                AddPiecesFromMemory();
+            }
+            else if (e.Control && e.KeyCode == Keys.C)
+            {
+                CopySelectedPieces();
             }
             else if (e.KeyCode == Keys.F1)
             {
