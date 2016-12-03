@@ -89,5 +89,67 @@ namespace NLEditor
         public static readonly int SKI_CLONER = 15;
         public static readonly int SKI_ZOMBIE = 16;
 
+
+        public static readonly List<string> HotkeyList = new List<string>
+            {
+                "Left mouse", 
+                "", 
+                "Middle mouse", 
+                "Ctrl + mouse", 
+                "Alt + mouse", 
+                "Right mouse",
+                "",
+                "Esc", 
+                "Alt+F4", 
+                "Ctrl+N", 
+                "Ctrl+O", 
+                "Ctrl+S", 
+                "Ctrl+Alt+S",
+                "",
+                "Up/Down/Right/Left",
+                "Ctrl + Up/Down/Right/Left",
+
+                "Shift+Right/Left", 
+                "Shift+Up/Down",
+                "",
+                "F1", 
+                "F2", 
+                "F3", 
+                "F4", 
+                "F5", 
+                "F11",
+                "F12"
+            };
+
+        public static readonly List<string> DescriptionList = new List<string>
+            {
+                "Drag selected pieces or...",
+                "Select one piece or all pieces in an area.",
+                "Remove one piece or all pieces in an area from selection.",
+                "Add/Remove pieces to current selection.",
+                "Invert priority of piece selection.",
+                "Drag current editor position.",
+                "",
+                "Exit the editor.",
+                "Exit the editor.",
+                "Create a new empty level.",
+                "Load a new level.",
+                "Save the current level.",
+                "Save the current level in a new file.",
+                "",
+                "Move selected pieces.",
+                "Move selected pieces 8 pixels.",
+
+                "Display previous/next item in piece selection.",
+                "Change style for the piece selection to previous/next one.",
+                "",
+                "Switch to and from Clear Physics mode.",
+                "Switch to and from displaying terrain.",
+                "Switch to and from displaying interactive objects.",
+                "Switch to and from displaying trigger areas.",
+                "Switch to and from displaying the screen start.",
+                "Display this hotkey help window.",
+                "Playtest the level in the NeoLemmix player."
+            };
     }
 }

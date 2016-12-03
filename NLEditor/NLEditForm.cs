@@ -196,6 +196,11 @@ namespace NLEditor
             ValidateLevel();
         }
 
+        private void hotkeysToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplayHotkeyForm();
+        }
+
         /* -----------------------------------------------------------
          *              Global Level Info Tab
          * ----------------------------------------------------------- */
@@ -544,6 +549,10 @@ namespace NLEditor
             {
                 screenStartToolStripMenuItem_Click(null, null);
             }
+            else if (e.KeyCode == Keys.F11)
+            {
+                DisplayHotkeyForm();
+            }
             else if (e.KeyCode == Keys.F12)
             {
                 PlaytestLevel();
@@ -719,13 +728,6 @@ namespace NLEditor
             fMouseButtonPressed = null;
             RemoveFocus();
         }
-
-
-
-
-
-
-
 
 
     }

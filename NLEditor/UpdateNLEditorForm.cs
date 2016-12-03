@@ -161,6 +161,9 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Repositions the controls after resizing the main form.
+        /// </summary>
         private void MoveControlsOnFormResize()
         {
             pic_Level.Width = this.Width - 200;
@@ -183,6 +186,10 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Moves the picture boxes to select new pieces to the correct position.
+        /// </summary>
+        /// <returns></returns>
         private bool MovePicPiecesOnResize()
         {
             fpicPieceList.ForEach(pic => pic.Top = this.Height - 122);
@@ -217,6 +224,10 @@ namespace NLEditor
             return NeedUpdatePicPieceImages;
         }
 
+        /// <summary>
+        /// Creates a new picture box for selecting new pieces.
+        /// </summary>
+        /// <returns></returns>
         private PictureBox CreatePicPiece()
         { 
             PictureBox NewPicPiece = new PictureBox();
@@ -232,6 +243,35 @@ namespace NLEditor
 
             return NewPicPiece;
         }
+
+        /// <summary>
+        /// Displays a list of all hotkeys in a new form window.
+        /// </summary>
+        private void DisplayHotkeyForm()
+        {
+            Form HotkeyForm = new Form();
+            HotkeyForm.Width = 470;
+            HotkeyForm.Height = 400;
+            HotkeyForm.MaximizeBox = false;
+            HotkeyForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            HotkeyForm.Text = "NLEditor - Hotkeys";
+
+            HotkeyForm.Show();
+
+            using (Graphics HotkeyGraphics = HotkeyForm.CreateGraphics())
+            using (SolidBrush MyBrush = new SolidBrush(Color.Black))
+            using (Font MyFont = new Font("Microsoft Sans Serif", 8))
+            {
+                for (int i = 0; i < C.HotkeyList.Count; i++)
+                {
+                    HotkeyGraphics.DrawString(C.HotkeyList[i], MyFont, MyBrush, 6, 6 + 13 * i);
+                    HotkeyGraphics.DrawString(C.DescriptionList[i], MyFont, MyBrush, 156, 6 + 13*i);
+                }
+            }
+
+            
+        }
+
 
     }
 }
