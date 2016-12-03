@@ -188,6 +188,16 @@ namespace NLEditor
             this.pic_Level.Image = fCurRenderer.CombineLayers();
         }
 
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UndoLastChange();
+        }
+
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CancelLastUndo();
+        }
+
         private void playLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PlaytestLevel();
@@ -536,6 +546,14 @@ namespace NLEditor
             {
                 SaveLevel();
             }
+            else if (e.Control && e.KeyCode == Keys.Z)
+            {
+                UndoLastChange();
+            }
+            else if (e.Control && e.KeyCode == Keys.Y)
+            {
+                CancelLastUndo();
+            }
             else if (e.KeyCode == Keys.F1)
             {
                 clearPhysicsToolStripMenuItem_Click(null, null);
@@ -741,6 +759,8 @@ namespace NLEditor
             fMouseButtonPressed = null;
             RemoveFocus();
         }
+
+        
 
     }
 }

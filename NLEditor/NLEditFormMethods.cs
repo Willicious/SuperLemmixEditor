@@ -507,11 +507,47 @@ namespace NLEditor
         {
             if (fCurLevel.Equals(fOldLevelList[fCurOldLevelIndex])) return;
 
-            fOldLevelList = fOldLevelList.GetRange(0, fCurOldLevelIndex);
+            fOldLevelList = fOldLevelList.GetRange(0, fCurOldLevelIndex + 1);
             fOldLevelList.Add(fCurLevel.Clone());
             fCurOldLevelIndex = fOldLevelList.Count - 1;
         }
 
+        /// <summary>
+        /// Loads the level with index fCurOldLevelIndex from the fOldLevelList.
+        /// </summary>
+        private void LoadFromOldLevelList()
+        {
+            fCurLevel = fOldLevelList[fCurOldLevelIndex].Clone();
+            fCurRenderer.SetLevel(fCurLevel);
+
+            WriteLevelInfoToForm();
+            UpdateFlagsForPieceActions();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+        /// <summary>
+        /// Undos the last change to the level.
+        /// </summary>
+        private void UndoLastChange()
+        {
+            if (fCurOldLevelIndex > 0)
+            {
+                fCurOldLevelIndex--;
+                LoadFromOldLevelList();
+            }
+        }
+
+        /// <summary>
+        /// Reverts the last Undo action.
+        /// </summary>
+        private void CancelLastUndo()
+        {
+            if (fCurOldLevelIndex < fOldLevelList.Count - 1)
+            {
+                fCurOldLevelIndex++;
+                LoadFromOldLevelList();
+            }
+        }
 
     }
 }

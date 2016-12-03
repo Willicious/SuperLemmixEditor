@@ -134,7 +134,7 @@ namespace NLEditor
         {
             Level NewLevel = new Level();
             NewLevel.fTitle = String.Copy(this.fTitle);
-            NewLevel.fAuthor = String.Copy(this.fTitle);
+            NewLevel.fAuthor = String.Copy(this.fAuthor);
             NewLevel.fMainStyle = this.fMainStyle;
             NewLevel.fMusicFile = String.Copy(this.fMusicFile);
             NewLevel.fLevelID = this.fLevelID;
@@ -146,6 +146,9 @@ namespace NLEditor
 
             NewLevel.fTerrainList = new List<TerrainPiece>(this.fTerrainList.Select(ter => (TerrainPiece)ter.Clone()));
             NewLevel.fGadgetList = new List<GadgetPiece>(this.fGadgetList.Select(obj => (GadgetPiece)obj.Clone()));
+
+            NewLevel.fTerrainList.ForEach(ter => ter.IsSelected = false);
+            NewLevel.fGadgetList.ForEach(obj => obj.IsSelected = false);
 
             NewLevel.fNumLems = this.fNumLems;
             NewLevel.fSaveReq = this.fSaveReq;

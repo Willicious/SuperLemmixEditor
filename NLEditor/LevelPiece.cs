@@ -249,7 +249,7 @@ namespace NLEditor
         public TerrainPiece(string Key, Point Pos, int Rotation, bool IsInvert, bool IsErase, bool IsNoOv, bool IsOneWay)
             : base(Key, false, Pos, Rotation, IsInvert)
         {
-            fIsErase = IsInvert;
+            fIsErase = IsErase;
             fIsNoOverwrite = IsNoOv;
             fIsOneWay = IsOneWay;
         }
