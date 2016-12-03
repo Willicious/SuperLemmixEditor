@@ -134,36 +134,6 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Warning: Does not yet check whether the level was saved!
-        /// </summary>
-        private void ExitEditor()
-        {
-            DeleteFile(C.AppPath + "TempTestLevel.nxlv");
-            DeleteFile(C.AppPath + "TempTestLevel.nxsv");
-            
-            Application.Exit();
-        }
-
-        /// <summary>
-        /// Deletes the specified file, if it exists.
-        /// </summary>
-        /// <param name="FilePath"></param>
-        private void DeleteFile(string FilePath)
-        {
-            if (System.IO.File.Exists(FilePath))
-            {
-                try
-                {
-                    System.IO.File.Delete(FilePath);
-                }
-                finally
-                {
-                    // do nothing.
-                }
-            }
-        }
-
-        /// <summary>
         /// Creates a new instance of a Level and a new Renderer, then displays it on the form.
         /// </summary>
         private void CreateNewLevelAndRenderer()

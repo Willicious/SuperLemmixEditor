@@ -53,6 +53,24 @@ namespace NLEditor
         }
 
 
+        /// <summary>
+        /// Deletes the specified file, if it exists.
+        /// </summary>
+        /// <param name="FilePath"></param>
+        public static void DeleteFile(string FilePath)
+        {
+            if (System.IO.File.Exists(FilePath))
+            {
+                try
+                {
+                    System.IO.File.Delete(FilePath);
+                }
+                finally
+                {
+                    // do nothing.
+                }
+            }
+        }
 
         /// <summary>
         /// Creates a new rectangle having the two points as diagonally opposite vertices.

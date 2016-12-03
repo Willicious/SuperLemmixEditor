@@ -101,16 +101,12 @@ namespace NLEditor
 
         private void NLEditForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // TODO!!!
-
+            Utility.DeleteFile(C.AppPath + "TempTestLevel.nxlv");
+            Utility.DeleteFile(C.AppPath + "TempTestLevel.nxsv");
+            
             if (e.CloseReason == CloseReason.UserClosing)
             {
-
-            }
-
-            if (e.CloseReason == CloseReason.WindowsShutDown)
-            {
-
+                // TODO: Check for saving the level ------------------> !!
             }
         }
 
@@ -157,7 +153,7 @@ namespace NLEditor
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ExitEditor();
+            Application.Exit();
         }
 
         private void clearPhysicsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -510,7 +506,7 @@ namespace NLEditor
             // The main key-handling routine
             if (e.KeyCode == Keys.Escape || (e.Alt && e.KeyCode == Keys.F4))
             {
-                ExitEditor();
+                Application.Exit();
             }
             else if (e.Control && e.KeyCode == Keys.N)
             {
