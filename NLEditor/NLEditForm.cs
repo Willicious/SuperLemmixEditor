@@ -84,6 +84,8 @@ namespace NLEditor
 
         Level fCurLevel;
         Renderer fCurRenderer;
+        List<Level> fOldLevelList;
+        int fCurOldLevelIndex;
 
         Stopwatch fStopWatchKey;
         Stopwatch fStopWatchMouse;
@@ -626,6 +628,11 @@ namespace NLEditor
                 case Keys.ControlKey: fIsCtrlPressed = false; break;
                 case Keys.Menu: fIsAltPressed = false; break;
             }
+
+            if (e.KeyCode.In(Keys.Right, Keys.Left, Keys.Up, Keys.Down))
+            {
+                SaveChangesToOldLevelList();
+            }
         }
 
         private void NLEditForm_MouseWheel(object sender, MouseEventArgs e)
@@ -718,6 +725,7 @@ namespace NLEditor
                 case C.DragActions.DragPieces:
                     {
                         DragSelectedPieces();
+                        SaveChangesToOldLevelList();
                         break;
                     }
             }

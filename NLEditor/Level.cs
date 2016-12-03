@@ -21,6 +21,7 @@ namespace NLEditor
          *    Level(Style MainStyle = null)
          *    
          *    Clone()
+         *    Equals()
          *    AddPiece(Style NewStyle, bool IsObject, int NewPieceIndex, Point CenterPos)
          *    
          *    SelectOnePiece(Point Pos, bool IsAdded, bool IsHighest)
@@ -161,6 +162,47 @@ namespace NLEditor
 
             return NewLevel;
         }
+
+        /// <summary>
+        /// Compares two Levels for equality.
+        /// </summary>
+        /// <param name="OtherLevel"></param>
+        /// <returns></returns>
+        public bool Equals(Level OtherLevel)
+        {
+            if (   !this.Title.Equals(OtherLevel.Title)
+                || !this.Author.Equals(OtherLevel.Author)
+                || !this.MainStyle.NameInDirectory.Equals(OtherLevel.MainStyle.NameInDirectory)
+                || !this.MusicFile.Equals(OtherLevel.MusicFile)
+                || this.LevelID != OtherLevel.LevelID
+                || this.Width != OtherLevel.Width
+                || this.Height != OtherLevel.Height
+                || this.StartPos.Equals(OtherLevel.StartPos)
+                || this.TerrainList.Count != OtherLevel.TerrainList.Count
+                || this.GadgetList.Count != OtherLevel.GadgetList.Count
+                || this.NumLems != OtherLevel.NumLems
+                || this.SaveReq != OtherLevel.SaveReq
+                || this.ReleaseRate != OtherLevel.ReleaseRate
+                || this.IsReleaseRateFix != OtherLevel.IsReleaseRateFix
+                || this.IsNoTimeLimit != OtherLevel.IsNoTimeLimit
+                || (this.TimeLimit != OtherLevel.TimeLimit && !this.IsNoTimeLimit))
+            {
+                return false;
+            }
+
+            for (int i = 0; i < this.TerrainList.Count; i++)
+            {
+                if (!this.TerrainList[i].Equals(OtherLevel.TerrainList[i])) return false;
+            }
+
+            for (int i = 0; i < this.GadgetList.Count; i++)
+            {
+                if (!this.GadgetList[i].Equals(OtherLevel.GadgetList[i])) return false;
+            }
+
+            return true;
+        }
+
 
         /// <summary>
         /// Creates a new piece and adds it to the level.
@@ -479,6 +521,7 @@ namespace NLEditor
                 }
             }
         }
- 
+
+
     }
 }

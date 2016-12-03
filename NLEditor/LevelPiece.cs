@@ -111,6 +111,21 @@ namespace NLEditor
         public abstract LevelPiece Clone();
 
         /// <summary>
+        /// Compares two LevelPieces for equality.
+        /// </summary>
+        /// <param name="Piece"></param>
+        /// <returns></returns>
+        public virtual bool Equals(LevelPiece Piece)
+        {
+            return this.PosX == Piece.PosX
+                && this.PosY == Piece.PosY
+                && this.fKey.Equals(Piece.fKey)
+                && this.Rotation == Piece.Rotation
+                && this.IsInvert == Piece.IsInvert;
+        }
+
+
+        /// <summary>
         /// Determines whether this piece can be rotated.
         /// </summary>
         /// <returns></returns>
@@ -254,6 +269,20 @@ namespace NLEditor
                                     this.IsInvert, this.IsErase, this.IsNoOverwrite, this.IsOneWay);
         }
 
+        /// <summary>
+        /// Compares two TerrainPieces for equality.
+        /// </summary>
+        /// <param name="Piece"></param>
+        /// <returns></returns>
+        public bool Equals(TerrainPiece Piece)
+        {
+            return base.Equals(Piece)
+                && this.IsErase == Piece.IsErase
+                && this.IsNoOverwrite == Piece.IsNoOverwrite
+                && this.IsOneWay == Piece.IsOneWay;
+        }
+
+
         public override bool MayRotate()
         {
             return true;
@@ -319,6 +348,23 @@ namespace NLEditor
             return new GadgetPiece(this.fKey, new Point(this.PosX, this.PosY), this.Rotation, 
                                    this.IsInvert, this.IsNoOverwrite, this.IsOnlyOnTerrain, 
                                    this.Val_L, this.Val_S, this.SpecWidth, this.SpecHeight);
+        }
+
+
+        /// <summary>
+        /// Compares two GadgetPieces for equality.
+        /// </summary>
+        /// <param name="Piece"></param>
+        /// <returns></returns>
+        public bool Equals(GadgetPiece Piece)
+        {
+            return base.Equals(Piece)
+                && this.IsNoOverwrite == Piece.IsNoOverwrite
+                && this.IsOnlyOnTerrain == Piece.IsOnlyOnTerrain
+                && this.Val_L == Piece.Val_L
+                && this.Val_S == Piece.Val_S
+                && this.SpecWidth == Piece.SpecWidth
+                && this.SpecHeight == Piece.SpecHeight;
         }
 
         /// <summary>

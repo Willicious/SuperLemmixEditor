@@ -144,10 +144,14 @@ namespace NLEditor
                 NewMainStyle = StyleList.Find(sty => sty.NameInEditor == this.combo_MainStyle.Text);
             }
             fCurLevel = new Level(NewMainStyle);
+            fCurRenderer = new Renderer(fCurLevel, this.pic_Level);
+
+            fOldLevelList = new List<Level>();
+            fOldLevelList.Add(fCurLevel.Clone());
+            fCurOldLevelIndex = 0;
+
             WriteLevelInfoToForm();
             UpdateBackgroundColor();
-
-            fCurRenderer = new Renderer(fCurLevel, this.pic_Level);
             UpdateFlagsForPieceActions();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
@@ -162,6 +166,11 @@ namespace NLEditor
 
             fCurLevel = NewLevel;
             fCurRenderer.SetLevel(fCurLevel);
+
+            fOldLevelList = new List<Level>();
+            fOldLevelList.Add(fCurLevel.Clone());
+            fCurOldLevelIndex = 0;
+
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
@@ -176,6 +185,7 @@ namespace NLEditor
             ReadLevelInfoFromForm();
 
             LevelFile.SaveLevel(fCurLevel);
+            SaveChangesToOldLevelList();
         }
 
         /// <summary>
@@ -193,6 +203,7 @@ namespace NLEditor
                 ReadLevelInfoFromForm();
 
                 LevelFile.SaveLevelToFile(fCurLevel.FilePathToSave, fCurLevel);
+                SaveChangesToOldLevelList();
             }
         }
 
@@ -201,6 +212,7 @@ namespace NLEditor
         /// </summary>
         private void PlaytestLevel()
         {
+            SaveChangesToOldLevelList();
             // Save the level as TempTestLevel.nxlv.
             string OrigFilePath = fCurLevel.FilePathToSave;
             fCurLevel.FilePathToSave = C.AppPath + "TempTestLevel.nxlv";
@@ -308,6 +320,7 @@ namespace NLEditor
 
             CurLevel.AddPiece(fPieceCurStyle, fPieceDoDisplayObject, PieceIndex, fCurRenderer.GetCenterPoint());
 
+            SaveChangesToOldLevelList();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
@@ -393,6 +406,7 @@ namespace NLEditor
         private void RotateLevelPieces()
         {
             fCurLevel.RotatePieces();
+            SaveChangesToOldLevelList();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
@@ -402,6 +416,7 @@ namespace NLEditor
         private void InvertLevelPieces()
         {
             fCurLevel.InvertPieces();
+            SaveChangesToOldLevelList();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
@@ -411,6 +426,7 @@ namespace NLEditor
         private void FlipLevelPieces()
         {
             fCurLevel.FlipPieces();
+            SaveChangesToOldLevelList();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
@@ -422,6 +438,7 @@ namespace NLEditor
         {
             fCurLevel.SetNoOverwrite(DoAdd);
             UpdateFlagsForPieceActions();
+            SaveChangesToOldLevelList();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
@@ -433,6 +450,7 @@ namespace NLEditor
         {
             fCurLevel.SetErase(DoAdd);
             UpdateFlagsForPieceActions();
+            SaveChangesToOldLevelList();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
@@ -444,6 +462,7 @@ namespace NLEditor
         {
             fCurLevel.SetOnlyOnTerrain(DoAdd);
             UpdateFlagsForPieceActions();
+            SaveChangesToOldLevelList();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
@@ -454,6 +473,7 @@ namespace NLEditor
         private void SetOneWay(bool DoAdd)
         {
             fCurLevel.SetOneWay(DoAdd);
+            SaveChangesToOldLevelList();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
@@ -466,6 +486,7 @@ namespace NLEditor
         {
             fCurLevel.SetSkillForObjects(Skill, DoAdd);
             UpdateFlagsForPieceActions();
+            SaveChangesToOldLevelList();
         }
 
         /// <summary>
@@ -477,6 +498,18 @@ namespace NLEditor
         {
             fCurLevel.MoveSelectedIndex(ToFront, OnlyOneStep);
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+        /// <summary>
+        /// Saves the current level to the OldLevelList if there were any changes.
+        /// </summary>
+        private void SaveChangesToOldLevelList()
+        {
+            if (fCurLevel.Equals(fOldLevelList[fCurOldLevelIndex])) return;
+
+            fOldLevelList = fOldLevelList.GetRange(0, fCurOldLevelIndex);
+            fOldLevelList.Add(fCurLevel.Clone());
+            fCurOldLevelIndex = fOldLevelList.Count - 1;
         }
 
 
