@@ -252,6 +252,17 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Creates a new LevelValidator, runs the validation and displays the result in a new form.
+        /// </summary>
+        private void ValidateLevel()
+        {
+            ReadLevelInfoFromForm();
+
+            LevelValidator MyValidator = new LevelValidator(fCurLevel);
+            MyValidator.Validate();
+        }
+
 
         /// <summary>
         /// Switches between displaying objects and terrain for newly added pieces.

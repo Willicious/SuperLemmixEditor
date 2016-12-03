@@ -74,6 +74,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Utility.cs" />
+    <Compile Include="ValidateLevel.cs" />
     <EmbeddedResource Include="NLEditForm.resx">
       <DependentUpon>NLEditForm.cs</DependentUpon>
     </EmbeddedResource>

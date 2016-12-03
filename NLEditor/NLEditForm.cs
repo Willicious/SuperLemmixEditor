@@ -97,7 +97,22 @@ namespace NLEditor
 
         public List<PictureBox> picPieceList { get { return fpicPieceList; } }
         public List<Style> StyleList { get { return fStyleList; } }
-        public Level CurLevel { get { return fCurLevel; } }      
+        public Level CurLevel { get { return fCurLevel; } }
+
+        private void NLEditForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // TODO!!!
+
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+
+            }
+
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+            {
+
+            }
+        }
 
         private void NLEditForm_Click(object sender, EventArgs e)
         {
@@ -178,6 +193,11 @@ namespace NLEditor
         private void playLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PlaytestLevel();
+        }
+
+        private void validateLevelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ValidateLevel();
         }
 
         /* -----------------------------------------------------------
@@ -703,6 +723,10 @@ namespace NLEditor
             fMouseButtonPressed = null;
             RemoveFocus();
         }
+
+
+
+
 
 
 
