@@ -148,29 +148,6 @@ namespace NLEditor
                     }
                 }
             }
-            /*
-                foreach (FileLine Line in FileLineList)
-                {
-                    switch (Line.Key)
-                    {
-                        case "CLIMBER": NewLevel.SkillCount[C.SKI_CLIMBER] = Line.Value; break;
-                        case "FLOATER": NewLevel.SkillCount[C.SKI_FLOATER] = Line.Value; break;
-                        case "BOMBER": NewLevel.SkillCount[C.SKI_EXPLODER] = Line.Value; break;
-                        case "BLOCKER": NewLevel.SkillCount[C.SKI_BLOCKER] = Line.Value; break;
-                        case "BUILDER": NewLevel.SkillCount[C.SKI_BUILDER] = Line.Value; break;
-                        case "BASHER": NewLevel.SkillCount[C.SKI_BASHER] = Line.Value; break;
-                        case "MINER": NewLevel.SkillCount[C.SKI_MINER] = Line.Value; break;
-                        case "DIGGER": NewLevel.SkillCount[C.SKI_DIGGER] = Line.Value; break;
-                        case "WALKER": NewLevel.SkillCount[C.SKI_WALKER] = Line.Value; break;
-                        case "SWIMMER": NewLevel.SkillCount[C.SKI_SWIMMER] = Line.Value; break;
-                        case "GLIDER": NewLevel.SkillCount[C.SKI_GLIDER] = Line.Value; break;
-                        case "DISARMER": NewLevel.SkillCount[C.SKI_DISARMER] = Line.Value; break;
-                        case "STONER": NewLevel.SkillCount[C.SKI_STONER] = Line.Value; break;
-                        case "PLATFORMER": NewLevel.SkillCount[C.SKI_PLATFORMER] = Line.Value; break;
-                        case "STACKER": NewLevel.SkillCount[C.SKI_STACKER] = Line.Value; break;
-                        case "CLONER": NewLevel.SkillCount[C.SKI_CLONER] = Line.Value; break;
-                    }
-                } */
         }
 
 
@@ -215,8 +192,6 @@ namespace NLEditor
                     case "DIRECTION": DoFlip = Line.Text.ToUpper().StartsWith("L"); break;
                     case "FLIP_LEMMING": DoFlip = true; break;
                     case "PAIRING": Val_L = Line.Value; break;
-                    //case "L": Val_L = Line.Value; break;
-                    //case "S": Val_S = Line.Value; break;
                 }
             }
 
@@ -309,54 +284,6 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Creates a preplaced lemming from a block of file lines.
-        /// </summary>
-        /// <param name="FileLineList"></param>
-        /// <returns></returns>
-        static private GadgetPiece ReadLemmingFromLines(List<FileLine> FileLineList)
-        {
-            // First read in all infos
-            string StyleName = "";
-            string TerrainName = "";
-            int PosX = 0;
-            int PosY = 0;
-
-            bool DoFlip = false;
-            int Val_L = 0;
-            int Val_S = 0;
-
-            foreach (FileLine Line in FileLineList)
-            {
-                switch (Line.Key)
-                {
-                    case "SET": StyleName = Line.Text; break;
-                    case "PIECE": TerrainName = Line.Text; break;
-                    case "X": PosX = Line.Value; break;
-                    case "Y": PosY = Line.Value; break;
-                    case "FACE_LEFT": DoFlip = true; break;
-                    case "CLIMBER": Val_L ^= 1 << 0; break;
-                    case "SWIMMER": Val_L ^= 1 << 1; break;
-                    case "FLOATER": Val_L ^= 1 << 2; break;
-                    case "GLIDER": Val_L ^= 1 << 3; break;
-                    case "DISARMER": Val_L ^= 1 << 4; break;
-                    case "BLOCKER": Val_L ^= 1 << 5; break;
-                    case "ZOMBIE": Val_L ^= 1 << 6; break;
-                }
-            }
-
-            // ... then create the correct Gadget piece
-            string Key = ImageLibrary.CreatePieceKey("default", "lemming", true);
-            Point Pos = new Point(PosX, PosY);
-            GadgetPiece NewLem = new GadgetPiece(Key, Pos, 0, false, false, false, Val_L, Val_S);
-
-            if (DoFlip) NewLem.FlipInRect(NewLem.ImageRectangle);
-
-            NewLem.IsSelected = false;
-
-            return NewLem;
-        }
-
-        /// <summary>
         /// Opens file browser and saves the current level to a .nxlv file.
         /// </summary>
         /// <param name="CurLevel"></param>
@@ -409,20 +336,24 @@ namespace NLEditor
             
             TextWriter TextFile = new StreamWriter(FilePath, true);
 
-            TextFile.WriteLine("# NeoLemmix Level");
-            TextFile.WriteLine("# Created with NLEditor " + C.Version);
+            TextFile.WriteLine("# ----------------------------- ");
+            TextFile.WriteLine("#        NeoLemmix Level        ");
+            TextFile.WriteLine("#   Created with NLEditor " + C.Version);
+            TextFile.WriteLine("# ----------------------------- ");
             TextFile.WriteLine(" ");
-            TextFile.WriteLine("# Level info");
+            TextFile.WriteLine("#        Level info             ");
+            TextFile.WriteLine("# ----------------------------- ");
             TextFile.WriteLine(" TITLE " + CurLevel.Title);
             TextFile.WriteLine(" AUTHOR " + CurLevel.Author);
             if (CurLevel.MusicFile != null & CurLevel.MusicFile.Length > 0)
             {
                 TextFile.WriteLine(" MUSIC " + CurLevel.MusicFile);
             }
-            TextFile.WriteLine(" ID " + CurLevel.LevelID.ToString("X"));
+            TextFile.WriteLine(" ID x" + CurLevel.LevelID.ToString("X"));
             TextFile.WriteLine(" ");
 
-            TextFile.WriteLine("# Level dimensions");
+            TextFile.WriteLine("#       Level dimensions        ");
+            TextFile.WriteLine("# ----------------------------- ");
             TextFile.WriteLine(" WIDTH   " + CurLevel.Width.ToString().PadLeft(4));
             TextFile.WriteLine(" HEIGHT  " + CurLevel.Height.ToString().PadLeft(4));
             TextFile.WriteLine(" START_X " + CurLevel.StartPosX.ToString().PadLeft(4));
@@ -430,7 +361,8 @@ namespace NLEditor
             TextFile.WriteLine(" THEME " + CurLevel.MainStyle.NameInDirectory);
             TextFile.WriteLine(" ");
 
-            TextFile.WriteLine("# Level stats");
+            TextFile.WriteLine("#         Level stats           ");
+            TextFile.WriteLine("# ----------------------------- ");
             TextFile.WriteLine(" LEMMINGS     " + CurLevel.NumLems.ToString().PadLeft(4));
             TextFile.WriteLine(" REQUIREMENT  " + CurLevel.SaveReq.ToString().PadLeft(4));
             if (!CurLevel.IsNoTimeLimit)
@@ -444,7 +376,7 @@ namespace NLEditor
             }
             TextFile.WriteLine(" ");
 
-            TextFile.WriteLine("$SKILLSET ");
+            TextFile.WriteLine(" $SKILLSET ");
             for (int SkillNum = 0; SkillNum < C.SKI_COUNT; SkillNum++)
             {
                 if (IsSkillRequired(CurLevel, SkillNum))
@@ -459,19 +391,22 @@ namespace NLEditor
                     }
                 }
             }
-            TextFile.WriteLine("$END ");
+            TextFile.WriteLine(" $END ");
             TextFile.WriteLine(" ");
 
-            TextFile.WriteLine("# Interactive objects");
+            TextFile.WriteLine("#     Interactive objects       ");
+            TextFile.WriteLine("# ----------------------------- ");
             CurLevel.GadgetList.FindAll(obj => obj.ObjType != C.OBJ.LEMMING)
                                .ForEach(obj => WriteObject(TextFile, obj));
             TextFile.WriteLine(" ");
 
-            TextFile.WriteLine("# Terrains");
+            TextFile.WriteLine("#        Terrain pieces         ");
+            TextFile.WriteLine("# ----------------------------- ");
             CurLevel.TerrainList.ForEach(ter => WriteTerrain(TextFile, ter));
             TextFile.WriteLine(" ");
 
-            TextFile.WriteLine("# Preplaced lemmings");
+            TextFile.WriteLine("#      Preplaced lemmings       ");
+            TextFile.WriteLine("# ----------------------------- ");
             CurLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.LEMMING)
                                .ForEach(lem => WriteObject(TextFile, lem));
 
@@ -503,53 +438,53 @@ namespace NLEditor
 
             if (MyGadget.ObjType == C.OBJ.LEMMING)
             {
-                TextFile.WriteLine("$LEMMING");
+                TextFile.WriteLine(" $LEMMING");
             }
             else
             {
-                TextFile.WriteLine("$OBJECT");
-                TextFile.WriteLine("  COLLECTION " + MyGadget.Style);
-                TextFile.WriteLine("  PIECE      " + MyGadget.Name);
+                TextFile.WriteLine(" $OBJECT");
+                TextFile.WriteLine("   COLLECTION " + MyGadget.Style);
+                TextFile.WriteLine("   PIECE      " + MyGadget.Name);
             }
-            TextFile.WriteLine("  X " + MyGadget.PosX.ToString().PadLeft(5));
-            TextFile.WriteLine("  Y " + MyGadget.PosY.ToString().PadLeft(5));
+            TextFile.WriteLine("   X " + MyGadget.PosX.ToString().PadLeft(5));
+            TextFile.WriteLine("   Y " + MyGadget.PosY.ToString().PadLeft(5));
 
             if (MyGadget.SpecWidth > 0)
             {
-                TextFile.WriteLine("  WIDTH  " + MyGadget.SpecWidth.ToString().PadLeft(5));
+                TextFile.WriteLine("   WIDTH  " + MyGadget.SpecWidth.ToString().PadLeft(5));
             }
             if (MyGadget.SpecHeight > 0)
             {
-                TextFile.WriteLine("  HEIGHT " + MyGadget.SpecWidth.ToString().PadLeft(5));
+                TextFile.WriteLine("   HEIGHT " + MyGadget.SpecWidth.ToString().PadLeft(5));
             }
             if (MyGadget.IsNoOverwrite)
             {
-                TextFile.WriteLine("  NO_OVERWRITE");
+                TextFile.WriteLine("   NO_OVERWRITE");
             }
             if (MyGadget.IsOnlyOnTerrain)
             {
-                TextFile.WriteLine("  ONLY_ON_TERRAIN");
+                TextFile.WriteLine("   ONLY_ON_TERRAIN");
             }
             if (MyGadget.IsRotatedInPlayer)
             {
-                TextFile.WriteLine("  ROTATE");
+                TextFile.WriteLine("   ROTATE");
             }
             if (MyGadget.IsInvertedInPlayer)
             {
-                TextFile.WriteLine("  FLIP_VERTICAL");
+                TextFile.WriteLine("   FLIP_VERTICAL");
             }
             if (MyGadget.IsFlippedInPlayer)
             {
-                TextFile.WriteLine("  FLIP_HORIZONTAL");
+                TextFile.WriteLine("   FLIP_HORIZONTAL");
             }
 
             if (MyGadget.ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING))
             {
-                TextFile.WriteLine("  DIRECTION " + ((MyGadget.IsFlippedInPlayer) ? "left" : "right"));
+                TextFile.WriteLine("   DIRECTION " + ((MyGadget.IsFlippedInPlayer) ? "left" : "right"));
             }
             else if (MyGadget.ObjType.In(C.OBJ.TELEPORTER))
             {
-                if (MyGadget.IsFlippedInPlayer) TextFile.WriteLine(" FLIP_LEMMING ");
+                if (MyGadget.IsFlippedInPlayer) TextFile.WriteLine("   FLIP_LEMMING ");
             }
 
             if (MyGadget.ObjType.In(C.OBJ.HATCH, C.OBJ.PICKUP, C.OBJ.LEMMING))
@@ -558,17 +493,17 @@ namespace NLEditor
                 {
                     if (MyGadget.HasSkillFlag(SkillNum))
                     {
-                        TextFile.WriteLine("  " + fSkillNames[SkillNum].Trim() + " ");
+                        TextFile.WriteLine("   " + fSkillNames[SkillNum].Trim() + " ");
                     }
                 }
             }
 
             if (MyGadget.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
             {
-                TextFile.WriteLine("  PAIRING " + MyGadget.Val_L.ToString().PadLeft(4));
+                TextFile.WriteLine("   PAIRING " + MyGadget.Val_L.ToString().PadLeft(4));
             }
 
-            TextFile.WriteLine("§END");
+            TextFile.WriteLine(" $END");
             TextFile.WriteLine(" ");
         }
 
@@ -579,92 +514,40 @@ namespace NLEditor
         /// <param name="MyTerrain"></param>
         static private void WriteTerrain(TextWriter TextFile, TerrainPiece MyTerrain)
         {
-            TextFile.WriteLine(" TERRAIN");
-            TextFile.WriteLine("  SET    " + MyTerrain.Style);
-            TextFile.WriteLine("  PIECE  " + MyTerrain.Name);
-            TextFile.WriteLine("  X " + MyTerrain.PosX.ToString().PadLeft(5));
-            TextFile.WriteLine("  Y " + MyTerrain.PosY.ToString().PadLeft(5));
+            TextFile.WriteLine(" $TERRAIN");
+            TextFile.WriteLine("   SET    " + MyTerrain.Style);
+            TextFile.WriteLine("   PIECE  " + MyTerrain.Name);
+            TextFile.WriteLine("   X " + MyTerrain.PosX.ToString().PadLeft(5));
+            TextFile.WriteLine("   Y " + MyTerrain.PosY.ToString().PadLeft(5));
             if (MyTerrain.IsNoOverwrite)
             {
-                TextFile.WriteLine("  NO_OVERWRITE");
+                TextFile.WriteLine("   NO_OVERWRITE");
             }
             if (MyTerrain.IsErase)
             {
-                TextFile.WriteLine("  ERASE");
+                TextFile.WriteLine("   ERASE");
             }
             if (MyTerrain.IsRotatedInPlayer)
             {
-                TextFile.WriteLine("  ROTATE");
+                TextFile.WriteLine("   ROTATE");
             }
             if (MyTerrain.IsInvertedInPlayer)
             {
-                TextFile.WriteLine("  FLIP_VERTICAL");
+                TextFile.WriteLine("   FLIP_VERTICAL");
             }
             if (MyTerrain.IsFlippedInPlayer)
             {
-                TextFile.WriteLine("  FLIP_HORIZONTAL");
+                TextFile.WriteLine("   FLIP_HORIZONTAL");
             }
             if (MyTerrain.IsOneWay)
             {
-                TextFile.WriteLine("  ONE_WAY");
+                TextFile.WriteLine("   ONE_WAY");
             }
+            TextFile.WriteLine(" $END");
             TextFile.WriteLine(" ");
 
         }
 
-        /*
-        /// <summary>
-        /// Writes all infos about a preplaced lemming in a text file.
-        /// </summary>
-        /// <param name="TextFile"></param>
-        /// <param name="MyLem"></param>
-        static private void WriteLemming(TextWriter TextFile, GadgetPiece MyLem)
-        {
-            System.Diagnostics.Debug.Assert(MyLem.ObjType == C.OBJ.LEMMING, "WriteLemming called for non-lemming object.");
-
-            TextFile.WriteLine(" LEMMING");
-            TextFile.WriteLine("  X " + MyLem.PosX.ToString().PadLeft(5));
-            TextFile.WriteLine("  Y " + MyLem.PosY.ToString().PadLeft(5));
-
-            TextFile.WriteLine("  DIRECTION " + ((MyLem.IsFlippedInPlayer) ? "left" : "right"));
-
-
-            if (MyLem.IsFlippedInPlayer)
-            {
-                TextFile.WriteLine("  FACE_LEFT");
-            }
-            if ((MyLem.Val_S & (1 << C.SKI_CLIMBER)) != 0)
-            {
-                TextFile.WriteLine("  CLIMBER");
-            }
-            if ((MyLem.Val_S & (1 << C.SKI_SWIMMER)) != 0)
-            {
-                TextFile.WriteLine("  SWIMMER");
-            }
-            if ((MyLem.Val_S & (1 << C.SKI_FLOATER)) != 0)
-            {
-                TextFile.WriteLine("  FLOATER");
-            }
-            if ((MyLem.Val_S & (1 << C.SKI_GLIDER)) != 0)
-            {
-                TextFile.WriteLine("  GLIDER");
-            }
-            if ((MyLem.Val_S & (1 << C.SKI_DISARMER)) != 0)
-            {
-                TextFile.WriteLine("  DISARMER");
-            }
-            if ((MyLem.Val_S & (1 << C.SKI_BLOCKER)) != 0)
-            {
-                TextFile.WriteLine("  BLOCKER");
-            }
-            if ((MyLem.Val_S & (1 << C.SKI_ZOMBIE)) != 0)
-            {
-                TextFile.WriteLine("  ZOMBIE");
-            }
-
-            TextFile.WriteLine(" ");
-        }
-        */
 
     }
 }

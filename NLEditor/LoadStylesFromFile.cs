@@ -284,14 +284,16 @@ namespace NLEditor
                         case "TRIGGER_HEIGHT": TriggerRect.Height = Line.Value; break;
                         case "VERTICAL": IsVert = true; break;
                         case "HORIZONTAL": IsVert = false; break;
+                        case "RESIZE_VERTICAL": /* TODO!!! */ break;
+                        case "RESIZE_HORIZONTAL": /* TODO!!! */ break;
                         case "WINDOW": ObjType = C.OBJ.HATCH; break;
                         case "EXIT": ObjType = C.OBJ.EXIT; break;
                         case "TRAP": ObjType = C.OBJ.TRAP; break;
                         case "WATER": ObjType = C.OBJ.WATER; break;
                         case "FIRE": ObjType = C.OBJ.FIRE; break;
-                        case "OWR_ARROW": ObjType = C.OBJ.OWW_RIGHT; break;
-                        case "OWL_ARROW": ObjType = C.OBJ.OWW_LEFT; break;
-                        case "OWD_ARROW": ObjType = C.OBJ.OWW_DOWN; break;
+                        case "ONE_WAY_RIGHT": ObjType = C.OBJ.OWW_RIGHT; break;
+                        case "ONE_WAY_LEFT": ObjType = C.OBJ.OWW_LEFT; break;
+                        case "ONE_WAY_DOWN": ObjType = C.OBJ.OWW_DOWN; break;
                         case "BUTTON": ObjType =  C.OBJ.BUTTON; break;
                         case "LOCKED_EXIT": ObjType = C.OBJ.EXIT_LOCKED; break;
                         case "PICKUP": ObjType = C.OBJ.PICKUP; break;
@@ -303,8 +305,8 @@ namespace NLEditor
                         case "UPDRAFT": ObjType = C.OBJ.UPDRAFT; break;
                         case "SPLAT": ObjType = C.OBJ.SPLAT; break;
                         case "ANTISPLAT": ObjType = C.OBJ.NOSPLAT; break;
-                        case "OWR_FIELD": ObjType = C.OBJ.FORCE_RIGHT; break;
-                        case "OWL_FIELD": ObjType = C.OBJ.FORCE_LEFT; break;
+                        case "FORCE_RIGHT": ObjType = C.OBJ.FORCE_RIGHT; break;
+                        case "FORCE_LEFT": ObjType = C.OBJ.FORCE_LEFT; break;
                         case "BACKGROUND": ObjType = C.OBJ.BACKGROUND; break;
                     }
                 }
