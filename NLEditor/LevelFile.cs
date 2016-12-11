@@ -88,7 +88,13 @@ namespace NLEditor
                     {
                         case "TITLE": NewLevel.Title = Line.Text; break;
                         case "AUTHOR": NewLevel.Author = Line.Text; break;
-                        case "ID": NewLevel.LevelID = uint.Parse(Line.Text, System.Globalization.NumberStyles.HexNumber); break;
+                        case "ID":
+                            {
+                                string IDString = (Line.Text.StartsWith("x")) ? Line.Text.Substring(1) : Line.Text;
+                                NewLevel.LevelID = uint.Parse(IDString, System.Globalization.NumberStyles.HexNumber); 
+                                break;
+                            }
+                        case "MUSIC": NewLevel.MusicFile = Line.Text; break;
                         case "WIDTH": NewLevel.Width = Line.Value; break;
                         case "HEIGHT": NewLevel.Height = Line.Value; break;
                         case "START_X": NewLevel.StartPosX = Line.Value; break;
@@ -98,10 +104,55 @@ namespace NLEditor
                         case "REQUIREMENT": NewLevel.SaveReq = Line.Value; break;
                         case "TIME_LIMIT": NewLevel.TimeLimit = Line.Value;
                                            NewLevel.IsNoTimeLimit = false; break;
-                        case "MIN_RR": NewLevel.ReleaseRate = Line.Value; break;
-                        case "FIXED_RR": NewLevel.ReleaseRate = Line.Value; 
-                                         NewLevel.IsReleaseRateFix = true; break;
+                        case "RELEASE_RATE": NewLevel.ReleaseRate = Line.Value; break;
+                        case "RELEAST_RATE_LOCKED": NewLevel.IsReleaseRateFix = true; break;
 
+                        case "SKILLSET": ReadSkillSetFromLines(FileLineList, NewLevel); break;
+                        case "OBJECT": 
+                        case "LEMMING": NewLevel.GadgetList.Add(ReadGadgetFromLines(FileLineList)); break;
+                        case "TERRAIN": NewLevel.TerrainList.Add(ReadTerrainFromLines(FileLineList)); break;
+                    }
+                }
+            }
+            catch (Exception Ex)
+            {
+                Utility.LogException(Ex);
+                MessageBox.Show(Ex.Message);
+            }
+
+
+            if (MyParser != null) MyParser.DisposeStreamReader();
+
+            return NewLevel;
+        }
+
+        /// <summary>
+        /// Reads the skill set from the skill section.
+        /// </summary>
+        /// <param name="FileLineList"></param>
+        /// <param name="NewLevel"></param>
+        static private void ReadSkillSetFromLines(List<FileLine> FileLineList, Level NewLevel)
+        {
+            for (int SkillIndex = 0; SkillIndex < C.SKI_COUNT; SkillIndex++)
+            {
+                FileLine Line = FileLineList.Find(line => line.Key == fSkillNames[SkillIndex].Trim());
+                if (Line != null)
+                {
+                    if (Line.Text == "INFINITE")
+                    {
+                        NewLevel.SkillCount[SkillIndex] = 100;
+                    }
+                    else
+                    {
+                        NewLevel.SkillCount[SkillIndex] = Line.Value;
+                    }
+                }
+            }
+            /*
+                foreach (FileLine Line in FileLineList)
+                {
+                    switch (Line.Key)
+                    {
                         case "CLIMBER": NewLevel.SkillCount[C.SKI_CLIMBER] = Line.Value; break;
                         case "FLOATER": NewLevel.SkillCount[C.SKI_FLOATER] = Line.Value; break;
                         case "BOMBER": NewLevel.SkillCount[C.SKI_EXPLODER] = Line.Value; break;
@@ -118,23 +169,8 @@ namespace NLEditor
                         case "PLATFORMER": NewLevel.SkillCount[C.SKI_PLATFORMER] = Line.Value; break;
                         case "STACKER": NewLevel.SkillCount[C.SKI_STACKER] = Line.Value; break;
                         case "CLONER": NewLevel.SkillCount[C.SKI_CLONER] = Line.Value; break;
-
-                        case "OBJECT": NewLevel.GadgetList.Add(ReadGadgetFromLines(FileLineList)); break;
-                        case "TERRAIN": NewLevel.TerrainList.Add(ReadTerrainFromLines(FileLineList)); break;
-                        case "LEMMING": NewLevel.GadgetList.Add(ReadLemmingFromLines(FileLineList)); break;
                     }
-                }
-            }
-            catch (Exception Ex)
-            {
-                Utility.LogException(Ex);
-                MessageBox.Show(Ex.Message);
-            }
-
-
-            if (MyParser != null) MyParser.DisposeStreamReader();
-
-            return NewLevel;
+                } */
         }
 
 
@@ -146,12 +182,14 @@ namespace NLEditor
         static private GadgetPiece ReadGadgetFromLines(List<FileLine> FileLineList)
         { 
             // First read in all infos
-            string StyleName = "";
-            string GadgetName = "";
+            string StyleName = "default"; // default value, because they are not set for preplaced lemmings 
+            string GadgetName = "lemming"; // default value, because they are not set for preplaced lemmings 
             int PosX = 0;
             int PosY = 0;
             bool IsNoOverwrite = false;
             bool IsOnlyOnTerrain = false;
+            int SpecWidth = -1;
+            int SpecHeight = -1;
 
             bool DoRotate = false;
             bool DoInvert = false;
@@ -163,27 +201,40 @@ namespace NLEditor
             {
                 switch (Line.Key)
                 {
-                    case "SET": StyleName = Line.Text; break;
+                    case "COLLECTION": StyleName = Line.Text; break;
                     case "PIECE": GadgetName = Line.Text; break;
                     case "X": PosX = Line.Value; break;
                     case "Y": PosY = Line.Value; break;
-                    case "WIDTH": /*nothing yet*/ break;
-                    case "HEIGHT": /*nothing yet*/ break;
+                    case "WIDTH": SpecWidth = Line.Value; break;
+                    case "HEIGHT": SpecHeight = Line.Value; break;
                     case "NO_OVERWRITE": IsNoOverwrite = true; break;
                     case "ONLY_ON_TERRAIN": IsOnlyOnTerrain = true; break;
                     case "ROTATE": DoRotate = true; break;
                     case "FLIP_HORIZONTAL": DoFlip = true; break;
                     case "FLIP_VERTICAL": DoInvert = true; break;
-                    case "FACE_LEFT": DoFlip = true; break;
-                    case "L": Val_L = Line.Value; break;
-                    case "S": Val_S = Line.Value; break;
+                    case "DIRECTION": DoFlip = Line.Text.ToUpper().StartsWith("L"); break;
+                    case "FLIP_LEMMING": DoFlip = true; break;
+                    case "PAIRING": Val_L = Line.Value; break;
+                    //case "L": Val_L = Line.Value; break;
+                    //case "S": Val_S = Line.Value; break;
                 }
             }
 
             // ... then create the correct Gadget piece
             string Key = ImageLibrary.CreatePieceKey(StyleName, GadgetName, true);
             Point Pos = new Point(PosX, PosY);
-            GadgetPiece NewGadget = new GadgetPiece(Key, Pos, 0, false, IsNoOverwrite, IsOnlyOnTerrain, Val_L, Val_S);
+            GadgetPiece NewGadget = new GadgetPiece(Key, Pos, 0, false, IsNoOverwrite, IsOnlyOnTerrain, Val_L, Val_S, SpecWidth, SpecHeight);
+
+            // Read in skill information
+            for (int SkillIndex = 0; SkillIndex < C.SKI_COUNT + 1; SkillIndex++)
+            {
+                FileLine Line = FileLineList.Find(line => line.Key == fSkillNames[SkillIndex].Trim()
+                                 || (line.Key == "SKILL" && line.Text == fSkillNames[SkillIndex].Trim()));
+                if (Line != null)
+                {
+                    NewGadget.SetSkillFlag(SkillIndex, true);
+                }
+            }
 
             // For compatibility with player: NoOverwrite + OnlyOnTerrain gadgets work like OnlyOnTerrain 
             if (NewGadget.IsNoOverwrite && NewGadget.IsOnlyOnTerrain) NewGadget.IsNoOverwrite = false;
@@ -224,7 +275,7 @@ namespace NLEditor
             {
                 switch (Line.Key)
                 {
-                    case "SET": StyleName = Line.Text; break;
+                    case "COLLECTION": StyleName = Line.Text; break;
                     case "PIECE": TerrainName = Line.Text; break;
                     case "X": PosX = Line.Value; break;
                     case "Y": PosY = Line.Value; break;
@@ -393,7 +444,7 @@ namespace NLEditor
             }
             TextFile.WriteLine(" ");
 
-            TextFile.WriteLine("§SKILLSET ");
+            TextFile.WriteLine("$SKILLSET ");
             for (int SkillNum = 0; SkillNum < C.SKI_COUNT; SkillNum++)
             {
                 if (IsSkillRequired(CurLevel, SkillNum))
@@ -492,9 +543,13 @@ namespace NLEditor
                 TextFile.WriteLine("  FLIP_HORIZONTAL");
             }
 
-            if (MyGadget.ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.TELEPORTER, C.OBJ.LEMMING))
+            if (MyGadget.ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING))
             {
                 TextFile.WriteLine("  DIRECTION " + ((MyGadget.IsFlippedInPlayer) ? "left" : "right"));
+            }
+            else if (MyGadget.ObjType.In(C.OBJ.TELEPORTER))
+            {
+                if (MyGadget.IsFlippedInPlayer) TextFile.WriteLine(" FLIP_LEMMING ");
             }
 
             if (MyGadget.ObjType.In(C.OBJ.HATCH, C.OBJ.PICKUP, C.OBJ.LEMMING))
