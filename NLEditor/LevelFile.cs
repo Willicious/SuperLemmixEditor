@@ -14,6 +14,15 @@ namespace NLEditor
     /// </summary>
     static class LevelFile
     {
+        static readonly string[] fSkillNames = 
+            { 
+                "    CLIMBER ", "    FLOATER ", "     BOMBER ", "    BLOCKER ",
+                "    BUILDER ", "     BASHER ", "      MINER ", "     DIGGER ",               
+                "     WALKER ", "    SWIMMER ", "     GLIDER ", "   DISARMER ",                  
+                "     STONER ", " PLATFORMER ", "    STACKER ", "     CLONER ",
+                "     ZOMBIE ",
+            };
+        
         /// <summary>
         /// Opens file browser and creates level from a .nxlv file.
         /// <para> Returns null if process is aborted or file is corrupt. </para>
@@ -63,7 +72,7 @@ namespace NLEditor
             {
                 Utility.LogException(Ex);
                 MessageBox.Show(Ex.Message);
-                return null;
+                return NewLevel;
             }
 
 
@@ -122,6 +131,8 @@ namespace NLEditor
                 MessageBox.Show(Ex.Message);
             }
 
+
+            if (MyParser != null) MyParser.DisposeStreamReader();
 
             return NewLevel;
         }
@@ -369,48 +380,49 @@ namespace NLEditor
             TextFile.WriteLine(" ");
 
             TextFile.WriteLine("# Level stats");
-            TextFile.WriteLine(" LEMMINGS    " + CurLevel.NumLems.ToString().PadLeft(4));
-            TextFile.WriteLine(" REQUIREMENT " + CurLevel.SaveReq.ToString().PadLeft(4));
+            TextFile.WriteLine(" LEMMINGS     " + CurLevel.NumLems.ToString().PadLeft(4));
+            TextFile.WriteLine(" REQUIREMENT  " + CurLevel.SaveReq.ToString().PadLeft(4));
             if (!CurLevel.IsNoTimeLimit)
             {
-                TextFile.WriteLine(" TIME_LIMIT  " + CurLevel.TimeLimit.ToString().PadLeft(4));
+                TextFile.WriteLine(" TIME_LIMIT   " + CurLevel.TimeLimit.ToString().PadLeft(4));
             }
+            TextFile.WriteLine(" RELEASE_RATE " + CurLevel.ReleaseRate.ToString().PadLeft(4));
             if (CurLevel.IsReleaseRateFix)
             {
-                TextFile.WriteLine(" FIXED_RR    " + CurLevel.ReleaseRate.ToString().PadLeft(4));
-            }
-            else
-            {
-                TextFile.WriteLine(" MIN_RR      " + CurLevel.ReleaseRate.ToString().PadLeft(4));
+                TextFile.WriteLine(" RELEASE_RATE_FIXED ");
             }
             TextFile.WriteLine(" ");
 
-            TextFile.WriteLine("# Level skillset");
-            string[] SkillNames = { 
-                "    CLIMBER ", "    FLOATER ", "     BOMBER ", "    BLOCKER ",
-                "    BUILDER ", "     BASHER ", "      MINER ", "     DIGGER ",               
-                "     WALKER ", "    SWIMMER ", "     GLIDER ", "   DISARMER ",                  
-                "     STONER ", " PLATFORMER ", "    STACKER ", "     CLONER "};
+            TextFile.WriteLine("§SKILLSET ");
             for (int SkillNum = 0; SkillNum < C.SKI_COUNT; SkillNum++)
             {
                 if (IsSkillRequired(CurLevel, SkillNum))
                 {
-                    TextFile.WriteLine(SkillNames[SkillNum] + CurLevel.SkillCount[SkillNum].ToString().PadLeft(4));
+                    if (CurLevel.SkillCount[SkillNum] > 99)
+                    {
+                        TextFile.WriteLine(fSkillNames[SkillNum] + "INFINITE");
+                    }
+                    else
+                    {
+                        TextFile.WriteLine(fSkillNames[SkillNum] + CurLevel.SkillCount[SkillNum].ToString().PadLeft(4));
+                    }
                 }
             }
-            TextFile.WriteLine(" ");
+            TextFile.WriteLine("$END ");
             TextFile.WriteLine(" ");
 
             TextFile.WriteLine("# Interactive objects");
             CurLevel.GadgetList.FindAll(obj => obj.ObjType != C.OBJ.LEMMING)
                                .ForEach(obj => WriteObject(TextFile, obj));
+            TextFile.WriteLine(" ");
 
             TextFile.WriteLine("# Terrains");
             CurLevel.TerrainList.ForEach(ter => WriteTerrain(TextFile, ter));
+            TextFile.WriteLine(" ");
 
             TextFile.WriteLine("# Preplaced lemmings");
             CurLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.LEMMING)
-                               .ForEach(lem => WriteLemming(TextFile, lem));
+                               .ForEach(lem => WriteObject(TextFile, lem));
 
             TextFile.WriteLine(" ");
 
@@ -436,19 +448,21 @@ namespace NLEditor
         /// <param name="MyGadget"></param>
         static private void WriteObject(TextWriter TextFile, GadgetPiece MyGadget)
         {
-            TextFile.WriteLine(" OBJECT");
-            TextFile.WriteLine("  SET    " + MyGadget.Style);
-            TextFile.WriteLine("  PIECE  " + MyGadget.Name);
+            if (MyGadget == null) return;
+
+            if (MyGadget.ObjType == C.OBJ.LEMMING)
+            {
+                TextFile.WriteLine("$LEMMING");
+            }
+            else
+            {
+                TextFile.WriteLine("$OBJECT");
+                TextFile.WriteLine("  COLLECTION " + MyGadget.Style);
+                TextFile.WriteLine("  PIECE      " + MyGadget.Name);
+            }
             TextFile.WriteLine("  X " + MyGadget.PosX.ToString().PadLeft(5));
             TextFile.WriteLine("  Y " + MyGadget.PosY.ToString().PadLeft(5));
-            if (MyGadget.Val_L != 0)
-            {
-                TextFile.WriteLine("  L " + MyGadget.Val_L.ToString().PadLeft(5));
-            }
-            if (MyGadget.Val_S != 0)
-            {
-                TextFile.WriteLine("  S " + MyGadget.Val_S.ToString().PadLeft(5));
-            }
+
             if (MyGadget.SpecWidth > 0)
             {
                 TextFile.WriteLine("  WIDTH  " + MyGadget.SpecWidth.ToString().PadLeft(5));
@@ -476,8 +490,30 @@ namespace NLEditor
             if (MyGadget.IsFlippedInPlayer)
             {
                 TextFile.WriteLine("  FLIP_HORIZONTAL");
-                TextFile.WriteLine("  FACE_LEFT");
             }
+
+            if (MyGadget.ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.TELEPORTER, C.OBJ.LEMMING))
+            {
+                TextFile.WriteLine("  DIRECTION " + ((MyGadget.IsFlippedInPlayer) ? "left" : "right"));
+            }
+
+            if (MyGadget.ObjType.In(C.OBJ.HATCH, C.OBJ.PICKUP, C.OBJ.LEMMING))
+            {
+                for (int SkillNum = 0; SkillNum < C.SKI_COUNT + 1; SkillNum++)
+                {
+                    if (MyGadget.HasSkillFlag(SkillNum))
+                    {
+                        TextFile.WriteLine("  " + fSkillNames[SkillNum].Trim() + " ");
+                    }
+                }
+            }
+
+            if (MyGadget.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
+            {
+                TextFile.WriteLine("  PAIRING " + MyGadget.Val_L.ToString().PadLeft(4));
+            }
+
+            TextFile.WriteLine("§END");
             TextFile.WriteLine(" ");
         }
 
@@ -521,6 +557,7 @@ namespace NLEditor
 
         }
 
+        /*
         /// <summary>
         /// Writes all infos about a preplaced lemming in a text file.
         /// </summary>
@@ -533,6 +570,10 @@ namespace NLEditor
             TextFile.WriteLine(" LEMMING");
             TextFile.WriteLine("  X " + MyLem.PosX.ToString().PadLeft(5));
             TextFile.WriteLine("  Y " + MyLem.PosY.ToString().PadLeft(5));
+
+            TextFile.WriteLine("  DIRECTION " + ((MyLem.IsFlippedInPlayer) ? "left" : "right"));
+
+
             if (MyLem.IsFlippedInPlayer)
             {
                 TextFile.WriteLine("  FACE_LEFT");
@@ -568,7 +609,7 @@ namespace NLEditor
 
             TextFile.WriteLine(" ");
         }
-
+        */
 
     }
 }

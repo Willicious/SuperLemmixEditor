@@ -17,13 +17,18 @@ namespace NLEditor
 
         public static string AppPath
         {
-            // get { return "C:\\Stephan\\Programme\\NLEditor\\"; }
-            get { return System.Windows.Forms.Application.StartupPath + DirSep; }
+            get { return "C:\\Stephan\\Programme\\NLEditor\\"; }
+            // get { return System.Windows.Forms.Application.StartupPath + DirSep; }
         }
 
         public static string AppPathPieces
         {
-            get { return AppPath + "styles" + DirSep + "pieces" + DirSep; }
+            get { return AppPath + "styles" + DirSep; }
+        }
+
+        public static string AppPathThemeInfo(string StyleName)
+        {
+            return AppPathPieces + StyleName + C.DirSep + "theme.nxtm";
         }
 
         public static char DirSep
@@ -174,7 +179,7 @@ namespace NLEditor
             "  Namida Verasche for the NeoLemmix player.",
             "  The LemmingsForums at http://www.lemmingsforums.net.",
             "",
-            "This work and all its source code is licensed under",
+            "This application and all its source code is licensed under",
             "   CC BY-NC 4.0."
         };
 

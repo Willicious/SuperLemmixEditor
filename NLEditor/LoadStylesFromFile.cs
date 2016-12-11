@@ -31,7 +31,7 @@ namespace NLEditor
         /// <returns></returns>
         public static List<Color> StyleColors(string StyleName)
         {
-            string FilePath = C.AppPath + "styles" + C.DirSep + "themes" + C.DirSep + StyleName + ".nxtm";
+            string FilePath = C.AppPathThemeInfo(StyleName);
             
             List<Color> ColorList = new List<Color>();
             // Write default colors in it
@@ -60,7 +60,9 @@ namespace NLEditor
                     System.Diagnostics.Debug.Assert(NewFileLine.Count > 0, "FileParser returned empty list.");
                     if (NewFileLine[0].Key == "BACKGROUND")
                     {
-                        ColorList[0] = ColorTranslator.FromHtml("#" + NewFileLine[0].Text);
+                        string NewColorString = NewFileLine[0].Text;
+                        if (NewColorString.StartsWith("x")) NewColorString = NewColorString.Substring(1);
+                        ColorList[0] = ColorTranslator.FromHtml("#" + NewColorString);
                     }
                 }
             }
@@ -220,15 +222,15 @@ namespace NLEditor
         {
             string ImagePath = C.AppPathPieces + ImageName;
 
-            if (File.Exists(ImagePath + ".nxob"))
+            if (File.Exists(ImagePath + ".nxmo"))
             {
                 // create a new object piece
-                return CreateNewObjectInfo(Image, ImagePath + ".nxob");
+                return CreateNewObjectInfo(Image, ImagePath + ".nxmo");
             }
-            else if (File.Exists(ImagePath + ".nxtp"))
+            else if (File.Exists(ImagePath + ".nxmt"))
             {
                 // create a new object piece
-                return CreateNewTerrainInfo(Image, ImagePath + ".nxtp");
+                return CreateNewTerrainInfo(Image, ImagePath + ".nxmt");
             }
             else
             {
@@ -249,9 +251,9 @@ namespace NLEditor
         private static BaseImageInfo CreateNewObjectInfo(Bitmap NewBitmap, string FilePath)
         {
             int NumFrames = 1;
-            bool IsVert = false;
+            bool IsVert = true;
             C.OBJ ObjType = C.OBJ.NONE;
-            Rectangle TriggerRect = new Rectangle(0, 0, 0, 0);
+            Rectangle TriggerRect = new Rectangle(0, 0, 1, 1);
 
             FileParser MyParser;
             try
@@ -278,8 +280,8 @@ namespace NLEditor
                         case "FRAMES": NumFrames = Line.Value; break;
                         case "TRIGGER_X": TriggerRect.X = Line.Value; break;
                         case "TRIGGER_Y": TriggerRect.Y = Line.Value; break;
-                        case "TRIGGER_W": TriggerRect.Width = Line.Value; break;
-                        case "TRIGGER_H": TriggerRect.Height = Line.Value; break;
+                        case "TRIGGER_WIDTH": TriggerRect.Width = Line.Value; break;
+                        case "TRIGGER_HEIGHT": TriggerRect.Height = Line.Value; break;
                         case "VERTICAL": IsVert = true; break;
                         case "HORIZONTAL": IsVert = false; break;
                         case "WINDOW": ObjType = C.OBJ.HATCH; break;

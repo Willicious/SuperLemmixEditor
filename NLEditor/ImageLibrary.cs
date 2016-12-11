@@ -237,8 +237,19 @@ namespace NLEditor
             Bitmap NewBitmap = LoadStylesFromFile.Image(ImageKey);
             if (NewBitmap == null) return false;
 
-            BaseImageInfo NewImageInfo = LoadStylesFromFile.ImageInfo(NewBitmap, ImageKey);
-            fImageList.Add(ImageKey, NewImageInfo);
+            try
+            {
+                BaseImageInfo NewImageInfo = LoadStylesFromFile.ImageInfo(NewBitmap, ImageKey);
+                fImageList.Add(ImageKey, NewImageInfo);
+            }
+            catch (Exception Ex)
+            {
+                Utility.LogException(Ex);
+                System.Windows.Forms.MessageBox.Show("Error: Could not load image at " + ImageKey + C.NewLine + Ex.Message);
+
+                BaseImageInfo NewImageInfo = new BaseImageInfo(new Bitmap(1, 1), C.OBJ.NONE, 1, false, new Rectangle(0, 0, 1, 1));
+                fImageList.Add(ImageKey, NewImageInfo);
+            }
 
             return true;
         }
@@ -254,8 +265,19 @@ namespace NLEditor
         {
             if (fImageList.ContainsKey(ImageKey)) return;
 
-            BaseImageInfo NewImageInfo = new BaseImageInfo(Image, ObjType, 1, false, TriggerRect);
-            fImageList.Add(ImageKey, NewImageInfo);
+            try
+            {
+                BaseImageInfo NewImageInfo = new BaseImageInfo(Image, ObjType, 1, false, TriggerRect);
+                fImageList.Add(ImageKey, NewImageInfo);
+            }
+            catch (Exception Ex)
+            {
+                Utility.LogException(Ex);
+                System.Windows.Forms.MessageBox.Show("Error: Could not load image at " + ImageKey + C.NewLine + Ex.Message);
+                
+                BaseImageInfo NewImageInfo = new BaseImageInfo(new Bitmap(1, 1), C.OBJ.NONE, 1, false, new Rectangle(0, 0, 1, 1));
+                fImageList.Add(ImageKey, NewImageInfo);
+            }
         }
 
 

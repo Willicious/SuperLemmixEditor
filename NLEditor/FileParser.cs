@@ -20,7 +20,16 @@ namespace NLEditor
         /// <param name="num"></param>
         public FileLine(string key, string text = "", int num = 0)
         {
-            fKey = key.ToUpper();
+            if (key.StartsWith("$"))
+            {
+                fKey = key.Substring(1).Trim().ToUpper();
+                fIsMultilineKey = true;
+            }
+            else
+            {
+                fKey = key.ToUpper();
+                fIsMultilineKey = false;
+            }
             fText = text;
             fValue = num;
         }
@@ -28,10 +37,12 @@ namespace NLEditor
         string fKey;
         string fText;
         int fValue;
+        bool fIsMultilineKey;
 
         public string Key { get { return fKey; } }
         public string Text { get { return fText; } }
         public int Value { get { return fValue;}}
+        public bool IsMultilineKey { get { return fIsMultilineKey; } }
     }
     
 
@@ -47,7 +58,8 @@ namespace NLEditor
         /*---------------------------------------------------------
          *  public methods:
          *    FileParser(string FilePath)
-         *    
+         *    DisposeStreamReader()  
+         * 
          *    GetNextLines()
          * -------------------------------------------------------- */
 
@@ -61,10 +73,16 @@ namespace NLEditor
             fFileStream = new StreamReader(FilePath);
         }
 
+        /// <summary>
+        /// Disposes the StreamReader and frees the file.
+        /// </summary>
+        public void DisposeStreamReader()
+        {
+            if (fFileStream != null) fFileStream.Dispose();
+        }
+
         StreamReader fFileStream;
         FileLine fFileLatestLine;
-
-        readonly string[] MultiLinePieces = { "OBJECT", "TERRAIN", "LEMMING" };
         
         /// <summary>
         /// Parses new block of lines, ignoring empty lines or ones starting with #.
@@ -95,7 +113,7 @@ namespace NLEditor
             FileLineList.Add(CurFileLine);
 
             // Add more lines, if the piece requires multiple lines in the level file
-            if (CurFileLine.Key.In(MultiLinePieces))
+            if (CurFileLine.IsMultilineKey)
             {
                 bool DoAddNextLine;
                 do
@@ -107,7 +125,7 @@ namespace NLEditor
                     {
                         DoAddNextLine = false;
                     }
-                    else if (CurFileLine.Key.In(MultiLinePieces))
+                    else if (CurFileLine.IsMultilineKey)
                     {
                         fFileLatestLine = CurFileLine;
                         DoAddNextLine = false;
