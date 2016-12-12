@@ -617,5 +617,13 @@ namespace NLEditor
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
+        /// <summary>
+        /// Pairs a selected teleporter and receiver.
+        /// </summary>
+        private void PairTeleporters()
+        {
+            fCurLevel.PairTeleporters();
+        }
+
     }
 }

@@ -39,6 +39,7 @@ namespace NLEditor
          *    SetOneWay(bool DoAdd)
          *    SetSkillForObjects(int Skill, bool DoAdd)
          *    MoveSelectedIndex(bool ToTop, bool OnlyOneStep)
+         *    PairTeleporters()
          * -------------------------------------------------------- */
 
         /// <summary>
@@ -525,6 +526,51 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Pairs a selected teleporter and receiver.
+        /// </summary>
+        public void PairTeleporters()
+        { 
+            GadgetPiece MyTeleporter = (GadgetPiece)SelectionList().Find(obj => obj.ObjType == C.OBJ.TELEPORTER);
+            GadgetPiece MyReceiver = (GadgetPiece)SelectionList().Find(obj => obj.ObjType == C.OBJ.RECEIVER);
+
+            System.Diagnostics.Debug.Assert(MyTeleporter != null, "Tried to pair teleporters without a selected teleporter!");
+            System.Diagnostics.Debug.Assert(MyReceiver != null, "Tried to pair teleporters without a selected teleporter!");
+
+            if (MyTeleporter.Val_L != 0) RemovePairingValue(MyTeleporter.Val_L);
+            if (MyReceiver.Val_L != 0) RemovePairingValue(MyReceiver.Val_L);
+
+            int NewPairingValue = FindNewPairingValue();
+
+            MyTeleporter.SetTeleporterValue(NewPairingValue);
+            MyReceiver.SetTeleporterValue(NewPairingValue);
+        }
+
+        /// <summary>
+        /// Removes the key-value RemoveValue from all teleporter and receiver objects.
+        /// </summary>
+        /// <param name="RemoveValue"></param>
+        private void RemovePairingValue(int RemoveValue)
+        {
+            fGadgetList.FindAll(obj => obj.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
+                       .ForEach(obj => obj.SetTeleporterValue(0)); 
+        }
+
+        /// <summary>
+        /// Find the lowest unused teleporter/receiver key value.
+        /// </summary>
+        /// <returns></returns>
+        private int FindNewPairingValue()
+        {
+            int PairingValue = 0;
+            do
+            {
+                PairingValue++;
+            } while (fGadgetList.Exists(obj => obj.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER)
+                                               && obj.Val_L == PairingValue));
+
+            return PairingValue;
+        }
 
     }
 }

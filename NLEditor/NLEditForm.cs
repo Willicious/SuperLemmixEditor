@@ -436,6 +436,11 @@ namespace NLEditor
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
+        private void but_PairTeleporter_Click(object sender, EventArgs e)
+        {
+            PairTeleporters();
+            RemoveFocus();
+        }
 
 
         /* -----------------------------------------------------------
@@ -807,6 +812,8 @@ namespace NLEditor
             fMouseButtonPressed = null;
             RemoveFocus();
         }
+
+
 
 
 

@@ -181,6 +181,11 @@ namespace NLEditor
                 num_Resize_Height.Visible = false;
             }
 
+            but_PairTeleporter.Visible = SelectionList.Count == 2
+                    && SelectionList.Exists(item => item.ObjType == C.OBJ.TELEPORTER)
+                    && SelectionList.Exists(item => item.ObjType == C.OBJ.RECEIVER);
+            
+
         }
 
         /// <summary>

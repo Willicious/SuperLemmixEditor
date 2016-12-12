@@ -93,6 +93,11 @@
             this.txt_LevelTitle = new System.Windows.Forms.TextBox();
             this.lbl_Global_Title = new System.Windows.Forms.Label();
             this.tabPieces = new System.Windows.Forms.TabPage();
+            this.but_PairTeleporter = new System.Windows.Forms.Button();
+            this.lbl_Resize_Height = new System.Windows.Forms.Label();
+            this.num_Resize_Height = new System.Windows.Forms.NumericUpDown();
+            this.num_Resize_Width = new System.Windows.Forms.NumericUpDown();
+            this.lbl_Resize_Width = new System.Windows.Forms.Label();
             this.check_Piece_Zombie = new System.Windows.Forms.CheckBox();
             this.check_Piece_Cloner = new System.Windows.Forms.CheckBox();
             this.check_Piece_Stacker = new System.Windows.Forms.CheckBox();
@@ -157,10 +162,6 @@
             this.txt_Focus = new System.Windows.Forms.TextBox();
             this.but_PieceRight = new NLEditor.RepeatButton();
             this.but_PieceLeft = new NLEditor.RepeatButton();
-            this.num_Resize_Height = new System.Windows.Forms.NumericUpDown();
-            this.num_Resize_Width = new System.Windows.Forms.NumericUpDown();
-            this.lbl_Resize_Width = new System.Windows.Forms.Label();
-            this.lbl_Resize_Height = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -183,6 +184,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeX)).BeginInit();
             this.tabPieces.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).BeginInit();
             this.tabSkills.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Cloner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stacker)).BeginInit();
@@ -200,8 +203,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Blocker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -935,6 +936,7 @@
             // 
             // tabPieces
             // 
+            this.tabPieces.Controls.Add(this.but_PairTeleporter);
             this.tabPieces.Controls.Add(this.lbl_Resize_Height);
             this.tabPieces.Controls.Add(this.num_Resize_Height);
             this.tabPieces.Controls.Add(this.num_Resize_Width);
@@ -974,6 +976,95 @@
             this.tabPieces.TabIndex = 1;
             this.tabPieces.Text = "Pieces";
             this.tabPieces.UseVisualStyleBackColor = true;
+            // 
+            // but_PairTeleporter
+            // 
+            this.but_PairTeleporter.Location = new System.Drawing.Point(50, 350);
+            this.but_PairTeleporter.Name = "but_PairTeleporter";
+            this.but_PairTeleporter.Size = new System.Drawing.Size(76, 36);
+            this.but_PairTeleporter.TabIndex = 32;
+            this.but_PairTeleporter.Text = "Pair Teleporter";
+            this.but_PairTeleporter.UseVisualStyleBackColor = true;
+            this.but_PairTeleporter.Visible = false;
+            this.but_PairTeleporter.Click += new System.EventHandler(this.but_PairTeleporter_Click);
+            // 
+            // lbl_Resize_Height
+            // 
+            this.lbl_Resize_Height.Location = new System.Drawing.Point(9, 375);
+            this.lbl_Resize_Height.Name = "lbl_Resize_Height";
+            this.lbl_Resize_Height.Size = new System.Drawing.Size(46, 15);
+            this.lbl_Resize_Height.TabIndex = 31;
+            this.lbl_Resize_Height.Text = "Height";
+            this.lbl_Resize_Height.Visible = false;
+            // 
+            // num_Resize_Height
+            // 
+            this.num_Resize_Height.Increment = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.num_Resize_Height.Location = new System.Drawing.Point(69, 373);
+            this.num_Resize_Height.Maximum = new decimal(new int[] {
+            160,
+            0,
+            0,
+            0});
+            this.num_Resize_Height.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_Resize_Height.Name = "num_Resize_Height";
+            this.num_Resize_Height.Size = new System.Drawing.Size(47, 20);
+            this.num_Resize_Height.TabIndex = 30;
+            this.num_Resize_Height.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Resize_Height.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_Resize_Height.Visible = false;
+            this.num_Resize_Height.ValueChanged += new System.EventHandler(this.num_Resize_Height_ValueChanged);
+            // 
+            // num_Resize_Width
+            // 
+            this.num_Resize_Width.Increment = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.num_Resize_Width.Location = new System.Drawing.Point(69, 351);
+            this.num_Resize_Width.Maximum = new decimal(new int[] {
+            320,
+            0,
+            0,
+            0});
+            this.num_Resize_Width.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_Resize_Width.Name = "num_Resize_Width";
+            this.num_Resize_Width.Size = new System.Drawing.Size(47, 20);
+            this.num_Resize_Width.TabIndex = 29;
+            this.num_Resize_Width.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Resize_Width.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_Resize_Width.Visible = false;
+            this.num_Resize_Width.ValueChanged += new System.EventHandler(this.num_Resize_Width_ValueChanged);
+            // 
+            // lbl_Resize_Width
+            // 
+            this.lbl_Resize_Width.Location = new System.Drawing.Point(9, 353);
+            this.lbl_Resize_Width.Name = "lbl_Resize_Width";
+            this.lbl_Resize_Width.Size = new System.Drawing.Size(46, 15);
+            this.lbl_Resize_Width.TabIndex = 28;
+            this.lbl_Resize_Width.Text = "Width";
+            this.lbl_Resize_Width.Visible = false;
             // 
             // check_Piece_Zombie
             // 
@@ -1613,84 +1704,6 @@
             this.but_PieceLeft.Click += new System.EventHandler(this.but_PieceLeft_Click);
             this.but_PieceLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseUp);
             // 
-            // num_Resize_Height
-            // 
-            this.num_Resize_Height.Increment = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
-            this.num_Resize_Height.Location = new System.Drawing.Point(69, 373);
-            this.num_Resize_Height.Maximum = new decimal(new int[] {
-            160,
-            0,
-            0,
-            0});
-            this.num_Resize_Height.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.num_Resize_Height.Name = "num_Resize_Height";
-            this.num_Resize_Height.Size = new System.Drawing.Size(47, 20);
-            this.num_Resize_Height.TabIndex = 30;
-            this.num_Resize_Height.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.num_Resize_Height.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.num_Resize_Height.Visible = false;
-            this.num_Resize_Height.ValueChanged += new System.EventHandler(this.num_Resize_Height_ValueChanged);
-            // 
-            // num_Resize_Width
-            // 
-            this.num_Resize_Width.Increment = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
-            this.num_Resize_Width.Location = new System.Drawing.Point(69, 351);
-            this.num_Resize_Width.Maximum = new decimal(new int[] {
-            320,
-            0,
-            0,
-            0});
-            this.num_Resize_Width.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.num_Resize_Width.Name = "num_Resize_Width";
-            this.num_Resize_Width.Size = new System.Drawing.Size(47, 20);
-            this.num_Resize_Width.TabIndex = 29;
-            this.num_Resize_Width.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.num_Resize_Width.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.num_Resize_Width.Visible = false;
-            this.num_Resize_Width.ValueChanged += new System.EventHandler(this.num_Resize_Width_ValueChanged);
-            // 
-            // lbl_Resize_Width
-            // 
-            this.lbl_Resize_Width.Location = new System.Drawing.Point(9, 353);
-            this.lbl_Resize_Width.Name = "lbl_Resize_Width";
-            this.lbl_Resize_Width.Size = new System.Drawing.Size(46, 15);
-            this.lbl_Resize_Width.TabIndex = 28;
-            this.lbl_Resize_Width.Text = "Width";
-            this.lbl_Resize_Width.Visible = false;
-            // 
-            // lbl_Resize_Height
-            // 
-            this.lbl_Resize_Height.Location = new System.Drawing.Point(9, 375);
-            this.lbl_Resize_Height.Name = "lbl_Resize_Height";
-            this.lbl_Resize_Height.Size = new System.Drawing.Size(46, 15);
-            this.lbl_Resize_Height.TabIndex = 31;
-            this.lbl_Resize_Height.Text = "Height";
-            this.lbl_Resize_Height.Visible = false;
-            // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1747,6 +1760,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeX)).EndInit();
             this.tabPieces.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).EndInit();
             this.tabSkills.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Cloner)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stacker)).EndInit();
@@ -1764,8 +1779,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Blocker)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1905,6 +1918,7 @@
         private System.Windows.Forms.NumericUpDown num_Resize_Height;
         private System.Windows.Forms.NumericUpDown num_Resize_Width;
         private System.Windows.Forms.Label lbl_Resize_Width;
+        private System.Windows.Forms.Button but_PairTeleporter;
     }
 }
 

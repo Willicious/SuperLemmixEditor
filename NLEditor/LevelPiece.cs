@@ -512,6 +512,17 @@ namespace NLEditor
                 fSpecHeight = Math.Max(NewHeight, 1);
             }
         }
+
+        /// <summary>
+        /// Sets the key-value for pairing teleporters to receivers.
+        /// </summary>
+        /// <param name="NewValue"></param>
+        public void SetTeleporterValue(int NewValue)
+        {
+            System.Diagnostics.Debug.Assert(this.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER), "Teleporter pairing key set for object, that is neither teleporter nor receiver.");            
+            fVal_L = NewValue;
+        }
+
     }
 
 }
