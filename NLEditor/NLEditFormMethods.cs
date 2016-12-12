@@ -623,6 +623,7 @@ namespace NLEditor
         private void PairTeleporters()
         {
             fCurLevel.PairTeleporters();
+            UpdateFlagsForPieceActions();
         }
 
     }

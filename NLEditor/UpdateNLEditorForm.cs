@@ -181,10 +181,29 @@ namespace NLEditor
                 num_Resize_Height.Visible = false;
             }
 
-            but_PairTeleporter.Visible = SelectionList.Count == 2
-                    && SelectionList.Exists(item => item.ObjType == C.OBJ.TELEPORTER)
-                    && SelectionList.Exists(item => item.ObjType == C.OBJ.RECEIVER);
-            
+            if (SelectionList.Count == 2
+                && SelectionList.Exists(item => item.ObjType == C.OBJ.TELEPORTER)
+                && SelectionList.Exists(item => item.ObjType == C.OBJ.RECEIVER))
+            {
+                GadgetPiece MyTeleporter = (GadgetPiece)SelectionList.Find(item => item.ObjType == C.OBJ.TELEPORTER);
+                GadgetPiece MyReceiver = (GadgetPiece)SelectionList.Find(item => item.ObjType == C.OBJ.RECEIVER);
+
+                if (MyTeleporter.Val_L > 0 && MyTeleporter.Val_L == MyReceiver.Val_L)
+                {
+                    but_PairTeleporter.Text = "Already Paired";
+                    but_PairTeleporter.Enabled = false;
+                }
+                else
+                {
+                    but_PairTeleporter.Text = "Pair Teleporters";
+                    but_PairTeleporter.Enabled = true;
+                }
+                but_PairTeleporter.Visible = true;
+            }
+            else 
+            {
+                but_PairTeleporter.Visible = false;
+            }
 
         }
 
