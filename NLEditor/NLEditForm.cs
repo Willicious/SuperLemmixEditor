@@ -418,6 +418,26 @@ namespace NLEditor
         }
 
 
+        private void num_Resize_Width_ValueChanged(object sender, EventArgs e)
+        {
+            int NewWidth = (int)num_Resize_Width.Value;
+            fCurLevel.SelectionList()
+                     .FindAll(item => item is GadgetPiece)
+                     .ForEach(obj => (obj as GadgetPiece).SetSpecWidth(NewWidth));
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+        private void num_Resize_Height_ValueChanged(object sender, EventArgs e)
+        {
+            int NewHeight = (int)num_Resize_Height.Value;
+            fCurLevel.SelectionList()
+                     .FindAll(item => item is GadgetPiece)
+                     .ForEach(obj => (obj as GadgetPiece).SetSpecHeight(NewHeight));
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+
+
         /* -----------------------------------------------------------
          *              Piece Selection
          * ----------------------------------------------------------- */
@@ -787,6 +807,8 @@ namespace NLEditor
             fMouseButtonPressed = null;
             RemoveFocus();
         }
+
+
 
         
 

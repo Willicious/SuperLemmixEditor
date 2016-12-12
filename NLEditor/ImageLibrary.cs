@@ -18,7 +18,7 @@ namespace NLEditor
         /// <param name="NewImage"></param>
         /// <param name="IsSteel"></param>
         public BaseImageInfo(Bitmap NewImage, bool IsSteel = false)
-            : this(NewImage, IsSteel ? C.OBJ.STEEL : C.OBJ.NULL, 1, false, new Rectangle(0, 0, 0, 0))
+            : this(NewImage, IsSteel ? C.OBJ.STEEL : C.OBJ.NULL, 1, false, new Rectangle(0, 0, 0, 0), C.Resize.None)
         {
             // nothing more
         }
@@ -31,13 +31,14 @@ namespace NLEditor
         /// <param name="NumFrames"></param>
         /// <param name="IsVert"></param>
         /// <param name="TriggerRect"></param>
-        public BaseImageInfo(Bitmap NewImage, C.OBJ ObjType, int NumFrames, bool IsVert, Rectangle TriggerRect)
+        public BaseImageInfo(Bitmap NewImage, C.OBJ ObjType, int NumFrames, bool IsVert, Rectangle TriggerRect, C.Resize ResizeMode)
         {
             this.fImage = SeparateFrames(NewImage, NumFrames, IsVert);
             this.fWidth = this.fImage.Width;
             this.fHeight = this.fImage.Height;
             this.fObjectType = ObjType;
             this.fTriggerRect = TriggerRect;
+            this.fResizeMode = ResizeMode;
 
             RotateFlipType[] RotFlipTypeArray = (RotateFlipType[])Enum.GetValues(typeof(RotateFlipType));
             this.fImageRotated = new Dictionary<RotateFlipType, Bitmap>();
@@ -54,6 +55,7 @@ namespace NLEditor
         readonly int fHeight;
         readonly C.OBJ fObjectType;
         readonly Rectangle fTriggerRect;
+        readonly C.Resize fResizeMode;
 
         readonly Dictionary<RotateFlipType, Bitmap> fImageRotated;
 
@@ -62,6 +64,7 @@ namespace NLEditor
         {
             return (Bitmap)fImage.Clone();
         }
+
         public Bitmap Image(RotateFlipType RotFlipType)
         {
             return fImageRotated[RotFlipType];
@@ -70,6 +73,7 @@ namespace NLEditor
         public int Height { get { return fHeight; } }
         public C.OBJ ObjectType { get { return fObjectType; } }
         public Rectangle TriggerRect { get { return fTriggerRect; } }
+        public C.Resize ResizeMode { get { return fResizeMode; } }
 
         /// <summary>
         /// Removes additional frames from an image and keeps only frame 0.
@@ -117,6 +121,7 @@ namespace NLEditor
          *     - GetHeight(string ImageKey)
          *     - GetObjType(string ImageKey)
          *     - GetTrigger(string ImageKey)
+         *     - GetResizeMode(string ImageKey)
          *     - CreatePieceKey(string FilePath)
          *     - CreatePieceKey(string StyleName, string PieceName, bool IsObject)
          * -------------------------------------------------------- */
@@ -228,6 +233,22 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Returns the resize mode of the piece corresponding to the key, or C.Resize.None if image cannot be found. 
+        /// </summary>
+        /// <param name="ImageKey"></param>
+        /// <returns></returns>
+        public static C.Resize GetResizeMode(string ImageKey)
+        {
+            if (!fImageList.ContainsKey(ImageKey))
+            {
+                bool Success = AddNewImage(ImageKey);
+                if (!Success) return C.Resize.None;
+            }
+
+            return fImageList[ImageKey].ResizeMode;
+        }
+
+        /// <summary>
         /// Loads a new image into the ImageLibrary. Returns false, if image cannot be found.
         /// </summary>
         /// <param name="ImageKey"></param>
@@ -247,7 +268,7 @@ namespace NLEditor
                 Utility.LogException(Ex);
                 System.Windows.Forms.MessageBox.Show("Error: Could not load image at " + ImageKey + C.NewLine + Ex.Message);
 
-                BaseImageInfo NewImageInfo = new BaseImageInfo(new Bitmap(1, 1), C.OBJ.NONE, 1, false, new Rectangle(0, 0, 1, 1));
+                BaseImageInfo NewImageInfo = new BaseImageInfo(new Bitmap(1, 1));
                 fImageList.Add(ImageKey, NewImageInfo);
             }
 
@@ -261,13 +282,13 @@ namespace NLEditor
         /// <param name="Image"></param>
         /// <param name="ObjType"></param>
         /// <param name="TriggerRect"></param>
-        public static void AddNewImage(string ImageKey, Bitmap Image, C.OBJ ObjType, Rectangle TriggerRect)
+        public static void AddNewImage(string ImageKey, Bitmap Image, C.OBJ ObjType, Rectangle TriggerRect, C.Resize ResizeMode)
         {
             if (fImageList.ContainsKey(ImageKey)) return;
 
             try
             {
-                BaseImageInfo NewImageInfo = new BaseImageInfo(Image, ObjType, 1, false, TriggerRect);
+                BaseImageInfo NewImageInfo = new BaseImageInfo(Image, ObjType, 1, false, TriggerRect, ResizeMode);
                 fImageList.Add(ImageKey, NewImageInfo);
             }
             catch (Exception Ex)
@@ -275,7 +296,7 @@ namespace NLEditor
                 Utility.LogException(Ex);
                 System.Windows.Forms.MessageBox.Show("Error: Could not load image at " + ImageKey + C.NewLine + Ex.Message);
                 
-                BaseImageInfo NewImageInfo = new BaseImageInfo(new Bitmap(1, 1), C.OBJ.NONE, 1, false, new Rectangle(0, 0, 1, 1));
+                BaseImageInfo NewImageInfo = new BaseImageInfo(new Bitmap(1, 1));
                 fImageList.Add(ImageKey, NewImageInfo);
             }
         }

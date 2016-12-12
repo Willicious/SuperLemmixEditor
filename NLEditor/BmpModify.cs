@@ -28,6 +28,7 @@ namespace NLEditor
          *     - DrawOnRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
          *     - DrawOnFilledRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
          *     - DrawOnDottedRectangles(this Bitmap OrigBmp, Rectangle Rect)
+         *     - PaveArea(this Bitmap OrigBmp, Rectangle Rect)
          * -------------------------------------------------------- */
 
         /// <summary>
@@ -765,6 +766,36 @@ namespace NLEditor
                 OrigBmp.UnlockBits(OrigBmpData);
             }
         }
+
+        /// <summary>
+        /// Paves a rectangle with copies of the original bitmap and returns the new image.
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="Rect"></param>
+        /// <returns></returns>
+        public static Bitmap PaveArea(this Bitmap OrigBmp, Rectangle Rect)
+        {
+            Bitmap NewBmp = new Bitmap(Rect.Width, Rect.Height);
+            int OrigWidth = OrigBmp.Width;
+            int OrigHeight = OrigBmp.Height;
+
+            int StartX = Rect.Left / OrigWidth - ((Rect.Left < 0) ? 1 : 0);
+            int EndX = (Rect.Right - 1) / OrigWidth - ((Rect.Right - 1 < 0) ? 1 : 0);
+            int StartY = Rect.Top / OrigHeight - ((Rect.Top < 0) ? 1 : 0);
+            int EndY = (Rect.Bottom - 1) / OrigHeight - ((Rect.Bottom - 1 < 0) ? 1 : 0);
+
+            for (int x = StartX; x <= EndX; x++)
+            {
+                for (int y = StartY; y <= EndY; y++)
+                {
+                    Point Position = new Point(x * OrigWidth, y * OrigHeight);
+                    NewBmp.DrawOn(OrigBmp, Position);
+                }
+            }
+
+            return NewBmp;
+        }
+
 
     }
 }

@@ -19,7 +19,7 @@ namespace NLEditor
             // preplaced lemming
             string ImageKey = "default" + C.DirSep + "objects" + C.DirSep + "lemming";
             Bitmap Image = Properties.Resources.Lemming;
-            ImageLibrary.AddNewImage(ImageKey, Image, C.OBJ.LEMMING, new Rectangle(2, 9, 1, 1));
+            ImageLibrary.AddNewImage(ImageKey, Image, C.OBJ.LEMMING, new Rectangle(2, 9, 1, 1), C.Resize.None);
         }
         
         
@@ -254,6 +254,7 @@ namespace NLEditor
             bool IsVert = true;
             C.OBJ ObjType = C.OBJ.NONE;
             Rectangle TriggerRect = new Rectangle(0, 0, 1, 1);
+            C.Resize ResizeMode = C.Resize.None;
 
             FileParser MyParser;
             try
@@ -264,7 +265,7 @@ namespace NLEditor
             {
                 Utility.LogException(Ex);
                 MessageBox.Show(Ex.Message);
-                return new BaseImageInfo(NewBitmap, ObjType, NumFrames, IsVert, TriggerRect);
+                return new BaseImageInfo(NewBitmap, ObjType, NumFrames, IsVert, TriggerRect, ResizeMode);
             }
 
             try
@@ -284,8 +285,9 @@ namespace NLEditor
                         case "TRIGGER_HEIGHT": TriggerRect.Height = Line.Value; break;
                         case "VERTICAL": IsVert = true; break;
                         case "HORIZONTAL": IsVert = false; break;
-                        case "RESIZE_VERTICAL": /* TODO!!! */ break;
-                        case "RESIZE_HORIZONTAL": /* TODO!!! */ break;
+                        case "RESIZE_VERTICAL": ResizeMode = ResizeMode.In(C.Resize.Horiz, C.Resize.Both) ? C.Resize.Both : C.Resize.Vert; break;
+                        case "RESIZE_HORIZONTAL": ResizeMode = ResizeMode.In(C.Resize.Vert, C.Resize.Both) ? C.Resize.Both : C.Resize.Horiz; break;
+                        case "RESIZE_BOTH": ResizeMode = C.Resize.Both; break;
                         case "WINDOW": ObjType = C.OBJ.HATCH; break;
                         case "EXIT": ObjType = C.OBJ.EXIT; break;
                         case "TRAP": ObjType = C.OBJ.TRAP; break;
@@ -317,7 +319,7 @@ namespace NLEditor
                 MessageBox.Show(Ex.Message);
             }
 
-            return new BaseImageInfo(NewBitmap, ObjType, NumFrames, IsVert, TriggerRect);
+            return new BaseImageInfo(NewBitmap, ObjType, NumFrames, IsVert, TriggerRect, ResizeMode);
         }
 
         /// <summary>

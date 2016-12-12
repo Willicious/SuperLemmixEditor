@@ -63,6 +63,7 @@ namespace NLEditor
 
         public enum DragActions { Null, SelectArea, DragPieces, MoveEditorPos }
 
+        public enum Resize { None, Vert, Horiz, Both }
 
         public static readonly byte ALPHA_OWW = 255;
         public static readonly byte ALPHA_NOOWW = 254;

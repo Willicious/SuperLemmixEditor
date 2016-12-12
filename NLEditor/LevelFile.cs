@@ -487,13 +487,23 @@ namespace NLEditor
                 if (MyGadget.IsFlippedInPlayer) TextFile.WriteLine("   FLIP_LEMMING ");
             }
 
-            if (MyGadget.ObjType.In(C.OBJ.HATCH, C.OBJ.PICKUP, C.OBJ.LEMMING))
+            if (MyGadget.ObjType.In(C.OBJ.HATCH, C.OBJ.LEMMING))
             {
                 for (int SkillNum = 0; SkillNum < C.SKI_COUNT + 1; SkillNum++)
                 {
                     if (MyGadget.HasSkillFlag(SkillNum))
                     {
                         TextFile.WriteLine("   " + fSkillNames[SkillNum].Trim() + " ");
+                    }
+                }
+            }
+            else if (MyGadget.ObjType.In(C.OBJ.PICKUP))
+            {
+                for (int SkillNum = 0; SkillNum < C.SKI_COUNT + 1; SkillNum++)
+                {
+                    if (MyGadget.HasSkillFlag(SkillNum))
+                    {
+                        TextFile.WriteLine("  SKILL" + fSkillNames[SkillNum].Trim());
                     }
                 }
             }
