@@ -92,7 +92,7 @@ namespace NLEditor
         Point fScreenPos;
         int fZoom;
         System.Windows.Forms.PictureBox LevelPicBox;
-        Size fPicBoxSize { get { return LevelPicBox.Size; } }
+        Size fPicBoxSize { get { return new Size(LevelPicBox.Size.Width - 4, LevelPicBox.Size.Height - 5); } }
         Rectangle PicBoxRect { get { return new Rectangle(0, 0, fPicBoxSize.Width, fPicBoxSize.Height); } }
 
         Point? fMouseStartPos;
@@ -406,10 +406,11 @@ namespace NLEditor
             LevelBmp = LevelBmp.Zoom(fZoom);
             if (fPicBoxSize.Width < LevelBmp.Width || fPicBoxSize.Height < LevelBmp.Height)
             {
-                LevelBmp.Crop(new Rectangle(0, 0, fPicBoxSize.Width, fPicBoxSize.Height));
+                LevelBmp = LevelBmp.Crop(new Rectangle(0, 0, fPicBoxSize.Width, fPicBoxSize.Height));
             }
 
             // Add rectangles around selected pieces
+            if (fIsScreenStart) LevelBmp = AddScreenStartRectangle(LevelBmp);
             LevelBmp = AddSelectedRectangles(LevelBmp);
             LevelBmp = AddMouseSelectionArea(LevelBmp);
 
@@ -419,30 +420,6 @@ namespace NLEditor
             return LevelBmp;
         }
 
-        /*
-        /// <summary>
-        /// Returns the negative of the current screen position, including the mouse editor movement.
-        /// </summary>
-        /// <returns></returns>
-        private Point GetNegScreenPos()
-        {
-            Size LevelBmpSize = GetLevelBmpSize();
-
-            int MouseDragX = 0;
-            int MouseDragY = 0;
-
-            if (MouseDragAction == C.DragActions.MoveEditorPos && fMouseStartPos != null && fMouseCurPos != null)
-            {
-                MouseDragX = ApplyUnZoom(((Point)fMouseCurPos).X - ((Point)fMouseStartPos).X);
-                MouseDragY = ApplyUnZoom(((Point)fMouseCurPos).Y - ((Point)fMouseStartPos).Y);
-            }
-
-            int NewScreenPosX = EnsureScreenPosInLevel(false, fScreenPos.X + MouseDragX);
-            int NewScreenPosY = EnsureScreenPosInLevel(true, fScreenPos.Y + MouseDragY);
-
-            return new Point(-NewScreenPosX, -NewScreenPosY);
-        }
-        */
 
         /// <summary>
         /// Gets the size of the displayable area in level coordinates.
@@ -459,6 +436,22 @@ namespace NLEditor
                 
             return new Size(LevelBmpWidth, LevelBmpHeight);
         }
+
+        /// <summary>
+        /// Adds the screen start rectangle to the zoomed and cropped image.
+        /// </summary>
+        /// <param name="LevelBmp"></param>
+        /// <param name="NegScreenPos"></param>
+        /// <returns></returns>
+        private Bitmap AddScreenStartRectangle(Bitmap LevelBmp)
+        {
+            Rectangle LevelStartRect = new Rectangle(fMyLevel.StartPosX, fMyLevel.StartPosY, 320, 160);
+            Rectangle ScreenStartRect = GetPicRectFromLevelRect(LevelStartRect);
+            LevelBmp.DrawOnRectangles(new List<Rectangle>() { ScreenStartRect }, Color.AliceBlue);
+
+            return LevelBmp;
+        }
+
 
         /// <summary>
         /// Draws rectangles around selected pieces on already zoomed and cropped image.
