@@ -95,6 +95,9 @@ namespace NLEditor
         public static readonly int SKI_CLONER = 15;
         public static readonly int SKI_ZOMBIE = 16;
 
+        public static readonly int ZOOM_MIN = -2;
+        public static readonly int ZOOM_MAX = 7;
+
 
         public static readonly List<string> HotkeyList = new List<string>
             {

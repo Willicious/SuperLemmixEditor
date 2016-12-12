@@ -709,6 +709,19 @@ namespace NLEditor
         private void NLEditForm_MouseWheel(object sender, MouseEventArgs e)
         {
             int Movement = e.Delta / SystemInformation.MouseWheelScrollDelta;
+            Point MousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
+            Rectangle PicLevelRect = new Rectangle(0, 0, pic_Level.Width, pic_Level.Height);
+
+            if (PicLevelRect.Contains(MousePosRelPicLevel))
+            {
+                fCurRenderer.ChangeZoom(Movement > 0 ? 1 : -1, MousePosRelPicLevel);
+            }
+            else
+            {
+                fCurRenderer.ChangeZoom(Movement > 0 ? 1 : -1);
+            }
+
+            /*
             if (Movement > 0)
             {
                 fCurRenderer.ChangeZoom(1);
@@ -716,7 +729,7 @@ namespace NLEditor
             else if (Movement < 0)
             {
                 fCurRenderer.ChangeZoom(-1);
-            }
+            }*/
 
             // Update level image
             this.pic_Level.Image = fCurRenderer.CombineLayers();

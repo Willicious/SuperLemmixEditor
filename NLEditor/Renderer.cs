@@ -171,7 +171,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Returns the horizontal width of the border around the level image.
+        /// Returns the horizontal (screen) width of the border around the level image.
         /// </summary>
         /// <returns></returns>
         private int BorderWidth()
@@ -180,7 +180,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Returns the vertical height of the border around the level image.
+        /// Returns the vertical (screen) height of the border around the level image.
         /// </summary>
         /// <returns></returns>
         private int BorderHeight()
@@ -190,7 +190,26 @@ namespace NLEditor
 
         /// <summary>
         /// Translates a point in screen coordinates (relative to pic_Level) into level coordinates.
-        /// <para> Returns null if we modify the start position and it lies outside pic_Level. </para>
+        /// </summary>
+        /// <param name="MouseScreenPos"></param>
+        /// <returns></returns>
+        public Point GetMousePosInLevel(Point MouseScreenPos)
+        {
+            // Adapt to images that do not fill the whole pic_Level and to Mouse positions outside the level
+            int MouseScreenPosX = Math.Min(Math.Max(MouseScreenPos.X, BorderWidth()), fPicBoxSize.Width - BorderWidth())
+                                    - BorderWidth();
+            int MouseScreenPosY = Math.Min(Math.Max(MouseScreenPos.Y, BorderHeight()), fPicBoxSize.Height - BorderHeight())
+                                    - BorderHeight();
+
+            int PosX = ScreenPosX + ApplyUnZoom(MouseScreenPosX);
+            int PosY = ScreenPosY + ApplyUnZoom(MouseScreenPosY);
+            return new Point(PosX, PosY);
+        }
+
+
+        /// <summary>
+        /// Returns the start or current mouse position in level coordinates.
+        /// <para> Returns null if this position lies outside pic_Level. </para>
         /// </summary>
         /// <param name="IsCurrent"></param>
         /// <returns></returns>
@@ -201,18 +220,7 @@ namespace NLEditor
             if (MousePos == null) return null;
             if (!IsCurrent && !PicBoxRect.Contains((Point)MousePos)) return null;
 
-            int OrigPosX = ((Point)MousePos).X;
-            int OrigPosY = ((Point)MousePos).Y;
-
-            // Adapt to images that do not fill the whole pic_Level and to Mouse positions outside the level
-            OrigPosX = Math.Min(Math.Max(OrigPosX, BorderWidth()), fPicBoxSize.Width - BorderWidth());
-            OrigPosX -= BorderWidth();
-            OrigPosY = Math.Min(Math.Max(OrigPosY, BorderHeight()), fPicBoxSize.Height - BorderHeight());
-            OrigPosY -= BorderHeight();
-        
-            int PosX = ScreenPosX + ApplyUnZoom(OrigPosX);
-            int PosY = ScreenPosY + ApplyUnZoom(OrigPosY) ;
-            return new Point(PosX, PosY);
+            return GetMousePosInLevel((Point)MousePos);
         }
 
         /// <summary>
@@ -513,13 +521,37 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Modifies the zoom level and zooms onto the mouse position.
+        /// </summary>
+        /// <param name="Change"></param>
+        /// <param name="MouseScreenPos"></param>
+        public void ChangeZoom(int Change, Point MouseScreenPos)
+        {
+            Point MouseLevelPos = GetMousePosInLevel(MouseScreenPos);
+
+            int OldZoom = fZoom;
+            fZoom = Math.Max(Math.Min(OldZoom + Change, C.ZOOM_MAX), C.ZOOM_MIN);
+
+            if (fZoom != OldZoom)
+            {
+                fScreenPos.X = MouseLevelPos.X - ApplyUnZoom(MouseScreenPos.X);
+                fScreenPos.Y = MouseLevelPos.Y - ApplyUnZoom(MouseScreenPos.Y);
+                EnsureScreenPosInLevel();
+            }
+        }
+
+
+        /// <summary>
         /// Modifies the zoom level and adapts the screen position.
         /// </summary>
         /// <param name="Change"></param>
         public void ChangeZoom(int Change)
         {
+            int OldBorderWidth = ApplyUnZoom(BorderWidth());
+            int OldBorderHeight = ApplyUnZoom(BorderHeight());
+            
             int OldZoom = Zoom;
-            fZoom = Math.Max(Math.Min(OldZoom + Change, 7), -2);
+            fZoom = Math.Max(Math.Min(OldZoom + Change, C.ZOOM_MAX), C.ZOOM_MIN);
 
             // Change screen position
             float ChangeFactor;
@@ -531,9 +563,9 @@ namespace NLEditor
             {
                 ChangeFactor = ((float)(Zoom - OldZoom)) / 2;
             }
-
-            fScreenPos.X += (int)(fPicBoxSize.Width * ChangeFactor);
-            fScreenPos.Y += (int)(fPicBoxSize.Height * ChangeFactor);
+            
+            fScreenPos.X += (int)(fPicBoxSize.Width * ChangeFactor) - OldBorderWidth;
+            fScreenPos.Y += (int)(fPicBoxSize.Height * ChangeFactor) - OldBorderHeight;
             EnsureScreenPosInLevel();
         }
 
