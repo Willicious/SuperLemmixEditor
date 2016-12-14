@@ -361,6 +361,16 @@ namespace NLEditor
         public Rectangle TriggerRect { get 
         {
             Rectangle TrigRect = ImageLibrary.GetTrigger(fKey);
+            // Adjust to resizing
+            if (ResizeMode.In(C.Resize.Horiz, C.Resize.Both))
+            {
+                TrigRect.Width += this.Width - base.Width;
+            }
+            if (ResizeMode.In(C.Resize.Vert, C.Resize.Both))
+            {
+                TrigRect.Height += this.Height - base.Height;
+            }
+
             // Adjust to flipping
             if (IsFlippedInPlayer && !IsInvertedInPlayer && !IsRotatedInPlayer)
             {
