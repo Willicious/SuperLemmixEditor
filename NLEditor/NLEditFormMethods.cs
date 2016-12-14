@@ -190,12 +190,12 @@ namespace NLEditor
             if (fCurLevel == null) return;
 
             HashSet<string> MissingImageNames = new HashSet<string>();
-            fCurLevel.TerrainList.FindAll(piece => !piece.ExistsImage())
-                                 .ForEach(piece => MissingImageNames.Add(piece.Name + " in style " + piece.Style));
+            fCurLevel.TerrainList.FindAll(ter => !ter.ExistsImage())
+                                 .ForEach(ter => MissingImageNames.Add(ter.Name + " in style " + ter.Style));
             fCurLevel.GadgetList.FindAll(obj => !obj.ExistsImage())
                                 .ForEach(obj => MissingImageNames.Add(obj.Name + " in style " + obj.Style));
                                  
-            fCurLevel.TerrainList.RemoveAll(piece => !piece.ExistsImage());
+            fCurLevel.TerrainList.RemoveAll(ter => !ter.ExistsImage());
             fCurLevel.GadgetList.RemoveAll(obj => !obj.ExistsImage());
 
             if (MissingImageNames.Count > 0)

@@ -348,7 +348,7 @@ namespace NLEditor
             TextFile.WriteLine(" AUTHOR " + CurLevel.Author);
             if (CurLevel.MusicFile != null & CurLevel.MusicFile.Length > 0)
             {
-                TextFile.WriteLine(" MUSIC " + CurLevel.MusicFile);
+                TextFile.WriteLine(" MUSIC " + Path.GetFileNameWithoutExtension(CurLevel.MusicFile));
             }
             TextFile.WriteLine(" ID x" + CurLevel.LevelID.ToString("X"));
             TextFile.WriteLine(" ");
