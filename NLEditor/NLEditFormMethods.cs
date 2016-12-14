@@ -183,13 +183,27 @@ namespace NLEditor
 
         /// <summary>
         /// Removes all pieces for which no image in the corresponding style exists.
+        /// <para> A warning is displayed if pieces are removed. </para>
         /// </summary>
         private void RemoveInvalidLevelPieces()
         {
             if (fCurLevel == null) return;
 
+            HashSet<string> MissingImageNames = new HashSet<string>();
+            fCurLevel.TerrainList.FindAll(piece => !piece.ExistsImage())
+                                 .ForEach(piece => MissingImageNames.Add(piece.Name + " in style " + piece.Style));
+            fCurLevel.GadgetList.FindAll(obj => !obj.ExistsImage())
+                                .ForEach(obj => MissingImageNames.Add(obj.Name + " in style " + obj.Style));
+                                 
             fCurLevel.TerrainList.RemoveAll(piece => !piece.ExistsImage());
             fCurLevel.GadgetList.RemoveAll(obj => !obj.ExistsImage());
+
+            if (MissingImageNames.Count > 0)
+            {
+                string Message = "Warning: The following pieces are unknown: " + C.NewLine;
+                MissingImageNames.ToList().ForEach(str => Message += " " + str + C.NewLine);
+                MessageBox.Show(Message);
+            }
         }
 
         /// <summary>
