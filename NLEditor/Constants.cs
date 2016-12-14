@@ -17,8 +17,14 @@ namespace NLEditor
 
         public static string AppPath
         {
-            get { return "C:\\Stephan\\Programme\\NLEditor\\"; }
-            // get { return System.Windows.Forms.Application.StartupPath + DirSep; }
+            get 
+            {
+                #if DEBUG
+                    return "C:\\Stephan\\Programme\\NLEditor\\";
+                #endif
+
+                return System.Windows.Forms.Application.StartupPath + DirSep; 
+            }
         }
 
         public static string AppPathPieces
