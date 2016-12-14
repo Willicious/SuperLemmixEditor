@@ -106,6 +106,7 @@ namespace NLEditor
                                            NewLevel.IsNoTimeLimit = false; break;
                         case "RELEASE_RATE": NewLevel.ReleaseRate = Line.Value; break;
                         case "RELEAST_RATE_LOCKED": NewLevel.IsReleaseRateFix = true; break;
+                        case "BACKGROUND": NewLevel.BackgroundKey = Line.Text; break;
 
                         case "SKILLSET": ReadSkillSetFromLines(FileLineList, NewLevel); break;
                         case "OBJECT": 
@@ -359,6 +360,10 @@ namespace NLEditor
             TextFile.WriteLine(" START_X " + CurLevel.StartPosX.ToString().PadLeft(4));
             TextFile.WriteLine(" START_Y " + CurLevel.StartPosY.ToString().PadLeft(4));
             TextFile.WriteLine(" THEME " + CurLevel.MainStyle.NameInDirectory);
+            if (CurLevel.MainStyle.BackgroundNames.Contains(CurLevel.BackgroundKey))
+            {
+                TextFile.WriteLine(" BACKGROUND " + Path.GetFileName(CurLevel.BackgroundKey));
+            }
             TextFile.WriteLine(" ");
 
             TextFile.WriteLine("#         Level stats           ");
@@ -525,8 +530,8 @@ namespace NLEditor
         static private void WriteTerrain(TextWriter TextFile, TerrainPiece MyTerrain)
         {
             TextFile.WriteLine(" $TERRAIN");
-            TextFile.WriteLine("   SET    " + MyTerrain.Style);
-            TextFile.WriteLine("   PIECE  " + MyTerrain.Name);
+            TextFile.WriteLine("   COLLECTION " + MyTerrain.Style);
+            TextFile.WriteLine("   PIECE      " + MyTerrain.Name);
             TextFile.WriteLine("   X " + MyTerrain.PosX.ToString().PadLeft(5));
             TextFile.WriteLine("   Y " + MyTerrain.PosY.ToString().PadLeft(5));
             if (MyTerrain.IsNoOverwrite)

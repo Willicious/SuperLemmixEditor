@@ -119,7 +119,11 @@ namespace NLEditor
 
         public List<TerrainPiece> TerrainList { get { return fTerrainList; } set { fTerrainList = value; } }
         public List<GadgetPiece> GadgetList { get { return fGadgetList; } set { fGadgetList = value; } }
-        public string BackgroundKey { get { return fBackgroundKey; } set { fBackgroundKey = value; } }
+        public string BackgroundKey 
+        {
+            get { return fMainStyle.NameInDirectory + C.DirSep + "backgrounds" + C.DirSep + fBackgroundKey; } 
+            set { fBackgroundKey = value; } 
+        }
 
         public int NumLems { get { return fNumLems; } set { fNumLems = value; } }
         public int SaveReq { get { return fSaveReq; } set { fSaveReq = value; } }

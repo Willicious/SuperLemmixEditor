@@ -286,12 +286,7 @@ namespace NLEditor
 
         private void combo_Background_TextChanged(object sender, EventArgs e)
         {
-            string NewBackgroundKey = ValidateBackgroundString(this.combo_Background.Text);
-
-            if (NewBackgroundKey == "" || CurLevel == null || NewBackgroundKey == CurLevel.BackgroundKey) return;
-
-            // Load new style into PictureBoxes
-            CurLevel.BackgroundKey = NewBackgroundKey;
+            CurLevel.BackgroundKey = this.combo_Background.Text;
             UpdateBackgroundImage();
         }
 

@@ -91,7 +91,6 @@ namespace NLEditor
             if (fCurRenderer != null)
             {
                 fCurRenderer.CreateBackgroundLayer();
-                //this.pic_Level.Image = fCurRenderer.CombineLayers();
             }
         }
 
