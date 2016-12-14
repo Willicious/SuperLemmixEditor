@@ -73,6 +73,15 @@ namespace NLEditor
         public Rectangle ImageRectangle { get { return new Rectangle(fPos.X, fPos.Y, Width, Height); } }
 
         /// <summary>
+        /// Returns whether the ImageLibrary can find an image corresponding to this piece.
+        /// </summary>
+        /// <returns></returns>
+        public bool ExistsImage()
+        {
+            return ImageLibrary.ExistsKey(fKey);
+        }
+
+        /// <summary>
         /// Moves the piece in the level.
         /// </summary>
         /// <param name="Direction"></param>

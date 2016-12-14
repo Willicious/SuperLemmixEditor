@@ -169,6 +169,7 @@ namespace NLEditor
 
             fCurLevel = NewLevel;
             fCurRenderer.SetLevel(fCurLevel);
+            RemoveInvalidLevelPieces();
 
             fOldLevelList = new List<Level>();
             fOldLevelList.Add(fCurLevel.Clone());
@@ -178,6 +179,17 @@ namespace NLEditor
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+        }
+
+        /// <summary>
+        /// Removes all pieces for which no image in the corresponding style exists.
+        /// </summary>
+        private void RemoveInvalidLevelPieces()
+        {
+            if (fCurLevel == null) return;
+
+            fCurLevel.TerrainList.RemoveAll(piece => !piece.ExistsImage());
+            fCurLevel.GadgetList.RemoveAll(obj => !obj.ExistsImage());
         }
 
         /// <summary>
