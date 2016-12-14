@@ -115,6 +115,7 @@ namespace NLEditor
 
         /* --------------------------------------------------------
          *   public methods:
+         *     - ExistsKey(string ImageKey)
          *     - GetImage(string ImageKey) // [Obsolete]
          *     - GetImage(string ImageKey, RotateFlipType RotFlipType)
          *     - GetWidth(string ImageKey)
@@ -132,8 +133,20 @@ namespace NLEditor
 
         // The key is the file path below the "styles\\pieces" folder!
         static Dictionary<string, BaseImageInfo> fImageList;
+        
+        /// <summary>
+        /// Returns whether an image with this ImageKey exists.
+        /// </summary>
+        /// <param name="ImageKey"></param>
+        /// <returns></returns>
+        public static bool ExistsKey(string ImageKey)
+        {
+            if (fImageList.ContainsKey(ImageKey)) return true;
+            else return AddNewImage(ImageKey);
+        }
 
 
+        [Obsolete]
         /// <summary>
         /// Returns the image corresponding to the key, or null if image cannot be found. 
         /// <para> Warning: The Bitmap is passed by reference, so NEVER change its value! </para>
@@ -316,6 +329,7 @@ namespace NLEditor
 
         /// <summary>
         /// Creates the image key from the style and piece name.
+        /// <para> Do NOT use this for background images! </para>
         /// </summary>
         /// <param name="StyleName"></param>
         /// <param name="PieceName"></param>

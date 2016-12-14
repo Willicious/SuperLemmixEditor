@@ -57,24 +57,12 @@ namespace NLEditor
             for (int i = 0; i < picPieceList.Count; i++)
             {
                 string ThisPieceName = ThisPieceNameList[(fPieceStartIndex + i) % ThisPieceNameList.Count];
-                picPieceList[i].Image = ImageLibrary.GetImage(ThisPieceName);
+                picPieceList[i].Image = ImageLibrary.GetImage(ThisPieceName, RotateFlipType.RotateNoneFlipNone);
             }
 
             return;
         }
 
-        /// <summary>
-        /// Returns a style with the requested name, or null if none such is found. 
-        /// </summary>
-        /// <param name="MyForm"></param>
-        /// <param name="NewStyleName"></param>
-        /// <returns></returns>
-        private Style ValidateStyleName(string NewStyleName)
-        {
-            if (StyleList == null || StyleList.Count == 0) return null;
-
-            return StyleList.Find(sty => sty.NameInEditor == NewStyleName);
-        }
 
         /// <summary>
         /// Clears all piece selection PictureBoxes.
@@ -90,7 +78,7 @@ namespace NLEditor
         /// </summary>
         /// <param name="MyForm"></param>
         /// <param name="NewStyle"></param>
-        private void UpdateBackgroundColor()
+        private void UpdateBackgroundImage()
         {
             if (fCurLevel.MainStyle == null) return;
 
@@ -99,10 +87,11 @@ namespace NLEditor
 
             picPieceList.ForEach(pic => pic.BackColor = NewBackColor);
 
-            // recreate level with the new background color (assuming we already have a renderer)
+            // recreate level with the new background color/image (assuming we already have a renderer)
             if (fCurRenderer != null)
             {
-                this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+                fCurRenderer.CreateBackgroundLayer();
+                //this.pic_Level.Image = fCurRenderer.CombineLayers();
             }
         }
 
@@ -207,6 +196,7 @@ namespace NLEditor
 
         }
 
+
         /// <summary>
         /// Repositions the controls after resizing the main form.
         /// </summary>
@@ -227,7 +217,7 @@ namespace NLEditor
             bool UpdateImages = MovePicPiecesOnResize();
             if (UpdateImages)
             {
-                UpdateBackgroundColor();
+                UpdateBackgroundImage();
                 LoadPiecesIntoPictureBox();
             }
         }
@@ -289,6 +279,23 @@ namespace NLEditor
 
             return NewPicPiece;
         }
+
+        /// <summary>
+        /// Updates the possible background images depending on the currently selected main style.
+        /// </summary>
+        private void UpdateBackgroundComboItems()
+        {
+            combo_Background.Items.Clear();
+            combo_Background.Items.Add("--none--");
+            if (CurLevel.MainStyle != null)
+            {
+                string[] BackgroundNames = CurLevel.MainStyle.BackgroundNames.Select(name => 
+                                               System.IO.Path.GetFileName(name)).ToArray();
+                combo_Background.Items.AddRange(BackgroundNames);
+            }
+        }
+
+
 
         /// <summary>
         /// Displays a list of all hotkeys in a new form window.

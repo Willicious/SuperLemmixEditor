@@ -119,13 +119,6 @@
             this.check_Pieces_OnlyOnTerrain = new System.Windows.Forms.CheckBox();
             this.check_Pieces_NoOv = new System.Windows.Forms.CheckBox();
             this.check_Pieces_Erase = new System.Windows.Forms.CheckBox();
-            this.but_MoveBackOne = new NLEditor.RepeatButton();
-            this.but_MoveFrontOne = new NLEditor.RepeatButton();
-            this.but_MoveBack = new NLEditor.RepeatButton();
-            this.but_MoveFront = new NLEditor.RepeatButton();
-            this.but_FlipPieces = new NLEditor.RepeatButton();
-            this.but_InvertPieces = new NLEditor.RepeatButton();
-            this.but_RotatePieces = new NLEditor.RepeatButton();
             this.tabSkills = new System.Windows.Forms.TabPage();
             this.num_Ski_Cloner = new System.Windows.Forms.NumericUpDown();
             this.num_Ski_Stacker = new System.Windows.Forms.NumericUpDown();
@@ -160,8 +153,18 @@
             this.lbl_Skill_Floater = new System.Windows.Forms.Label();
             this.lbl_Skill_Climber = new System.Windows.Forms.Label();
             this.txt_Focus = new System.Windows.Forms.TextBox();
+            this.combo_Background = new System.Windows.Forms.ComboBox();
+            this.lbl_Global_Background = new System.Windows.Forms.Label();
+            this.backgroundRenderingF6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.but_PieceRight = new NLEditor.RepeatButton();
             this.but_PieceLeft = new NLEditor.RepeatButton();
+            this.but_MoveBackOne = new NLEditor.RepeatButton();
+            this.but_MoveFrontOne = new NLEditor.RepeatButton();
+            this.but_MoveBack = new NLEditor.RepeatButton();
+            this.but_MoveFront = new NLEditor.RepeatButton();
+            this.but_FlipPieces = new NLEditor.RepeatButton();
+            this.but_InvertPieces = new NLEditor.RepeatButton();
+            this.but_RotatePieces = new NLEditor.RepeatButton();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -320,7 +323,8 @@
             this.terrainRenderingToolStripMenuItem,
             this.objectRenderingToolStripMenuItem,
             this.triggerAreasToolStripMenuItem,
-            this.screenStartToolStripMenuItem});
+            this.screenStartToolStripMenuItem,
+            this.backgroundRenderingF6ToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
             this.viewToolStripMenuItem.Text = "View";
@@ -328,35 +332,35 @@
             // clearPhysicsToolStripMenuItem
             // 
             this.clearPhysicsToolStripMenuItem.Name = "clearPhysicsToolStripMenuItem";
-            this.clearPhysicsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearPhysicsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.clearPhysicsToolStripMenuItem.Text = "Clear Physics (F1)";
             this.clearPhysicsToolStripMenuItem.Click += new System.EventHandler(this.clearPhysicsToolStripMenuItem_Click);
             // 
             // terrainRenderingToolStripMenuItem
             // 
             this.terrainRenderingToolStripMenuItem.Name = "terrainRenderingToolStripMenuItem";
-            this.terrainRenderingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.terrainRenderingToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.terrainRenderingToolStripMenuItem.Text = "Terrain rendering (F2)";
             this.terrainRenderingToolStripMenuItem.Click += new System.EventHandler(this.terrainRenderingToolStripMenuItem_Click);
             // 
             // objectRenderingToolStripMenuItem
             // 
             this.objectRenderingToolStripMenuItem.Name = "objectRenderingToolStripMenuItem";
-            this.objectRenderingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objectRenderingToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.objectRenderingToolStripMenuItem.Text = "Object rendering (F3)";
             this.objectRenderingToolStripMenuItem.Click += new System.EventHandler(this.objectRenderingToolStripMenuItem_Click);
             // 
             // triggerAreasToolStripMenuItem
             // 
             this.triggerAreasToolStripMenuItem.Name = "triggerAreasToolStripMenuItem";
-            this.triggerAreasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.triggerAreasToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.triggerAreasToolStripMenuItem.Text = "Trigger areas (F4)";
             this.triggerAreasToolStripMenuItem.Click += new System.EventHandler(this.triggerAreasToolStripMenuItem_Click);
             // 
             // screenStartToolStripMenuItem
             // 
             this.screenStartToolStripMenuItem.Name = "screenStartToolStripMenuItem";
-            this.screenStartToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.screenStartToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.screenStartToolStripMenuItem.Text = "Screen start (F5)";
             this.screenStartToolStripMenuItem.Click += new System.EventHandler(this.screenStartToolStripMenuItem_Click);
             // 
@@ -551,6 +555,8 @@
             // 
             // tabGlobalInfo
             // 
+            this.tabGlobalInfo.Controls.Add(this.combo_Background);
+            this.tabGlobalInfo.Controls.Add(this.lbl_Global_Background);
             this.tabGlobalInfo.Controls.Add(this.check_Lvl_InfTime);
             this.tabGlobalInfo.Controls.Add(this.combo_Music);
             this.tabGlobalInfo.Controls.Add(this.num_Lvl_TimeSec);
@@ -657,7 +663,7 @@
             // 
             // lbl_Global_TimeLimit
             // 
-            this.lbl_Global_TimeLimit.Location = new System.Drawing.Point(8, 268);
+            this.lbl_Global_TimeLimit.Location = new System.Drawing.Point(6, 265);
             this.lbl_Global_TimeLimit.Name = "lbl_Global_TimeLimit";
             this.lbl_Global_TimeLimit.Size = new System.Drawing.Size(56, 15);
             this.lbl_Global_TimeLimit.TabIndex = 21;
@@ -699,7 +705,7 @@
             // 
             // lbl_Global_RR
             // 
-            this.lbl_Global_RR.Location = new System.Drawing.Point(8, 219);
+            this.lbl_Global_RR.Location = new System.Drawing.Point(6, 216);
             this.lbl_Global_RR.Name = "lbl_Global_RR";
             this.lbl_Global_RR.Size = new System.Drawing.Size(81, 15);
             this.lbl_Global_RR.TabIndex = 18;
@@ -730,7 +736,7 @@
             // 
             // lbl_Global_Rescue
             // 
-            this.lbl_Global_Rescue.Location = new System.Drawing.Point(8, 193);
+            this.lbl_Global_Rescue.Location = new System.Drawing.Point(6, 190);
             this.lbl_Global_Rescue.Name = "lbl_Global_Rescue";
             this.lbl_Global_Rescue.Size = new System.Drawing.Size(56, 15);
             this.lbl_Global_Rescue.TabIndex = 16;
@@ -761,7 +767,7 @@
             // 
             // lbl_Global_Lemmings
             // 
-            this.lbl_Global_Lemmings.Location = new System.Drawing.Point(8, 167);
+            this.lbl_Global_Lemmings.Location = new System.Drawing.Point(6, 164);
             this.lbl_Global_Lemmings.Name = "lbl_Global_Lemmings";
             this.lbl_Global_Lemmings.Size = new System.Drawing.Size(56, 15);
             this.lbl_Global_Lemmings.TabIndex = 14;
@@ -805,7 +811,7 @@
             // 
             // lbl_Global_StartPos
             // 
-            this.lbl_Global_StartPos.Location = new System.Drawing.Point(8, 141);
+            this.lbl_Global_StartPos.Location = new System.Drawing.Point(6, 138);
             this.lbl_Global_StartPos.Name = "lbl_Global_StartPos";
             this.lbl_Global_StartPos.Size = new System.Drawing.Size(46, 15);
             this.lbl_Global_StartPos.TabIndex = 11;
@@ -871,7 +877,7 @@
             // 
             // lbl_Global_Size
             // 
-            this.lbl_Global_Size.Location = new System.Drawing.Point(8, 115);
+            this.lbl_Global_Size.Location = new System.Drawing.Point(6, 115);
             this.lbl_Global_Size.Name = "lbl_Global_Size";
             this.lbl_Global_Size.Size = new System.Drawing.Size(46, 15);
             this.lbl_Global_Size.TabIndex = 8;
@@ -1297,83 +1303,6 @@
             this.check_Pieces_Erase.UseVisualStyleBackColor = true;
             this.check_Pieces_Erase.CheckedChanged += new System.EventHandler(this.check_Pieces_Erase_CheckedChanged);
             // 
-            // but_MoveBackOne
-            // 
-            this.but_MoveBackOne.Location = new System.Drawing.Point(92, 80);
-            this.but_MoveBackOne.Name = "but_MoveBackOne";
-            this.but_MoveBackOne.Size = new System.Drawing.Size(76, 30);
-            this.but_MoveBackOne.TabIndex = 6;
-            this.but_MoveBackOne.Text = "One to Back";
-            this.but_MoveBackOne.UseVisualStyleBackColor = true;
-            this.but_MoveBackOne.Click += new System.EventHandler(this.but_MoveBackOne_Click);
-            this.but_MoveBackOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveBackOne_MouseUp);
-            // 
-            // but_MoveFrontOne
-            // 
-            this.but_MoveFrontOne.Location = new System.Drawing.Point(8, 80);
-            this.but_MoveFrontOne.Name = "but_MoveFrontOne";
-            this.but_MoveFrontOne.Size = new System.Drawing.Size(76, 30);
-            this.but_MoveFrontOne.TabIndex = 5;
-            this.but_MoveFrontOne.Text = "One to Front";
-            this.but_MoveFrontOne.UseVisualStyleBackColor = true;
-            this.but_MoveFrontOne.Click += new System.EventHandler(this.but_MoveFrontOne_Click);
-            this.but_MoveFrontOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveFrontOne_MouseUp);
-            // 
-            // but_MoveBack
-            // 
-            this.but_MoveBack.Location = new System.Drawing.Point(92, 44);
-            this.but_MoveBack.Name = "but_MoveBack";
-            this.but_MoveBack.Size = new System.Drawing.Size(76, 30);
-            this.but_MoveBack.TabIndex = 4;
-            this.but_MoveBack.Text = "All to Back";
-            this.but_MoveBack.UseVisualStyleBackColor = true;
-            this.but_MoveBack.Click += new System.EventHandler(this.but_MoveBack_Click);
-            this.but_MoveBack.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveBack_MouseUp);
-            // 
-            // but_MoveFront
-            // 
-            this.but_MoveFront.Location = new System.Drawing.Point(8, 44);
-            this.but_MoveFront.Name = "but_MoveFront";
-            this.but_MoveFront.Size = new System.Drawing.Size(76, 30);
-            this.but_MoveFront.TabIndex = 3;
-            this.but_MoveFront.Text = "All to Front";
-            this.but_MoveFront.UseVisualStyleBackColor = true;
-            this.but_MoveFront.Click += new System.EventHandler(this.but_MoveFront_Click);
-            this.but_MoveFront.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveFront_MouseUp);
-            // 
-            // but_FlipPieces
-            // 
-            this.but_FlipPieces.Location = new System.Drawing.Point(119, 8);
-            this.but_FlipPieces.Name = "but_FlipPieces";
-            this.but_FlipPieces.Size = new System.Drawing.Size(49, 30);
-            this.but_FlipPieces.TabIndex = 2;
-            this.but_FlipPieces.Text = "Flip";
-            this.but_FlipPieces.UseVisualStyleBackColor = true;
-            this.but_FlipPieces.Click += new System.EventHandler(this.but_FlipPieces_Click);
-            this.but_FlipPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_FlipPieces_MouseUp);
-            // 
-            // but_InvertPieces
-            // 
-            this.but_InvertPieces.Location = new System.Drawing.Point(61, 8);
-            this.but_InvertPieces.Name = "but_InvertPieces";
-            this.but_InvertPieces.Size = new System.Drawing.Size(49, 30);
-            this.but_InvertPieces.TabIndex = 1;
-            this.but_InvertPieces.Text = "Invert";
-            this.but_InvertPieces.UseVisualStyleBackColor = true;
-            this.but_InvertPieces.Click += new System.EventHandler(this.but_InvertPieces_Click);
-            this.but_InvertPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_InvertPieces_MouseUp);
-            // 
-            // but_RotatePieces
-            // 
-            this.but_RotatePieces.Location = new System.Drawing.Point(6, 8);
-            this.but_RotatePieces.Name = "but_RotatePieces";
-            this.but_RotatePieces.Size = new System.Drawing.Size(49, 30);
-            this.but_RotatePieces.TabIndex = 0;
-            this.but_RotatePieces.Text = "Rotate";
-            this.but_RotatePieces.UseVisualStyleBackColor = true;
-            this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
-            this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
-            // 
             // tabSkills
             // 
             this.tabSkills.Controls.Add(this.num_Ski_Cloner);
@@ -1680,6 +1609,33 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
+            // combo_Background
+            // 
+            this.combo_Background.FormattingEnabled = true;
+            this.combo_Background.Items.AddRange(new object[] {
+            "--none--"});
+            this.combo_Background.Location = new System.Drawing.Point(70, 312);
+            this.combo_Background.Name = "combo_Background";
+            this.combo_Background.Size = new System.Drawing.Size(98, 21);
+            this.combo_Background.TabIndex = 26;
+            this.combo_Background.Text = "--none--";
+            this.combo_Background.TextChanged += new System.EventHandler(this.combo_Background_TextChanged);
+            // 
+            // lbl_Global_Background
+            // 
+            this.lbl_Global_Background.Location = new System.Drawing.Point(6, 315);
+            this.lbl_Global_Background.Name = "lbl_Global_Background";
+            this.lbl_Global_Background.Size = new System.Drawing.Size(86, 15);
+            this.lbl_Global_Background.TabIndex = 25;
+            this.lbl_Global_Background.Text = "Background";
+            // 
+            // backgroundRenderingF6ToolStripMenuItem
+            // 
+            this.backgroundRenderingF6ToolStripMenuItem.Name = "backgroundRenderingF6ToolStripMenuItem";
+            this.backgroundRenderingF6ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.backgroundRenderingF6ToolStripMenuItem.Text = "Background image (F6)";
+            this.backgroundRenderingF6ToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
+            // 
             // but_PieceRight
             // 
             this.but_PieceRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1703,6 +1659,83 @@
             this.but_PieceLeft.UseVisualStyleBackColor = true;
             this.but_PieceLeft.Click += new System.EventHandler(this.but_PieceLeft_Click);
             this.but_PieceLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseUp);
+            // 
+            // but_MoveBackOne
+            // 
+            this.but_MoveBackOne.Location = new System.Drawing.Point(92, 80);
+            this.but_MoveBackOne.Name = "but_MoveBackOne";
+            this.but_MoveBackOne.Size = new System.Drawing.Size(76, 30);
+            this.but_MoveBackOne.TabIndex = 6;
+            this.but_MoveBackOne.Text = "One to Back";
+            this.but_MoveBackOne.UseVisualStyleBackColor = true;
+            this.but_MoveBackOne.Click += new System.EventHandler(this.but_MoveBackOne_Click);
+            this.but_MoveBackOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveBackOne_MouseUp);
+            // 
+            // but_MoveFrontOne
+            // 
+            this.but_MoveFrontOne.Location = new System.Drawing.Point(8, 80);
+            this.but_MoveFrontOne.Name = "but_MoveFrontOne";
+            this.but_MoveFrontOne.Size = new System.Drawing.Size(76, 30);
+            this.but_MoveFrontOne.TabIndex = 5;
+            this.but_MoveFrontOne.Text = "One to Front";
+            this.but_MoveFrontOne.UseVisualStyleBackColor = true;
+            this.but_MoveFrontOne.Click += new System.EventHandler(this.but_MoveFrontOne_Click);
+            this.but_MoveFrontOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveFrontOne_MouseUp);
+            // 
+            // but_MoveBack
+            // 
+            this.but_MoveBack.Location = new System.Drawing.Point(92, 44);
+            this.but_MoveBack.Name = "but_MoveBack";
+            this.but_MoveBack.Size = new System.Drawing.Size(76, 30);
+            this.but_MoveBack.TabIndex = 4;
+            this.but_MoveBack.Text = "All to Back";
+            this.but_MoveBack.UseVisualStyleBackColor = true;
+            this.but_MoveBack.Click += new System.EventHandler(this.but_MoveBack_Click);
+            this.but_MoveBack.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveBack_MouseUp);
+            // 
+            // but_MoveFront
+            // 
+            this.but_MoveFront.Location = new System.Drawing.Point(8, 44);
+            this.but_MoveFront.Name = "but_MoveFront";
+            this.but_MoveFront.Size = new System.Drawing.Size(76, 30);
+            this.but_MoveFront.TabIndex = 3;
+            this.but_MoveFront.Text = "All to Front";
+            this.but_MoveFront.UseVisualStyleBackColor = true;
+            this.but_MoveFront.Click += new System.EventHandler(this.but_MoveFront_Click);
+            this.but_MoveFront.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveFront_MouseUp);
+            // 
+            // but_FlipPieces
+            // 
+            this.but_FlipPieces.Location = new System.Drawing.Point(119, 8);
+            this.but_FlipPieces.Name = "but_FlipPieces";
+            this.but_FlipPieces.Size = new System.Drawing.Size(49, 30);
+            this.but_FlipPieces.TabIndex = 2;
+            this.but_FlipPieces.Text = "Flip";
+            this.but_FlipPieces.UseVisualStyleBackColor = true;
+            this.but_FlipPieces.Click += new System.EventHandler(this.but_FlipPieces_Click);
+            this.but_FlipPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_FlipPieces_MouseUp);
+            // 
+            // but_InvertPieces
+            // 
+            this.but_InvertPieces.Location = new System.Drawing.Point(61, 8);
+            this.but_InvertPieces.Name = "but_InvertPieces";
+            this.but_InvertPieces.Size = new System.Drawing.Size(49, 30);
+            this.but_InvertPieces.TabIndex = 1;
+            this.but_InvertPieces.Text = "Invert";
+            this.but_InvertPieces.UseVisualStyleBackColor = true;
+            this.but_InvertPieces.Click += new System.EventHandler(this.but_InvertPieces_Click);
+            this.but_InvertPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_InvertPieces_MouseUp);
+            // 
+            // but_RotatePieces
+            // 
+            this.but_RotatePieces.Location = new System.Drawing.Point(6, 8);
+            this.but_RotatePieces.Name = "but_RotatePieces";
+            this.but_RotatePieces.Size = new System.Drawing.Size(49, 30);
+            this.but_RotatePieces.TabIndex = 0;
+            this.but_RotatePieces.Text = "Rotate";
+            this.but_RotatePieces.UseVisualStyleBackColor = true;
+            this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
+            this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
             // 
             // NLEditForm
             // 
@@ -1919,6 +1952,9 @@
         private System.Windows.Forms.NumericUpDown num_Resize_Width;
         private System.Windows.Forms.Label lbl_Resize_Width;
         private System.Windows.Forms.Button but_PairTeleporter;
+        private System.Windows.Forms.ComboBox combo_Background;
+        private System.Windows.Forms.Label lbl_Global_Background;
+        private System.Windows.Forms.ToolStripMenuItem backgroundRenderingF6ToolStripMenuItem;
     }
 }
 

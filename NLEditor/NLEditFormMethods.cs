@@ -152,7 +152,7 @@ namespace NLEditor
             fOldSelectedList = new List<LevelPiece>();
 
             WriteLevelInfoToForm();
-            UpdateBackgroundColor();
+            UpdateBackgroundImage();
             UpdateFlagsForPieceActions();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
@@ -247,6 +247,34 @@ namespace NLEditor
             MyValidator.Validate();
         }
 
+
+        /// <summary>
+        /// Returns a style with the requested name, or null if none such is found. 
+        /// </summary>
+        /// <param name="MyForm"></param>
+        /// <param name="NewStyleName"></param>
+        /// <returns></returns>
+        private Style ValidateStyleName(string NewStyleName)
+        {
+            if (StyleList == null || StyleList.Count == 0) return null;
+
+            return StyleList.Find(sty => sty.NameInEditor == NewStyleName);
+        }
+
+        /// <summary>
+        /// Returns the background key with the requested name, or an empty string if none such is found.
+        /// </summary>
+        /// <param name="NewBackgroundName"></param>
+        /// <returns></returns>
+        private string ValidateBackgroundString(string NewBackgroundName)
+        {
+            if (CurLevel.MainStyle == null) return "";
+
+            string NewBackgroundKey = CurLevel.MainStyle.NameInDirectory + C.DirSep
+                                        + "backgrounds" + C.DirSep + NewBackgroundName;
+
+            return CurLevel.MainStyle.BackgroundNames.Find(back => back == NewBackgroundKey);
+        }
 
         /// <summary>
         /// Switches between displaying objects and terrain for newly added pieces.

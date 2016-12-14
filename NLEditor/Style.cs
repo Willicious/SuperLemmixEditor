@@ -27,6 +27,7 @@ namespace NLEditor
 
             SearchDirectoryForTerrain();
             SearchDirectoryForObjects();
+            SearchDirectoryForBackgrounds();
             List<Color> StyleColors = LoadStylesFromFile.StyleColors(NameInDirectory);
             fBackgroundColor = StyleColors[0];
         }
@@ -35,12 +36,14 @@ namespace NLEditor
         string fNameInEditor;
         List<string> fTerrainNames;
         List<string> fObjectNames;
+        List<string> fBackgroundNames;
         Color fBackgroundColor;
 
         public string NameInDirectory { get { return fNameInDirectory; } }
         public string NameInEditor { get { return fNameInEditor; } set { fNameInEditor = value; } }
         public List<string> TerrainNames { get { return fTerrainNames; } }
         public List<string> ObjectNames { get { return fObjectNames; } }
+        public List<string> BackgroundNames { get { return fBackgroundNames; } }
         public Color BackgroundColor { get { return fBackgroundColor; } }
 
         /// <summary>
@@ -65,6 +68,10 @@ namespace NLEditor
                 fTerrainNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
                                          .Select(file => ImageLibrary.CreatePieceKey(file))
                                          .ToList();
+            }
+            else // use empty list
+            {
+                fTerrainNames = new List<string>();
             }
         }
 
@@ -106,6 +113,28 @@ namespace NLEditor
                 System.Windows.Forms.MessageBox.Show("Warning:" + Ex.Message);
                 // ...but then start the editor as usual
             }
+
+            if (fObjectNames == null) fObjectNames = new List<string>();
         }
+
+        /// <summary>
+        /// Writes all pieces in AppPath/StyleName/backgrounds to the list of BackgroundNames.
+        /// </summary>
+        private void SearchDirectoryForBackgrounds()
+        {
+            string DirectoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "backgrounds";
+
+            if (Directory.Exists(DirectoryPath))
+            {
+                fBackgroundNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                                            .Select(file => ImageLibrary.CreatePieceKey(file))
+                                            .ToList();
+            }
+            else // use empty list
+            {
+                fBackgroundNames = new List<string>();
+            }
+        }
+
     }
 }

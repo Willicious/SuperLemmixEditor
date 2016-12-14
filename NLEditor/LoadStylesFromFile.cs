@@ -58,9 +58,11 @@ namespace NLEditor
                 while ((NewFileLine = MyParser.GetNextLines()) != null)
                 {
                     System.Diagnostics.Debug.Assert(NewFileLine.Count > 0, "FileParser returned empty list.");
-                    if (NewFileLine[0].Key == "BACKGROUND")
+
+                    FileLine NewColorLine = NewFileLine.Find(line => line.Key == "BACKGROUND");
+                    if (NewColorLine != null)
                     {
-                        string NewColorString = NewFileLine[0].Text;
+                        string NewColorString = NewColorLine.Text;
                         if (NewColorString.StartsWith("x")) NewColorString = NewColorString.Substring(1);
                         ColorList[0] = ColorTranslator.FromHtml("#" + NewColorString);
                     }

@@ -189,6 +189,12 @@ namespace NLEditor
             this.pic_Level.Image = fCurRenderer.CombineLayers();
         }
 
+        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fCurRenderer.ChangeIsBackgroundLayer();
+            this.pic_Level.Image = fCurRenderer.CombineLayers();
+        }
+
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UndoLastChange();
@@ -246,7 +252,9 @@ namespace NLEditor
 
             // Load new style into PictureBoxes
             CurLevel.MainStyle = NewStyle;
-            UpdateBackgroundColor();
+            UpdateBackgroundComboItems();
+            UpdateBackgroundImage();
+            this.pic_Level.Image = fCurRenderer.CombineLayers();
         }
 
         private void num_Lvl_SizeX_ValueChanged(object sender, EventArgs e)
@@ -274,6 +282,19 @@ namespace NLEditor
             fCurRenderer.ChangeZoom(0);
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
+
+
+        private void combo_Background_TextChanged(object sender, EventArgs e)
+        {
+            string NewBackgroundKey = ValidateBackgroundString(this.combo_Background.Text);
+
+            if (NewBackgroundKey == "" || CurLevel == null || NewBackgroundKey == CurLevel.BackgroundKey) return;
+
+            // Load new style into PictureBoxes
+            CurLevel.BackgroundKey = NewBackgroundKey;
+            UpdateBackgroundImage();
+        }
+
 
         /* -----------------------------------------------------------
          *              Piece Info Tab
@@ -627,6 +648,10 @@ namespace NLEditor
             {
                 screenStartToolStripMenuItem_Click(null, null);
             }
+            else if (e.KeyCode == Keys.F6)
+            {
+                backgroundToolStripMenuItem_Click(null, null);
+            }
             else if (e.KeyCode == Keys.F11)
             {
                 DisplayHotkeyForm();
@@ -720,16 +745,6 @@ namespace NLEditor
             {
                 fCurRenderer.ChangeZoom(Movement > 0 ? 1 : -1);
             }
-
-            /*
-            if (Movement > 0)
-            {
-                fCurRenderer.ChangeZoom(1);
-            }
-            else if (Movement < 0)
-            {
-                fCurRenderer.ChangeZoom(-1);
-            }*/
 
             // Update level image
             this.pic_Level.Image = fCurRenderer.CombineLayers();
@@ -828,9 +843,6 @@ namespace NLEditor
 
 
 
-
-
-        
 
     }
 }

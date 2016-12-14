@@ -31,13 +31,15 @@ namespace NLEditor
          *    GetCenterPoint()
          *    GetLevelPosFromMousePos(Point MousePos)
          * 
-         *    CreateLevelImage() // recreates all layers and combines them
+         *    CreateLevelImage() // recreates all layers (but not necessarily the background) and combines them
          *    CombineLayers() // only combines existing layers
+         *    CreateBackgroundLayer() 
          * 
          *    ChangeIsClearPhsyics() 
          *    ChangeIsTerrainLayer()
          *    ChangeIsTriggerLayer() 
          *    ChangeIsScreenStart() 
+         *    ChangeIsBackgroundLayer()
          *    SetLevel(Level NewLevel)
          *    
          *    ChangeZoom(bool DoZoomIn)
@@ -74,6 +76,7 @@ namespace NLEditor
             this.fIsObjectLayer = true;
             this.fIsTriggerLayer = false;
             this.fIsScreenStart = false;
+            this.fIsBackgroundLayer = false;
 
             this.fScreenPos = new Point(0, 0);
             this.fZoom = 0;
@@ -88,6 +91,7 @@ namespace NLEditor
         bool fIsObjectLayer;
         bool fIsTriggerLayer;
         bool fIsScreenStart;
+        bool fIsBackgroundLayer;
         
         Point fScreenPos;
         int fZoom;
@@ -131,6 +135,11 @@ namespace NLEditor
         public void ChangeIsScreenStart() 
         { 
             fIsScreenStart = !fIsScreenStart;
+        }
+
+        public void ChangeIsBackgroundLayer()
+        {
+            fIsBackgroundLayer = !fIsBackgroundLayer;
         }
 
         public void SetLevel(Level NewLevel)
@@ -263,6 +272,26 @@ namespace NLEditor
             if (fMyLevel.Width != fLayerList[0].Width || fMyLevel.Height != fLayerList[0].Height)
             {
                 fLayerList = fLayerList.Select(bmp => bmp = new Bitmap(fMyLevel.Width, fMyLevel.Height)).ToList();
+                // Recreate background layer, because we just deleted that image.
+                CreateBackgroundLayer();
+            }
+        }
+
+        /// <summary>
+        /// Creates the background layer with the correct background color and background image.
+        /// </summary>
+        public void CreateBackgroundLayer()
+        {
+            // Set background color
+            fLayerList[C.LAY_BACKGROUND].Clear(fMyLevel.MainStyle.BackgroundColor);
+
+            // Display background images, if selected
+            if (fMyLevel.MainStyle.BackgroundNames.Contains(fMyLevel.BackgroundKey))
+            {
+                Bitmap BackgroundImage = ImageLibrary.GetImage(fMyLevel.BackgroundKey, RotateFlipType.RotateNoneFlipNone)
+                                                     .PaveArea(new Rectangle(0, 0, fMyLevel.Width, fMyLevel.Height));
+                
+                fLayerList[C.LAY_BACKGROUND].DrawOn(BackgroundImage, new Point(0, 0));
             }
         }
 
@@ -381,14 +410,24 @@ namespace NLEditor
         public Bitmap CombineLayers()
         {
             Size LevelBmpSize = GetLevelBmpSize();
-            Bitmap LevelBmp = new Bitmap(LevelBmpSize.Width, LevelBmpSize.Height);
+            Bitmap LevelBmp;
 
             Point OldScreenPos = new Point(fScreenPos.X, fScreenPos.Y);
             UpdateScreenPos();
-            Point NegScreenPos = new Point(-fScreenPos.X, -fScreenPos.Y);  
+            Point NegScreenPos = new Point(-fScreenPos.X, -fScreenPos.Y);
 
-            // Set background color
-            LevelBmp.Clear(fMyLevel.MainStyle.BackgroundColor);
+            
+            if (fIsBackgroundLayer)
+            {
+                LevelBmp = (Bitmap)fLayerList[C.LAY_BACKGROUND].Clone();
+            }
+            else
+            {
+                // Still use background color
+                LevelBmp = new Bitmap(LevelBmpSize.Width, LevelBmpSize.Height);
+                LevelBmp.Clear(fMyLevel.MainStyle.BackgroundColor);
+            }
+            
 
             if (fIsObjectLayer) 
             {
