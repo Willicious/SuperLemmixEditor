@@ -72,6 +72,7 @@ namespace NLEditor
             CurLevel.TimeLimit = Decimal.ToInt32(this.num_Lvl_TimeMin.Value) * 60
                                     + Decimal.ToInt32(this.num_Lvl_TimeSec.Value);
             CurLevel.IsNoTimeLimit = this.check_Lvl_InfTime.Checked;
+            CurLevel.BackgroundKey = this.combo_Background.Text;
 
             CurLevel.SkillCount[C.SKI_CLIMBER] = Decimal.ToInt32(this.num_Ski_Climber.Value);
             CurLevel.SkillCount[C.SKI_FLOATER] = Decimal.ToInt32(this.num_Ski_Floater.Value);
@@ -111,6 +112,7 @@ namespace NLEditor
             this.num_Lvl_TimeMin.Value = CurLevel.TimeLimit / 60;
             this.num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;
             this.check_Lvl_InfTime.Checked = CurLevel.IsNoTimeLimit;
+            this.combo_Background.Text = System.IO.Path.GetFileName(CurLevel.BackgroundKey);
 
             this.num_Ski_Climber.Value = CurLevel.SkillCount[C.SKI_CLIMBER];
             this.num_Ski_Floater.Value = CurLevel.SkillCount[C.SKI_FLOATER];
