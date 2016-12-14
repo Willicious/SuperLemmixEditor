@@ -288,6 +288,7 @@ namespace NLEditor
         {
             CurLevel.BackgroundKey = this.combo_Background.Text;
             UpdateBackgroundImage();
+            this.pic_Level.Image = fCurRenderer.CombineLayers();
         }
 
 
