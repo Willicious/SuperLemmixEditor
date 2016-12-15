@@ -27,6 +27,7 @@ namespace NLEditor
         public NLEditForm()
         {
             InitializeComponent();
+            RemoveFocus();
             SetRepeatButtonIntervals();
             LoadStylesFromFile.AddInitialImagesToLibrary();
 
@@ -672,6 +673,32 @@ namespace NLEditor
             {
                 ChangeNewPieceStyleSelection(1);
             }
+            else if (e.Shift && e.KeyCode == Keys.Space)
+            {
+                ChangeObjTerrPieceDisplay();
+            }
+            else if (e.Shift && e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
+            {
+                int KeyValue = e.KeyValue - (int)Keys.D0;
+                if (KeyValue == 0) KeyValue = 10;
+
+                if (picPieceList.Count >= KeyValue)
+                {
+                    AddNewPieceToLevel(KeyValue - 1);
+                    UpdateFlagsForPieceActions();
+                }
+            }
+            else if (e.Shift && e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
+            {
+                int KeyValue = e.KeyValue - (int)Keys.NumPad0;
+                if (KeyValue == 0) KeyValue = 10;
+
+                if (picPieceList.Count >= KeyValue)
+                {
+                    AddNewPieceToLevel(KeyValue - 1);
+                    UpdateFlagsForPieceActions();
+                }
+            }
             else if (e.Control && e.KeyCode == Keys.Left)
             {
                 MoveLevelPieces(C.DIR.W, 8);
@@ -703,6 +730,10 @@ namespace NLEditor
             else if (e.KeyCode == Keys.Down)
             {
                 MoveLevelPieces(C.DIR.S);
+            }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                RemoveFocus();
             }
             else
             {

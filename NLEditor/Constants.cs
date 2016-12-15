@@ -133,6 +133,8 @@ namespace NLEditor
 
                 "Shift + Right/Left", 
                 "Shift + Up/Down",
+                "Shift + Space",
+                "Shift + Number",
                 "",
                 "F1", 
                 "F2", 
@@ -171,6 +173,8 @@ namespace NLEditor
 
                 "Display previous/next item in piece selection.",
                 "Change style for the piece selection to previous/next one.",
+                "Toggle between new terrain and new objects.",
+                "Add the respective piece to the level.",
                 "",
                 "Switch to and from Clear Physics mode.",
                 "Switch to and from displaying terrain.",
