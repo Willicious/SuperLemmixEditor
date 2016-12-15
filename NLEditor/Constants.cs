@@ -12,7 +12,7 @@ namespace NLEditor
 
         public static string Version
         {
-            get { return "V0.1"; }
+            get { return "V0.2"; }
         }
 
         public static string AppPath
