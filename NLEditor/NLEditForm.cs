@@ -88,6 +88,7 @@ namespace NLEditor
         List<Level> fOldLevelList;
         int fCurOldLevelIndex;
         List<LevelPiece> fOldSelectedList;
+        Level fLastSavedLevel;
 
         Stopwatch fStopWatchKey;
         Stopwatch fStopWatchMouse;
@@ -108,9 +109,9 @@ namespace NLEditor
             Utility.DeleteFile(C.AppPath + "TempTestLevel.nxlv");
             Utility.DeleteFile(C.AppPath + "TempTestLevel.nxsv");
             
-            if (e.CloseReason == CloseReason.UserClosing)
+            if (e.CloseReason.In(CloseReason.UserClosing, CloseReason.ApplicationExitCall))
             {
-                // TODO: Check for saving the level ------------------> !!
+                AskUserWhetherSaveLevel();
             }
         }
 

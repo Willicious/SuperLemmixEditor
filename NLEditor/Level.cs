@@ -52,6 +52,7 @@ namespace NLEditor
             this.fAuthor = "";
             this.fMainStyle = MainStyle;
             this.MusicFile = "";
+            this.fBackgroundKey = "";
 
             Random rnd = new Random();
             this.LevelID = (uint)rnd.Next();
@@ -146,6 +147,7 @@ namespace NLEditor
             NewLevel.fMusicFile = String.Copy(this.fMusicFile);
             NewLevel.fLevelID = this.fLevelID;
             NewLevel.fFilePathToSave = this.fFilePathToSave; // shallow copy is fine here
+            NewLevel.fBackgroundKey = String.Copy(this.fBackgroundKey);
 
             NewLevel.fWidth = this.fWidth;
             NewLevel.fHeight = this.fHeight;
@@ -180,14 +182,16 @@ namespace NLEditor
         /// <returns></returns>
         public bool Equals(Level OtherLevel)
         {
-            if (   !this.Title.Equals(OtherLevel.Title)
+            if ( OtherLevel == null
+                || !this.Title.Equals(OtherLevel.Title)
                 || !this.Author.Equals(OtherLevel.Author)
                 || !this.MainStyle.NameInDirectory.Equals(OtherLevel.MainStyle.NameInDirectory)
                 || !this.MusicFile.Equals(OtherLevel.MusicFile)
                 || this.LevelID != OtherLevel.LevelID
+                || !this.BackgroundKey.Equals(OtherLevel.BackgroundKey)
                 || this.Width != OtherLevel.Width
                 || this.Height != OtherLevel.Height
-                || this.StartPos.Equals(OtherLevel.StartPos)
+                || !this.StartPos.Equals(OtherLevel.StartPos)
                 || this.TerrainList.Count != OtherLevel.TerrainList.Count
                 || this.GadgetList.Count != OtherLevel.GadgetList.Count
                 || this.NumLems != OtherLevel.NumLems

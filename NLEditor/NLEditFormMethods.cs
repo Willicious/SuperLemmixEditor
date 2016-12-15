@@ -152,6 +152,7 @@ namespace NLEditor
             fOldLevelList.Add(fCurLevel.Clone());
             fCurOldLevelIndex = 0;
             fOldSelectedList = new List<LevelPiece>();
+            fLastSavedLevel = null;
 
             WriteLevelInfoToForm();
             UpdateBackgroundImage();
@@ -164,6 +165,8 @@ namespace NLEditor
         /// </summary>
         private void LoadNewLevel()
         {
+            AskUserWhetherSaveLevel();
+            
             Level NewLevel = LevelFile.LoadLevel(StyleList);
             if (NewLevel == null) return;
 
@@ -175,6 +178,7 @@ namespace NLEditor
             fOldLevelList.Add(fCurLevel.Clone());
             fCurOldLevelIndex = 0;
             fOldSelectedList = new List<LevelPiece>();
+            fLastSavedLevel = NewLevel.Clone();
 
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
@@ -207,6 +211,21 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// If the levle changed, displays a message box and asks whether to save the current level.  
+        /// </summary>
+        private void AskUserWhetherSaveLevel()
+        {
+            if (fCurLevel.Equals(fLastSavedLevel)) return;
+            if (fCurLevel.TerrainList.Count == 0 && fCurLevel.GadgetList.Count == 0) return;
+            
+            DialogResult dialogResult = MessageBox.Show("Do you want to save this level?", "Save level?", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                SaveLevel();
+            }
+        }
+
+        /// <summary>
         /// Displays a file browser and saves the current level in chosen location. 
         /// </summary>
         private void SaveInNewFileLevel()
@@ -216,6 +235,7 @@ namespace NLEditor
 
             LevelFile.SaveLevel(fCurLevel);
             SaveChangesToOldLevelList();
+            fLastSavedLevel = fCurLevel.Clone();
         }
 
         /// <summary>
@@ -234,6 +254,7 @@ namespace NLEditor
 
                 LevelFile.SaveLevelToFile(fCurLevel.FilePathToSave, fCurLevel);
                 SaveChangesToOldLevelList();
+                fLastSavedLevel = fCurLevel.Clone();
             }
         }
 
