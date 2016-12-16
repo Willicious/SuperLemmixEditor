@@ -44,6 +44,7 @@ namespace NLEditor
          *    
          *    ChangeZoom(bool DoZoomIn)
          *    UpdateScreenPos()
+         *    EnsureScreenPosInLevel()
          *    GetDeltaPos()
          * 
          *  public varaibles:
@@ -611,7 +612,7 @@ namespace NLEditor
         /// <summary>
         /// Ensures that the screen position is chosen such that no unnecessary boundaries appear 
         /// </summary>
-        private void EnsureScreenPosInLevel()
+        public void EnsureScreenPosInLevel()
         {
             fScreenPos.X = EnsureScreenPosInLevel(false, fScreenPos.X);
             fScreenPos.Y = EnsureScreenPosInLevel(true, fScreenPos.Y);

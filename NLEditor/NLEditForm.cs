@@ -123,6 +123,7 @@ namespace NLEditor
         private void NLEditForm_Resize(object sender, EventArgs e)
         {
             MoveControlsOnFormResize();
+            fCurRenderer.EnsureScreenPosInLevel();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
