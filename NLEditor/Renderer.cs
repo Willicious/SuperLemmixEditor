@@ -643,8 +643,8 @@ namespace NLEditor
             if (fMouseStartPos == null || fMouseCurPos == null) return;
 
             Point DeltaScreenPos = GetDeltaPos();
-            fScreenPos.X += DeltaScreenPos.X;
-            fScreenPos.Y += DeltaScreenPos.Y;
+            fScreenPos.X -= DeltaScreenPos.X;
+            fScreenPos.Y -= DeltaScreenPos.Y;
 
             EnsureScreenPosInLevel();
         }

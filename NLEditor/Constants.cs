@@ -8,8 +8,6 @@ namespace NLEditor
 {
     public class C // for Constants
     {
-        static C() { }
-
         public static string Version
         {
             get { return "V0.2"; }
