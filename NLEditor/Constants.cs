@@ -10,7 +10,7 @@ namespace NLEditor
     {
         public static string Version
         {
-            get { return "V0.2"; }
+            get { return "0.2"; }
         }
 
         public static string AppPath
@@ -186,7 +186,7 @@ namespace NLEditor
 
         public static readonly List<string> VersionList = new List<string>
         {
-            "Version 0.1",
+            "Version " + Version,
             "   by Stephan Neupert",
             "",
             "Thanks to...",
