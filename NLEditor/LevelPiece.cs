@@ -63,7 +63,7 @@ namespace NLEditor
         /// <summary>
         /// Get piece image correctly rotated and flipped.
         /// </summary>
-        public virtual Bitmap Image { get { return ImageLibrary.GetImage(fKey, GetRotateFlipType()); } }
+        public virtual Bitmap Image { get { return ImageLibrary.GetImage(fKey, GetRotateFlipType(), GetFrameIndex()); } }
 
         public C.OBJ ObjType { get { return ImageLibrary.GetObjType(fKey); } }
         public C.Resize ResizeMode { get { return ImageLibrary.GetResizeMode(fKey); } }
@@ -220,6 +220,14 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Returns the correct frame to load the image.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual int GetFrameIndex()
+        {
+            return 0;
+        }
     }
 
     /// <summary>
@@ -409,6 +417,27 @@ namespace NLEditor
             if (ResizeMode == C.Resize.None) return base.Height;
             else return (Rotation % 2 == 0) ? fSpecHeight : fSpecWidth; 
         } }
+
+        /// <summary>
+        /// Returns the correct frame to load the image.
+        /// </summary>
+        /// <returns></returns>
+        protected override int GetFrameIndex()
+        {
+            if (ObjType == C.OBJ.PICKUP)
+            {
+                // Return the index of the skill + 1 or return 0 if no skill is selected
+                int SkillNum = C.SKI_COUNT;
+                while (!HasSkillFlag(SkillNum) && SkillNum >= 0)
+                {
+                    SkillNum--;
+                }
+
+                return ++SkillNum;
+            }
+            else return base.GetFrameIndex();
+        }
+
 
         public override bool MayRotate()
         {
