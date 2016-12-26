@@ -1247,10 +1247,10 @@
             // check_Piece_Exploder
             // 
             this.check_Piece_Exploder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Exploder.Location = new System.Drawing.Point(8, 253);
+            this.check_Piece_Exploder.Location = new System.Drawing.Point(8, 238);
             this.check_Piece_Exploder.Name = "check_Piece_Exploder";
             this.check_Piece_Exploder.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Exploder.TabIndex = 14;
+            this.check_Piece_Exploder.TabIndex = 13;
             this.check_Piece_Exploder.Text = "Exploder";
             this.check_Piece_Exploder.UseVisualStyleBackColor = true;
             this.check_Piece_Exploder.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
@@ -1258,10 +1258,10 @@
             // check_Piece_Blocker
             // 
             this.check_Piece_Blocker.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Blocker.Location = new System.Drawing.Point(8, 238);
+            this.check_Piece_Blocker.Location = new System.Drawing.Point(8, 253);
             this.check_Piece_Blocker.Name = "check_Piece_Blocker";
             this.check_Piece_Blocker.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Blocker.TabIndex = 13;
+            this.check_Piece_Blocker.TabIndex = 14;
             this.check_Piece_Blocker.Text = "Blocker";
             this.check_Piece_Blocker.UseVisualStyleBackColor = true;
             this.check_Piece_Blocker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
@@ -1471,18 +1471,18 @@
             // 
             // num_Ski_Exploder
             // 
-            this.num_Ski_Exploder.Location = new System.Drawing.Point(84, 81);
+            this.num_Ski_Exploder.Location = new System.Drawing.Point(84, 57);
             this.num_Ski_Exploder.Name = "num_Ski_Exploder";
             this.num_Ski_Exploder.Size = new System.Drawing.Size(52, 20);
-            this.num_Ski_Exploder.TabIndex = 19;
+            this.num_Ski_Exploder.TabIndex = 18;
             this.num_Ski_Exploder.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // num_Ski_Blocker
             // 
-            this.num_Ski_Blocker.Location = new System.Drawing.Point(84, 57);
+            this.num_Ski_Blocker.Location = new System.Drawing.Point(84, 81);
             this.num_Ski_Blocker.Name = "num_Ski_Blocker";
             this.num_Ski_Blocker.Size = new System.Drawing.Size(52, 20);
-            this.num_Ski_Blocker.TabIndex = 18;
+            this.num_Ski_Blocker.TabIndex = 19;
             this.num_Ski_Blocker.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // num_Ski_Floater
@@ -1599,7 +1599,7 @@
             // 
             // lbl_Skill_Exploder
             // 
-            this.lbl_Skill_Exploder.Location = new System.Drawing.Point(8, 83);
+            this.lbl_Skill_Exploder.Location = new System.Drawing.Point(8, 59);
             this.lbl_Skill_Exploder.Name = "lbl_Skill_Exploder";
             this.lbl_Skill_Exploder.Size = new System.Drawing.Size(70, 15);
             this.lbl_Skill_Exploder.TabIndex = 3;
@@ -1607,7 +1607,7 @@
             // 
             // lbl_Skill_Blocker
             // 
-            this.lbl_Skill_Blocker.Location = new System.Drawing.Point(8, 59);
+            this.lbl_Skill_Blocker.Location = new System.Drawing.Point(8, 83);
             this.lbl_Skill_Blocker.Name = "lbl_Skill_Blocker";
             this.lbl_Skill_Blocker.Size = new System.Drawing.Size(70, 15);
             this.lbl_Skill_Blocker.TabIndex = 2;

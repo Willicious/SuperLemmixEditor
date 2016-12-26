@@ -427,16 +427,14 @@ namespace NLEditor
             RemoveFocus();
         }
 
-
-
         private void check_Piece_Skill_CheckedChanged(object sender, EventArgs e)
         {
             int Skill = fcheckSkillFlagList.FindIndex(check => check.Equals((CheckBox)sender));
             bool IsChecked = ((CheckBox)sender).CheckState == CheckState.Checked;
             SetSkillForObjects(Skill, IsChecked);
             RemoveFocus();
+            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
-
 
         private void num_Resize_Width_ValueChanged(object sender, EventArgs e)
         {

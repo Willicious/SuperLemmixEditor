@@ -99,8 +99,8 @@ namespace NLEditor
         public static readonly int SKI_COUNT = 16; // count without zombie!
         public static readonly int SKI_CLIMBER = 0;
         public static readonly int SKI_FLOATER = 1;
-        public static readonly int SKI_BLOCKER = 2;
-        public static readonly int SKI_EXPLODER = 3;
+        public static readonly int SKI_EXPLODER = 2;
+        public static readonly int SKI_BLOCKER = 3;
         public static readonly int SKI_BUILDER = 4;
         public static readonly int SKI_BASHER = 5;
         public static readonly int SKI_MINER = 6;
