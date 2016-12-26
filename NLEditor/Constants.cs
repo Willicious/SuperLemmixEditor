@@ -57,13 +57,28 @@ namespace NLEditor
 
         public enum OBJ 
         { 
-            NULL = -1, STEEL = -2, NONE = 0, EXIT = 1, FORCE_LEFT = 2,
+            TERRAIN = -1, STEEL = -2, NONE = 0, EXIT = 1, FORCE_LEFT = 2,
             FORCE_RIGHT = 3, TRAP = 4, WATER = 5, FIRE = 6, OWW_LEFT = 7,
             OWW_RIGHT = 8, TELEPORTER = 11, RECEIVER = 12, LEMMING = 13, PICKUP = 14,
             EXIT_LOCKED = 15, BUTTON = 17, RADIATION = 18, OWW_DOWN = 19, UPDRAFT = 20,
             SPLITTER = 21, SLOWFREEZE = 22, HATCH = 23, ANIMATION = 24, NOSPLAT = 26,
-            SPLAT = 27, BACKGROUND = 30, TRAPONCE = 31
+            SPLAT = 27, BACKGROUND = 30, TRAPONCE = 31,
+            NULL
         }
+
+        public static readonly Dictionary<OBJ, string> TooltipList = new Dictionary<OBJ, string>
+            {
+                {OBJ.TERRAIN, "Terrain"}, {OBJ.STEEL, "Steel"}, {OBJ.NONE, "No effect"},
+                {OBJ.EXIT, "Exit"}, {OBJ.FORCE_LEFT, "Force-field"}, {OBJ.FORCE_RIGHT, "Force-field"},
+                {OBJ.TRAP, "Triggered trap"}, {OBJ.WATER, "Water"}, {OBJ.FIRE, "Fire"},
+                {OBJ.OWW_LEFT, "One-way-wall"}, {OBJ.OWW_RIGHT, "One-way-wall"}, {OBJ.OWW_DOWN, "One-way-wall"},
+                {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Preplaced lemming"},
+                {OBJ.PICKUP, "Pick-up skill"}, {OBJ.EXIT_LOCKED, "Locked exit"}, {OBJ.BUTTON, "Button"},
+                {OBJ.RADIATION, "Radiation"}, {OBJ.SLOWFREEZE, "Slowfreeze"}, {OBJ.UPDRAFT, "Updraft"},
+                {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"}, {OBJ.ANIMATION, "Do NOT use!"},
+                {OBJ.NOSPLAT, "Anti-splat wire"}, {OBJ.SPLAT, "Splat wire"}, {OBJ.BACKGROUND, "Do NOT use!"},
+                {OBJ.TRAPONCE, "Single-use trap"}
+            };
 
         public enum DragActions { Null, SelectArea, DragPieces, MoveEditorPos }
 

@@ -58,6 +58,7 @@ namespace NLEditor
             {
                 string ThisPieceName = ThisPieceNameList[(fPieceStartIndex + i) % ThisPieceNameList.Count];
                 picPieceList[i].Image = ImageLibrary.GetImage(ThisPieceName, RotateFlipType.RotateNoneFlipNone);
+                SetToolTipsForPicPiece(picPieceList[i], ThisPieceName);
             }
 
             return;
@@ -70,7 +71,26 @@ namespace NLEditor
         /// <param name="MyForm"></param>
         private void ClearPiecesPictureBox()
         {
-            picPieceList.ForEach(pic => pic.Image = null);
+            picPieceList.ForEach(pic => 
+                { 
+                    pic.Image = null; 
+                    SetToolTipsForPicPiece(pic, null); 
+                });
+        }
+
+        /// <summary>
+        /// Sets the correct tool tips for piece selection picture boxes.
+        /// </summary>
+        private void SetToolTipsForPicPiece(PictureBox MypicPiece, string PieceKey)
+        {
+            string ToolTipText = "";
+            C.OBJ PieceObjType = (PieceKey == null) ? C.OBJ.NULL : ImageLibrary.GetObjType(PieceKey);
+            if (C.TooltipList.Keys.Contains(PieceObjType))
+            {
+                ToolTipText = C.TooltipList[PieceObjType];
+            }
+
+            toolTipPieces.SetToolTip(MypicPiece, ToolTipText);
         }
 
         /// <summary>
@@ -239,11 +259,13 @@ namespace NLEditor
                 OldPicPieces.Dispose();
             }
             
+            /*
             if (fpicPieceList.Count > NumPicPieces)
             {
                 
                 fpicPieceList.RemoveRange(NumPicPieces, fpicPieceList.Count - NumPicPieces);
             }
+            */
 
             bool NeedUpdatePicPieceImages = (fpicPieceList.Count < NumPicPieces);
             while (fpicPieceList.Count < NumPicPieces)

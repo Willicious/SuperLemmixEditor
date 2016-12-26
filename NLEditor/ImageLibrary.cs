@@ -18,7 +18,7 @@ namespace NLEditor
         /// <param name="NewImage"></param>
         /// <param name="IsSteel"></param>
         public BaseImageInfo(Bitmap NewImage, bool IsSteel = false)
-            : this(NewImage, IsSteel ? C.OBJ.STEEL : C.OBJ.NULL, 1, false, new Rectangle(0, 0, 0, 0), C.Resize.None)
+            : this(NewImage, IsSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, false, new Rectangle(0, 0, 0, 0), C.Resize.None)
         {
             // nothing more
         }
