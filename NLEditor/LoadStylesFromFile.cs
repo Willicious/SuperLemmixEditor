@@ -300,7 +300,7 @@ namespace NLEditor
                         case "ONE_WAY_DOWN": ObjType = C.OBJ.OWW_DOWN; break;
                         case "BUTTON": ObjType =  C.OBJ.BUTTON; break;
                         case "LOCKED_EXIT": ObjType = C.OBJ.EXIT_LOCKED; break;
-                        case "PICKUP": ObjType = C.OBJ.PICKUP; break;
+                        case "PICKUP_SKILL": ObjType = C.OBJ.PICKUP; break;
                         case "TELEPORTER": ObjType = C.OBJ.TELEPORTER; break;
                         case "RECEIVER": ObjType = C.OBJ.RECEIVER; break;
                         case "SPLITTER": ObjType = C.OBJ.SPLITTER; break;
