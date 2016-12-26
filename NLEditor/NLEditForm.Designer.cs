@@ -286,35 +286,35 @@
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.undoToolStripMenuItem.Text = "Undo (Ctrl+Z)";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.redoToolStripMenuItem.Text = "Redo (Ctrl+Y)";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.deleteToolStripMenuItem.Text = "Delete (Ctrl+X)";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // insertToolStripMenuItem
             // 
             this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
-            this.insertToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.insertToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.insertToolStripMenuItem.Text = "Insert (Ctrl+V)";
             this.insertToolStripMenuItem.Click += new System.EventHandler(this.insertToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.copyToolStripMenuItem.Text = "Copy (Ctrl+C)";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
@@ -702,11 +702,11 @@
             // 
             this.check_Lvl_LockRR.AutoSize = true;
             this.check_Lvl_LockRR.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Lvl_LockRR.Location = new System.Drawing.Point(73, 240);
+            this.check_Lvl_LockRR.Location = new System.Drawing.Point(24, 240);
             this.check_Lvl_LockRR.Name = "check_Lvl_LockRR";
-            this.check_Lvl_LockRR.Size = new System.Drawing.Size(69, 17);
+            this.check_Lvl_LockRR.Size = new System.Drawing.Size(118, 17);
             this.check_Lvl_LockRR.TabIndex = 20;
-            this.check_Lvl_LockRR.Text = "Lock RR";
+            this.check_Lvl_LockRR.Text = "Lock Release Rate";
             this.check_Lvl_LockRR.UseVisualStyleBackColor = true;
             // 
             // num_Lvl_RR
@@ -939,10 +939,10 @@
             // 
             // txt_LevelAuthor
             // 
-            this.txt_LevelAuthor.Location = new System.Drawing.Point(70, 32);
+            this.txt_LevelAuthor.Location = new System.Drawing.Point(45, 32);
             this.txt_LevelAuthor.MaxLength = 16;
             this.txt_LevelAuthor.Name = "txt_LevelAuthor";
-            this.txt_LevelAuthor.Size = new System.Drawing.Size(98, 20);
+            this.txt_LevelAuthor.Size = new System.Drawing.Size(123, 20);
             this.txt_LevelAuthor.TabIndex = 3;
             // 
             // lbl_Global_Author
@@ -955,10 +955,10 @@
             // 
             // txt_LevelTitle
             // 
-            this.txt_LevelTitle.Location = new System.Drawing.Point(70, 6);
+            this.txt_LevelTitle.Location = new System.Drawing.Point(45, 6);
             this.txt_LevelTitle.MaxLength = 32;
             this.txt_LevelTitle.Name = "txt_LevelTitle";
-            this.txt_LevelTitle.Size = new System.Drawing.Size(98, 20);
+            this.txt_LevelTitle.Size = new System.Drawing.Size(123, 20);
             this.txt_LevelTitle.TabIndex = 1;
             // 
             // lbl_Global_Title
