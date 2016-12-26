@@ -85,7 +85,7 @@ namespace NLEditor
         {
             string ToolTipText = "";
             C.OBJ PieceObjType = (PieceKey == null) ? C.OBJ.NULL : ImageLibrary.GetObjType(PieceKey);
-            if (C.TooltipList.Keys.Contains(PieceObjType))
+            if (C.TooltipList.ContainsKey(PieceObjType))
             {
                 ToolTipText = C.TooltipList[PieceObjType];
             }

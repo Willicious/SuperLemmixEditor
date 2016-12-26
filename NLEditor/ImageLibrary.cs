@@ -39,19 +39,7 @@ namespace NLEditor
             this.fObjectType = ObjType;
             this.fTriggerRect = TriggerRect;
             this.fResizeMode = ResizeMode;
-
-            RotateFlipType[] RotFlipTypeArray = (RotateFlipType[])Enum.GetValues(typeof(RotateFlipType));
             this.fImageRotated = new Dictionary<RotateFlipType, List<Bitmap>>();
-            foreach (RotateFlipType RotFlipType in RotFlipTypeArray.Distinct())
-            {
-                this.fImageRotated.Add(RotFlipType, new List<Bitmap>());
-                foreach (Bitmap ImageFrame in fImages)
-                {
-                    Bitmap RotImage = (Bitmap)ImageFrame.Clone();
-                    RotImage.RotateFlip(RotFlipType);
-                    this.fImageRotated[RotFlipType].Add(RotImage);
-                }
-            }
         }
 
         readonly List<Bitmap> fImages;
@@ -66,10 +54,12 @@ namespace NLEditor
 
         public Bitmap Image(RotateFlipType RotFlipType)
         {
+            if (!fImageRotated.ContainsKey(RotFlipType)) CreateRotatedImages(RotFlipType);
             return fImageRotated[RotFlipType][0];
         }
         public Bitmap Image(RotateFlipType RotFlipType, int Index)
         {
+            if (!fImageRotated.ContainsKey(RotFlipType)) CreateRotatedImages(RotFlipType);
             return fImageRotated[RotFlipType][Index % fImageRotated[RotFlipType].Count];
         }
         public int Width { get { return fWidth; } }
@@ -112,7 +102,23 @@ namespace NLEditor
 
             return ImageFrames;
         }
-        
+
+        /// <summary>
+        /// Creates rotated images of the desired orientation, if these do not yet exist.
+        /// </summary>
+        /// <param name="RotFlipType"></param>
+        private void CreateRotatedImages(RotateFlipType RotFlipType)
+        {
+            fImageRotated.Add(RotFlipType, new List<Bitmap>());
+            foreach (Bitmap ImageFrame in fImages)
+            {
+                Bitmap RotImage = (Bitmap)ImageFrame.Clone();
+                RotImage.RotateFlip(RotFlipType);
+                fImageRotated[RotFlipType].Add(RotImage);
+            }
+        }
+
+
     }
     
     /// <summary>
