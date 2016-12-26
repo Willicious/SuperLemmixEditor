@@ -104,11 +104,11 @@ namespace NLEditor
         /// Logs a profiling result to AppPath/ProfilingLog.txt.
         /// </summary>
         /// <param name="Time"></param>
-        public static void LogProfiling(long Time)
+        public static void LogProfiling(string Text)
         {
             String LogPath = C.AppPath + "ProfilingLog.txt";
             System.IO.TextWriter TextFile = new System.IO.StreamWriter(LogPath, true);
-            TextFile.WriteLine(Time.ToString());
+            TextFile.WriteLine(Text);
             TextFile.Close();
         }
 
@@ -132,7 +132,7 @@ namespace NLEditor
         public static void Stop()
         {
             fStopWatch.Stop();
-            Utility.LogProfiling(fStopWatch.ElapsedMilliseconds);
+            Utility.LogProfiling(fStopWatch.ElapsedMilliseconds.ToString());
         }
     }
 }
