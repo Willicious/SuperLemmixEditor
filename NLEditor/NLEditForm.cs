@@ -825,6 +825,7 @@ namespace NLEditor
                         break;
                     }
             }
+            pic_Level.Refresh();
         }
 
         private void pic_Level_MouseUp(object sender, MouseEventArgs e)
