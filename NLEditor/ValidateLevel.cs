@@ -151,18 +151,18 @@ namespace NLEditor
             int NumPreplacedAll = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING);
             int NumPreplacedZombie = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING && obj.HasSkillFlag(C.SKI_ZOMBIE));
             int NumToSpawn = fCurLevel.NumLems - NumPreplacedAll;
-            List<bool> HatchIsZombieList = fCurLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.HATCH)
-                                                              .Select(obj => obj.HasSkillFlag(C.SKI_ZOMBIE))
-                                                              .ToList();
-            int NumHatches = HatchIsZombieList.Count;
-            int NumZombieHatch = HatchIsZombieList.Count(IsZombie => IsZombie);
+            List<bool> IsHatchZombieList = fCurLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.HATCH)
+                                                               .Select(obj => obj.HasSkillFlag(C.SKI_ZOMBIE))
+                                                               .ToList();
+            int NumHatches = Math.Max(IsHatchZombieList.Count, 1);
+            int NumZombieHatch = IsHatchZombieList.Count(IsZombie => IsZombie);
 
             int NumZombie = NumPreplacedZombie;
             // add number of lemmings that spawn in zombie hatches
             NumZombie += NumToSpawn / NumHatches * NumZombieHatch;
             for (int i = 0; i < NumToSpawn % NumHatches; i++)
             {
-                if (HatchIsZombieList[i]) NumZombie++;
+                if (IsHatchZombieList[i]) NumZombie++;
             }
 
             return NumZombie;
