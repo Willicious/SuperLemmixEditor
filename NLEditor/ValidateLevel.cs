@@ -152,8 +152,7 @@ namespace NLEditor
             int NumPreplacedZombie = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING && obj.HasSkillFlag(C.SKI_ZOMBIE));
             int NumToSpawn = fCurLevel.NumLems - NumPreplacedAll;
             List<bool> IsHatchZombieList = fCurLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.HATCH)
-                                                               .Select(obj => obj.HasSkillFlag(C.SKI_ZOMBIE))
-                                                               .ToList();
+                                                               .ConvertAll(obj => obj.HasSkillFlag(C.SKI_ZOMBIE));
             int NumHatches = Math.Max(IsHatchZombieList.Count, 1);
             int NumZombieHatch = IsHatchZombieList.Count(IsZombie => IsZombie);
 

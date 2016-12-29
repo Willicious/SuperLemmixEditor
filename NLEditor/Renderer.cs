@@ -272,7 +272,7 @@ namespace NLEditor
         {
             if (fMyLevel.Width != fLayerList[0].Width || fMyLevel.Height != fLayerList[0].Height)
             {
-                fLayerList = fLayerList.Select(bmp => bmp = new Bitmap(fMyLevel.Width, fMyLevel.Height)).ToList();
+                fLayerList = fLayerList.ConvertAll(bmp => bmp = new Bitmap(fMyLevel.Width, fMyLevel.Height));
                 // Recreate background layer, because we just deleted that image.
                 CreateBackgroundLayer();
             }
@@ -400,7 +400,7 @@ namespace NLEditor
         {
             fLayerList[C.LAY_TRIGGER].Clear();
 
-            List<Rectangle> TriggerRectList = fMyLevel.GadgetList.Select(obj => obj.TriggerRect).ToList();
+            List<Rectangle> TriggerRectList = fMyLevel.GadgetList.ConvertAll(obj => obj.TriggerRect);
             fLayerList[C.LAY_TRIGGER].DrawOnFilledRectangles(TriggerRectList, Color.Violet);
         }
 
@@ -509,8 +509,8 @@ namespace NLEditor
         private Bitmap AddSelectedRectangles(Bitmap LevelBmp)
         {
             // Get List of all Rectangled to draw
-            List<Rectangle> RectList = fMyLevel.SelectionList().Select(ter => ter.ImageRectangle).ToList();
-            List<Rectangle> RectOnPicList = RectList.Select(rect => GetPicRectFromLevelRect(rect)).ToList();
+            List<Rectangle> RectList = fMyLevel.SelectionList().ConvertAll(ter => ter.ImageRectangle);
+            List<Rectangle> RectOnPicList = RectList.ConvertAll(rect => GetPicRectFromLevelRect(rect));
 
             LevelBmp.DrawOnRectangles(RectOnPicList, Color.Gold);
 

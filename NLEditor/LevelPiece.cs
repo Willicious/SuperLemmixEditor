@@ -523,8 +523,8 @@ namespace NLEditor
         /// <param name="DoAdd"></param>
         private void SetOneSkillFlag(int Skill, bool DoAdd)
         {
-            fVal_L |= 1 << Skill;
-            if (!DoAdd) fVal_L ^= 1 << Skill;
+            fVal_L |= 1 << Skill; // always true now
+            if (!DoAdd) fVal_L ^= 1 << Skill; // always false now
         }
 
         /// <summary>

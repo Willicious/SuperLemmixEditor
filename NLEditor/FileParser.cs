@@ -93,32 +93,28 @@ namespace NLEditor
         {
             List<FileLine> FileLineList = new List<FileLine>();
 
-            FileLine CurFileLine;
-            do
+            FileLine CurFileLine = null;
+            if (fFileLatestLine != null)
             {
-                if (fFileLatestLine != null)
-                {
-                    CurFileLine = fFileLatestLine;
-                    fFileLatestLine = null;
-                }
-                else
-                {
-                    CurFileLine = GetNewLine();
-                }
+                CurFileLine = fFileLatestLine;
+                fFileLatestLine = null;
+            }
+
+            while (String.IsNullOrEmpty(CurFileLine.Key))
+            {
+                CurFileLine = GetNewLine();
 
                 // end of file reached
                 if (CurFileLine == null) return null;
-            } while (CurFileLine.Key == "");
-
+            }
             FileLineList.Add(CurFileLine);
 
             // Add more lines, if the piece requires multiple lines in the level file
             if (CurFileLine.IsMultilineKey)
             {
-                bool DoAddNextLine;
-                do
+                bool DoAddNextLine = true;
+                while (DoAddNextLine)
                 {
-                    DoAddNextLine = true;
                     CurFileLine = GetNewLine();
 
                     if (CurFileLine == null)
@@ -134,7 +130,7 @@ namespace NLEditor
                     {
                         FileLineList.Add(CurFileLine);
                     }
-                } while (DoAddNextLine); 
+                } 
             }
 
             return FileLineList;

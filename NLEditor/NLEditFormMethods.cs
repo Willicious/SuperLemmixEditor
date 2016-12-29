@@ -39,7 +39,7 @@ namespace NLEditor
 
             // Create the StyleList from the StyleNameList
             StyleNameList.RemoveAll(sty => sty == "default");
-            fStyleList = StyleNameList.Select(sty => new Style(sty)).ToList();
+            fStyleList = StyleNameList.ConvertAll(sty => new Style(sty));
             fStyleList = LoadStylesFromFile.OrderAndRenameStyles(fStyleList);
         }
 
