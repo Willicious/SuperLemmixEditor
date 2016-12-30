@@ -55,14 +55,20 @@ namespace NLEditor
 
         public enum DIR { N, E, S, W }
 
+        /// <summary>
+        /// Warning: The values of the object types here do NOT correspond to the numbers used in NeoLemmix! 
+        /// </summary>
         public enum OBJ 
         { 
-            TERRAIN = -1, STEEL = -2, NONE = 0, EXIT = 1, FORCE_LEFT = 2,
-            FORCE_RIGHT = 3, TRAP = 4, WATER = 5, FIRE = 6, OWW_LEFT = 7,
-            OWW_RIGHT = 8, TELEPORTER = 11, RECEIVER = 12, LEMMING = 13, PICKUP = 14,
-            EXIT_LOCKED = 15, BUTTON = 17, RADIATION = 18, OWW_DOWN = 19, UPDRAFT = 20,
-            SPLITTER = 21, SLOWFREEZE = 22, HATCH = 23, ANIMATION = 24, NOSPLAT = 26,
-            SPLAT = 27, BACKGROUND = 30, TRAPONCE = 31,
+            TERRAIN = -1, STEEL = -2,
+            HATCH = 0, EXIT = 1, TRAP = 4, TRAPONCE = 5, WATER = 6, FIRE = 7,
+            OWW_LEFT = 10, OWW_RIGHT = 11, OWW_DOWN = 12,
+            LEMMING = 15, PICKUP = 16, TELEPORTER = 17, RECEIVER = 18,
+            EXIT_LOCKED = 20, BUTTON = 21,
+            UPDRAFT = 22, NOSPLAT = 23, SPLAT = 24,
+            FORCE_LEFT = 25, FORCE_RIGHT = 26,
+            SPLITTER = 27, RADIATION = 28, SLOWFREEZE = 29,
+            NONE = 50, ANIMATION = 51, BACKGROUND = 52, 
             NULL
         }
 

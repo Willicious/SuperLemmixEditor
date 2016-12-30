@@ -28,6 +28,10 @@ namespace NLEditor
             SearchDirectoryForTerrain();
             SearchDirectoryForObjects();
             SearchDirectoryForBackgrounds();
+
+            RemoveDuplicatedObjects();
+            SortObjectNameListByObjectType();
+            
             List<Color> StyleColors = LoadStylesFromFile.StyleColors(NameInDirectory);
             fBackgroundColor = StyleColors[0];
         }
@@ -136,5 +140,23 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Removes all default objects, that are already present in the actual style.
+        /// </summary>
+        private void RemoveDuplicatedObjects()
+        {
+            fObjectNames.RemoveAll(obj => obj.StartsWith("default")
+                                          && !ImageLibrary.GetObjType(obj).In(C.OBJ.NONE, C.OBJ.ANIMATION, C.OBJ.BACKGROUND)
+                                          && fObjectNames.Exists(obj2 => !obj2.StartsWith("default")
+                                                                 && ImageLibrary.GetObjType(obj) == ImageLibrary.GetObjType(obj2)));
+        }
+
+        /// <summary>
+        /// Sorts the list of object names according to their object types.
+        /// </summary>
+        private void SortObjectNameListByObjectType()
+        {
+            fObjectNames.Sort((obj1, obj2) => ImageLibrary.GetObjType(obj1).CompareTo(ImageLibrary.GetObjType(obj2)));
+        }
     }
 }
