@@ -183,6 +183,8 @@ namespace NLEditor
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+
+            combo_PieceStyle.Text = fCurLevel.MainStyle.NameInEditor;
         }
 
         /// <summary>
