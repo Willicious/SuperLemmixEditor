@@ -122,7 +122,10 @@ namespace NLEditor
         public List<GadgetPiece> GadgetList { get { return fGadgetList; } set { fGadgetList = value; } }
         public string BackgroundKey 
         {
-            get { return fMainStyle.NameInDirectory + C.DirSep + "backgrounds" + C.DirSep + fBackgroundKey; } 
+            get { 
+                if (string.IsNullOrEmpty(fBackgroundKey)) return "--none--";
+                else return fMainStyle.NameInDirectory + C.DirSep + "backgrounds" + C.DirSep + fBackgroundKey; 
+                } 
             set { fBackgroundKey = value; } 
         }
 

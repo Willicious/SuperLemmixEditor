@@ -100,13 +100,13 @@ namespace NLEditor
                 fFileLatestLine = null;
             }
 
-            while (String.IsNullOrEmpty(CurFileLine.Key))
+            do
             {
                 CurFileLine = GetNewLine();
 
                 // end of file reached
                 if (CurFileLine == null) return null;
-            }
+            } while (String.IsNullOrEmpty(CurFileLine.Key));
             FileLineList.Add(CurFileLine);
 
             // Add more lines, if the piece requires multiple lines in the level file
