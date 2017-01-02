@@ -345,8 +345,8 @@ namespace NLEditor
         public bool IsOnlyOnTerrain { get { return fIsOnlyOnTerrain; } set { fIsOnlyOnTerrain = value; } }
         public int Val_L { get { return fVal_L; } }
         public int Val_S { get { return fVal_S; } }
-        public int SpecWidth { get { return fSpecWidth; } }
-        public int SpecHeight { get { return fSpecHeight; } }
+        public int SpecWidth { get { return (Rotation % 2 == 0) ? fSpecWidth : fSpecHeight; } }
+        public int SpecHeight { get { return (Rotation % 2 == 0) ? fSpecHeight : fSpecWidth; } }
 
         public override LevelPiece Clone()
         {
@@ -545,7 +545,8 @@ namespace NLEditor
         {
             if (ResizeMode.In(C.Resize.Horiz, C.Resize.Both))
             {
-                fSpecWidth = Math.Max(NewWidth, 1);
+                if (Rotation % 2 == 0) fSpecWidth = Math.Max(NewWidth, 1);
+                else fSpecHeight = Math.Max(NewWidth, 1);
             }
         }
 
@@ -557,7 +558,8 @@ namespace NLEditor
         {
             if (ResizeMode.In(C.Resize.Vert, C.Resize.Both))
             {
-                fSpecHeight = Math.Max(NewHeight, 1);
+                if (Rotation % 2 == 0) fSpecHeight = Math.Max(NewHeight, 1);
+                else fSpecWidth = Math.Max(NewHeight, 1);
             }
         }
 

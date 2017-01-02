@@ -90,7 +90,7 @@ namespace NLEditor
             // Otherwise order the styles according to styles.ini
             Dictionary<string, int> StyleOrderDict;
             Dictionary<string, string> NewStyleNameDict;
-            ReadStyleOderFromFile(FilePath, out StyleOrderDict, out NewStyleNameDict);
+            ReadStyleOrderFromFile(FilePath, out StyleOrderDict, out NewStyleNameDict);
             
             // Rename all custom names
             foreach (string StyleFileName in NewStyleNameDict.Keys)
@@ -132,7 +132,7 @@ namespace NLEditor
         /// <param name="FilePath"></param>
         /// <param name="StyleOrderDict"></param>
         /// <param name="NewStyleNameDict"></param>
-        private static void ReadStyleOderFromFile(string FilePath, out Dictionary<string, int> StyleOrderDict, out Dictionary<string, string> NewStyleNameDict)
+        private static void ReadStyleOrderFromFile(string FilePath, out Dictionary<string, int> StyleOrderDict, out Dictionary<string, string> NewStyleNameDict)
         {
             StyleOrderDict = new Dictionary<string, int>();
             NewStyleNameDict = new Dictionary<string, string>();
