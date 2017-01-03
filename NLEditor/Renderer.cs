@@ -510,7 +510,7 @@ namespace NLEditor
             // First get List of all Rectangled to draw (in image coordinates)
             List<Rectangle> GadgetRectList = fMyLevel.GadgetList.FindAll(obj => obj.IsSelected)
                                                                 .ConvertAll(obj => GetPicRectFromLevelRect(obj.ImageRectangle));
-            LevelBmp.DrawOnRectangles(GadgetRectList, Color.Green);
+            LevelBmp.DrawOnRectangles(GadgetRectList, Color.Chartreuse);
             
             List<Rectangle> TerrRectList = fMyLevel.TerrainList.FindAll(ter => ter.IsSelected)
                                                                .ConvertAll(ter => GetPicRectFromLevelRect(ter.ImageRectangle));
