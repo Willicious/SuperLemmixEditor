@@ -62,11 +62,11 @@ namespace NLEditor
         { 
             TERRAIN = -1, STEEL = -2,
             HATCH = 0, EXIT = 1, TRAP = 4, TRAPONCE = 5, WATER = 6, FIRE = 7,
-            OWW_LEFT = 10, OWW_RIGHT = 11, OWW_DOWN = 12,
+            ONE_WAY_WALL = 10,
             LEMMING = 15, PICKUP = 16, TELEPORTER = 17, RECEIVER = 18,
             EXIT_LOCKED = 20, BUTTON = 21,
             UPDRAFT = 22, NOSPLAT = 23, SPLAT = 24,
-            FORCE_LEFT = 25, FORCE_RIGHT = 26,
+            FORCE_FIELD = 25,
             SPLITTER = 27, RADIATION = 28, SLOWFREEZE = 29,
             NONE = 50, ANIMATION = 51, BACKGROUND = 52, 
             NULL
@@ -75,9 +75,8 @@ namespace NLEditor
         public static readonly Dictionary<OBJ, string> TooltipList = new Dictionary<OBJ, string>
             {
                 {OBJ.TERRAIN, "Terrain"}, {OBJ.STEEL, "Steel"}, {OBJ.NONE, "No effect"},
-                {OBJ.EXIT, "Exit"}, {OBJ.FORCE_LEFT, "Force-field"}, {OBJ.FORCE_RIGHT, "Force-field"},
+                {OBJ.EXIT, "Exit"}, {OBJ.FORCE_FIELD, "Force-field"}, {OBJ.ONE_WAY_WALL, "One-way-wall"},
                 {OBJ.TRAP, "Triggered trap"}, {OBJ.WATER, "Water"}, {OBJ.FIRE, "Fire"},
-                {OBJ.OWW_LEFT, "One-way-wall"}, {OBJ.OWW_RIGHT, "One-way-wall"}, {OBJ.OWW_DOWN, "One-way-wall"},
                 {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Preplaced lemming"},
                 {OBJ.PICKUP, "Pick-up skill"}, {OBJ.EXIT_LOCKED, "Locked exit"}, {OBJ.BUTTON, "Button"},
                 {OBJ.RADIATION, "Radiation"}, {OBJ.SLOWFREEZE, "Slowfreeze"}, {OBJ.UPDRAFT, "Updraft"},

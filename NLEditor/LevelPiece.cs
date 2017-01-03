@@ -314,8 +314,8 @@ namespace NLEditor
         public GadgetPiece(string Key, Point Pos)
             : base(Key, true, Pos)
         {
-            fIsNoOverwrite = !this.ObjType.In(C.OBJ.OWW_LEFT, C.OBJ.OWW_RIGHT, C.OBJ.OWW_DOWN);
-            fIsOnlyOnTerrain = this.ObjType.In(C.OBJ.OWW_LEFT, C.OBJ.OWW_RIGHT, C.OBJ.OWW_DOWN);
+            fIsNoOverwrite = !(this.ObjType == C.OBJ.ONE_WAY_WALL);
+            fIsOnlyOnTerrain = (this.ObjType == C.OBJ.ONE_WAY_WALL);
             fVal_L = 0;
             fVal_S = 0;
             fSpecWidth = base.Width;
