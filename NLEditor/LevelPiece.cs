@@ -435,6 +435,10 @@ namespace NLEditor
 
                 return ++SkillNum;
             }
+            else if (ObjType.In(C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE))
+            {
+                return 1;
+            }
             else return base.GetFrameIndex();
         }
 
