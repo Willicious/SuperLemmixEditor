@@ -57,7 +57,8 @@ namespace NLEditor
             for (int i = 0; i < picPieceList.Count; i++)
             {
                 string ThisPieceName = ThisPieceNameList[(fPieceStartIndex + i) % ThisPieceNameList.Count];
-                picPieceList[i].Image = ImageLibrary.GetImage(ThisPieceName, RotateFlipType.RotateNoneFlipNone);
+                int FrameIndex = (ImageLibrary.GetObjType(ThisPieceName).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE)) ? 1 : 0;              
+                picPieceList[i].Image = ImageLibrary.GetImage(ThisPieceName, RotateFlipType.RotateNoneFlipNone, FrameIndex);
                 SetToolTipsForPicPiece(picPieceList[i], ThisPieceName);
             }
 
