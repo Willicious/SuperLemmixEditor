@@ -293,6 +293,7 @@ namespace NLEditor
                         case "WINDOW": ObjType = C.OBJ.HATCH; break;
                         case "EXIT": ObjType = C.OBJ.EXIT; break;
                         case "TRAP": ObjType = C.OBJ.TRAP; break;
+                        case "SINGLE_USE_TRAP": ObjType = C.OBJ.TRAPONCE; break;
                         case "WATER": ObjType = C.OBJ.WATER; break;
                         case "FIRE": ObjType = C.OBJ.FIRE; break;
                         case "ONE_WAY_RIGHT":
@@ -307,8 +308,8 @@ namespace NLEditor
                         case "RADIATION": ObjType = C.OBJ.RADIATION; break;
                         case "SLOWFREEZE": ObjType = C.OBJ.SLOWFREEZE; break;
                         case "UPDRAFT": ObjType = C.OBJ.UPDRAFT; break;
-                        case "SPLAT": ObjType = C.OBJ.SPLAT; break;
-                        case "ANTISPLAT": ObjType = C.OBJ.NOSPLAT; break;
+                        case "SPLATPAD": ObjType = C.OBJ.SPLAT; break;
+                        case "ANTI_SPLATPAD": ObjType = C.OBJ.NOSPLAT; break;
                         case "FORCE_RIGHT":
                         case "FORCE_LEFT": ObjType = C.OBJ.FORCE_FIELD; break;
                         case "BACKGROUND": ObjType = C.OBJ.BACKGROUND; break;
