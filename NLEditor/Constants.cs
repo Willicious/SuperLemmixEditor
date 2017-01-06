@@ -50,7 +50,8 @@ namespace NLEditor
             Default, DefaultOWW, Erase, OnlyAtMask, OnlyAtOWW,
             NoOverwrite, NoOverwriteOWW,
             ClearPhysics, ClearPhysicsOWW, ClearPhysicsSteel,
-            ClearPhysicsNoOverwrite, ClearPhysicsNoOverwriteOWW, ClearPhysicsSteelNoOverwrite
+            ClearPhysicsNoOverwrite, ClearPhysicsNoOverwriteOWW, ClearPhysicsSteelNoOverwrite,
+            Custom
         }
 
         public enum DIR { N, E, S, W }

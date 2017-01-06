@@ -109,7 +109,7 @@ namespace NLEditor
         /// <param name="RotFlipType"></param>
         private void CreateRotatedImages(RotateFlipType RotFlipType)
         {
-            fImageRotated.Add(RotFlipType, new List<Bitmap>());
+            fImageRotated[RotFlipType] = new List<Bitmap>();
             foreach (Bitmap ImageFrame in fImages)
             {
                 Bitmap RotImage = (Bitmap)ImageFrame.Clone();
@@ -291,16 +291,14 @@ namespace NLEditor
 
             try
             {
-                BaseImageInfo NewImageInfo = LoadStylesFromFile.ImageInfo(NewBitmap, ImageKey);
-                fImageList.Add(ImageKey, NewImageInfo);
+                fImageList[ImageKey] = LoadStylesFromFile.ImageInfo(NewBitmap, ImageKey);
             }
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                System.Windows.Forms.MessageBox.Show("Error: Could not load image at " + ImageKey + C.NewLine + Ex.Message);
+                System.Windows.Forms.MessageBox.Show("Warning: Could not read .nxmo or .nxmt file at " + ImageKey + C.NewLine + Ex.Message);
 
-                BaseImageInfo NewImageInfo = new BaseImageInfo(new Bitmap(1, 1));
-                fImageList.Add(ImageKey, NewImageInfo);
+                fImageList[ImageKey] = new BaseImageInfo(new Bitmap(1, 1));
             }
 
             return true;
@@ -319,16 +317,14 @@ namespace NLEditor
 
             try
             {
-                BaseImageInfo NewImageInfo = new BaseImageInfo(Image, ObjType, 1, false, TriggerRect, ResizeMode);
-                fImageList.Add(ImageKey, NewImageInfo);
+                fImageList[ImageKey] = new BaseImageInfo(Image, ObjType, 1, false, TriggerRect, ResizeMode);
             }
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                System.Windows.Forms.MessageBox.Show("Error: Could not load image at " + ImageKey + C.NewLine + Ex.Message);
+                System.Windows.Forms.MessageBox.Show("Warning: Could not read .nxmo or .nxmt file at " + ImageKey + C.NewLine + Ex.Message);
                 
-                BaseImageInfo NewImageInfo = new BaseImageInfo(new Bitmap(1, 1));
-                fImageList.Add(ImageKey, NewImageInfo);
+                fImageList[ImageKey] = new BaseImageInfo(new Bitmap(1, 1));
             }
         }
 

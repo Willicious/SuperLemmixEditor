@@ -30,7 +30,7 @@ namespace NLEditor
             SearchDirectoryForBackgrounds();
 
             RemoveDuplicatedObjects();
-            SortObjectNameListByObjectType();
+            SortObjectNamesByObjectType();
 
             fColorDict = LoadStylesFromFile.StyleColors(NameInDirectory);
         }
@@ -171,7 +171,7 @@ namespace NLEditor
         /// <summary>
         /// Sorts the list of object names according to their object types.
         /// </summary>
-        private void SortObjectNameListByObjectType()
+        private void SortObjectNamesByObjectType()
         {
             fObjectNames.Sort((obj1, obj2) => ImageLibrary.GetObjType(obj1).CompareTo(ImageLibrary.GetObjType(obj2)));
         }

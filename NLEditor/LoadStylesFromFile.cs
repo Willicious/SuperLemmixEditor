@@ -65,7 +65,7 @@ namespace NLEditor
                         {
                             string ColorString = ColorLine.Text;
                             if (ColorString.StartsWith("x")) ColorString = ColorString.Substring(1);
-                            ColorDict.Add(KeyToStyleColorDict[Key], ColorTranslator.FromHtml("#" + ColorString));
+                            ColorDict[KeyToStyleColorDict[Key]] = ColorTranslator.FromHtml("#" + ColorString);
                         }
                     }
                 }
@@ -160,14 +160,14 @@ namespace NLEditor
                     {
                         if (!StyleOrderDict.ContainsKey(StyleFileName))
                         {
-                            StyleOrderDict.Add(StyleFileName, StyleNewPos);
+                            StyleOrderDict[StyleFileName] = StyleNewPos;
                         }
                     }
                     if (StyleFileName != null && StyleNewName != null)
                     {
                         if (!NewStyleNameDict.ContainsKey(StyleFileName))
                         {
-                            NewStyleNameDict.Add(StyleFileName, StyleNewName);
+                            NewStyleNameDict[StyleFileName] = StyleNewName;
                         }
                     }
 

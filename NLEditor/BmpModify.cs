@@ -78,6 +78,12 @@ namespace NLEditor
         private static readonly byte[] ColorClearPhysicsSteelLight = { 80, 80, 80, 254 };
         private static readonly byte[] ColorClearPhysicsSteelDark = { 50, 50, 50, 254 };
 
+        public static void SetCustomDrawMode(Func<int, int, byte[]> ColorFunc, Func<byte, byte, bool> DrawTypeFunc)
+        {
+            ColorFuncDict[C.CustDrawMode.Custom] = ColorFunc;
+            DoDrawThisPixelDict[C.CustDrawMode.Custom] = DrawTypeFunc;
+        }
+
         private static byte[] ColorFunc_Erase(int PosX, int PosY)
         {
             return ColorErase;
