@@ -71,7 +71,7 @@ namespace NLEditor
                 switch (ColorType)
                 {
                     case C.StyleColor.BACKGROUND: return Color.Black;
-                    default: return Color.Azure;
+                    default: return Color.Linen;
                 }
             } 
         }
@@ -134,8 +134,6 @@ namespace NLEditor
                 System.Windows.Forms.MessageBox.Show("Warning:" + Ex.Message);
                 // ...but then start the editor as usual
             }
-
-            if (fObjectNames == null) fObjectNames = new List<string>();
         }
 
         /// <summary>

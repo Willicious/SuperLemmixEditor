@@ -33,7 +33,7 @@ namespace NLEditor
             {
                 Utility.LogException(Ex);
 
-                MessageBox.Show("Error: Could not find graphic styles." + C.NewLine + Ex.Message);
+                MessageBox.Show("Error: Could not find graphic styles in subdirectory 'styles'." + C.NewLine + Ex.Message);
                 Environment.Exit(-1);
             }
 
