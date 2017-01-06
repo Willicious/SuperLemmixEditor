@@ -103,7 +103,7 @@ namespace NLEditor
         {
             if (fCurLevel.MainStyle == null) return;
 
-            Color NewBackColor = fCurLevel.MainStyle.BackgroundColor;
+            Color NewBackColor = fCurLevel.MainStyle.GetColor(C.StyleColor.BACKGROUND);
             if (NewBackColor == null) return;
 
             picPieceList.ForEach(pic => pic.BackColor = NewBackColor);

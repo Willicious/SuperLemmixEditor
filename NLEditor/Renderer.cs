@@ -284,7 +284,7 @@ namespace NLEditor
         public void CreateBackgroundLayer()
         {
             // Set background color
-            fLayerList[C.LAY_BACKGROUND].Clear(fMyLevel.MainStyle.BackgroundColor);
+            fLayerList[C.LAY_BACKGROUND].Clear(fMyLevel.MainStyle.GetColor(C.StyleColor.BACKGROUND));
 
             // Display background images, if selected
             if (fMyLevel.MainStyle.BackgroundNames.Contains(fMyLevel.BackgroundKey))
@@ -425,7 +425,7 @@ namespace NLEditor
             {
                 // Still use background color
                 LevelBmp = new Bitmap(LevelBmpSize.Width, LevelBmpSize.Height);
-                LevelBmp.Clear(fMyLevel.MainStyle.BackgroundColor);
+                LevelBmp.Clear(fMyLevel.MainStyle.GetColor(C.StyleColor.BACKGROUND));
             }
             
 

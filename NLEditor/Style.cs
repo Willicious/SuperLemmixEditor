@@ -31,9 +31,8 @@ namespace NLEditor
 
             RemoveDuplicatedObjects();
             SortObjectNameListByObjectType();
-            
-            List<Color> StyleColors = LoadStylesFromFile.StyleColors(NameInDirectory);
-            fBackgroundColor = StyleColors[0];
+
+            fColorDict = LoadStylesFromFile.StyleColors(NameInDirectory);
         }
 
         string fNameInDirectory;
@@ -41,14 +40,13 @@ namespace NLEditor
         List<string> fTerrainNames;
         List<string> fObjectNames;
         List<string> fBackgroundNames;
-        Color fBackgroundColor;
+        Dictionary<C.StyleColor, Color> fColorDict;
 
         public string NameInDirectory { get { return fNameInDirectory; } }
         public string NameInEditor { get { return fNameInEditor; } set { fNameInEditor = value; } }
         public List<string> TerrainNames { get { return fTerrainNames; } }
         public List<string> ObjectNames { get { return fObjectNames; } }
         public List<string> BackgroundNames { get { return fBackgroundNames; } }
-        public Color BackgroundColor { get { return fBackgroundColor; } }
 
         /// <summary>
         /// Checks for equality of the style's FileName.
@@ -59,6 +57,25 @@ namespace NLEditor
         {
             return this.NameInDirectory.Equals(OtherStyle.NameInDirectory);
         }
+
+        /// <summary>
+        /// Reads the style's color or a default value if no color is specified.
+        /// </summary>
+        /// <param name="ColorType"></param>
+        /// <returns></returns>
+        public Color GetColor(C.StyleColor ColorType)
+        {
+            if (fColorDict.ContainsKey(ColorType)) return fColorDict[ColorType];
+            else
+            {
+                switch (ColorType)
+                {
+                    case C.StyleColor.BACKGROUND: return Color.Black;
+                    default: return Color.Azure;
+                }
+            } 
+        }
+
 
         /// <summary>
         /// Writes all pieces in AppPath/StyleName/terrain to the list of TerrainNames.

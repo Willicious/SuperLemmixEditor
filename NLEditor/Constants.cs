@@ -72,6 +72,11 @@ namespace NLEditor
             NULL
         }
 
+        public enum StyleColor
+        { 
+            BACKGROUND, ONE_WAY_WALL, MASK, PICKUP_BORDER, PICKUP_INSIDE 
+        }
+
         public static readonly Dictionary<OBJ, string> TooltipList = new Dictionary<OBJ, string>
             {
                 {OBJ.TERRAIN, "Terrain"}, {OBJ.STEEL, "Steel"}, {OBJ.NONE, "No effect"},

@@ -21,7 +21,13 @@ namespace NLEditor
             Bitmap Image = Properties.Resources.Lemming;
             ImageLibrary.AddNewImage(ImageKey, Image, C.OBJ.LEMMING, new Rectangle(2, 9, 1, 1), C.Resize.None);
         }
-        
+
+        static readonly Dictionary<string, C.StyleColor> KeyToStyleColorDict = new Dictionary<string, C.StyleColor>
+        {
+            {"BACKGROUND", C.StyleColor.BACKGROUND}, {"MASK", C.StyleColor.MASK}, {"ONE_WAYS", C.StyleColor.ONE_WAY_WALL},
+            {"PICKUP_BORDER", C.StyleColor.PICKUP_BORDER}, {"PICKUP_INSIDE", C.StyleColor.PICKUP_INSIDE}
+        };
+
         
         /// <summary>
         /// Reads style colors from a .nxtm file.
@@ -29,16 +35,10 @@ namespace NLEditor
         /// </summary>
         /// <param name="StyleName"></param>
         /// <returns></returns>
-        public static List<Color> StyleColors(string StyleName)
+        public static Dictionary<C.StyleColor, Color> StyleColors(string StyleName)
         {
             string FilePath = C.AppPathThemeInfo(StyleName);
-            
-            List<Color> ColorList = new List<Color>();
-            // Write default colors in it
-            ColorList.Add(Color.Black);
-
-            // return default list if no further infos exist
-            if (!File.Exists(FilePath)) return ColorList;
+            if (!File.Exists(FilePath)) return new Dictionary<C.StyleColor, Color>();
 
             FileParser MyParser;
             try
@@ -49,22 +49,24 @@ namespace NLEditor
             {
                 Utility.LogException(Ex);
                 MessageBox.Show(Ex.Message);
-                return ColorList;
+                return new Dictionary<C.StyleColor, Color>();
             }
 
+            Dictionary<C.StyleColor, Color> ColorDict = new Dictionary<C.StyleColor, Color>();
             try
             {
                 List<FileLine> NewFileLine;
                 while ((NewFileLine = MyParser.GetNextLines()) != null)
                 {
-                    System.Diagnostics.Debug.Assert(NewFileLine.Count > 0, "FileParser returned empty list.");
-
-                    FileLine NewColorLine = NewFileLine.Find(line => line.Key == "BACKGROUND");
-                    if (NewColorLine != null)
+                    foreach (string Key in KeyToStyleColorDict.Keys)
                     {
-                        string NewColorString = NewColorLine.Text;
-                        if (NewColorString.StartsWith("x")) NewColorString = NewColorString.Substring(1);
-                        ColorList[0] = ColorTranslator.FromHtml("#" + NewColorString);
+                        FileLine ColorLine = NewFileLine.Find(line => line.Key == Key);
+                        if (ColorLine != null)
+                        {
+                            string ColorString = ColorLine.Text;
+                            if (ColorString.StartsWith("x")) ColorString = ColorString.Substring(1);
+                            ColorDict.Add(KeyToStyleColorDict[Key], ColorTranslator.FromHtml("#" + ColorString));
+                        }
                     }
                 }
             }
@@ -73,8 +75,9 @@ namespace NLEditor
                 // do nothing
             }
 
-            return ColorList;
+            return ColorDict;
         }
+
 
         /// <summary>
         /// Reads the styles.ini file and orders and renames styles accordingly.
