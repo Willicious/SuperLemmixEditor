@@ -81,7 +81,7 @@ namespace NLEditor
         public static void SetCustomDrawMode(Func<int, int, byte[]> ColorFunc, Func<byte, byte, bool> DrawTypeFunc)
         {
             ColorFuncDict[C.CustDrawMode.Custom] = ColorFunc;
-            DoDrawThisPixelDict[C.CustDrawMode.Custom] = DrawTypeFunc;
+            DoDrawThisPixelDict[C.CustDrawMode.Custom] = (DrawTypeFunc != null) ? DrawTypeFunc : DoDrawThisPixel_DrawNew;
         }
 
         private static byte[] ColorFunc_Erase(int PosX, int PosY)
@@ -135,7 +135,7 @@ namespace NLEditor
             return (NewBmpAlpha > 63) && (MaskBmpAlpha > 63);
         }
 
-        private static bool DoDrawThisPixel_OnlyAtOWW(byte NewBmpAlpha, byte MaskBmpAlpha)
+        public static bool DoDrawThisPixel_OnlyAtOWW(byte NewBmpAlpha, byte MaskBmpAlpha)
         {
             return (NewBmpAlpha > 63) && (MaskBmpAlpha == 255);
         }

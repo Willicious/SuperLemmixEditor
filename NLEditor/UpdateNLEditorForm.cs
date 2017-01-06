@@ -57,12 +57,38 @@ namespace NLEditor
             for (int i = 0; i < picPieceList.Count; i++)
             {
                 string ThisPieceName = ThisPieceNameList[(fPieceStartIndex + i) % ThisPieceNameList.Count];
-                int FrameIndex = (ImageLibrary.GetObjType(ThisPieceName).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE)) ? 1 : 0;              
-                picPieceList[i].Image = ImageLibrary.GetImage(ThisPieceName, RotateFlipType.RotateNoneFlipNone, FrameIndex);
+                if (ThisPieceName.StartsWith("default") && ImageLibrary.GetObjType(ThisPieceName) == C.OBJ.ONE_WAY_WALL)
+                {
+                    picPieceList[i].Image = GetRecoloredOWW(ThisPieceName);
+                }
+                else
+                {
+                    int FrameIndex = (ImageLibrary.GetObjType(ThisPieceName).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE)) ? 1 : 0;
+                    picPieceList[i].Image = ImageLibrary.GetImage(ThisPieceName, RotateFlipType.RotateNoneFlipNone, FrameIndex);
+                }
                 SetToolTipsForPicPiece(picPieceList[i], ThisPieceName);
             }
 
             return;
+        }
+
+        /// <summary>
+        /// Returns a recolored OWW according to the OWW color of the current main style.
+        /// </summary>
+        /// <param name="PieceName"></param>
+        /// <returns></returns>
+        private Bitmap GetRecoloredOWW(string PieceName)
+        { 
+            Color OWWColor = Color.Linen;            
+            if (fCurLevel.MainStyle != null)
+            {
+                OWWColor = fCurLevel.MainStyle.GetColor(C.StyleColor.ONE_WAY_WALL);
+            }
+            BmpModify.SetCustomDrawMode((x, y) => new byte[]{ OWWColor.B, OWWColor.G, OWWColor.R, 255 }, null);
+            Bitmap OrigBmp = ImageLibrary.GetImage(PieceName, RotateFlipType.RotateNoneFlipNone);
+            Bitmap NewBmp = new Bitmap(OrigBmp.Width, OrigBmp.Height);
+            NewBmp.DrawOn(OrigBmp, new Point(0, 0), C.CustDrawMode.Custom);
+            return NewBmp;
         }
 
 
