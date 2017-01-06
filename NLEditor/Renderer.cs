@@ -255,6 +255,8 @@ namespace NLEditor
         /// <returns></returns>
         public Bitmap CreateLevelImage()
         {
+            SetCustomDrawModeForOWW(); // Currently here, because we use the custom draw mode only for default OWWs.
+            
             UpdateLayerBmpSize();
             
             CreateObjectBackLayer();
@@ -277,6 +279,22 @@ namespace NLEditor
                 CreateBackgroundLayer();
             }
         }
+
+        /// <summary>
+        /// Sets the custom draw mode to draw default OWWs according to the color scheme of the main style.
+        /// </summary>
+        private void SetCustomDrawModeForOWW()
+        {
+            Color OWWColor = Color.Linen;            
+            if (fMyLevel.MainStyle != null)
+            {
+                OWWColor = fMyLevel.MainStyle.GetColor(C.StyleColor.ONE_WAY_WALL);
+            }
+
+            BmpModify.SetCustomDrawMode((x, y) => new byte[]{ OWWColor.B, OWWColor.G, OWWColor.R, 255 }, 
+                                        BmpModify.DoDrawThisPixel_OnlyAtOWW);
+        }
+
 
         /// <summary>
         /// Creates the background layer with the correct background color and background image.
@@ -381,7 +399,8 @@ namespace NLEditor
             List<GadgetPiece> OWWGadgetList = fMyLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.ONE_WAY_WALL);
             foreach (GadgetPiece MyGadget in OWWGadgetList)
             {
-                fLayerList[C.LAY_OBJTOP].DrawOn(MyGadget.Image, fLayerList[C.LAY_TERRAIN], MyGadget.Pos, C.CustDrawMode.OnlyAtOWW);
+                C.CustDrawMode DrawMode = (MyGadget.Style != "default") ? C.CustDrawMode.OnlyAtOWW : C.CustDrawMode.Custom;
+                fLayerList[C.LAY_OBJTOP].DrawOn(MyGadget.Image, fLayerList[C.LAY_TERRAIN], MyGadget.Pos, DrawMode);
             }
 
             List<GadgetPiece> UsualGadgetList = fMyLevel.GadgetList.FindAll(obj => 
