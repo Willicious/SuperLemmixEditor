@@ -285,14 +285,6 @@ namespace NLEditor
                 this.Controls.Remove(OldPicPieces);
                 OldPicPieces.Dispose();
             }
-            
-            /*
-            if (fpicPieceList.Count > NumPicPieces)
-            {
-                
-                fpicPieceList.RemoveRange(NumPicPieces, fpicPieceList.Count - NumPicPieces);
-            }
-            */
 
             bool NeedUpdatePicPieceImages = (fpicPieceList.Count < NumPicPieces);
             while (fpicPieceList.Count < NumPicPieces)
