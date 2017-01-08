@@ -394,7 +394,10 @@ namespace NLEditor
             SelectionList().ForEach(item => item.FlipInRect(BorderRect));
         }
 
-
+        /// <summary>
+        /// Groups all selected terrain (non-steel) pieces into one piece. The new group is not selected.
+        /// </summary>
+        /// <returns></returns>
         public GroupPiece ReplaceSelectedByGroup()
         {
             List<LevelPiece> SelectTerrList = SelectionList().FindAll(item => item.ObjType == C.OBJ.TERRAIN);
@@ -402,8 +405,7 @@ namespace NLEditor
             TerrainList.RemoveAll(item => item.ObjType == C.OBJ.TERRAIN);
             TerrainList.Add(NewGroup);
 
-            return NewGroup;
-                
+            return NewGroup; 
         }
 
         /// <summary>
