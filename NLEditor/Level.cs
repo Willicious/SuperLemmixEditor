@@ -33,6 +33,7 @@ namespace NLEditor
          *    RotatePieces()
          *    InvertPieces()
          *    FlipPieces()
+         *    GroupSelectedPieces()
          *    SetNoOverwrite(bool DoAdd)
          *    SetErase(bool DoAdd)
          *    SetOnlyOnTerrain(bool DoAdd)
@@ -391,6 +392,18 @@ namespace NLEditor
         {
             Rectangle BorderRect = SelectionRectangle();
             SelectionList().ForEach(item => item.FlipInRect(BorderRect));
+        }
+
+
+        public GroupPiece ReplaceSelectedByGroup()
+        {
+            List<LevelPiece> SelectTerrList = SelectionList().FindAll(item => item.ObjType == C.OBJ.TERRAIN);
+            GroupPiece NewGroup = new GroupPiece(SelectTerrList.ConvertAll(item => (TerrainPiece)item));
+            TerrainList.RemoveAll(item => item.ObjType == C.OBJ.TERRAIN);
+            TerrainList.Add(NewGroup);
+
+            return NewGroup;
+                
         }
 
         /// <summary>

@@ -35,6 +35,8 @@ namespace NLEditor
          *    CombineLayers() // only combines existing layers
          *    CreateBackgroundLayer() 
          * 
+         *    CreateTerrainGroupImage(List<TerrainPiece> TerrPieceList)
+         * 
          *    ChangeIsClearPhsyics() 
          *    ChangeIsTerrainLayer()
          *    ChangeIsTriggerLayer() 
@@ -55,6 +57,19 @@ namespace NLEditor
          *    MouseStartPos
          *    MouseCurPos
          * -------------------------------------------------------- */
+        /// <summary>
+        /// Initializes an empty Renderer. 
+        /// </summary>
+        public Renderer()
+        {
+            this.fMyLevel = null;
+            this.fIsClearPhysics = false;
+            this.fIsTerrainLayer = true;
+            this.fIsObjectLayer = true;
+            this.fIsTriggerLayer = false;
+            this.fIsScreenStart = false;
+            this.fIsBackgroundLayer = false;
+        }
 
         /// <summary>
         /// Initializes a new instance of a Renderer. This resets all existing display options. 
@@ -64,8 +79,7 @@ namespace NLEditor
         public Renderer(Level MyLevel, System.Windows.Forms.PictureBox pic_Level)
         {
             this.fMyLevel = MyLevel;
-            System.Diagnostics.Debug.Assert(MyLevel != null, "Renderer created while passing a null level!");
-
+            
             this.fLayerList = new List<Bitmap>(C.LAY_COUNT);
             for (int i = 0; i < C.LAY_COUNT; i++)
             {
@@ -340,6 +354,29 @@ namespace NLEditor
                 fLayerList[C.LAY_TERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos, MyDrawMode);
             }
         }
+
+        /// <summary>
+        /// Renders all terrain pieces in the TerrPieceList.
+        /// <para> This assumes IsClearPhysics = false.</para>
+        /// </summary>
+        /// <param name="TerrPieceList"></param>
+        /// <returns></returns>
+        public Bitmap CreateTerrainGroupImage(List<TerrainPiece> TerrPieceList)
+        {
+            int Width = TerrPieceList.Max(ter => ter.PosX + ter.Width);
+            int Height = TerrPieceList.Max(ter => ter.PosY + ter.Height);
+
+            Bitmap GroupImage = new Bitmap(Width, Height);
+
+            foreach (TerrainPiece TerrPiece in TerrPieceList)
+            {
+                C.CustDrawMode MyDrawMode = GetDrawModeForTerrain(TerrPiece);
+                GroupImage.DrawOn(TerrPiece.Image, TerrPiece.Pos, MyDrawMode);
+            }
+
+            return GroupImage;
+        }
+
 
         /// <summary>
         /// Returns the correct CustDrawMode for the terrain piece.

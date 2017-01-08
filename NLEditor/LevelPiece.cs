@@ -579,4 +579,82 @@ namespace NLEditor
 
     }
 
+    /// <summary>
+    /// This stored all data of a gadget. Inherits from LevelPiece.
+    /// </summary>
+    public class GroupPiece : TerrainPiece
+    { 
+        public GroupPiece(GroupPiece OldGroupPiece, Point Pos)
+            : base(OldGroupPiece.fKey, Pos)
+        {
+            fTerPieceList = OldGroupPiece.fTerPieceList;
+        }
+
+        public GroupPiece(GroupPiece OldGroupPiece, Point Pos, int Rotation, bool IsInvert, bool IsErase, bool IsNoOv, bool IsOneWay)
+            : base(OldGroupPiece.fKey, Pos, Rotation, IsInvert, IsErase, IsNoOv, IsOneWay)
+        {
+            fTerPieceList = OldGroupPiece.fTerPieceList;
+        }
+
+        public GroupPiece(List<TerrainPiece> TerPieceList)
+            : base(GetKeyFromTerPieceList(TerPieceList), GetPosFromTerPieceList(TerPieceList))
+        {
+            fTerPieceList = TerPieceList.ConvertAll(ter => (TerrainPiece)ter.Clone()).ToList();
+            fTerPieceList.ForEach(ter => { ter.PosX -= this.PosX; ter.PosY -= this.PosY; ter.IsSelected = false; });
+            // Add the group image to the image library
+            Renderer GroupRenderer = new Renderer();
+            Bitmap GroupImage = GroupRenderer.CreateTerrainGroupImage(fTerPieceList);
+            ImageLibrary.AddNewImage(fKey, GroupImage, C.OBJ.TERRAIN, new Rectangle(), C.Resize.None);
+        }
+
+        List<TerrainPiece> fTerPieceList; // already with adapted positions
+
+        /// <summary>
+        /// Creates the group key from the terrain list.
+        /// </summary>
+        /// <param name="TerPieceList"></param>
+        /// <returns></returns>
+        private static string GetKeyFromTerPieceList(List<TerrainPiece> TerPieceList)
+        {
+            Point GroupPos = GetPosFromTerPieceList(TerPieceList);
+            
+            StringBuilder KeyString = new StringBuilder();
+            foreach(TerrainPiece Piece in TerPieceList)
+            {
+                KeyString.Append(Piece.Style)
+                         .Append(Piece.Name)
+                         .Append(Piece.PosX - GroupPos.X)
+                         .Append(Piece.PosY - GroupPos.Y)
+                         .Append(Piece.IsRotatedInPlayer)
+                         .Append(Piece.IsFlippedInPlayer)
+                         .Append(Piece.IsInvertedInPlayer)
+                         .Append(Piece.IsNoOverwrite)
+                         .Append(Piece.IsOneWay)
+                         .Append(Piece.IsErase);
+            }
+
+            string HashKeyString = KeyString.ToString().GetHashCode().ToString();
+            return "default" + C.DirSep + "terrain" + C.DirSep + "Group" + HashKeyString;
+        }
+
+        /// <summary>
+        /// Gets the position of the group from a raw terrain list.
+        /// </summary>
+        /// <param name="TerPieceList"></param>
+        /// <returns></returns>
+        private static Point GetPosFromTerPieceList(List<TerrainPiece> TerPieceList)
+        {
+            int MinXPos = TerPieceList.Min(ter => ter.PosX);
+            int MinYPos = TerPieceList.Min(ter => ter.PosY);
+            return new Point(MinXPos, MinYPos);
+        }
+
+        public override LevelPiece Clone()
+        {
+            return new GroupPiece(this, new Point(this.PosX, this.PosY), this.Rotation,
+                                  this.IsInvert, this.IsErase, this.IsNoOverwrite, this.IsOneWay);
+        }
+
+
+    }
 }
