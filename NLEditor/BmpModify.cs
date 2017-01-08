@@ -29,6 +29,7 @@ namespace NLEditor
          *     - DrawOnFilledRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
          *     - DrawOnDottedRectangles(this Bitmap OrigBmp, Rectangle Rect)
          *     - PaveArea(this Bitmap OrigBmp, Rectangle Rect)
+         *     - WriteText(this Bitmap OrigBmp, string Text, Color TextColor)
          * -------------------------------------------------------- */
 
         /// <summary>
@@ -684,7 +685,6 @@ namespace NLEditor
                 {
                     RectList.ForEach(rect => g.DrawRectangle(p, rect));
                 }
-                g.Dispose();
             }
         }
 
@@ -802,6 +802,32 @@ namespace NLEditor
             return NewBmp;
         }
 
+        /// <summary>
+        /// Writes a string at a specified position and color on the bitmap.
+        /// </summary>
+        /// <param name="OrigBmp"></param>
+        /// <param name="Text"></param>
+        /// <param name="Position"></param>
+        /// <param name="TextColor"></param>
+        public static void WriteText(this Bitmap OrigBmp, string Text, Point Position, Color TextColor, int FontSize)
+        {
+            // Reposition the text correctly according to its size.
+            Font TextFont = new Font("Tahoma", FontSize);
+            Size TextSize = System.Windows.Forms.TextRenderer.MeasureText(Text, TextFont);
+            Position = new Point(Position.X - TextSize.Width / 2, Position.Y);
+
+            using (Graphics g = Graphics.FromImage(OrigBmp))
+            {
+                using (Brush b = new SolidBrush(TextColor))
+                {
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                    g.DrawString(Text, TextFont, b, Position);
+                }
+            }
+        
+        }
 
     }
 }

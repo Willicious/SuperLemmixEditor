@@ -478,6 +478,7 @@ namespace NLEditor
             // Add rectangles around selected pieces
             if (fIsScreenStart) LevelBmp = AddScreenStartRectangle(LevelBmp);
             LevelBmp = AddSelectedRectangles(LevelBmp);
+            if (fZoom >= 0) LevelBmp = AddHatchOrder(LevelBmp);
             LevelBmp = AddMouseSelectionArea(LevelBmp);
 
             // Revert changes to the screen position, until calling it properly
@@ -518,6 +519,30 @@ namespace NLEditor
             return LevelBmp;
         }
 
+        /// <summary>
+        /// Adds indizes above hatches
+        /// </summary>
+        /// <param name="LevelBmp"></param>
+        /// <returns></returns>
+        private Bitmap AddHatchOrder(Bitmap LevelBmp)
+        {
+            List<GadgetPiece> HatchList = fMyLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.HATCH);
+
+            for (int HatchIndex = 0; HatchIndex < HatchList.Count; HatchIndex++)
+            {
+                GadgetPiece Hatch = HatchList[HatchIndex];
+                string Text = (HatchIndex + 1).ToString() + "/" + HatchList.Count.ToString();
+                int FontSize = 8 + 2 * fZoom;
+
+                Point TextCenterPosLevel = new Point(Hatch.PosX + Hatch.Width / 2, Hatch.PosY);
+                Point TextCenterPos = GetPicPointFromLevelPoint(TextCenterPosLevel);
+                TextCenterPos.Y -= FontSize * 3 / 2;
+
+                LevelBmp.WriteText(Text, TextCenterPos, Color.WhiteSmoke, FontSize);
+            }
+
+            return LevelBmp;
+        }
 
         /// <summary>
         /// Draws rectangles around selected pieces on already zoomed and cropped image.
@@ -539,7 +564,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Translates a rectangle in level coordinates into a screen coordinates (relative to pic_Level)
+        /// Translates a rectangle in level coordinates into screen coordinates (relative to pic_Level)
         /// </summary>
         /// <param name="OrigRect"></param>
         /// <returns></returns>
@@ -559,6 +584,19 @@ namespace NLEditor
 
             return new Rectangle(PosX, PosY, Width, Height);
         }
+
+        /// <summary>
+        /// Translates a point in level coordinates into screen coordinates (relative to pic_Level)
+        /// </summary>
+        /// <param name="OrigPoint"></param>
+        /// <returns></returns>
+        private Point GetPicPointFromLevelPoint(Point OrigPoint)
+        {
+            int PosX = ApplyZoom(OrigPoint.X - fScreenPos.X);
+            int PosY = ApplyZoom(OrigPoint.Y - fScreenPos.Y);
+            return new Point(PosX, PosY);
+        }
+
 
         /// <summary>
         /// Draws the rectangle around the area currently selected with the mouse.
