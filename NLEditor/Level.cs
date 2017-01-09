@@ -373,7 +373,8 @@ namespace NLEditor
         public void RotatePieces()
         { 
             Rectangle BorderRect = SelectionRectangle();
-            SelectionList().ForEach(item => item.RotateInRect(BorderRect));
+            SelectionList().FindAll(item => item.MayRotate())
+                           .ForEach(item => item.RotateInRect(BorderRect));
         }
 
         /// <summary>

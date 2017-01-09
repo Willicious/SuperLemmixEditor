@@ -540,6 +540,7 @@ namespace NLEditor
         private void SetOneWay(bool DoAdd)
         {
             fCurLevel.SetOneWay(DoAdd);
+            UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }

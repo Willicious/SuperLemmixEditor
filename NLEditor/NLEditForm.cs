@@ -731,6 +731,35 @@ namespace NLEditor
             {
                 MoveLevelPieces(C.DIR.S);
             }
+            else if (e.KeyCode == Keys.R)
+            {
+                RotateLevelPieces();
+            }
+            else if (e.KeyCode == Keys.E)
+            {
+                FlipLevelPieces();
+            }
+            else if (e.KeyCode == Keys.W)
+            {
+                InvertLevelPieces();
+            }
+            else if (e.KeyCode == Keys.A)
+            {
+                check_Pieces_Erase.Checked = !check_Pieces_Erase.Checked;
+            }
+            else if (e.KeyCode == Keys.S)
+            {
+                check_Pieces_NoOv.Checked = !check_Pieces_NoOv.Checked;
+            }
+            else if (e.KeyCode == Keys.D)
+            {
+                check_Pieces_OnlyOnTerrain.Checked = !check_Pieces_OnlyOnTerrain.Checked;
+            }
+            else if (e.KeyCode == Keys.F)
+            {
+                check_Pieces_OneWay.Checked = !check_Pieces_OneWay.Checked;
+            }
+
             else if (e.KeyCode == Keys.Enter)
             {
                 RemoveFocus();

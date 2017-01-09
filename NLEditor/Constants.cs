@@ -130,86 +130,121 @@ namespace NLEditor
         public static readonly int ZOOM_MAX = 7;
 
 
-        public static readonly List<string> HotkeyList = new List<string>
-            {
-                "Left mouse", 
-                "", 
-                "Middle mouse", 
-                "Ctrl + mouse", 
-                "Alt + mouse", 
-                "Right mouse",
-                "Mouse wheel",
-                "",
-                "Esc", 
-                "Alt + F4", 
-                "Ctrl + N", 
-                "Ctrl + O", 
-                "Ctrl + S", 
-                "Ctrl + Alt + S",
-                "",
-                "Ctrl + Z",
-                "Ctrl + Y",
-                "Ctrl + X",
-                "Ctrl + V",
-                "Ctrl + C",
-                "",
-                "Up/Down/Right/Left",
-                "Ctrl + Up/Down/Right/Left",
+        public enum HotkeyTabs
+        { 
+            General, Pieces
+        }
 
-                "Shift + Right/Left", 
-                "Shift + Up/Down",
-                "Shift + Space",
-                "Shift + Number",
-                "",
-                "F1", 
-                "F2", 
-                "F3", 
-                "F4", 
-                "F5", 
-                "F6",
-                "F11",
-                "F12"
+        public static readonly Dictionary<C.HotkeyTabs, List<string>> HotkeyDict = new Dictionary<C.HotkeyTabs, List<string>>
+            {
+                { C.HotkeyTabs.General, new List<string> 
+                    {
+                        "Esc", 
+                        "Alt + F4", 
+                        "Ctrl + N", 
+                        "Ctrl + O", 
+                        "Ctrl + S", 
+                        "Ctrl + Alt + S",
+                        "",
+                        "Shift + Right/Left", 
+                        "Shift + Up/Down",
+                        "Shift + Space",
+                        "Shift + Number",
+                        "",
+                        "F1", 
+                        "F2", 
+                        "F3", 
+                        "F4", 
+                        "F5", 
+                        "F6",
+                        "F11",
+                        "F12" 
+                    }
+                },
+                { C.HotkeyTabs.Pieces, new List<string> 
+                    {
+                        "Left mouse", 
+                        "", 
+                        "Middle mouse", 
+                        "Ctrl + mouse", 
+                        "Alt + mouse", 
+                        "Right mouse",
+                        "Mouse wheel",
+                        "",
+                        "Ctrl + Z",
+                        "Ctrl + Y",
+                        "Ctrl + X",
+                        "Ctrl + V",
+                        "Ctrl + C",
+                        "",
+                        "Up/Down/Right/Left",
+                        "Ctrl + Up/Down/Right/Left",
+                        "R",
+                        "E",
+                        "W",
+                        "",
+                        "A",
+                        "S",
+                        "D",
+                        "F"
+                    }
+                }
             };
 
-        public static readonly List<string> DescriptionList = new List<string>
+        public static readonly Dictionary<C.HotkeyTabs, List<string>> DescriptionDict = new Dictionary<C.HotkeyTabs, List<string>>
             {
-                "Drag selected pieces or...",
-                "Select one piece or all pieces in an area.",
-                "Remove one piece or all pieces in an area from selection.",
-                "Add/Remove pieces to current selection.",
-                "Invert priority of piece selection.",
-                "Drag current editor position.",
-                "Change zoom.",
-                "",
-                "Exit the editor.",
-                "Exit the editor.",
-                "Create a new empty level.",
-                "Load a new level.",
-                "Save the current level.",
-                "Save the current level in a new file.",
-                "",
-                "Undo last change.",
-                "Revert last Undo and redo that action.",
-                "Delete selected pieces.",
-                "Insert previously deleted or copied pieces.",
-                "Copy selected pieces.",
-                "",
-                "Move selected pieces.",
-                "Move selected pieces 8 pixels.",
-
-                "Display previous/next item in piece selection.",
-                "Change style for the piece selection to previous/next one.",
-                "Toggle between new terrain and new objects.",
-                "Add the respective piece to the level.",
-                "",
-                "Switch to and from Clear Physics mode.",
-                "Switch to and from displaying terrain.",
-                "Switch to and from displaying interactive objects.",
-                "Switch to and from displaying trigger areas.",
-                "Switch to and from displaying the screen start.",
-                "Switch to and from displaying background images.",
-                "Display this hotkey help window.",
-                "Playtest the level in the NeoLemmix player."
+                { C.HotkeyTabs.General, new List<string> 
+                    {
+                        "Exit the editor.",
+                        "Exit the editor.",
+                        "Create a new empty level.",
+                        "Load a new level.",
+                        "Save the current level.",
+                        "Save the current level in a new file.",
+                        "",
+                        "Display previous/next item in piece selection.",
+                        "Change style for the piece selection to previous/next one.",
+                        "Toggle between new terrain and new objects.",
+                        "Add the respective piece to the level.",
+                        "",
+                        "Switch to and from Clear Physics mode.",
+                        "Switch to and from displaying terrain.",
+                        "Switch to and from displaying interactive objects.",
+                        "Switch to and from displaying trigger areas.",
+                        "Switch to and from displaying the screen start.",
+                        "Switch to and from displaying background images.",
+                        "Display this hotkey help window.",
+                        "Playtest the level in the NeoLemmix player."
+                    }
+                },
+                { C.HotkeyTabs.Pieces, new List<string> 
+                    {
+                        "Drag selected pieces or...",
+                        "Select one piece or all pieces in an area.",
+                        "Remove one piece or all pieces in an area from selection.",
+                        "Add/Remove pieces to current selection.",
+                        "Invert priority of piece selection.",
+                        "Drag current editor position.",
+                        "Change zoom.",
+                        "",
+                        "Undo last change.",
+                        "Revert last Undo and redo that action.",
+                        "Delete selected pieces.",
+                        "Insert previously deleted or copied pieces.",
+                        "Copy selected pieces.",
+                        "",
+                        "Move selected pieces.",
+                        "Move selected pieces 8 pixels.",
+                        "Rotate selected pieces.",
+                        "Flip selected pieces.",
+                        "Invert selected pieces.",
+                        "",
+                        "Toggle drawing selected pieces as erasing.",
+                        "Toggle drawing selected pieces below existing terrain.",
+                        "Toggle drawing selected pieces only on existing terrain.",
+                        "Toggle allowing one-way-walls on selected pieces."
+                    }
+                }                
             };
 
         public static readonly List<string> VersionList = new List<string>

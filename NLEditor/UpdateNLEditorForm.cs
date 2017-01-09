@@ -343,24 +343,48 @@ namespace NLEditor
         private void DisplayHotkeyForm()
         {
             Form HotkeyForm = new Form();
-            HotkeyForm.Width = 470;
-            HotkeyForm.Height = 500;
+            HotkeyForm.Width = 450;
+            HotkeyForm.Height = 400;
             HotkeyForm.MaximizeBox = false;
             HotkeyForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             HotkeyForm.Text = "NLEditor - Hotkeys";
 
-            HotkeyForm.Show();
+            TabControl HotkeyTabs = new TabControl();
+            HotkeyTabs.Location = new Point(0, 0);
+            HotkeyTabs.SelectedIndex = 0;
+            HotkeyTabs.Size = new Size(HotkeyForm.Width - 6, HotkeyForm.Height - 23);
+            HotkeyTabs.TabIndex = 1;
+            HotkeyTabs.TabStop = false;
 
-            using (Graphics HotkeyGraphics = HotkeyForm.CreateGraphics())
-            using (SolidBrush MyBrush = new SolidBrush(Color.Black))
-            using (Font MyFont = new Font("Microsoft Sans Serif", 8))
-            {
-                for (int i = 0; i < C.HotkeyList.Count; i++)
-                {
-                    HotkeyGraphics.DrawString(C.HotkeyList[i], MyFont, MyBrush, 6, 6 + 13 * i);
-                    HotkeyGraphics.DrawString(C.DescriptionList[i], MyFont, MyBrush, 156, 6 + 13*i);
-                }
-            }
+            TabPage tabHotkeysGeneral = new TabPage("General");
+            TabPage tabHotkeysPieces = new TabPage("Piece modification");
+            Label lblHotkeysGeneralKeys = new Label();
+            lblHotkeysGeneralKeys.Location = new Point(0, 4);
+            lblHotkeysGeneralKeys.Size = new Size(150, HotkeyTabs.Height - 4);
+            lblHotkeysGeneralKeys.Text = String.Join(C.NewLine, C.HotkeyDict[C.HotkeyTabs.General]);
+            Label lblHotkeysGeneralDescription = new Label();
+            lblHotkeysGeneralDescription.Location = new Point(150, 4);
+            lblHotkeysGeneralDescription.Size = new Size(HotkeyTabs.Width - 154, HotkeyTabs.Height - 4);
+            lblHotkeysGeneralDescription.Text = String.Join(C.NewLine, C.DescriptionDict[C.HotkeyTabs.General]);
+
+            Label lblHotkeysPiecesKeys = new Label();
+            lblHotkeysPiecesKeys.Location = new Point(0, 4);
+            lblHotkeysPiecesKeys.Size = new Size(150, HotkeyTabs.Height - 4);
+            lblHotkeysPiecesKeys.Text = String.Join(C.NewLine, C.HotkeyDict[C.HotkeyTabs.Pieces]);
+            Label lblHotkeysPiecesDescription = new Label();
+            lblHotkeysPiecesDescription.Location = new Point(150, 4);
+            lblHotkeysPiecesDescription.Size = new Size(HotkeyTabs.Width - 154, HotkeyTabs.Height - 4);
+            lblHotkeysPiecesDescription.Text = String.Join(C.NewLine, C.DescriptionDict[C.HotkeyTabs.Pieces]);
+
+            tabHotkeysGeneral.Controls.Add(lblHotkeysGeneralKeys);
+            tabHotkeysGeneral.Controls.Add(lblHotkeysGeneralDescription);
+            tabHotkeysPieces.Controls.Add(lblHotkeysPiecesKeys);
+            tabHotkeysPieces.Controls.Add(lblHotkeysPiecesDescription);
+            HotkeyTabs.Controls.Add(tabHotkeysGeneral);
+            HotkeyTabs.Controls.Add(tabHotkeysPieces);
+            HotkeyForm.Controls.Add(HotkeyTabs);
+
+            HotkeyForm.Show();
         }
 
         /// <summary>
