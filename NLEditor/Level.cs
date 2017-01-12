@@ -24,7 +24,7 @@ namespace NLEditor
          *    
          *    SelectOnePiece(Point Pos, bool IsAdded, bool IsHighest)
          *    SelectAreaPiece(Rectangle Rect, bool IsAdded)
-         *    DeleteAllSelections()
+         *    UnselectAll()
          *    SelectionList()
          *    HasSelectionAtPos(Point Pos)
          *    MovePieces(C.DIR Direcion, int Step = 1)
@@ -58,7 +58,8 @@ namespace NLEditor
 
             this.Width = 320;
             this.Height = 160;
-            this.startPos = new Point(0, 0);
+            this.StartPosX = 0;
+            this.StartPosY = 0;
 
             this.TerrainList = new List<TerrainPiece>();
             this.GadgetList = new List<GadgetPiece>();
@@ -88,10 +89,9 @@ namespace NLEditor
         public int Width { get; set; }
         public int Height { get; set; }
 
-        private Point startPos;
-        public Point StartPos => startPos;
-        public int StartPosX { get { return startPos.X; } set { startPos.X = value; } }
-        public int StartPosY { get { return startPos.Y; } set { startPos.Y = value; } }
+        public Point StartPos => new Point(StartPosX, StartPosY);
+        public int StartPosX { get; set; }
+        public int StartPosY { get; set; }
 
         public List<TerrainPiece> TerrainList { get; set; }
         public List<GadgetPiece> GadgetList { get; set; }
@@ -121,77 +121,79 @@ namespace NLEditor
         /// <returns></returns>
         public Level Clone()
         {
-            Level NewLevel = new Level(this.MainStyle);
-            NewLevel.Title = string.Copy(this.Title);
-            NewLevel.Author = string.Copy(this.Author);
-            NewLevel.MusicFile = string.Copy(this.MusicFile);
-            NewLevel.LevelID = this.LevelID;
-            NewLevel.FilePathToSave = this.FilePathToSave; // shallow copy is fine here.
-            NewLevel.backgroundKey = string.Copy(this.backgroundKey);
+            Level newLevel = new Level(this.MainStyle);
+            newLevel.Title = string.Copy(this.Title);
+            newLevel.Author = string.Copy(this.Author);
+            newLevel.MusicFile = string.Copy(this.MusicFile);
+            newLevel.LevelID = this.LevelID;
+            newLevel.FilePathToSave = this.FilePathToSave; // shallow copy is fine here.
+            newLevel.backgroundKey = string.Copy(this.backgroundKey);
 
-            NewLevel.Width = this.Width;
-            NewLevel.Height = this.Height;
-            NewLevel.startPos = new Point(this.StartPosX, this.StartPosY);
+            newLevel.Width = this.Width;
+            newLevel.Height = this.Height;
+            newLevel.StartPosX = this.StartPosX;
+            newLevel.StartPosY = this.StartPosY;
 
-            NewLevel.TerrainList = new List<TerrainPiece>(this.TerrainList.Select(ter => (TerrainPiece)ter.Clone()));
-            NewLevel.GadgetList = new List<GadgetPiece>(this.GadgetList.Select(obj => (GadgetPiece)obj.Clone()));
+            newLevel.TerrainList = new List<TerrainPiece>(this.TerrainList.Select(ter => (TerrainPiece)ter.Clone()));
+            newLevel.GadgetList = new List<GadgetPiece>(this.GadgetList.Select(gad => (GadgetPiece)gad.Clone()));
 
-            NewLevel.TerrainList.ForEach(ter => ter.IsSelected = false);
-            NewLevel.GadgetList.ForEach(obj => obj.IsSelected = false);
+            newLevel.TerrainList.ForEach(ter => ter.IsSelected = false);
+            newLevel.GadgetList.ForEach(gad => gad.IsSelected = false);
 
-            NewLevel.NumLems = this.NumLems;
-            NewLevel.SaveReq = this.SaveReq;
-            NewLevel.ReleaseRate = this.ReleaseRate;
-            NewLevel.IsReleaseRateFix = this.IsReleaseRateFix;
-            NewLevel.TimeLimit = this.TimeLimit;
-            NewLevel.IsNoTimeLimit = this.IsNoTimeLimit;
+            newLevel.NumLems = this.NumLems;
+            newLevel.SaveReq = this.SaveReq;
+            newLevel.ReleaseRate = this.ReleaseRate;
+            newLevel.IsReleaseRateFix = this.IsReleaseRateFix;
+            newLevel.TimeLimit = this.TimeLimit;
+            newLevel.IsNoTimeLimit = this.IsNoTimeLimit;
 
-            NewLevel.SkillCount = new int[C.SKI_COUNT];
-            for (int Skill = 0; Skill < C.SKI_COUNT; Skill++)
+            newLevel.SkillCount = new int[C.SKI_COUNT];
+            for (int skill = 0; skill < C.SKI_COUNT; skill++)
             {
-                NewLevel.SkillCount[Skill] = this.SkillCount[Skill];
+                newLevel.SkillCount[skill] = this.SkillCount[skill];
             }
 
-            return NewLevel;
+            return newLevel;
         }
 
         /// <summary>
         /// Compares two Levels for equality.
         /// </summary>
-        /// <param name="OtherLevel"></param>
+        /// <param name="otherLevel"></param>
         /// <returns></returns>
-        public bool Equals(Level OtherLevel)
+        public bool Equals(Level otherLevel)
         {
-            if ( OtherLevel == null
-                || !this.Title.Equals(OtherLevel.Title)
-                || !this.Author.Equals(OtherLevel.Author)
-                || !this.MainStyle.NameInDirectory.Equals(OtherLevel.MainStyle.NameInDirectory)
-                || !this.MusicFile.Equals(OtherLevel.MusicFile)
-                || this.LevelID != OtherLevel.LevelID
-                || !this.BackgroundKey.Equals(OtherLevel.BackgroundKey)
-                || this.Width != OtherLevel.Width
-                || this.Height != OtherLevel.Height
-                || !this.StartPos.Equals(OtherLevel.StartPos)
-                || this.TerrainList.Count != OtherLevel.TerrainList.Count
-                || this.GadgetList.Count != OtherLevel.GadgetList.Count
-                || this.NumLems != OtherLevel.NumLems
-                || this.SaveReq != OtherLevel.SaveReq
-                || this.ReleaseRate != OtherLevel.ReleaseRate
-                || this.IsReleaseRateFix != OtherLevel.IsReleaseRateFix
-                || this.IsNoTimeLimit != OtherLevel.IsNoTimeLimit
-                || (this.TimeLimit != OtherLevel.TimeLimit && !this.IsNoTimeLimit))
+            if ( otherLevel == null
+                || !this.Title.Equals(otherLevel.Title)
+                || !this.Author.Equals(otherLevel.Author)
+                || !this.MainStyle.NameInDirectory.Equals(otherLevel.MainStyle.NameInDirectory)
+                || !this.MusicFile.Equals(otherLevel.MusicFile)
+                || this.LevelID != otherLevel.LevelID
+                || !this.BackgroundKey.Equals(otherLevel.BackgroundKey)
+                || this.Width != otherLevel.Width
+                || this.Height != otherLevel.Height
+                || this.StartPosX != otherLevel.StartPosX
+                || this.StartPosY != otherLevel.StartPosY 
+                || this.TerrainList.Count != otherLevel.TerrainList.Count
+                || this.GadgetList.Count != otherLevel.GadgetList.Count
+                || this.NumLems != otherLevel.NumLems
+                || this.SaveReq != otherLevel.SaveReq
+                || this.ReleaseRate != otherLevel.ReleaseRate
+                || this.IsReleaseRateFix != otherLevel.IsReleaseRateFix
+                || this.IsNoTimeLimit != otherLevel.IsNoTimeLimit
+                || (this.TimeLimit != otherLevel.TimeLimit && !this.IsNoTimeLimit))
             {
                 return false;
             }
 
             for (int i = 0; i < this.TerrainList.Count; i++)
             {
-                if (!this.TerrainList[i].Equals(OtherLevel.TerrainList[i])) return false;
+                if (!this.TerrainList[i].Equals(otherLevel.TerrainList[i])) return false;
             }
 
             for (int i = 0; i < this.GadgetList.Count; i++)
             {
-                if (!this.GadgetList[i].Equals(OtherLevel.GadgetList[i])) return false;
+                if (!this.GadgetList[i].Equals(otherLevel.GadgetList[i])) return false;
             }
 
             return true;
@@ -201,89 +203,89 @@ namespace NLEditor
         /// <summary>
         /// Creates a new piece and adds it to the level.
         /// </summary>
-        /// <param name="NewStyle"></param>
-        /// <param name="IsObject"></param>
-        /// <param name="NewPieceIndex"></param>
-        /// <param name="CenterPos"></param>
-        public void AddPiece(Style NewStyle, bool IsObject, int NewPieceIndex, Point CenterPos)
+        /// <param name="newStyle"></param>
+        /// <param name="isObject"></param>
+        /// <param name="newPieceIndex"></param>
+        /// <param name="centerPos"></param>
+        public void AddPiece(Style newStyle, bool isObject, int newPieceIndex, Point centerPos)
         {
-            string PieceKey = IsObject ? NewStyle.ObjectNames[NewPieceIndex] : NewStyle.TerrainNames[NewPieceIndex];
+            string pieceKey = isObject ? newStyle.ObjectNames[newPieceIndex] : newStyle.TerrainNames[newPieceIndex];
 
-            Point PiecePos = new Point(CenterPos.X - ImageLibrary.GetWidth(PieceKey) / 2,
-                                       CenterPos.Y - ImageLibrary.GetHeight(PieceKey) / 2);
+            Point piecePos = new Point(centerPos.X - ImageLibrary.GetWidth(pieceKey) / 2,
+                                       centerPos.Y - ImageLibrary.GetHeight(pieceKey) / 2);
 
-            if (IsObject)
+            if (isObject)
             {
-                GadgetList.Add(new GadgetPiece(PieceKey, PiecePos));
+                GadgetList.Add(new GadgetPiece(pieceKey, piecePos));
             }
             else
             {
-                TerrainList.Add(new TerrainPiece(PieceKey, PiecePos));
+                TerrainList.Add(new TerrainPiece(pieceKey, piecePos));
             }
         }
 
         /// <summary>
         /// Sets the "IsSelected" flag for the first piece that can receive it.
         /// </summary>
-        /// <param name="Pos"></param>
-        /// <param name="IsAdded"></param>
-        /// <param name="DoPriorityInvert"></param>
-        public void SelectOnePiece(Point Pos, bool IsAdded, bool DoPriorityInvert)
+        /// <param name="pos"></param>
+        /// <param name="isAdded"></param>
+        /// <param name="doPriorityInvert"></param>
+        public void SelectOnePiece(Point pos, bool isAdded, bool doPriorityInvert)
         {
-            LevelPiece SelPiece = GetOnePiece(Pos, IsAdded, DoPriorityInvert);
+            LevelPiece selectedPiece = GetOnePiece(pos, isAdded, doPriorityInvert);
 
-            if (SelPiece != null)
+            if (selectedPiece != null)
             {
-                SelPiece.IsSelected = IsAdded;
+                selectedPiece.IsSelected = isAdded;
             }
         }
 
         /// <summary>
         /// Determines the piece to select.
         /// </summary>
-        /// <param name="Pos"></param>
-        /// <param name="IsUnselected"></param>
-        /// <param name="DoPriorityInvert"></param>
+        /// <param name="pos"></param>
+        /// <param name="isUnselected"></param>
+        /// <param name="doPriorityInvert"></param>
         /// <returns></returns>
-        private LevelPiece GetOnePiece(Point Pos, bool IsUnselected, bool DoPriorityInvert)
+        private LevelPiece GetOnePiece(Point pos, bool isUnselected, bool doPriorityInvert)
         {
-            LevelPiece SelPiece;
+            LevelPiece selectedPiece;
 
-            if (DoPriorityInvert)
+            if (doPriorityInvert)
             {
-                SelPiece = TerrainList.Find(ter => ter.ImageRectangle.Contains(Pos)
-                                   && (IsUnselected ^ ter.IsSelected));
-                if (SelPiece == null)
+                selectedPiece = TerrainList.Find(ter => ter.ImageRectangle.Contains(pos)
+                                                    && (isUnselected ^ ter.IsSelected));
+                if (selectedPiece == null)
                 {
-                    SelPiece = GadgetList.Find(gad => gad.ImageRectangle.Contains(Pos)
-                                                      && (IsUnselected ^ gad.IsSelected));
+                    selectedPiece = GadgetList.Find(gad => gad.ImageRectangle.Contains(pos)
+                                                       && (isUnselected ^ gad.IsSelected));
                 }
             }
             else
             {
-                SelPiece = GadgetList.FindLast(gad => gad.ImageRectangle.Contains(Pos)
-                                      && (IsUnselected ^ gad.IsSelected));
-                if (SelPiece == null)
+                selectedPiece = GadgetList.FindLast(gad => gad.ImageRectangle.Contains(pos)
+                                                       && (isUnselected ^ gad.IsSelected));
+                if (selectedPiece == null)
                 {
-                    SelPiece = TerrainList.FindLast(ter => ter.ImageRectangle.Contains(Pos)
-                                                           && (IsUnselected ^ ter.IsSelected));
+                    selectedPiece = TerrainList.FindLast(ter => ter.ImageRectangle.Contains(pos)
+                                                            && (isUnselected ^ ter.IsSelected));
                 }
             }
 
-            return SelPiece;
+            return selectedPiece;
         }
 
         /// <summary>
         /// Select all pieces that intersect with a given area.
         /// </summary>
-        /// <param name="Rect"></param>
-        /// <param name="IsAdded"></param>
-        public void SelectAreaPiece(Rectangle Rect, bool IsAdded)
+        /// <param name="rectangle"></param>
+        /// <param name="isAdded"></param>
+        public void SelectAreaPiece(Rectangle rectangle, bool isAdded)
         {
-            TerrainList.FindAll(ter => ter.ImageRectangle.IntersectsWith(Rect))
-                       .ForEach(ter => ter.IsSelected = IsAdded);
-            GadgetList.FindAll(gad => gad.ImageRectangle.IntersectsWith(Rect))
-                      .ForEach(gad => gad.IsSelected = IsAdded);
+            TerrainList.FindAll(ter => ter.ImageRectangle.IntersectsWith(rectangle))
+                       .ForEach(ter => ter.IsSelected = isAdded);
+            GadgetList.FindAll(gad => gad.ImageRectangle.IntersectsWith(rectangle))
+                      .ForEach(gad => gad.IsSelected = isAdded);
         }
 
         /// <summary>
@@ -301,10 +303,10 @@ namespace NLEditor
         /// <returns></returns>
         public List<LevelPiece> SelectionList()
         {
-            var SelectedPieceList = new List<LevelPiece>();
-            SelectedPieceList.AddRange(TerrainList.FindAll(ter => ter.IsSelected));
-            SelectedPieceList.AddRange(GadgetList.FindAll(obj => obj.IsSelected));
-            return SelectedPieceList;
+            var selectedPieces = new List<LevelPiece>();
+            selectedPieces.AddRange(TerrainList.FindAll(ter => ter.IsSelected));
+            selectedPieces.AddRange(GadgetList.FindAll(obj => obj.IsSelected));
+            return selectedPieces;
         }
 
         /// <summary>
@@ -313,34 +315,34 @@ namespace NLEditor
         /// <returns></returns>
         private Rectangle SelectionRectangle()
         {
-            var SelectedPieceList = SelectionList();
+            var selectedPieces = SelectionList();
 
-            int Left = SelectedPieceList.Min(item => item.PosX);
-            int Right = SelectedPieceList.Max(item => item.PosX + item.Width);
-            int Top = SelectedPieceList.Min(item => item.PosY);
-            int Bottom = SelectedPieceList.Max(item => item.PosY + item.Height);
+            int left = selectedPieces.Min(item => item.PosX);
+            int right = selectedPieces.Max(item => item.PosX + item.Width);
+            int top = selectedPieces.Min(item => item.PosY);
+            int bottom = selectedPieces.Max(item => item.PosY + item.Height);
 
-            return new Rectangle(Left, Top, Right - Left, Bottom - Top);
+            return new Rectangle(left, top, right - left, bottom - top);
         }
 
         /// <summary>
         /// Returns whether there is a selected terrain piece at a point.
         /// </summary>
-        /// <param name="Pos"></param>
+        /// <param name="pos"></param>
         /// <returns></returns>
-        public bool HasSelectionAtPos(Point Pos)
+        public bool HasSelectionAtPos(Point pos)
         {
-            return SelectionList().Exists(item => item.ImageRectangle.Contains(Pos));
+            return SelectionList().Exists(item => item.ImageRectangle.Contains(pos));
         }
 
         /// <summary>
         /// Moves all selected pieces a given number of pixels into a given direction. 
         /// </summary>
-        /// <param name="Direction"></param>
-        /// <param name="Step"></param>
-        public void MovePieces(C.DIR Direction, int Step = 1)
+        /// <param name="direction"></param>
+        /// <param name="step"></param>
+        public void MovePieces(C.DIR direction, int step = 1)
         {
-            SelectionList().ForEach(item => item.Move(Direction, Step));
+            SelectionList().ForEach(item => item.Move(direction, step));
         }
 
         /// <summary>
@@ -348,9 +350,8 @@ namespace NLEditor
         /// </summary>
         public void RotatePieces()
         { 
-            Rectangle BorderRect = SelectionRectangle();
-            SelectionList().FindAll(item => item.MayRotate())
-                           .ForEach(item => item.RotateInRect(BorderRect));
+            Rectangle borderRect = SelectionRectangle();
+            SelectionList().ForEach(item => item.RotateInRect(borderRect));
         }
 
         /// <summary>
@@ -358,8 +359,8 @@ namespace NLEditor
         /// </summary>
         public void InvertPieces()
         {
-            Rectangle BorderRect = SelectionRectangle();
-            SelectionList().ForEach(item => item.InvertInRect(BorderRect));
+            Rectangle borderRect = SelectionRectangle();
+            SelectionList().ForEach(item => item.InvertInRect(borderRect));
         }
 
         /// <summary>
@@ -367,8 +368,8 @@ namespace NLEditor
         /// </summary>
         public void FlipPieces()
         {
-            Rectangle BorderRect = SelectionRectangle();
-            SelectionList().ForEach(item => item.FlipInRect(BorderRect));
+            Rectangle borderRect = SelectionRectangle();
+            SelectionList().ForEach(item => item.FlipInRect(borderRect));
         }
 
         /// <summary>
@@ -377,113 +378,113 @@ namespace NLEditor
         /// <returns></returns>
         public GroupPiece ReplaceSelectedByGroup()
         {
-            var SelectTerrList = SelectionList().FindAll(item => item.ObjType == C.OBJ.TERRAIN);
-            GroupPiece NewGroup = new GroupPiece(SelectTerrList.ConvertAll(item => (TerrainPiece)item));
+            var selectedTerrains = SelectionList().FindAll(item => item.ObjType == C.OBJ.TERRAIN);
+            GroupPiece newGroup = new GroupPiece(selectedTerrains.ConvertAll(item => (TerrainPiece)item));
             TerrainList.RemoveAll(item => item.ObjType == C.OBJ.TERRAIN);
-            TerrainList.Add(NewGroup);
+            TerrainList.Add(newGroup);
 
-            return NewGroup; 
+            return newGroup; 
         }
 
         /// <summary>
         /// Sets the NoOverwrite flag for all objects and terrain pieces.
         /// </summary>
-        /// <param name="DoAdd"></param>
-        public void SetNoOverwrite(bool DoAdd)
+        /// <param name="doAdd"></param>
+        public void SetNoOverwrite(bool doAdd)
         {
             TerrainList.FindAll(ter => ter.IsSelected)
-                       .ForEach(ter => { ter.IsNoOverwrite = DoAdd; if (DoAdd) ter.IsErase = false; });
+                       .ForEach(ter => { ter.IsNoOverwrite = doAdd; if (doAdd) ter.IsErase = false; });
             GadgetList.FindAll(gad => gad.IsSelected)
-                      .ForEach(gad => { gad.IsNoOverwrite = DoAdd; if (DoAdd) gad.IsOnlyOnTerrain = false; });
+                      .ForEach(gad => { gad.IsNoOverwrite = doAdd; if (doAdd) gad.IsOnlyOnTerrain = false; });
         }
 
         /// <summary>
         /// Sets the Erase flag for all terrain pieces.
         /// </summary>
-        /// <param name="DoAdd"></param>
-        public void SetErase(bool DoAdd)
+        /// <param name="doAdd"></param>
+        public void SetErase(bool doAdd)
         {
             TerrainList.FindAll(ter => ter.IsSelected)
-                       .ForEach(ter => { ter.IsErase = DoAdd; if (DoAdd) ter.IsNoOverwrite = false; });
+                       .ForEach(ter => { ter.IsErase = doAdd; if (doAdd) ter.IsNoOverwrite = false; });
         }
 
         /// <summary>
         /// Sets the OnlyOnTerrain flag for all objects.
         /// </summary>
-        /// <param name="DoAdd"></param>
-        public void SetOnlyOnTerrain(bool DoAdd)
+        /// <param name="doAdd"></param>
+        public void SetOnlyOnTerrain(bool doAdd)
         {
             GadgetList.FindAll(gad => gad.IsSelected)
-                      .ForEach(gad => { gad.IsOnlyOnTerrain = DoAdd; if (DoAdd) gad.IsNoOverwrite = false; });
+                      .ForEach(gad => { gad.IsOnlyOnTerrain = doAdd; if (doAdd) gad.IsNoOverwrite = false; });
         }
 
         /// <summary>
         /// Sets the OneWay flag for all terrain pieces.
         /// </summary>
-        /// <param name="DoAdd"></param>
-        public void SetOneWay(bool DoAdd)
+        /// <param name="doAdd"></param>
+        public void SetOneWay(bool doAdd)
         {
             TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSteel)
-                       .ForEach(ter => ter.IsOneWay = DoAdd);
+                       .ForEach(ter => ter.IsOneWay = doAdd);
         }
 
         /// <summary>
         /// Adds or removes a skill flag from all selected objects 
         /// </summary>
-        /// <param name="Skill"></param>
-        public void SetSkillForObjects(int Skill, bool DoAdd)
+        /// <param name="skill"></param>
+        public void SetSkillForObjects(int skill, bool doAdd)
         {
             GadgetList.FindAll(gad => gad.IsSelected)
-                      .ForEach(gad => gad.SetSkillFlag(Skill, DoAdd));
+                      .ForEach(gad => gad.SetSkillFlag(skill, doAdd));
         }
 
         /// <summary>
         /// Changes the index of all selected pieces.
         /// </summary>
-        /// <param name="ToTop"></param>
-        /// <param name="OnlyOneStep"></param>
-        public void MoveSelectedIndex(bool ToTop, bool OnlyOneStep)
+        /// <param name="toTop"></param>
+        /// <param name="onlyOneStep"></param>
+        public void MoveSelectedIndex(bool toTop, bool onlyOneStep)
         {
-            if (OnlyOneStep && ToTop)
+            if (onlyOneStep && toTop)
             {
                 MoveSelectedIndexOneToTop();
             }
-            else if (OnlyOneStep && !ToTop)
+            else if (onlyOneStep && !toTop)
             {
                 MoveSelectedIndexOneToBottom();
             }
             else
             {
-                MoveSelectedIndexMaximally(ToTop);
+                MoveSelectedIndexMaximally(toTop);
             }
         }
 
         /// <summary>
         /// Moves all selected pieces to the beginning or the end of their respective lists.
         /// </summary>
-        /// <param name="ToTop"></param>
-        private void MoveSelectedIndexMaximally(bool ToTop)
+        /// <param name="toTop"></param>
+        private void MoveSelectedIndexMaximally(bool toTop)
         {
-            var SelectedGadgets = GadgetList.FindAll(obj => obj.IsSelected);
-            var NonSelectedGadgets = GadgetList.FindAll(obj => !obj.IsSelected);
-            if (ToTop)
+            var selectedGadgets = GadgetList.FindAll(obj => obj.IsSelected);
+            var nonSelectedGadgets = GadgetList.FindAll(obj => !obj.IsSelected);
+            if (toTop)
             {
-                GadgetList = NonSelectedGadgets.Concat(SelectedGadgets).ToList();
+                GadgetList = nonSelectedGadgets.Concat(selectedGadgets).ToList();
             }
             else
             {
-                GadgetList = SelectedGadgets.Concat(NonSelectedGadgets).ToList();
+                GadgetList = selectedGadgets.Concat(nonSelectedGadgets).ToList();
             }
 
-            var SelectedTerrain = TerrainList.FindAll(obj => obj.IsSelected);
-            var NonSelectedTerrain = TerrainList.FindAll(obj => !obj.IsSelected);
-            if (ToTop)
+            var selectedTerrain = TerrainList.FindAll(obj => obj.IsSelected);
+            var nonSelectedTerrain = TerrainList.FindAll(obj => !obj.IsSelected);
+            if (toTop)
             {
-                TerrainList = NonSelectedTerrain.Concat(SelectedTerrain).ToList();
+                TerrainList = nonSelectedTerrain.Concat(selectedTerrain).ToList();
             }
             else
             {
-                TerrainList = SelectedTerrain.Concat(NonSelectedTerrain).ToList();
+                TerrainList = selectedTerrain.Concat(nonSelectedTerrain).ToList();
             }
         }
 
@@ -492,19 +493,19 @@ namespace NLEditor
         /// </summary>
         private void MoveSelectedIndexOneToTop()
         {
-            for (int Index = TerrainList.Count - 1; Index > 0; Index--)
+            for (int index = TerrainList.Count - 1; index > 0; index--)
             {
-                if (!TerrainList[Index].IsSelected && TerrainList[Index - 1].IsSelected)
+                if (!TerrainList[index].IsSelected && TerrainList[index - 1].IsSelected)
                 {
-                    TerrainList.Swap(Index, Index - 1);
+                    TerrainList.Swap(index, index - 1);
                 }
             }
 
-            for (int Index = GadgetList.Count - 1; Index > 0; Index--)
+            for (int index = GadgetList.Count - 1; index > 0; index--)
             {
-                if (!GadgetList[Index].IsSelected && GadgetList[Index - 1].IsSelected)
+                if (!GadgetList[index].IsSelected && GadgetList[index - 1].IsSelected)
                 {
-                    GadgetList.Swap(Index, Index - 1);
+                    GadgetList.Swap(index, index - 1);
                 }
             }
         }
@@ -514,19 +515,19 @@ namespace NLEditor
         /// </summary>
         private void MoveSelectedIndexOneToBottom()
         {
-            for (int Index = 0; Index < TerrainList.Count - 1; Index++)
+            for (int index = 0; index < TerrainList.Count - 1; index++)
             {
-                if (!TerrainList[Index].IsSelected && TerrainList[Index + 1].IsSelected)
+                if (!TerrainList[index].IsSelected && TerrainList[index + 1].IsSelected)
                 {
-                    TerrainList.Swap(Index, Index + 1);
+                    TerrainList.Swap(index, index + 1);
                 }
             }
 
-            for (int Index = 0; Index < GadgetList.Count - 1; Index++)
+            for (int index = 0; index < GadgetList.Count - 1; index++)
             {
-                if (!GadgetList[Index].IsSelected && GadgetList[Index + 1].IsSelected)
+                if (!GadgetList[index].IsSelected && GadgetList[index + 1].IsSelected)
                 {
-                    GadgetList.Swap(Index, Index + 1);
+                    GadgetList.Swap(index, index + 1);
                 }
             }
         }
@@ -536,28 +537,28 @@ namespace NLEditor
         /// </summary>
         public void PairTeleporters()
         { 
-            GadgetPiece MyTeleporter = (GadgetPiece)SelectionList().Find(gad => gad.ObjType == C.OBJ.TELEPORTER);
-            GadgetPiece MyReceiver = (GadgetPiece)SelectionList().Find(gad => gad.ObjType == C.OBJ.RECEIVER);
+            GadgetPiece teleporter = (GadgetPiece)SelectionList().Find(gad => gad.ObjType == C.OBJ.TELEPORTER);
+            GadgetPiece receiver = (GadgetPiece)SelectionList().Find(gad => gad.ObjType == C.OBJ.RECEIVER);
 
-            System.Diagnostics.Debug.Assert(MyTeleporter != null, "Tried to pair teleporters without a selected teleporter!");
-            System.Diagnostics.Debug.Assert(MyReceiver != null, "Tried to pair teleporters without a selected teleporter!");
+            System.Diagnostics.Debug.Assert(teleporter != null, "Tried to pair teleporters without a selected teleporter!");
+            System.Diagnostics.Debug.Assert(receiver != null, "Tried to pair teleporters without a selected teleporter!");
 
-            if (MyTeleporter.Val_L != 0) RemovePairingValue(MyTeleporter.Val_L);
-            if (MyReceiver.Val_L != 0) RemovePairingValue(MyReceiver.Val_L);
+            if (teleporter.Val_L != 0) RemovePairingValue(teleporter.Val_L);
+            if (receiver.Val_L != 0) RemovePairingValue(receiver.Val_L);
 
-            int NewPairingValue = FindNewPairingValue();
+            int newPairingValue = FindNewPairingValue();
 
-            MyTeleporter.SetTeleporterValue(NewPairingValue);
-            MyReceiver.SetTeleporterValue(NewPairingValue);
+            teleporter.SetTeleporterValue(newPairingValue);
+            receiver.SetTeleporterValue(newPairingValue);
         }
 
         /// <summary>
         /// Removes the key-value RemoveValue from all teleporter and receiver objects.
         /// </summary>
-        /// <param name="RemoveValue"></param>
-        private void RemovePairingValue(int RemoveValue)
+        /// <param name="removeValue"></param>
+        private void RemovePairingValue(int removeValue)
         {
-            GadgetList.FindAll(gad => gad.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
+            GadgetList.FindAll(gad => gad.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER) && gad.Val_L == removeValue)
                       .ForEach(gad => gad.SetTeleporterValue(0)); 
         }
 
@@ -567,11 +568,11 @@ namespace NLEditor
         /// <returns></returns>
         private int FindNewPairingValue()
         {
-            var ExistingPairingValues = GadgetList.FindAll(gad => gad.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
+            var existingPairingValues = GadgetList.FindAll(gad => gad.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
                                                   .ConvertAll(gad => gad.Val_L);
 
             return Enumerable.Range(1, int.MaxValue)
-                             .Except(ExistingPairingValues)
+                             .Except(existingPairingValues)
                              .FirstOrDefault();
         }
 

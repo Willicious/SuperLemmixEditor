@@ -156,6 +156,8 @@ namespace NLEditor
         /// <param name="BorderRect"></param>
         public void RotateInRect(Rectangle BorderRect)
         {
+            if (!MayRotate()) return;
+
             Point Center = new Point(BorderRect.Left + BorderRect.Width / 2, BorderRect.Top + BorderRect.Height / 2);
             Point OldCorner = new Point(PosX, PosY + Height);
 
@@ -164,7 +166,7 @@ namespace NLEditor
 
             Pos = new Point(NewPosX, NewPosY);
 
-            if (MayRotate()) Rotate();
+            Rotate();
         }
 
         /// <summary>
