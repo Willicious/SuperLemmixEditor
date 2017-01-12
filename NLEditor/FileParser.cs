@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace NLEditor
@@ -22,27 +19,22 @@ namespace NLEditor
         {
             if (key.StartsWith("$"))
             {
-                fKey = key.Substring(1).Trim().ToUpper();
-                fIsMultilineKey = true;
+                Key = key.Substring(1).Trim().ToUpper();
+                IsMultilineKey = true;
             }
             else
             {
-                fKey = key.ToUpper();
-                fIsMultilineKey = false;
+                Key = key.ToUpper();
+                IsMultilineKey = false;
             }
-            fText = text;
-            fValue = num;
+            Text = text;
+            Value = num;
         }
 
-        string fKey;
-        string fText;
-        int fValue;
-        bool fIsMultilineKey;
-
-        public string Key { get { return fKey; } }
-        public string Text { get { return fText; } }
-        public int Value { get { return fValue;}}
-        public bool IsMultilineKey { get { return fIsMultilineKey; } }
+        public string Key { get; private set; }
+        public string Text { get; private set; }
+        public int Value { get; private set; }
+        public bool IsMultilineKey { get; private set; }
     }
     
 
@@ -67,10 +59,10 @@ namespace NLEditor
         /// Initializes a new instance of the NLEditor.FileParser class and opens the text file to be parsed. 
         /// <para> You have to catch exceptions in the method creating the FileParser. </para>
         /// </summary>
-        /// <param name="FilePath"></param>
-        public FileParser(string FilePath)
+        /// <param name="filePath"></param>
+        public FileParser(string filePath)
         {
-            fFileStream = new StreamReader(FilePath);
+            fileStream = new StreamReader(filePath);
         }
 
         /// <summary>
@@ -78,11 +70,11 @@ namespace NLEditor
         /// </summary>
         public void DisposeStreamReader()
         {
-            if (fFileStream != null) fFileStream.Dispose();
+            if (fileStream != null) fileStream.Dispose();
         }
 
-        StreamReader fFileStream;
-        FileLine fFileLatestLine;
+        StreamReader fileStream;
+        FileLine fileLatestLine;
         
         /// <summary>
         /// Parses new block of lines, ignoring empty lines or ones starting with #.
@@ -91,49 +83,48 @@ namespace NLEditor
         /// <returns></returns>
         public List<FileLine> GetNextLines()
         {
-            List<FileLine> FileLineList = new List<FileLine>();
+            var fileLineList = new List<FileLine>();
 
-            FileLine CurFileLine = null;
-            if (fFileLatestLine != null)
+            FileLine curFileLine = null;
+            if (fileLatestLine != null)
             {
-                CurFileLine = fFileLatestLine;
-                fFileLatestLine = null;
+                curFileLine = fileLatestLine;
+                fileLatestLine = null;
             }
 
             do
             {
-                CurFileLine = GetNewLine();
-
+                curFileLine = GetNewLine();
                 // end of file reached
-                if (CurFileLine == null) return null;
-            } while (String.IsNullOrEmpty(CurFileLine.Key));
-            FileLineList.Add(CurFileLine);
+                if (curFileLine == null) return null;
+            } while (curFileLine.Key == "");
+            fileLineList.Add(curFileLine);
 
             // Add more lines, if the piece requires multiple lines in the level file
-            if (CurFileLine.IsMultilineKey)
+            if (curFileLine.IsMultilineKey)
             {
-                bool DoAddNextLine = true;
-                while (DoAddNextLine)
+                bool doAddNextLine = true;
+                while (doAddNextLine)
                 {
-                    CurFileLine = GetNewLine();
+                    curFileLine = GetNewLine();
 
-                    if (CurFileLine == null)
+                    if (curFileLine == null)
                     {
-                        DoAddNextLine = false;
+                        doAddNextLine = false;
                     }
-                    else if (CurFileLine.IsMultilineKey)
+                    else if (curFileLine.IsMultilineKey)
                     {
-                        fFileLatestLine = CurFileLine;
-                        DoAddNextLine = false;
+                        fileLatestLine = curFileLine;
+                        doAddNextLine = false;
                     }
-                    else if (CurFileLine.Key != "")
+                    else if (curFileLine.Key != "")
                     {
-                        FileLineList.Add(CurFileLine);
+                        fileLineList.Add(curFileLine);
                     }
                 } 
             }
 
-            return FileLineList;
+            return fileLineList;
         }
 
         /// <summary>
@@ -142,36 +133,36 @@ namespace NLEditor
         /// <returns></returns>
         private FileLine GetNewLine()
         {
-            string Line = fFileStream.ReadLine();
+            string line = fileStream.ReadLine();
 
             // Check for end of file
-            if (Line == null) return null;
+            if (line == null) return null;
 
-            Line = Line.Trim();
+            line = line.Trim();
 
-            int SeperatorIndex = Line.IndexOf(' ');
+            int seperatorIndex = line.IndexOf(' ');
 
-            FileLine ThisFileLine;
-            if (Line.Length > 0 && Line.StartsWith("#"))
+            FileLine fileLine;
+            if (line.Length > 0 && line.StartsWith("#"))
             { 
                 // comment line
-                ThisFileLine = new FileLine("");
+                fileLine = new FileLine("");
             }
-            else if (SeperatorIndex == -1)
+            else if (seperatorIndex == -1)
             {
-                ThisFileLine = new FileLine(Line);
+                fileLine = new FileLine(line);
             }
             else
             {
-                string Key = Line.Substring(0, SeperatorIndex).Trim();
-                string Text = Line.Substring(SeperatorIndex).Trim();
-                int Value;
-                if (!Int32.TryParse(Text, out Value)) Value = 0;
+                string key = line.Substring(0, seperatorIndex).Trim();
+                string text = line.Substring(seperatorIndex).Trim();
+                int value;
+                if (!Int32.TryParse(text, out value)) value = 0;
 
-                ThisFileLine = new FileLine(Key, Text, Value);
+                fileLine = new FileLine(key, text, value);
             }
 
-            return ThisFileLine;
+            return fileLine;
         }
 
     }
