@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NLEditor
 {
+    using THotkeyTexts = Dictionary<C.HotkeyTabs, List<string>>;
+
     public class C // for Constants
     {
         public static string Version
@@ -30,9 +29,9 @@ namespace NLEditor
             get { return AppPath + "styles" + DirSep; }
         }
 
-        public static string AppPathThemeInfo(string StyleName)
+        public static string AppPathThemeInfo(string styleName)
         {
-            return AppPathPieces + StyleName + C.DirSep + "theme.nxtm";
+            return AppPathPieces + styleName + C.DirSep + "theme.nxtm";
         }
 
         public static char DirSep
@@ -135,9 +134,10 @@ namespace NLEditor
             General, Pieces
         }
 
-        public static readonly Dictionary<C.HotkeyTabs, List<string>> HotkeyDict = new Dictionary<C.HotkeyTabs, List<string>>
+        
+        public static readonly THotkeyTexts HotkeyDict = new THotkeyTexts
             {
-                { C.HotkeyTabs.General, new List<string> 
+                { HotkeyTabs.General, new List<string> 
                     {
                         "Esc", 
                         "Alt + F4", 
@@ -161,7 +161,7 @@ namespace NLEditor
                         "F12" 
                     }
                 },
-                { C.HotkeyTabs.Pieces, new List<string> 
+                { HotkeyTabs.Pieces, new List<string> 
                     {
                         "Left mouse", 
                         "", 
@@ -191,9 +191,9 @@ namespace NLEditor
                 }
             };
 
-        public static readonly Dictionary<C.HotkeyTabs, List<string>> DescriptionDict = new Dictionary<C.HotkeyTabs, List<string>>
+        public static readonly THotkeyTexts DescriptionDict = new THotkeyTexts
             {
-                { C.HotkeyTabs.General, new List<string> 
+                { HotkeyTabs.General, new List<string> 
                     {
                         "Exit the editor.",
                         "Exit the editor.",
@@ -217,7 +217,7 @@ namespace NLEditor
                         "Playtest the level in the NeoLemmix player."
                     }
                 },
-                { C.HotkeyTabs.Pieces, new List<string> 
+                { HotkeyTabs.Pieces, new List<string> 
                     {
                         "Drag selected pieces or...",
                         "Select one piece or all pieces in an area.",
