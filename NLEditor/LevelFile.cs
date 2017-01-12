@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -14,7 +11,7 @@ namespace NLEditor
     /// </summary>
     static class LevelFile
     {
-        static readonly string[] fSkillNames = 
+        static readonly string[] SKILLNAMES = 
             { 
                 "    CLIMBER ", "    FLOATER ", "     BOMBER ", "    BLOCKER ",
                 "    BUILDER ", "     BASHER ", "      MINER ", "     DIGGER ",               
@@ -27,91 +24,104 @@ namespace NLEditor
         /// Opens file browser and creates level from a .nxlv file.
         /// <para> Returns null if process is aborted or file is corrupt. </para>
         /// </summary>
-        /// <param name="StyleList"></param>
+        /// <param name="styleList"></param>
         /// <returns></returns>
-        static public Level LoadLevel(List<Style> StyleList)
+        static public Level LoadLevel(List<Style> styleList)
         {
-            OpenFileDialog CurOpenFileDialog = new OpenFileDialog();
+            var openFileDialog = new OpenFileDialog();
 
-            CurOpenFileDialog.InitialDirectory = C.AppPath;
-            CurOpenFileDialog.Multiselect = false;
-            CurOpenFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
-            CurOpenFileDialog.RestoreDirectory = true;
-            CurOpenFileDialog.CheckFileExists = true;
+            openFileDialog.InitialDirectory = C.AppPath;
+            openFileDialog.Multiselect = false;
+            openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.CheckFileExists = true;
 
-            Level NewLevel = null;
+            Level newLevel = null;
 
-            if (CurOpenFileDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                string FilePath = CurOpenFileDialog.FileName;
-                NewLevel = LoadLevelFromFile(FilePath, StyleList);
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = openFileDialog.FileName;
+                    newLevel = LoadLevelFromFile(filePath, styleList);
+                }
+            }
+            catch (Exception Ex)
+            {
+                Utility.LogException(Ex);
+                MessageBox.Show("Error while showing the file browser." + C.NewLine + Ex.Message);
+                return newLevel;
+            }
+            finally
+            {
+                openFileDialog?.Dispose();
             }
 
-            CurOpenFileDialog.Dispose();
-
-            return NewLevel;
+            return newLevel;
         }
 
         /// <summary>
         /// Creates level from a .nxlv file.
         /// <para> Null if file cannot be opened. </para>
         /// </summary>
-        /// <param name="FilePath"></param>
-        /// <param name="StyleList"></param>
+        /// <param name="filePath"></param>
+        /// <param name="styleList"></param>
         /// <returns></returns>
-        static private Level LoadLevelFromFile(string FilePath, List<Style> StyleList)
+        static private Level LoadLevelFromFile(string filePath, List<Style> styleList)
         {
-            Level NewLevel = new Level();
+            Level newLevel = new Level();
 
-            FileParser MyParser;
+            FileParser parser = null;
             try
             {
-                MyParser = new FileParser(FilePath);
+                parser = new FileParser(filePath);
             }
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
                 MessageBox.Show(Ex.Message);
-                return NewLevel;
+                parser?.DisposeStreamReader();
+                return newLevel;
             }
 
 
             try
             {
-                List<FileLine> FileLineList;
-                while ((FileLineList = MyParser.GetNextLines()) != null)
+                List<FileLine> fileLines;
+                while ((fileLines = parser.GetNextLines()) != null)
                 {
-                    System.Diagnostics.Debug.Assert(FileLineList.Count > 0, "FileParser returned empty list.");
+                    System.Diagnostics.Debug.Assert(fileLines.Count > 0, "FileParser returned empty list.");
 
-                    FileLine Line = FileLineList[0];
-                    switch (Line.Key)
+                    FileLine line = fileLines[0];
+                    switch (line.Key)
                     {
-                        case "TITLE": NewLevel.Title = Line.Text; break;
-                        case "AUTHOR": NewLevel.Author = Line.Text; break;
+                        case "TITLE": newLevel.Title = line.Text; break;
+                        case "AUTHOR": newLevel.Author = line.Text; break;
                         case "ID":
                             {
-                                string IDString = (Line.Text.StartsWith("x")) ? Line.Text.Substring(1) : Line.Text;
-                                NewLevel.LevelID = uint.Parse(IDString, System.Globalization.NumberStyles.HexNumber); 
+                                string idString = (line.Text.StartsWith("x")) ? line.Text.Substring(1) : line.Text;
+                                newLevel.LevelID = uint.Parse(idString, System.Globalization.NumberStyles.HexNumber);
                                 break;
                             }
-                        case "MUSIC": NewLevel.MusicFile = Line.Text; break;
-                        case "WIDTH": NewLevel.Width = Line.Value; break;
-                        case "HEIGHT": NewLevel.Height = Line.Value; break;
-                        case "START_X": NewLevel.StartPosX = Line.Value; break;
-                        case "START_Y": NewLevel.StartPosY = Line.Value; break;
-                        case "THEME": NewLevel.MainStyle = StyleList.Find(sty => sty.NameInDirectory == Line.Text); break;
-                        case "LEMMINGS": NewLevel.NumLems = Line.Value; break;
-                        case "REQUIREMENT": NewLevel.SaveReq = Line.Value; break;
-                        case "TIME_LIMIT": NewLevel.TimeLimit = Line.Value;
-                                           NewLevel.IsNoTimeLimit = false; break;
-                        case "RELEASE_RATE": NewLevel.ReleaseRate = Line.Value; break;
-                        case "RELEAST_RATE_LOCKED": NewLevel.IsReleaseRateFix = true; break;
-                        case "BACKGROUND": NewLevel.BackgroundKey = Line.Text; break;
+                        case "MUSIC": newLevel.MusicFile = line.Text; break;
+                        case "WIDTH": newLevel.Width = line.Value; break;
+                        case "HEIGHT": newLevel.Height = line.Value; break;
+                        case "START_X": newLevel.StartPosX = line.Value; break;
+                        case "START_Y": newLevel.StartPosY = line.Value; break;
+                        case "THEME": newLevel.MainStyle = styleList.Find(sty => sty.NameInDirectory == line.Text); break;
+                        case "LEMMINGS": newLevel.NumLems = line.Value; break;
+                        case "REQUIREMENT": newLevel.SaveReq = line.Value; break;
+                        case "TIME_LIMIT":
+                            newLevel.TimeLimit = line.Value;
+                            newLevel.IsNoTimeLimit = false; break;
+                        case "RELEASE_RATE": newLevel.ReleaseRate = line.Value; break;
+                        case "RELEAST_RATE_LOCKED": newLevel.IsReleaseRateFix = true; break;
+                        case "BACKGROUND": newLevel.BackgroundKey = line.Text; break;
 
-                        case "SKILLSET": ReadSkillSetFromLines(FileLineList, NewLevel); break;
-                        case "OBJECT": 
-                        case "LEMMING": NewLevel.GadgetList.Add(ReadGadgetFromLines(FileLineList)); break;
-                        case "TERRAIN": NewLevel.TerrainList.Add(ReadTerrainFromLines(FileLineList)); break;
+                        case "SKILLSET": ReadSkillSetFromLines(fileLines, newLevel); break;
+                        case "OBJECT":
+                        case "LEMMING": newLevel.GadgetList.Add(ReadGadgetFromLines(fileLines)); break;
+                        case "TERRAIN": newLevel.TerrainList.Add(ReadTerrainFromLines(fileLines)); break;
                     }
                 }
             }
@@ -120,32 +130,33 @@ namespace NLEditor
                 Utility.LogException(Ex);
                 MessageBox.Show(Ex.Message);
             }
+            finally
+            {
+                parser?.DisposeStreamReader();
+            }
 
-
-            if (MyParser != null) MyParser.DisposeStreamReader();
-
-            return NewLevel;
+            return newLevel;
         }
 
         /// <summary>
         /// Reads the skill set from the skill section.
         /// </summary>
-        /// <param name="FileLineList"></param>
-        /// <param name="NewLevel"></param>
-        static private void ReadSkillSetFromLines(List<FileLine> FileLineList, Level NewLevel)
+        /// <param name="fileLines"></param>
+        /// <param name="newLevel"></param>
+        static private void ReadSkillSetFromLines(List<FileLine> fileLines, Level newLevel)
         {
-            for (int SkillIndex = 0; SkillIndex < C.SKI_COUNT; SkillIndex++)
+            for (int skillIndex = 0; skillIndex < C.SKI_COUNT; skillIndex++)
             {
-                FileLine Line = FileLineList.Find(line => line.Key == fSkillNames[SkillIndex].Trim());
-                if (Line != null)
+                FileLine line = fileLines.Find(lin => lin.Key == SKILLNAMES[skillIndex].Trim());
+                if (line != null)
                 {
-                    if (Line.Text == "INFINITE")
+                    if (line.Text == "INFINITE")
                     {
-                        NewLevel.SkillCount[SkillIndex] = 100;
+                        newLevel.SkillCount[skillIndex] = 100;
                     }
                     else
                     {
-                        NewLevel.SkillCount[SkillIndex] = Line.Value;
+                        newLevel.SkillCount[skillIndex] = line.Value;
                     }
                 }
             }
@@ -155,414 +166,425 @@ namespace NLEditor
         /// <summary>
         /// Creates a gadget from a block of file lines.
         /// </summary>
-        /// <param name="FileLineList"></param>
+        /// <param name="fileLineList"></param>
         /// <returns></returns>
-        static private GadgetPiece ReadGadgetFromLines(List<FileLine> FileLineList)
+        static private GadgetPiece ReadGadgetFromLines(List<FileLine> fileLineList)
         { 
             // First read in all infos
-            string StyleName = "default"; // default value, because they are not set for preplaced lemmings 
-            string GadgetName = "lemming"; // default value, because they are not set for preplaced lemmings 
-            int PosX = 0;
-            int PosY = 0;
-            bool IsNoOverwrite = false;
-            bool IsOnlyOnTerrain = false;
-            int SpecWidth = -1;
-            int SpecHeight = -1;
+            string styleName = "default"; // default value, because they are not set for preplaced lemmings 
+            string gadgetName = "lemming"; // default value, because they are not set for preplaced lemmings 
+            int posX = 0;
+            int posY = 0;
+            bool isNoOverwrite = false;
+            bool isOnlyOnTerrain = false;
+            int specWidth = -1;
+            int specHeight = -1;
 
-            bool DoRotate = false;
-            bool DoInvert = false;
-            bool DoFlip = false;
-            int Val_L = 0;
-            int Val_S = 0;
+            bool doRotate = false;
+            bool doInvert = false;
+            bool doFlip = false;
+            int val_L = 0;
+            int val_S = 0;
 
-            foreach (FileLine Line in FileLineList)
+            foreach (FileLine line in fileLineList)
             {
-                switch (Line.Key)
+                switch (line.Key)
                 {
-                    case "COLLECTION": StyleName = Line.Text; break;
-                    case "PIECE": GadgetName = Line.Text; break;
-                    case "X": PosX = Line.Value; break;
-                    case "Y": PosY = Line.Value; break;
-                    case "WIDTH": SpecWidth = Line.Value; break;
-                    case "HEIGHT": SpecHeight = Line.Value; break;
-                    case "NO_OVERWRITE": IsNoOverwrite = true; break;
-                    case "ONLY_ON_TERRAIN": IsOnlyOnTerrain = true; break;
-                    case "ROTATE": DoRotate = true; break;
-                    case "FLIP_HORIZONTAL": DoFlip = true; break;
-                    case "FLIP_VERTICAL": DoInvert = true; break;
-                    case "DIRECTION": DoFlip = Line.Text.ToUpper().StartsWith("L"); break;
-                    case "FLIP_LEMMING": DoFlip = true; break;
-                    case "PAIRING": Val_L = Line.Value; break;
+                    case "COLLECTION": styleName = line.Text; break;
+                    case "PIECE": gadgetName = line.Text; break;
+                    case "X": posX = line.Value; break;
+                    case "Y": posY = line.Value; break;
+                    case "WIDTH": specWidth = line.Value; break;
+                    case "HEIGHT": specHeight = line.Value; break;
+                    case "NO_OVERWRITE": isNoOverwrite = true; break;
+                    case "ONLY_ON_TERRAIN": isOnlyOnTerrain = true; break;
+                    case "ROTATE": doRotate = true; break;
+                    case "FLIP_HORIZONTAL": doFlip = true; break;
+                    case "FLIP_VERTICAL": doInvert = true; break;
+                    case "DIRECTION": doFlip = line.Text.ToUpper().StartsWith("L"); break;
+                    case "FLIP_LEMMING": doFlip = true; break;
+                    case "PAIRING": val_L = line.Value; break;
                 }
             }
 
             // ... then create the correct Gadget piece
-            string Key = ImageLibrary.CreatePieceKey(StyleName, GadgetName, true);
-            Point Pos = new Point(PosX, PosY);
-            GadgetPiece NewGadget = new GadgetPiece(Key, Pos, 0, false, IsNoOverwrite, IsOnlyOnTerrain, Val_L, Val_S, SpecWidth, SpecHeight);
+            string key = ImageLibrary.CreatePieceKey(styleName, gadgetName, true);
+            Point pos = new Point(posX, posY);
+            GadgetPiece newGadget = new GadgetPiece(key, pos, 0, false, isNoOverwrite, isOnlyOnTerrain, val_L, val_S, specWidth, specHeight);
 
             // Read in skill information
-            for (int SkillIndex = 0; SkillIndex < C.SKI_COUNT + 1; SkillIndex++)
+            for (int skillIndex = 0; skillIndex < C.SKI_COUNT + 1; skillIndex++)
             {
-                FileLine Line = FileLineList.Find(line => line.Key == fSkillNames[SkillIndex].Trim()
-                                 || (line.Key == "SKILL" && line.Text == fSkillNames[SkillIndex].Trim()));
-                if (Line != null)
+                if (fileLineList.Exists(line => line.Key == SKILLNAMES[skillIndex].Trim()
+                                    || (line.Key == "SKILL" && line.Text == SKILLNAMES[skillIndex].Trim())))
                 {
-                    NewGadget.SetSkillFlag(SkillIndex, true);
+                    newGadget.SetSkillFlag(skillIndex, true);
                 }
             }
 
             // For compatibility with player: NoOverwrite + OnlyOnTerrain gadgets work like OnlyOnTerrain 
-            if (NewGadget.IsNoOverwrite && NewGadget.IsOnlyOnTerrain) NewGadget.IsNoOverwrite = false;
+            if (newGadget.IsNoOverwrite && newGadget.IsOnlyOnTerrain) newGadget.IsNoOverwrite = false;
 
-            if (DoRotate) NewGadget.RotateInRect(NewGadget.ImageRectangle);
-            if (DoFlip) NewGadget.FlipInRect(NewGadget.ImageRectangle);
-            if (DoInvert) NewGadget.InvertInRect(NewGadget.ImageRectangle);
+            if (doRotate) newGadget.RotateInRect(newGadget.ImageRectangle);
+            if (doFlip) newGadget.FlipInRect(newGadget.ImageRectangle);
+            if (doInvert) newGadget.InvertInRect(newGadget.ImageRectangle);
             //Reposition gadget to be sure...
-            NewGadget.PosX = Pos.X;
-            NewGadget.PosY = Pos.Y;
+            newGadget.PosX = pos.X;
+            newGadget.PosY = pos.Y;
 
-            NewGadget.IsSelected = false;
+            newGadget.IsSelected = false;
 
-            return NewGadget;
+            return newGadget;
         }
 
         /// <summary>
         /// Creates a terrain piece from a block of file lines.
         /// </summary>
-        /// <param name="FileLineList"></param>
+        /// <param name="fileLineList"></param>
         /// <returns></returns>
-        static private TerrainPiece ReadTerrainFromLines(List<FileLine> FileLineList)
+        static private TerrainPiece ReadTerrainFromLines(List<FileLine> fileLineList)
         {
             // First read in all infos
-            string StyleName = "";
-            string TerrainName = "";
-            int PosX = 0;
-            int PosY = 0;
+            string styleName = "";
+            string pieceName = "";
+            int posX = 0;
+            int posY = 0;
 
-            bool IsNoOverwrite = false;
-            bool IsErase = false;
-            bool IsOneWay = false;
+            bool isNoOverwrite = false;
+            bool isErase = false;
+            bool isOneWay = false;
 
-            bool DoRotate = false;
-            bool DoInvert = false;
-            bool DoFlip = false;
+            bool doRotate = false;
+            bool doInvert = false;
+            bool doFlip = false;
 
-            foreach (FileLine Line in FileLineList)
+            foreach (FileLine line in fileLineList)
             {
-                switch (Line.Key)
+                switch (line.Key)
                 {
-                    case "COLLECTION": StyleName = Line.Text; break;
-                    case "PIECE": TerrainName = Line.Text; break;
-                    case "X": PosX = Line.Value; break;
-                    case "Y": PosY = Line.Value; break;
-                    case "NO_OVERWRITE": IsNoOverwrite = true; break;
-                    case "ERASE": IsErase = true; break;
-                    case "ONE_WAY": IsOneWay = true; break;
-                    case "ROTATE": DoRotate = true; break;
-                    case "FLIP_HORIZONTAL": DoFlip = true; break;
-                    case "FLIP_VERTICAL": DoInvert = true; break;
+                    case "COLLECTION": styleName = line.Text; break;
+                    case "PIECE": pieceName = line.Text; break;
+                    case "X": posX = line.Value; break;
+                    case "Y": posY = line.Value; break;
+                    case "NO_OVERWRITE": isNoOverwrite = true; break;
+                    case "ERASE": isErase = true; break;
+                    case "ONE_WAY": isOneWay = true; break;
+                    case "ROTATE": doRotate = true; break;
+                    case "FLIP_HORIZONTAL": doFlip = true; break;
+                    case "FLIP_VERTICAL": doInvert = true; break;
                 }
             }
 
             // ... then create the correct Gadget piece
-            string Key = ImageLibrary.CreatePieceKey(StyleName, TerrainName, false);
-            Point Pos = new Point(PosX, PosY);
-            TerrainPiece NewTerrain = new TerrainPiece(Key, Pos, 0, false, IsErase, IsNoOverwrite, IsOneWay);
+            string key = ImageLibrary.CreatePieceKey(styleName, pieceName, false);
+            Point pos = new Point(posX, posY);
+            TerrainPiece newTerrain = new TerrainPiece(key, pos, 0, false, isErase, isNoOverwrite, isOneWay);
 
             // For compatibility with player: NoOverwrite + Erase pieces work like NoOverWrite
-            if (NewTerrain.IsNoOverwrite && NewTerrain.IsErase) NewTerrain.IsErase = false;
-            if (NewTerrain.IsSteel) NewTerrain.IsOneWay = false;
+            if (newTerrain.IsNoOverwrite && newTerrain.IsErase) newTerrain.IsErase = false;
+            if (newTerrain.IsSteel) newTerrain.IsOneWay = false;
 
-            if (DoRotate) NewTerrain.RotateInRect(NewTerrain.ImageRectangle);
-            if (DoFlip) NewTerrain.FlipInRect(NewTerrain.ImageRectangle);
-            if (DoInvert) NewTerrain.InvertInRect(NewTerrain.ImageRectangle);
+            if (doRotate) newTerrain.RotateInRect(newTerrain.ImageRectangle);
+            if (doFlip) newTerrain.FlipInRect(newTerrain.ImageRectangle);
+            if (doInvert) newTerrain.InvertInRect(newTerrain.ImageRectangle);
             //Reposition gadget to be sure...
-            NewTerrain.PosX = Pos.X;
-            NewTerrain.PosY = Pos.Y;
+            newTerrain.PosX = pos.X;
+            newTerrain.PosY = pos.Y;
 
-            NewTerrain.IsSelected = false;
+            newTerrain.IsSelected = false;
 
-            return NewTerrain;
+            return newTerrain;
         }
 
         /// <summary>
         /// Opens file browser and saves the current level to a .nxlv file.
         /// </summary>
-        /// <param name="CurLevel"></param>
-        static public void SaveLevel(Level CurLevel)
+        /// <param name="curLevel"></param>
+        static public void SaveLevel(Level curLevel)
         {
-            SaveFileDialog CurSaveFileDialog = new SaveFileDialog();
+            var saveFileDialog = new SaveFileDialog();
 
-            CurSaveFileDialog.AddExtension = true;
-            CurSaveFileDialog.InitialDirectory = C.AppPath;
-            CurSaveFileDialog.OverwritePrompt = true;
-            CurSaveFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
-            CurSaveFileDialog.RestoreDirectory = true;
+            saveFileDialog.AddExtension = true;
+            saveFileDialog.InitialDirectory = C.AppPath;
+            saveFileDialog.OverwritePrompt = true;
+            saveFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
+            saveFileDialog.RestoreDirectory = true;
 
-            if (CurSaveFileDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                string FilePath = CurSaveFileDialog.FileName;
-                try
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    SaveLevelToFile(FilePath, CurLevel);
-                    CurLevel.FilePathToSave = FilePath;
-                }
-                catch (Exception Ex)
-                {
-                    Utility.LogException(Ex);
-                    MessageBox.Show("Could not save the level file!" + Environment.NewLine + Ex.Message);
+                    string filePath = saveFileDialog.FileName;
+                    try
+                    {
+                        SaveLevelToFile(filePath, curLevel);
+                        curLevel.FilePathToSave = filePath;
+                    }
+                    catch (Exception Ex)
+                    {
+                        Utility.LogException(Ex);
+                        MessageBox.Show("Could not save the level file!" + Environment.NewLine + Ex.Message);
+                    }
                 }
             }
-
-            CurSaveFileDialog.Dispose();
+            catch (Exception Ex)
+            {
+                Utility.LogException(Ex);
+                MessageBox.Show("Error while showing the file browser." + Environment.NewLine + Ex.Message);
+            }
+            finally
+            {
+                saveFileDialog.Dispose();
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="FilePath"></param>
-        /// <param name="CurLevel"></param>
-        static public void SaveLevelToFile(string FilePath, Level CurLevel)
+        /// <param name="filePath"></param>
+        /// <param name="curLevel"></param>
+        static public void SaveLevelToFile(string filePath, Level curLevel)
         {
             // Create new empty file
             try
             {
-                File.Create(FilePath).Close();
+                File.Create(filePath).Close();
             }
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                MessageBox.Show(Ex.Message);
+                MessageBox.Show("Error: Cannot create text file at " + filePath + "." + C.NewLine + Ex.Message);
                 return;
             }
             
-            TextWriter TextFile = new StreamWriter(FilePath, true);
+            TextWriter textFile = new StreamWriter(filePath, true);
 
-            TextFile.WriteLine("# ----------------------------- ");
-            TextFile.WriteLine("#        NeoLemmix Level        ");
-            TextFile.WriteLine("#   Created with NLEditor " + C.Version);
-            TextFile.WriteLine("# ----------------------------- ");
-            TextFile.WriteLine(" ");
-            TextFile.WriteLine("#        Level info             ");
-            TextFile.WriteLine("# ----------------------------- ");
-            TextFile.WriteLine(" TITLE " + CurLevel.Title);
-            TextFile.WriteLine(" AUTHOR " + CurLevel.Author);
-            if (CurLevel.MusicFile != null & CurLevel.MusicFile.Length > 0)
+            textFile.WriteLine("# ----------------------------- ");
+            textFile.WriteLine("#        NeoLemmix Level        ");
+            textFile.WriteLine("#   Created with NLEditor " + C.Version);
+            textFile.WriteLine("# ----------------------------- ");
+            textFile.WriteLine(" ");
+            textFile.WriteLine("#        Level info             ");
+            textFile.WriteLine("# ----------------------------- ");
+            textFile.WriteLine(" TITLE " + curLevel.Title);
+            textFile.WriteLine(" AUTHOR " + curLevel.Author);
+            if (!string.IsNullOrEmpty(curLevel.MusicFile))
             {
-                TextFile.WriteLine(" MUSIC " + Path.GetFileNameWithoutExtension(CurLevel.MusicFile));
+                textFile.WriteLine(" MUSIC " + Path.GetFileNameWithoutExtension(curLevel.MusicFile));
             }
-            TextFile.WriteLine(" ID x" + CurLevel.LevelID.ToString("X"));
-            TextFile.WriteLine(" ");
+            textFile.WriteLine(" ID x" + curLevel.LevelID.ToString("X"));
+            textFile.WriteLine(" ");
 
-            TextFile.WriteLine("#       Level dimensions        ");
-            TextFile.WriteLine("# ----------------------------- ");
-            TextFile.WriteLine(" WIDTH   " + CurLevel.Width.ToString().PadLeft(4));
-            TextFile.WriteLine(" HEIGHT  " + CurLevel.Height.ToString().PadLeft(4));
-            TextFile.WriteLine(" START_X " + CurLevel.StartPosX.ToString().PadLeft(4));
-            TextFile.WriteLine(" START_Y " + CurLevel.StartPosY.ToString().PadLeft(4));
-            TextFile.WriteLine(" THEME " + CurLevel.MainStyle.NameInDirectory);
-            if (CurLevel.MainStyle.BackgroundNames.Contains(CurLevel.BackgroundKey))
+            textFile.WriteLine("#       Level dimensions        ");
+            textFile.WriteLine("# ----------------------------- ");
+            textFile.WriteLine(" WIDTH   " + curLevel.Width.ToString().PadLeft(4));
+            textFile.WriteLine(" HEIGHT  " + curLevel.Height.ToString().PadLeft(4));
+            textFile.WriteLine(" START_X " + curLevel.StartPosX.ToString().PadLeft(4));
+            textFile.WriteLine(" START_Y " + curLevel.StartPosY.ToString().PadLeft(4));
+            textFile.WriteLine(" THEME " + curLevel.MainStyle.NameInDirectory);
+            if (curLevel.MainStyle.BackgroundNames.Contains(curLevel.BackgroundKey))
             {
-                TextFile.WriteLine(" BACKGROUND " + Path.GetFileName(CurLevel.BackgroundKey));
+                textFile.WriteLine(" BACKGROUND " + Path.GetFileName(curLevel.BackgroundKey));
             }
-            TextFile.WriteLine(" ");
+            textFile.WriteLine(" ");
 
-            TextFile.WriteLine("#         Level stats           ");
-            TextFile.WriteLine("# ----------------------------- ");
-            TextFile.WriteLine(" LEMMINGS     " + CurLevel.NumLems.ToString().PadLeft(4));
-            TextFile.WriteLine(" REQUIREMENT  " + CurLevel.SaveReq.ToString().PadLeft(4));
-            if (!CurLevel.IsNoTimeLimit)
+            textFile.WriteLine("#         Level stats           ");
+            textFile.WriteLine("# ----------------------------- ");
+            textFile.WriteLine(" LEMMINGS     " + curLevel.NumLems.ToString().PadLeft(4));
+            textFile.WriteLine(" REQUIREMENT  " + curLevel.SaveReq.ToString().PadLeft(4));
+            if (!curLevel.IsNoTimeLimit)
             {
-                TextFile.WriteLine(" TIME_LIMIT   " + CurLevel.TimeLimit.ToString().PadLeft(4));
+                textFile.WriteLine(" TIME_LIMIT   " + curLevel.TimeLimit.ToString().PadLeft(4));
             }
-            TextFile.WriteLine(" RELEASE_RATE " + CurLevel.ReleaseRate.ToString().PadLeft(4));
-            if (CurLevel.IsReleaseRateFix)
+            textFile.WriteLine(" RELEASE_RATE " + curLevel.ReleaseRate.ToString().PadLeft(4));
+            if (curLevel.IsReleaseRateFix)
             {
-                TextFile.WriteLine(" RELEASE_RATE_FIXED ");
+                textFile.WriteLine(" RELEASE_RATE_FIXED ");
             }
-            TextFile.WriteLine(" ");
+            textFile.WriteLine(" ");
 
-            TextFile.WriteLine(" $SKILLSET ");
+            textFile.WriteLine(" $SKILLSET ");
             for (int SkillNum = 0; SkillNum < C.SKI_COUNT; SkillNum++)
             {
-                if (IsSkillRequired(CurLevel, SkillNum))
+                if (IsSkillRequired(curLevel, SkillNum))
                 {
-                    if (CurLevel.SkillCount[SkillNum] > 99)
+                    if (curLevel.SkillCount[SkillNum] > 99)
                     {
-                        TextFile.WriteLine(fSkillNames[SkillNum] + "INFINITE");
+                        textFile.WriteLine(SKILLNAMES[SkillNum] + "INFINITE");
                     }
                     else
                     {
-                        TextFile.WriteLine(fSkillNames[SkillNum] + CurLevel.SkillCount[SkillNum].ToString().PadLeft(4));
+                        textFile.WriteLine(SKILLNAMES[SkillNum] + curLevel.SkillCount[SkillNum].ToString().PadLeft(4));
                     }
                 }
             }
-            TextFile.WriteLine(" $END ");
-            TextFile.WriteLine(" ");
+            textFile.WriteLine(" $END ");
+            textFile.WriteLine(" ");
 
-            TextFile.WriteLine("#     Interactive objects       ");
-            TextFile.WriteLine("# ----------------------------- ");
-            CurLevel.GadgetList.FindAll(obj => obj.ObjType != C.OBJ.LEMMING)
-                               .ForEach(obj => WriteObject(TextFile, obj));
-            TextFile.WriteLine(" ");
+            textFile.WriteLine("#     Interactive objects       ");
+            textFile.WriteLine("# ----------------------------- ");
+            curLevel.GadgetList.FindAll(gad => gad.ObjType != C.OBJ.LEMMING)
+                               .ForEach(gad => WriteObject(textFile, gad));
+            textFile.WriteLine(" ");
 
-            TextFile.WriteLine("#        Terrain pieces         ");
-            TextFile.WriteLine("# ----------------------------- ");
-            CurLevel.TerrainList.ForEach(ter => WriteTerrain(TextFile, ter));
-            TextFile.WriteLine(" ");
+            textFile.WriteLine("#        Terrain pieces         ");
+            textFile.WriteLine("# ----------------------------- ");
+            curLevel.TerrainList.ForEach(ter => WriteTerrain(textFile, ter));
+            textFile.WriteLine(" ");
 
-            TextFile.WriteLine("#      Preplaced lemmings       ");
-            TextFile.WriteLine("# ----------------------------- ");
-            CurLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.LEMMING)
-                               .ForEach(lem => WriteObject(TextFile, lem));
+            if (curLevel.GadgetList.Exists(gad => gad.ObjType == C.OBJ.LEMMING))
+            {
+                textFile.WriteLine("#      Preplaced lemmings       ");
+                textFile.WriteLine("# ----------------------------- ");
+                curLevel.GadgetList.FindAll(gad => gad.ObjType == C.OBJ.LEMMING)
+                                   .ForEach(lem => WriteObject(textFile, lem));
 
-            TextFile.WriteLine(" ");
+                textFile.WriteLine(" ");
+            }
 
-            TextFile.Close();
+            textFile.Close();
         }
 
         /// <summary>
         /// Returns whether the skill is in the skill set or available as a pickup skill. 
         /// </summary>
-        /// <param name="CurLevel"></param>
-        /// <param name="SkillNum"></param>
+        /// <param name="curLevel"></param>
+        /// <param name="skillNum"></param>
         /// <returns></returns>
-        static private bool IsSkillRequired(Level CurLevel, int SkillNum)
+        static private bool IsSkillRequired(Level curLevel, int skillNum)
         {
-            return    (CurLevel.SkillCount[SkillNum] > 0)
-                   || (CurLevel.GadgetList.Exists(obj => obj.ObjType == C.OBJ.PICKUP && obj.Val_S == SkillNum));
+            return    (curLevel.SkillCount[skillNum] > 0)
+                   || (curLevel.GadgetList.Exists(gad => gad.ObjType == C.OBJ.PICKUP && gad.Val_S == skillNum));
         }
 
         /// <summary>
         /// Writes all object infos in a text file.
         /// </summary>
-        /// <param name="TextFile"></param>
-        /// <param name="MyGadget"></param>
-        static private void WriteObject(TextWriter TextFile, GadgetPiece MyGadget)
+        /// <param name="textFile"></param>
+        /// <param name="gadget"></param>
+        static private void WriteObject(TextWriter textFile, GadgetPiece gadget)
         {
-            if (MyGadget == null) return;
+            if (gadget == null) return;
 
-            if (MyGadget.ObjType == C.OBJ.LEMMING)
+            if (gadget.ObjType == C.OBJ.LEMMING)
             {
-                TextFile.WriteLine(" $LEMMING");
+                textFile.WriteLine(" $LEMMING");
             }
             else
             {
-                TextFile.WriteLine(" $OBJECT");
-                TextFile.WriteLine("   COLLECTION " + MyGadget.Style);
-                TextFile.WriteLine("   PIECE      " + MyGadget.Name);
+                textFile.WriteLine(" $OBJECT");
+                textFile.WriteLine("   COLLECTION " + gadget.Style);
+                textFile.WriteLine("   PIECE      " + gadget.Name);
             }
-            TextFile.WriteLine("   X " + MyGadget.PosX.ToString().PadLeft(5));
-            TextFile.WriteLine("   Y " + MyGadget.PosY.ToString().PadLeft(5));
+            textFile.WriteLine("   X " + gadget.PosX.ToString().PadLeft(5));
+            textFile.WriteLine("   Y " + gadget.PosY.ToString().PadLeft(5));
 
-            if (MyGadget.SpecWidth > 0)
+            if (gadget.SpecWidth > 0)
             {
-                TextFile.WriteLine("   WIDTH  " + MyGadget.SpecWidth.ToString().PadLeft(5));
+                textFile.WriteLine("   WIDTH  " + gadget.SpecWidth.ToString().PadLeft(5));
             }
-            if (MyGadget.SpecHeight > 0)
+            if (gadget.SpecHeight > 0)
             {
-                TextFile.WriteLine("   HEIGHT " + MyGadget.SpecWidth.ToString().PadLeft(5));
+                textFile.WriteLine("   HEIGHT " + gadget.SpecWidth.ToString().PadLeft(5));
             }
-            if (MyGadget.IsNoOverwrite)
+            if (gadget.IsNoOverwrite)
             {
-                TextFile.WriteLine("   NO_OVERWRITE");
+                textFile.WriteLine("   NO_OVERWRITE");
             }
-            if (MyGadget.IsOnlyOnTerrain)
+            if (gadget.IsOnlyOnTerrain)
             {
-                TextFile.WriteLine("   ONLY_ON_TERRAIN");
+                textFile.WriteLine("   ONLY_ON_TERRAIN");
             }
-            if (MyGadget.IsRotatedInPlayer)
+            if (gadget.IsRotatedInPlayer)
             {
-                TextFile.WriteLine("   ROTATE");
+                textFile.WriteLine("   ROTATE");
             }
-            if (MyGadget.IsInvertedInPlayer)
+            if (gadget.IsInvertedInPlayer)
             {
-                TextFile.WriteLine("   FLIP_VERTICAL");
+                textFile.WriteLine("   FLIP_VERTICAL");
             }
-            if (MyGadget.IsFlippedInPlayer)
+            if (gadget.IsFlippedInPlayer)
             {
-                TextFile.WriteLine("   FLIP_HORIZONTAL");
-            }
-
-            if (MyGadget.ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING))
-            {
-                TextFile.WriteLine("   DIRECTION " + ((MyGadget.IsFlippedInPlayer) ? "left" : "right"));
-            }
-            else if (MyGadget.ObjType.In(C.OBJ.TELEPORTER))
-            {
-                if (MyGadget.IsFlippedInPlayer) TextFile.WriteLine("   FLIP_LEMMING ");
+                textFile.WriteLine("   FLIP_HORIZONTAL");
             }
 
-            if (MyGadget.ObjType.In(C.OBJ.HATCH, C.OBJ.LEMMING))
+            if (gadget.ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING))
+            {
+                textFile.WriteLine("   DIRECTION " + ((gadget.IsFlippedInPlayer) ? "left" : "right"));
+            }
+            else if (gadget.ObjType.In(C.OBJ.TELEPORTER))
+            {
+                if (gadget.IsFlippedInPlayer) textFile.WriteLine("   FLIP_LEMMING ");
+            }
+
+            if (gadget.ObjType.In(C.OBJ.HATCH, C.OBJ.LEMMING))
             {
                 for (int SkillNum = 0; SkillNum < C.SKI_COUNT + 1; SkillNum++)
                 {
-                    if (MyGadget.HasSkillFlag(SkillNum))
+                    if (gadget.HasSkillFlag(SkillNum))
                     {
-                        TextFile.WriteLine("   " + fSkillNames[SkillNum].Trim() + " ");
+                        textFile.WriteLine("   " + SKILLNAMES[SkillNum].Trim() + " ");
                     }
                 }
             }
-            else if (MyGadget.ObjType.In(C.OBJ.PICKUP))
+            else if (gadget.ObjType.In(C.OBJ.PICKUP))
             {
                 for (int SkillNum = 0; SkillNum < C.SKI_COUNT + 1; SkillNum++)
                 {
-                    if (MyGadget.HasSkillFlag(SkillNum))
+                    if (gadget.HasSkillFlag(SkillNum))
                     {
-                        TextFile.WriteLine("  SKILL" + fSkillNames[SkillNum].Trim());
+                        textFile.WriteLine("  SKILL" + SKILLNAMES[SkillNum].Trim());
                     }
                 }
             }
 
-            if (MyGadget.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
+            if (gadget.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
             {
-                TextFile.WriteLine("   PAIRING " + MyGadget.Val_L.ToString().PadLeft(4));
+                textFile.WriteLine("   PAIRING " + gadget.Val_L.ToString().PadLeft(4));
             }
 
-            TextFile.WriteLine(" $END");
-            TextFile.WriteLine(" ");
+            textFile.WriteLine(" $END");
+            textFile.WriteLine(" ");
         }
 
         /// <summary>
         /// Writes all terrain piece infos in a text file.
         /// </summary>
-        /// <param name="TextFile"></param>
-        /// <param name="MyTerrain"></param>
-        static private void WriteTerrain(TextWriter TextFile, TerrainPiece MyTerrain)
+        /// <param name="textFile"></param>
+        /// <param name="terrain"></param>
+        static private void WriteTerrain(TextWriter textFile, TerrainPiece terrain)
         {
-            TextFile.WriteLine(" $TERRAIN");
-            TextFile.WriteLine("   COLLECTION " + MyTerrain.Style);
-            TextFile.WriteLine("   PIECE      " + MyTerrain.Name);
-            TextFile.WriteLine("   X " + MyTerrain.PosX.ToString().PadLeft(5));
-            TextFile.WriteLine("   Y " + MyTerrain.PosY.ToString().PadLeft(5));
-            if (MyTerrain.IsNoOverwrite)
+            textFile.WriteLine(" $TERRAIN");
+            textFile.WriteLine("   COLLECTION " + terrain.Style);
+            textFile.WriteLine("   PIECE      " + terrain.Name);
+            textFile.WriteLine("   X " + terrain.PosX.ToString().PadLeft(5));
+            textFile.WriteLine("   Y " + terrain.PosY.ToString().PadLeft(5));
+            if (terrain.IsNoOverwrite)
             {
-                TextFile.WriteLine("   NO_OVERWRITE");
+                textFile.WriteLine("   NO_OVERWRITE");
             }
-            if (MyTerrain.IsErase)
+            if (terrain.IsErase)
             {
-                TextFile.WriteLine("   ERASE");
+                textFile.WriteLine("   ERASE");
             }
-            if (MyTerrain.IsRotatedInPlayer)
+            if (terrain.IsRotatedInPlayer)
             {
-                TextFile.WriteLine("   ROTATE");
+                textFile.WriteLine("   ROTATE");
             }
-            if (MyTerrain.IsInvertedInPlayer)
+            if (terrain.IsInvertedInPlayer)
             {
-                TextFile.WriteLine("   FLIP_VERTICAL");
+                textFile.WriteLine("   FLIP_VERTICAL");
             }
-            if (MyTerrain.IsFlippedInPlayer)
+            if (terrain.IsFlippedInPlayer)
             {
-                TextFile.WriteLine("   FLIP_HORIZONTAL");
+                textFile.WriteLine("   FLIP_HORIZONTAL");
             }
-            if (MyTerrain.IsOneWay)
+            if (terrain.IsOneWay)
             {
-                TextFile.WriteLine("   ONE_WAY");
+                textFile.WriteLine("   ONE_WAY");
             }
-            TextFile.WriteLine(" $END");
-            TextFile.WriteLine(" ");
-
+            textFile.WriteLine(" $END");
+            textFile.WriteLine(" ");
         }
 
 
