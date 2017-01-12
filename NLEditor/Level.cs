@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
 namespace NLEditor
@@ -46,31 +44,31 @@ namespace NLEditor
         /// <summary>
         /// Creates a new level with the default values.
         /// </summary>
-        /// <param name="MainStyle"></param>
-        public Level(Style MainStyle = null)
+        /// <param name="mainStyle"></param>
+        public Level(Style mainStyle = null)
         {
-            this.fTitle = "";
-            this.fAuthor = "";
-            this.fMainStyle = MainStyle;
+            this.Title = "";
+            this.Author = "";
+            this.MainStyle = mainStyle;
             this.MusicFile = "";
-            this.fBackgroundKey = "";
+            this.backgroundKey = "";
 
             Random rnd = new Random();
             this.LevelID = (uint)rnd.Next();
 
-            this.fWidth = 320;
-            this.fHeight = 160;
-            this.fStartPos = new Point(0, 0);
+            this.Width = 320;
+            this.Height = 160;
+            this.startPos = new Point(0, 0);
 
-            this.fTerrainList = new List<TerrainPiece>();
-            this.fGadgetList = new List<GadgetPiece>();
+            this.TerrainList = new List<TerrainPiece>();
+            this.GadgetList = new List<GadgetPiece>();
 
-            this.fNumLems = 40;
-            this.fSaveReq = 20;
-            this.fReleaseRate = 50;
-            this.fIsReleaseRateFix = false;
-            this.fTimeLimit = 0;
-            this.fIsNoTimeLimit = true;
+            this.NumLems = 40;
+            this.SaveReq = 20;
+            this.ReleaseRate = 50;
+            this.IsReleaseRateFix = false;
+            this.TimeLimit = 0;
+            this.IsNoTimeLimit = true;
 
             this.SkillCount = new int[C.SKI_COUNT];
             for (int i = 0; i < C.SKI_COUNT; i++)
@@ -79,64 +77,43 @@ namespace NLEditor
             }
         }
 
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public Style MainStyle { get; set; }
+        public string MusicFile { get; set; }
 
-        string fTitle;
-        string fAuthor;
-        Style fMainStyle;
-        string fMusicFile;
+        public uint LevelID { get; set; }
+        public string FilePathToSave { get; set; }
 
-        uint fLevelID;
-        string fFilePathToSave;
+        public int Width { get; set; }
+        public int Height { get; set; }
 
-        int fWidth;
-        int fHeight;
-        Point fStartPos;
+        private Point startPos;
+        public Point StartPos => startPos;
+        public int StartPosX { get { return startPos.X; } set { startPos.X = value; } }
+        public int StartPosY { get { return startPos.Y; } set { startPos.Y = value; } }
 
-        List<TerrainPiece> fTerrainList;
-        List<GadgetPiece> fGadgetList;
-        string fBackgroundKey;
+        public List<TerrainPiece> TerrainList { get; set; }
+        public List<GadgetPiece> GadgetList { get; set; }
 
-        int fNumLems;
-        int fSaveReq;
-        int fReleaseRate;
-        bool fIsReleaseRateFix;
-        int fTimeLimit;
-        bool fIsNoTimeLimit;
-
-        public int[] SkillCount { get; set; }
-
-        public string Title { get { return fTitle; } set { fTitle = value; } }
-        public string Author { get { return fAuthor; } set { fAuthor = value; } }
-        public Style MainStyle { get { return fMainStyle; } set { fMainStyle = value; } }
-        public string MusicFile { get { return fMusicFile; } set { fMusicFile = value; } }
-
-        public uint LevelID { get { return fLevelID; } set { fLevelID = value; } }
-        public string FilePathToSave { get { return fFilePathToSave; } set { fFilePathToSave = value; } }
-
-        public int Width { get { return fWidth; } set { fWidth = value; } }
-        public int Height { get { return fHeight; } set { fHeight = value; } }
-        public Point StartPos { get { return fStartPos; }}
-        public int StartPosX { get { return fStartPos.X; } set { fStartPos.X = value; } }
-        public int StartPosY { get { return fStartPos.Y; } set { fStartPos.Y = value; } }
-
-        public List<TerrainPiece> TerrainList { get { return fTerrainList; } set { fTerrainList = value; } }
-        public List<GadgetPiece> GadgetList { get { return fGadgetList; } set { fGadgetList = value; } }
+        string backgroundKey;
         public string BackgroundKey 
         {
             get { 
-                if (string.IsNullOrEmpty(fBackgroundKey)) return "--none--";
-                else return fMainStyle.NameInDirectory + C.DirSep + "backgrounds" + C.DirSep + fBackgroundKey; 
+                if (string.IsNullOrEmpty(backgroundKey)) return "--none--";
+                else return MainStyle.NameInDirectory + C.DirSep + "backgrounds" + C.DirSep + backgroundKey; 
                 } 
-            set { fBackgroundKey = value; } 
+            set { backgroundKey = value; } 
         }
 
-        public int NumLems { get { return fNumLems; } set { fNumLems = value; } }
-        public int SaveReq { get { return fSaveReq; } set { fSaveReq = value; } }
-        public int ReleaseRate { get { return fReleaseRate; } set { fReleaseRate = value; } }
-        public bool IsReleaseRateFix { get { return fIsReleaseRateFix; } set { fIsReleaseRateFix = value; } }
-        public int TimeLimit { get { return fTimeLimit; } set { fTimeLimit = value; } }
-        public bool IsNoTimeLimit { get { return fIsNoTimeLimit; } set { fIsNoTimeLimit = value; } }
+        public int NumLems { get; set; }
+        public int SaveReq { get; set; }
+        public int ReleaseRate { get; set; }
+        public bool IsReleaseRateFix { get; set; }
+        public int TimeLimit { get; set; }
+        public bool IsNoTimeLimit { get; set; }
 
+        public int[] SkillCount { get; set; }
 
         /// <summary>
         /// Creates a deep copy of the level.
@@ -144,31 +121,30 @@ namespace NLEditor
         /// <returns></returns>
         public Level Clone()
         {
-            Level NewLevel = new Level();
-            NewLevel.fTitle = String.Copy(this.fTitle);
-            NewLevel.fAuthor = String.Copy(this.fAuthor);
-            NewLevel.fMainStyle = this.fMainStyle;
-            NewLevel.fMusicFile = String.Copy(this.fMusicFile);
-            NewLevel.fLevelID = this.fLevelID;
-            NewLevel.fFilePathToSave = this.fFilePathToSave; // shallow copy is fine here
-            NewLevel.fBackgroundKey = String.Copy(this.fBackgroundKey);
+            Level NewLevel = new Level(this.MainStyle);
+            NewLevel.Title = string.Copy(this.Title);
+            NewLevel.Author = string.Copy(this.Author);
+            NewLevel.MusicFile = string.Copy(this.MusicFile);
+            NewLevel.LevelID = this.LevelID;
+            NewLevel.FilePathToSave = this.FilePathToSave; // shallow copy is fine here.
+            NewLevel.backgroundKey = string.Copy(this.backgroundKey);
 
-            NewLevel.fWidth = this.fWidth;
-            NewLevel.fHeight = this.fHeight;
-            NewLevel.fStartPos = new Point(this.fStartPos.X, this.fStartPos.Y);
+            NewLevel.Width = this.Width;
+            NewLevel.Height = this.Height;
+            NewLevel.startPos = new Point(this.StartPosX, this.StartPosY);
 
-            NewLevel.fTerrainList = new List<TerrainPiece>(this.fTerrainList.Select(ter => (TerrainPiece)ter.Clone()));
-            NewLevel.fGadgetList = new List<GadgetPiece>(this.fGadgetList.Select(obj => (GadgetPiece)obj.Clone()));
+            NewLevel.TerrainList = new List<TerrainPiece>(this.TerrainList.Select(ter => (TerrainPiece)ter.Clone()));
+            NewLevel.GadgetList = new List<GadgetPiece>(this.GadgetList.Select(obj => (GadgetPiece)obj.Clone()));
 
-            NewLevel.fTerrainList.ForEach(ter => ter.IsSelected = false);
-            NewLevel.fGadgetList.ForEach(obj => obj.IsSelected = false);
+            NewLevel.TerrainList.ForEach(ter => ter.IsSelected = false);
+            NewLevel.GadgetList.ForEach(obj => obj.IsSelected = false);
 
-            NewLevel.fNumLems = this.fNumLems;
-            NewLevel.fSaveReq = this.fSaveReq;
-            NewLevel.fReleaseRate = this.fReleaseRate;
-            NewLevel.fIsReleaseRateFix = this.fIsReleaseRateFix;
-            NewLevel.fTimeLimit = this.fTimeLimit;
-            NewLevel.fIsNoTimeLimit = this.fIsNoTimeLimit;
+            NewLevel.NumLems = this.NumLems;
+            NewLevel.SaveReq = this.SaveReq;
+            NewLevel.ReleaseRate = this.ReleaseRate;
+            NewLevel.IsReleaseRateFix = this.IsReleaseRateFix;
+            NewLevel.TimeLimit = this.TimeLimit;
+            NewLevel.IsNoTimeLimit = this.IsNoTimeLimit;
 
             NewLevel.SkillCount = new int[C.SKI_COUNT];
             for (int Skill = 0; Skill < C.SKI_COUNT; Skill++)
@@ -279,14 +255,14 @@ namespace NLEditor
                                    && (IsUnselected ^ ter.IsSelected));
                 if (SelPiece == null)
                 {
-                    SelPiece = GadgetList.Find(obj => obj.ImageRectangle.Contains(Pos)
-                                                      && (IsUnselected ^ obj.IsSelected));
+                    SelPiece = GadgetList.Find(gad => gad.ImageRectangle.Contains(Pos)
+                                                      && (IsUnselected ^ gad.IsSelected));
                 }
             }
             else
             {
-                SelPiece = GadgetList.FindLast(obj => obj.ImageRectangle.Contains(Pos)
-                                      && (IsUnselected ^ obj.IsSelected));
+                SelPiece = GadgetList.FindLast(gad => gad.ImageRectangle.Contains(Pos)
+                                      && (IsUnselected ^ gad.IsSelected));
                 if (SelPiece == null)
                 {
                     SelPiece = TerrainList.FindLast(ter => ter.ImageRectangle.Contains(Pos)
@@ -306,17 +282,17 @@ namespace NLEditor
         {
             TerrainList.FindAll(ter => ter.ImageRectangle.IntersectsWith(Rect))
                        .ForEach(ter => ter.IsSelected = IsAdded);
-            GadgetList.FindAll(obj => obj.ImageRectangle.IntersectsWith(Rect))
-                      .ForEach(obj => obj.IsSelected = IsAdded);
+            GadgetList.FindAll(gad => gad.ImageRectangle.IntersectsWith(Rect))
+                      .ForEach(gad => gad.IsSelected = IsAdded);
         }
 
         /// <summary>
         /// Removes the "IsSelected" flag from all pieces.
         /// </summary>
-        public void DeleteAllSelections()
+        public void UnselectAll()
         {
             TerrainList.ForEach(ter => ter.IsSelected = false);
-            GadgetList.ForEach(obj => obj.IsSelected = false);
+            GadgetList.ForEach(gad => gad.IsSelected = false);
         }
 
         /// <summary>
@@ -325,7 +301,7 @@ namespace NLEditor
         /// <returns></returns>
         public List<LevelPiece> SelectionList()
         {
-            List<LevelPiece> SelectedPieceList = new List<LevelPiece>();
+            var SelectedPieceList = new List<LevelPiece>();
             SelectedPieceList.AddRange(TerrainList.FindAll(ter => ter.IsSelected));
             SelectedPieceList.AddRange(GadgetList.FindAll(obj => obj.IsSelected));
             return SelectedPieceList;
@@ -337,7 +313,7 @@ namespace NLEditor
         /// <returns></returns>
         private Rectangle SelectionRectangle()
         {
-            List<LevelPiece> SelectedPieceList = SelectionList();
+            var SelectedPieceList = SelectionList();
 
             int Left = SelectedPieceList.Min(item => item.PosX);
             int Right = SelectedPieceList.Max(item => item.PosX + item.Width);
@@ -401,7 +377,7 @@ namespace NLEditor
         /// <returns></returns>
         public GroupPiece ReplaceSelectedByGroup()
         {
-            List<LevelPiece> SelectTerrList = SelectionList().FindAll(item => item.ObjType == C.OBJ.TERRAIN);
+            var SelectTerrList = SelectionList().FindAll(item => item.ObjType == C.OBJ.TERRAIN);
             GroupPiece NewGroup = new GroupPiece(SelectTerrList.ConvertAll(item => (TerrainPiece)item));
             TerrainList.RemoveAll(item => item.ObjType == C.OBJ.TERRAIN);
             TerrainList.Add(NewGroup);
@@ -417,8 +393,8 @@ namespace NLEditor
         {
             TerrainList.FindAll(ter => ter.IsSelected)
                        .ForEach(ter => { ter.IsNoOverwrite = DoAdd; if (DoAdd) ter.IsErase = false; });
-            GadgetList.FindAll(obj => obj.IsSelected)
-                      .ForEach(obj => { obj.IsNoOverwrite = DoAdd; if (DoAdd) obj.IsOnlyOnTerrain = false; });
+            GadgetList.FindAll(gad => gad.IsSelected)
+                      .ForEach(gad => { gad.IsNoOverwrite = DoAdd; if (DoAdd) gad.IsOnlyOnTerrain = false; });
         }
 
         /// <summary>
@@ -437,8 +413,8 @@ namespace NLEditor
         /// <param name="DoAdd"></param>
         public void SetOnlyOnTerrain(bool DoAdd)
         {
-            GadgetList.FindAll(obj => obj.IsSelected)
-                      .ForEach(obj => { obj.IsOnlyOnTerrain = DoAdd; if (DoAdd) obj.IsNoOverwrite = false; });
+            GadgetList.FindAll(gad => gad.IsSelected)
+                      .ForEach(gad => { gad.IsOnlyOnTerrain = DoAdd; if (DoAdd) gad.IsNoOverwrite = false; });
         }
 
         /// <summary>
@@ -457,8 +433,8 @@ namespace NLEditor
         /// <param name="Skill"></param>
         public void SetSkillForObjects(int Skill, bool DoAdd)
         {
-            GadgetList.FindAll(obj => obj.IsSelected)
-                      .ForEach(obj => obj.SetSkillFlag(Skill, DoAdd));
+            GadgetList.FindAll(gad => gad.IsSelected)
+                      .ForEach(gad => gad.SetSkillFlag(Skill, DoAdd));
         }
 
         /// <summary>
@@ -488,8 +464,8 @@ namespace NLEditor
         /// <param name="ToTop"></param>
         private void MoveSelectedIndexMaximally(bool ToTop)
         {
-            List<GadgetPiece> SelectedGadgets = GadgetList.FindAll(obj => obj.IsSelected);
-            List<GadgetPiece> NonSelectedGadgets = GadgetList.FindAll(obj => !obj.IsSelected);
+            var SelectedGadgets = GadgetList.FindAll(obj => obj.IsSelected);
+            var NonSelectedGadgets = GadgetList.FindAll(obj => !obj.IsSelected);
             if (ToTop)
             {
                 GadgetList = NonSelectedGadgets.Concat(SelectedGadgets).ToList();
@@ -499,8 +475,8 @@ namespace NLEditor
                 GadgetList = SelectedGadgets.Concat(NonSelectedGadgets).ToList();
             }
 
-            List<TerrainPiece> SelectedTerrain = TerrainList.FindAll(obj => obj.IsSelected);
-            List<TerrainPiece> NonSelectedTerrain = TerrainList.FindAll(obj => !obj.IsSelected);
+            var SelectedTerrain = TerrainList.FindAll(obj => obj.IsSelected);
+            var NonSelectedTerrain = TerrainList.FindAll(obj => !obj.IsSelected);
             if (ToTop)
             {
                 TerrainList = NonSelectedTerrain.Concat(SelectedTerrain).ToList();
@@ -560,8 +536,8 @@ namespace NLEditor
         /// </summary>
         public void PairTeleporters()
         { 
-            GadgetPiece MyTeleporter = (GadgetPiece)SelectionList().Find(obj => obj.ObjType == C.OBJ.TELEPORTER);
-            GadgetPiece MyReceiver = (GadgetPiece)SelectionList().Find(obj => obj.ObjType == C.OBJ.RECEIVER);
+            GadgetPiece MyTeleporter = (GadgetPiece)SelectionList().Find(gad => gad.ObjType == C.OBJ.TELEPORTER);
+            GadgetPiece MyReceiver = (GadgetPiece)SelectionList().Find(gad => gad.ObjType == C.OBJ.RECEIVER);
 
             System.Diagnostics.Debug.Assert(MyTeleporter != null, "Tried to pair teleporters without a selected teleporter!");
             System.Diagnostics.Debug.Assert(MyReceiver != null, "Tried to pair teleporters without a selected teleporter!");
@@ -581,8 +557,8 @@ namespace NLEditor
         /// <param name="RemoveValue"></param>
         private void RemovePairingValue(int RemoveValue)
         {
-            fGadgetList.FindAll(obj => obj.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
-                       .ForEach(obj => obj.SetTeleporterValue(0)); 
+            GadgetList.FindAll(gad => gad.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
+                      .ForEach(gad => gad.SetTeleporterValue(0)); 
         }
 
         /// <summary>
@@ -591,14 +567,12 @@ namespace NLEditor
         /// <returns></returns>
         private int FindNewPairingValue()
         {
-            int PairingValue = 0;
-            do
-            {
-                PairingValue++;
-            } while (fGadgetList.Exists(obj => obj.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER)
-                                               && obj.Val_L == PairingValue));
+            var ExistingPairingValues = GadgetList.FindAll(gad => gad.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
+                                                  .ConvertAll(gad => gad.Val_L);
 
-            return PairingValue;
+            return Enumerable.Range(1, int.MaxValue)
+                             .Except(ExistingPairingValues)
+                             .FirstOrDefault();
         }
 
     }

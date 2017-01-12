@@ -380,7 +380,7 @@ namespace NLEditor
         /// <param name="picPieceIndex"></param>
         private void AddNewPieceToLevel(int picPieceIndex)
         {
-            fCurLevel.DeleteAllSelections();
+            fCurLevel.UnselectAll();
             
             List<string> CurPieceList = fPieceDoDisplayObject ?  fPieceCurStyle.ObjectNames : fPieceCurStyle.TerrainNames;
             int PieceIndex = (picPieceIndex + fPieceStartIndex) % CurPieceList.Count;
@@ -405,7 +405,7 @@ namespace NLEditor
                 // Delete all existing selections
                 if (!fIsCtrlPressed)
                 {
-                    fCurLevel.DeleteAllSelections();
+                    fCurLevel.UnselectAll();
                 }
                 
                 // Add a single piece
@@ -432,7 +432,7 @@ namespace NLEditor
                 // Delete all existing selections
                 if (!fIsCtrlPressed)
                 {
-                    fCurLevel.DeleteAllSelections();
+                    fCurLevel.UnselectAll();
                 }
 
                 // Add all pieces intersection SelectArea
@@ -654,7 +654,7 @@ namespace NLEditor
         private void CopySelectedPieces()
         {
             WriteOldSelectedList();
-            fCurLevel.DeleteAllSelections();
+            fCurLevel.UnselectAll();
             AddOldSelectedListToLevel();
             SaveChangesToOldLevelList();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
@@ -677,7 +677,7 @@ namespace NLEditor
         /// </summary>
         private void AddPiecesFromMemory()
         {
-            fCurLevel.DeleteAllSelections();
+            fCurLevel.UnselectAll();
             AddOldSelectedListToLevel();
             SaveChangesToOldLevelList();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
