@@ -219,7 +219,8 @@ namespace NLEditor
             if (DoFlip) NewGadget.FlipInRect(NewGadget.ImageRectangle);
             if (DoInvert) NewGadget.InvertInRect(NewGadget.ImageRectangle);
             //Reposition gadget to be sure...
-            NewGadget.Pos = Pos;
+            NewGadget.PosX = Pos.X;
+            NewGadget.PosY = Pos.Y;
 
             NewGadget.IsSelected = false;
 
@@ -277,7 +278,8 @@ namespace NLEditor
             if (DoFlip) NewTerrain.FlipInRect(NewTerrain.ImageRectangle);
             if (DoInvert) NewTerrain.InvertInRect(NewTerrain.ImageRectangle);
             //Reposition gadget to be sure...
-            NewTerrain.Pos = Pos;
+            NewTerrain.PosX = Pos.X;
+            NewTerrain.PosY = Pos.Y;
 
             NewTerrain.IsSelected = false;
 

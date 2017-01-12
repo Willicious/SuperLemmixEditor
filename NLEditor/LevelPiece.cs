@@ -16,61 +16,51 @@ namespace NLEditor
          *          This class stores infos about pieces
          * -------------------------------------------------------- */
 
-        public LevelPiece(string Key, bool IsObj, Point Pos,
-                          int Rotation = 0, bool IsInvert = false)
+        public LevelPiece(string key, bool isObj, Point pos,
+                          int rotation = 0, bool isInvert = false)
         {
-            this.fKey = Key;
+            this.Key = key;
            
-            this.fName = System.IO.Path.GetFileName(Key);
-            this.fStyle = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(Key));
-            this.Pos = Pos;
+            this.Name = System.IO.Path.GetFileName(key);
+            this.Style = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(key));
+            this.PosX = pos.X;
+            this.PosY = pos.Y;
 
-            this.fRotation = Rotation;
-            this.fInvert = IsInvert;
-            this.fIsSelected = true;
+            this.Rotation = rotation;
+            this.IsInvert = isInvert;
+            this.IsSelected = true;
 
-            System.Diagnostics.Debug.Assert(ImageLibrary.CreatePieceKey(this.fStyle, this.fName, IsObj) == this.fKey, "Style and name of level piece incompatible with key.");
+            System.Diagnostics.Debug.Assert(ImageLibrary.CreatePieceKey(Style, Name, isObj) == Key, "Style and name of level piece incompatible with key.");
         }
 
-        Point fPos;
-        string fStyle;
-        string fName;
-        protected string fKey;
+        public int PosX { get; set; }
+        public int PosY { get; set; }
+        public Point Pos => new Point(PosX, PosY);
+        
+        public virtual int Width => (Rotation % 2 == 0) ? ImageLibrary.GetWidth(Key) : ImageLibrary.GetHeight(Key);
+        public virtual int Height => (Rotation % 2 == 0) ? ImageLibrary.GetHeight(Key) : ImageLibrary.GetWidth(Key);
+        public string Style { get; private set; }
+        public string Name { get; private set; }
+        protected string Key { get; private set; }
 
         // RULE: FIRST ROTATE CLOCKWISE - THEN INVERT
-        int fRotation;
-        bool fInvert;
-
-        bool fIsSelected;
-
-        public Point Pos { get { return fPos; } set { fPos = value; } }
-        public int PosX { get { return fPos.X; } set { fPos.X = value; } }
-        public int PosY { get { return fPos.Y; } set { fPos.Y = value; } }
-        public virtual int Width { get { return (fRotation % 2 == 0) ? ImageLibrary.GetWidth(fKey) : ImageLibrary.GetHeight(fKey); } }
-        public virtual int Height { get { return (fRotation % 2 == 0) ? ImageLibrary.GetHeight(fKey) : ImageLibrary.GetWidth(fKey); } }
-        public string Style { get { return fStyle; } }
-        public string Name { get { return fName; } }
-
-        // For cloning the piece
-        protected int Rotation { get { return fRotation; } }
-        protected bool IsInvert { get { return fInvert; } }
+        protected int Rotation { get; private set; }
+        protected bool IsInvert { get; private set; }
 
         // For writing the save file
-        public bool IsRotatedInPlayer { get { return (fRotation % 2 == 1); } }
-        public bool IsInvertedInPlayer { get { return (fInvert && fRotation % 4 < 2) || (!fInvert && fRotation % 4 > 1); } }
-        public bool IsFlippedInPlayer { get { return (fRotation % 4 > 1); } }
+        public bool IsRotatedInPlayer => (Rotation % 2 == 1);
+        public bool IsInvertedInPlayer => (IsInvert && Rotation % 4 < 2) || (!IsInvert && Rotation % 4 > 1);
+        public bool IsFlippedInPlayer => (Rotation % 4 > 1);
 
         /// <summary>
         /// Get piece image correctly rotated and flipped.
         /// </summary>
-        public virtual Bitmap Image { get { return ImageLibrary.GetImage(fKey, GetRotateFlipType(), GetFrameIndex()); } }
+        public virtual Bitmap Image => ImageLibrary.GetImage(Key, GetRotateFlipType(), GetFrameIndex());
+        public Rectangle ImageRectangle => new Rectangle(PosX, PosY, Width, Height);
+        public C.OBJ ObjType => ImageLibrary.GetObjType(Key);
+        public C.Resize ResizeMode => ImageLibrary.GetResizeMode(Key);
 
-        public C.OBJ ObjType { get { return ImageLibrary.GetObjType(fKey); } }
-        public C.Resize ResizeMode { get { return ImageLibrary.GetResizeMode(fKey); } }
-
-        public bool IsSelected { get { return fIsSelected; } set { fIsSelected = value; } }
-
-        public Rectangle ImageRectangle { get { return new Rectangle(fPos.X, fPos.Y, Width, Height); } }
+        public bool IsSelected { get; set; }
 
         /// <summary>
         /// Returns whether the ImageLibrary can find an image corresponding to this piece.
@@ -78,22 +68,22 @@ namespace NLEditor
         /// <returns></returns>
         public bool ExistsImage()
         {
-            return ImageLibrary.ExistsKey(fKey);
+            return ImageLibrary.ExistsKey(Key);
         }
 
         /// <summary>
         /// Moves the piece in the level.
         /// </summary>
-        /// <param name="Direction"></param>
-        /// <param name="Step"></param>
-        public void Move(C.DIR Direction, int Step = 1)
+        /// <param name="direction"></param>
+        /// <param name="step"></param>
+        public void Move(C.DIR direction, int step = 1)
         {
-            switch (Direction)
+            switch (direction)
             {
-                case C.DIR.N: PosY = Math.Max(PosY - Step, -1000); break;
-                case C.DIR.E: PosX = Math.Min(PosX + Step, 3400); break;
-                case C.DIR.S: PosY = Math.Min(PosY + Step, 3400); break;
-                case C.DIR.W: PosX = Math.Max(PosX - Step, -1000); break;
+                case C.DIR.N: PosY = Math.Max(PosY - step, -1000); break;
+                case C.DIR.E: PosX = Math.Min(PosX + step, 3400); break;
+                case C.DIR.S: PosY = Math.Min(PosY + step, 3400); break;
+                case C.DIR.W: PosX = Math.Max(PosX - step, -1000); break;
             }
         }
 
@@ -106,15 +96,15 @@ namespace NLEditor
         /// <summary>
         /// Compares two LevelPieces for equality.
         /// </summary>
-        /// <param name="Piece"></param>
+        /// <param name="piece"></param>
         /// <returns></returns>
-        public virtual bool Equals(LevelPiece Piece)
+        public virtual bool Equals(LevelPiece piece)
         {
-            return this.PosX == Piece.PosX
-                && this.PosY == Piece.PosY
-                && this.fKey.Equals(Piece.fKey)
-                && this.Rotation == Piece.Rotation
-                && this.IsInvert == Piece.IsInvert;
+            return this.PosX == piece.PosX
+                && this.PosY == piece.PosY
+                && this.Key.Equals(piece.Key)
+                && this.Rotation == piece.Rotation
+                && this.IsInvert == piece.IsInvert;
         }
 
 
@@ -140,70 +130,47 @@ namespace NLEditor
         /// Determines whether this piece can receive a flag for a given skill.
         /// </summary>
         /// <returns></returns>
-        public abstract bool MayReceiveSkill(int Skill);
-
-        /// <summary>
-        /// Rotates the piece while keeping its top left coordianate.
-        /// </summary>
-        private void Rotate()
-        {
-            fRotation = (fInvert ? fRotation + 3 : ++fRotation) % 4;
-        }
+        public abstract bool MayReceiveSkill(int skill);
 
         /// <summary>
         /// Rotates the piece around the center of a specified rectangle, if allowed for this piece.
         /// </summary>
-        /// <param name="BorderRect"></param>
-        public void RotateInRect(Rectangle BorderRect)
+        /// <param name="borderRect"></param>
+        public void RotateInRect(Rectangle borderRect)
         {
             if (!MayRotate()) return;
 
-            Point Center = new Point(BorderRect.Left + BorderRect.Width / 2, BorderRect.Top + BorderRect.Height / 2);
-            Point OldCorner = new Point(PosX, PosY + Height);
+            Point center = new Point(borderRect.Left + borderRect.Width / 2, borderRect.Top + borderRect.Height / 2);
+            Point oldCorner = new Point(PosX, PosY + Height);
 
-            int NewPosX = Center.X + Center.Y - OldCorner.Y;
-            int NewPosY = Center.Y + OldCorner.X - Center.X;
-
-            Pos = new Point(NewPosX, NewPosY);
-
-            Rotate();
+            PosX = center.X + center.Y - oldCorner.Y;
+            PosY = center.Y + oldCorner.X - center.X;
+            Rotation = (IsInvert ? Rotation + 3 : ++Rotation) % 4;
         }
 
-        /// <summary>
-        /// Inverts the piece while keeping its top left coordinate.
-        /// </summary>
-        private void Invert()
-        {
-            fInvert = !fInvert;
-        }
 
         /// <summary>
         /// Inverts the piece wrt. a specified rectangle, if allowed for this piece.
         /// </summary>
-        /// <param name="BorderRect"></param>
-        public void InvertInRect(Rectangle BorderRect)
+        /// <param name="borderRect"></param>
+        public void InvertInRect(Rectangle borderRect)
         {
-            PosY = BorderRect.Top + BorderRect.Bottom - PosY - Height;
-            if (MayInvert()) Invert();
-        }
-
-        /// <summary>
-        /// Flips the piece while keeping its top left coordinate.
-        /// </summary>
-        private void Flip() // = Invert + Rotate^2
-        {
-            fRotation = (fRotation + 2) % 4;
-            fInvert = !fInvert;
+            PosY = borderRect.Top + borderRect.Bottom - PosY - Height;
+            if (MayInvert()) IsInvert = !IsInvert;
         }
 
         /// <summary>
         /// Flips the piece wrt. a specified rectangle, if allowed for this piece.
         /// </summary>
-        /// <param name="BorderRect"></param>
-        public void FlipInRect(Rectangle BorderRect)
+        /// <param name="borderRect"></param>
+        public void FlipInRect(Rectangle borderRect)
         {
-            PosX = BorderRect.Left + BorderRect.Right - PosX - Width;
-            if (MayFlip()) Flip();
+            PosX = borderRect.Left + borderRect.Right - PosX - Width;
+            if (MayFlip())
+            {
+                Rotation = (Rotation + 2) % 4;
+                IsInvert = !IsInvert;
+            }
         }
 
         /// <summary>
@@ -212,13 +179,13 @@ namespace NLEditor
         /// <returns></returns>
         private RotateFlipType GetRotateFlipType()
         {
-            switch (fRotation)
+            switch (Rotation)
             { 
-                case 0: return fInvert ? RotateFlipType.RotateNoneFlipY : RotateFlipType.RotateNoneFlipNone;
-                case 1: return fInvert ? RotateFlipType.Rotate90FlipY : RotateFlipType.Rotate90FlipNone;
-                case 2: return fInvert ? RotateFlipType.Rotate180FlipY : RotateFlipType.Rotate180FlipNone;
-                case 3: return fInvert ? RotateFlipType.Rotate270FlipY : RotateFlipType.Rotate270FlipNone;
-                default: return RotateFlipType.RotateNoneFlipNone;
+                case 0: return IsInvert ? RotateFlipType.RotateNoneFlipY : RotateFlipType.RotateNoneFlipNone;
+                case 1: return IsInvert ? RotateFlipType.Rotate90FlipY : RotateFlipType.Rotate90FlipNone;
+                case 2: return IsInvert ? RotateFlipType.Rotate180FlipY : RotateFlipType.Rotate180FlipNone;
+                case 3: return IsInvert ? RotateFlipType.Rotate270FlipY : RotateFlipType.Rotate270FlipNone;
+                default: throw new InvalidOperationException("GetRotateFlipType called with invalid Rotation value " + Rotation.ToString());
             }
         }
 
@@ -241,48 +208,44 @@ namespace NLEditor
          *      This class stores infos about terrain pieces
          * -------------------------------------------------------- */
 
-        public TerrainPiece(string Key, Point Pos)
-            : base(Key, false, Pos)
+        public TerrainPiece(string key, Point pos)
+            : base(key, false, pos)
         {
-            fIsErase = false;
-            fIsNoOverwrite = false;
-            fIsOneWay = true;
+            IsErase = false;
+            IsNoOverwrite = false;
+            IsOneWay = true;
         }
 
-        public TerrainPiece(string Key, Point Pos, int Rotation, bool IsInvert, bool IsErase, bool IsNoOv, bool IsOneWay)
-            : base(Key, false, Pos, Rotation, IsInvert)
+        public TerrainPiece(string key, Point pos, int rotation, bool isInvert, bool isErase, bool isNoOv, bool isOneWay)
+            : base(key, false, pos, rotation, isInvert)
         {
-            fIsErase = IsErase;
-            fIsNoOverwrite = IsNoOv;
-            fIsOneWay = IsOneWay;
+            IsErase = isErase;
+            IsNoOverwrite = isNoOv;
+            IsOneWay = isOneWay;
         }
 
-        bool fIsErase;
-        bool fIsNoOverwrite;
-        bool fIsOneWay;
-
-        public bool IsErase { get { return fIsErase; } set { fIsErase = value; } }
-        public bool IsNoOverwrite { get { return fIsNoOverwrite; } set { fIsNoOverwrite = value; } }
-        public bool IsOneWay { get { return fIsOneWay; } set { fIsOneWay = value; } }
-        public bool IsSteel { get { return this.ObjType == C.OBJ.STEEL; } }
+        public bool IsErase { get; set; }
+        public bool IsNoOverwrite { get; set; }
+        public bool IsOneWay { get; set; }
+        public bool IsSteel => this.ObjType == C.OBJ.STEEL;
 
         public override LevelPiece Clone()
         {
-            return new TerrainPiece(this.fKey, new Point(this.PosX, this.PosY), this.Rotation, 
+            return new TerrainPiece(this.Key, new Point(this.PosX, this.PosY), this.Rotation, 
                                     this.IsInvert, this.IsErase, this.IsNoOverwrite, this.IsOneWay);
         }
 
         /// <summary>
         /// Compares two TerrainPieces for equality.
         /// </summary>
-        /// <param name="Piece"></param>
+        /// <param name="piece"></param>
         /// <returns></returns>
-        public bool Equals(TerrainPiece Piece)
+        public bool Equals(TerrainPiece piece)
         {
-            return base.Equals(Piece)
-                && this.IsErase == Piece.IsErase
-                && this.IsNoOverwrite == Piece.IsNoOverwrite
-                && this.IsOneWay == Piece.IsOneWay;
+            return base.Equals(piece)
+                && this.IsErase == piece.IsErase
+                && this.IsNoOverwrite == piece.IsNoOverwrite
+                && this.IsOneWay == piece.IsOneWay;
         }
 
 
@@ -301,7 +264,7 @@ namespace NLEditor
             return true;
         }
 
-        public override bool MayReceiveSkill(int Skill)
+        public override bool MayReceiveSkill(int skill)
         {
             return false;
         }
@@ -313,46 +276,42 @@ namespace NLEditor
     /// </summary>
     public class GadgetPiece : LevelPiece
     { 
-        public GadgetPiece(string Key, Point Pos)
-            : base(Key, true, Pos)
+        public GadgetPiece(string key, Point pos)
+            : base(key, true, pos)
         {
-            fIsNoOverwrite = !(this.ObjType == C.OBJ.ONE_WAY_WALL);
-            fIsOnlyOnTerrain = (this.ObjType == C.OBJ.ONE_WAY_WALL);
-            fVal_L = 0;
-            fVal_S = 0;
+            IsNoOverwrite = !(this.ObjType == C.OBJ.ONE_WAY_WALL);
+            IsOnlyOnTerrain = (this.ObjType == C.OBJ.ONE_WAY_WALL);
+            Val_L = 0;
+            Val_S = 0;
             fSpecWidth = base.Width;
             fSpecHeight = base.Height;
         }
 
-        public GadgetPiece(string Key, Point Pos, int Rotation, bool IsInvert, bool IsNoOv, 
-                           bool IsOnlyOnTerr, int valL, int valS, int SpecWidth = -1, int SpecHeight = -1)
-            : base(Key, true, Pos, Rotation, IsInvert)
+        public GadgetPiece(string key, Point pos, int rotation, bool isInvert, bool isNoOverwrite, 
+                           bool isOnlyOnTerrain, int valL, int valS, int specWidth = -1, int specHeight = -1)
+            : base(key, true, pos, rotation, isInvert)
         {
-            fIsNoOverwrite = IsNoOv;
-            fIsOnlyOnTerrain = IsOnlyOnTerr;
-            fVal_L = valL;
-            fVal_S = valS;
-            fSpecWidth = (SpecWidth > 0) ? SpecWidth : base.Width;
-            fSpecHeight = (SpecHeight > 0) ? SpecHeight : base.Height;
+            IsNoOverwrite = isNoOverwrite;
+            IsOnlyOnTerrain = isOnlyOnTerrain;
+            Val_L = valL;
+            Val_S = valS;
+            fSpecWidth = (specWidth > 0) ? specWidth : base.Width;
+            fSpecHeight = (specHeight > 0) ? specHeight : base.Height;
         }
 
-        bool fIsNoOverwrite;
-        bool fIsOnlyOnTerrain;
-        int fVal_L;
-        int fVal_S;
         int fSpecWidth;
         int fSpecHeight;
 
-        public bool IsNoOverwrite { get { return fIsNoOverwrite; } set { fIsNoOverwrite = value; } }
-        public bool IsOnlyOnTerrain { get { return fIsOnlyOnTerrain; } set { fIsOnlyOnTerrain = value; } }
-        public int Val_L { get { return fVal_L; } }
-        public int Val_S { get { return fVal_S; } }
+        public bool IsNoOverwrite { get; set; }
+        public bool IsOnlyOnTerrain { get; set; }
+        public int Val_L { get; private set; }
+        public int Val_S { get; private set; }
         public int SpecWidth { get { return (Rotation % 2 == 0) ? fSpecWidth : fSpecHeight; } }
         public int SpecHeight { get { return (Rotation % 2 == 0) ? fSpecHeight : fSpecWidth; } }
 
         public override LevelPiece Clone()
         {
-            return new GadgetPiece(this.fKey, new Point(this.PosX, this.PosY), this.Rotation, 
+            return new GadgetPiece(this.Key, new Point(this.PosX, this.PosY), this.Rotation, 
                                    this.IsInvert, this.IsNoOverwrite, this.IsOnlyOnTerrain, 
                                    this.Val_L, this.Val_S, this.SpecWidth, this.SpecHeight);
         }
@@ -361,44 +320,46 @@ namespace NLEditor
         /// <summary>
         /// Compares two GadgetPieces for equality.
         /// </summary>
-        /// <param name="Piece"></param>
+        /// <param name="piece"></param>
         /// <returns></returns>
-        public bool Equals(GadgetPiece Piece)
+        public bool Equals(GadgetPiece piece)
         {
-            return base.Equals(Piece)
-                && this.IsNoOverwrite == Piece.IsNoOverwrite
-                && this.IsOnlyOnTerrain == Piece.IsOnlyOnTerrain
-                && this.Val_L == Piece.Val_L
-                && this.Val_S == Piece.Val_S
-                && this.SpecWidth == Piece.SpecWidth
-                && this.SpecHeight == Piece.SpecHeight;
+            return base.Equals(piece)
+                && this.IsNoOverwrite == piece.IsNoOverwrite
+                && this.IsOnlyOnTerrain == piece.IsOnlyOnTerrain
+                && this.Val_L == piece.Val_L
+                && this.Val_S == piece.Val_S
+                && this.SpecWidth == piece.SpecWidth
+                && this.SpecHeight == piece.SpecHeight;
         }
 
         /// <summary>
         /// Returns the position of the trigger area.
+        /// <para> It does NOT adapt to rotation! </para>
         /// </summary>
         public Rectangle TriggerRect { get 
         {
-            Rectangle TrigRect = ImageLibrary.GetTrigger(fKey);
+            Rectangle trigRect = ImageLibrary.GetTrigger(Key);
             // Adjust to resizing
             if (ResizeMode.In(C.Resize.Horiz, C.Resize.Both))
             {
-                TrigRect.Width += this.Width - base.Width;
+                trigRect.Width += this.Width - base.Width;
             }
             if (ResizeMode.In(C.Resize.Vert, C.Resize.Both))
             {
-                TrigRect.Height += this.Height - base.Height;
+                trigRect.Height += this.Height - base.Height;
             }
 
             // Adjust to flipping
             if (IsFlippedInPlayer && !IsInvertedInPlayer && !IsRotatedInPlayer)
             {
-                TrigRect.X = this.ImageRectangle.Width - TrigRect.Right;
+                trigRect.X = this.ImageRectangle.Width - trigRect.Right;
             }
+
             // Shift to position relative to level
-            TrigRect.X += this.PosX;
-            TrigRect.Y += this.PosY;
-            return TrigRect;
+            trigRect.X += this.PosX;
+            trigRect.Y += this.PosY;
+            return trigRect;
         } }
 
         public override Bitmap Image { get
@@ -429,13 +390,13 @@ namespace NLEditor
             if (ObjType == C.OBJ.PICKUP)
             {
                 // Return the index of the skill + 1 or return 0 if no skill is selected
-                int SkillNum = C.SKI_COUNT;
-                while (!HasSkillFlag(SkillNum) && SkillNum >= 0)
+                int skillNum = C.SKI_COUNT;
+                while (!HasSkillFlag(skillNum) && skillNum >= 0)
                 {
-                    SkillNum--;
+                    skillNum--;
                 }
 
-                return ++SkillNum;
+                return ++skillNum;
             }
             else if (ObjType.In(C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE))
             {
@@ -462,23 +423,23 @@ namespace NLEditor
             return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE);
         }
 
-        public override bool MayReceiveSkill(int Skill)
+        public override bool MayReceiveSkill(int skill)
         {
             switch (ObjType)
             {
                 case C.OBJ.HATCH:
                     {
-                        return Skill.In(C.SKI_CLIMBER, C.SKI_FLOATER, C.SKI_GLIDER, C.SKI_DISARMER,
+                        return skill.In(C.SKI_CLIMBER, C.SKI_FLOATER, C.SKI_GLIDER, C.SKI_DISARMER,
                                         C.SKI_SWIMMER, C.SKI_ZOMBIE); 
                     }
                 case C.OBJ.LEMMING:
                     {
-                        return Skill.In(C.SKI_CLIMBER, C.SKI_FLOATER, C.SKI_GLIDER, C.SKI_DISARMER,
+                        return skill.In(C.SKI_CLIMBER, C.SKI_FLOATER, C.SKI_GLIDER, C.SKI_DISARMER,
                                         C.SKI_SWIMMER, C.SKI_ZOMBIE, C.SKI_BLOCKER);
                     }
                 case C.OBJ.PICKUP:
                     {
-                        return Skill != C.SKI_ZOMBIE;
+                        return skill != C.SKI_ZOMBIE;
                     }
                 default: return false; 
             }
@@ -487,27 +448,27 @@ namespace NLEditor
         /// <summary>
         /// Adjusts the flag for the specified skill, depending on the object type.
         /// </summary>
-        /// <param name="Skill"></param>
-        /// <param name="DoAdd"></param>
-        public void SetSkillFlag(int Skill, bool DoAdd)
+        /// <param name="skill"></param>
+        /// <param name="doAdd"></param>
+        public void SetSkillFlag(int skill, bool doAdd)
         {
-            if (!MayReceiveSkill(Skill)) return;
+            if (!MayReceiveSkill(skill)) return;
 
             switch (ObjType)
             {
                 case C.OBJ.HATCH:
                 case C.OBJ.LEMMING:
                     {
-                        if (Skill == C.SKI_FLOATER)
+                        if (skill == C.SKI_FLOATER)
                         {
                             SetOneSkillFlag(C.SKI_GLIDER, false);
                         }
-                        else if (Skill == C.SKI_GLIDER)
+                        else if (skill == C.SKI_GLIDER)
                         {
                             SetOneSkillFlag(C.SKI_FLOATER, false);
                         }
                         
-                        SetOneSkillFlag(Skill, DoAdd);
+                        SetOneSkillFlag(skill, doAdd);
                         break;
                     }
                 case C.OBJ.PICKUP:
@@ -516,7 +477,7 @@ namespace NLEditor
                         {
                             SetOneSkillFlag(CurSkill, false);
                         }
-                        SetOneSkillFlag(Skill, DoAdd);
+                        SetOneSkillFlag(skill, doAdd);
                         break;
                     }
             }
@@ -525,58 +486,58 @@ namespace NLEditor
         /// <summary>
         /// Changes the skill flag of this object.
         /// </summary>
-        /// <param name="Skill"></param>
-        /// <param name="DoAdd"></param>
-        private void SetOneSkillFlag(int Skill, bool DoAdd)
+        /// <param name="skill"></param>
+        /// <param name="doAdd"></param>
+        private void SetOneSkillFlag(int skill, bool doAdd)
         {
-            fVal_L |= 1 << Skill; // always true now
-            if (!DoAdd) fVal_L ^= 1 << Skill; // always false now
+            Val_L |= 1 << skill; // always true now
+            if (!doAdd) Val_L ^= 1 << skill; // always false now
         }
 
         /// <summary>
         /// Returns whether the object has the flag for a specific skill.
         /// </summary>
-        /// <param name="Skill"></param>
+        /// <param name="skill"></param>
         /// <returns></returns>
-        public bool HasSkillFlag(int Skill)
+        public bool HasSkillFlag(int skill)
         { 
-            return (fVal_L & 1 << Skill) != 0;
+            return (Val_L & 1 << skill) != 0;
         }
 
         /// <summary>
         /// Sets the width of resizable objects.
         /// </summary>
-        /// <param name="NewWidth"></param>
-        public void SetSpecWidth(int NewWidth)
+        /// <param name="newWidth"></param>
+        public void SetSpecWidth(int newWidth)
         {
             if (ResizeMode.In(C.Resize.Horiz, C.Resize.Both))
             {
-                if (Rotation % 2 == 0) fSpecWidth = Math.Max(NewWidth, 1);
-                else fSpecHeight = Math.Max(NewWidth, 1);
+                if (Rotation % 2 == 0) fSpecWidth = Math.Max(newWidth, 1);
+                else fSpecHeight = Math.Max(newWidth, 1);
             }
         }
 
         /// <summary>
         /// Sets the height of resizable objects.
         /// </summary>
-        /// <param name="NewHeight"></param>
-        public void SetSpecHeight(int NewHeight)
+        /// <param name="newHeight"></param>
+        public void SetSpecHeight(int newHeight)
         {
             if (ResizeMode.In(C.Resize.Vert, C.Resize.Both))
             {
-                if (Rotation % 2 == 0) fSpecHeight = Math.Max(NewHeight, 1);
-                else fSpecWidth = Math.Max(NewHeight, 1);
+                if (Rotation % 2 == 0) fSpecHeight = Math.Max(newHeight, 1);
+                else fSpecWidth = Math.Max(newHeight, 1);
             }
         }
 
         /// <summary>
         /// Sets the key-value for pairing teleporters to receivers.
         /// </summary>
-        /// <param name="NewValue"></param>
-        public void SetTeleporterValue(int NewValue)
+        /// <param name="newValue"></param>
+        public void SetTeleporterValue(int newValue)
         {
             System.Diagnostics.Debug.Assert(this.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER), "Teleporter pairing key set for object, that is neither teleporter nor receiver.");            
-            fVal_L = NewValue;
+            Val_L = newValue;
         }
 
     }
@@ -586,27 +547,27 @@ namespace NLEditor
     /// </summary>
     public class GroupPiece : TerrainPiece
     { 
-        public GroupPiece(GroupPiece OldGroupPiece, Point Pos)
-            : base(OldGroupPiece.fKey, Pos)
+        public GroupPiece(GroupPiece oldGroupPiece, Point pos)
+            : base(oldGroupPiece.Key, pos)
         {
-            fTerPieceList = OldGroupPiece.fTerPieceList;
+            fTerPieceList = oldGroupPiece.fTerPieceList;
         }
 
-        public GroupPiece(GroupPiece OldGroupPiece, Point Pos, int Rotation, bool IsInvert, bool IsErase, bool IsNoOv, bool IsOneWay)
-            : base(OldGroupPiece.fKey, Pos, Rotation, IsInvert, IsErase, IsNoOv, IsOneWay)
+        public GroupPiece(GroupPiece oldGroupPiece, Point pos, int rotation, bool isInvert, bool isErase, bool isNoOverwrite, bool isOneWay)
+            : base(oldGroupPiece.Key, pos, rotation, isInvert, isErase, isNoOverwrite, isOneWay)
         {
-            fTerPieceList = OldGroupPiece.fTerPieceList;
+            fTerPieceList = oldGroupPiece.fTerPieceList;
         }
 
-        public GroupPiece(List<TerrainPiece> TerPieceList)
-            : base(GetKeyFromTerPieceList(TerPieceList), GetPosFromTerPieceList(TerPieceList))
+        public GroupPiece(List<TerrainPiece> terPieceList)
+            : base(GetKeyFromTerPieceList(terPieceList), GetPosFromTerPieceList(terPieceList))
         {
-            fTerPieceList = TerPieceList.ConvertAll(ter => (TerrainPiece)ter.Clone()).ToList();
+            fTerPieceList = terPieceList.ConvertAll(ter => (TerrainPiece)ter.Clone()).ToList();
             fTerPieceList.ForEach(ter => { ter.PosX -= this.PosX; ter.PosY -= this.PosY; ter.IsSelected = false; });
             // Add the group image to the image library
-            Renderer GroupRenderer = new Renderer();
-            Bitmap GroupImage = GroupRenderer.CreateTerrainGroupImage(fTerPieceList);
-            ImageLibrary.AddNewImage(fKey, GroupImage, C.OBJ.TERRAIN, new Rectangle(), C.Resize.None);
+            Renderer groupRenderer = new Renderer();
+            Bitmap groupImage = groupRenderer.CreateTerrainGroupImage(fTerPieceList);
+            ImageLibrary.AddNewImage(Key, groupImage, C.OBJ.TERRAIN, new Rectangle(), C.Resize.None);
         }
 
         List<TerrainPiece> fTerPieceList; // already with adapted positions
@@ -614,41 +575,41 @@ namespace NLEditor
         /// <summary>
         /// Creates the group key from the terrain list.
         /// </summary>
-        /// <param name="TerPieceList"></param>
+        /// <param name="terPieceList"></param>
         /// <returns></returns>
-        private static string GetKeyFromTerPieceList(List<TerrainPiece> TerPieceList)
+        private static string GetKeyFromTerPieceList(List<TerrainPiece> terPieceList)
         {
-            Point GroupPos = GetPosFromTerPieceList(TerPieceList);
+            Point groupPos = GetPosFromTerPieceList(terPieceList);
             
-            StringBuilder KeyString = new StringBuilder();
-            foreach(TerrainPiece Piece in TerPieceList)
+            StringBuilder keyString = new StringBuilder();
+            foreach(TerrainPiece piece in terPieceList)
             {
-                KeyString.Append(Piece.Style)
-                         .Append(Piece.Name)
-                         .Append(Piece.PosX - GroupPos.X)
-                         .Append(Piece.PosY - GroupPos.Y)
-                         .Append(Piece.IsRotatedInPlayer)
-                         .Append(Piece.IsFlippedInPlayer)
-                         .Append(Piece.IsInvertedInPlayer)
-                         .Append(Piece.IsNoOverwrite)
-                         .Append(Piece.IsOneWay)
-                         .Append(Piece.IsErase);
+                keyString.Append(piece.Style)
+                         .Append(piece.Name)
+                         .Append(piece.PosX - groupPos.X)
+                         .Append(piece.PosY - groupPos.Y)
+                         .Append(piece.IsRotatedInPlayer)
+                         .Append(piece.IsFlippedInPlayer)
+                         .Append(piece.IsInvertedInPlayer)
+                         .Append(piece.IsNoOverwrite)
+                         .Append(piece.IsOneWay)
+                         .Append(piece.IsErase);
             }
 
-            string HashKeyString = KeyString.ToString().GetHashCode().ToString();
-            return "default" + C.DirSep + "terrain" + C.DirSep + "Group" + HashKeyString;
+            string hashKeyString = keyString.ToString().GetHashCode().ToString();
+            return "default" + C.DirSep + "terrain" + C.DirSep + "Group" + hashKeyString;
         }
 
         /// <summary>
         /// Gets the position of the group from a raw terrain list.
         /// </summary>
-        /// <param name="TerPieceList"></param>
+        /// <param name="terPieceList"></param>
         /// <returns></returns>
-        private static Point GetPosFromTerPieceList(List<TerrainPiece> TerPieceList)
+        private static Point GetPosFromTerPieceList(List<TerrainPiece> terPieceList)
         {
-            int MinXPos = TerPieceList.Min(ter => ter.PosX);
-            int MinYPos = TerPieceList.Min(ter => ter.PosY);
-            return new Point(MinXPos, MinYPos);
+            int minXPos = terPieceList.Min(ter => ter.PosX);
+            int minYPos = terPieceList.Min(ter => ter.PosY);
+            return new Point(minXPos, minYPos);
         }
 
         public override LevelPiece Clone()
