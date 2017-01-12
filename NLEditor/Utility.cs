@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
-using System.Windows.Forms;
-using System.Reflection;
 
 namespace NLEditor
 {
@@ -27,43 +23,43 @@ namespace NLEditor
         /// Swaps two elements of given index in the list.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="MyList"></param>
-        /// <param name="Index1"></param>
-        /// <param name="Index2"></param>
-        public static void Swap<T>(this IList<T> MyList, int Index1, int Index2)
+        /// <param name="myList"></param>
+        /// <param name="index1"></param>
+        /// <param name="index2"></param>
+        public static void Swap<T>(this IList<T> myList, int index1, int index2)
         {
-            T item = MyList[Index1];
-            MyList[Index1] = MyList[Index2];
-            MyList[Index2] = item;
+            T item = myList[index1];
+            myList[index1] = myList[index2];
+            myList[index2] = item;
         }
 
         /// <summary>
         /// Loads a bitmap from a file and closes the file again.
         /// </summary>
-        /// <param name="FilePath"></param>
+        /// <param name="filePath"></param>
         /// <returns></returns>
-        public static Bitmap CreateBitmapFromFile(string FilePath)
+        public static Bitmap CreateBitmapFromFile(string filePath)
         {
-            Bitmap MyImage;
-            using (var TempImage = new Bitmap(FilePath))
+            Bitmap image;
+            using (var tempImage = new Bitmap(filePath))
             {
-                MyImage = new Bitmap(TempImage);
+                image = new Bitmap(tempImage);
             }
-            return MyImage;
+            return image;
         }
 
 
         /// <summary>
         /// Deletes the specified file, if it exists.
         /// </summary>
-        /// <param name="FilePath"></param>
-        public static void DeleteFile(string FilePath)
+        /// <param name="filePath"></param>
+        public static void DeleteFile(string filePath)
         {
-            if (System.IO.File.Exists(FilePath))
+            if (System.IO.File.Exists(filePath))
             {
                 try
                 {
-                    System.IO.File.Delete(FilePath);
+                    System.IO.File.Delete(filePath);
                 }
                 finally
                 {
@@ -75,41 +71,41 @@ namespace NLEditor
         /// <summary>
         /// Creates a new rectangle having the two points as diagonally opposite vertices.
         /// </summary>
-        /// <param name="Pos1"></param>
-        /// <param name="Pos2"></param>
+        /// <param name="pos1"></param>
+        /// <param name="pos2"></param>
         /// <returns></returns>
-        public static Rectangle RectangleFrom(Point Pos1, Point Pos2)
+        public static Rectangle RectangleFrom(Point pos1, Point pos2)
         {
-            int Left = Math.Min(Pos1.X, Pos2.X);
-            int Top = Math.Min(Pos1.Y, Pos2.Y);
-            int Width = Math.Abs(Pos1.X - Pos2.X);
-            int Height = Math.Abs(Pos1.Y - Pos2.Y);
+            int left = Math.Min(pos1.X, pos2.X);
+            int top = Math.Min(pos1.Y, pos2.Y);
+            int width = Math.Abs(pos1.X - pos2.X);
+            int height = Math.Abs(pos1.Y - pos2.Y);
 
-            return new Rectangle(Left, Top, Width, Height);
+            return new Rectangle(left, top, width, height);
         }
 
         /// <summary>
         /// Logs an exception message to AppPath/ErrorLog.txt.
         /// </summary>
-        /// <param name="Ex"></param>
-        public static void LogException(Exception Ex)
+        /// <param name="ex"></param>
+        public static void LogException(Exception ex)
         {
-            String ErrorPath = C.AppPath + "ErrorLog.txt";
-            System.IO.TextWriter TextFile = new System.IO.StreamWriter(ErrorPath, true);
-            TextFile.WriteLine(Ex.ToString());
-            TextFile.Close();
+            String errorPath = C.AppPath + "ErrorLog.txt";
+            System.IO.TextWriter textFile = new System.IO.StreamWriter(errorPath, true);
+            textFile.WriteLine(ex.ToString());
+            textFile.Close();
         }
 
         /// <summary>
         /// Logs a profiling result to AppPath/ProfilingLog.txt.
         /// </summary>
-        /// <param name="Time"></param>
-        public static void LogProfiling(string Text)
+        /// <param name="Text"></param>
+        public static void LogProfiling(string text)
         {
-            String LogPath = C.AppPath + "ProfilingLog.txt";
-            System.IO.TextWriter TextFile = new System.IO.StreamWriter(LogPath, true);
-            TextFile.WriteLine(Text);
-            TextFile.Close();
+            String logPath = C.AppPath + "ProfilingLog.txt";
+            System.IO.TextWriter textFile = new System.IO.StreamWriter(logPath, true);
+            textFile.WriteLine(text);
+            textFile.Close();
         }
 
     }
@@ -119,20 +115,20 @@ namespace NLEditor
     { 
         static Profiler()
         {
-            fStopWatch = new System.Diagnostics.Stopwatch();
+            stopWatch = new System.Diagnostics.Stopwatch();
         }
 
-        static System.Diagnostics.Stopwatch fStopWatch;
+        static System.Diagnostics.Stopwatch stopWatch;
 
         public static void Start()
         {
-            fStopWatch.Restart();
+            stopWatch.Restart();
         }
 
         public static void Stop()
         {
-            fStopWatch.Stop();
-            Utility.LogProfiling(fStopWatch.ElapsedMilliseconds.ToString());
+            stopWatch.Stop();
+            Utility.LogProfiling(stopWatch.ElapsedMilliseconds.ToString());
         }
     }
 }
