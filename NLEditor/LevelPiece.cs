@@ -58,7 +58,21 @@ namespace NLEditor
         public virtual Bitmap Image => ImageLibrary.GetImage(Key, GetRotateFlipType(), GetFrameIndex());
         public Rectangle ImageRectangle => new Rectangle(PosX, PosY, Width, Height);
         public C.OBJ ObjType => ImageLibrary.GetObjType(Key);
-        public C.Resize ResizeMode => ImageLibrary.GetResizeMode(Key);
+        protected C.Resize ResizeMode => ImageLibrary.GetResizeMode(Key);
+        public bool MayResizeHoriz()
+        {
+            C.Resize resizeMode = ResizeMode;
+            return resizeMode == C.Resize.Both
+               || (resizeMode == C.Resize.Horiz && Rotation % 2 == 0)
+               || (resizeMode == C.Resize.Vert && Rotation % 2 == 1);
+        }
+        public bool MayResizeVert()
+        {
+            C.Resize resizeMode = ResizeMode;
+            return resizeMode == C.Resize.Both
+               || (resizeMode == C.Resize.Vert && Rotation % 2 == 0)
+               || (resizeMode == C.Resize.Horiz && Rotation % 2 == 1);
+        }
 
         public bool IsSelected { get; set; }
 
@@ -136,7 +150,7 @@ namespace NLEditor
         /// Rotates the piece around the center of a specified rectangle, if allowed for this piece.
         /// </summary>
         /// <param name="borderRect"></param>
-        public void RotateInRect(Rectangle borderRect)
+        public virtual void RotateInRect(Rectangle borderRect)
         {
             if (!MayRotate()) return;
 
@@ -227,12 +241,11 @@ namespace NLEditor
         public bool IsErase { get; set; }
         public bool IsNoOverwrite { get; set; }
         public bool IsOneWay { get; set; }
-        public bool IsSteel => this.ObjType == C.OBJ.STEEL;
+        public bool IsSteel => ObjType == C.OBJ.STEEL;
 
         public override LevelPiece Clone()
         {
-            return new TerrainPiece(this.Key, new Point(this.PosX, this.PosY), this.Rotation, 
-                                    this.IsInvert, this.IsErase, this.IsNoOverwrite, this.IsOneWay);
+            return new TerrainPiece(Key, Pos, Rotation, IsInvert, IsErase, IsNoOverwrite, IsOneWay);
         }
 
         /// <summary>
@@ -279,12 +292,12 @@ namespace NLEditor
         public GadgetPiece(string key, Point pos)
             : base(key, true, pos)
         {
-            IsNoOverwrite = !(this.ObjType == C.OBJ.ONE_WAY_WALL);
-            IsOnlyOnTerrain = (this.ObjType == C.OBJ.ONE_WAY_WALL);
+            IsNoOverwrite = !(ObjType == C.OBJ.ONE_WAY_WALL);
+            IsOnlyOnTerrain = (ObjType == C.OBJ.ONE_WAY_WALL);
             Val_L = 0;
             Val_S = 0;
-            fSpecWidth = base.Width;
-            fSpecHeight = base.Height;
+            SpecWidth = base.Width;
+            SpecHeight = base.Height;
         }
 
         public GadgetPiece(string key, Point pos, int rotation, bool isInvert, bool isNoOverwrite, 
@@ -295,25 +308,21 @@ namespace NLEditor
             IsOnlyOnTerrain = isOnlyOnTerrain;
             Val_L = valL;
             Val_S = valS;
-            fSpecWidth = (specWidth > 0) ? specWidth : base.Width;
-            fSpecHeight = (specHeight > 0) ? specHeight : base.Height;
+            SpecWidth = (specWidth > 0) ? specWidth : base.Width;
+            SpecHeight = (specHeight > 0) ? specHeight : base.Height;
         }
-
-        int fSpecWidth;
-        int fSpecHeight;
 
         public bool IsNoOverwrite { get; set; }
         public bool IsOnlyOnTerrain { get; set; }
         public int Val_L { get; private set; }
         public int Val_S { get; private set; }
-        public int SpecWidth { get { return (Rotation % 2 == 0) ? fSpecWidth : fSpecHeight; } }
-        public int SpecHeight { get { return (Rotation % 2 == 0) ? fSpecHeight : fSpecWidth; } }
+        public int SpecWidth { get; set; }
+        public int SpecHeight { get; set; }
 
         public override LevelPiece Clone()
         {
-            return new GadgetPiece(this.Key, new Point(this.PosX, this.PosY), this.Rotation, 
-                                   this.IsInvert, this.IsNoOverwrite, this.IsOnlyOnTerrain, 
-                                   this.Val_L, this.Val_S, this.SpecWidth, this.SpecHeight);
+            return new GadgetPiece(Key, Pos, Rotation, IsInvert, IsNoOverwrite, IsOnlyOnTerrain, 
+                                   Val_L, Val_S, SpecWidth, SpecHeight);
         }
 
 
@@ -341,24 +350,21 @@ namespace NLEditor
         {
             Rectangle trigRect = ImageLibrary.GetTrigger(Key);
             // Adjust to resizing
-            if (ResizeMode.In(C.Resize.Horiz, C.Resize.Both))
+            if (ResizeMode != C.Resize.None)
             {
-                trigRect.Width += this.Width - base.Width;
-            }
-            if (ResizeMode.In(C.Resize.Vert, C.Resize.Both))
-            {
-                trigRect.Height += this.Height - base.Height;
+                trigRect.Width += SpecWidth - base.Width;
+                trigRect.Height += SpecHeight - base.Height;
             }
 
             // Adjust to flipping
             if (IsFlippedInPlayer && !IsInvertedInPlayer && !IsRotatedInPlayer)
             {
-                trigRect.X = this.ImageRectangle.Width - trigRect.Right;
+                trigRect.X = ImageRectangle.Width - trigRect.Right;
             }
 
             // Shift to position relative to level
-            trigRect.X += this.PosX;
-            trigRect.Y += this.PosY;
+            trigRect.X += PosX;
+            trigRect.Y += PosY;
             return trigRect;
         } }
 
@@ -369,17 +375,8 @@ namespace NLEditor
             else return base.Image.PaveArea(new Rectangle(0, 0, Width, Height));
         } }
 
-        public override int Width { get
-        {
-            if (ResizeMode == C.Resize.None) return base.Width;
-            else return (Rotation % 2 == 0) ? fSpecWidth : fSpecHeight;
-        } }
-
-        public override int Height { get
-        {
-            if (ResizeMode == C.Resize.None) return base.Height;
-            else return (Rotation % 2 == 0) ? fSpecHeight : fSpecWidth; 
-        } }
+        public override int Width => (ResizeMode == C.Resize.None) ? base.Width : SpecWidth;
+        public override int Height => (ResizeMode == C.Resize.None) ? base.Height : SpecHeight;
 
         /// <summary>
         /// Returns the correct frame to load the image.
@@ -446,6 +443,24 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Rotates the piece around the center of a specified rectangle, if allowed for this piece.
+        /// </summary>
+        /// <param name="borderRect"></param>
+        public override void RotateInRect(Rectangle borderRect)
+        {
+            base.RotateInRect(borderRect);
+
+            if (MayRotate())
+            {
+                // Swap special height and special width;
+                int oldSpecWidth = SpecWidth;
+                SpecWidth = SpecHeight;
+                SpecHeight = oldSpecWidth;
+            }
+        }
+
+
+        /// <summary>
         /// Adjusts the flag for the specified skill, depending on the object type.
         /// </summary>
         /// <param name="skill"></param>
@@ -505,29 +520,21 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Sets the width of resizable objects.
+        /// Sets the width of resizable objects taking rotation into account.
         /// </summary>
         /// <param name="newWidth"></param>
         public void SetSpecWidth(int newWidth)
         {
-            if (ResizeMode.In(C.Resize.Horiz, C.Resize.Both))
-            {
-                if (Rotation % 2 == 0) fSpecWidth = Math.Max(newWidth, 1);
-                else fSpecHeight = Math.Max(newWidth, 1);
-            }
+            if (MayResizeHoriz()) SpecWidth = Math.Max(newWidth, 1);
         }
 
         /// <summary>
-        /// Sets the height of resizable objects.
+        /// Sets the height of resizable objects taking rotation into account.
         /// </summary>
         /// <param name="newHeight"></param>
         public void SetSpecHeight(int newHeight)
         {
-            if (ResizeMode.In(C.Resize.Vert, C.Resize.Both))
-            {
-                if (Rotation % 2 == 0) fSpecHeight = Math.Max(newHeight, 1);
-                else fSpecWidth = Math.Max(newHeight, 1);
-            }
+            if (MayResizeVert()) SpecHeight = Math.Max(newHeight, 1);
         }
 
         /// <summary>
@@ -536,7 +543,7 @@ namespace NLEditor
         /// <param name="newValue"></param>
         public void SetTeleporterValue(int newValue)
         {
-            System.Diagnostics.Debug.Assert(this.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER), "Teleporter pairing key set for object, that is neither teleporter nor receiver.");            
+            System.Diagnostics.Debug.Assert(ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER), "Teleporter pairing key set for object, that is neither teleporter nor receiver.");            
             Val_L = newValue;
         }
 

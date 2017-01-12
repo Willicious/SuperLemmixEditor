@@ -198,15 +198,15 @@ namespace NLEditor
             if (SelectionList.Count == 1 && SelectionList[0] is GadgetPiece)
             { 
                 GadgetPiece MyGadget = (GadgetPiece)SelectionList[0];
-                lbl_Resize_Width.Visible = MyGadget.ResizeMode.In(C.Resize.Horiz, C.Resize.Both);
+                lbl_Resize_Width.Visible = MyGadget.MayResizeHoriz();
                 num_Resize_Width.Maximum = fCurLevel.Width;
                 num_Resize_Width.Value = Math.Min(Math.Max(MyGadget.SpecWidth, num_Resize_Width.Minimum), num_Resize_Width.Maximum);
-                num_Resize_Width.Visible = MyGadget.ResizeMode.In(C.Resize.Horiz, C.Resize.Both);
+                num_Resize_Width.Visible = MyGadget.MayResizeHoriz();
 
-                lbl_Resize_Height.Visible = MyGadget.ResizeMode.In(C.Resize.Vert, C.Resize.Both);
+                lbl_Resize_Height.Visible = MyGadget.MayResizeVert();
                 num_Resize_Height.Maximum = fCurLevel.Height;
                 num_Resize_Height.Value = Math.Min(Math.Max(MyGadget.SpecHeight, num_Resize_Height.Minimum), num_Resize_Height.Maximum);
-                num_Resize_Height.Visible = MyGadget.ResizeMode.In(C.Resize.Vert, C.Resize.Both);
+                num_Resize_Height.Visible = MyGadget.MayResizeVert();
             }
             else
             {

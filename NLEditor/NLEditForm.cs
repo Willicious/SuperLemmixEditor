@@ -441,7 +441,7 @@ namespace NLEditor
             int NewWidth = (int)num_Resize_Width.Value;
             fCurLevel.SelectionList()
                      .FindAll(item => item is GadgetPiece)
-                     .ForEach(obj => (obj as GadgetPiece).SetSpecWidth(NewWidth));
+                     .ForEach(obj => (obj as GadgetPiece).SpecWidth = NewWidth);
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
@@ -450,7 +450,7 @@ namespace NLEditor
             int NewHeight = (int)num_Resize_Height.Value;
             fCurLevel.SelectionList()
                      .FindAll(item => item is GadgetPiece)
-                     .ForEach(obj => (obj as GadgetPiece).SetSpecHeight(NewHeight));
+                     .ForEach(obj => (obj as GadgetPiece).SpecHeight = NewHeight);
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 

@@ -474,6 +474,7 @@ namespace NLEditor
         {
             fCurLevel.RotatePieces();
             SaveChangesToOldLevelList();
+            UpdateFlagsForPieceActions(); // needed for resizable pieces in selection
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }
 
