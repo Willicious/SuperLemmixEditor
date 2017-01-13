@@ -185,14 +185,13 @@ namespace NLEditor
             check_Pieces_OnlyOnTerrain.CheckedChanged += check_Pieces_OnlyOnTerrain_CheckedChanged;
 
 
-            for (int Skill = 0; Skill < fcheckSkillFlagList.Count; Skill++)
+            foreach (C.Skill skill in checkboxesSkillFlags.Keys)
             {
-                fcheckSkillFlagList[Skill].Enabled = SelectionList.Exists(p => p.MayReceiveSkill(Skill));
-
+                checkboxesSkillFlags[skill].Enabled = SelectionList.Exists(p => p.MayReceiveSkill(skill));
                 // Set check-mark correctly, without firing the CheckedChanged event
-                fcheckSkillFlagList[Skill].CheckedChanged -= check_Piece_Skill_CheckedChanged;
-                fcheckSkillFlagList[Skill].Checked = SelectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).HasSkillFlag(Skill));
-                fcheckSkillFlagList[Skill].CheckedChanged += check_Piece_Skill_CheckedChanged;
+                checkboxesSkillFlags[skill].CheckedChanged -= check_Piece_Skill_CheckedChanged;
+                checkboxesSkillFlags[skill].Checked = SelectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).SkillFlags.Contains(skill));
+                checkboxesSkillFlags[skill].CheckedChanged += check_Piece_Skill_CheckedChanged;
             }
 
             if (SelectionList.Count == 1 && SelectionList[0] is GadgetPiece)

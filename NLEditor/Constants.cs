@@ -105,25 +105,13 @@ namespace NLEditor
         public static readonly int LAY_OBJTOP = 3;
         public static readonly int LAY_TRIGGER = 4;
 
-
-        public static readonly int SKI_COUNT = 16; // count without zombie!
-        public static readonly int SKI_CLIMBER = 0;
-        public static readonly int SKI_FLOATER = 1;
-        public static readonly int SKI_EXPLODER = 2;
-        public static readonly int SKI_BLOCKER = 3;
-        public static readonly int SKI_BUILDER = 4;
-        public static readonly int SKI_BASHER = 5;
-        public static readonly int SKI_MINER = 6;
-        public static readonly int SKI_DIGGER = 7;
-        public static readonly int SKI_WALKER = 8;
-        public static readonly int SKI_SWIMMER = 9;
-        public static readonly int SKI_GLIDER = 10;
-        public static readonly int SKI_DISARMER = 11;
-        public static readonly int SKI_STONER = 12;
-        public static readonly int SKI_PLATFORMER = 13;
-        public static readonly int SKI_STACKER = 14;
-        public static readonly int SKI_CLONER = 15;
-        public static readonly int SKI_ZOMBIE = 16;
+        // The integer values here are only used to pick the correct frame of pickup-skills
+        public enum Skill { Climber = 0, Floater = 1, Bomber = 2, Blocker = 3,
+                            Builder = 4, Basher = 5, Miner = 6, Digger = 7,
+                            Walker = 8, Swimmer = 9, Glider = 10, Disarmer = 11,
+                            Stoner = 12, Platformer = 13, Stacker = 14, Cloner = 15,
+                            Zombie = 16}
+        public static Array SkillArray => Enum.GetValues(typeof(C.Skill));
 
         public static readonly int ZOOM_MIN = -2;
         public static readonly int ZOOM_MAX = 7;

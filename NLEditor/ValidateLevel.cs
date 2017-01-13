@@ -108,7 +108,7 @@ namespace NLEditor
             List<string> IssuesList = new List<string>();
             
             int NumPreplacedAll = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING);
-            int NumPreplacedZombie = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING && obj.HasSkillFlag(C.SKI_ZOMBIE));
+            int NumPreplacedZombie = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING && obj.IsZombie);
             
             // Check whether at least one living lemming exists
             if (fCurLevel.NumLems <= NumZombies())
@@ -139,7 +139,7 @@ namespace NLEditor
         /// <returns></returns>
         private int MaxNumSavedLems()
         {
-            return fCurLevel.NumLems + fCurLevel.SkillCount[C.SKI_CLONER] - NumZombies();
+            return fCurLevel.NumLems + fCurLevel.SkillSet[C.Skill.Cloner] - NumZombies();
         }
 
         /// <summary>
@@ -149,10 +149,10 @@ namespace NLEditor
         private int NumZombies()
         {
             int NumPreplacedAll = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING);
-            int NumPreplacedZombie = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING && obj.HasSkillFlag(C.SKI_ZOMBIE));
+            int NumPreplacedZombie = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING && obj.IsZombie);
             int NumToSpawn = fCurLevel.NumLems - NumPreplacedAll;
             List<bool> IsHatchZombieList = fCurLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.HATCH)
-                                                               .ConvertAll(obj => obj.HasSkillFlag(C.SKI_ZOMBIE));
+                                                               .ConvertAll(obj => obj.IsZombie);
             int NumHatches = Math.Max(IsHatchZombieList.Count, 1);
             int NumZombieHatch = IsHatchZombieList.Count(IsZombie => IsZombie);
 
@@ -195,10 +195,10 @@ namespace NLEditor
             List<string> IssuesList = new List<string>();
             int NumSkillsUsed = 0;
 
-            for (int Skill = 0; Skill < C.SKI_COUNT; Skill++)
+            foreach (C.Skill skill in C.SkillArray)
             {
-                if (fCurLevel.SkillCount[Skill] > 0 ||
-                    fCurLevel.GadgetList.Exists(obj => obj.ObjType == C.OBJ.PICKUP && obj.HasSkillFlag(Skill)))
+                if (fCurLevel.SkillSet[skill] > 0 ||
+                    fCurLevel.GadgetList.Exists(obj => obj.ObjType == C.OBJ.PICKUP && obj.SkillFlags.Contains(skill)))
                 {
                     NumSkillsUsed++;
                 }
@@ -221,7 +221,7 @@ namespace NLEditor
         {
             List<string> IssuesList = new List<string>();
 
-            if (!fCurLevel.GadgetList.Exists(obj => obj.ObjType == C.OBJ.HATCH && !obj.HasSkillFlag(C.SKI_ZOMBIE)))
+            if (!fCurLevel.GadgetList.Exists(obj => obj.ObjType == C.OBJ.HATCH && !obj.IsZombie))
             {
                 int NumPreplacedLems = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING);
                 if (fCurLevel.NumLems > NumPreplacedLems)

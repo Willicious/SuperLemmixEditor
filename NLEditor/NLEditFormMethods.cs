@@ -74,22 +74,10 @@ namespace NLEditor
             CurLevel.IsNoTimeLimit = this.check_Lvl_InfTime.Checked;
             CurLevel.BackgroundKey = this.combo_Background.Text;
 
-            CurLevel.SkillCount[C.SKI_CLIMBER] = Decimal.ToInt32(this.num_Ski_Climber.Value);
-            CurLevel.SkillCount[C.SKI_FLOATER] = Decimal.ToInt32(this.num_Ski_Floater.Value);
-            CurLevel.SkillCount[C.SKI_BLOCKER] = Decimal.ToInt32(this.num_Ski_Blocker.Value);
-            CurLevel.SkillCount[C.SKI_EXPLODER] = Decimal.ToInt32(this.num_Ski_Exploder.Value);
-            CurLevel.SkillCount[C.SKI_BUILDER] = Decimal.ToInt32(this.num_Ski_Builder.Value);
-            CurLevel.SkillCount[C.SKI_BASHER] = Decimal.ToInt32(this.num_Ski_Basher.Value);
-            CurLevel.SkillCount[C.SKI_MINER] = Decimal.ToInt32(this.num_Ski_Miner.Value);
-            CurLevel.SkillCount[C.SKI_DIGGER] = Decimal.ToInt32(this.num_Ski_Digger.Value);
-            CurLevel.SkillCount[C.SKI_WALKER] = Decimal.ToInt32(this.num_Ski_Walker.Value);
-            CurLevel.SkillCount[C.SKI_SWIMMER] = Decimal.ToInt32(this.num_Ski_Swimmer.Value);
-            CurLevel.SkillCount[C.SKI_GLIDER] = Decimal.ToInt32(this.num_Ski_Glider.Value);
-            CurLevel.SkillCount[C.SKI_DISARMER] = Decimal.ToInt32(this.num_Ski_Disarmer.Value);
-            CurLevel.SkillCount[C.SKI_STONER] = Decimal.ToInt32(this.num_Ski_Stoner.Value);
-            CurLevel.SkillCount[C.SKI_PLATFORMER] = Decimal.ToInt32(this.num_Ski_Platformer.Value);
-            CurLevel.SkillCount[C.SKI_STACKER] = Decimal.ToInt32(this.num_Ski_Stacker.Value);
-            CurLevel.SkillCount[C.SKI_CLONER] = Decimal.ToInt32(this.num_Ski_Cloner.Value);
+            foreach (C.Skill skill in numericsSkillSet.Keys)
+            {
+                    CurLevel.SkillSet[skill] = Decimal.ToInt32(numericsSkillSet[skill].Value);
+            }
         }
 
         /// <summary>
@@ -114,22 +102,10 @@ namespace NLEditor
             this.check_Lvl_InfTime.Checked = CurLevel.IsNoTimeLimit;
             this.combo_Background.Text = System.IO.Path.GetFileName(CurLevel.BackgroundKey);
 
-            this.num_Ski_Climber.Value = CurLevel.SkillCount[C.SKI_CLIMBER];
-            this.num_Ski_Floater.Value = CurLevel.SkillCount[C.SKI_FLOATER];
-            this.num_Ski_Blocker.Value = CurLevel.SkillCount[C.SKI_BLOCKER];
-            this.num_Ski_Exploder.Value = CurLevel.SkillCount[C.SKI_EXPLODER];
-            this.num_Ski_Builder.Value = CurLevel.SkillCount[C.SKI_BUILDER];
-            this.num_Ski_Basher.Value = CurLevel.SkillCount[C.SKI_BASHER];
-            this.num_Ski_Miner.Value = CurLevel.SkillCount[C.SKI_MINER];
-            this.num_Ski_Digger.Value = CurLevel.SkillCount[C.SKI_DIGGER];
-            this.num_Ski_Walker.Value = CurLevel.SkillCount[C.SKI_WALKER];
-            this.num_Ski_Swimmer.Value = CurLevel.SkillCount[C.SKI_SWIMMER];
-            this.num_Ski_Glider.Value = CurLevel.SkillCount[C.SKI_GLIDER];
-            this.num_Ski_Disarmer.Value = CurLevel.SkillCount[C.SKI_DISARMER];
-            this.num_Ski_Stoner.Value = CurLevel.SkillCount[C.SKI_STONER];
-            this.num_Ski_Platformer.Value = CurLevel.SkillCount[C.SKI_PLATFORMER];
-            this.num_Ski_Stacker.Value = CurLevel.SkillCount[C.SKI_STACKER];
-            this.num_Ski_Cloner.Value = CurLevel.SkillCount[C.SKI_CLONER];
+            foreach (C.Skill skill in numericsSkillSet.Keys)
+            {
+                numericsSkillSet[skill].Value = CurLevel.SkillSet[skill];
+            }
 
             this.num_Lvl_StartX.Maximum = CurLevel.Width - 320;
             this.num_Lvl_StartY.Maximum = CurLevel.Height - 160;
@@ -550,10 +526,10 @@ namespace NLEditor
         /// Sets skill flags for all selected objects.
         /// </summary>
         /// <param name="Skill"></param>
-        /// <param name="DoAdd"></param>
-        private void SetSkillForObjects(int Skill, bool DoAdd)
+        /// <param name="doAdd"></param>
+        private void SetSkillForObjects(C.Skill skill, bool doAdd)
         {
-            fCurLevel.SetSkillForObjects(Skill, DoAdd);
+            fCurLevel.SetSkillForObjects(skill, doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
         }

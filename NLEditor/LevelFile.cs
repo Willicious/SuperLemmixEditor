@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -11,15 +12,6 @@ namespace NLEditor
     /// </summary>
     static class LevelFile
     {
-        static readonly string[] SKILLNAMES = 
-            { 
-                "    CLIMBER ", "    FLOATER ", "     BOMBER ", "    BLOCKER ",
-                "    BUILDER ", "     BASHER ", "      MINER ", "     DIGGER ",               
-                "     WALKER ", "    SWIMMER ", "     GLIDER ", "   DISARMER ",                  
-                "     STONER ", " PLATFORMER ", "    STACKER ", "     CLONER ",
-                "     ZOMBIE ",
-            };
-        
         /// <summary>
         /// Opens file browser and creates level from a .nxlv file.
         /// <para> Returns null if process is aborted or file is corrupt. </para>
@@ -118,7 +110,9 @@ namespace NLEditor
                         case "RELEAST_RATE_LOCKED": newLevel.IsReleaseRateFix = true; break;
                         case "BACKGROUND": newLevel.BackgroundKey = line.Text; break;
 
-                        case "SKILLSET": ReadSkillSetFromLines(fileLines, newLevel); break;
+                        case "SKILLSET":
+                            ReadSkillSetFromLines(fileLines, newLevel);
+                            newLevel.SkillSet[C.Skill.Zombie] = 0; break;
                         case "OBJECT":
                         case "LEMMING": newLevel.GadgetList.Add(ReadGadgetFromLines(fileLines)); break;
                         case "TERRAIN": newLevel.TerrainList.Add(ReadTerrainFromLines(fileLines)); break;
@@ -145,19 +139,12 @@ namespace NLEditor
         /// <param name="newLevel"></param>
         static private void ReadSkillSetFromLines(List<FileLine> fileLines, Level newLevel)
         {
-            for (int skillIndex = 0; skillIndex < C.SKI_COUNT; skillIndex++)
+            foreach (C.Skill skill in C.SkillArray)
             {
-                FileLine line = fileLines.Find(lin => lin.Key == SKILLNAMES[skillIndex].Trim());
+                FileLine line = fileLines.Find(lin => lin.Key == SkillString(skill));
                 if (line != null)
                 {
-                    if (line.Text == "INFINITE")
-                    {
-                        newLevel.SkillCount[skillIndex] = 100;
-                    }
-                    else
-                    {
-                        newLevel.SkillCount[skillIndex] = line.Value;
-                    }
+                    newLevel.SkillSet[skill] = (line.Text == "INFINITE") ? 100 : line.Value;
                 }
             }
         }
@@ -184,7 +171,7 @@ namespace NLEditor
             bool doInvert = false;
             bool doFlip = false;
             int val_L = 0;
-            int val_S = 0;
+            HashSet<C.Skill> skillFlags = new HashSet<C.Skill>();
 
             foreach (FileLine line in fileLineList)
             {
@@ -210,15 +197,15 @@ namespace NLEditor
             // ... then create the correct Gadget piece
             string key = ImageLibrary.CreatePieceKey(styleName, gadgetName, true);
             Point pos = new Point(posX, posY);
-            GadgetPiece newGadget = new GadgetPiece(key, pos, 0, false, isNoOverwrite, isOnlyOnTerrain, val_L, val_S, specWidth, specHeight);
+            GadgetPiece newGadget = new GadgetPiece(key, pos, 0, false, isNoOverwrite, isOnlyOnTerrain, val_L, skillFlags, specWidth, specHeight);
 
             // Read in skill information
-            for (int skillIndex = 0; skillIndex < C.SKI_COUNT + 1; skillIndex++)
+            foreach (C.Skill skill in C.SkillArray)
             {
-                if (fileLineList.Exists(line => line.Key == SKILLNAMES[skillIndex].Trim()
-                                    || (line.Key == "SKILL" && line.Text == SKILLNAMES[skillIndex].Trim())))
+                if (fileLineList.Exists(line => line.Key == SkillString(skill)
+                                    || (line.Key == "SKILL" && line.Text == SkillString(skill))))
                 {
-                    newGadget.SetSkillFlag(skillIndex, true);
+                    newGadget.SetSkillFlag(skill, true);
                 }
             }
 
@@ -404,17 +391,17 @@ namespace NLEditor
             textFile.WriteLine(" ");
 
             textFile.WriteLine(" $SKILLSET ");
-            for (int SkillNum = 0; SkillNum < C.SKI_COUNT; SkillNum++)
+            foreach (C.Skill skill in C.SkillArray)
             {
-                if (IsSkillRequired(curLevel, SkillNum))
+                if (IsSkillRequired(curLevel, skill))
                 {
-                    if (curLevel.SkillCount[SkillNum] > 99)
+                    if (curLevel.SkillSet[skill] > 99)
                     {
-                        textFile.WriteLine(SKILLNAMES[SkillNum] + "INFINITE");
+                        textFile.WriteLine(PaddedSkillString(skill) + "INFINITE");
                     }
                     else
                     {
-                        textFile.WriteLine(SKILLNAMES[SkillNum] + curLevel.SkillCount[SkillNum].ToString().PadLeft(4));
+                        textFile.WriteLine(PaddedSkillString(skill) + curLevel.SkillSet[skill].ToString().PadLeft(4));
                     }
                 }
             }
@@ -451,10 +438,10 @@ namespace NLEditor
         /// <param name="curLevel"></param>
         /// <param name="skillNum"></param>
         /// <returns></returns>
-        static private bool IsSkillRequired(Level curLevel, int skillNum)
+        static private bool IsSkillRequired(Level curLevel, C.Skill skill)
         {
-            return    (curLevel.SkillCount[skillNum] > 0)
-                   || (curLevel.GadgetList.Exists(gad => gad.ObjType == C.OBJ.PICKUP && gad.Val_S == skillNum));
+            return    (curLevel.SkillSet[skill] > 0)
+                   || (curLevel.GadgetList.Exists(gad => gad.ObjType == C.OBJ.PICKUP && gad.SkillFlags.Contains(skill)));
         }
 
         /// <summary>
@@ -519,22 +506,16 @@ namespace NLEditor
 
             if (gadget.ObjType.In(C.OBJ.HATCH, C.OBJ.LEMMING))
             {
-                for (int SkillNum = 0; SkillNum < C.SKI_COUNT + 1; SkillNum++)
+                foreach (C.Skill skill in gadget.SkillFlags)
                 {
-                    if (gadget.HasSkillFlag(SkillNum))
-                    {
-                        textFile.WriteLine("   " + SKILLNAMES[SkillNum].Trim() + " ");
-                    }
+                    textFile.WriteLine("   " + SkillString(skill) + " ");
                 }
             }
             else if (gadget.ObjType.In(C.OBJ.PICKUP))
             {
-                for (int SkillNum = 0; SkillNum < C.SKI_COUNT + 1; SkillNum++)
+                foreach (C.Skill skill in gadget.SkillFlags)
                 {
-                    if (gadget.HasSkillFlag(SkillNum))
-                    {
-                        textFile.WriteLine("  SKILL" + SKILLNAMES[SkillNum].Trim());
-                    }
+                    textFile.WriteLine("  SKILL" + SkillString(skill));
                 }
             }
 
@@ -587,6 +568,26 @@ namespace NLEditor
             textFile.WriteLine(" ");
         }
 
+        /// <summary>
+        /// Returns the name of the skill as a string.
+        /// </summary>
+        /// <param name="skill"></param>
+        /// <returns></returns>
+        static string SkillString(C.Skill skill)
+        {
+            return Enum.GetName(typeof(C.Skill), skill).ToUpper();
+        }
+
+        
+        /// <summary>
+        /// Returns the name of the skill as a string, padded to length 12.
+        /// </summary>
+        /// <param name="skill"></param>
+        /// <returns></returns>
+        static string PaddedSkillString(C.Skill skill)
+        {
+            return SkillString(skill).PadLeft(11).PadRight(12);
+        }
 
     }
 }

@@ -31,7 +31,7 @@ namespace NLEditor
             SetRepeatButtonIntervals();
             LoadStylesFromFile.AddInitialImagesToLibrary();
 
-            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(NLEditForm_MouseWheel);
+            this.MouseWheel += new MouseEventHandler(NLEditForm_MouseWheel);
 
             fpicPieceList = new List<PictureBox> 
                 { 
@@ -39,14 +39,29 @@ namespace NLEditor
                     this.picPiece4, this.picPiece5, this.picPiece6, this.picPiece7 
                 };
 
-            fcheckSkillFlagList = new List<CheckBox>
-                { 
-                    this.check_Piece_Climber, this.check_Piece_Floater, this.check_Piece_Blocker,
-                    this.check_Piece_Exploder, this.check_Piece_Builder, this.check_Piece_Basher,
-                    this.check_Piece_Miner, this.check_Piece_Digger, this.check_Piece_Walker,
-                    this.check_Piece_Swimmer, this.check_Piece_Glider, this.check_Piece_Disarmer,
-                    this.check_Piece_Stoner, this.check_Piece_Platformer, this.check_Piece_Stacker,
-                    this.check_Piece_Cloner, this.check_Piece_Zombie
+            checkboxesSkillFlags = new Dictionary<C.Skill, CheckBox>()
+                {
+                    { C.Skill.Climber, this.check_Piece_Climber }, { C.Skill.Floater, this.check_Piece_Floater },
+                    { C.Skill.Bomber, this.check_Piece_Exploder }, { C.Skill.Blocker, this.check_Piece_Blocker },
+                    { C.Skill.Builder, this.check_Piece_Builder }, { C.Skill.Basher, this.check_Piece_Basher },
+                    { C.Skill.Miner, this.check_Piece_Miner }, { C.Skill.Digger, this.check_Piece_Digger },
+                    { C.Skill.Walker, this.check_Piece_Walker }, { C.Skill.Swimmer, this.check_Piece_Swimmer },
+                    { C.Skill.Glider, this.check_Piece_Glider }, { C.Skill.Disarmer, this.check_Piece_Disarmer },
+                    { C.Skill.Stoner, this.check_Piece_Stoner }, { C.Skill.Platformer, this.check_Piece_Platformer },
+                    { C.Skill.Stacker, this.check_Piece_Stacker }, { C.Skill.Cloner, this.check_Piece_Cloner },
+                    { C.Skill.Zombie, this.check_Piece_Zombie }
+                };
+
+            numericsSkillSet = new Dictionary<C.Skill, NumericUpDown>()
+                {
+                    { C.Skill.Climber, this.num_Ski_Climber }, { C.Skill.Floater, this.num_Ski_Floater },
+                    { C.Skill.Bomber, this.num_Ski_Exploder }, { C.Skill.Blocker, this.num_Ski_Blocker },
+                    { C.Skill.Builder, this.num_Ski_Builder }, { C.Skill.Basher, this.num_Ski_Basher },
+                    { C.Skill.Miner, this.num_Ski_Miner }, { C.Skill.Digger, this.num_Ski_Digger },
+                    { C.Skill.Walker, this.num_Ski_Walker }, { C.Skill.Swimmer, this.num_Ski_Swimmer },
+                    { C.Skill.Glider, this.num_Ski_Glider }, { C.Skill.Disarmer, this.num_Ski_Disarmer },
+                    { C.Skill.Stoner, this.num_Ski_Stoner }, { C.Skill.Platformer, this.num_Ski_Platformer },
+                    { C.Skill.Stacker, this.num_Ski_Stacker }, { C.Skill.Cloner, this.num_Ski_Cloner }
                 };
 
             CreateStyleList();
@@ -76,7 +91,8 @@ namespace NLEditor
         }
 
         List<PictureBox> fpicPieceList;
-        List<CheckBox> fcheckSkillFlagList;
+        Dictionary<C.Skill, CheckBox> checkboxesSkillFlags;
+        Dictionary<C.Skill, NumericUpDown> numericsSkillSet;
 
         List<Style> fStyleList;
         Style fPieceCurStyle;
@@ -429,9 +445,9 @@ namespace NLEditor
 
         private void check_Piece_Skill_CheckedChanged(object sender, EventArgs e)
         {
-            int Skill = fcheckSkillFlagList.FindIndex(check => check.Equals((CheckBox)sender));
+            C.Skill skill = checkboxesSkillFlags.First(check => check.Value.Equals((CheckBox)sender)).Key;
             bool IsChecked = ((CheckBox)sender).CheckState == CheckState.Checked;
-            SetSkillForObjects(Skill, IsChecked);
+            SetSkillForObjects(skill, IsChecked);
             RemoveFocus();
             this.pic_Level.Image = fCurRenderer.CreateLevelImage();
         }

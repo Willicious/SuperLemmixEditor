@@ -144,7 +144,7 @@ namespace NLEditor
         /// Determines whether this piece can receive a flag for a given skill.
         /// </summary>
         /// <returns></returns>
-        public abstract bool MayReceiveSkill(int skill);
+        public abstract bool MayReceiveSkill(C.Skill skill);
 
         /// <summary>
         /// Rotates the piece around the center of a specified rectangle, if allowed for this piece.
@@ -277,7 +277,7 @@ namespace NLEditor
             return true;
         }
 
-        public override bool MayReceiveSkill(int skill)
+        public override bool MayReceiveSkill(C.Skill skill)
         {
             return false;
         }
@@ -295,19 +295,19 @@ namespace NLEditor
             IsNoOverwrite = !(ObjType == C.OBJ.ONE_WAY_WALL);
             IsOnlyOnTerrain = (ObjType == C.OBJ.ONE_WAY_WALL);
             Val_L = 0;
-            Val_S = 0;
+            SkillFlags = new HashSet<C.Skill>();
             SpecWidth = base.Width;
             SpecHeight = base.Height;
         }
 
         public GadgetPiece(string key, Point pos, int rotation, bool isInvert, bool isNoOverwrite, 
-                           bool isOnlyOnTerrain, int valL, int valS, int specWidth = -1, int specHeight = -1)
+                           bool isOnlyOnTerrain, int valL, HashSet<C.Skill> skillFlags, int specWidth = -1, int specHeight = -1)
             : base(key, true, pos, rotation, isInvert)
         {
             IsNoOverwrite = isNoOverwrite;
             IsOnlyOnTerrain = isOnlyOnTerrain;
             Val_L = valL;
-            Val_S = valS;
+            SkillFlags = new HashSet<C.Skill>(skillFlags);
             SpecWidth = (specWidth > 0) ? specWidth : base.Width;
             SpecHeight = (specHeight > 0) ? specHeight : base.Height;
         }
@@ -315,14 +315,15 @@ namespace NLEditor
         public bool IsNoOverwrite { get; set; }
         public bool IsOnlyOnTerrain { get; set; }
         public int Val_L { get; private set; }
-        public int Val_S { get; private set; }
+        public HashSet<C.Skill> SkillFlags { get; private set; }
+        public bool IsZombie => SkillFlags.Contains(C.Skill.Zombie);
         public int SpecWidth { get; set; }
         public int SpecHeight { get; set; }
 
         public override LevelPiece Clone()
         {
             return new GadgetPiece(Key, Pos, Rotation, IsInvert, IsNoOverwrite, IsOnlyOnTerrain, 
-                                   Val_L, Val_S, SpecWidth, SpecHeight);
+                                   Val_L, SkillFlags, SpecWidth, SpecHeight);
         }
 
 
@@ -337,7 +338,7 @@ namespace NLEditor
                 && this.IsNoOverwrite == piece.IsNoOverwrite
                 && this.IsOnlyOnTerrain == piece.IsOnlyOnTerrain
                 && this.Val_L == piece.Val_L
-                && this.Val_S == piece.Val_S
+                && this.SkillFlags.SetEquals(piece.SkillFlags)
                 && this.SpecWidth == piece.SpecWidth
                 && this.SpecHeight == piece.SpecHeight;
         }
@@ -387,13 +388,11 @@ namespace NLEditor
             if (ObjType == C.OBJ.PICKUP)
             {
                 // Return the index of the skill + 1 or return 0 if no skill is selected
-                int skillNum = C.SKI_COUNT;
-                while (!HasSkillFlag(skillNum) && skillNum >= 0)
+                foreach (C.Skill skill in C.SkillArray)
                 {
-                    skillNum--;
+                    if (SkillFlags.Contains(skill)) return (int)skill + 1;
                 }
-
-                return ++skillNum;
+                return 0;
             }
             else if (ObjType.In(C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE))
             {
@@ -420,23 +419,24 @@ namespace NLEditor
             return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE);
         }
 
-        public override bool MayReceiveSkill(int skill)
+        public override bool MayReceiveSkill(C.Skill skill)
         {
             switch (ObjType)
             {
                 case C.OBJ.HATCH:
                     {
-                        return skill.In(C.SKI_CLIMBER, C.SKI_FLOATER, C.SKI_GLIDER, C.SKI_DISARMER,
-                                        C.SKI_SWIMMER, C.SKI_ZOMBIE); 
+                        return skill.In(C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
+                                        C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Zombie);
                     }
                 case C.OBJ.LEMMING:
                     {
-                        return skill.In(C.SKI_CLIMBER, C.SKI_FLOATER, C.SKI_GLIDER, C.SKI_DISARMER,
-                                        C.SKI_SWIMMER, C.SKI_ZOMBIE, C.SKI_BLOCKER);
+                        return skill.In(C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
+                                        C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Zombie,
+                                        C.Skill.Blocker);
                     }
                 case C.OBJ.PICKUP:
                     {
-                        return skill != C.SKI_ZOMBIE;
+                        return skill != C.Skill.Zombie;
                     }
                 default: return false; 
             }
@@ -465,7 +465,7 @@ namespace NLEditor
         /// </summary>
         /// <param name="skill"></param>
         /// <param name="doAdd"></param>
-        public void SetSkillFlag(int skill, bool doAdd)
+        public void SetSkillFlag(C.Skill skill, bool doAdd)
         {
             if (!MayReceiveSkill(skill)) return;
 
@@ -474,49 +474,26 @@ namespace NLEditor
                 case C.OBJ.HATCH:
                 case C.OBJ.LEMMING:
                     {
-                        if (skill == C.SKI_FLOATER)
+                        if (skill == C.Skill.Floater)
                         {
-                            SetOneSkillFlag(C.SKI_GLIDER, false);
+                            SkillFlags.Remove(C.Skill.Glider);
                         }
-                        else if (skill == C.SKI_GLIDER)
+                        else if (skill == C.Skill.Glider)
                         {
-                            SetOneSkillFlag(C.SKI_FLOATER, false);
+                            SkillFlags.Remove(C.Skill.Floater);
                         }
-                        
-                        SetOneSkillFlag(skill, doAdd);
+
+                        if (doAdd) SkillFlags.Add(skill);
+                        else SkillFlags.Remove(skill);
                         break;
                     }
                 case C.OBJ.PICKUP:
                     {
-                        for (int CurSkill = 0; CurSkill < C.SKI_COUNT; CurSkill++)
-                        {
-                            SetOneSkillFlag(CurSkill, false);
-                        }
-                        SetOneSkillFlag(skill, doAdd);
+                        SkillFlags.Clear();
+                        if (doAdd) SkillFlags.Add(skill);
                         break;
                     }
             }
-        }
-
-        /// <summary>
-        /// Changes the skill flag of this object.
-        /// </summary>
-        /// <param name="skill"></param>
-        /// <param name="doAdd"></param>
-        private void SetOneSkillFlag(int skill, bool doAdd)
-        {
-            Val_L |= 1 << skill; // always true now
-            if (!doAdd) Val_L ^= 1 << skill; // always false now
-        }
-
-        /// <summary>
-        /// Returns whether the object has the flag for a specific skill.
-        /// </summary>
-        /// <param name="skill"></param>
-        /// <returns></returns>
-        public bool HasSkillFlag(int skill)
-        { 
-            return (Val_L & 1 << skill) != 0;
         }
 
         /// <summary>

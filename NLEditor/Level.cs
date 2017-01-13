@@ -71,10 +71,10 @@ namespace NLEditor
             this.TimeLimit = 0;
             this.IsNoTimeLimit = true;
 
-            this.SkillCount = new int[C.SKI_COUNT];
-            for (int i = 0; i < C.SKI_COUNT; i++)
+            this.SkillSet = new Dictionary<C.Skill, int>();
+            foreach (C.Skill skill in C.SkillArray)
             {
-                this.SkillCount[i] = 0;
+                SkillSet.Add(skill, 0);
             }
         }
 
@@ -113,7 +113,7 @@ namespace NLEditor
         public int TimeLimit { get; set; }
         public bool IsNoTimeLimit { get; set; }
 
-        public int[] SkillCount { get; set; }
+        public Dictionary<C.Skill, int> SkillSet { get; set; }
 
         /// <summary>
         /// Creates a deep copy of the level.
@@ -147,10 +147,10 @@ namespace NLEditor
             newLevel.TimeLimit = this.TimeLimit;
             newLevel.IsNoTimeLimit = this.IsNoTimeLimit;
 
-            newLevel.SkillCount = new int[C.SKI_COUNT];
-            for (int skill = 0; skill < C.SKI_COUNT; skill++)
+            newLevel.SkillSet = new Dictionary<C.Skill, int>();
+            foreach (C.Skill skill in C.SkillArray)
             {
-                newLevel.SkillCount[skill] = this.SkillCount[skill];
+                newLevel.SkillSet.Add(skill, this.SkillSet[skill]);
             }
 
             return newLevel;
@@ -432,7 +432,7 @@ namespace NLEditor
         /// Adds or removes a skill flag from all selected objects 
         /// </summary>
         /// <param name="skill"></param>
-        public void SetSkillForObjects(int skill, bool doAdd)
+        public void SetSkillForObjects(C.Skill skill, bool doAdd)
         {
             GadgetList.FindAll(gad => gad.IsSelected)
                       .ForEach(gad => gad.SetSkillFlag(skill, doAdd));
@@ -571,7 +571,7 @@ namespace NLEditor
             var existingPairingValues = GadgetList.FindAll(gad => gad.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
                                                   .ConvertAll(gad => gad.Val_L);
 
-            return Enumerable.Range(1, int.MaxValue)
+            return Enumerable.Range(1, int.MaxValue - 1)
                              .Except(existingPairingValues)
                              .FirstOrDefault();
         }
