@@ -21,11 +21,11 @@ namespace NLEditor
         private void CreateStyleList()
         {
             // get list of all existing style names
-            List<string> StyleNameList = null;
+            List<string> styleNameList = null;
 
             try
             {
-                StyleNameList = System.IO.Directory.GetDirectories(C.AppPathPieces)
+                styleNameList = System.IO.Directory.GetDirectories(C.AppPathPieces)
                                                    .Select(dir => System.IO.Path.GetFileName(dir))
                                                    .ToList();
             }
@@ -38,9 +38,9 @@ namespace NLEditor
             }
 
             // Create the StyleList from the StyleNameList
-            StyleNameList.RemoveAll(sty => sty == "default");
-            fStyleList = StyleNameList.ConvertAll(sty => new Style(sty));
-            fStyleList = LoadStylesFromFile.OrderAndRenameStyles(fStyleList);
+            styleNameList.RemoveAll(sty => sty == "default");
+            StyleList = styleNameList.ConvertAll(sty => new Style(sty));
+            StyleList = LoadStylesFromFile.OrderAndRenameStyles(StyleList);
         }
 
         /// <summary>
@@ -61,16 +61,16 @@ namespace NLEditor
             CurLevel.Title = this.txt_LevelTitle.Text;
             CurLevel.MusicFile = System.IO.Path.GetFileNameWithoutExtension(this.combo_Music.Text);
             CurLevel.MainStyle = ValidateStyleName(this.combo_MainStyle.Text);
-            CurLevel.Width = Decimal.ToInt32(this.num_Lvl_SizeX.Value);
-            CurLevel.Height = Decimal.ToInt32(this.num_Lvl_SizeY.Value);
-            CurLevel.StartPosX = Decimal.ToInt32(this.num_Lvl_StartX.Value);
-            CurLevel.StartPosY = Decimal.ToInt32(this.num_Lvl_StartY.Value);
-            CurLevel.NumLems = Decimal.ToInt32(this.num_Lvl_Lems.Value);
-            CurLevel.SaveReq = Decimal.ToInt32(this.num_Lvl_Rescue.Value);
-            CurLevel.ReleaseRate = Decimal.ToInt32(this.num_Lvl_RR.Value);
+            CurLevel.Width = decimal.ToInt32(this.num_Lvl_SizeX.Value);
+            CurLevel.Height = decimal.ToInt32(this.num_Lvl_SizeY.Value);
+            CurLevel.StartPosX = decimal.ToInt32(this.num_Lvl_StartX.Value);
+            CurLevel.StartPosY = decimal.ToInt32(this.num_Lvl_StartY.Value);
+            CurLevel.NumLems = decimal.ToInt32(this.num_Lvl_Lems.Value);
+            CurLevel.SaveReq = decimal.ToInt32(this.num_Lvl_Rescue.Value);
+            CurLevel.ReleaseRate = decimal.ToInt32(this.num_Lvl_RR.Value);
             CurLevel.IsReleaseRateFix = this.check_Lvl_LockRR.Checked;
-            CurLevel.TimeLimit = Decimal.ToInt32(this.num_Lvl_TimeMin.Value) * 60
-                                    + Decimal.ToInt32(this.num_Lvl_TimeSec.Value);
+            CurLevel.TimeLimit = decimal.ToInt32(this.num_Lvl_TimeMin.Value) * 60
+                                    + decimal.ToInt32(this.num_Lvl_TimeSec.Value);
             CurLevel.IsNoTimeLimit = this.check_Lvl_InfTime.Checked;
             CurLevel.BackgroundKey = this.combo_Background.Text;
 
@@ -116,24 +116,20 @@ namespace NLEditor
         /// </summary>
         private void CreateNewLevelAndRenderer()
         {
-            Style NewMainStyle = null;
-            if (StyleList != null)
-            {
-                NewMainStyle = StyleList.Find(sty => sty.NameInEditor == this.combo_MainStyle.Text);
-            }
-            fCurLevel = new Level(NewMainStyle);
-            fCurRenderer = new Renderer(fCurLevel, this.pic_Level);
+            Style mainStyle = StyleList?.Find(sty => sty.NameInEditor == this.combo_MainStyle.Text);
+            CurLevel = new Level(mainStyle);
+            curRenderer = new Renderer(CurLevel, this.pic_Level);
 
-            fOldLevelList = new List<Level>();
-            fOldLevelList.Add(fCurLevel.Clone());
-            fCurOldLevelIndex = 0;
-            fOldSelectedList = new List<LevelPiece>();
-            fLastSavedLevel = null;
+            oldLevelList = new List<Level>();
+            oldLevelList.Add(CurLevel.Clone());
+            curOldLevelIndex = 0;
+            oldSelectedList = new List<LevelPiece>();
+            lastSavedLevel = null;
 
             WriteLevelInfoToForm();
             UpdateBackgroundImage();
             UpdateFlagsForPieceActions();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -143,24 +139,24 @@ namespace NLEditor
         {
             AskUserWhetherSaveLevel();
             
-            Level NewLevel = LevelFile.LoadLevel(StyleList);
-            if (NewLevel == null) return;
+            Level level = LevelFile.LoadLevel(StyleList);
+            if (level == null) return;
 
-            fCurLevel = NewLevel;
-            fCurRenderer.SetLevel(fCurLevel);
+            CurLevel = level;
+            curRenderer.SetLevel(CurLevel);
             RemoveInvalidLevelPieces();
 
-            fOldLevelList = new List<Level>();
-            fOldLevelList.Add(fCurLevel.Clone());
-            fCurOldLevelIndex = 0;
-            fOldSelectedList = new List<LevelPiece>();
-            fLastSavedLevel = NewLevel.Clone();
+            oldLevelList = new List<Level>();
+            oldLevelList.Add(CurLevel.Clone());
+            curOldLevelIndex = 0;
+            oldSelectedList = new List<LevelPiece>();
+            lastSavedLevel = level.Clone();
 
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
 
-            combo_PieceStyle.Text = fCurLevel.MainStyle.NameInEditor;
+            combo_PieceStyle.Text = CurLevel.MainStyle.NameInEditor;
         }
 
         /// <summary>
@@ -169,22 +165,22 @@ namespace NLEditor
         /// </summary>
         private void RemoveInvalidLevelPieces()
         {
-            if (fCurLevel == null) return;
+            if (CurLevel == null) return;
 
-            HashSet<string> MissingImageNames = new HashSet<string>();
-            fCurLevel.TerrainList.FindAll(ter => !ter.ExistsImage())
-                                 .ForEach(ter => MissingImageNames.Add(ter.Name + " in style " + ter.Style));
-            fCurLevel.GadgetList.FindAll(obj => !obj.ExistsImage())
-                                .ForEach(obj => MissingImageNames.Add(obj.Name + " in style " + obj.Style));
+            HashSet<string> missingImageNames = new HashSet<string>();
+            CurLevel.TerrainList.FindAll(ter => !ter.ExistsImage())
+                                .ForEach(ter => missingImageNames.Add(ter.Name + " in style " + ter.Style));
+            CurLevel.GadgetList.FindAll(gad => !gad.ExistsImage())
+                               .ForEach(gad => missingImageNames.Add(gad.Name + " in style " + gad.Style));
                                  
-            fCurLevel.TerrainList.RemoveAll(ter => !ter.ExistsImage());
-            fCurLevel.GadgetList.RemoveAll(obj => !obj.ExistsImage());
+            CurLevel.TerrainList.RemoveAll(ter => !ter.ExistsImage());
+            CurLevel.GadgetList.RemoveAll(gad => !gad.ExistsImage());
 
-            if (MissingImageNames.Count > 0)
+            if (missingImageNames.Count > 0)
             {
-                string Message = "Warning: The following pieces are unknown: " + C.NewLine;
-                MissingImageNames.ToList().ForEach(str => Message += " " + str + C.NewLine);
-                MessageBox.Show(Message);
+                string message = "Warning: The following pieces are unknown: " + C.NewLine;
+                message += string.Join(C.NewLine + " ", missingImageNames);
+                MessageBox.Show(message);
             }
         }
 
@@ -193,8 +189,8 @@ namespace NLEditor
         /// </summary>
         private void AskUserWhetherSaveLevel()
         {
-            if (fCurLevel.Equals(fLastSavedLevel)) return;
-            if (fCurLevel.TerrainList.Count == 0 && fCurLevel.GadgetList.Count == 0) return;
+            if (CurLevel.Equals(lastSavedLevel)) return;
+            if (CurLevel.TerrainList.Count == 0 && CurLevel.GadgetList.Count == 0) return;
             
             DialogResult dialogResult = MessageBox.Show("Do you want to save this level?", "Save level?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -211,9 +207,9 @@ namespace NLEditor
             // get most up-to-date global info
             ReadLevelInfoFromForm();
 
-            LevelFile.SaveLevel(fCurLevel);
+            LevelFile.SaveLevel(CurLevel);
             SaveChangesToOldLevelList();
-            fLastSavedLevel = fCurLevel.Clone();
+            lastSavedLevel = CurLevel.Clone();
         }
 
         /// <summary>
@@ -221,7 +217,7 @@ namespace NLEditor
         /// </summary>
         private void SaveLevel()
         { 
-            if (fCurLevel.FilePathToSave == null)
+            if (CurLevel.FilePathToSave == null)
             {
                 SaveInNewFileLevel();
             }
@@ -230,9 +226,9 @@ namespace NLEditor
                 // get most up-to-date global info
                 ReadLevelInfoFromForm();
 
-                LevelFile.SaveLevelToFile(fCurLevel.FilePathToSave, fCurLevel);
+                LevelFile.SaveLevelToFile(CurLevel.FilePathToSave, CurLevel);
                 SaveChangesToOldLevelList();
-                fLastSavedLevel = fCurLevel.Clone();
+                lastSavedLevel = CurLevel.Clone();
             }
         }
 
@@ -243,23 +239,23 @@ namespace NLEditor
         {
             SaveChangesToOldLevelList();
             // Save the level as TempTestLevel.nxlv.
-            string OrigFilePath = fCurLevel.FilePathToSave;
-            fCurLevel.FilePathToSave = C.AppPath + "TempTestLevel.nxlv";
+            string origFilePath = CurLevel.FilePathToSave;
+            CurLevel.FilePathToSave = C.AppPath + "TempTestLevel.nxlv";
             SaveLevel();
-            fCurLevel.FilePathToSave = OrigFilePath;
+            CurLevel.FilePathToSave = origFilePath;
 
             // Start the NeoLemmix player.
-            System.Diagnostics.ProcessStartInfo PlayerStartInfo = new System.Diagnostics.ProcessStartInfo();
-            PlayerStartInfo.FileName = C.AppPath + "NeoLemmix.exe";
-            PlayerStartInfo.Arguments = C.AppPath + "TempTestLevel.nxlv";
+            var playerStartInfo = new System.Diagnostics.ProcessStartInfo();
+            playerStartInfo.FileName = C.AppPath + "NeoLemmix.exe";
+            playerStartInfo.Arguments = C.AppPath + "TempTestLevel.nxlv";
 
-            if (!System.IO.File.Exists(PlayerStartInfo.FileName))
+            if (!System.IO.File.Exists(playerStartInfo.FileName))
             {
                 MessageBox.Show("Error: Player NeoLemmix.exe not found in editor directory.");
             }
             else
             {
-                System.Diagnostics.Process.Start(PlayerStartInfo);
+                System.Diagnostics.Process.Start(playerStartInfo);
             }
         }
 
@@ -270,7 +266,7 @@ namespace NLEditor
         {
             ReadLevelInfoFromForm();
 
-            LevelValidator MyValidator = new LevelValidator(fCurLevel);
+            LevelValidator MyValidator = new LevelValidator(CurLevel);
             MyValidator.Validate();
         }
 
@@ -278,14 +274,11 @@ namespace NLEditor
         /// <summary>
         /// Returns a style with the requested name, or null if none such is found. 
         /// </summary>
-        /// <param name="MyForm"></param>
-        /// <param name="NewStyleName"></param>
+        /// <param name="styleName"></param>
         /// <returns></returns>
-        private Style ValidateStyleName(string NewStyleName)
+        private Style ValidateStyleName(string styleName)
         {
-            if (StyleList == null || StyleList.Count == 0) return null;
-
-            return StyleList.Find(sty => sty.NameInEditor == NewStyleName);
+            return StyleList?.Find(sty => sty.NameInEditor == styleName);
         }
 
 
@@ -294,29 +287,27 @@ namespace NLEditor
         /// </summary>
         private void ChangeObjTerrPieceDisplay()
         {
-            fPieceDoDisplayObject = !fPieceDoDisplayObject;
+            pieceDoDisplayObject = !pieceDoDisplayObject;
 
-            fPieceStartIndex = 0;
+            pieceStartIndex = 0;
             LoadPiecesIntoPictureBox();
 
-            this.but_PieceTerrObj.Text = fPieceDoDisplayObject ? "Get Terrain" : "Get Objects";
+            this.but_PieceTerrObj.Text = pieceDoDisplayObject ? "Get Terrain" : "Get Objects";
         }
 
         /// <summary>
         /// Displays new pieces on the piece selection bar.
         /// </summary>
-        /// <param name="Movement"></param>
-        private void MoveTerrPieceSelection(int Movement)
+        /// <param name="movement"></param>
+        private void MoveTerrPieceSelection(int movement)
         {
-            if (fPieceCurStyle == null) return;
-
-            List<string> PieceNameList = fPieceDoDisplayObject ? fPieceCurStyle.ObjectNames : fPieceCurStyle.TerrainNames;
-            if (PieceNameList == null || PieceNameList.Count == 0) return;
+            List<string> pieceNameList = pieceDoDisplayObject ? pieceCurStyle?.ObjectNames : pieceCurStyle?.TerrainNames;
+            if (pieceNameList == null || pieceNameList.Count == 0) return;
 
             // Pass to correct piece index
-            fPieceStartIndex = (fPieceStartIndex + Movement) % PieceNameList.Count;
+            pieceStartIndex = (pieceStartIndex + movement) % pieceNameList.Count;
             // ensure that PieceStartIndex is positive
-            fPieceStartIndex = (fPieceStartIndex + PieceNameList.Count) % PieceNameList.Count;
+            pieceStartIndex = (pieceStartIndex + pieceNameList.Count) % pieceNameList.Count;
 
             LoadPiecesIntoPictureBox();
         }
@@ -324,30 +315,28 @@ namespace NLEditor
         /// <summary>
         /// Changes the style for newly added pieces and displays the new pieces.
         /// </summary>
-        /// <param name="Movement"></param>
-        private void ChangeNewPieceStyleSelection(int Movement)
+        /// <param name="movement"></param>
+        private void ChangeNewPieceStyleSelection(int movement)
         {
             if (StyleList == null || StyleList.Count == 0) return;
 
-            int NewStyleIndex;
+            int newStyleIndex;
 
-            if (fPieceCurStyle == null)
+            int CurStyleIndex = StyleList.FindIndex(sty => sty.Equals(pieceCurStyle));
+            if (CurStyleIndex < 0)
             {
-                NewStyleIndex = ((Movement % StyleList.Count) + StyleList.Count) % StyleList.Count;
+                newStyleIndex = ((movement % StyleList.Count) + StyleList.Count) % StyleList.Count;
             }
             else 
             {
-                int CurStyleIndex = StyleList.FindIndex(sty => sty.Equals(fPieceCurStyle));
-                System.Diagnostics.Debug.Assert(CurStyleIndex != -1, "Current style for new pieces not found in StyleList.");
-
-                NewStyleIndex = Math.Min(Math.Max(CurStyleIndex + Movement, 0), StyleList.Count - 1);
+                newStyleIndex = Math.Min(Math.Max(CurStyleIndex + movement, 0), StyleList.Count - 1);
             }
 
-            fPieceCurStyle = StyleList[NewStyleIndex];
-            fPieceStartIndex = 0;
+            pieceCurStyle = StyleList[newStyleIndex];
+            pieceStartIndex = 0;
             LoadPiecesIntoPictureBox();
 
-            this.combo_PieceStyle.SelectedIndex = NewStyleIndex;
+            this.combo_PieceStyle.SelectedIndex = newStyleIndex;
         }
 
         /// <summary>
@@ -356,15 +345,16 @@ namespace NLEditor
         /// <param name="picPieceIndex"></param>
         private void AddNewPieceToLevel(int picPieceIndex)
         {
-            fCurLevel.UnselectAll();
+            CurLevel.UnselectAll();
             
-            List<string> CurPieceList = fPieceDoDisplayObject ?  fPieceCurStyle.ObjectNames : fPieceCurStyle.TerrainNames;
-            int PieceIndex = (picPieceIndex + fPieceStartIndex) % CurPieceList.Count;
+            List<string> pieceList = pieceDoDisplayObject ?  pieceCurStyle?.ObjectNames : pieceCurStyle?.TerrainNames;
+            if (pieceList == null || pieceList.Count == 0) return;
+            int pieceIndex = (picPieceIndex + pieceStartIndex) % pieceList.Count;
 
-            CurLevel.AddPiece(fPieceCurStyle, fPieceDoDisplayObject, PieceIndex, fCurRenderer.GetCenterPoint());
+            CurLevel.AddPiece(pieceCurStyle, pieceDoDisplayObject, pieceIndex, curRenderer.GetCenterPoint());
 
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -373,24 +363,24 @@ namespace NLEditor
         private void LevelSelectSinglePiece()
         {
             // Check whether MouseStartPos is actually in pic_Level
-            Point? LevelPos = fCurRenderer.GetMousePosInLevel(false);
-            if (LevelPos == null) return;
+            Point? levelPos = curRenderer.GetMousePosInLevel(false);
+            if (levelPos == null) return;
 
-            if (fMouseButtonPressed == MouseButtons.Left)
+            if (mouseButtonPressed == MouseButtons.Left)
             {
                 // Delete all existing selections
-                if (!fIsCtrlPressed)
+                if (!isCtrlPressed)
                 {
-                    fCurLevel.UnselectAll();
+                    CurLevel.UnselectAll();
                 }
                 
                 // Add a single piece
-                fCurLevel.SelectOnePiece((Point)LevelPos, true, fIsAltPressed);
+                CurLevel.SelectOnePiece((Point)levelPos, true, isAltPressed);
             }
-            else if (fMouseButtonPressed == MouseButtons.Middle)
+            else if (mouseButtonPressed == MouseButtons.Middle)
             {
                 // Remove a single piece
-                fCurLevel.SelectOnePiece((Point)LevelPos, false, fIsAltPressed);
+                CurLevel.SelectOnePiece((Point)levelPos, false, isAltPressed);
             }
         }
 
@@ -400,36 +390,36 @@ namespace NLEditor
         private void LevelSelectAreaPieces()
         {
             // Get rectangle from user input
-            Rectangle? SelectArea = fCurRenderer.GetCurSelectionInLevel();
-            if (SelectArea == null) return;
+            Rectangle? selectArea = curRenderer.GetCurSelectionInLevel();
+            if (selectArea == null) return;
 
-            if (fMouseButtonPressed == MouseButtons.Left)
+            if (mouseButtonPressed == MouseButtons.Left)
             {
                 // Delete all existing selections
-                if (!fIsCtrlPressed)
+                if (!isCtrlPressed)
                 {
-                    fCurLevel.UnselectAll();
+                    CurLevel.UnselectAll();
                 }
 
                 // Add all pieces intersection SelectArea
-                fCurLevel.SelectAreaPiece((Rectangle)SelectArea, true);
+                CurLevel.SelectAreaPiece((Rectangle)selectArea, true);
             }
-            else if (fMouseButtonPressed == MouseButtons.Middle)
+            else if (mouseButtonPressed == MouseButtons.Middle)
             {
                 // Remove all pieces intersection SelectArea
-                fCurLevel.SelectAreaPiece((Rectangle)SelectArea, false);
+                CurLevel.SelectAreaPiece((Rectangle)selectArea, false);
             }
         }
 
         /// <summary>
         /// Moves all selected pieces of the level and displays the result.
         /// </summary>
-        /// <param name="Direction"></param>
-        /// <param name="Step"></param>
-        private void MoveLevelPieces(C.DIR Direction, int Step = 1)
+        /// <param name="direction"></param>
+        /// <param name="step"></param>
+        private void MoveLevelPieces(C.DIR direction, int step = 1)
         {
-            fCurLevel.MovePieces(Direction, Step);
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            CurLevel.MovePieces(direction, step);
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -437,10 +427,10 @@ namespace NLEditor
         /// </summary>
         private void DragSelectedPieces()
         {
-            Point DeltaPos = fCurRenderer.GetDeltaPos();
-            fCurLevel.MovePieces(C.DIR.E, DeltaPos.X);
-            fCurLevel.MovePieces(C.DIR.S, DeltaPos.Y);
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            Point deltaPos = curRenderer.GetDeltaPos();
+            CurLevel.MovePieces(C.DIR.E, deltaPos.X);
+            CurLevel.MovePieces(C.DIR.S, deltaPos.Y);
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -448,10 +438,10 @@ namespace NLEditor
         /// </summary>
         private void RotateLevelPieces()
         {
-            fCurLevel.RotatePieces();
+            CurLevel.RotatePieces();
             SaveChangesToOldLevelList();
             UpdateFlagsForPieceActions(); // needed for resizable pieces in selection
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -459,9 +449,9 @@ namespace NLEditor
         /// </summary>
         private void InvertLevelPieces()
         {
-            fCurLevel.InvertPieces();
+            CurLevel.InvertPieces();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -469,67 +459,67 @@ namespace NLEditor
         /// </summary>
         private void FlipLevelPieces()
         {
-            fCurLevel.FlipPieces();
+            CurLevel.FlipPieces();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
         /// Sets the NoOverwrite flag for all selected pieces and displays the result.
         /// </summary>
-        /// <param name="DoAdd"></param>
-        private void SetNoOverwrite(bool DoAdd)
+        /// <param name="doAdd"></param>
+        private void SetNoOverwrite(bool doAdd)
         {
-            fCurLevel.SetNoOverwrite(DoAdd);
+            CurLevel.SetNoOverwrite(doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
         /// Sets the Erase flag for all selected pieces and displays the result.
         /// </summary>
-        /// <param name="DoAdd"></param>
-        private void SetErase(bool DoAdd)
+        /// <param name="doAdd"></param>
+        private void SetErase(bool doAdd)
         {
-            fCurLevel.SetErase(DoAdd);
+            CurLevel.SetErase(doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
         /// Sets the OnlyOnTerrain flag for all selected pieces and displays the result.
         /// </summary>
-        /// <param name="DoAdd"></param>
-        private void SetOnlyOnTerrain(bool DoAdd)
+        /// <param name="doAdd"></param>
+        private void SetOnlyOnTerrain(bool doAdd)
         {
-            fCurLevel.SetOnlyOnTerrain(DoAdd);
+            CurLevel.SetOnlyOnTerrain(doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
         /// Sets the OneWayAdmissible flag for all selected pieces and displays the result.
         /// </summary>
-        /// <param name="DoAdd"></param>
-        private void SetOneWay(bool DoAdd)
+        /// <param name="doAdd"></param>
+        private void SetOneWay(bool doAdd)
         {
-            fCurLevel.SetOneWay(DoAdd);
+            CurLevel.SetOneWay(doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
         /// Sets skill flags for all selected objects.
         /// </summary>
-        /// <param name="Skill"></param>
+        /// <param name="skill"></param>
         /// <param name="doAdd"></param>
         private void SetSkillForObjects(C.Skill skill, bool doAdd)
         {
-            fCurLevel.SetSkillForObjects(skill, doAdd);
+            CurLevel.SetSkillForObjects(skill, doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
         }
@@ -537,12 +527,12 @@ namespace NLEditor
         /// <summary>
         /// Changes the index of all selected pieces and displays the result.
         /// </summary>
-        /// <param name="ToTop"></param>
-        /// <param name="OnlyOneStep"></param>
-        private void MovePieceIndex(bool ToFront, bool OnlyOneStep)
+        /// <param name="toFront"></param>
+        /// <param name="onlyOneStep"></param>
+        private void MovePieceIndex(bool toFront, bool onlyOneStep)
         {
-            fCurLevel.MoveSelectedIndex(ToFront, OnlyOneStep);
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            CurLevel.MoveSelectedIndex(toFront, onlyOneStep);
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -550,11 +540,11 @@ namespace NLEditor
         /// </summary>
         private void SaveChangesToOldLevelList()
         {
-            if (fCurLevel.Equals(fOldLevelList[fCurOldLevelIndex])) return;
+            if (CurLevel.Equals(oldLevelList[curOldLevelIndex])) return;
 
-            fOldLevelList = fOldLevelList.GetRange(0, fCurOldLevelIndex + 1);
-            fOldLevelList.Add(fCurLevel.Clone());
-            fCurOldLevelIndex = fOldLevelList.Count - 1;
+            oldLevelList = oldLevelList.GetRange(0, curOldLevelIndex + 1);
+            oldLevelList.Add(CurLevel.Clone());
+            curOldLevelIndex = oldLevelList.Count - 1;
         }
 
         /// <summary>
@@ -562,12 +552,12 @@ namespace NLEditor
         /// </summary>
         private void LoadFromOldLevelList()
         {
-            fCurLevel = fOldLevelList[fCurOldLevelIndex].Clone();
-            fCurRenderer.SetLevel(fCurLevel);
+            CurLevel = oldLevelList[curOldLevelIndex].Clone();
+            curRenderer.SetLevel(CurLevel);
 
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -575,9 +565,9 @@ namespace NLEditor
         /// </summary>
         private void UndoLastChange()
         {
-            if (fCurOldLevelIndex > 0)
+            if (curOldLevelIndex > 0)
             {
-                fCurOldLevelIndex--;
+                curOldLevelIndex--;
                 LoadFromOldLevelList();
             }
         }
@@ -587,9 +577,9 @@ namespace NLEditor
         /// </summary>
         private void CancelLastUndo()
         {
-            if (fCurOldLevelIndex < fOldLevelList.Count - 1)
+            if (curOldLevelIndex < oldLevelList.Count - 1)
             {
-                fCurOldLevelIndex++;
+                curOldLevelIndex++;
                 LoadFromOldLevelList();
             }
         }
@@ -599,7 +589,7 @@ namespace NLEditor
         /// </summary>
         private void WriteOldSelectedList()
         {
-            fOldSelectedList = fCurLevel.SelectionList().Select(piece => piece.Clone()).ToList();
+            oldSelectedList = CurLevel.SelectionList().Select(piece => piece.Clone()).ToList();
         }
 
         /// <summary>
@@ -607,20 +597,20 @@ namespace NLEditor
         /// </summary>
         private void AddOldSelectedListToLevel()
         {
-            if (fOldSelectedList == null) return;
+            if (oldSelectedList == null) return;
 
-            foreach (LevelPiece Piece in fOldSelectedList)
+            foreach (LevelPiece piece in oldSelectedList)
             {
-                LevelPiece NewPiece = Piece.Clone();
-                NewPiece.IsSelected = true;
+                LevelPiece newPiece = piece.Clone();
+                newPiece.IsSelected = true;
 
-                if (NewPiece is TerrainPiece)
+                if (newPiece is TerrainPiece)
                 {
-                    fCurLevel.TerrainList.Add((TerrainPiece)NewPiece);
+                    CurLevel.TerrainList.Add((TerrainPiece)newPiece);
                 }
-                else if (NewPiece is GadgetPiece)
+                else if (newPiece is GadgetPiece)
                 {
-                    fCurLevel.GadgetList.Add((GadgetPiece)NewPiece);
+                    CurLevel.GadgetList.Add((GadgetPiece)newPiece);
                 }
             }
         }
@@ -631,10 +621,10 @@ namespace NLEditor
         private void CopySelectedPieces()
         {
             WriteOldSelectedList();
-            fCurLevel.UnselectAll();
+            CurLevel.UnselectAll();
             AddOldSelectedListToLevel();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -643,10 +633,10 @@ namespace NLEditor
         private void DeleteSelectedPieces()
         {
             WriteOldSelectedList();
-            fCurLevel.TerrainList.RemoveAll(ter => ter.IsSelected);
-            fCurLevel.GadgetList.RemoveAll(obj => obj.IsSelected);
+            CurLevel.TerrainList.RemoveAll(ter => ter.IsSelected);
+            CurLevel.GadgetList.RemoveAll(obj => obj.IsSelected);
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -654,10 +644,10 @@ namespace NLEditor
         /// </summary>
         private void AddPiecesFromMemory()
         {
-            fCurLevel.UnselectAll();
+            CurLevel.UnselectAll();
             AddOldSelectedListToLevel();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -665,7 +655,7 @@ namespace NLEditor
         /// </summary>
         private void PairTeleporters()
         {
-            fCurLevel.PairTeleporters();
+            CurLevel.PairTeleporters();
             UpdateFlagsForPieceActions();
         }
 

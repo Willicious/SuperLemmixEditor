@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 
@@ -33,7 +29,7 @@ namespace NLEditor
 
             this.MouseWheel += new MouseEventHandler(NLEditForm_MouseWheel);
 
-            fpicPieceList = new List<PictureBox> 
+            picPieceList = new List<PictureBox> 
                 { 
                     this.picPiece0, this.picPiece1, this.picPiece2, this.picPiece3,
                     this.picPiece4, this.picPiece5, this.picPiece6, this.picPiece7 
@@ -77,48 +73,43 @@ namespace NLEditor
             CreateNewLevelAndRenderer();
             UpdateFlagsForPieceActions();
 
-            fPieceStartIndex = 0;
-            fPieceDoDisplayObject = false;
-            fPieceCurStyle = ValidateStyleName(this.combo_PieceStyle.SelectedItem.ToString());
+            pieceStartIndex = 0;
+            pieceDoDisplayObject = false;
+            pieceCurStyle = ValidateStyleName(this.combo_PieceStyle.SelectedItem.ToString());
             LoadPiecesIntoPictureBox();
 
-            fStopWatchKey = new Stopwatch();
-            fStopWatchKey.Start();
-            fStopWatchMouse = new Stopwatch();
-            fStopWatchMouse.Start();
+            stopWatchKey = new Stopwatch();
+            stopWatchKey.Start();
+            stopWatchMouse = new Stopwatch();
+            stopWatchMouse.Start();
 
-            fMouseButtonPressed = null;
+            mouseButtonPressed = null;
         }
 
-        List<PictureBox> fpicPieceList;
         Dictionary<C.Skill, CheckBox> checkboxesSkillFlags;
         Dictionary<C.Skill, NumericUpDown> numericsSkillSet;
 
-        List<Style> fStyleList;
-        Style fPieceCurStyle;
-        int fPieceStartIndex;
-        bool fPieceDoDisplayObject;
+        public List<PictureBox> picPieceList { get; private set; }
+        Style pieceCurStyle;
+        int pieceStartIndex;
+        bool pieceDoDisplayObject;
 
-        Level fCurLevel;
-        Renderer fCurRenderer;
-        List<Level> fOldLevelList;
-        int fCurOldLevelIndex;
-        List<LevelPiece> fOldSelectedList;
-        Level fLastSavedLevel;
+        public Level CurLevel { get; private set; }
+        public List<Style> StyleList { get; private set; }
+        Renderer curRenderer;
+        List<Level> oldLevelList;
+        int curOldLevelIndex;
+        List<LevelPiece> oldSelectedList;
+        Level lastSavedLevel;
 
-        Stopwatch fStopWatchKey;
-        Stopwatch fStopWatchMouse;
-        MouseButtons? fMouseButtonPressed;
+        Stopwatch stopWatchKey;
+        Stopwatch stopWatchMouse;
+        MouseButtons? mouseButtonPressed;
 
-
-        bool fIsShiftPressed;
-        bool fIsCtrlPressed;
-        bool fIsAltPressed;
+        bool isShiftPressed;
+        bool isCtrlPressed;
+        bool isAltPressed;
         
-
-        public List<PictureBox> picPieceList { get { return fpicPieceList; } }
-        public List<Style> StyleList { get { return fStyleList; } }
-        public Level CurLevel { get { return fCurLevel; } }
 
         private void NLEditForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -139,8 +130,8 @@ namespace NLEditor
         private void NLEditForm_Resize(object sender, EventArgs e)
         {
             MoveControlsOnFormResize();
-            fCurRenderer.EnsureScreenPosInLevel();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            curRenderer.EnsureScreenPosInLevel();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         private void tabLvlProperties_Click(object sender, EventArgs e)
@@ -180,38 +171,38 @@ namespace NLEditor
 
         private void clearPhysicsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fCurRenderer.ChangeIsClearPhsyics();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            curRenderer.ChangeIsClearPhsyics();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         private void terrainRenderingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fCurRenderer.ChangeIsTerrainLayer();
-            this.pic_Level.Image = fCurRenderer.CombineLayers();
+            curRenderer.ChangeIsTerrainLayer();
+            this.pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void objectRenderingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fCurRenderer.ChangeIsObjectLayer();
-            this.pic_Level.Image = fCurRenderer.CombineLayers();
+            curRenderer.ChangeIsObjectLayer();
+            this.pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void triggerAreasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fCurRenderer.ChangeIsTriggerLayer();
-            this.pic_Level.Image = fCurRenderer.CombineLayers();
+            curRenderer.ChangeIsTriggerLayer();
+            this.pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void screenStartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fCurRenderer.ChangeIsScreenStart();
-            this.pic_Level.Image = fCurRenderer.CombineLayers();
+            curRenderer.ChangeIsScreenStart();
+            this.pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fCurRenderer.ChangeIsBackgroundLayer();
-            this.pic_Level.Image = fCurRenderer.CombineLayers();
+            curRenderer.ChangeIsBackgroundLayer();
+            this.pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -265,15 +256,15 @@ namespace NLEditor
 
         private void combo_MainStyle_TextChanged(object sender, EventArgs e)
         {
-            Style NewStyle = ValidateStyleName(this.combo_MainStyle.Text);
+            Style newStyle = ValidateStyleName(this.combo_MainStyle.Text);
 
-            if (NewStyle == null || CurLevel == null || NewStyle == CurLevel.MainStyle) return;
+            if (newStyle == null || CurLevel == null || newStyle == CurLevel.MainStyle) return;
 
             // Load new style into PictureBoxes
-            CurLevel.MainStyle = NewStyle;
+            CurLevel.MainStyle = newStyle;
             UpdateBackgroundComboItems();
             UpdateBackgroundImage();
-            this.pic_Level.Image = fCurRenderer.CombineLayers();
+            this.pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void num_Lvl_SizeX_ValueChanged(object sender, EventArgs e)
@@ -281,12 +272,12 @@ namespace NLEditor
             // Adapt max start position
             num_Lvl_StartX.Maximum = num_Lvl_SizeX.Value - 320;
             
-            fCurLevel.Width = (int)num_Lvl_SizeX.Value;
-            fCurLevel.StartPosX = (int)num_Lvl_StartX.Value;
+            CurLevel.Width = (int)num_Lvl_SizeX.Value;
+            CurLevel.StartPosX = (int)num_Lvl_StartX.Value;
 
             // Update screen position and render level
-            fCurRenderer.ChangeZoom(0); 
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            curRenderer.ChangeZoom(0); 
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         private void num_Lvl_SizeY_ValueChanged(object sender, EventArgs e)
@@ -294,12 +285,12 @@ namespace NLEditor
             // Adapt max start position
             num_Lvl_StartY.Maximum = num_Lvl_SizeY.Value - 160;
 
-            fCurLevel.Height = (int)num_Lvl_SizeY.Value;
-            fCurLevel.StartPosY = (int)num_Lvl_StartY.Value;
+            CurLevel.Height = (int)num_Lvl_SizeY.Value;
+            CurLevel.StartPosY = (int)num_Lvl_StartY.Value;
 
             // Update screen position and render level
-            fCurRenderer.ChangeZoom(0);
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            curRenderer.ChangeZoom(0);
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
 
@@ -307,7 +298,7 @@ namespace NLEditor
         {
             CurLevel.BackgroundKey = this.combo_Background.Text;
             UpdateBackgroundImage();
-            this.pic_Level.Image = fCurRenderer.CombineLayers();
+            this.pic_Level.Image = curRenderer.CombineLayers();
         }
 
 
@@ -317,9 +308,9 @@ namespace NLEditor
 
         private void but_RotatePieces_Click(object sender, EventArgs e)
         {
-            if (!but_RotatePieces.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_RotatePieces.Interval() / 2)
+            if (!but_RotatePieces.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_RotatePieces.Interval() / 2)
             {
-                fStopWatchMouse.Restart();
+                stopWatchMouse.Restart();
                 RotateLevelPieces();
             }
         }
@@ -331,9 +322,9 @@ namespace NLEditor
 
         private void but_InvertPieces_Click(object sender, EventArgs e)
         {
-            if (!but_InvertPieces.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_InvertPieces.Interval() / 2)
+            if (!but_InvertPieces.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_InvertPieces.Interval() / 2)
             {
-                fStopWatchMouse.Restart();
+                stopWatchMouse.Restart();
                 InvertLevelPieces();
             }
         }
@@ -345,9 +336,9 @@ namespace NLEditor
 
         private void but_FlipPieces_Click(object sender, EventArgs e)
         {
-            if (!but_FlipPieces.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_FlipPieces.Interval() / 2)
+            if (!but_FlipPieces.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_FlipPieces.Interval() / 2)
             {
-                fStopWatchMouse.Restart();
+                stopWatchMouse.Restart();
                 FlipLevelPieces();
             }
         }
@@ -360,9 +351,9 @@ namespace NLEditor
 
         private void but_MoveFront_Click(object sender, EventArgs e)
         {
-            if (!but_MoveFront.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveFront.Interval() / 2)
+            if (!but_MoveFront.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_MoveFront.Interval() / 2)
             {
-                fStopWatchMouse.Restart();
+                stopWatchMouse.Restart();
                 MovePieceIndex(true, false);
             }
         }
@@ -374,9 +365,9 @@ namespace NLEditor
 
         private void but_MoveBack_Click(object sender, EventArgs e)
         {
-            if (!but_MoveBack.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveBack.Interval() / 2)
+            if (!but_MoveBack.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_MoveBack.Interval() / 2)
             {
-                fStopWatchMouse.Restart();
+                stopWatchMouse.Restart();
                 MovePieceIndex(false, false);
             }
         }
@@ -388,9 +379,9 @@ namespace NLEditor
 
         private void but_MoveFrontOne_Click(object sender, EventArgs e)
         {
-            if (!but_MoveFrontOne.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveFrontOne.Interval() / 2)
+            if (!but_MoveFrontOne.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_MoveFrontOne.Interval() / 2)
             {
-                fStopWatchMouse.Restart();
+                stopWatchMouse.Restart();
                 MovePieceIndex(true, true);
             }
         }
@@ -402,9 +393,9 @@ namespace NLEditor
 
         private void but_MoveBackOne_Click(object sender, EventArgs e)
         {
-            if (!but_MoveBackOne.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveBackOne.Interval() / 2)
+            if (!but_MoveBackOne.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_MoveBackOne.Interval() / 2)
             {
-                fStopWatchMouse.Restart();
+                stopWatchMouse.Restart();
                 MovePieceIndex(false, true);
             }
         }
@@ -417,57 +408,57 @@ namespace NLEditor
 
         private void check_Pieces_Erase_CheckedChanged(object sender, EventArgs e)
         {
-            bool IsChecked = (check_Pieces_Erase.CheckState == CheckState.Checked);
-            SetErase(IsChecked);
+            bool isChecked = (check_Pieces_Erase.CheckState == CheckState.Checked);
+            SetErase(isChecked);
             RemoveFocus();
         }
 
         private void check_Pieces_NoOv_CheckedChanged(object sender, EventArgs e)
         {
-            bool IsChecked = (check_Pieces_NoOv.CheckState == CheckState.Checked);
-            SetNoOverwrite(IsChecked);
+            bool isChecked = (check_Pieces_NoOv.CheckState == CheckState.Checked);
+            SetNoOverwrite(isChecked);
             RemoveFocus();
         }
 
         private void check_Pieces_OnlyOnTerrain_CheckedChanged(object sender, EventArgs e)
         {
-            bool IsChecked = (check_Pieces_OnlyOnTerrain.CheckState == CheckState.Checked);
-            SetOnlyOnTerrain(IsChecked);
+            bool isChecked = (check_Pieces_OnlyOnTerrain.CheckState == CheckState.Checked);
+            SetOnlyOnTerrain(isChecked);
             RemoveFocus();
         }
 
         private void check_Pieces_OneWay_CheckedChanged(object sender, EventArgs e)
         {
-            bool IsChecked = (check_Pieces_OneWay.CheckState == CheckState.Checked);
-            SetOneWay(IsChecked);
+            bool isChecked = (check_Pieces_OneWay.CheckState == CheckState.Checked);
+            SetOneWay(isChecked);
             RemoveFocus();
         }
 
         private void check_Piece_Skill_CheckedChanged(object sender, EventArgs e)
         {
             C.Skill skill = checkboxesSkillFlags.First(check => check.Value.Equals((CheckBox)sender)).Key;
-            bool IsChecked = ((CheckBox)sender).CheckState == CheckState.Checked;
-            SetSkillForObjects(skill, IsChecked);
+            bool isChecked = ((CheckBox)sender).CheckState == CheckState.Checked;
+            SetSkillForObjects(skill, isChecked);
             RemoveFocus();
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         private void num_Resize_Width_ValueChanged(object sender, EventArgs e)
         {
-            int NewWidth = (int)num_Resize_Width.Value;
-            fCurLevel.SelectionList()
-                     .FindAll(item => item is GadgetPiece)
-                     .ForEach(obj => (obj as GadgetPiece).SpecWidth = NewWidth);
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            int newWidth = (int)num_Resize_Width.Value;
+            CurLevel.SelectionList()
+                    .FindAll(item => item is GadgetPiece)
+                    .ForEach(obj => (obj as GadgetPiece).SpecWidth = newWidth);
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         private void num_Resize_Height_ValueChanged(object sender, EventArgs e)
         {
-            int NewHeight = (int)num_Resize_Height.Value;
-            fCurLevel.SelectionList()
-                     .FindAll(item => item is GadgetPiece)
-                     .ForEach(obj => (obj as GadgetPiece).SpecHeight = NewHeight);
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            int newHeight = (int)num_Resize_Height.Value;
+            CurLevel.SelectionList()
+                    .FindAll(item => item is GadgetPiece)
+                    .ForEach(obj => (obj as GadgetPiece).SpecHeight = newHeight);
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         private void but_PairTeleporter_Click(object sender, EventArgs e)
@@ -483,25 +474,25 @@ namespace NLEditor
 
         private void combo_PieceStyle_TextChanged(object sender, EventArgs e)
         {
-            Style NewStyle = ValidateStyleName(this.combo_PieceStyle.Text);
+            Style newStyle = ValidateStyleName(this.combo_PieceStyle.Text);
 
-            if (NewStyle == null || NewStyle == fPieceCurStyle) return;
+            if (newStyle == null || newStyle == pieceCurStyle) return;
 
             // Load new style into PictureBoxes
-            fPieceCurStyle = NewStyle;
-            fPieceStartIndex = 0;
+            pieceCurStyle = newStyle;
+            pieceStartIndex = 0;
             LoadPiecesIntoPictureBox();
         }
 
         private void combo_PieceStyle_Leave(object sender, EventArgs e)
         {
             // Check whether to delete all pieces due to wrong style name
-            Style NewStyle = ValidateStyleName(this.combo_PieceStyle.Text);
+            Style newStyle = ValidateStyleName(this.combo_PieceStyle.Text);
 
-            if (NewStyle == null)
+            if (newStyle == null)
             {
-                fPieceCurStyle = null;
-                fPieceStartIndex = 0;
+                pieceCurStyle = null;
+                pieceStartIndex = 0;
                 ClearPiecesPictureBox();           
             }
         }
@@ -519,26 +510,25 @@ namespace NLEditor
 
         private void but_PieceLeft_Click(object sender, EventArgs e)
         {
-            if (!but_PieceLeft.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_PieceLeft.Interval() / 2)
+            if (!but_PieceLeft.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_PieceLeft.Interval() / 2)
             {
-                fStopWatchMouse.Restart();
+                stopWatchMouse.Restart();
                 
-                int Movement;
-
+                int movement;
                 if (!(e is MouseEventArgs))
                 {
-                    Movement = -1;
+                    movement = -1;
                 }
                 else if ((e as MouseEventArgs).Button == MouseButtons.Right)
                 {
-                    Movement = -fpicPieceList.Count;
+                    movement = -picPieceList.Count;
                 }
                 else
                 {
-                    Movement = -1;
+                    movement = -1;
                 }
 
-                MoveTerrPieceSelection(Movement);
+                MoveTerrPieceSelection(movement);
             }
         }
 
@@ -549,36 +539,34 @@ namespace NLEditor
 
         private void but_PieceRight_Click(object sender, EventArgs e)
         {
-            if (!but_PieceRight.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_PieceRight.Interval() / 2)
+            if (!but_PieceRight.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_PieceRight.Interval() / 2)
             {
-                fStopWatchMouse.Restart();
+                stopWatchMouse.Restart();
 
-                int Movement;
-
+                int movement;
                 if (!(e is MouseEventArgs))
                 {
-                    Movement = 1;
+                    movement = 1;
                 }
                 else if ((e as MouseEventArgs).Button == MouseButtons.Right)
                 {
-                    Movement = fpicPieceList.Count;
+                    movement = picPieceList.Count;
                 }
                 else
                 {
-                    Movement = 1;
+                    movement = 1;
                 }
 
-                MoveTerrPieceSelection(Movement);
+                MoveTerrPieceSelection(movement);
             }
         }
 
         private void picPieces_Click(object sender, EventArgs e)
         {
-            int PicIndex = fpicPieceList.FindIndex(pic => pic.Equals(sender));
+            int picIndex = picPieceList.FindIndex(pic => pic.Equals(sender));
+            Debug.Assert(picIndex != -1, "PicBox not found in picPieceList.");
 
-            System.Diagnostics.Debug.Assert(PicIndex != -1, "PicBox not found in ´fpicPieceList.");
-
-            AddNewPieceToLevel(PicIndex);
+            AddNewPieceToLevel(picIndex);
             UpdateFlagsForPieceActions();
             RemoveFocus();
         }
@@ -592,13 +580,13 @@ namespace NLEditor
         {
             switch (e.KeyCode)
             {
-                case Keys.ShiftKey: fIsShiftPressed = true; break;
-                case Keys.ControlKey: fIsCtrlPressed = true; break;
-                case Keys.Menu: fIsAltPressed = true; break;
+                case Keys.ShiftKey: isShiftPressed = true; break;
+                case Keys.ControlKey: isCtrlPressed = true; break;
+                case Keys.Menu: isAltPressed = true; break;
             }
 
             
-            if (fStopWatchKey.ElapsedMilliseconds < 50) return;
+            if (stopWatchKey.ElapsedMilliseconds < 50) return;
 
             // The main key-handling routine
             if (e.KeyCode == Keys.Escape || (e.Alt && e.KeyCode == Keys.F4))
@@ -695,23 +683,23 @@ namespace NLEditor
             }
             else if (e.Shift && e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
             {
-                int KeyValue = e.KeyValue - (int)Keys.D0;
-                if (KeyValue == 0) KeyValue = 10;
+                int keyValue = e.KeyValue - (int)Keys.D0;
+                if (keyValue == 0) keyValue = 10;
 
-                if (picPieceList.Count >= KeyValue)
+                if (picPieceList.Count >= keyValue)
                 {
-                    AddNewPieceToLevel(KeyValue - 1);
+                    AddNewPieceToLevel(keyValue - 1);
                     UpdateFlagsForPieceActions();
                 }
             }
             else if (e.Shift && e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
             {
-                int KeyValue = e.KeyValue - (int)Keys.NumPad0;
-                if (KeyValue == 0) KeyValue = 10;
+                int keyValue = e.KeyValue - (int)Keys.NumPad0;
+                if (keyValue == 0) keyValue = 10;
 
-                if (picPieceList.Count >= KeyValue)
+                if (picPieceList.Count >= keyValue)
                 {
-                    AddNewPieceToLevel(KeyValue - 1);
+                    AddNewPieceToLevel(keyValue - 1);
                     UpdateFlagsForPieceActions();
                 }
             }
@@ -775,7 +763,6 @@ namespace NLEditor
             {
                 check_Pieces_OneWay.Checked = !check_Pieces_OneWay.Checked;
             }
-
             else if (e.KeyCode == Keys.Enter)
             {
                 RemoveFocus();
@@ -785,16 +772,16 @@ namespace NLEditor
                 return; // and don't restart the StopWatch
             }
 
-            fStopWatchKey.Restart();
+            stopWatchKey.Restart();
         }
 
         private void NLEditForm_KeyUp(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
-                case Keys.ShiftKey: fIsShiftPressed = false; break;
-                case Keys.ControlKey: fIsCtrlPressed = false; break;
-                case Keys.Menu: fIsAltPressed = false; break;
+                case Keys.ShiftKey: isShiftPressed = false; break;
+                case Keys.ControlKey: isCtrlPressed = false; break;
+                case Keys.Menu: isAltPressed = false; break;
             }
 
             if (e.KeyCode.In(Keys.Right, Keys.Left, Keys.Up, Keys.Down))
@@ -805,66 +792,66 @@ namespace NLEditor
 
         private void NLEditForm_MouseWheel(object sender, MouseEventArgs e)
         {
-            int Movement = e.Delta / SystemInformation.MouseWheelScrollDelta;
-            Point MousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
-            Rectangle PicLevelRect = new Rectangle(0, 0, pic_Level.Width, pic_Level.Height);
+            int movement = e.Delta / SystemInformation.MouseWheelScrollDelta;
+            Point mousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
+            Rectangle picLevelRect = new Rectangle(0, 0, pic_Level.Width, pic_Level.Height);
 
-            if (PicLevelRect.Contains(MousePosRelPicLevel))
+            if (picLevelRect.Contains(mousePosRelPicLevel))
             {
-                fCurRenderer.ChangeZoom(Movement > 0 ? 1 : -1, MousePosRelPicLevel);
+                curRenderer.ChangeZoom(movement > 0 ? 1 : -1, mousePosRelPicLevel);
             }
             else
             {
-                fCurRenderer.ChangeZoom(Movement > 0 ? 1 : -1);
+                curRenderer.ChangeZoom(movement > 0 ? 1 : -1);
             }
 
             // Update level image
-            this.pic_Level.Image = fCurRenderer.CombineLayers();
+            this.pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void pic_Level_MouseDown(object sender, MouseEventArgs e)
         {
-            fMouseButtonPressed = e.Button;
-            fCurRenderer.MouseStartPos = e.Location;
-            fCurRenderer.MouseCurPos = e.Location;
-            fStopWatchMouse.Restart();
+            mouseButtonPressed = e.Button;
+            curRenderer.MouseStartPos = e.Location;
+            curRenderer.MouseCurPos = e.Location;
+            stopWatchMouse.Restart();
 
-            bool HasSelectedPieceAtPos = fCurRenderer.GetMousePosInLevel() != null 
-                                       && fCurLevel.HasSelectionAtPos((Point)fCurRenderer.GetMousePosInLevel());
+            bool hasSelectedPieceAtPos = curRenderer.GetMousePosInLevel() != null 
+                                       && CurLevel.HasSelectionAtPos((Point)curRenderer.GetMousePosInLevel());
 
             if (e.Button == MouseButtons.Right)
             {
-                fCurRenderer.MouseDragAction = C.DragActions.MoveEditorPos;
+                curRenderer.MouseDragAction = C.DragActions.MoveEditorPos;
             }
-            else if (HasSelectedPieceAtPos && !fIsAltPressed && !fIsCtrlPressed && !fIsShiftPressed)
+            else if (hasSelectedPieceAtPos && !isAltPressed && !isCtrlPressed && !isShiftPressed)
             {
-                fCurRenderer.MouseDragAction = C.DragActions.DragPieces;
+                curRenderer.MouseDragAction = C.DragActions.DragPieces;
             }
             else
             {
-                fCurRenderer.MouseDragAction = C.DragActions.SelectArea;
+                curRenderer.MouseDragAction = C.DragActions.SelectArea;
             }
         }
 
         private void pic_Level_MouseMove(object sender, MouseEventArgs e)
         {
-            if (fCurRenderer.MouseStartPos == null) return;
+            if (curRenderer.MouseStartPos == null) return;
 
-            fCurRenderer.MouseCurPos = e.Location;
+            curRenderer.MouseCurPos = e.Location;
 
-            switch (fCurRenderer.MouseDragAction)
+            switch (curRenderer.MouseDragAction)
             {
                 case C.DragActions.SelectArea:
                 case C.DragActions.MoveEditorPos:
                     {
-                        this.pic_Level.Image = fCurRenderer.CombineLayers();
+                        this.pic_Level.Image = curRenderer.CombineLayers();
                         break;
                     }
                 case C.DragActions.DragPieces:
                     {
                         DragSelectedPieces();
-                        fCurRenderer.MouseStartPos = fCurRenderer.MouseCurPos;
-                        fCurRenderer.MouseCurPos = null;
+                        curRenderer.MouseStartPos = curRenderer.MouseCurPos;
+                        curRenderer.MouseCurPos = null;
                         break;
                     }
             }
@@ -873,13 +860,13 @@ namespace NLEditor
 
         private void pic_Level_MouseUp(object sender, MouseEventArgs e)
         {
-            fCurRenderer.MouseCurPos = e.Location;
+            curRenderer.MouseCurPos = e.Location;
 
-            switch (fCurRenderer.MouseDragAction)
+            switch (curRenderer.MouseDragAction)
             {
                 case C.DragActions.SelectArea:
                     {
-                        if (fStopWatchMouse.ElapsedMilliseconds < 200) // usual click takes <100ms
+                        if (stopWatchMouse.ElapsedMilliseconds < 200) // usual click takes <100ms
                         {
                             LevelSelectSinglePiece();
                         }
@@ -891,7 +878,7 @@ namespace NLEditor
                     }
                 case C.DragActions.MoveEditorPos:
                     {
-                        fCurRenderer.UpdateScreenPos();
+                        curRenderer.UpdateScreenPos();
                         break;
                     }
                 case C.DragActions.DragPieces:
@@ -903,14 +890,14 @@ namespace NLEditor
             }
 
             // Delete mouse selection area...
-            fCurRenderer.MouseStartPos = null;
-            fCurRenderer.MouseCurPos = null;
-            fCurRenderer.MouseDragAction = C.DragActions.Null;
+            curRenderer.MouseStartPos = null;
+            curRenderer.MouseCurPos = null;
+            curRenderer.MouseDragAction = C.DragActions.Null;
             // ...before updating the level image
-            this.pic_Level.Image = fCurRenderer.CreateLevelImage();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
             UpdateFlagsForPieceActions();
 
-            fMouseButtonPressed = null;
+            mouseButtonPressed = null;
             RemoveFocus();
         }
 

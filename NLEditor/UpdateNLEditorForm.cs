@@ -35,19 +35,17 @@ namespace NLEditor
         /// <summary>
         /// Displays the correct piece images for the piece selection.
         /// </summary>
-        /// <param name="MyForm"></param>
-        /// <param name="NewStyle"></param>
         private void LoadPiecesIntoPictureBox()
         {
-            if (fPieceCurStyle == null)
+            if (pieceCurStyle == null)
             {
                 ClearPiecesPictureBox();
                 return;
             }
 
             // Get correct list of piece names
-            List<string> ThisPieceNameList = fPieceDoDisplayObject ? fPieceCurStyle.ObjectNames : fPieceCurStyle.TerrainNames;
-            if (ThisPieceNameList == null || ThisPieceNameList.Count == 0)
+            var pieceNameList = pieceDoDisplayObject ? pieceCurStyle.ObjectNames : pieceCurStyle.TerrainNames;
+            if (pieceNameList == null || pieceNameList.Count == 0)
             {
                 ClearPiecesPictureBox();
                 return;
@@ -56,17 +54,17 @@ namespace NLEditor
             // load correct pictures
             for (int i = 0; i < picPieceList.Count; i++)
             {
-                string ThisPieceName = ThisPieceNameList[(fPieceStartIndex + i) % ThisPieceNameList.Count];
-                if (ThisPieceName.StartsWith("default") && ImageLibrary.GetObjType(ThisPieceName) == C.OBJ.ONE_WAY_WALL)
+                string pieceName = pieceNameList[(pieceStartIndex + i) % pieceNameList.Count];
+                if (pieceName.StartsWith("default") && ImageLibrary.GetObjType(pieceName) == C.OBJ.ONE_WAY_WALL)
                 {
-                    picPieceList[i].Image = GetRecoloredOWW(ThisPieceName);
+                    picPieceList[i].Image = GetRecoloredOWW(pieceName);
                 }
                 else
                 {
-                    int FrameIndex = (ImageLibrary.GetObjType(ThisPieceName).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE)) ? 1 : 0;
-                    picPieceList[i].Image = ImageLibrary.GetImage(ThisPieceName, RotateFlipType.RotateNoneFlipNone, FrameIndex);
+                    int frameIndex = (ImageLibrary.GetObjType(pieceName).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE)) ? 1 : 0;
+                    picPieceList[i].Image = ImageLibrary.GetImage(pieceName, RotateFlipType.RotateNoneFlipNone, frameIndex);
                 }
-                SetToolTipsForPicPiece(picPieceList[i], ThisPieceName);
+                SetToolTipsForPicPiece(picPieceList[i], pieceName);
             }
 
             return;
@@ -75,20 +73,17 @@ namespace NLEditor
         /// <summary>
         /// Returns a recolored OWW according to the OWW color of the current main style.
         /// </summary>
-        /// <param name="PieceName"></param>
+        /// <param name="pieceName"></param>
         /// <returns></returns>
-        private Bitmap GetRecoloredOWW(string PieceName)
-        { 
-            Color OWWColor = Color.Linen;            
-            if (fCurLevel.MainStyle != null)
-            {
-                OWWColor = fCurLevel.MainStyle.GetColor(C.StyleColor.ONE_WAY_WALL);
-            }
-            BmpModify.SetCustomDrawMode((x, y) => new byte[]{ OWWColor.B, OWWColor.G, OWWColor.R, 255 }, null);
-            Bitmap OrigBmp = ImageLibrary.GetImage(PieceName, RotateFlipType.RotateNoneFlipNone);
-            Bitmap NewBmp = new Bitmap(OrigBmp.Width, OrigBmp.Height);
-            NewBmp.DrawOn(OrigBmp, new Point(0, 0), C.CustDrawMode.Custom);
-            return NewBmp;
+        private Bitmap GetRecoloredOWW(string pieceName)
+        {
+            Color owwColor = CurLevel.MainStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? Color.Linen;
+            byte[] owwColorbytes = new byte[] { owwColor.B, owwColor.G, owwColor.R, 255 };
+            BmpModify.SetCustomDrawMode((x, y) => owwColorbytes, null);
+            Bitmap origBmp = ImageLibrary.GetImage(pieceName, RotateFlipType.RotateNoneFlipNone);
+            Bitmap newBmp = new Bitmap(origBmp.Width, origBmp.Height);
+            newBmp.DrawOn(origBmp, new Point(0, 0), C.CustDrawMode.Custom);
+            return newBmp;
         }
 
 
@@ -108,37 +103,30 @@ namespace NLEditor
         /// <summary>
         /// Sets the correct tool tips for piece selection picture boxes.
         /// </summary>
-        private void SetToolTipsForPicPiece(PictureBox MypicPiece, string PieceKey)
+        /// <param name="picPiece"></param>
+        /// <param name="pieceKey"></param>
+        private void SetToolTipsForPicPiece(PictureBox picPiece, string pieceKey)
         {
-            string ToolTipText = "";
-            C.OBJ PieceObjType = (PieceKey == null) ? C.OBJ.NULL : ImageLibrary.GetObjType(PieceKey);
-            if (C.TooltipList.ContainsKey(PieceObjType))
+            string toolTipText = "unknown";
+            C.OBJ pieceObjType = (pieceKey == null) ? C.OBJ.NULL : ImageLibrary.GetObjType(pieceKey);
+            if (C.TooltipList.ContainsKey(pieceObjType))
             {
-                ToolTipText = C.TooltipList[PieceObjType];
+                toolTipText = C.TooltipList[pieceObjType];
             }
 
-            toolTipPieces.SetToolTip(MypicPiece, ToolTipText);
+            toolTipPieces.SetToolTip(picPiece, toolTipText);
         }
 
         /// <summary>
         /// Updates the background color of the main level image and the piece selection according to the current main style.
         /// </summary>
-        /// <param name="MyForm"></param>
-        /// <param name="NewStyle"></param>
         private void UpdateBackgroundImage()
         {
-            if (fCurLevel.MainStyle == null) return;
+            if (CurLevel.MainStyle == null) return;
+            Color backColor = CurLevel.MainStyle.GetColor(C.StyleColor.BACKGROUND);
 
-            Color NewBackColor = fCurLevel.MainStyle.GetColor(C.StyleColor.BACKGROUND);
-            if (NewBackColor == null) return;
-
-            picPieceList.ForEach(pic => pic.BackColor = NewBackColor);
-
-            // recreate level with the new background color/image (assuming we already have a renderer)
-            if (fCurRenderer != null)
-            {
-                fCurRenderer.CreateBackgroundLayer();
-            }
+            picPieceList.ForEach(pic => pic.BackColor = backColor);
+            curRenderer?.CreateBackgroundLayer();
         }
 
         /// <summary>
@@ -146,64 +134,64 @@ namespace NLEditor
         /// </summary>
         private void UpdateFlagsForPieceActions()
         {
-            List<LevelPiece> SelectionList = fCurLevel.SelectionList();
+            List<LevelPiece> selectionList = CurLevel.SelectionList();
 
-            but_RotatePieces.Enabled = SelectionList.Exists(p => p.MayRotate());
-            but_FlipPieces.Enabled = SelectionList.Exists(p => p.MayFlip());
-            but_InvertPieces.Enabled = SelectionList.Exists(p => p.MayInvert());
-
-
-            but_MoveBack.Enabled = (SelectionList.Count > 0);
-            but_MoveFront.Enabled = (SelectionList.Count > 0);
-            but_MoveBackOne.Enabled = (SelectionList.Count > 0);
-            but_MoveFrontOne.Enabled = (SelectionList.Count > 0);
+            but_RotatePieces.Enabled = selectionList.Exists(p => p.MayRotate());
+            but_FlipPieces.Enabled = selectionList.Exists(p => p.MayFlip());
+            but_InvertPieces.Enabled = selectionList.Exists(p => p.MayInvert());
 
 
-            check_Pieces_NoOv.Enabled = (SelectionList.Count > 0);
+            but_MoveBack.Enabled = (selectionList.Count > 0);
+            but_MoveFront.Enabled = (selectionList.Count > 0);
+            but_MoveBackOne.Enabled = (selectionList.Count > 0);
+            but_MoveFrontOne.Enabled = (selectionList.Count > 0);
+
+
+            check_Pieces_NoOv.Enabled = (selectionList.Count > 0);
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_NoOv.CheckedChanged -= check_Pieces_NoOv_CheckedChanged;
-            check_Pieces_NoOv.Checked = SelectionList.Exists(p => (p is GadgetPiece && (p as GadgetPiece).IsNoOverwrite) 
+            check_Pieces_NoOv.Checked = selectionList.Exists(p => (p is GadgetPiece && (p as GadgetPiece).IsNoOverwrite) 
                                                                || (p is TerrainPiece && (p as TerrainPiece).IsNoOverwrite));
             check_Pieces_NoOv.CheckedChanged += check_Pieces_NoOv_CheckedChanged;
 
-            check_Pieces_Erase.Enabled = SelectionList.Exists(p => p is TerrainPiece);
+            check_Pieces_Erase.Enabled = selectionList.Exists(p => p is TerrainPiece);
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_Erase.CheckedChanged -= check_Pieces_Erase_CheckedChanged;
-            check_Pieces_Erase.Checked = SelectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsErase);
+            check_Pieces_Erase.Checked = selectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsErase);
             check_Pieces_Erase.CheckedChanged += check_Pieces_Erase_CheckedChanged;
             
-            check_Pieces_OneWay.Enabled = SelectionList.Exists(p => p is TerrainPiece && !(p as TerrainPiece).IsSteel);
+            check_Pieces_OneWay.Enabled = selectionList.Exists(p => p is TerrainPiece && !(p as TerrainPiece).IsSteel);
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_OneWay.CheckedChanged -= check_Pieces_OneWay_CheckedChanged;
-            check_Pieces_OneWay.Checked = SelectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsOneWay);
+            check_Pieces_OneWay.Checked = selectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsOneWay);
             check_Pieces_OneWay.CheckedChanged += check_Pieces_OneWay_CheckedChanged;
 
-            check_Pieces_OnlyOnTerrain.Enabled = SelectionList.Exists(p => p is GadgetPiece);
+            check_Pieces_OnlyOnTerrain.Enabled = selectionList.Exists(p => p is GadgetPiece);
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_OnlyOnTerrain.CheckedChanged -= check_Pieces_OnlyOnTerrain_CheckedChanged;
-            check_Pieces_OnlyOnTerrain.Checked = SelectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).IsOnlyOnTerrain);
+            check_Pieces_OnlyOnTerrain.Checked = selectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).IsOnlyOnTerrain);
             check_Pieces_OnlyOnTerrain.CheckedChanged += check_Pieces_OnlyOnTerrain_CheckedChanged;
 
 
             foreach (C.Skill skill in checkboxesSkillFlags.Keys)
             {
-                checkboxesSkillFlags[skill].Enabled = SelectionList.Exists(p => p.MayReceiveSkill(skill));
+                checkboxesSkillFlags[skill].Enabled = selectionList.Exists(p => p.MayReceiveSkill(skill));
                 // Set check-mark correctly, without firing the CheckedChanged event
                 checkboxesSkillFlags[skill].CheckedChanged -= check_Piece_Skill_CheckedChanged;
-                checkboxesSkillFlags[skill].Checked = SelectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).SkillFlags.Contains(skill));
+                checkboxesSkillFlags[skill].Checked = selectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).SkillFlags.Contains(skill));
                 checkboxesSkillFlags[skill].CheckedChanged += check_Piece_Skill_CheckedChanged;
             }
 
-            if (SelectionList.Count == 1 && SelectionList[0] is GadgetPiece)
+            if (selectionList.Count == 1 && selectionList[0] is GadgetPiece)
             { 
-                GadgetPiece MyGadget = (GadgetPiece)SelectionList[0];
+                GadgetPiece MyGadget = (GadgetPiece)selectionList[0];
                 lbl_Resize_Width.Visible = MyGadget.MayResizeHoriz();
-                num_Resize_Width.Maximum = fCurLevel.Width;
+                num_Resize_Width.Maximum = CurLevel.Width;
                 num_Resize_Width.Value = Math.Min(Math.Max(MyGadget.SpecWidth, num_Resize_Width.Minimum), num_Resize_Width.Maximum);
                 num_Resize_Width.Visible = MyGadget.MayResizeHoriz();
 
                 lbl_Resize_Height.Visible = MyGadget.MayResizeVert();
-                num_Resize_Height.Maximum = fCurLevel.Height;
+                num_Resize_Height.Maximum = CurLevel.Height;
                 num_Resize_Height.Value = Math.Min(Math.Max(MyGadget.SpecHeight, num_Resize_Height.Minimum), num_Resize_Height.Maximum);
                 num_Resize_Height.Visible = MyGadget.MayResizeVert();
             }
@@ -215,12 +203,12 @@ namespace NLEditor
                 num_Resize_Height.Visible = false;
             }
 
-            if (SelectionList.Count == 2
-                && SelectionList.Exists(item => item.ObjType == C.OBJ.TELEPORTER)
-                && SelectionList.Exists(item => item.ObjType == C.OBJ.RECEIVER))
+            if (selectionList.Count == 2
+                && selectionList.Exists(item => item.ObjType == C.OBJ.TELEPORTER)
+                && selectionList.Exists(item => item.ObjType == C.OBJ.RECEIVER))
             {
-                GadgetPiece MyTeleporter = (GadgetPiece)SelectionList.Find(item => item.ObjType == C.OBJ.TELEPORTER);
-                GadgetPiece MyReceiver = (GadgetPiece)SelectionList.Find(item => item.ObjType == C.OBJ.RECEIVER);
+                GadgetPiece MyTeleporter = (GadgetPiece)selectionList.Find(item => item.ObjType == C.OBJ.TELEPORTER);
+                GadgetPiece MyReceiver = (GadgetPiece)selectionList.Find(item => item.ObjType == C.OBJ.RECEIVER);
 
                 if (MyTeleporter.Val_L > 0 && MyTeleporter.Val_L == MyReceiver.Val_L)
                 {
@@ -259,8 +247,8 @@ namespace NLEditor
             but_PieceRight.Top = this.Height - 122;
             but_PieceRight.Left = this.Width - 44;
 
-            bool UpdateImages = MovePicPiecesOnResize();
-            if (UpdateImages)
+            bool updateImages = MovePicPiecesOnResize();
+            if (updateImages)
             {
                 UpdateBackgroundImage();
                 LoadPiecesIntoPictureBox();
@@ -273,30 +261,30 @@ namespace NLEditor
         /// <returns></returns>
         private bool MovePicPiecesOnResize()
         {
-            fpicPieceList.ForEach(pic => pic.Top = this.Height - 122);
+            picPieceList.ForEach(pic => pic.Top = this.Height - 122);
 
-            int NumPicPieces = (this.Width - 170) / 90 + 1;
+            int numPicPieces = (this.Width - 170) / 90 + 1;
 
-            while (fpicPieceList.Count > NumPicPieces)
+            while (picPieceList.Count > numPicPieces)
             {
-                PictureBox OldPicPieces = fpicPieceList[fpicPieceList.Count - 1];
-                fpicPieceList.Remove(OldPicPieces);
-                this.Controls.Remove(OldPicPieces);
-                OldPicPieces.Dispose();
+                PictureBox oldPicPieces = picPieceList[picPieceList.Count - 1];
+                picPieceList.Remove(oldPicPieces);
+                this.Controls.Remove(oldPicPieces);
+                oldPicPieces.Dispose();
             }
 
-            bool NeedUpdatePicPieceImages = (fpicPieceList.Count < NumPicPieces);
-            while (fpicPieceList.Count < NumPicPieces)
+            bool needUpdatePicPieceImages = (picPieceList.Count < numPicPieces);
+            while (picPieceList.Count < numPicPieces)
             {
-                fpicPieceList.Add(CreatePicPiece());
+                picPieceList.Add(CreatePicPiece());
             }
 
-            for (int PicPieceIndex = 0; PicPieceIndex < NumPicPieces; PicPieceIndex++)
+            for (int picPieceIndex = 0; picPieceIndex < numPicPieces; picPieceIndex++)
             {
-                fpicPieceList[PicPieceIndex].Left = 36 + PicPieceIndex * (this.Width - 170) / (NumPicPieces - 1);
+                picPieceList[picPieceIndex].Left = 36 + picPieceIndex * (this.Width - 170) / (numPicPieces - 1);
             }
 
-            return NeedUpdatePicPieceImages;
+            return needUpdatePicPieceImages;
         }
 
         /// <summary>
@@ -305,18 +293,18 @@ namespace NLEditor
         /// <returns></returns>
         private PictureBox CreatePicPiece()
         { 
-            PictureBox NewPicPiece = new PictureBox();
-            NewPicPiece.Width = 84;
-            NewPicPiece.Height = 84;
-            NewPicPiece.Top = this.Height - 122;
-            NewPicPiece.BorderStyle = BorderStyle.Fixed3D;
-            NewPicPiece.SizeMode = PictureBoxSizeMode.CenterImage;
+            PictureBox picPiece = new PictureBox();
+            picPiece.Width = 84;
+            picPiece.Height = 84;
+            picPiece.Top = this.Height - 122;
+            picPiece.BorderStyle = BorderStyle.Fixed3D;
+            picPiece.SizeMode = PictureBoxSizeMode.CenterImage;
 
-            NewPicPiece.Click += new EventHandler(picPieces_Click);
+            picPiece.Click += new EventHandler(picPieces_Click);
 
-            this.Controls.Add(NewPicPiece);
+            this.Controls.Add(picPiece);
 
-            return NewPicPiece;
+            return picPiece;
         }
 
         /// <summary>
@@ -328,9 +316,9 @@ namespace NLEditor
             combo_Background.Items.Add("--none--");
             if (CurLevel.MainStyle != null)
             {
-                string[] BackgroundNames = CurLevel.MainStyle.BackgroundNames.Select(name => 
+                string[] backgroundNames = CurLevel.MainStyle.BackgroundNames.Select(name => 
                                                System.IO.Path.GetFileName(name)).ToArray();
-                combo_Background.Items.AddRange(BackgroundNames);
+                combo_Background.Items.AddRange(backgroundNames);
             }
         }
 
@@ -341,49 +329,49 @@ namespace NLEditor
         /// </summary>
         private void DisplayHotkeyForm()
         {
-            Form HotkeyForm = new Form();
-            HotkeyForm.Width = 450;
-            HotkeyForm.Height = 400;
-            HotkeyForm.MaximizeBox = false;
-            HotkeyForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            HotkeyForm.Text = "NLEditor - Hotkeys";
+            Form hotkeyForm = new Form();
+            hotkeyForm.Width = 450;
+            hotkeyForm.Height = 400;
+            hotkeyForm.MaximizeBox = false;
+            hotkeyForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            hotkeyForm.Text = "NLEditor - Hotkeys";
 
-            TabControl HotkeyTabs = new TabControl();
-            HotkeyTabs.Location = new Point(0, 0);
-            HotkeyTabs.SelectedIndex = 0;
-            HotkeyTabs.Size = new Size(HotkeyForm.Width - 6, HotkeyForm.Height - 23);
-            HotkeyTabs.TabIndex = 1;
-            HotkeyTabs.TabStop = false;
+            TabControl hotkeyTabs = new TabControl();
+            hotkeyTabs.Location = new Point(0, 0);
+            hotkeyTabs.SelectedIndex = 0;
+            hotkeyTabs.Size = new Size(hotkeyForm.Width - 6, hotkeyForm.Height - 23);
+            hotkeyTabs.TabIndex = 1;
+            hotkeyTabs.TabStop = false;
 
             TabPage tabHotkeysGeneral = new TabPage("General");
             TabPage tabHotkeysPieces = new TabPage("Piece modification");
             Label lblHotkeysGeneralKeys = new Label();
             lblHotkeysGeneralKeys.Location = new Point(0, 4);
-            lblHotkeysGeneralKeys.Size = new Size(150, HotkeyTabs.Height - 4);
+            lblHotkeysGeneralKeys.Size = new Size(150, hotkeyTabs.Height - 4);
             lblHotkeysGeneralKeys.Text = String.Join(C.NewLine, C.HotkeyDict[C.HotkeyTabs.General]);
             Label lblHotkeysGeneralDescription = new Label();
             lblHotkeysGeneralDescription.Location = new Point(150, 4);
-            lblHotkeysGeneralDescription.Size = new Size(HotkeyTabs.Width - 154, HotkeyTabs.Height - 4);
+            lblHotkeysGeneralDescription.Size = new Size(hotkeyTabs.Width - 154, hotkeyTabs.Height - 4);
             lblHotkeysGeneralDescription.Text = String.Join(C.NewLine, C.DescriptionDict[C.HotkeyTabs.General]);
 
             Label lblHotkeysPiecesKeys = new Label();
             lblHotkeysPiecesKeys.Location = new Point(0, 4);
-            lblHotkeysPiecesKeys.Size = new Size(150, HotkeyTabs.Height - 4);
+            lblHotkeysPiecesKeys.Size = new Size(150, hotkeyTabs.Height - 4);
             lblHotkeysPiecesKeys.Text = String.Join(C.NewLine, C.HotkeyDict[C.HotkeyTabs.Pieces]);
             Label lblHotkeysPiecesDescription = new Label();
             lblHotkeysPiecesDescription.Location = new Point(150, 4);
-            lblHotkeysPiecesDescription.Size = new Size(HotkeyTabs.Width - 154, HotkeyTabs.Height - 4);
+            lblHotkeysPiecesDescription.Size = new Size(hotkeyTabs.Width - 154, hotkeyTabs.Height - 4);
             lblHotkeysPiecesDescription.Text = String.Join(C.NewLine, C.DescriptionDict[C.HotkeyTabs.Pieces]);
 
             tabHotkeysGeneral.Controls.Add(lblHotkeysGeneralKeys);
             tabHotkeysGeneral.Controls.Add(lblHotkeysGeneralDescription);
             tabHotkeysPieces.Controls.Add(lblHotkeysPiecesKeys);
             tabHotkeysPieces.Controls.Add(lblHotkeysPiecesDescription);
-            HotkeyTabs.Controls.Add(tabHotkeysGeneral);
-            HotkeyTabs.Controls.Add(tabHotkeysPieces);
-            HotkeyForm.Controls.Add(HotkeyTabs);
+            hotkeyTabs.Controls.Add(tabHotkeysGeneral);
+            hotkeyTabs.Controls.Add(tabHotkeysPieces);
+            hotkeyForm.Controls.Add(hotkeyTabs);
 
-            HotkeyForm.Show();
+            hotkeyForm.Show();
         }
 
         /// <summary>
@@ -391,22 +379,22 @@ namespace NLEditor
         /// </summary>
         private void DisplayVersionForm()
         {
-            Form VersionForm = new Form();
-            VersionForm.Width = 310;
-            VersionForm.Height = 170;
-            VersionForm.MaximizeBox = false;
-            VersionForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            VersionForm.Text = "NLEditor - About";
+            Form versionForm = new Form();
+            versionForm.Width = 310;
+            versionForm.Height = 170;
+            versionForm.MaximizeBox = false;
+            versionForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            versionForm.Text = "NLEditor - About";
 
-            VersionForm.Show();
+            versionForm.Show();
 
-            using (Graphics HotkeyGraphics = VersionForm.CreateGraphics())
-            using (SolidBrush MyBrush = new SolidBrush(Color.Black))
-            using (Font MyFont = new Font("Microsoft Sans Serif", 8))
+            using (Graphics hotkeyGraphics = versionForm.CreateGraphics())
+            using (SolidBrush brush = new SolidBrush(Color.Black))
+            using (Font font = new Font("Microsoft Sans Serif", 8))
             {
                 for (int i = 0; i < C.VersionList.Count; i++)
                 {
-                    HotkeyGraphics.DrawString(C.VersionList[i], MyFont, MyBrush, 6, 6 + 13 * i);
+                    hotkeyGraphics.DrawString(C.VersionList[i], font, brush, 6, 6 + 13 * i);
                 }
             }
         }
