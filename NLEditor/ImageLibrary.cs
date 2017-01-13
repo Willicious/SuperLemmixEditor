@@ -15,10 +15,10 @@ namespace NLEditor
         /// <summary>
         /// Use this to create the base-info of a new terrain piece.
         /// </summary>
-        /// <param name="NewImage"></param>
-        /// <param name="IsSteel"></param>
-        public BaseImageInfo(Bitmap NewImage, bool IsSteel = false)
-            : this(NewImage, IsSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, false, new Rectangle(0, 0, 0, 0), C.Resize.None)
+        /// <param name="newImage"></param>
+        /// <param name="isSteel"></param>
+        public BaseImageInfo(Bitmap newImage, bool isSteel = false)
+            : this(newImage, isSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, false, new Rectangle(0, 0, 0, 0), C.Resize.None)
         {
             // nothing more
         }
@@ -26,95 +26,88 @@ namespace NLEditor
         /// <summary>
         /// Use this to create the base-info of a new object piece.
         /// </summary>
-        /// <param name="NewImage"></param>
-        /// <param name="ObjType"></param>
-        /// <param name="NumFrames"></param>
-        /// <param name="IsVert"></param>
-        /// <param name="TriggerRect"></param>
-        public BaseImageInfo(Bitmap NewImage, C.OBJ ObjType, int NumFrames, bool IsVert, Rectangle TriggerRect, C.Resize ResizeMode)
+        /// <param name="newImage"></param>
+        /// <param name="objType"></param>
+        /// <param name="numFrames"></param>
+        /// <param name="isVert"></param>
+        /// <param name="triggerRect"></param>
+        public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, bool isVert, Rectangle triggerRect, C.Resize resizeMode)
         {
-            this.fImages = SeparateFrames(NewImage, NumFrames, IsVert);
-            this.fWidth = this.fImages[0].Width;
-            this.fHeight = this.fImages[0].Height;
-            this.fObjectType = ObjType;
-            this.fTriggerRect = TriggerRect;
-            this.fResizeMode = ResizeMode;
-            this.fImageRotated = new Dictionary<RotateFlipType, List<Bitmap>>();
+            this.images = new Dictionary<RotateFlipType, List<Bitmap>>();
+            this.images[RotateFlipType.RotateNoneFlipNone] = SeparateFrames(newImage, numFrames, isVert);
+            this.Width = this.baseImages[0].Width;
+            this.Height = this.baseImages[0].Height;
+            this.ObjectType = objType;
+            this.TriggerRect = triggerRect;
+            this.ResizeMode = resizeMode;
         }
 
-        readonly List<Bitmap> fImages;
-        readonly int fWidth;
-        readonly int fHeight;
-        readonly C.OBJ fObjectType;
-        readonly Rectangle fTriggerRect;
-        readonly C.Resize fResizeMode;
+        Dictionary<RotateFlipType, List<Bitmap>> images;
+        List<Bitmap> baseImages => images[RotateFlipType.RotateNoneFlipNone];
 
-        readonly Dictionary<RotateFlipType, List<Bitmap>> fImageRotated;
-
-
-        public Bitmap Image(RotateFlipType RotFlipType)
+        public Bitmap Image(RotateFlipType rotFlipType)
         {
-            if (!fImageRotated.ContainsKey(RotFlipType)) CreateRotatedImages(RotFlipType);
-            return fImageRotated[RotFlipType][0];
+            if (!images.ContainsKey(rotFlipType)) CreateRotatedImages(rotFlipType);
+            return images[rotFlipType][0];
         }
-        public Bitmap Image(RotateFlipType RotFlipType, int Index)
+        public Bitmap Image(RotateFlipType rotFlipType, int index)
         {
-            if (!fImageRotated.ContainsKey(RotFlipType)) CreateRotatedImages(RotFlipType);
-            return fImageRotated[RotFlipType][Index % fImageRotated[RotFlipType].Count];
+            if (!images.ContainsKey(rotFlipType)) CreateRotatedImages(rotFlipType);
+            return images[rotFlipType][index % images[rotFlipType].Count];
         }
-        public int Width { get { return fWidth; } }
-        public int Height { get { return fHeight; } }
-        public C.OBJ ObjectType { get { return fObjectType; } }
-        public Rectangle TriggerRect { get { return fTriggerRect; } }
-        public C.Resize ResizeMode { get { return fResizeMode; } }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+        public C.OBJ ObjectType { get; private set; }
+        public Rectangle TriggerRect { get; private set; }
+        public C.Resize ResizeMode { get; private set; }
 
         /// <summary>
         /// Removes additional frames from an image and keeps only frame 0.
         /// </summary>
-        /// <param name="NewBitmap"></param>
-        /// <param name="NumFrames"></param>
-        /// <param name="IsVert"></param>
+        /// <param name="newBitmap"></param>
+        /// <param name="numFrames"></param>
+        /// <param name="isVert"></param>
         /// <returns></returns>
-        private List<Bitmap> SeparateFrames(Bitmap NewBitmap, int NumFrames, bool IsVert)
+        private List<Bitmap> SeparateFrames(Bitmap newBitmap, int numFrames, bool isVert)
         {
-            List<Bitmap> ImageFrames = new List<Bitmap>();
+            List<Bitmap> imageFrames = new List<Bitmap>();
             
-            int NewWidth = NewBitmap.Width;
-            int NewHeight = NewBitmap.Height;
-            NumFrames = Math.Max(NumFrames, 1);
+            int newWidth = newBitmap.Width;
+            int newHeight = newBitmap.Height;
+            numFrames = Math.Max(numFrames, 1);
 
-            if (IsVert)
+            if (isVert)
             {
-                NewHeight = NewHeight / NumFrames;
+                newHeight = newHeight / numFrames;
             }
             else
             {
-                NewWidth = NewWidth / NumFrames;
+                newWidth = newWidth / numFrames;
             }
 
-            for (int Index = 0; Index < NumFrames; Index++)
+            for (int index = 0; index < numFrames; index++)
             {
-                int StartX = (IsVert) ? 0 : Index * NewWidth;
-                int StartY = (IsVert) ? Index * NewHeight : 0;
-                Rectangle ThisRect = new Rectangle(StartX, StartY, NewWidth, NewHeight);
-                ImageFrames.Add(NewBitmap.Crop(ThisRect));
+                int startX = (isVert) ? 0 : index * newWidth;
+                int startY = (isVert) ? index * newHeight : 0;
+                Rectangle frameRect = new Rectangle(startX, startY, newWidth, newHeight);
+                imageFrames.Add(newBitmap.Crop(frameRect));
             }
 
-            return ImageFrames;
+            return imageFrames;
         }
 
         /// <summary>
         /// Creates rotated images of the desired orientation, if these do not yet exist.
         /// </summary>
-        /// <param name="RotFlipType"></param>
-        private void CreateRotatedImages(RotateFlipType RotFlipType)
+        /// <param name="rotFlipType"></param>
+        private void CreateRotatedImages(RotateFlipType rotFlipType)
         {
-            fImageRotated[RotFlipType] = new List<Bitmap>();
-            foreach (Bitmap ImageFrame in fImages)
+            images[rotFlipType] = new List<Bitmap>();
+            foreach (Bitmap imageFrame in baseImages)
             {
-                Bitmap RotImage = (Bitmap)ImageFrame.Clone();
-                RotImage.RotateFlip(RotFlipType);
-                fImageRotated[RotFlipType].Add(RotImage);
+                Bitmap rotImage = (Bitmap)imageFrame.Clone();
+                rotImage.RotateFlip(rotFlipType);
+                images[rotFlipType].Add(rotImage);
             }
         }
 
@@ -147,21 +140,21 @@ namespace NLEditor
          * -------------------------------------------------------- */
         static ImageLibrary()
         {
-            fImageList = new Dictionary<string, BaseImageInfo>();
+            imageDict = new Dictionary<string, BaseImageInfo>();
         }
 
         // The key is the file path below the "styles\\pieces" folder!
-        static Dictionary<string, BaseImageInfo> fImageList;
+        static Dictionary<string, BaseImageInfo> imageDict;
         
         /// <summary>
         /// Returns whether an image with this ImageKey exists.
         /// </summary>
-        /// <param name="ImageKey"></param>
+        /// <param name="imageKey"></param>
         /// <returns></returns>
-        public static bool ExistsKey(string ImageKey)
+        public static bool ExistsKey(string imageKey)
         {
-            if (fImageList.ContainsKey(ImageKey)) return true;
-            else return AddNewImage(ImageKey);
+            if (imageDict.ContainsKey(imageKey)) return true;
+            else return AddNewImage(imageKey);
         }
 
 
@@ -169,136 +162,136 @@ namespace NLEditor
         /// Returns a correctly oriented image corresponding to the key, or null if image cannot be found. 
         /// <para> Warning: The Bitmap is passed by reference, so NEVER change its value! </para>
         /// </summary>
-        /// <param name="ImageKey"></param>
-        /// <param name="RotFlipType"></param>
+        /// <param name="imageKey"></param>
+        /// <param name="rotFlipType"></param>
         /// <returns></returns>
-        public static Bitmap GetImage(string ImageKey, RotateFlipType RotFlipType)
+        public static Bitmap GetImage(string imageKey, RotateFlipType rotFlipType)
         {
-            return GetImage(ImageKey, RotFlipType, 0);
+            return GetImage(imageKey, rotFlipType, 0);
         }
 
         /// <summary>
         /// Returns a correctly oriented image corresponding to the key and index, or null if image cannot be found. 
         /// <para> Warning: The Bitmap is passed by reference, so NEVER change its value! </para>
         /// </summary>
-        /// <param name="ImageKey"></param>
-        /// <param name="RotFlipType"></param>
+        /// <param name="imageKey"></param>
+        /// <param name="rotFlipType"></param>
         /// <returns></returns>
-        public static Bitmap GetImage(string ImageKey, RotateFlipType RotFlipType, int Index)
+        public static Bitmap GetImage(string imageKey, RotateFlipType rotFlipType, int index)
         {
-            if (!fImageList.ContainsKey(ImageKey))
+            if (!imageDict.ContainsKey(imageKey))
             {
-                bool Success = AddNewImage(ImageKey);
-                if (!Success)
+                bool success = AddNewImage(imageKey);
+                if (!success)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot find image " + ImageKey + ".");
+                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".");
                     return null;
                 }
             }
 
-            return fImageList[ImageKey].Image(RotFlipType, Index);
+            return imageDict[imageKey].Image(rotFlipType, index);
         }
 
         /// <summary>
         /// Returns the width of the piece corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
-        /// <param name="ImageKey"></param>
+        /// <param name="imageKey"></param>
         /// <returns></returns>
-        public static int GetWidth(string ImageKey)
+        public static int GetWidth(string imageKey)
         {
-            if (!fImageList.ContainsKey(ImageKey))
+            if (!imageDict.ContainsKey(imageKey))
             {
-                bool Success = AddNewImage(ImageKey);
-                if (!Success) return -1;
+                bool success = AddNewImage(imageKey);
+                if (!success) return -1;
             }
 
-            return fImageList[ImageKey].Width;
+            return imageDict[imageKey].Width;
         }
 
         /// <summary>
         /// Returns the height of the piece corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
-        /// <param name="ImageKey"></param>
+        /// <param name="imageKey"></param>
         /// <returns></returns>
-        public static int GetHeight(string ImageKey)
+        public static int GetHeight(string imageKey)
         {
-            if (!fImageList.ContainsKey(ImageKey))
+            if (!imageDict.ContainsKey(imageKey))
             {
-                bool Success = AddNewImage(ImageKey);
-                if (!Success) return -1;
+                bool success = AddNewImage(imageKey);
+                if (!success) return -1;
             }
 
-            return fImageList[ImageKey].Height;
+            return imageDict[imageKey].Height;
         }
 
         /// <summary>
         /// Returns the object type of the piece corresponding to the key, or C.OBJ.NULL if image cannot be found. 
         /// </summary>
-        /// <param name="ImageKey"></param>
+        /// <param name="imageKey"></param>
         /// <returns></returns>
-        public static C.OBJ GetObjType(string ImageKey)
+        public static C.OBJ GetObjType(string imageKey)
         {
-            if (!fImageList.ContainsKey(ImageKey))
+            if (!imageDict.ContainsKey(imageKey))
             {
-                bool Success = AddNewImage(ImageKey);
-                if (!Success) return C.OBJ.NULL;
+                bool success = AddNewImage(imageKey);
+                if (!success) return C.OBJ.NULL;
             }
 
-            return fImageList[ImageKey].ObjectType;
+            return imageDict[imageKey].ObjectType;
         }
 
         /// <summary>
         /// Returns the trigger area of the piece corresponding to the key, or an empty rectangle if image cannot be found. 
         /// </summary>
-        /// <param name="ImageKey"></param>
+        /// <param name="imageKey"></param>
         /// <returns></returns>
-        public static Rectangle GetTrigger(string ImageKey)
+        public static Rectangle GetTrigger(string imageKey)
         {
-            if (!fImageList.ContainsKey(ImageKey))
+            if (!imageDict.ContainsKey(imageKey))
             {
-                bool Success = AddNewImage(ImageKey);
-                if (!Success) return new Rectangle(0, 0, 0, 0);
+                bool success = AddNewImage(imageKey);
+                if (!success) return new Rectangle(0, 0, 0, 0);
             }
 
-            return fImageList[ImageKey].TriggerRect;
+            return imageDict[imageKey].TriggerRect;
         }
 
         /// <summary>
         /// Returns the resize mode of the piece corresponding to the key, or C.Resize.None if image cannot be found. 
         /// </summary>
-        /// <param name="ImageKey"></param>
+        /// <param name="imageKey"></param>
         /// <returns></returns>
-        public static C.Resize GetResizeMode(string ImageKey)
+        public static C.Resize GetResizeMode(string imageKey)
         {
-            if (!fImageList.ContainsKey(ImageKey))
+            if (!imageDict.ContainsKey(imageKey))
             {
-                bool Success = AddNewImage(ImageKey);
-                if (!Success) return C.Resize.None;
+                bool success = AddNewImage(imageKey);
+                if (!success) return C.Resize.None;
             }
 
-            return fImageList[ImageKey].ResizeMode;
+            return imageDict[imageKey].ResizeMode;
         }
 
         /// <summary>
         /// Loads a new image into the ImageLibrary. Returns false, if image cannot be found.
         /// </summary>
-        /// <param name="ImageKey"></param>
+        /// <param name="imageKey"></param>
         /// <returns></returns>
-        static bool AddNewImage(string ImageKey)
+        static bool AddNewImage(string imageKey)
         {
-            Bitmap NewBitmap = LoadStylesFromFile.Image(ImageKey);
-            if (NewBitmap == null) return false;
+            Bitmap newBitmap = LoadStylesFromFile.Image(imageKey);
+            if (newBitmap == null) return false;
 
             try
             {
-                fImageList[ImageKey] = LoadStylesFromFile.ImageInfo(NewBitmap, ImageKey);
+                imageDict[imageKey] = LoadStylesFromFile.ImageInfo(newBitmap, imageKey);
             }
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                System.Windows.Forms.MessageBox.Show("Warning: Could not read .nxmo or .nxmt file at " + ImageKey + C.NewLine + Ex.Message);
+                System.Windows.Forms.MessageBox.Show("Warning: Could not read .nxmo or .nxmt file at " + imageKey + C.NewLine + Ex.Message);
 
-                fImageList[ImageKey] = new BaseImageInfo(new Bitmap(1, 1));
+                imageDict[imageKey] = new BaseImageInfo(new Bitmap(1, 1));
             }
 
             return true;
@@ -307,24 +300,24 @@ namespace NLEditor
         /// <summary>
         /// Adds by hand a new image to the ImagelIbrary, assuming the ImageKey doesn't exist yet. 
         /// </summary>
-        /// <param name="ImageKey"></param>
-        /// <param name="Image"></param>
-        /// <param name="ObjType"></param>
-        /// <param name="TriggerRect"></param>
-        public static void AddNewImage(string ImageKey, Bitmap Image, C.OBJ ObjType, Rectangle TriggerRect, C.Resize ResizeMode)
+        /// <param name="imageKey"></param>
+        /// <param name="image"></param>
+        /// <param name="objType"></param>
+        /// <param name="triggerRect"></param>
+        public static void AddNewImage(string imageKey, Bitmap image, C.OBJ objType, Rectangle triggerRect, C.Resize resizeMode)
         {
-            if (fImageList.ContainsKey(ImageKey)) return;
+            if (imageDict.ContainsKey(imageKey)) return;
 
             try
             {
-                fImageList[ImageKey] = new BaseImageInfo(Image, ObjType, 1, false, TriggerRect, ResizeMode);
+                imageDict[imageKey] = new BaseImageInfo(image, objType, 1, false, triggerRect, resizeMode);
             }
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                System.Windows.Forms.MessageBox.Show("Warning: Could not read .nxmo or .nxmt file at " + ImageKey + C.NewLine + Ex.Message);
+                System.Windows.Forms.MessageBox.Show("Warning: Could not read .nxmo or .nxmt file at " + imageKey + C.NewLine + Ex.Message);
                 
-                fImageList[ImageKey] = new BaseImageInfo(new Bitmap(1, 1));
+                imageDict[imageKey] = new BaseImageInfo(new Bitmap(1, 1));
             }
         }
 
@@ -332,27 +325,27 @@ namespace NLEditor
         /// <summary>
         /// Creates the image key from a file path (relative or absolute). 
         /// </summary>
-        /// <param name="FilePath"></param>
+        /// <param name="filePath"></param>
         /// <returns></returns>
-        public static string CreatePieceKey(string FilePath)
+        public static string CreatePieceKey(string filePath)
         {
-            string FullPath = System.IO.Path.GetFullPath(FilePath);
-            string RelativePath = FullPath.Remove(0, C.AppPathPieces.Length);
-            return System.IO.Path.ChangeExtension(RelativePath, null);
+            string fullPath = System.IO.Path.GetFullPath(filePath);
+            string relativePath = fullPath.Remove(0, C.AppPathPieces.Length);
+            return System.IO.Path.ChangeExtension(relativePath, null);
         }
 
         /// <summary>
         /// Creates the image key from the style and piece name.
         /// <para> Do NOT use this for background images! </para>
         /// </summary>
-        /// <param name="StyleName"></param>
-        /// <param name="PieceName"></param>
-        /// <param name="IsObject"></param>
+        /// <param name="styleName"></param>
+        /// <param name="pieceName"></param>
+        /// <param name="isObject"></param>
         /// <returns></returns>
-        public static string CreatePieceKey(string StyleName, string PieceName, bool IsObject)
+        public static string CreatePieceKey(string styleName, string pieceName, bool isObject)
         {
-            return StyleName + C.DirSep + (IsObject ? "objects" : "terrain")
-                             + C.DirSep + PieceName;
+            return styleName + C.DirSep + (isObject ? "objects" : "terrain")
+                             + C.DirSep + pieceName;
         }
     }
 }
