@@ -20,126 +20,107 @@ namespace NLEditor
         /// <summary>
         /// Initializes a new instance of a LevelValidator specific to the current level.
         /// </summary>
-        /// <param name="CurLevel"></param>
-        public LevelValidator(Level CurLevel)
+        /// <param name="level"></param>
+        public LevelValidator(Level level)
         {
-            System.Diagnostics.Debug.Assert(CurLevel != null, "Level passed to LevelValidator is null.");
-            fCurLevel = CurLevel;
+            System.Diagnostics.Debug.Assert(level != null, "Level passed to LevelValidator is null.");
+            this.level = level;
         }
 
-        Level fCurLevel;
+        Level level;
+        List<string> issuesList;
 
-        Form ValidatorForm;
+        Form validatorForm;
         TextBox txtIssuesList;
         Button butResolveIssues;
 
         /// <summary>
         /// Finds all issues in a level, creates a new form and displays the issues there.
         /// </summary>
-        /// <param name="CurLevel"></param>
-        public void Validate(bool ReuseValidatorForm = false)
+        public void Validate(bool reuseValidatorForm = false)
         {
-            List<string> IssuesList = FindIssues();
-            if (!ReuseValidatorForm) CreateValidatorForm();
-            DisplayValidationResult(IssuesList);
+            FindIssues();
+            if (!reuseValidatorForm) CreateValidatorForm();
+            DisplayValidationResult();
         }
 
         /// <summary>
         /// Returns a list of descriptions for all issues found in the level.
         /// </summary>
-        /// <param name="CurLevel"></param>
-        /// <returns></returns>
-        private List<string> FindIssues()
+        private void FindIssues()
         {
-            List<string> IssuesList = new List<string>();
+            issuesList = new List<string>();
 
-            IssuesList.AddRange(FindIssuesPieceOutsideBoundary());
-            IssuesList.AddRange(FindIssuesTooFewLemmings());
-            IssuesList.AddRange(FindIssuesTimeLimit());
-            IssuesList.AddRange(FindIssuesTooManySkills());
-            IssuesList.AddRange(FindIssuesMissingObjects());
-
-            return IssuesList;
+            FindIssuesPieceOutsideBoundary();
+            FindIssuesTooFewLemmings();
+            FindIssuesTimeLimit();
+            FindIssuesTooManySkills();
+            FindIssuesMissingObjects();
         }
 
         /// <summary>
         /// Returns a list of descriptions for pieces outside the level boundaries.
         /// </summary>
-        /// <param name="CurLevel"></param>
-        /// <returns></returns>
-        private List<string> FindIssuesPieceOutsideBoundary()
+        private void FindIssuesPieceOutsideBoundary()
         {
-            List<string> IssuesList = new List<string>();
-
-            List<LevelPiece> OutsidePieceList = GetPiecesOutsideBoundary();
-            foreach (LevelPiece Piece in OutsidePieceList)
+            foreach (LevelPiece piece in GetPiecesOutsideBoundary())
             {
-                IssuesList.Add("Piece outside level boundary: " + Piece.Name +
-                               " in style " + Piece.Style +
-                               "(Position " + Piece.PosX.ToString() +
-                               ", " + Piece.PosY.ToString() + ")");
+                issuesList.Add("Piece outside level boundary: " + piece.Name +
+                               " in style " + piece.Style +
+                               "(Position " + piece.PosX.ToString() +
+                               ", " + piece.PosY.ToString() + ")");
             }
-
-            return IssuesList;
         }
 
 
         /// <summary>
         /// Gets a list of all pieces completely outside the level area.
         /// </summary>
-        /// <param name="CurLevel"></param>
         /// <returns></returns>
         private List<LevelPiece> GetPiecesOutsideBoundary()
         {
-            System.Drawing.Rectangle LevelRect = new System.Drawing.Rectangle(0, 0, fCurLevel.Width, fCurLevel.Height);
-            List<LevelPiece> OutsidePieceList = new List<LevelPiece>();
-            OutsidePieceList.AddRange(fCurLevel.TerrainList.FindAll(ter => !ter.ImageRectangle.IntersectsWith(LevelRect)));
-            OutsidePieceList.AddRange(fCurLevel.GadgetList.FindAll(obj => !obj.ImageRectangle.IntersectsWith(LevelRect)));
-            return OutsidePieceList;
+            System.Drawing.Rectangle levelRect = new System.Drawing.Rectangle(0, 0, level.Width, level.Height);
+            var outsidePieceList = new List<LevelPiece>();
+            outsidePieceList.AddRange(level.TerrainList.FindAll(ter => !ter.ImageRectangle.IntersectsWith(levelRect)));
+            outsidePieceList.AddRange(level.GadgetList.FindAll(gad => !gad.ImageRectangle.IntersectsWith(levelRect)));
+            return outsidePieceList;
         }
 
         /// <summary>
         /// Returns a list of descriptions of issues regarding having too few lemmings available.
         /// </summary>
-        /// <param name="CurLevel"></param>
-        /// <returns></returns>
-        private List<string> FindIssuesTooFewLemmings()
+        private void FindIssuesTooFewLemmings()
         {
-            List<string> IssuesList = new List<string>();
-            
-            int NumPreplacedAll = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING);
-            int NumPreplacedZombie = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING && obj.IsZombie);
+            int numPreplacedAll = level.GadgetList.Count(gad => gad.ObjType == C.OBJ.LEMMING);
+            int numPreplacedZombie = level.GadgetList.Count(gad => gad.ObjType == C.OBJ.LEMMING && gad.IsZombie);
             
             // Check whether at least one living lemming exists
-            if (fCurLevel.NumLems <= NumZombies())
+            if (level.NumLems <= NumZombies())
             {
-                IssuesList.Add("Only zombie lemmings available in the level.");
+                issuesList.Add("Only zombie lemmings available in the level.");
             }
             
             // Check whether number of lemmings is at least the number of preplaced lemmings.
-            if (fCurLevel.NumLems < NumPreplacedAll)
+            if (level.NumLems < numPreplacedAll)
             {
-                IssuesList.Add("More preplaced lemmings set than the total number of lemmings.");
+                issuesList.Add("More preplaced lemmings set than the total number of lemmings.");
             }
 
             // Check whether there are enough lemmings for the save requirement.
-            int MaxNumSaved = MaxNumSavedLems();
-            if (fCurLevel.SaveReq > MaxNumSaved )
+            int maxNumSaved = MaxNumSavedLems();
+            if (level.SaveReq > maxNumSaved )
             {
-                IssuesList.Add("Save requirement too high: Maximally " + MaxNumSaved.ToString() + " lemmings can be saved.");
+                issuesList.Add("Save requirement too high: At most " + maxNumSaved.ToString() + " lemmings can be saved.");
             }
-
-            return IssuesList;
         }
 
         /// <summary>
         /// Returns the maximal number of lemmings that can be saved theoretically.
         /// </summary>
-        /// <param name="CurLevel"></param>
         /// <returns></returns>
         private int MaxNumSavedLems()
         {
-            return fCurLevel.NumLems + fCurLevel.SkillSet[C.Skill.Cloner] - NumZombies();
+            return level.NumLems + level.SkillSet[C.Skill.Cloner] - NumZombies();
         }
 
         /// <summary>
@@ -148,94 +129,77 @@ namespace NLEditor
         /// <returns></returns>
         private int NumZombies()
         {
-            int NumPreplacedAll = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING);
-            int NumPreplacedZombie = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING && obj.IsZombie);
-            int NumToSpawn = fCurLevel.NumLems - NumPreplacedAll;
-            List<bool> IsHatchZombieList = fCurLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.HATCH)
-                                                               .ConvertAll(obj => obj.IsZombie);
-            int NumHatches = Math.Max(IsHatchZombieList.Count, 1);
-            int NumZombieHatch = IsHatchZombieList.Count(IsZombie => IsZombie);
+            int numPreplacedAll = level.GadgetList.Count(gad => gad.ObjType == C.OBJ.LEMMING);
+            int numPreplacedZombie = level.GadgetList.Count(gad => gad.ObjType == C.OBJ.LEMMING && gad.IsZombie);
+            int numToSpawn = level.NumLems - numPreplacedAll;
+            List<bool> isHatchZombieList = level.GadgetList.FindAll(gad => gad.ObjType == C.OBJ.HATCH)
+                                                           .ConvertAll(gad => gad.IsZombie);
+            int numHatches = Math.Max(isHatchZombieList.Count, 1);
+            int numZombieHatch = isHatchZombieList.Count(IsZombie => IsZombie);
 
-            int NumZombie = NumPreplacedZombie;
+            int numZombie = numPreplacedZombie;
             // add number of lemmings that spawn in zombie hatches
-            NumZombie += NumToSpawn / NumHatches * NumZombieHatch;
-            for (int i = 0; i < NumToSpawn % NumHatches; i++)
+            numZombie += numToSpawn / numHatches * numZombieHatch;
+            for (int i = 0; i < numToSpawn % numHatches; i++)
             {
-                if (IsHatchZombieList[i]) NumZombie++;
+                if (isHatchZombieList[i]) numZombie++;
             }
 
-            return NumZombie;
+            return numZombie;
         }
 
 
         /// <summary>
         /// Returns an issue description if the time limit is less than 10 seconds. 
         /// </summary>
-        /// <param name="CurLevel"></param>
-        /// <returns></returns>
-        private List<string> FindIssuesTimeLimit()
+        private void FindIssuesTimeLimit()
         {
-            List<string> IssuesList = new List<string>();
-
-            if (!fCurLevel.IsNoTimeLimit && fCurLevel.TimeLimit < 10)
+            if (!level.IsNoTimeLimit && level.TimeLimit < 10)
             {
-                IssuesList.Add("Not enough time: Only " + fCurLevel.TimeLimit.ToString() + "seconds available.");
+                issuesList.Add("Not enough time: Only " + level.TimeLimit.ToString() + "seconds available.");
             }
-           
-            return IssuesList;
         }
 
         /// <summary>
         /// Returns an issue description if too many different skills are used.
         /// </summary>
-        /// <param name="CurLevel"></param>
-        /// <returns></returns>
-        private List<string> FindIssuesTooManySkills()
+        private void FindIssuesTooManySkills()
         {
-            List<string> IssuesList = new List<string>();
-            int NumSkillsUsed = 0;
+            int numSkillsUsed = 0;
 
             foreach (C.Skill skill in C.SkillArray)
             {
-                if (fCurLevel.SkillSet[skill] > 0 ||
-                    fCurLevel.GadgetList.Exists(obj => obj.ObjType == C.OBJ.PICKUP && obj.SkillFlags.Contains(skill)))
+                if (level.SkillSet[skill] > 0 ||
+                    level.GadgetList.Exists(obj => obj.ObjType == C.OBJ.PICKUP && obj.SkillFlags.Contains(skill)))
                 {
-                    NumSkillsUsed++;
+                    numSkillsUsed++;
                 }
             }
 
-            if (NumSkillsUsed > 8)
+            if (numSkillsUsed > 8)
             {
-                IssuesList.Add(NumSkillsUsed.ToString() + " skill types used. Only 8 allowed.");
+                issuesList.Add(numSkillsUsed.ToString() + " skill types used. Only 8 allowed.");
             }
-
-            return IssuesList;
         }
 
         /// <summary>
         /// Returns a list of descriptions of issues regarding missing object types.
         /// </summary>
-        /// <param name="CurLevel"></param>
-        /// <returns></returns>
-        private List<string> FindIssuesMissingObjects()
+        private void FindIssuesMissingObjects()
         {
-            List<string> IssuesList = new List<string>();
-
-            if (!fCurLevel.GadgetList.Exists(obj => obj.ObjType == C.OBJ.HATCH && !obj.IsZombie))
+            if (!level.GadgetList.Exists(obj => obj.ObjType == C.OBJ.HATCH && !obj.IsZombie))
             {
-                int NumPreplacedLems = fCurLevel.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING);
-                if (fCurLevel.NumLems > NumPreplacedLems)
+                int NumPreplacedLems = level.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING);
+                if (level.NumLems > NumPreplacedLems)
                 {
-                    IssuesList.Add("Missing object: Hatch.");
+                    issuesList.Add("Missing object: Hatch.");
                 }
             }
 
-            if (!fCurLevel.GadgetList.Exists(obj => obj.ObjType.In(C.OBJ.EXIT, C.OBJ.EXIT_LOCKED)))
+            if (!level.GadgetList.Exists(obj => obj.ObjType.In(C.OBJ.EXIT, C.OBJ.EXIT_LOCKED)))
             {
-                IssuesList.Add("Missing object: Exit.");
+                issuesList.Add("Missing object: Exit.");
             }
-
-            return IssuesList;
         }
 
 
@@ -244,13 +208,13 @@ namespace NLEditor
         /// </summary>
         private void CreateValidatorForm()
         {
-            ValidatorForm = new Form();
-            ValidatorForm.Width = 500;
-            ValidatorForm.Height = 300;
-            ValidatorForm.MaximizeBox = false;
-            ValidatorForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            ValidatorForm.Text = "NLEditor - Level validation";
-            ValidatorForm.FormClosing += new FormClosingEventHandler(ValidatorForm_FormClosing);
+            validatorForm = new Form();
+            validatorForm.Width = 500;
+            validatorForm.Height = 300;
+            validatorForm.MaximizeBox = false;
+            validatorForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            validatorForm.Text = "NLEditor - Level validation";
+            validatorForm.FormClosing += new FormClosingEventHandler(ValidatorForm_FormClosing);
 
             txtIssuesList = new TextBox();
             txtIssuesList.Top = 6;
@@ -261,7 +225,7 @@ namespace NLEditor
             txtIssuesList.ScrollBars = ScrollBars.Vertical;
             txtIssuesList.Text = "";
             txtIssuesList.ReadOnly = true;
-            ValidatorForm.Controls.Add(txtIssuesList);
+            validatorForm.Controls.Add(txtIssuesList);
 
             butResolveIssues = new Button();
             butResolveIssues.Top = 212;
@@ -270,9 +234,9 @@ namespace NLEditor
             butResolveIssues.Height = 60;
             butResolveIssues.Text = "Delete pieces outside level";
             butResolveIssues.Click += new EventHandler(butResolveIssues_Click);
-            ValidatorForm.Controls.Add(butResolveIssues);
+            validatorForm.Controls.Add(butResolveIssues);
 
-            ValidatorForm.Show();
+            validatorForm.Show();
         }
 
         /// <summary>
@@ -290,24 +254,19 @@ namespace NLEditor
         /// <summary>
         /// Displays the results of the level validation on the ValidatorForm.
         /// </summary>
-        /// <param name="IssuesList"></param>
-        private void DisplayValidationResult(List<string> IssuesList)
+        private void DisplayValidationResult()
         {
             txtIssuesList.Text = "";
             
-            if (IssuesList == null || IssuesList.Count == 0)
+            if (issuesList == null || issuesList.Count == 0)
             {
                 txtIssuesList.Text = "No issues found.";
                 butResolveIssues.Enabled = false;
             }
             else
             {
-                foreach (string IssueText in IssuesList)
-                {
-                    txtIssuesList.Text += IssueText + System.Environment.NewLine;
-                }
-
-                butResolveIssues.Enabled = IssuesList[0].StartsWith("Piece outside");
+                txtIssuesList.Text = string.Join(C.NewLine, issuesList);
+                butResolveIssues.Enabled = issuesList[0].StartsWith("Piece outside");
             }
 
         }
@@ -320,7 +279,7 @@ namespace NLEditor
         private void butResolveIssues_Click(object sender, EventArgs e)
         {
             RemovePiecesOutsideBoundary();
-            this.Validate(true);
+            Validate(true);
         }
 
 
@@ -329,9 +288,9 @@ namespace NLEditor
         /// </summary>
         private void RemovePiecesOutsideBoundary()
         {
-            System.Drawing.Rectangle LevelRect = new System.Drawing.Rectangle(0, 0, fCurLevel.Width, fCurLevel.Height);
-            fCurLevel.TerrainList.RemoveAll(ter => !ter.ImageRectangle.IntersectsWith(LevelRect));
-            fCurLevel.GadgetList.RemoveAll(obj => !obj.ImageRectangle.IntersectsWith(LevelRect));
+            System.Drawing.Rectangle levelRect = new System.Drawing.Rectangle(0, 0, level.Width, level.Height);
+            level.TerrainList.RemoveAll(ter => !ter.ImageRectangle.IntersectsWith(levelRect));
+            level.GadgetList.RemoveAll(obj => !obj.ImageRectangle.IntersectsWith(levelRect));
         }
 
     }
