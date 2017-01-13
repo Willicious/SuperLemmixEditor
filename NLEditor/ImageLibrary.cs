@@ -202,7 +202,7 @@ namespace NLEditor
             if (!imageDict.ContainsKey(imageKey))
             {
                 bool success = AddNewImage(imageKey);
-                if (!success) return -1;
+                if (!success) return 0;
             }
 
             return imageDict[imageKey].Width;
@@ -218,7 +218,7 @@ namespace NLEditor
             if (!imageDict.ContainsKey(imageKey))
             {
                 bool success = AddNewImage(imageKey);
-                if (!success) return -1;
+                if (!success) return 0;
             }
 
             return imageDict[imageKey].Height;

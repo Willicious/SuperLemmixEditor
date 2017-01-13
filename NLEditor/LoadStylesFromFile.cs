@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -15,199 +13,188 @@ namespace NLEditor
     static class LoadStylesFromFile
     {
         public static void AddInitialImagesToLibrary()
-        { 
+        {
             // preplaced lemming
-            string ImageKey = "default" + C.DirSep + "objects" + C.DirSep + "lemming";
-            Bitmap Image = Properties.Resources.Lemming;
-            ImageLibrary.AddNewImage(ImageKey, Image, C.OBJ.LEMMING, new Rectangle(2, 9, 1, 1), C.Resize.None);
+            string imageKey = ImageLibrary.CreatePieceKey("default", "lemming", true);
+            //string imageKey = "default" + C.DirSep + "objects" + C.DirSep + "lemming";
+            Bitmap image = Properties.Resources.Lemming;
+            ImageLibrary.AddNewImage(imageKey, image, C.OBJ.LEMMING, new Rectangle(2, 9, 1, 1), C.Resize.None);
         }
-
+    
         static readonly Dictionary<string, C.StyleColor> KeyToStyleColorDict = new Dictionary<string, C.StyleColor>
         {
             {"BACKGROUND", C.StyleColor.BACKGROUND}, {"MASK", C.StyleColor.MASK}, {"ONE_WAYS", C.StyleColor.ONE_WAY_WALL},
             {"PICKUP_BORDER", C.StyleColor.PICKUP_BORDER}, {"PICKUP_INSIDE", C.StyleColor.PICKUP_INSIDE}
         };
-
+        
         
         /// <summary>
         /// Reads style colors from a .nxtm file.
         /// <para> Color 0: Background (default: black) </para>
         /// </summary>
-        /// <param name="StyleName"></param>
+        /// <param name="styleName"></param>
         /// <returns></returns>
-        public static Dictionary<C.StyleColor, Color> StyleColors(string StyleName)
+        public static Dictionary<C.StyleColor, Color> StyleColors(string styleName)
         {
-            string FilePath = C.AppPathThemeInfo(StyleName);
-            if (!File.Exists(FilePath)) return new Dictionary<C.StyleColor, Color>();
+            var colorDict = new Dictionary<C.StyleColor, Color>();
+            string filePath = C.AppPathThemeInfo(styleName);
+            if (!File.Exists(filePath)) return colorDict;
 
-            FileParser MyParser;
+            FileParser parser;
             try
             {
-                MyParser = new FileParser(FilePath);
+                parser = new FileParser(filePath);
             }
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
                 MessageBox.Show(Ex.Message);
-                return new Dictionary<C.StyleColor, Color>();
+                return colorDict;
             }
 
-            Dictionary<C.StyleColor, Color> ColorDict = new Dictionary<C.StyleColor, Color>();
+            
             try
             {
-                List<FileLine> NewFileLine;
-                while ((NewFileLine = MyParser.GetNextLines()) != null)
+                List<FileLine> newFileLine;
+                while ((newFileLine = parser.GetNextLines()) != null)
                 {
-                    foreach (string Key in KeyToStyleColorDict.Keys)
+                    foreach (string key in KeyToStyleColorDict.Keys)
                     {
-                        FileLine ColorLine = NewFileLine.Find(line => line.Key == Key);
-                        if (ColorLine != null)
+                        FileLine colorLine = newFileLine.Find(line => line.Key == key);
+                        if (colorLine != null)
                         {
-                            string ColorString = ColorLine.Text;
-                            if (ColorString.StartsWith("x")) ColorString = ColorString.Substring(1);
-                            ColorDict[KeyToStyleColorDict[Key]] = ColorTranslator.FromHtml("#" + ColorString);
+                            string colorString = colorLine.Text;
+                            if (colorString.StartsWith("x")) colorString = colorString.Substring(1);
+                            colorDict[KeyToStyleColorDict[key]] = ColorTranslator.FromHtml("#" + colorString);
                         }
                     }
                 }
             }
-            catch
+            finally
             {
-                // do nothing
+                parser.DisposeStreamReader();
             }
 
-            return ColorDict;
+            return colorDict;
         }
 
 
         /// <summary>
         /// Reads the styles.ini file and orders and renames styles accordingly.
         /// </summary>
-        /// <param name="StyleList"></param>
+        /// <param name="styleList"></param>
         /// <returns></returns>
-        public static List<Style> OrderAndRenameStyles(List<Style> StyleList)
+        public static List<Style> OrderAndRenameStyles(List<Style> styleList)
         {
-            string FilePath = C.AppPath + "styles" + C.DirSep + "styles.ini";
+            string filePath = C.AppPath + "styles" + C.DirSep + "styles.ini";
 
-            if (!File.Exists(FilePath)) return StyleList;
+            if (!File.Exists(filePath)) return styleList;
             
             // Otherwise order the styles according to styles.ini
-            Dictionary<string, int> StyleOrderDict;
-            Dictionary<string, string> NewStyleNameDict;
-            ReadStyleOrderFromFile(FilePath, out StyleOrderDict, out NewStyleNameDict);
+            Dictionary<string, int> styleOrderDict;
+            Dictionary<string, string> newStyleNameDict;
+            ReadStyleOrderFromFile(filePath, out styleOrderDict, out newStyleNameDict);
             
             // Rename all custom names
-            foreach (string StyleFileName in NewStyleNameDict.Keys)
+            foreach (string styleFileName in newStyleNameDict.Keys)
             {
-                Style ThisStyle = StyleList.Find(sty => sty.NameInDirectory.Equals(StyleFileName));
-                if (ThisStyle != null)
+                Style curStyle = styleList.Find(sty => sty.NameInDirectory.Equals(styleFileName));
+                if (curStyle != null)
                 {
-                    ThisStyle.NameInEditor = NewStyleNameDict[StyleFileName];
+                    curStyle.NameInEditor = newStyleNameDict[styleFileName];
                 }
             }
 
             // Reorder the styles
-            StyleList.Sort((sty1, sty2) =>
+            styleList.Sort((sty1, sty2) =>
                 {
-                    if (StyleOrderDict.ContainsKey(sty1.NameInDirectory) && StyleOrderDict.ContainsKey(sty2.NameInDirectory))
+                    if (styleOrderDict.ContainsKey(sty1.NameInDirectory) && styleOrderDict.ContainsKey(sty2.NameInDirectory))
                     {
-                        return StyleOrderDict[sty1.NameInDirectory].CompareTo(StyleOrderDict[sty2.NameInDirectory]);
+                        return styleOrderDict[sty1.NameInDirectory].CompareTo(styleOrderDict[sty2.NameInDirectory]);
                     }
-                    else if (StyleOrderDict.ContainsKey(sty1.NameInDirectory))
+                    else if (styleOrderDict.ContainsKey(sty1.NameInDirectory))
                     {
                         return -1;
                     }
-                    else if (StyleOrderDict.ContainsKey(sty2.NameInDirectory))
+                    else if (styleOrderDict.ContainsKey(sty2.NameInDirectory))
                     {
                         return 1;
                     }
                     else
                     {
-                        return StyleList.FindIndex(sty => sty == sty1).CompareTo(StyleList.FindIndex(sty => sty == sty2));
+                        return styleList.FindIndex(sty => sty == sty1).CompareTo(styleList.FindIndex(sty => sty == sty2));
                     }
                 });
 
-            return StyleList;
+            return styleList;
         }
 
         /// <summary>
         /// Reads a style file and returns new positions and custom names for styles.
         /// </summary>
-        /// <param name="FilePath"></param>
-        /// <param name="StyleOrderDict"></param>
-        /// <param name="NewStyleNameDict"></param>
-        private static void ReadStyleOrderFromFile(string FilePath, out Dictionary<string, int> StyleOrderDict, out Dictionary<string, string> NewStyleNameDict)
+        /// <param name="filePath"></param>
+        /// <param name="styleOrderDict"></param>
+        /// <param name="newStyleNameDict"></param>
+        private static void ReadStyleOrderFromFile(string filePath, out Dictionary<string, int> styleOrderDict,
+                                                                    out Dictionary<string, string> newStyleNameDict)
         {
-            StyleOrderDict = new Dictionary<string, int>();
-            NewStyleNameDict = new Dictionary<string, string>();
-            
-            StreamReader fFileStream = new StreamReader(FilePath);
+            styleOrderDict = new Dictionary<string, int>();
+            newStyleNameDict = new Dictionary<string, string>();
 
-            string Line;
+            StreamReader fileStream = null;
+            string styleFileName = null;
 
-            string StyleFileName = null;
-            string StyleNewName = null;
-            int StyleNewPos = -1;
-
-            do
+            try
             {
-                Line = fFileStream.ReadLine();
-                if (Line != null) Line = Line.Trim();
+                fileStream = new StreamReader(filePath);
 
-                // Add current style infos
-                if (Line == null || Line.StartsWith("["))
+                while (true)
                 {
-                    if (StyleFileName != null && StyleNewPos != -1)
+                    string line = fileStream.ReadLine()?.Trim();
+
+                    if (line == null) break;
+
+                    if (line.StartsWith("["))
                     {
-                        if (!StyleOrderDict.ContainsKey(StyleFileName))
+                        styleFileName = line.Substring(1, line.Length - 2);
+                    }
+                    else if (line.ToUpper().StartsWith("NAME") && line.Length > 5)
+                    {
+                        string styleNewName = line.Substring(5).Trim();
+                        if (styleFileName != null)
                         {
-                            StyleOrderDict[StyleFileName] = StyleNewPos;
+                            newStyleNameDict[styleFileName] = styleNewName;
                         }
                     }
-                    if (StyleFileName != null && StyleNewName != null)
+                    else if (line.ToUpper().StartsWith("ORDER") && line.Length > 6)
                     {
-                        if (!NewStyleNameDict.ContainsKey(StyleFileName))
+                        int styleNewPos;
+                        if (styleFileName != null &&
+                            int.TryParse(line.Substring(6).Trim(), out styleNewPos))
                         {
-                            NewStyleNameDict[StyleFileName] = StyleNewName;
+                            styleOrderDict[styleFileName] = styleNewPos;
                         }
                     }
-
-                    StyleFileName = null;
-                    StyleNewName = null;
-                    StyleNewPos = -1;
-                }
-
-                if (Line == null) 
-                { 
-                    // nothing 
-                }
-                else if (Line.StartsWith("["))
-                {
-                    StyleFileName = Line.Substring(1, Line.Length - 2);
-                }
-                else if (Line.ToUpper().StartsWith("NAME"))
-                {
-                    StyleNewName = Line.Substring(5).Trim();
-                }
-                else if (Line.ToUpper().StartsWith("ORDER"))
-                {
-                    Int32.TryParse(Line.Substring(6).Trim(), out StyleNewPos);
-                }
-            } while (Line != null);
+                } 
+            }
+            finally
+            {
+                fileStream?.Dispose();
+            }
         }
 
         /// <summary>
-        /// Loads a .png image.
-        /// <para> Returns null on exception. </para>
+        /// Loads a .png image or null if the image could not be loaded.
         /// </summary>
-        /// <param name="ImageKey"></param>
+        /// <param name="imageKey"></param>
         /// <returns></returns>
-        public static Bitmap Image(string ImageKey)
+        public static Bitmap Image(string imageKey)
         {
-            string ImagePath = C.AppPathPieces + ImageKey;
+            string imagePath = C.AppPathPieces + imageKey;
             
             try
             {
-                return Utility.CreateBitmapFromFile(ImagePath + ".png");
+                return Utility.CreateBitmapFromFile(imagePath + ".png");
             }
             catch (Exception Ex)
             {
@@ -220,27 +207,27 @@ namespace NLEditor
         /// Reads further piece infos from a .nxob resp. nxtp file.
         /// <para> Returns a finished BaseImageInfo containing both the image and the further info. <\para> 
         /// </summary>
-        /// <param name="Image"></param>
-        /// <param name="ImageName"></param>
+        /// <param name="image"></param>
+        /// <param name="imageName"></param>
         /// <returns></returns>
-        public static BaseImageInfo ImageInfo(Bitmap Image, string ImageName)
+        public static BaseImageInfo ImageInfo(Bitmap image, string imageName)
         {
-            string ImagePath = C.AppPathPieces + ImageName;
+            string imagePath = C.AppPathPieces + imageName;
 
-            if (File.Exists(ImagePath + ".nxmo"))
+            if (File.Exists(imagePath + ".nxmo"))
             {
                 // create a new object piece
-                return CreateNewObjectInfo(Image, ImagePath + ".nxmo");
+                return CreateNewObjectInfo(image, imagePath + ".nxmo");
             }
-            else if (File.Exists(ImagePath + ".nxmt"))
+            else if (File.Exists(imagePath + ".nxmt"))
             {
                 // create a new object piece
-                return CreateNewTerrainInfo(Image, ImagePath + ".nxmt");
+                return CreateNewTerrainInfo(image, imagePath + ".nxmt");
             }
             else
             {
                 // create a new terrain piece
-                return new BaseImageInfo(Image);
+                return new BaseImageInfo(image);
             }
         }
 
@@ -250,72 +237,72 @@ namespace NLEditor
         /// <para> ObjType = C.OBJ.NONE </para>
         /// <para> TriggerRect = Rectangle(0, 0, 0, 0) </para>
         /// </summary>
-        /// <param name="NewBitmap"></param>
+        /// <param name="newBitmap"></param>
         /// <param name="FilePathInfo"></param>
         /// <returns></returns>
-        private static BaseImageInfo CreateNewObjectInfo(Bitmap NewBitmap, string FilePath)
+        private static BaseImageInfo CreateNewObjectInfo(Bitmap newBitmap, string filePath)
         {
-            int NumFrames = 1;
-            bool IsVert = true;
-            C.OBJ ObjType = C.OBJ.NONE;
-            Rectangle TriggerRect = new Rectangle(0, 0, 1, 1);
-            C.Resize ResizeMode = C.Resize.None;
+            int numFrames = 1;
+            bool isVert = true;
+            C.OBJ objType = C.OBJ.NONE;
+            Rectangle triggerRect = new Rectangle(0, 0, 1, 1);
+            C.Resize resizeMode = C.Resize.None;
 
-            FileParser MyParser;
+            FileParser parser;
             try
             {
-                MyParser = new FileParser(FilePath);
+                parser = new FileParser(filePath);
             }
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
                 MessageBox.Show(Ex.Message);
-                return new BaseImageInfo(NewBitmap, ObjType, NumFrames, IsVert, TriggerRect, ResizeMode);
+                return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode);
             }
 
             try
             {
-                List<FileLine> FileLineList;
-                while ((FileLineList = MyParser.GetNextLines()) != null)
+                List<FileLine> fileLineList;
+                while ((fileLineList = parser.GetNextLines()) != null)
                 {
-                    System.Diagnostics.Debug.Assert(FileLineList.Count > 0, "FileParser returned empty list.");
-                    
-                    FileLine Line = FileLineList[0];
-                    switch (Line.Key)
+                    System.Diagnostics.Debug.Assert(fileLineList.Count > 0, "FileParser returned empty list.");
+
+                    FileLine line = fileLineList[0];
+                    switch (line.Key)
                     {
-                        case "FRAMES": NumFrames = Line.Value; break;
-                        case "TRIGGER_X": TriggerRect.X = Line.Value; break;
-                        case "TRIGGER_Y": TriggerRect.Y = Line.Value; break;
-                        case "TRIGGER_WIDTH": TriggerRect.Width = Line.Value; break;
-                        case "TRIGGER_HEIGHT": TriggerRect.Height = Line.Value; break;
-                        case "VERTICAL": IsVert = true; break;
-                        case "HORIZONTAL": IsVert = false; break;
-                        case "RESIZE_VERTICAL": ResizeMode = ResizeMode.In(C.Resize.Horiz, C.Resize.Both) ? C.Resize.Both : C.Resize.Vert; break;
-                        case "RESIZE_HORIZONTAL": ResizeMode = ResizeMode.In(C.Resize.Vert, C.Resize.Both) ? C.Resize.Both : C.Resize.Horiz; break;
-                        case "RESIZE_BOTH": ResizeMode = C.Resize.Both; break;
-                        case "WINDOW": ObjType = C.OBJ.HATCH; break;
-                        case "EXIT": ObjType = C.OBJ.EXIT; break;
-                        case "TRAP": ObjType = C.OBJ.TRAP; break;
-                        case "SINGLE_USE_TRAP": ObjType = C.OBJ.TRAPONCE; break;
-                        case "WATER": ObjType = C.OBJ.WATER; break;
-                        case "FIRE": ObjType = C.OBJ.FIRE; break;
+                        case "FRAMES": numFrames = line.Value; break;
+                        case "TRIGGER_X": triggerRect.X = line.Value; break;
+                        case "TRIGGER_Y": triggerRect.Y = line.Value; break;
+                        case "TRIGGER_WIDTH": triggerRect.Width = line.Value; break;
+                        case "TRIGGER_HEIGHT": triggerRect.Height = line.Value; break;
+                        case "VERTICAL": isVert = true; break;
+                        case "HORIZONTAL": isVert = false; break;
+                        case "RESIZE_VERTICAL": resizeMode = resizeMode.In(C.Resize.Horiz, C.Resize.Both) ? C.Resize.Both : C.Resize.Vert; break;
+                        case "RESIZE_HORIZONTAL": resizeMode = resizeMode.In(C.Resize.Vert, C.Resize.Both) ? C.Resize.Both : C.Resize.Horiz; break;
+                        case "RESIZE_BOTH": resizeMode = C.Resize.Both; break;
+                        case "WINDOW": objType = C.OBJ.HATCH; break;
+                        case "EXIT": objType = C.OBJ.EXIT; break;
+                        case "TRAP": objType = C.OBJ.TRAP; break;
+                        case "SINGLE_USE_TRAP": objType = C.OBJ.TRAPONCE; break;
+                        case "WATER": objType = C.OBJ.WATER; break;
+                        case "FIRE": objType = C.OBJ.FIRE; break;
                         case "ONE_WAY_RIGHT":
                         case "ONE_WAY_LEFT":
-                        case "ONE_WAY_DOWN": ObjType = C.OBJ.ONE_WAY_WALL; break;
-                        case "BUTTON": ObjType =  C.OBJ.BUTTON; break;
-                        case "LOCKED_EXIT": ObjType = C.OBJ.EXIT_LOCKED; break;
-                        case "PICKUP_SKILL": ObjType = C.OBJ.PICKUP; break;
-                        case "TELEPORTER": ObjType = C.OBJ.TELEPORTER; break;
-                        case "RECEIVER": ObjType = C.OBJ.RECEIVER; break;
-                        case "SPLITTER": ObjType = C.OBJ.SPLITTER; break;
-                        case "RADIATION": ObjType = C.OBJ.RADIATION; break;
-                        case "SLOWFREEZE": ObjType = C.OBJ.SLOWFREEZE; break;
-                        case "UPDRAFT": ObjType = C.OBJ.UPDRAFT; break;
-                        case "SPLATPAD": ObjType = C.OBJ.SPLAT; break;
-                        case "ANTI_SPLATPAD": ObjType = C.OBJ.NOSPLAT; break;
+                        case "ONE_WAY_DOWN": objType = C.OBJ.ONE_WAY_WALL; break;
+                        case "BUTTON": objType = C.OBJ.BUTTON; break;
+                        case "LOCKED_EXIT": objType = C.OBJ.EXIT_LOCKED; break;
+                        case "PICKUP_SKILL": objType = C.OBJ.PICKUP; break;
+                        case "TELEPORTER": objType = C.OBJ.TELEPORTER; break;
+                        case "RECEIVER": objType = C.OBJ.RECEIVER; break;
+                        case "SPLITTER": objType = C.OBJ.SPLITTER; break;
+                        case "RADIATION": objType = C.OBJ.RADIATION; break;
+                        case "SLOWFREEZE": objType = C.OBJ.SLOWFREEZE; break;
+                        case "UPDRAFT": objType = C.OBJ.UPDRAFT; break;
+                        case "SPLATPAD": objType = C.OBJ.SPLAT; break;
+                        case "ANTI_SPLATPAD": objType = C.OBJ.NOSPLAT; break;
                         case "FORCE_RIGHT":
-                        case "FORCE_LEFT": ObjType = C.OBJ.FORCE_FIELD; break;
-                        case "BACKGROUND": ObjType = C.OBJ.BACKGROUND; break;
+                        case "FORCE_LEFT": objType = C.OBJ.FORCE_FIELD; break;
+                        case "BACKGROUND": objType = C.OBJ.BACKGROUND; break;
                     }
                 }
             }
@@ -324,42 +311,46 @@ namespace NLEditor
                 Utility.LogException(Ex);
                 MessageBox.Show(Ex.Message);
             }
+            finally
+            {
+                parser?.DisposeStreamReader();
+            }
 
-            return new BaseImageInfo(NewBitmap, ObjType, NumFrames, IsVert, TriggerRect, ResizeMode);
+            return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode);
         }
 
         /// <summary>
         /// Reads further terrain infos from a .nxtp file. Default values:
         /// <para> IsSteel = false </para>
         /// </summary>
-        /// <param name="NewBitmap"></param>
+        /// <param name="newBitmap"></param>
         /// <param name="FilePathInfo"></param>
         /// <returns></returns>
-        private static BaseImageInfo CreateNewTerrainInfo(Bitmap NewBitmap, string FilePath)
+        private static BaseImageInfo CreateNewTerrainInfo(Bitmap newBitmap, string filePath)
         {
             bool IsSteel = false;
 
-            FileParser MyParser;
+            FileParser parser;
             try
             {
-                MyParser = new FileParser(FilePath);
+                parser = new FileParser(filePath);
             }
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
                 MessageBox.Show(Ex.Message);
-                return new BaseImageInfo(NewBitmap, IsSteel);
+                return new BaseImageInfo(newBitmap, IsSteel);
             }
 
             try
             {
-                List<FileLine> FileLineList;
-                while ((FileLineList = MyParser.GetNextLines()) != null)
+                List<FileLine> fileLineList;
+                while ((fileLineList = parser.GetNextLines()) != null)
                 {
-                    System.Diagnostics.Debug.Assert(FileLineList.Count > 0, "FileParser returned empty list.");
+                    System.Diagnostics.Debug.Assert(fileLineList.Count > 0, "FileParser returned empty list.");
 
-                    FileLine Line = FileLineList[0];
-                    switch (Line.Key)
+                    FileLine line = fileLineList[0];
+                    switch (line.Key)
                     {
                         case "STEEL": IsSteel = true; break;
                     }
@@ -370,8 +361,12 @@ namespace NLEditor
                 Utility.LogException(Ex);
                 MessageBox.Show(Ex.Message);
             }
+            finally
+            {
+                parser?.DisposeStreamReader();
+            }
 
-            return new BaseImageInfo(NewBitmap, IsSteel);
+            return new BaseImageInfo(newBitmap, IsSteel);
         }
     }
 }
