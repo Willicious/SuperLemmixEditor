@@ -14,93 +14,86 @@ namespace NLEditor
     {
         public RepeatButton() : base()
         {
-            fButtonTimer = new Timer();
-            fButtonTimer.Enabled = false;
-            fButtonTimer.Interval = 100;
-            fButtonTimer.Tick += new EventHandler(delegate(Object obj, EventArgs e) { ButtonTimer_Tick(); });
+            buttonTimer = new Timer();
+            buttonTimer.Enabled = false;
+            buttonTimer.Tick += new EventHandler(delegate(Object obj, EventArgs e) { ButtonTimer_Tick(); });
 
             this.MouseDown += new MouseEventHandler(delegate(Object obj, MouseEventArgs e) { RepeatButton_MouseDown(e); });
             this.MouseUp += new MouseEventHandler(delegate(Object obj, MouseEventArgs e) { RepeatButton_MouseUp(e); });
 
-            fIsRepeatedAction = false;
+            IsRepeatedAction = false;
 
-            fButtonIntervals = new Dictionary<MouseButtons, int>();
-            fButtonIntervals.Add(MouseButtons.Left, 100);
-            fButtonIntervals.Add(MouseButtons.Right, 100);
-            fButtonIntervals.Add(MouseButtons.Middle, 100);
+            buttonIntervals = new Dictionary<MouseButtons, int>();
+            buttonIntervals.Add(MouseButtons.Left, 50);
+            buttonIntervals.Add(MouseButtons.Right, 50);
+            buttonIntervals.Add(MouseButtons.Middle, 50);
         }
 
-        Timer fButtonTimer;
-        MouseEventArgs fLastMouseEventArgs;
-        bool fIsRepeatedAction;
-        Dictionary<MouseButtons, int> fButtonIntervals;
+        Timer buttonTimer;
+        MouseEventArgs lastMouseEventArgs;
+        Dictionary<MouseButtons, int> buttonIntervals;
+
+        public bool IsRepeatedAction { get; private set; }
 
         /// <summary>
         /// Gets the interval between two repeated actions.
         /// </summary>
-        public int Interval 
-        { 
-            get { return fButtonTimer.Interval; }  
-            //set { fButtonTimer.Interval = Math.Max(value, 1); }
+        public int Interval(MouseButtons button = MouseButtons.Left)
+        {
+            return buttonIntervals?[button] ?? 100; 
         }
+        
 
         /// <summary>
         /// Sets the interval for a specified button.
         /// </summary>
-        /// <param name="Interval"></param>
-        /// <param name="Button"></param>
-        public void SetInterval(int Interval, MouseButtons Button = MouseButtons.Left)
+        /// <param name="interval"></param>
+        /// <param name="button"></param>
+        public void SetInterval(int interval, MouseButtons button = MouseButtons.Left)
         {
-            if (fButtonIntervals.Keys.Contains(Button))
+            if (buttonIntervals.Keys.Contains(button))
             {
-                fButtonIntervals[Button] = Interval;
+                buttonIntervals[button] = interval;
             }
             else
             {
-                fButtonIntervals.Add(Button, Interval);
+                buttonIntervals.Add(button, interval);
             }
         }
           
-        /// <summary>
-        /// Returns whether a prepeated action was already triggered.
-        /// </summary>
-        public bool IsRepeatedAction
-        {
-            get { return fIsRepeatedAction; }
-        }
 
         private void RepeatButton_MouseDown(MouseEventArgs e)
         {
-            if (!fButtonIntervals.Keys.Contains(e.Button)) return;
+            if (!buttonIntervals.Keys.Contains(e.Button)) return;
             
-            fLastMouseEventArgs = e;
+            lastMouseEventArgs = e;
 
-            fButtonTimer.Interval = fButtonIntervals[e.Button];
-            fButtonTimer.Enabled = true;
+            buttonTimer.Interval = buttonIntervals[e.Button];
+            buttonTimer.Enabled = true;
 
-            if (fButtonTimer.Interval < 200)
+            if (buttonTimer.Interval < 200)
             {
-                fIsRepeatedAction = false; // just to be sure
+                IsRepeatedAction = false; // just to be sure
             }
             else
             {
-                fIsRepeatedAction = false;
-                OnClick(fLastMouseEventArgs);
-                fIsRepeatedAction = true; // just to be sure
+                IsRepeatedAction = false;
+                OnClick(lastMouseEventArgs);
+                IsRepeatedAction = true; // just to be sure
             }
             
         }
 
         private void RepeatButton_MouseUp(MouseEventArgs e)
         {
-            fButtonTimer.Enabled = false;
-            fIsRepeatedAction = false;
+            buttonTimer.Enabled = false;
+            IsRepeatedAction = false;
         }
 
         private void ButtonTimer_Tick()
         {
-            OnClick(fLastMouseEventArgs);
-            fIsRepeatedAction = true;
+            OnClick(lastMouseEventArgs);
+            IsRepeatedAction = true;
         }
     }
 }

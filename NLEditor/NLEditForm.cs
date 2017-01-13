@@ -317,7 +317,7 @@ namespace NLEditor
 
         private void but_RotatePieces_Click(object sender, EventArgs e)
         {
-            if (!but_RotatePieces.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_RotatePieces.Interval / 2)
+            if (!but_RotatePieces.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_RotatePieces.Interval() / 2)
             {
                 fStopWatchMouse.Restart();
                 RotateLevelPieces();
@@ -331,7 +331,7 @@ namespace NLEditor
 
         private void but_InvertPieces_Click(object sender, EventArgs e)
         {
-            if (!but_InvertPieces.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_InvertPieces.Interval / 2)
+            if (!but_InvertPieces.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_InvertPieces.Interval() / 2)
             {
                 fStopWatchMouse.Restart();
                 InvertLevelPieces();
@@ -345,7 +345,7 @@ namespace NLEditor
 
         private void but_FlipPieces_Click(object sender, EventArgs e)
         {
-            if (!but_FlipPieces.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_FlipPieces.Interval / 2)
+            if (!but_FlipPieces.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_FlipPieces.Interval() / 2)
             {
                 fStopWatchMouse.Restart();
                 FlipLevelPieces();
@@ -360,7 +360,7 @@ namespace NLEditor
 
         private void but_MoveFront_Click(object sender, EventArgs e)
         {
-            if (!but_MoveFront.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveFront.Interval / 2)
+            if (!but_MoveFront.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveFront.Interval() / 2)
             {
                 fStopWatchMouse.Restart();
                 MovePieceIndex(true, false);
@@ -374,7 +374,7 @@ namespace NLEditor
 
         private void but_MoveBack_Click(object sender, EventArgs e)
         {
-            if (!but_MoveBack.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveBack.Interval / 2)
+            if (!but_MoveBack.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveBack.Interval() / 2)
             {
                 fStopWatchMouse.Restart();
                 MovePieceIndex(false, false);
@@ -388,7 +388,7 @@ namespace NLEditor
 
         private void but_MoveFrontOne_Click(object sender, EventArgs e)
         {
-            if (!but_MoveFrontOne.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveFrontOne.Interval / 2)
+            if (!but_MoveFrontOne.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveFrontOne.Interval() / 2)
             {
                 fStopWatchMouse.Restart();
                 MovePieceIndex(true, true);
@@ -402,7 +402,7 @@ namespace NLEditor
 
         private void but_MoveBackOne_Click(object sender, EventArgs e)
         {
-            if (!but_MoveBackOne.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveBackOne.Interval / 2)
+            if (!but_MoveBackOne.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_MoveBackOne.Interval() / 2)
             {
                 fStopWatchMouse.Restart();
                 MovePieceIndex(false, true);
@@ -519,7 +519,7 @@ namespace NLEditor
 
         private void but_PieceLeft_Click(object sender, EventArgs e)
         {
-            if (!but_PieceLeft.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_PieceLeft.Interval / 2)
+            if (!but_PieceLeft.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_PieceLeft.Interval() / 2)
             {
                 fStopWatchMouse.Restart();
                 
@@ -549,7 +549,7 @@ namespace NLEditor
 
         private void but_PieceRight_Click(object sender, EventArgs e)
         {
-            if (!but_PieceRight.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_PieceRight.Interval / 2)
+            if (!but_PieceRight.IsRepeatedAction || fStopWatchMouse.ElapsedMilliseconds > but_PieceRight.Interval() / 2)
             {
                 fStopWatchMouse.Restart();
 
