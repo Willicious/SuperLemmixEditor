@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
 
@@ -19,11 +17,11 @@ namespace NLEditor
         /// <summary>
         /// Initializes a new instance of a Style by searching for pieces in the directory AppPath/StyleName/.
         /// </summary>
-        /// <param name="StyleName"></param>
-        public Style(string StyleName)
+        /// <param name="styleName"></param>
+        public Style(string styleName)
         {
-            this.fNameInDirectory = StyleName;
-            this.fNameInEditor = StyleName; // may be overwritten later when forming the StyleList
+            NameInDirectory = styleName;
+            NameInEditor = styleName; // may be overwritten later when forming the StyleList
 
             SearchDirectoryForTerrain();
             SearchDirectoryForObjects();
@@ -32,43 +30,38 @@ namespace NLEditor
             RemoveDuplicatedObjects();
             SortObjectNamesByObjectType();
 
-            fColorDict = LoadStylesFromFile.StyleColors(NameInDirectory);
+            colorDict = LoadStylesFromFile.StyleColors(NameInDirectory);
         }
 
-        string fNameInDirectory;
-        string fNameInEditor;
-        List<string> fTerrainNames;
-        List<string> fObjectNames;
-        List<string> fBackgroundNames;
-        Dictionary<C.StyleColor, Color> fColorDict;
+        Dictionary<C.StyleColor, Color> colorDict;
 
-        public string NameInDirectory { get { return fNameInDirectory; } }
-        public string NameInEditor { get { return fNameInEditor; } set { fNameInEditor = value; } }
-        public List<string> TerrainNames { get { return fTerrainNames; } }
-        public List<string> ObjectNames { get { return fObjectNames; } }
-        public List<string> BackgroundNames { get { return fBackgroundNames; } }
+        public string NameInDirectory { get; private set; }
+        public string NameInEditor { get; set; }
+        public List<string> TerrainNames { get; private set; }
+        public List<string> ObjectNames { get; private set; }
+        public List<string> BackgroundNames { get; private set; }
 
         /// <summary>
         /// Checks for equality of the style's FileName.
         /// </summary>
-        /// <param name="OtherStyle"></param>
+        /// <param name="otherStyle"></param>
         /// <returns></returns>
-        public bool Equals(Style OtherStyle)
+        public bool Equals(Style otherStyle)
         {
-            return this.NameInDirectory.Equals(OtherStyle.NameInDirectory);
+            return this.NameInDirectory.Equals(otherStyle.NameInDirectory);
         }
 
         /// <summary>
         /// Reads the style's color or a default value if no color is specified.
         /// </summary>
-        /// <param name="ColorType"></param>
+        /// <param name="colorType"></param>
         /// <returns></returns>
-        public Color GetColor(C.StyleColor ColorType)
+        public Color GetColor(C.StyleColor colorType)
         {
-            if (fColorDict.ContainsKey(ColorType)) return fColorDict[ColorType];
+            if (colorDict.ContainsKey(colorType)) return colorDict[colorType];
             else
             {
-                switch (ColorType)
+                switch (colorType)
                 {
                     case C.StyleColor.BACKGROUND: return Color.Black;
                     default: return Color.Linen;
@@ -82,17 +75,17 @@ namespace NLEditor
         /// </summary>
         private void SearchDirectoryForTerrain()
         {
-            string DirectoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "terrain";
+            string directoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "terrain";
 
-            if (Directory.Exists(DirectoryPath))
+            if (Directory.Exists(directoryPath))
             {
-                fTerrainNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                         .Select(file => ImageLibrary.CreatePieceKey(file))
-                                         .ToList();
+                TerrainNames = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                                        .Select(file => ImageLibrary.CreatePieceKey(file))
+                                        .ToList();
             }
             else // use empty list
             {
-                fTerrainNames = new List<string>();
+                TerrainNames = new List<string>();
             }
         }
 
@@ -102,30 +95,30 @@ namespace NLEditor
         private void SearchDirectoryForObjects()
         {
             // Load first the style-specific objects
-            string DirectoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "objects";
+            string directoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "objects";
 
-            if (Directory.Exists(DirectoryPath))
+            if (Directory.Exists(directoryPath))
             {
-                fObjectNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                        .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
-                                        .ToList();
+                ObjectNames = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                                       .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
+                                       .ToList();
             }
             else
             {
-                fObjectNames = new List<string>();
+                ObjectNames = new List<string>();
             }
 
             // Load now the default objects into the list
-            DirectoryPath = C.AppPathPieces + "default" + C.DirSep + "objects";
+            string directoryPathDefault = C.AppPathPieces + "default" + C.DirSep + "objects";
 
             try
             {
-                fObjectNames.AddRange(Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                               .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
-                                               .ToList()
-                                               .FindAll(key => !key.Contains("_mask_")));
+                ObjectNames.AddRange(Directory.GetFiles(directoryPathDefault, "*.png", SearchOption.TopDirectoryOnly)
+                                              .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
+                                              .ToList()
+                                              .FindAll(key => !key.Contains("_mask_")));
 
-                fObjectNames.Add("default" + C.DirSep + "objects" + C.DirSep + "lemming");
+                ObjectNames.Add("default" + C.DirSep + "objects" + C.DirSep + "lemming");
             }
             catch (Exception Ex)
             {
@@ -141,17 +134,17 @@ namespace NLEditor
         /// </summary>
         private void SearchDirectoryForBackgrounds()
         {
-            string DirectoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "backgrounds";
+            string directoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "backgrounds";
 
-            if (Directory.Exists(DirectoryPath))
+            if (Directory.Exists(directoryPath))
             {
-                fBackgroundNames = Directory.GetFiles(DirectoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                            .Select(file => ImageLibrary.CreatePieceKey(file))
-                                            .ToList();
+                BackgroundNames = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                                           .Select(file => ImageLibrary.CreatePieceKey(file))
+                                           .ToList();
             }
             else // use empty list
             {
-                fBackgroundNames = new List<string>();
+                BackgroundNames = new List<string>();
             }
         }
 
@@ -160,10 +153,10 @@ namespace NLEditor
         /// </summary>
         private void RemoveDuplicatedObjects()
         {
-            fObjectNames.RemoveAll(obj => obj.StartsWith("default")
-                                          && !ImageLibrary.GetObjType(obj).In(C.OBJ.NONE, C.OBJ.ANIMATION, C.OBJ.BACKGROUND)
-                                          && fObjectNames.Exists(obj2 => !obj2.StartsWith("default")
-                                                                 && ImageLibrary.GetObjType(obj) == ImageLibrary.GetObjType(obj2)));
+            ObjectNames.RemoveAll(obj => obj.StartsWith("default")
+                                      && !ImageLibrary.GetObjType(obj).In(C.OBJ.NONE, C.OBJ.ANIMATION, C.OBJ.BACKGROUND)
+                                      && ObjectNames.Exists(obj2 => !obj2.StartsWith("default")
+                                                              && ImageLibrary.GetObjType(obj) == ImageLibrary.GetObjType(obj2)));
         }
 
         /// <summary>
@@ -171,7 +164,7 @@ namespace NLEditor
         /// </summary>
         private void SortObjectNamesByObjectType()
         {
-            fObjectNames.Sort((obj1, obj2) => ImageLibrary.GetObjType(obj1).CompareTo(ImageLibrary.GetObjType(obj2)));
+            ObjectNames.Sort((obj1, obj2) => ImageLibrary.GetObjType(obj1).CompareTo(ImageLibrary.GetObjType(obj2)));
         }
     }
 }
