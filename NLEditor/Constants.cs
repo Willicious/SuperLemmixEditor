@@ -97,13 +97,20 @@ namespace NLEditor
         public static readonly byte ALPHA_OWW = 255;
         public static readonly byte ALPHA_NOOWW = 254;
 
+        public enum Layer { Background, ObjBack, Terrain, ObjTop, Trigger }
+        public static readonly List<Layer> LayerList = new List<Layer>()
+        {
+            Layer.Background, Layer.ObjBack, Layer.Terrain, Layer.ObjTop, Layer.Trigger
+        };
 
+        /*
         public static readonly int LAY_COUNT = 5;
-        public static readonly int LAY_BACKGROUND = 0;
-        public static readonly int LAY_OBJBACK = 1;
-        public static readonly int LAY_TERRAIN = 2;
-        public static readonly int LAY_OBJTOP = 3;
-        public static readonly int LAY_TRIGGER = 4;
+        public static readonly int = 0;
+        public static readonly int  = 1;
+        public static readonly int  = 2;
+        public static readonly int  = 3;
+        public static readonly int  = 4;
+        */
 
         // The integer values here are only used to pick the correct frame of pickup-skills
         public enum Skill { Climber = 0, Floater = 1, Bomber = 2, Blocker = 3,

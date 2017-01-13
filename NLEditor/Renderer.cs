@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace NLEditor
 {
@@ -44,7 +43,8 @@ namespace NLEditor
          *    ChangeIsBackgroundLayer()
          *    SetLevel(Level NewLevel)
          *    
-         *    ChangeZoom(bool DoZoomIn)
+         *    ChangeZoom(int change, Point mouseScreenPos)
+         *    ChangeZoom(int change)
          *    UpdateScreenPos()
          *    EnsureScreenPosInLevel()
          *    GetDeltaPos()
@@ -62,104 +62,94 @@ namespace NLEditor
         /// </summary>
         public Renderer()
         {
-            this.fMyLevel = null;
-            this.fIsClearPhysics = false;
-            this.fIsTerrainLayer = true;
-            this.fIsObjectLayer = true;
-            this.fIsTriggerLayer = false;
-            this.fIsScreenStart = false;
-            this.fIsBackgroundLayer = false;
+            this.level = null;
         }
 
         /// <summary>
         /// Initializes a new instance of a Renderer. This resets all existing display options. 
         /// </summary>
-        /// <param name="MyLevel"></param>
+        /// <param name="level"></param>
         /// <param name="pic_Level"></param>
-        public Renderer(Level MyLevel, System.Windows.Forms.PictureBox pic_Level)
+        public Renderer(Level level, PictureBox pic_Level)
         {
-            this.fMyLevel = MyLevel;
-            
-            this.fLayerList = new List<Bitmap>(C.LAY_COUNT);
-            for (int i = 0; i < C.LAY_COUNT; i++)
-            {
-                this.fLayerList.Add(new Bitmap(MyLevel.Width, MyLevel.Height));
-            }
-                
-            this.fIsClearPhysics = false;
-            this.fIsTerrainLayer = true;
-            this.fIsObjectLayer = true;
-            this.fIsTriggerLayer = false;
-            this.fIsScreenStart = false;
-            this.fIsBackgroundLayer = false;
+            this.isClearPhysics = false;
+            this.isTerrainLayer = true;
+            this.isObjectLayer = true;
+            this.isTriggerLayer = false;
+            this.isScreenStart = false;
+            this.isBackgroundLayer = false;
 
-            this.fScreenPos = new Point(0, 0);
-            this.fZoom = 0;
+            this.ScreenPosX = 0;
+            this.ScreenPosY = 0;
+            this.ZoomFactor = 0;
 
-            this.LevelPicBox = pic_Level;
+            this.levelPicBox = pic_Level;
+
+            SetLevel(level);
+            ClearLayers();
         }
 
-        List<Bitmap> fLayerList;
-        Level fMyLevel;
-        bool fIsClearPhysics;
-        bool fIsTerrainLayer;
-        bool fIsObjectLayer;
-        bool fIsTriggerLayer;
-        bool fIsScreenStart;
-        bool fIsBackgroundLayer;
+        Dictionary<C.Layer, Bitmap> layerImages;
+        Level level;
+        bool isClearPhysics;
+        bool isTerrainLayer;
+        bool isObjectLayer;
+        bool isTriggerLayer;
+        bool isScreenStart;
+        bool isBackgroundLayer;
         
-        Point fScreenPos;
-        int fZoom;
-        System.Windows.Forms.PictureBox LevelPicBox;
-        Size fPicBoxSize { get { return new Size(LevelPicBox.Size.Width - 4, LevelPicBox.Size.Height - 5); } }
-        Rectangle PicBoxRect { get { return new Rectangle(0, 0, fPicBoxSize.Width, fPicBoxSize.Height); } }
+        PictureBox levelPicBox;
+        int picBoxWidth => levelPicBox.Size.Width - 4;
+        int picBoxHeight => levelPicBox.Size.Height - 5;
+        Rectangle picBoxRect => new Rectangle(0, 0, picBoxWidth, picBoxHeight);
 
-        Point? fMouseStartPos;
-        Point? fMouseCurPos;
-        C.DragActions fMouseDragAction;
+        public Point ScreenPos => new Point(ScreenPosX, ScreenPosY);
+        public int ScreenPosX { get; private set; }
+        public int ScreenPosY { get; private set; }
+        public int ZoomFactor { get; private set; }
 
-        public Point ScreenPos { get { return fScreenPos; } }
-        public int ScreenPosX { get { return fScreenPos.X; } }
-        public int ScreenPosY { get { return fScreenPos.Y; } }
-        public int Zoom { get { return fZoom; } }
+        public Point? MouseStartPos { get; set; }
+        public Point? MouseCurPos { get; set; }
+        public C.DragActions MouseDragAction { get; set; }
 
-        public Point? MouseStartPos { get { return fMouseStartPos; } set { fMouseStartPos = value; } }
-        public Point? MouseCurPos { get { return fMouseCurPos; } set { fMouseCurPos = value; } }
-        public C.DragActions MouseDragAction { get { return fMouseDragAction; } set { fMouseDragAction = value; } }
+        private void ClearLayers()
+        {
+            layerImages = C.LayerList.ToDictionary(layer => layer, layer => new Bitmap(level.Width, level.Height));
+        }
 
         public void ChangeIsClearPhsyics() 
         {
-            fIsClearPhysics = !fIsClearPhysics;
+            isClearPhysics = !isClearPhysics;
         }
 
         public void ChangeIsTerrainLayer()
         { 
-            fIsTerrainLayer = !fIsTerrainLayer; 
+            isTerrainLayer = !isTerrainLayer; 
         } 
 
         public void ChangeIsObjectLayer() 
         { 
-            fIsObjectLayer = !fIsObjectLayer; 
+            isObjectLayer = !isObjectLayer; 
         }
 
         public void ChangeIsTriggerLayer() 
         { 
-            fIsTriggerLayer = !fIsTriggerLayer; 
+            isTriggerLayer = !isTriggerLayer; 
         }
         
         public void ChangeIsScreenStart() 
         { 
-            fIsScreenStart = !fIsScreenStart;
+            isScreenStart = !isScreenStart;
         }
 
         public void ChangeIsBackgroundLayer()
         {
-            fIsBackgroundLayer = !fIsBackgroundLayer;
+            isBackgroundLayer = !isBackgroundLayer;
         }
 
-        public void SetLevel(Level NewLevel)
+        public void SetLevel(Level newLevel)
         {
-            fMyLevel = NewLevel;
+            level = newLevel;
             EnsureScreenPosInLevel();
         }
 
@@ -169,29 +159,28 @@ namespace NLEditor
         /// <returns></returns>
         public Point GetCenterPoint()
         { 
-            Size LevelBmpSize = GetLevelBmpSize(); // Size without zoom!
-
-            return new Point(fScreenPos.X + LevelBmpSize.Width / 2, fScreenPos.Y + LevelBmpSize.Height / 2);
+            Size levelBmpSize = GetLevelBmpSize(); // Size without zoom!
+            return new Point(ScreenPosX + levelBmpSize.Width / 2, ScreenPosY + levelBmpSize.Height / 2);
         }
 
         /// <summary>
         /// Translates level distances to screen distances.
         /// </summary>
-        /// <param name="LvlCoord"></param>
+        /// <param name="lvlCoord"></param>
         /// <returns></returns>
-        private int ApplyZoom(int LvlCoord)
+        private int ApplyZoom(int lvlCoord)
         {
-            return (Zoom < 0) ? (LvlCoord / (1 - Zoom)) : (LvlCoord * (Zoom + 1));
+            return (ZoomFactor < 0) ? (lvlCoord / (1 - ZoomFactor)) : (lvlCoord * (ZoomFactor + 1));
         }
 
         /// <summary>
         /// Translates screen distances to level distances.
         /// </summary>
-        /// <param name="ZoomCoord"></param>
+        /// <param name="screenCoord"></param>
         /// <returns></returns>
-        private int ApplyUnZoom(int ZoomCoord)
+        private int ApplyUnZoom(int screenCoord)
         {
-            return (Zoom < 0) ? (ZoomCoord * (1 - Zoom)) : (ZoomCoord / (Zoom + 1));
+            return (ZoomFactor < 0) ? (screenCoord * (1 - ZoomFactor)) : (screenCoord / (ZoomFactor + 1));
         }
 
         /// <summary>
@@ -200,7 +189,7 @@ namespace NLEditor
         /// <returns></returns>
         private int BorderWidth()
         {
-            return Math.Max(0, (fPicBoxSize.Width - ApplyZoom(fMyLevel.Width)) / 2);
+            return Math.Max(0, (picBoxWidth - ApplyZoom(level.Width)) / 2);
         }
 
         /// <summary>
@@ -209,25 +198,25 @@ namespace NLEditor
         /// <returns></returns>
         private int BorderHeight()
         {
-            return Math.Max(0, (fPicBoxSize.Height - ApplyZoom(fMyLevel.Height)) / 2);
+            return Math.Max(0, (picBoxHeight - ApplyZoom(level.Height)) / 2);
         }
 
         /// <summary>
         /// Translates a point in screen coordinates (relative to pic_Level) into level coordinates.
         /// </summary>
-        /// <param name="MouseScreenPos"></param>
+        /// <param name="mouseScreenPos"></param>
         /// <returns></returns>
-        public Point GetMousePosInLevel(Point MouseScreenPos)
+        public Point GetMousePosInLevel(Point mouseScreenPos)
         {
             // Adapt to images that do not fill the whole pic_Level and to Mouse positions outside the level
-            int MouseScreenPosX = Math.Min(Math.Max(MouseScreenPos.X, BorderWidth()), fPicBoxSize.Width - BorderWidth())
+            int mouseScreenPosX = Math.Min(Math.Max(mouseScreenPos.X, BorderWidth()), picBoxWidth - BorderWidth())
                                     - BorderWidth();
-            int MouseScreenPosY = Math.Min(Math.Max(MouseScreenPos.Y, BorderHeight()), fPicBoxSize.Height - BorderHeight())
+            int mouseScreenPosY = Math.Min(Math.Max(mouseScreenPos.Y, BorderHeight()), picBoxHeight - BorderHeight())
                                     - BorderHeight();
 
-            int PosX = ScreenPosX + ApplyUnZoom(MouseScreenPosX);
-            int PosY = ScreenPosY + ApplyUnZoom(MouseScreenPosY);
-            return new Point(PosX, PosY);
+            int posX = ScreenPosX + ApplyUnZoom(mouseScreenPosX);
+            int posY = ScreenPosY + ApplyUnZoom(mouseScreenPosY);
+            return new Point(posX, posY);
         }
 
 
@@ -235,14 +224,14 @@ namespace NLEditor
         /// Returns the start or current mouse position in level coordinates.
         /// <para> Returns null if this position lies outside pic_Level. </para>
         /// </summary>
-        /// <param name="IsCurrent"></param>
+        /// <param name="isCurrent"></param>
         /// <returns></returns>
-        public Point? GetMousePosInLevel(bool IsCurrent = true)
+        public Point? GetMousePosInLevel(bool isCurrent = true)
         {
-            Point? MousePos = IsCurrent ? fMouseCurPos : fMouseStartPos;
+            Point? MousePos = isCurrent ? MouseCurPos : MouseStartPos;
 
             if (MousePos == null) return null;
-            if (!IsCurrent && !PicBoxRect.Contains((Point)MousePos)) return null;
+            if (!isCurrent && !picBoxRect.Contains((Point)MousePos)) return null;
 
             return GetMousePosInLevel((Point)MousePos);
         }
@@ -254,12 +243,12 @@ namespace NLEditor
         /// <returns></returns>
         public Rectangle? GetCurSelectionInLevel()
         {
-            Point? LevelPos1 = GetMousePosInLevel(false);
-            Point? LevelPos2 = GetMousePosInLevel(true);
+            Point? lvlPos1 = GetMousePosInLevel(false);
+            Point? lvlPos2 = GetMousePosInLevel(true);
 
-            if (LevelPos1 == null || LevelPos2 == null) return null;
+            if (lvlPos1 == null || lvlPos2 == null) return null;
 
-            return Utility.RectangleFrom((Point)LevelPos1, (Point)LevelPos2);
+            return Utility.RectangleFrom((Point)lvlPos1, (Point)lvlPos2);
         }
 
         /// <summary>
@@ -286,10 +275,9 @@ namespace NLEditor
         /// </summary>
         private void UpdateLayerBmpSize()
         {
-            if (fMyLevel.Width != fLayerList[0].Width || fMyLevel.Height != fLayerList[0].Height)
+            if (level.Width != layerImages[C.Layer.Terrain].Width || level.Height != layerImages[C.Layer.Terrain].Height)
             {
-                fLayerList = fLayerList.ConvertAll(bmp => bmp = new Bitmap(fMyLevel.Width, fMyLevel.Height));
-                // Recreate background layer, because we just deleted that image.
+                ClearLayers();
                 CreateBackgroundLayer();
             }
         }
@@ -299,14 +287,10 @@ namespace NLEditor
         /// </summary>
         private void SetCustomDrawModeForOWW()
         {
-            Color OWWColor = Color.Linen;            
-            if (fMyLevel.MainStyle != null)
-            {
-                OWWColor = fMyLevel.MainStyle.GetColor(C.StyleColor.ONE_WAY_WALL);
-            }
+            Color owwColor = level.MainStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? Color.Linen;
+            byte[] owwColorBytes = new byte[] { owwColor.B, owwColor.G, owwColor.R, 255 };
 
-            BmpModify.SetCustomDrawMode((x, y) => new byte[]{ OWWColor.B, OWWColor.G, OWWColor.R, 255 }, 
-                                        BmpModify.DoDrawThisPixel_OnlyAtOWW);
+            BmpModify.SetCustomDrawMode((x, y) => owwColorBytes, BmpModify.DoDrawThisPixel_OnlyAtOWW);
         }
 
 
@@ -316,15 +300,15 @@ namespace NLEditor
         public void CreateBackgroundLayer()
         {
             // Set background color
-            fLayerList[C.LAY_BACKGROUND].Clear(fMyLevel.MainStyle.GetColor(C.StyleColor.BACKGROUND));
+            layerImages[C.Layer.Background].Clear(level.MainStyle.GetColor(C.StyleColor.BACKGROUND));
 
             // Display background images, if selected
-            if (fMyLevel.MainStyle.BackgroundNames.Contains(fMyLevel.BackgroundKey))
+            if (level.MainStyle.BackgroundNames.Contains(level.BackgroundKey))
             {
-                Bitmap BackgroundImage = ImageLibrary.GetImage(fMyLevel.BackgroundKey, RotateFlipType.RotateNoneFlipNone)
-                                                     .PaveArea(new Rectangle(0, 0, fMyLevel.Width, fMyLevel.Height));
+                Bitmap backgroundImage = ImageLibrary.GetImage(level.BackgroundKey, RotateFlipType.RotateNoneFlipNone)
+                                                     .PaveArea(new Rectangle(0, 0, level.Width, level.Height));
                 
-                fLayerList[C.LAY_BACKGROUND].DrawOn(BackgroundImage, new Point(0, 0));
+                layerImages[C.Layer.Background].DrawOn(backgroundImage, new Point(0, 0));
             }
         }
 
@@ -333,11 +317,11 @@ namespace NLEditor
         /// </summary>
         private void CreateObjectBackLayer()
         {
-            fLayerList[C.LAY_OBJBACK].Clear();
+            layerImages[C.Layer.ObjBack].Clear();
 
-            foreach (GadgetPiece MyGadget in fMyLevel.GadgetList.FindAll(obj => obj.IsNoOverwrite))
+            foreach (GadgetPiece gadget in level.GadgetList.FindAll(obj => obj.IsNoOverwrite))
             {
-                fLayerList[C.LAY_OBJBACK].DrawOn(MyGadget.Image, MyGadget.Pos);
+                layerImages[C.Layer.ObjBack].DrawOn(gadget.Image, gadget.Pos);
             }
         }
 
@@ -346,12 +330,12 @@ namespace NLEditor
         /// </summary>
         private void CreateTerrainLayer()
         {
-            fLayerList[C.LAY_TERRAIN].Clear();
+            layerImages[C.Layer.Terrain].Clear();
 
-            foreach (TerrainPiece MyTerrPiece in fMyLevel.TerrainList)
+            foreach (TerrainPiece terrPiece in level.TerrainList)
             {
-                C.CustDrawMode MyDrawMode = GetDrawModeForTerrain(MyTerrPiece);
-                fLayerList[C.LAY_TERRAIN].DrawOn(MyTerrPiece.Image, MyTerrPiece.Pos, MyDrawMode);
+                C.CustDrawMode drawMode = GetDrawModeForTerrain(terrPiece);
+                layerImages[C.Layer.Terrain].DrawOn(terrPiece.Image, terrPiece.Pos, drawMode);
             }
         }
 
@@ -359,19 +343,19 @@ namespace NLEditor
         /// Renders all terrain pieces in the TerrPieceList.
         /// <para> This assumes IsClearPhysics = false.</para>
         /// </summary>
-        /// <param name="TerrPieceList"></param>
+        /// <param name="terrPieces"></param>
         /// <returns></returns>
-        public Bitmap CreateTerrainGroupImage(List<TerrainPiece> TerrPieceList)
+        public Bitmap CreateTerrainGroupImage(List<TerrainPiece> terrPieces)
         {
-            int Width = TerrPieceList.Max(ter => ter.PosX + ter.Width);
-            int Height = TerrPieceList.Max(ter => ter.PosY + ter.Height);
+            int width = terrPieces.Max(ter => ter.PosX + ter.Width);
+            int height = terrPieces.Max(ter => ter.PosY + ter.Height);
 
-            Bitmap GroupImage = new Bitmap(Width, Height);
+            Bitmap GroupImage = new Bitmap(width, height);
 
-            foreach (TerrainPiece TerrPiece in TerrPieceList)
+            foreach (TerrainPiece terrain in terrPieces)
             {
-                C.CustDrawMode MyDrawMode = GetDrawModeForTerrain(TerrPiece);
-                GroupImage.DrawOn(TerrPiece.Image, TerrPiece.Pos, MyDrawMode);
+                C.CustDrawMode drawMode = GetDrawModeForTerrain(terrain);
+                GroupImage.DrawOn(terrain.Image, terrain.Pos, drawMode);
             }
 
             return GroupImage;
@@ -381,38 +365,38 @@ namespace NLEditor
         /// <summary>
         /// Returns the correct CustDrawMode for the terrain piece.
         /// </summary>
-        /// <param name="MyTerrPiece"></param>
+        /// <param name="terrPiece"></param>
         /// <returns></returns>
-        private C.CustDrawMode GetDrawModeForTerrain(TerrainPiece MyTerrPiece)
+        private C.CustDrawMode GetDrawModeForTerrain(TerrainPiece terrPiece)
         {
-            if (MyTerrPiece.IsErase) return C.CustDrawMode.Erase;
-            else if (MyTerrPiece.IsNoOverwrite)
+            if (terrPiece.IsErase) return C.CustDrawMode.Erase;
+            else if (terrPiece.IsNoOverwrite)
             {
-                if (fIsClearPhysics)
+                if (isClearPhysics)
                 { 
-                    if (MyTerrPiece.IsSteel) return C.CustDrawMode.ClearPhysicsSteelNoOverwrite;
-                    else if (MyTerrPiece.IsOneWay) return C.CustDrawMode.ClearPhysicsNoOverwriteOWW;
+                    if (terrPiece.IsSteel) return C.CustDrawMode.ClearPhysicsSteelNoOverwrite;
+                    else if (terrPiece.IsOneWay) return C.CustDrawMode.ClearPhysicsNoOverwriteOWW;
                     else return C.CustDrawMode.ClearPhysicsNoOverwrite; 
                 }
                 else 
                 {
-                    if (MyTerrPiece.IsSteel) return C.CustDrawMode.NoOverwrite;
-                    else if (MyTerrPiece.IsOneWay) return C.CustDrawMode.NoOverwriteOWW;
+                    if (terrPiece.IsSteel) return C.CustDrawMode.NoOverwrite;
+                    else if (terrPiece.IsOneWay) return C.CustDrawMode.NoOverwriteOWW;
                     else return C.CustDrawMode.NoOverwrite;
                 }
             }
             else
             {
-                if (fIsClearPhysics)
+                if (isClearPhysics)
                 {
-                    if (MyTerrPiece.IsSteel) return C.CustDrawMode.ClearPhysicsSteel;
-                    else if (MyTerrPiece.IsOneWay) return C.CustDrawMode.ClearPhysicsOWW;
+                    if (terrPiece.IsSteel) return C.CustDrawMode.ClearPhysicsSteel;
+                    else if (terrPiece.IsOneWay) return C.CustDrawMode.ClearPhysicsOWW;
                     else return C.CustDrawMode.ClearPhysics;
                 }
                 else
                 {
-                    if (MyTerrPiece.IsSteel) return C.CustDrawMode.Default;
-                    else if (MyTerrPiece.IsOneWay) return C.CustDrawMode.DefaultOWW;
+                    if (terrPiece.IsSteel) return C.CustDrawMode.Default;
+                    else if (terrPiece.IsOneWay) return C.CustDrawMode.DefaultOWW;
                     else return C.CustDrawMode.Default;
                 }
             }
@@ -424,27 +408,27 @@ namespace NLEditor
         /// </summary>
         private void CreateObjectTopLayer()
         {
-            fLayerList[C.LAY_OBJTOP].Clear();
+            layerImages[C.Layer.ObjTop].Clear();
 
-            List<GadgetPiece> OnlyOnTerrainGadgetList = fMyLevel.GadgetList.FindAll(obj => 
-                    obj.IsOnlyOnTerrain && obj.ObjType != C.OBJ.ONE_WAY_WALL);
-            foreach (GadgetPiece MyGadget in OnlyOnTerrainGadgetList)
+            var onlyOnTerrainGadgetList = level.GadgetList.FindAll(gad => 
+                    gad.IsOnlyOnTerrain && gad.ObjType != C.OBJ.ONE_WAY_WALL);
+            foreach (GadgetPiece gadget in onlyOnTerrainGadgetList)
             {
-                fLayerList[C.LAY_OBJTOP].DrawOn(MyGadget.Image, fLayerList[C.LAY_TERRAIN], MyGadget.Pos, C.CustDrawMode.OnlyAtMask);
+                layerImages[C.Layer.ObjTop].DrawOn(gadget.Image, layerImages[C.Layer.Terrain], gadget.Pos, C.CustDrawMode.OnlyAtMask);
             }
 
-            List<GadgetPiece> OWWGadgetList = fMyLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.ONE_WAY_WALL);
-            foreach (GadgetPiece MyGadget in OWWGadgetList)
+            var owwGadgetList = level.GadgetList.FindAll(gad => gad.ObjType == C.OBJ.ONE_WAY_WALL);
+            foreach (GadgetPiece gadget in owwGadgetList)
             {
-                C.CustDrawMode DrawMode = (MyGadget.Style != "default") ? C.CustDrawMode.OnlyAtOWW : C.CustDrawMode.Custom;
-                fLayerList[C.LAY_OBJTOP].DrawOn(MyGadget.Image, fLayerList[C.LAY_TERRAIN], MyGadget.Pos, DrawMode);
+                C.CustDrawMode drawMode = (gadget.Style != "default") ? C.CustDrawMode.OnlyAtOWW : C.CustDrawMode.Custom;
+                layerImages[C.Layer.ObjTop].DrawOn(gadget.Image, layerImages[C.Layer.Terrain], gadget.Pos, drawMode);
             }
 
-            List<GadgetPiece> UsualGadgetList = fMyLevel.GadgetList.FindAll(obj => 
-                    !obj.IsNoOverwrite && !obj.IsOnlyOnTerrain && obj.ObjType != C.OBJ.ONE_WAY_WALL);
-            foreach (GadgetPiece MyGadget in UsualGadgetList)
+            var normalGadgetList = level.GadgetList.FindAll(gad => 
+                    !gad.IsNoOverwrite && !gad.IsOnlyOnTerrain && gad.ObjType != C.OBJ.ONE_WAY_WALL);
+            foreach (GadgetPiece gadget in normalGadgetList)
             {
-                fLayerList[C.LAY_OBJTOP].DrawOn(MyGadget.Image, MyGadget.Pos);
+                layerImages[C.Layer.ObjTop].DrawOn(gadget.Image, gadget.Pos);
             }   
         }
 
@@ -453,10 +437,10 @@ namespace NLEditor
         /// </summary>
         private void CreateTriggerLayer()
         {
-            fLayerList[C.LAY_TRIGGER].Clear();
+            layerImages[C.Layer.Trigger].Clear();
 
-            List<Rectangle> TriggerRectList = fMyLevel.GadgetList.ConvertAll(obj => obj.TriggerRect);
-            fLayerList[C.LAY_TRIGGER].DrawOnFilledRectangles(TriggerRectList, Color.Violet);
+            var triggerRectangles = level.GadgetList.ConvertAll(obj => obj.TriggerRect);
+            layerImages[C.Layer.Trigger].DrawOnFilledRectangles(triggerRectangles, Color.Violet);
         }
 
         /// <summary>
@@ -465,63 +449,62 @@ namespace NLEditor
         /// <returns></returns>
         public Bitmap CombineLayers()
         {
-            Size LevelBmpSize = GetLevelBmpSize();
-            Bitmap LevelBmp;
-
-            Point OldScreenPos = new Point(fScreenPos.X, fScreenPos.Y);
             UpdateScreenPos();
-            Point NegScreenPos = new Point(-fScreenPos.X, -fScreenPos.Y);
+            Point oldScreenPos = new Point(ScreenPosX, ScreenPosY);
+            Point negativeScreenPos = new Point(-ScreenPosX, -ScreenPosY);
 
-            
-            if (fIsBackgroundLayer)
+            Size levelBmpSize = GetLevelBmpSize();
+            Bitmap levelBmp;
+            if (isBackgroundLayer)
             {
-                LevelBmp = (Bitmap)fLayerList[C.LAY_BACKGROUND].Clone();
+                levelBmp = (Bitmap)layerImages[C.Layer.Background].Clone();
             }
             else
             {
                 // Still use background color
-                LevelBmp = new Bitmap(LevelBmpSize.Width, LevelBmpSize.Height);
-                LevelBmp.Clear(fMyLevel.MainStyle.GetColor(C.StyleColor.BACKGROUND));
+                levelBmp = new Bitmap(levelBmpSize.Width, levelBmpSize.Height);
+                levelBmp.Clear(level.MainStyle.GetColor(C.StyleColor.BACKGROUND));
             }
             
 
-            if (fIsObjectLayer) 
+            if (isObjectLayer) 
             {
-                LevelBmp.DrawOn(fLayerList[C.LAY_OBJBACK], NegScreenPos);
+                levelBmp.DrawOn(layerImages[C.Layer.ObjBack], negativeScreenPos);
             }
 
-            if (fIsTerrainLayer)
+            if (isTerrainLayer)
             {
-                LevelBmp.DrawOn(fLayerList[C.LAY_TERRAIN], NegScreenPos);
+                levelBmp.DrawOn(layerImages[C.Layer.Terrain], negativeScreenPos);
             }
 
-            if (fIsTerrainLayer && fIsObjectLayer)
+            if (isTerrainLayer && isObjectLayer)
             {
-                LevelBmp.DrawOn(fLayerList[C.LAY_OBJTOP], NegScreenPos);
+                levelBmp.DrawOn(layerImages[C.Layer.ObjTop], negativeScreenPos);
             }
 
-            if (fIsTriggerLayer)
+            if (isTriggerLayer)
             {
-                LevelBmp.DrawOn(fLayerList[C.LAY_TRIGGER], NegScreenPos);
+                levelBmp.DrawOn(layerImages[C.Layer.Trigger], negativeScreenPos);
             }
 
             // Zoom the LevelBmp correctly
-            LevelBmp = LevelBmp.Zoom(fZoom);
-            if (fPicBoxSize.Width < LevelBmp.Width || fPicBoxSize.Height < LevelBmp.Height)
+            levelBmp = levelBmp.Zoom(ZoomFactor);
+            if (picBoxWidth < levelBmp.Width || picBoxHeight < levelBmp.Height)
             {
-                LevelBmp = LevelBmp.Crop(new Rectangle(0, 0, fPicBoxSize.Width, fPicBoxSize.Height));
+                levelBmp = levelBmp.Crop(picBoxRect);
             }
 
             // Add rectangles around selected pieces
-            if (fIsScreenStart) LevelBmp = AddScreenStartRectangle(LevelBmp);
-            LevelBmp = AddSelectedRectangles(LevelBmp);
-            if (fZoom >= 0) LevelBmp = AddHatchOrder(LevelBmp);
-            LevelBmp = AddMouseSelectionArea(LevelBmp);
+            if (isScreenStart) levelBmp = AddScreenStartRectangle(levelBmp);
+            levelBmp = AddSelectedRectangles(levelBmp);
+            if (ZoomFactor >= 0) levelBmp = AddHatchOrder(levelBmp);
+            levelBmp = AddMouseSelectionArea(levelBmp);
 
             // Revert changes to the screen position, until calling it properly
-            fScreenPos = OldScreenPos;
+            ScreenPosX = oldScreenPos.X;
+            ScreenPosY = oldScreenPos.Y;
 
-            return LevelBmp;
+            return levelBmp;
         }
 
 
@@ -531,177 +514,176 @@ namespace NLEditor
         /// <returns></returns>
         private Size GetLevelBmpSize()
         {
-            int LevelBmpWidth = ApplyUnZoom(fPicBoxSize.Width);
-            int LevelBmpHeight = ApplyUnZoom(fPicBoxSize.Height);
+            int levelBmpWidth = ApplyUnZoom(picBoxWidth);
+            int levelBmpHeight = ApplyUnZoom(picBoxHeight);
 
             // Ensure that the LevelBmpSize is at most the size of the level
-            LevelBmpWidth = Math.Min(LevelBmpWidth, fMyLevel.Width);
-            LevelBmpHeight = Math.Min(LevelBmpHeight, fMyLevel.Height);
+            levelBmpWidth = Math.Min(levelBmpWidth, level.Width);
+            levelBmpHeight = Math.Min(levelBmpHeight, level.Height);
                 
-            return new Size(LevelBmpWidth, LevelBmpHeight);
+            return new Size(levelBmpWidth, levelBmpHeight);
         }
 
         /// <summary>
         /// Adds the screen start rectangle to the zoomed and cropped image.
         /// </summary>
-        /// <param name="LevelBmp"></param>
+        /// <param name="levelBmp"></param>
         /// <param name="NegScreenPos"></param>
         /// <returns></returns>
-        private Bitmap AddScreenStartRectangle(Bitmap LevelBmp)
+        private Bitmap AddScreenStartRectangle(Bitmap levelBmp)
         {
-            Rectangle LevelStartRect = new Rectangle(fMyLevel.StartPosX, fMyLevel.StartPosY, 320, 160);
-            Rectangle ScreenStartRect = GetPicRectFromLevelRect(LevelStartRect);
-            LevelBmp.DrawOnRectangles(new List<Rectangle>() { ScreenStartRect }, Color.AliceBlue);
+            Rectangle levelStartRect = new Rectangle(level.StartPosX, level.StartPosY, 320, 160);
+            Rectangle screenStartRect = GetPicRectFromLevelRect(levelStartRect);
+            levelBmp.DrawOnRectangles(new List<Rectangle>() { screenStartRect }, Color.AliceBlue);
 
-            return LevelBmp;
+            return levelBmp;
         }
 
         /// <summary>
         /// Adds indizes above hatches
         /// </summary>
-        /// <param name="LevelBmp"></param>
+        /// <param name="levelBmp"></param>
         /// <returns></returns>
-        private Bitmap AddHatchOrder(Bitmap LevelBmp)
+        private Bitmap AddHatchOrder(Bitmap levelBmp)
         {
-            List<GadgetPiece> HatchList = fMyLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.HATCH);
+            var hatches = level.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.HATCH);
 
-            for (int HatchIndex = 0; HatchIndex < HatchList.Count; HatchIndex++)
+            for (int hatchIndex = 0; hatchIndex < hatches.Count; hatchIndex++)
             {
-                GadgetPiece Hatch = HatchList[HatchIndex];
-                string Text = (HatchIndex + 1).ToString() + "/" + HatchList.Count.ToString();
-                int FontSize = 8 + 2 * fZoom;
+                GadgetPiece hatch = hatches[hatchIndex];
+                string text = (hatchIndex + 1).ToString() + "/" + hatches.Count.ToString();
+                int fontSize = 8 + 2 * ZoomFactor;
 
-                Point TextCenterPosLevel = new Point(Hatch.PosX + Hatch.Width / 2, Hatch.PosY);
-                Point TextCenterPos = GetPicPointFromLevelPoint(TextCenterPosLevel);
-                TextCenterPos.Y -= FontSize * 3 / 2;
+                Point levelTextCenterPos = new Point(hatch.PosX + hatch.Width / 2, hatch.PosY);
+                Point screenTextCenterPos = GetPicPointFromLevelPoint(levelTextCenterPos);
+                screenTextCenterPos.Y -= fontSize * 3 / 2;
 
-                LevelBmp.WriteText(Text, TextCenterPos, Color.WhiteSmoke, FontSize);
+                levelBmp.WriteText(text, screenTextCenterPos, Color.WhiteSmoke, fontSize);
             }
 
-            return LevelBmp;
+            return levelBmp;
         }
 
         /// <summary>
         /// Draws rectangles around selected pieces on already zoomed and cropped image.
         /// </summary>
-        /// <param name="LevelBmp"></param>
+        /// <param name="levelBmp"></param>
         /// <returns></returns>
-        private Bitmap AddSelectedRectangles(Bitmap LevelBmp)
+        private Bitmap AddSelectedRectangles(Bitmap levelBmp)
         {
-            // First get List of all Rectangled to draw (in image coordinates)
-            List<Rectangle> GadgetRectList = fMyLevel.GadgetList.FindAll(obj => obj.IsSelected)
-                                                                .ConvertAll(obj => GetPicRectFromLevelRect(obj.ImageRectangle));
-            LevelBmp.DrawOnRectangles(GadgetRectList, Color.Chartreuse);
+            // First get a list of all Rectangled to draw (in image coordinates)
+            var gadgetRectangles = level.GadgetList.FindAll(gad => gad.IsSelected)
+                                                   .ConvertAll(gad => GetPicRectFromLevelRect(gad.ImageRectangle));
+            levelBmp.DrawOnRectangles(gadgetRectangles, Color.Chartreuse);
             
-            List<Rectangle> TerrRectList = fMyLevel.TerrainList.FindAll(ter => ter.IsSelected)
-                                                               .ConvertAll(ter => GetPicRectFromLevelRect(ter.ImageRectangle));
-            LevelBmp.DrawOnRectangles(TerrRectList, Color.Gold);
+            var TerrRectangles = level.TerrainList.FindAll(ter => ter.IsSelected)
+                                                  .ConvertAll(ter => GetPicRectFromLevelRect(ter.ImageRectangle));
+            levelBmp.DrawOnRectangles(TerrRectangles, Color.Gold);
 
-            return LevelBmp;
+            return levelBmp;
         }
 
         /// <summary>
         /// Translates a rectangle in level coordinates into screen coordinates (relative to pic_Level)
         /// </summary>
-        /// <param name="OrigRect"></param>
+        /// <param name="origRect"></param>
         /// <returns></returns>
-        private Rectangle GetPicRectFromLevelRect(Rectangle OrigRect)
+        private Rectangle GetPicRectFromLevelRect(Rectangle origRect)
         {
-            int PosX = ApplyZoom(OrigRect.X - fScreenPos.X);
-            int PosY = ApplyZoom(OrigRect.Y - fScreenPos.Y);
+            int posX = ApplyZoom(origRect.X - ScreenPosX);
+            int posY = ApplyZoom(origRect.Y - ScreenPosY);
 
-            int Width = ApplyZoom(OrigRect.Width - 1);
-            int Height = ApplyZoom(OrigRect.Height - 1);
+            int width = ApplyZoom(origRect.Width - 1);
+            int height = ApplyZoom(origRect.Height - 1);
 
-            if (Zoom > 0)
+            if (ZoomFactor > 0)
             {
-                Width += Zoom;
-                Height += Zoom;
+                width += ZoomFactor;
+                height += ZoomFactor;
             }
 
-            return new Rectangle(PosX, PosY, Width, Height);
+            return new Rectangle(posX, posY, width, height);
         }
 
         /// <summary>
         /// Translates a point in level coordinates into screen coordinates (relative to pic_Level)
         /// </summary>
-        /// <param name="OrigPoint"></param>
+        /// <param name="origPoint"></param>
         /// <returns></returns>
-        private Point GetPicPointFromLevelPoint(Point OrigPoint)
+        private Point GetPicPointFromLevelPoint(Point origPoint)
         {
-            int PosX = ApplyZoom(OrigPoint.X - fScreenPos.X);
-            int PosY = ApplyZoom(OrigPoint.Y - fScreenPos.Y);
-            return new Point(PosX, PosY);
+            int posX = ApplyZoom(origPoint.X - ScreenPosX);
+            int posY = ApplyZoom(origPoint.Y - ScreenPosY);
+            return new Point(posX, posY);
         }
 
 
         /// <summary>
         /// Draws the rectangle around the area currently selected with the mouse.
         /// </summary>
-        /// <param name="LevelBmp"></param>
+        /// <param name="levelBmp"></param>
         /// <returns></returns>
-        private Bitmap AddMouseSelectionArea(Bitmap LevelBmp)
+        private Bitmap AddMouseSelectionArea(Bitmap levelBmp)
         {
-            if (MouseDragAction != C.DragActions.SelectArea) return LevelBmp;
-            if (MouseStartPos == null || MouseCurPos == null) return LevelBmp;
+            if (MouseDragAction != C.DragActions.SelectArea) return levelBmp;
+            if (MouseStartPos == null || MouseCurPos == null) return levelBmp;
 
-            Rectangle MouseRect = Utility.RectangleFrom((Point)MouseStartPos, (Point)MouseCurPos);
+            Rectangle mouseRect = Utility.RectangleFrom((Point)MouseStartPos, (Point)MouseCurPos);
             
             // Adapt to borders
-            MouseRect.X -= BorderWidth();
-            MouseRect.Y -= BorderHeight();
+            mouseRect.X -= BorderWidth();
+            mouseRect.Y -= BorderHeight();
 
-            LevelBmp.DrawOnDottedRectangle((Rectangle)MouseRect);
+            levelBmp.DrawOnDottedRectangle(mouseRect);
             
-            return LevelBmp;
+            return levelBmp;
         }
 
         /// <summary>
         /// Modifies the zoom level and zooms onto the mouse position.
         /// </summary>
-        /// <param name="Change"></param>
-        /// <param name="MouseScreenPos"></param>
-        public void ChangeZoom(int Change, Point MouseScreenPos)
+        /// <param name="change"></param>
+        /// <param name="mouseScreenPos"></param>
+        public void ChangeZoom(int change, Point mouseScreenPos)
         {
-            Point MouseLevelPos = GetMousePosInLevel(MouseScreenPos);
+            Point mouseLevelPos = GetMousePosInLevel(mouseScreenPos);
 
-            int OldZoom = fZoom;
-            fZoom = Math.Max(Math.Min(OldZoom + Change, C.ZOOM_MAX), C.ZOOM_MIN);
+            int oldZoom = ZoomFactor;
+            ZoomFactor = Math.Max(Math.Min(oldZoom + change, C.ZOOM_MAX), C.ZOOM_MIN);
 
-            if (fZoom != OldZoom)
+            if (ZoomFactor != oldZoom)
             {
-                fScreenPos.X = MouseLevelPos.X - ApplyUnZoom(MouseScreenPos.X);
-                fScreenPos.Y = MouseLevelPos.Y - ApplyUnZoom(MouseScreenPos.Y);
+                ScreenPosX = mouseLevelPos.X - ApplyUnZoom(mouseScreenPos.X);
+                ScreenPosY = mouseLevelPos.Y - ApplyUnZoom(mouseScreenPos.Y);
                 EnsureScreenPosInLevel();
             }
         }
 
-
+        
         /// <summary>
         /// Modifies the zoom level and adapts the screen position.
         /// </summary>
-        /// <param name="Change"></param>
-        public void ChangeZoom(int Change)
+        /// <param name="change"></param>
+        public void ChangeZoom(int change)
         {
-            int OldBorderWidth = ApplyUnZoom(BorderWidth());
-            int OldBorderHeight = ApplyUnZoom(BorderHeight());
-            
-            int OldZoom = Zoom;
-            fZoom = Math.Max(Math.Min(OldZoom + Change, C.ZOOM_MAX), C.ZOOM_MIN);
+            int oldBorderWidth = ApplyUnZoom(BorderWidth());
+            int oldBorderHeight = ApplyUnZoom(BorderHeight());
+            int oldZoom = ZoomFactor;
+            ZoomFactor = Math.Max(Math.Min(oldZoom + change, C.ZOOM_MAX), C.ZOOM_MIN);
 
             // Change screen position
-            float ChangeFactor;
-            if (Zoom + OldZoom > 0) // both at least equal to 0
+            float changeFactor;
+            if (ZoomFactor + oldZoom > 0) // both at least equal to 0
             {
-                ChangeFactor = ((float)(Zoom - OldZoom)) / ((OldZoom + 1) * (Zoom + 1) * 2);
+                changeFactor = ((float)(ZoomFactor - oldZoom)) / ((oldZoom + 1) * (ZoomFactor + 1) * 2);
             }
             else // both at most equal to 0
             {
-                ChangeFactor = ((float)(Zoom - OldZoom)) / 2;
+                changeFactor = ((float)(ZoomFactor - oldZoom)) / 2;
             }
             
-            fScreenPos.X += (int)(fPicBoxSize.Width * ChangeFactor) - OldBorderWidth;
-            fScreenPos.Y += (int)(fPicBoxSize.Height * ChangeFactor) - OldBorderHeight;
+            ScreenPosX += (int)(picBoxWidth * changeFactor) - oldBorderWidth;
+            ScreenPosY += (int)(picBoxHeight * changeFactor) - oldBorderHeight;
             EnsureScreenPosInLevel();
         }
 
@@ -710,23 +692,23 @@ namespace NLEditor
         /// </summary>
         public void EnsureScreenPosInLevel()
         {
-            fScreenPos.X = EnsureScreenPosInLevel(false, fScreenPos.X);
-            fScreenPos.Y = EnsureScreenPosInLevel(true, fScreenPos.Y);
+            ScreenPosX = EnsureScreenPosInLevel(false, ScreenPosX);
+            ScreenPosY = EnsureScreenPosInLevel(true, ScreenPosY);
         }
 
         /// <summary>
         /// Ensures that the screen top resp left position is chosen such that no unnecessary boundaries appear 
         /// </summary>
-        /// <param name="IsVert"></param>
-        private int EnsureScreenPosInLevel(bool IsVert, int CurPos)
+        /// <param name="isVert"></param>
+        private int EnsureScreenPosInLevel(bool isVert, int curPos)
         {
-            int LevelLength = IsVert ? fMyLevel.Height : fMyLevel.Width;
-            int PicBoxLength = IsVert ? fPicBoxSize.Height : fPicBoxSize.Width;
-            int PicBoxLengthUnzoomed = ApplyUnZoom(PicBoxLength);
-            int MaxCoord = LevelLength - PicBoxLengthUnzoomed;
+            int levelLength = isVert ? level.Height : level.Width;
+            int picBoxLength = isVert ? picBoxHeight : picBoxWidth;
+            int picBoxLengthUnzoomed = ApplyUnZoom(picBoxLength);
+            int maxCoord = levelLength - picBoxLengthUnzoomed;
 
             // do not interchange Max and Min because of possibly negative MaxCoord
-            return Math.Max(Math.Min(CurPos, MaxCoord), 0);    
+            return Math.Max(Math.Min(curPos, maxCoord), 0);    
         }
 
         /// <summary>
@@ -736,12 +718,12 @@ namespace NLEditor
         /// <param name="DeltaY"></param>
         public void UpdateScreenPos()
         {
-            if (fMouseDragAction != C.DragActions.MoveEditorPos) return;
-            if (fMouseStartPos == null || fMouseCurPos == null) return;
+            if (MouseDragAction != C.DragActions.MoveEditorPos) return;
+            if (MouseStartPos == null || MouseCurPos == null) return;
 
-            Point DeltaScreenPos = GetDeltaPos();
-            fScreenPos.X -= DeltaScreenPos.X;
-            fScreenPos.Y -= DeltaScreenPos.Y;
+            Point deltaScreenPos = GetDeltaPos();
+            ScreenPosX -= deltaScreenPos.X;
+            ScreenPosY -= deltaScreenPos.Y;
 
             EnsureScreenPosInLevel();
         }
@@ -752,8 +734,8 @@ namespace NLEditor
         /// <returns></returns>
         public Point GetDeltaPos()
         {
-            return new Point(ApplyUnZoom(((Point)fMouseCurPos).X - ((Point)fMouseStartPos).X),
-                             ApplyUnZoom(((Point)fMouseCurPos).Y - ((Point)fMouseStartPos).Y));
+            return new Point(ApplyUnZoom(((Point)MouseCurPos).X - ((Point)MouseStartPos).X),
+                             ApplyUnZoom(((Point)MouseCurPos).Y - ((Point)MouseStartPos).Y));
         }
 
     }
