@@ -59,14 +59,7 @@ namespace NLEditor
         public Color GetColor(C.StyleColor colorType)
         {
             if (colorDict.ContainsKey(colorType)) return colorDict[colorType];
-            else
-            {
-                switch (colorType)
-                {
-                    case C.StyleColor.BACKGROUND: return Color.Black;
-                    default: return Color.Linen;
-                }
-            } 
+            else return C.NLColors[(colorType == C.StyleColor.BACKGROUND) ? C.NLColor.BackDefault : C.NLColor.OWWDefault];
         }
 
 

@@ -16,7 +16,6 @@ namespace NLEditor
         {
             // preplaced lemming
             string imageKey = ImageLibrary.CreatePieceKey("default", "lemming", true);
-            //string imageKey = "default" + C.DirSep + "objects" + C.DirSep + "lemming";
             Bitmap image = Properties.Resources.Lemming;
             ImageLibrary.AddNewImage(imageKey, image, C.OBJ.LEMMING, new Rectangle(2, 9, 1, 1), C.Resize.None);
         }

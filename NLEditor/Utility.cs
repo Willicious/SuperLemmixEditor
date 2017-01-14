@@ -108,6 +108,19 @@ namespace NLEditor
             textFile.Close();
         }
 
+        /// <summary>
+        /// Translates an (A)RGB hex string to a color.
+        /// </summary>
+        /// <param name="hexString"></param>
+        /// <returns></returns>
+        public static Color HexToColor(string hexString)
+        {
+            hexString = hexString.Replace('#', ' ').Trim();
+            if (hexString.Length == 6) hexString = "FF" + hexString;
+            int argb = int.Parse(hexString, System.Globalization.NumberStyles.HexNumber);
+            return Color.FromArgb(argb);
+        }
+
     }
 
 

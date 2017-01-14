@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace NLEditor
 {
@@ -103,15 +104,6 @@ namespace NLEditor
             Layer.Background, Layer.ObjBack, Layer.Terrain, Layer.ObjTop, Layer.Trigger
         };
 
-        /*
-        public static readonly int LAY_COUNT = 5;
-        public static readonly int = 0;
-        public static readonly int  = 1;
-        public static readonly int  = 2;
-        public static readonly int  = 3;
-        public static readonly int  = 4;
-        */
-
         // The integer values here are only used to pick the correct frame of pickup-skills
         public enum Skill { Climber = 0, Floater = 1, Bomber = 2, Blocker = 3,
                             Builder = 4, Basher = 5, Miner = 6, Digger = 7,
@@ -123,13 +115,27 @@ namespace NLEditor
         public static readonly int ZOOM_MIN = -2;
         public static readonly int ZOOM_MAX = 7;
 
-
-        public enum HotkeyTabs
-        { 
-            General, Pieces
+        // Other colors are specified directly in BmpModify to speed up rendering.
+        public enum NLColor
+        {
+            Text, OWWDefault, BackDefault,
+            Trigger, ScreenStart, SelRectGadget, SelRectTerrain
         }
+        public static readonly Dictionary<NLColor, Color> NLColors = new Dictionary<NLColor, Color>()
+        {
+            { NLColor.Text, Color.WhiteSmoke },
+            { NLColor.OWWDefault, Color.Linen },
+            { NLColor.BackDefault, Color.Black },
+            { NLColor.Trigger, Utility.HexToColor("80EE82EE") }, // Color.Violet with reduced alpha
+            { NLColor.ScreenStart, Color.AliceBlue },
+            { NLColor.SelRectGadget, Color.Chartreuse },
+            { NLColor.SelRectTerrain, Color.Gold }
 
-        
+        };
+
+
+        public enum HotkeyTabs { General, Pieces }
+
         public static readonly THotkeyTexts HotkeyDict = new THotkeyTexts
             {
                 { HotkeyTabs.General, new List<string> 

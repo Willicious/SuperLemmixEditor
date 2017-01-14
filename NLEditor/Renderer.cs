@@ -287,8 +287,9 @@ namespace NLEditor
         /// </summary>
         private void SetCustomDrawModeForOWW()
         {
-            Color owwColor = level.MainStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? Color.Linen;
-            byte[] owwColorBytes = new byte[] { owwColor.B, owwColor.G, owwColor.R, 255 };
+            Color owwColor = level.MainStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) 
+                                    ?? C.NLColors[C.NLColor.OWWDefault];
+            byte[] owwColorBytes = new byte[] { owwColor.B, owwColor.G, owwColor.R, owwColor.A };
 
             BmpModify.SetCustomDrawMode((x, y) => owwColorBytes, BmpModify.DoDrawThisPixel_OnlyAtOWW);
         }
@@ -440,7 +441,7 @@ namespace NLEditor
             layerImages[C.Layer.Trigger].Clear();
 
             var triggerRectangles = level.GadgetList.ConvertAll(obj => obj.TriggerRect);
-            layerImages[C.Layer.Trigger].DrawOnFilledRectangles(triggerRectangles, Color.Violet);
+            layerImages[C.Layer.Trigger].DrawOnFilledRectangles(triggerRectangles, C.NLColors[C.NLColor.Trigger]);
         }
 
         /// <summary>
@@ -534,7 +535,7 @@ namespace NLEditor
         {
             Rectangle levelStartRect = new Rectangle(level.StartPosX, level.StartPosY, 320, 160);
             Rectangle screenStartRect = GetPicRectFromLevelRect(levelStartRect);
-            levelBmp.DrawOnRectangles(new List<Rectangle>() { screenStartRect }, Color.AliceBlue);
+            levelBmp.DrawOnRectangles(new List<Rectangle>() { screenStartRect }, C.NLColors[C.NLColor.ScreenStart]);
 
             return levelBmp;
         }
@@ -558,7 +559,7 @@ namespace NLEditor
                 Point screenTextCenterPos = GetPicPointFromLevelPoint(levelTextCenterPos);
                 screenTextCenterPos.Y -= fontSize * 3 / 2;
 
-                levelBmp.WriteText(text, screenTextCenterPos, Color.WhiteSmoke, fontSize);
+                levelBmp.WriteText(text, screenTextCenterPos, C.NLColors[C.NLColor.Text], fontSize);
             }
 
             return levelBmp;
@@ -574,11 +575,11 @@ namespace NLEditor
             // First get a list of all Rectangled to draw (in image coordinates)
             var gadgetRectangles = level.GadgetList.FindAll(gad => gad.IsSelected)
                                                    .ConvertAll(gad => GetPicRectFromLevelRect(gad.ImageRectangle));
-            levelBmp.DrawOnRectangles(gadgetRectangles, Color.Chartreuse);
+            levelBmp.DrawOnRectangles(gadgetRectangles, C.NLColors[C.NLColor.SelRectGadget]);
             
             var TerrRectangles = level.TerrainList.FindAll(ter => ter.IsSelected)
                                                   .ConvertAll(ter => GetPicRectFromLevelRect(ter.ImageRectangle));
-            levelBmp.DrawOnRectangles(TerrRectangles, Color.Gold);
+            levelBmp.DrawOnRectangles(TerrRectangles, C.NLColors[C.NLColor.SelRectTerrain]);
 
             return levelBmp;
         }
