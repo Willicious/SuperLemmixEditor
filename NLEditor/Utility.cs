@@ -34,6 +34,18 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Creates a shallow copy of a range of elements from index to the end of the list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="myList"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public static List<T> GetRange<T>(this List<T> myList, int index)
+        {
+            return myList.GetRange(index, myList.Count - index);
+        }
+
+        /// <summary>
         /// Loads a bitmap from a file and closes the file again.
         /// </summary>
         /// <param name="filePath"></param>

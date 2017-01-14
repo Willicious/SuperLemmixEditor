@@ -443,19 +443,19 @@ namespace NLEditor
         /// </summary>
         /// <param name="toTop"></param>
         /// <param name="onlyOneStep"></param>
-        public void MoveSelectedIndex(bool toTop, bool onlyOneStep)
+        public void MoveSelectedPieces(bool toTop, bool onlyOneStep)
         {
             if (onlyOneStep && toTop)
             {
-                MoveSelectedIndexOneToTop();
+                MoveSelectedOneToTop();
             }
             else if (onlyOneStep && !toTop)
             {
-                MoveSelectedIndexOneToBottom();
+                MoveSelectedOneToBottom();
             }
             else
             {
-                MoveSelectedIndexMaximally(toTop);
+                MoveSelectedMaximally(toTop);
             }
         }
 
@@ -463,73 +463,119 @@ namespace NLEditor
         /// Moves all selected pieces to the beginning or the end of their respective lists.
         /// </summary>
         /// <param name="toTop"></param>
-        private void MoveSelectedIndexMaximally(bool toTop)
+        private void MoveSelectedMaximally(bool toTop)
         {
-            var selectedGadgets = GadgetList.FindAll(obj => obj.IsSelected);
-            var nonSelectedGadgets = GadgetList.FindAll(obj => !obj.IsSelected);
             if (toTop)
             {
-                GadgetList = nonSelectedGadgets.Concat(selectedGadgets).ToList();
+                TerrainList = MoveSelectedAllToTop(TerrainList, TerrainList.Count - 1);
+                GadgetList = MoveSelectedAllToTop(GadgetList, GadgetList.Count - 1);
             }
             else
             {
-                GadgetList = selectedGadgets.Concat(nonSelectedGadgets).ToList();
-            }
-
-            var selectedTerrain = TerrainList.FindAll(obj => obj.IsSelected);
-            var nonSelectedTerrain = TerrainList.FindAll(obj => !obj.IsSelected);
-            if (toTop)
-            {
-                TerrainList = nonSelectedTerrain.Concat(selectedTerrain).ToList();
-            }
-            else
-            {
-                TerrainList = selectedTerrain.Concat(nonSelectedTerrain).ToList();
+                TerrainList = MoveSelectedAllToBottom(TerrainList, 0);
+                GadgetList = MoveSelectedAllToBottom(GadgetList, 0);
             }
         }
 
         /// <summary>
         /// Moves all selected pieces one index upwards.
         /// </summary>
-        private void MoveSelectedIndexOneToTop()
+        private void MoveSelectedOneToTop()
         {
-            for (int index = TerrainList.Count - 1; index > 0; index--)
-            {
-                if (!TerrainList[index].IsSelected && TerrainList[index - 1].IsSelected)
-                {
-                    TerrainList.Swap(index, index - 1);
-                }
-            }
+            int endTerrIndex = GetMoveTopEndIndex(TerrainList);
+            TerrainList = MoveSelectedAllToTop(TerrainList, endTerrIndex);
 
-            for (int index = GadgetList.Count - 1; index > 0; index--)
-            {
-                if (!GadgetList[index].IsSelected && GadgetList[index - 1].IsSelected)
-                {
-                    GadgetList.Swap(index, index - 1);
-                }
-            }
+            int endGadgetIndex = GetMoveTopEndIndex(GadgetList);
+            GadgetList = MoveSelectedAllToTop(GadgetList, endGadgetIndex);
         }
 
         /// <summary>
         /// Moves all selected pieces one index downwards.
         /// </summary>
-        private void MoveSelectedIndexOneToBottom()
+        private void MoveSelectedOneToBottom()
         {
-            for (int index = 0; index < TerrainList.Count - 1; index++)
-            {
-                if (!TerrainList[index].IsSelected && TerrainList[index + 1].IsSelected)
-                {
-                    TerrainList.Swap(index, index + 1);
-                }
-            }
+            int startTerrIndex = GetMoveBottomStartIndex(TerrainList);
+            TerrainList = MoveSelectedAllToBottom(TerrainList, startTerrIndex);
 
-            for (int index = 0; index < GadgetList.Count - 1; index++)
+            int startGadgetIndex = GetMoveBottomStartIndex(GadgetList);
+            GadgetList = MoveSelectedAllToBottom(GadgetList, startGadgetIndex);
+        }
+
+        /// <summary>
+        /// Finds the last index of a non-selected piece that when moved to top past all selected pieces changes output.
+        /// </summary>
+        /// <param name="pieceList"></param>
+        /// <returns></returns>
+        private int GetMoveBottomStartIndex<T>(List<T> pieceList) where T : LevelPiece
+        {
+            for (int i = pieceList.Count - 1; i >= 0; i--)
             {
-                if (!GadgetList[index].IsSelected && GadgetList[index + 1].IsSelected)
+                if (!pieceList[i].IsSelected)
                 {
-                    GadgetList.Swap(index, index + 1);
+                    Rectangle pieceImageRect = pieceList[i].ImageRectangle;
+                    if (pieceList.GetRange(i + 1)
+                                 .FindAll(item => item.IsSelected)
+                                 .Exists(item => item.ImageRectangle.IntersectsWith(pieceImageRect)))
+                    {
+                        return i;
+                    }
                 }
             }
+            return 0;
+        }
+
+        /// <summary>
+        /// Finds the last index of a non-selected piece that when moved to bottom past all selected pieces changes output.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pieceList"></param>
+        /// <returns></returns>
+        private int GetMoveTopEndIndex<T>(List<T> pieceList) where T : LevelPiece
+        {
+            for (int i = 0; i < pieceList.Count; i++)
+            {
+                if (!pieceList[i].IsSelected)
+                {
+                    Rectangle pieceImageRect = pieceList[i].ImageRectangle;
+                    if (pieceList.GetRange(0, i)
+                                 .FindAll(item => item.IsSelected)
+                                 .Exists(item => item.ImageRectangle.IntersectsWith(pieceImageRect)))
+                    {
+                        return i;
+                    }
+                }
+            }
+            return pieceList.Count - 1;
+        }
+
+        /// <summary>
+        /// Moves all selected pieces to bottom in the range starting from startIndex.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pieceList"></param>
+        /// <param name="startIndex"></param>
+        /// <returns></returns>
+        private List<T> MoveSelectedAllToBottom<T>(List<T> pieceList, int startIndex) where T : LevelPiece
+        {
+            return pieceList.GetRange(0, startIndex)
+                            .Concat(pieceList.GetRange(startIndex).FindAll(item => item.IsSelected))
+                            .Concat(pieceList.GetRange(startIndex).FindAll(item => !item.IsSelected))
+                            .ToList();
+        }
+
+        /// <summary>
+        /// Moves all selected pieces to top in the range ending with endIndex.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pieceList"></param>
+        /// <param name="endIndex"></param>
+        /// <returns></returns>
+        private List<T> MoveSelectedAllToTop<T>(List<T> pieceList, int endIndex) where T : LevelPiece
+        {
+            return pieceList.GetRange(0, endIndex + 1).FindAll(item => !item.IsSelected)
+                            .Concat(pieceList.GetRange(0, endIndex + 1).FindAll(item => item.IsSelected))
+                            .Concat(pieceList.GetRange(endIndex + 1))
+                            .ToList();
         }
 
         /// <summary>
