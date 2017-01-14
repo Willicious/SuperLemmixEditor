@@ -21,6 +21,7 @@ namespace NLEditor
          *     - DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
          *     - DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, C.CustDrawMode ColorSelect)
          *     - DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Bitmap MaskBmp, Point Pos, C.CustDrawMode ColorSelect)
+         *     - DrawOnWithAlpha(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
          *     - Zoom(this Bitmap OrigBmp, int ZoomFactor)
          *     - Zoom(this Bitmap OrigBmp, int ZoomFactor, Size NewBmpSize)
          *     - DrawOnRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
@@ -175,6 +176,21 @@ namespace NLEditor
             ptrToPixel[3] = alpha;
         }
 
+        /// <summary>
+        /// Copies the bytes of the NewPixel to the pixel pointed to in the first argument using swapped alpha blending.
+        /// </summary>
+        /// <param name="ptrToPixel"></param>
+        /// <param name="ptrToNewPixel"></param>
+        private static unsafe void ChangePixelBlend(byte* ptrToPixel, byte* ptrToNewPixel)
+        {
+            int NewAlphaFact = ptrToNewPixel[3];
+            int OrigAlphaFact = (255 - NewAlphaFact) / 4; // because the orig bitmap has alpha 25%
+            ptrToPixel[0] = (byte)((ptrToPixel[0] * OrigAlphaFact + ptrToNewPixel[0] * NewAlphaFact) / (OrigAlphaFact + NewAlphaFact));
+            ptrToPixel[1] = (byte)((ptrToPixel[1] * OrigAlphaFact + ptrToNewPixel[1] * NewAlphaFact) / (OrigAlphaFact + NewAlphaFact));
+            ptrToPixel[2] = (byte)((ptrToPixel[2] * OrigAlphaFact + ptrToNewPixel[2] * NewAlphaFact) / (OrigAlphaFact + NewAlphaFact));
+            ptrToPixel[3] = 255;
+        }
+
 
         /// <summary>
         /// Crops the bitmap along a rectangle.
@@ -293,13 +309,15 @@ namespace NLEditor
             }
         }
 
-
         /// <summary>
         /// Copies pixels from a new bitmap to the base bitmap under condition specified by DoDrawThisPixel. 
+        /// <para> All pixels will be drawn with fixed alpha value. </para>
         /// </summary>
         /// <param name="origBmp"></param>
         /// <param name="newBmp"></param>
         /// <param name="pos"></param>
+        /// <param name="doDrawThisPixel"></param>
+        /// <param name="alpha"></param>
         private static void DrawOn(this Bitmap origBmp, Bitmap newBmp, Point pos, 
                                    Func<byte, byte, bool> doDrawThisPixel, byte alpha)
         {
@@ -521,6 +539,55 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Copies pixels from a new bitmap to the base bitmap using swapped alpha blending.
+        /// <para> All pixels of the original bitmap have alpha 128, all pixels in the result have alpha 255.</para>
+        /// </summary>
+        /// <param name="origBmp"></param>
+        /// <param name="newBmp"></param>
+        /// <param name="pos"></param>
+        public static void DrawOnWithAlpha(this Bitmap origBmp, Bitmap newBmp, Point pos)
+        {
+            if (newBmp == null) return;
+
+            // Get rectangle giving the area that is drawn onto
+            Rectangle origBmpRect = new Rectangle(0, 0, origBmp.Width, origBmp.Height);
+            Rectangle newBmpRect = new Rectangle(pos, newBmp.Size);
+            Rectangle drawRect = Rectangle.Intersect(origBmpRect, newBmpRect);
+
+            unsafe
+            {
+                // Get pointer to first pixel of OrigBitmap
+                BitmapData origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadWrite, origBmp.PixelFormat);
+                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
+
+                // Get pointer to first pixel of NewBitmap
+                BitmapData newBmpData = newBmp.LockBits(new Rectangle(0, 0, newBmp.Width, newBmp.Height), ImageLockMode.ReadOnly, newBmp.PixelFormat);
+                byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
+                Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
+
+                Parallel.For(0, drawRect.Height, y =>
+                {
+                    // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                    byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
+                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                    byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
+
+                    for (int x = 0; x < drawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
+                    {
+                        if (curNewLine[x + 3] > 0)
+                        {
+                            ChangePixelBlend(curOrigLine + x, curNewLine + x);
+                        }
+                    }
+                });
+
+                origBmp.UnlockBits(origBmpData);
+                newBmp.UnlockBits(newBmpData);
+            }
+        }
+
 
         /// <summary>
         /// Zooms a bitmap.
@@ -618,6 +685,7 @@ namespace NLEditor
             
             using (Graphics g = Graphics.FromImage(origBmp))
             {
+                g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
                 using (Brush b = new SolidBrush(rectColor))
                 {
                     rectList.ForEach(rect => g.FillRectangle(b, rect));

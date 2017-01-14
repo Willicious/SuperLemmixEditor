@@ -485,7 +485,7 @@ namespace NLEditor
 
             if (isTriggerLayer)
             {
-                levelBmp.DrawOn(layerImages[C.Layer.Trigger], negativeScreenPos);
+                levelBmp.DrawOnWithAlpha(layerImages[C.Layer.Trigger], negativeScreenPos);
             }
 
             // Zoom the LevelBmp correctly
