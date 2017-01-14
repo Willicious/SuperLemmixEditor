@@ -609,26 +609,6 @@ namespace NLEditor
             {
                 SaveLevel();
             }
-            else if (e.Control && e.KeyCode == Keys.Z)
-            {
-                UndoLastChange();
-            }
-            else if (e.Control && e.KeyCode == Keys.Y)
-            {
-                CancelLastUndo();
-            }
-            else if (e.Control && e.KeyCode == Keys.X)
-            {
-                DeleteSelectedPieces();
-            }
-            else if (e.Control && e.KeyCode == Keys.V)
-            {
-                AddPiecesFromMemory();
-            }
-            else if (e.Control && e.KeyCode == Keys.C)
-            {
-                CopySelectedPieces();
-            }
             else if (e.KeyCode == Keys.F1)
             {
                 clearPhysicsToolStripMenuItem_Click(null, null);
@@ -663,25 +643,57 @@ namespace NLEditor
             }
             else if (e.Shift && e.KeyCode == Keys.Left)
             {
+                RemoveFocus();
                 MoveTerrPieceSelection(-1);
             }
             else if (e.Shift && e.KeyCode == Keys.Right)
             {
+                RemoveFocus();
                 MoveTerrPieceSelection(1);
             }
             else if (e.Shift && e.KeyCode == Keys.Up)
             {
+                RemoveFocus();
                 ChangeNewPieceStyleSelection(-1);
             }
             else if (e.Shift && e.KeyCode == Keys.Down)
             {
+                RemoveFocus();
                 ChangeNewPieceStyleSelection(1);
             }
             else if (e.Shift && e.KeyCode == Keys.Space)
             {
+                RemoveFocus();
                 ChangeObjTerrPieceDisplay();
             }
-            else if (e.Shift && e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
+            /* --------------------------------------------------------------------
+             * ONLY USE THE FOLLOWING KEYS IF FOCUS IS NOT ON ONE OF THE TEXTBOXES
+             * --------------------------------------------------------------------*/
+            else if (this.ActiveControl != this.txt_Focus)
+            {
+                return; // and don't restart the StopWatch
+            }
+            else if (e.Control && e.KeyCode == Keys.Z)
+            {
+                UndoLastChange();
+            }
+            else if (e.Control && e.KeyCode == Keys.Y)
+            {
+                CancelLastUndo();
+            }
+            else if (e.Control && e.KeyCode == Keys.X)
+            {
+                DeleteSelectedPieces();
+            }
+            else if (e.Control && e.KeyCode == Keys.V)
+            {
+                AddPiecesFromMemory();
+            }
+            else if (e.Control && e.KeyCode == Keys.C)
+            {
+                CopySelectedPieces();
+            }
+            else if (e.Control && e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
             {
                 int keyValue = e.KeyValue - (int)Keys.D0;
                 if (keyValue == 0) keyValue = 10;
@@ -692,7 +704,7 @@ namespace NLEditor
                     UpdateFlagsForPieceActions();
                 }
             }
-            else if (e.Shift && e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
+            else if (e.Control && e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
             {
                 int keyValue = e.KeyValue - (int)Keys.NumPad0;
                 if (keyValue == 0) keyValue = 10;
@@ -703,37 +715,21 @@ namespace NLEditor
                     UpdateFlagsForPieceActions();
                 }
             }
-            else if (e.Control && e.KeyCode == Keys.Left)
-            {
-                MoveLevelPieces(C.DIR.W, 8);
-            }
-            else if (e.Control && e.KeyCode == Keys.Right)
-            {
-                MoveLevelPieces(C.DIR.E, 8);
-            }
-            else if (e.Control && e.KeyCode == Keys.Up)
-            {
-                MoveLevelPieces(C.DIR.N, 8);
-            }
-            else if (e.Control && e.KeyCode == Keys.Down)
-            {
-                MoveLevelPieces(C.DIR.S, 8);
-            }
             else if (e.KeyCode == Keys.Left)
             {
-                MoveLevelPieces(C.DIR.W);
+                MoveLevelPieces(C.DIR.W, e.Control ? 8 : 1);
             }
             else if (e.KeyCode == Keys.Right)
             {
-                MoveLevelPieces(C.DIR.E);
+                MoveLevelPieces(C.DIR.E, e.Control ? 8 : 1);
             }
             else if (e.KeyCode == Keys.Up)
             {
-                MoveLevelPieces(C.DIR.N);
+                MoveLevelPieces(C.DIR.N, e.Control ? 8 : 1);
             }
             else if (e.KeyCode == Keys.Down)
             {
-                MoveLevelPieces(C.DIR.S);
+                MoveLevelPieces(C.DIR.S, e.Control ? 8 : 1);
             }
             else if (e.KeyCode == Keys.R)
             {

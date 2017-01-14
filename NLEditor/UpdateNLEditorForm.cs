@@ -331,7 +331,7 @@ namespace NLEditor
         {
             Form hotkeyForm = new Form();
             hotkeyForm.Width = 450;
-            hotkeyForm.Height = 400;
+            hotkeyForm.Height = 410;
             hotkeyForm.MaximizeBox = false;
             hotkeyForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             hotkeyForm.Text = "NLEditor - Hotkeys";
