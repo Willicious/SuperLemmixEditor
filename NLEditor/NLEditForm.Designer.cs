@@ -49,7 +49,7 @@
             this.objectRenderingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.triggerAreasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.screenStartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.backgroundRenderingF6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.validateLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -326,13 +326,14 @@
             this.objectRenderingToolStripMenuItem,
             this.triggerAreasToolStripMenuItem,
             this.screenStartToolStripMenuItem,
-            this.backgroundRenderingF6ToolStripMenuItem});
+            this.backgroundToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // clearPhysicsToolStripMenuItem
             // 
+            this.clearPhysicsToolStripMenuItem.CheckOnClick = true;
             this.clearPhysicsToolStripMenuItem.Name = "clearPhysicsToolStripMenuItem";
             this.clearPhysicsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.clearPhysicsToolStripMenuItem.Text = "Clear Physics (F1)";
@@ -340,6 +341,9 @@
             // 
             // terrainRenderingToolStripMenuItem
             // 
+            this.terrainRenderingToolStripMenuItem.Checked = true;
+            this.terrainRenderingToolStripMenuItem.CheckOnClick = true;
+            this.terrainRenderingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.terrainRenderingToolStripMenuItem.Name = "terrainRenderingToolStripMenuItem";
             this.terrainRenderingToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.terrainRenderingToolStripMenuItem.Text = "Terrain rendering (F2)";
@@ -347,6 +351,9 @@
             // 
             // objectRenderingToolStripMenuItem
             // 
+            this.objectRenderingToolStripMenuItem.Checked = true;
+            this.objectRenderingToolStripMenuItem.CheckOnClick = true;
+            this.objectRenderingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.objectRenderingToolStripMenuItem.Name = "objectRenderingToolStripMenuItem";
             this.objectRenderingToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.objectRenderingToolStripMenuItem.Text = "Object rendering (F3)";
@@ -354,6 +361,7 @@
             // 
             // triggerAreasToolStripMenuItem
             // 
+            this.triggerAreasToolStripMenuItem.CheckOnClick = true;
             this.triggerAreasToolStripMenuItem.Name = "triggerAreasToolStripMenuItem";
             this.triggerAreasToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.triggerAreasToolStripMenuItem.Text = "Trigger areas (F4)";
@@ -361,17 +369,19 @@
             // 
             // screenStartToolStripMenuItem
             // 
+            this.screenStartToolStripMenuItem.CheckOnClick = true;
             this.screenStartToolStripMenuItem.Name = "screenStartToolStripMenuItem";
             this.screenStartToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.screenStartToolStripMenuItem.Text = "Screen start (F5)";
             this.screenStartToolStripMenuItem.Click += new System.EventHandler(this.screenStartToolStripMenuItem_Click);
             // 
-            // backgroundRenderingF6ToolStripMenuItem
+            // backgroundToolStripMenuItem
             // 
-            this.backgroundRenderingF6ToolStripMenuItem.Name = "backgroundRenderingF6ToolStripMenuItem";
-            this.backgroundRenderingF6ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.backgroundRenderingF6ToolStripMenuItem.Text = "Background image (F6)";
-            this.backgroundRenderingF6ToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
+            this.backgroundToolStripMenuItem.CheckOnClick = true;
+            this.backgroundToolStripMenuItem.Name = "backgroundToolStripMenuItem";
+            this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.backgroundToolStripMenuItem.Text = "Background image (F6)";
+            this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -385,14 +395,14 @@
             // playLevelToolStripMenuItem
             // 
             this.playLevelToolStripMenuItem.Name = "playLevelToolStripMenuItem";
-            this.playLevelToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.playLevelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.playLevelToolStripMenuItem.Text = "Play Level (F12)";
             this.playLevelToolStripMenuItem.Click += new System.EventHandler(this.playLevelToolStripMenuItem_Click);
             // 
             // validateLevelToolStripMenuItem
             // 
             this.validateLevelToolStripMenuItem.Name = "validateLevelToolStripMenuItem";
-            this.validateLevelToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.validateLevelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.validateLevelToolStripMenuItem.Text = "Validate Level";
             this.validateLevelToolStripMenuItem.Click += new System.EventHandler(this.validateLevelToolStripMenuItem_Click);
             // 
@@ -408,14 +418,14 @@
             // hotkeysToolStripMenuItem
             // 
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys (F11)";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -1956,7 +1966,7 @@
         private System.Windows.Forms.Button but_PairTeleporter;
         private System.Windows.Forms.ComboBox combo_Background;
         private System.Windows.Forms.Label lbl_Global_Background;
-        private System.Windows.Forms.ToolStripMenuItem backgroundRenderingF6ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTipPieces;
     }
 }
