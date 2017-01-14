@@ -498,7 +498,7 @@ namespace NLEditor
             // Add rectangles around selected pieces
             if (isScreenStart) levelBmp = AddScreenStartRectangle(levelBmp);
             levelBmp = AddSelectedRectangles(levelBmp);
-            if (ZoomFactor >= 0) levelBmp = AddHatchOrder(levelBmp);
+            if (ZoomFactor >= 0 && isObjectLayer) levelBmp = AddHatchOrder(levelBmp);
             levelBmp = AddMouseSelectionArea(levelBmp);
 
             // Revert changes to the screen position, until calling it properly
