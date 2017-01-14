@@ -763,6 +763,22 @@ namespace NLEditor
             {
                 check_Pieces_OneWay.Checked = !check_Pieces_OneWay.Checked;
             }
+            else if (e.KeyCode == Keys.Home)
+            {
+                MovePieceIndex(true, false);
+            }
+            else if (e.KeyCode == Keys.PageUp)
+            {
+                MovePieceIndex(true, true);
+            }
+            else if (e.KeyCode == Keys.PageDown)
+            {
+                MovePieceIndex(false, true);
+            }
+            else if (e.KeyCode == Keys.End)
+            {
+                MovePieceIndex(false, false);
+            }
             else if (e.KeyCode == Keys.Enter)
             {
                 RemoveFocus();

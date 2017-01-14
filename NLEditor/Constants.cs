@@ -187,7 +187,12 @@ namespace NLEditor
                         "A",
                         "S",
                         "D",
-                        "F"
+                        "F",
+                        "",
+                        "Home",
+                        "Page Up",
+                        "Page Down",
+                        "End"
                     }
                 }
             };
@@ -243,7 +248,12 @@ namespace NLEditor
                         "Toggle drawing selected pieces as erasing.",
                         "Toggle drawing selected pieces below existing terrain.",
                         "Toggle drawing selected pieces only on existing terrain.",
-                        "Toggle allowing one-way-walls on selected pieces."
+                        "Toggle allowing one-way-walls on selected pieces.",
+                        "",
+                        "Take selected pieces to front.",
+                        "Take selected pieces one step to front.",
+                        "Take selected pieces one step to back.",
+                        "Take selected pieces to back."
                     }
                 }                
             };
