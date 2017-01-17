@@ -240,14 +240,14 @@ namespace NLEditor
             SaveChangesToOldLevelList();
             // Save the level as TempTestLevel.nxlv.
             string origFilePath = CurLevel.FilePathToSave;
-            CurLevel.FilePathToSave = C.AppPath + "TempTestLevel.nxlv";
+            CurLevel.FilePathToSave = C.AppPathTempLevel;
             SaveLevel();
             CurLevel.FilePathToSave = origFilePath;
 
             // Start the NeoLemmix player.
             var playerStartInfo = new System.Diagnostics.ProcessStartInfo();
             playerStartInfo.FileName = C.AppPath + "NeoLemmix.exe";
-            playerStartInfo.Arguments = C.AppPath + "TempTestLevel.nxlv";
+            playerStartInfo.Arguments = C.AppPathTempLevel;
 
             if (!System.IO.File.Exists(playerStartInfo.FileName))
             {

@@ -8,10 +8,7 @@ namespace NLEditor
 
     public class C // for Constants
     {
-        public static string Version
-        {
-            get { return "0.3"; }
-        }
+        public static string Version => "0.3";
 
         public static string AppPath
         {
@@ -25,25 +22,12 @@ namespace NLEditor
             }
         }
 
-        public static string AppPathPieces
-        {
-            get { return AppPath + "styles" + DirSep; }
-        }
+        public static string AppPathPieces => AppPath + "styles" + DirSep;
+        public static string AppPathTempLevel => AppPath + "TempTestLevel.nxlv";
+        public static string AppPathThemeInfo(string styleName) => AppPathPieces + styleName + C.DirSep + "theme.nxtm";
 
-        public static string AppPathThemeInfo(string styleName)
-        {
-            return AppPathPieces + styleName + C.DirSep + "theme.nxtm";
-        }
-
-        public static char DirSep
-        {
-            get { return System.IO.Path.DirectorySeparatorChar; }
-        }
-
-        public static string NewLine
-        {
-            get { return Environment.NewLine; }
-        }
+        public static char DirSep => System.IO.Path.DirectorySeparatorChar;
+        public static string NewLine => Environment.NewLine;
 
         public enum CustDrawMode 
         { 

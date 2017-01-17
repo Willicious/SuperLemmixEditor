@@ -113,8 +113,8 @@ namespace NLEditor
 
         private void NLEditForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Utility.DeleteFile(C.AppPath + "TempTestLevel.nxlv");
-            Utility.DeleteFile(C.AppPath + "TempTestLevel.nxsv");
+            Utility.DeleteFile(C.AppPathTempLevel);
+            Utility.DeleteFile(System.IO.Path.ChangeExtension(C.AppPathTempLevel, ".nxsv"));
             
             if (e.CloseReason.In(CloseReason.UserClosing, CloseReason.ApplicationExitCall))
             {
