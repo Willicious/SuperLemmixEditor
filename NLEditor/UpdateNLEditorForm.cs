@@ -27,9 +27,9 @@ namespace NLEditor
             but_MoveBackOne.SetInterval(150);
             but_MoveFrontOne.SetInterval(150);
             but_PieceLeft.SetInterval(100, MouseButtons.Left);
-            but_PieceLeft.SetInterval(300, MouseButtons.Right);
+            but_PieceLeft.SetInterval(30, MouseButtons.Right);
             but_PieceRight.SetInterval(100, MouseButtons.Left);
-            but_PieceRight.SetInterval(300, MouseButtons.Right);
+            but_PieceRight.SetInterval(30, MouseButtons.Right);
         }
         
         /// <summary>

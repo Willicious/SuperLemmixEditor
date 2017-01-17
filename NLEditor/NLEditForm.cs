@@ -510,26 +510,8 @@ namespace NLEditor
 
         private void but_PieceLeft_Click(object sender, EventArgs e)
         {
-            if (!but_PieceLeft.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_PieceLeft.Interval() / 2)
-            {
-                stopWatchMouse.Restart();
-                
-                int movement;
-                if (!(e is MouseEventArgs))
-                {
-                    movement = -1;
-                }
-                else if ((e as MouseEventArgs).Button == MouseButtons.Right)
-                {
-                    movement = -picPieceList.Count;
-                }
-                else
-                {
-                    movement = -1;
-                }
-
-                MoveTerrPieceSelection(movement);
-            }
+            stopWatchMouse.Restart();
+            MoveTerrPieceSelection(-1);
         }
 
         private void but_PieceRight_MouseUp(object sender, MouseEventArgs e)
@@ -539,26 +521,8 @@ namespace NLEditor
 
         private void but_PieceRight_Click(object sender, EventArgs e)
         {
-            if (!but_PieceRight.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_PieceRight.Interval() / 2)
-            {
-                stopWatchMouse.Restart();
-
-                int movement;
-                if (!(e is MouseEventArgs))
-                {
-                    movement = 1;
-                }
-                else if ((e as MouseEventArgs).Button == MouseButtons.Right)
-                {
-                    movement = picPieceList.Count;
-                }
-                else
-                {
-                    movement = 1;
-                }
-
-                MoveTerrPieceSelection(movement);
-            }
+            stopWatchMouse.Restart();
+            MoveTerrPieceSelection(1);
         }
 
         private void picPieces_Click(object sender, EventArgs e)
@@ -644,12 +608,12 @@ namespace NLEditor
             else if (e.Shift && e.KeyCode == Keys.Left)
             {
                 RemoveFocus();
-                MoveTerrPieceSelection(-1);
+                MoveTerrPieceSelection(e.Alt ? -picPieceList.Count : -1);
             }
             else if (e.Shift && e.KeyCode == Keys.Right)
             {
                 RemoveFocus();
-                MoveTerrPieceSelection(1);
+                MoveTerrPieceSelection(e.Alt ? picPieceList.Count : 1);
             }
             else if (e.Shift && e.KeyCode == Keys.Up)
             {
