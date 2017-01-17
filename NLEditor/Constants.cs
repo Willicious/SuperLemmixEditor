@@ -259,6 +259,13 @@ namespace NLEditor
         };
 
 
-
+        public static readonly Dictionary<int, string> FileConverterErrorMsg = new Dictionary<int, string>()
+        {
+            { 2, "Warning: Could not convert some object properties to the nxlv. format due to missing .nxmo files." },
+            { 90, "Error: Level converter got passed invalid file paths." },
+            { 91, "Error: Level to convert to .nxlv format is not a .lvl file." },
+            { 92, "Error: Level converter could not find the translation table .nxtt for the graphic style used in the level." },
+            { 99, "Error: Level converter encountered an unknown error." }
+        };
     }
 }

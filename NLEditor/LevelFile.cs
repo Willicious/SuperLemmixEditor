@@ -24,7 +24,7 @@ namespace NLEditor
 
             openFileDialog.InitialDirectory = C.AppPath;
             openFileDialog.Multiselect = false;
-            openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
+            openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv |Old level files (*.lvl)|*.lvl";
             openFileDialog.RestoreDirectory = true;
             openFileDialog.CheckFileExists = true;
 
@@ -35,7 +35,19 @@ namespace NLEditor
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string filePath = openFileDialog.FileName;
-                    newLevel = LoadLevelFromFile(filePath, styleList);
+                    if (filePath.EndsWith("nxlv"))
+                    {
+                        newLevel = LoadLevelFromFile(filePath, styleList);
+                    }
+                    else if (filePath.EndsWith("lvl"))
+                    {
+                        bool IsConverted = ConvertOldLevelType(filePath);
+                        if (IsConverted)
+                        {
+                            newLevel = LoadLevelFromFile(C.AppPathTempLevel, styleList);
+                        } 
+                    }
+                    
                 }
             }
             catch (Exception Ex)
@@ -587,6 +599,34 @@ namespace NLEditor
         static string PaddedSkillString(C.Skill skill)
         {
             return SkillString(skill).PadLeft(11).PadRight(12);
+        }
+
+        /// <summary>
+        /// Converts an old .lvl level file to the current .nxlv type.
+        /// <para> This calls NLConverter.exe written in Delphi. </para>
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        static bool ConvertOldLevelType(string filePath)
+        {
+            var converterStartInfo = new System.Diagnostics.ProcessStartInfo();
+            converterStartInfo.FileName = C.AppPath + "NLLevelConverter.exe";
+            converterStartInfo.Arguments = filePath + " " + C.AppPathTempLevel;
+
+            var converterProcess = System.Diagnostics.Process.Start(converterStartInfo);
+            converterProcess.WaitForExit();
+            int exitCode = converterProcess.ExitCode;
+
+            if (C.FileConverterErrorMsg.ContainsKey(exitCode))
+            {
+                MessageBox.Show(C.FileConverterErrorMsg[exitCode]);
+            }
+            else if (exitCode >= 10)
+            {
+                MessageBox.Show("Error: Level converter crashed due to unhandles exception.");
+            }
+
+            return (exitCode < 10);
         }
 
     }
