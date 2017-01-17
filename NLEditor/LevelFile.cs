@@ -609,13 +609,22 @@ namespace NLEditor
         /// <returns></returns>
         static bool ConvertOldLevelType(string filePath)
         {
+            // Before we are able to execute the NLConverter, we have to write it as a file to the disc!
+            using (var converterStream = new FileStream(C.AppPath + "NLConverter.exe", FileMode.CreateNew, FileAccess.Write))
+            {
+                byte[] converterBytes = Properties.Resources.NLLevelConverter;
+                converterStream.Write(converterBytes, 0, converterBytes.Length);
+            }
+
             var converterStartInfo = new System.Diagnostics.ProcessStartInfo();
-            converterStartInfo.FileName = C.AppPath + "NLLevelConverter.exe";
+            converterStartInfo.FileName = C.AppPath + "NLConverter.exe";
             converterStartInfo.Arguments = filePath + " " + C.AppPathTempLevel;
 
             var converterProcess = System.Diagnostics.Process.Start(converterStartInfo);
             converterProcess.WaitForExit();
             int exitCode = converterProcess.ExitCode;
+
+            Utility.DeleteFile(C.AppPath + "NLConverter.exe");
 
             if (C.FileConverterErrorMsg.ContainsKey(exitCode))
             {
