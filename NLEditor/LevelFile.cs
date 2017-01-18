@@ -24,9 +24,10 @@ namespace NLEditor
 
             openFileDialog.InitialDirectory = C.AppPath;
             openFileDialog.Multiselect = false;
-            openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv |Old level files (*.lvl)|*.lvl";
+            openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv|Old level files (*.lvl)|*.lvl";
             openFileDialog.RestoreDirectory = true;
             openFileDialog.CheckFileExists = true;
+
 
             Level newLevel = null;
 
