@@ -788,25 +788,26 @@ namespace NLEditor
         private void pic_Level_MouseDown(object sender, MouseEventArgs e)
         {
             mouseButtonPressed = e.Button;
-            curRenderer.MouseStartPos = e.Location;
-            curRenderer.MouseCurPos = e.Location;
             stopWatchMouse.Restart();
 
             bool hasSelectedPieceAtPos = curRenderer.GetMousePosInLevel() != null 
                                        && CurLevel.HasSelectionAtPos((Point)curRenderer.GetMousePosInLevel());
 
+            C.DragActions dragAction;
             if (e.Button == MouseButtons.Right)
             {
-                curRenderer.MouseDragAction = C.DragActions.MoveEditorPos;
+                dragAction = C.DragActions.MoveEditorPos;
             }
             else if (hasSelectedPieceAtPos && !isAltPressed && !isCtrlPressed && !isShiftPressed)
             {
-                curRenderer.MouseDragAction = C.DragActions.DragPieces;
+                dragAction = C.DragActions.DragPieces;
             }
             else
             {
-                curRenderer.MouseDragAction = C.DragActions.SelectArea;
+                dragAction = C.DragActions.SelectArea;
             }
+
+            curRenderer.SetDraggingVars(e.Location, dragAction);
         }
 
         private void pic_Level_MouseMove(object sender, MouseEventArgs e)
@@ -818,16 +819,20 @@ namespace NLEditor
             switch (curRenderer.MouseDragAction)
             {
                 case C.DragActions.SelectArea:
+                    {
+                        this.pic_Level.Image = curRenderer.CombineLayers();
+                        break;
+                    }
                 case C.DragActions.MoveEditorPos:
                     {
+                        curRenderer.UpdateScreenPos();
                         this.pic_Level.Image = curRenderer.CombineLayers();
                         break;
                     }
                 case C.DragActions.DragPieces:
                     {
                         DragSelectedPieces();
-                        curRenderer.MouseStartPos = curRenderer.MouseCurPos;
-                        curRenderer.MouseCurPos = null;
+                        this.pic_Level.Image = curRenderer.CreateLevelImage();
                         break;
                     }
             }
@@ -865,11 +870,7 @@ namespace NLEditor
                     }
             }
 
-            // Delete mouse selection area...
-            curRenderer.MouseStartPos = null;
-            curRenderer.MouseCurPos = null;
-            curRenderer.MouseDragAction = C.DragActions.Null;
-            // ...before updating the level image
+            curRenderer.DeleteDraggingVars();
             this.pic_Level.Image = curRenderer.CreateLevelImage();
             UpdateFlagsForPieceActions();
 

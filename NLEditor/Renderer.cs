@@ -47,6 +47,9 @@ namespace NLEditor
          *    ChangeZoom(int change)
          *    UpdateScreenPos()
          *    EnsureScreenPosInLevel()
+         *    
+         *    SetDraggingVars(Point mousePos, C.DragActions dragAction)
+         *    DeleteDraggingVars()
          *    GetDeltaPos()
          * 
          *  public varaibles:
@@ -108,9 +111,10 @@ namespace NLEditor
         public int ScreenPosY { get; private set; }
         public int ZoomFactor { get; private set; }
 
-        public Point? MouseStartPos { get; set; }
+        public Point? MouseStartPos { get; private set; }
+        public Point? LevelStartPos { get; private set; }
         public Point? MouseCurPos { get; set; }
-        public C.DragActions MouseDragAction { get; set; }
+        public C.DragActions MouseDragAction { get; private set; }
 
         private void ClearLayers()
         {
@@ -151,6 +155,36 @@ namespace NLEditor
         {
             level = newLevel;
             EnsureScreenPosInLevel();
+        }
+
+        /// <summary>
+        /// Sets the start position of the mouse and the screen position respectively the selection position.
+        /// </summary>
+        /// <param name="mousePos"></param>
+        public void SetDraggingVars(Point mousePos, C.DragActions dragAction)
+        {
+            MouseDragAction = dragAction;
+            MouseStartPos = mousePos;
+            MouseCurPos = mousePos;
+            if (dragAction == C.DragActions.MoveEditorPos)
+            {
+                LevelStartPos = ScreenPos;
+            }
+            else if (dragAction == C.DragActions.DragPieces)
+            {
+                LevelStartPos = level.SelectionRectangle().Location;
+            }
+        }
+
+        /// <summary>
+        /// Resets all mouse and start positions to null.
+        /// </summary>
+        public void DeleteDraggingVars()
+        {
+            MouseStartPos = null;
+            MouseCurPos = null;
+            LevelStartPos = null;
+            MouseDragAction = C.DragActions.Null;
         }
 
         /// <summary>
@@ -715,16 +749,14 @@ namespace NLEditor
         /// <summary>
         /// Modified the screen position while ensuring that no unnecessary boundaries appear.
         /// </summary>
-        /// <param name="DeltaX"></param>
-        /// <param name="DeltaY"></param>
         public void UpdateScreenPos()
         {
             if (MouseDragAction != C.DragActions.MoveEditorPos) return;
             if (MouseStartPos == null || MouseCurPos == null) return;
 
-            Point deltaScreenPos = GetDeltaPos();
-            ScreenPosX -= deltaScreenPos.X;
-            ScreenPosY -= deltaScreenPos.Y;
+            Point newPos = GetNewPosFromDragging();
+            ScreenPosX = newPos.X;
+            ScreenPosY = newPos.Y;
 
             EnsureScreenPosInLevel();
         }
@@ -733,10 +765,14 @@ namespace NLEditor
         /// Returns the difference between the original and the current mouse position in level coordinates.
         /// </summary>
         /// <returns></returns>
-        public Point GetDeltaPos()
+        public Point GetNewPosFromDragging()
         {
-            return new Point(ApplyUnZoom(((Point)MouseCurPos).X - ((Point)MouseStartPos).X),
-                             ApplyUnZoom(((Point)MouseCurPos).Y - ((Point)MouseStartPos).Y));
+            System.Diagnostics.Debug.Assert(LevelStartPos != null, "Position for dragging called while reference position is null.");
+
+            int DeltaX = ApplyUnZoom(((Point)MouseCurPos).X - ((Point)MouseStartPos).X);
+            int DeltaY = ApplyUnZoom(((Point)MouseCurPos).Y - ((Point)MouseStartPos).Y);
+
+            return new Point(((Point)LevelStartPos).X - DeltaX, ((Point)LevelStartPos).Y - DeltaY);
         }
 
     }

@@ -86,7 +86,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Moves the piece in the level.
+        /// Moves the piece in the level some pixels in a given direction.
         /// </summary>
         /// <param name="direction"></param>
         /// <param name="step"></param>
@@ -99,6 +99,16 @@ namespace NLEditor
                 case C.DIR.S: PosY = Math.Min(PosY + step, 3400); break;
                 case C.DIR.W: PosX = Math.Max(PosX - step, -1000); break;
             }
+        }
+
+        /// <summary>
+        /// Moves the piece in the level to the target position.
+        /// </summary>
+        /// <param name="targetPos"></param>
+        public void Move(Point targetPos)
+        {
+            PosX = targetPos.X;
+            PosY = targetPos.Y;
         }
 
         /// <summary>

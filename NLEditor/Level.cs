@@ -26,6 +26,7 @@ namespace NLEditor
          *    SelectAreaPiece(Rectangle Rect, bool IsAdded)
          *    UnselectAll()
          *    SelectionList()
+         *    SelectionRectangle()
          *    HasSelectionAtPos(Point Pos)
          *    MovePieces(C.DIR Direcion, int Step = 1)
          *    RotatePieces()
@@ -313,7 +314,7 @@ namespace NLEditor
         /// Gets the smallest rectangle around all selected pieces in the level.
         /// </summary>
         /// <returns></returns>
-        private Rectangle SelectionRectangle()
+        public Rectangle SelectionRectangle()
         {
             var selectedPieces = SelectionList();
 
@@ -344,6 +345,22 @@ namespace NLEditor
         {
             SelectionList().ForEach(item => item.Move(direction, step));
         }
+
+        /// <summary>
+        /// Moves all selected pieces to the target position. 
+        /// </summary>
+        /// <param name="targetPos">Location of the rectangle spanning all selected pieces.</param>
+        public void MovePieces(Point targetPos)
+        {
+            Point referencePos = SelectionRectangle().Location;
+            foreach (LevelPiece piece in SelectionList())
+            {
+                int pieceTargetX = targetPos.X + piece.PosX - referencePos.X;
+                int pieceTargetY = targetPos.Y + piece.PosY - referencePos.Y;
+                piece.Move(new Point(pieceTargetX, pieceTargetY));
+            }
+        }
+
 
         /// <summary>
         /// Rotates all selected pieces in their rectangular hull.

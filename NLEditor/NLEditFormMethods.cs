@@ -427,10 +427,8 @@ namespace NLEditor
         /// </summary>
         private void DragSelectedPieces()
         {
-            Point deltaPos = curRenderer.GetDeltaPos();
-            CurLevel.MovePieces(C.DIR.E, deltaPos.X);
-            CurLevel.MovePieces(C.DIR.S, deltaPos.Y);
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            Point targetPos = curRenderer.GetNewPosFromDragging();
+            CurLevel.MovePieces(targetPos);
         }
 
         /// <summary>
