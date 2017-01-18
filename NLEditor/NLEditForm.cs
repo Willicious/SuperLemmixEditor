@@ -790,8 +790,8 @@ namespace NLEditor
             mouseButtonPressed = e.Button;
             stopWatchMouse.Restart();
 
-            bool hasSelectedPieceAtPos = curRenderer.GetMousePosInLevel() != null 
-                                       && CurLevel.HasSelectionAtPos((Point)curRenderer.GetMousePosInLevel());
+            Point mousePos = curRenderer.GetMousePosInLevel(e.Location);
+            bool hasSelectedPieceAtPos = CurLevel.HasSelectionAtPos(mousePos);
 
             C.DragActions dragAction;
             if (e.Button == MouseButtons.Right)

@@ -28,7 +28,6 @@ namespace NLEditor
             openFileDialog.RestoreDirectory = true;
             openFileDialog.CheckFileExists = true;
 
-
             Level newLevel = null;
 
             try
@@ -339,7 +338,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// 
+        /// Saves a level at the specified file path.
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="curLevel"></param>

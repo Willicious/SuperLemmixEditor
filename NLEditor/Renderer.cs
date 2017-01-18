@@ -253,7 +253,7 @@ namespace NLEditor
             return new Point(posX, posY);
         }
 
-
+        
         /// <summary>
         /// Returns the start or current mouse position in level coordinates.
         /// <para> Returns null if this position lies outside pic_Level. </para>
@@ -772,7 +772,14 @@ namespace NLEditor
             int DeltaX = ApplyUnZoom(((Point)MouseCurPos).X - ((Point)MouseStartPos).X);
             int DeltaY = ApplyUnZoom(((Point)MouseCurPos).Y - ((Point)MouseStartPos).Y);
 
-            return new Point(((Point)LevelStartPos).X - DeltaX, ((Point)LevelStartPos).Y - DeltaY);
+            // Screen positions moves away from dragging direction, everything else in the draggin direction.
+            if (MouseDragAction == C.DragActions.MoveEditorPos)
+            {
+                DeltaX *= -1;
+                DeltaY *= -1;
+            }
+
+            return new Point(((Point)LevelStartPos).X + DeltaX, ((Point)LevelStartPos).Y + DeltaY);
         }
 
     }
