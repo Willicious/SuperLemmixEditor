@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace NLEditor
 {
-    class Options
+    class Settings
     {
-        public Options(NLEditForm editorForm)
+        public Settings(NLEditForm editorForm)
         {
             this.editorForm = editorForm;
             SetDefault();

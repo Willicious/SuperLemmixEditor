@@ -266,7 +266,7 @@ namespace NLEditor
             pic_Level.Width = this.Width - 200;
             pic_Level.Height = this.Height - 155;
 
-            if (!options.UseLvlPropertiesTabs)
+            if (!curSettings.UseLvlPropertiesTabs)
             {
                 pic_Level.Left += 328;
                 pic_Level.Width -= 328;
@@ -426,7 +426,7 @@ namespace NLEditor
             var tabWithPieces = (TabControl)tabPieces.Parent;
             var tabWithSkills = (TabControl)tabSkills.Parent;
 
-            if (options.UseLvlPropertiesTabs)
+            if (curSettings.UseLvlPropertiesTabs)
             {
                 if (tabWithPieces != this.tabLvlProperties)
                 {

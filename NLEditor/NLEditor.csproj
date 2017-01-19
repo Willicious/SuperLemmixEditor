@@ -66,7 +66,7 @@
     <Compile Include="NLEditFormMethods.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Options.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="RepeatButton.cs">
       <SubType>Component</SubType>
     </Compile>

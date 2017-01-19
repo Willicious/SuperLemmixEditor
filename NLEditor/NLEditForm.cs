@@ -100,7 +100,7 @@ namespace NLEditor
         public Level CurLevel { get; private set; }
         public List<Style> StyleList { get; private set; }
         Renderer curRenderer;
-        Options options; 
+        Settings curSettings; 
 
         List<Level> oldLevelList;
         int curOldLevelIndex;
@@ -252,7 +252,7 @@ namespace NLEditor
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            options.OpenSettingsWindow();
+            curSettings.OpenSettingsWindow();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

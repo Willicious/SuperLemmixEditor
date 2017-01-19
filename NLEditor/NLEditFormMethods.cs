@@ -20,8 +20,8 @@ namespace NLEditor
         /// </summary>
         private void InitializeSettings()
         {
-            options = new Options(this);
-            options.ReadSettingsFromFile();
+            curSettings = new Settings(this);
+            curSettings.ReadSettingsFromFile();
             ApplyOptionLvlPropertiesTabs();
         }
         
