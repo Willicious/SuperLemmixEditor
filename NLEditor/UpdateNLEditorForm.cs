@@ -235,10 +235,12 @@ namespace NLEditor
         /// </summary>
         private void MoveControlsOnFormResize()
         {
-            pic_Level.Width = this.Width - 200;
-            pic_Level.Height = this.Height - 155;
-            
-            tabLvlProperties.Height = this.Height - 178;
+            RepositionPicLevel();
+
+            foreach (TabControl tabControl in this.Controls.OfType<TabControl>())
+            {
+                tabControl.Height = this.Height - 178;
+            }
 
             combo_PieceStyle.Top = this.Height - 149;
             but_PieceTerrObj.Top = this.Height - 149;
@@ -253,6 +255,23 @@ namespace NLEditor
                 UpdateBackgroundImage();
                 LoadPiecesIntoPictureBox();
             }
+        }
+
+        /// <summary>
+        /// Positions pic_Level at the correct place and resizes it accordingly.
+        /// </summary>
+        private void RepositionPicLevel()
+        {
+            pic_Level.Left = 188;
+            pic_Level.Width = this.Width - 200;
+            pic_Level.Height = this.Height - 155;
+
+            if (!options.UseLvlPropertiesTabs)
+            {
+                pic_Level.Left += 330;
+                pic_Level.Width -= 330;
+            }
+            
         }
 
         /// <summary>
@@ -398,6 +417,70 @@ namespace NLEditor
                 }
             }
         }
+
+        /// <summary>
+        /// Applies the option UseLvlPropertiesTabs to the editor.
+        /// </summary>
+        private void ApplyOptionLvlPropertiesTabs()
+        {
+            var formTabControls = new List<TabControl>(this.Controls.OfType<TabControl>());
+            TabControl tabWithPieces = formTabControls.Find(ctrl => ctrl.Controls.Contains(tabPieces));
+            TabControl tabWithSkills = formTabControls.Find(ctrl => ctrl.Controls.Contains(tabSkills));
+
+            if (options.UseLvlPropertiesTabs)
+            {
+                if (tabWithPieces != this.tabLvlProperties)
+                {
+                    tabWithPieces.TabPages.Remove(tabPieces);
+                    this.tabLvlProperties.TabPages.Add(tabPieces);
+                    this.Controls.Remove(tabWithPieces);
+                    tabWithPieces.Dispose();
+                }
+
+                if (tabWithSkills != this.tabLvlProperties)
+                {
+                    tabWithSkills.TabPages.Remove(tabSkills);
+                    this.tabLvlProperties.TabPages.Add(tabSkills);
+                    this.Controls.Remove(tabWithSkills);
+                    tabWithSkills.Dispose();
+                }
+            }
+            else
+            {
+                if (tabWithPieces == this.tabLvlProperties)
+                {
+                    var newTabWithPieces = new TabControl();
+                    newTabWithPieces.Top = 27;
+                    newTabWithPieces.Left = 186;
+                    newTabWithPieces.Width = 186;
+                    newTabWithPieces.Height = this.Height - 178;
+                    newTabWithPieces.TabStop = false;
+                    this.Controls.Add(newTabWithPieces);
+
+                    this.tabLvlProperties.TabPages.Remove(tabPieces);
+                    newTabWithPieces.TabPages.Add(tabPieces);
+                }
+
+                if (tabWithSkills == this.tabLvlProperties)
+                {
+                    var newTabWithSkills = new TabControl();
+                    newTabWithSkills.Top = 27;
+                    newTabWithSkills.Left = 372;
+                    newTabWithSkills.Width = 140;
+                    newTabWithSkills.Height = this.Height - 178;
+                    newTabWithSkills.TabStop = false;
+                    this.Controls.Add(newTabWithSkills);
+
+                    this.tabLvlProperties.TabPages.Remove(tabSkills);
+                    newTabWithSkills.TabPages.Add(tabSkills);
+                }
+            }
+
+            RepositionPicLevel();
+            curRenderer.EnsureScreenPosInLevel();
+            this.pic_Level.Image = curRenderer.CreateLevelImage();
+        }
+
 
 
 
