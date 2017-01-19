@@ -268,8 +268,8 @@ namespace NLEditor
 
             if (!options.UseLvlPropertiesTabs)
             {
-                pic_Level.Left += 336;
-                pic_Level.Width -= 336;
+                pic_Level.Left += 328;
+                pic_Level.Width -= 328;
             }
             
         }
@@ -450,8 +450,8 @@ namespace NLEditor
                 {
                     var newTabWithPieces = new TabControl();
                     newTabWithPieces.Top = 27;
-                    newTabWithPieces.Left = 186;
-                    newTabWithPieces.Width = 186;
+                    newTabWithPieces.Left = 182;
+                    newTabWithPieces.Width = 182;
                     newTabWithPieces.Height = this.Height - 178;
                     newTabWithPieces.TabStop = false;
                     this.Controls.Add(newTabWithPieces);
@@ -464,7 +464,7 @@ namespace NLEditor
                 {
                     var newTabWithSkills = new TabControl();
                     newTabWithSkills.Top = 27;
-                    newTabWithSkills.Left = 372;
+                    newTabWithSkills.Left = 364;
                     newTabWithSkills.Width = 150;
                     newTabWithSkills.Height = this.Height - 178;
                     newTabWithSkills.TabStop = false;
