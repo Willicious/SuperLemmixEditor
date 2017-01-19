@@ -25,6 +25,10 @@ namespace NLEditor
             InitializeComponent();
             RemoveFocus();
             SetRepeatButtonIntervals();
+
+            options = new Options(this);
+            options.ReadSettingsFromFile();
+
             LoadStylesFromFile.AddInitialImagesToLibrary();
 
             this.MouseWheel += new MouseEventHandler(NLEditForm_MouseWheel);
@@ -97,6 +101,8 @@ namespace NLEditor
         public Level CurLevel { get; private set; }
         public List<Style> StyleList { get; private set; }
         Renderer curRenderer;
+        Options options; 
+
         List<Level> oldLevelList;
         int curOldLevelIndex;
         List<LevelPiece> oldSelectedList;

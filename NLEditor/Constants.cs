@@ -25,6 +25,7 @@ namespace NLEditor
         public static string AppPathPieces => AppPath + "styles" + DirSep;
         public static string AppPathTempLevel => AppPath + "TempTestLevel.nxlv";
         public static string AppPathThemeInfo(string styleName) => AppPathPieces + styleName + C.DirSep + "theme.nxtm";
+        public static string AppPathSettings => AppPath + "NLEditorSettings.ini";
 
         public static char DirSep => System.IO.Path.DirectorySeparatorChar;
         public static string NewLine => Environment.NewLine;
