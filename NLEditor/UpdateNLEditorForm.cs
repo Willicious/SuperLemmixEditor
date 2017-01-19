@@ -268,8 +268,8 @@ namespace NLEditor
 
             if (!options.UseLvlPropertiesTabs)
             {
-                pic_Level.Left += 330;
-                pic_Level.Width -= 330;
+                pic_Level.Left += 336;
+                pic_Level.Width -= 336;
             }
             
         }
@@ -421,11 +421,10 @@ namespace NLEditor
         /// <summary>
         /// Applies the option UseLvlPropertiesTabs to the editor.
         /// </summary>
-        private void ApplyOptionLvlPropertiesTabs()
+        public void ApplyOptionLvlPropertiesTabs()
         {
-            var formTabControls = new List<TabControl>(this.Controls.OfType<TabControl>());
-            TabControl tabWithPieces = formTabControls.Find(ctrl => ctrl.Controls.Contains(tabPieces));
-            TabControl tabWithSkills = formTabControls.Find(ctrl => ctrl.Controls.Contains(tabSkills));
+            var tabWithPieces = (TabControl)tabPieces.Parent;
+            var tabWithSkills = (TabControl)tabSkills.Parent;
 
             if (options.UseLvlPropertiesTabs)
             {
@@ -466,7 +465,7 @@ namespace NLEditor
                     var newTabWithSkills = new TabControl();
                     newTabWithSkills.Top = 27;
                     newTabWithSkills.Left = 372;
-                    newTabWithSkills.Width = 140;
+                    newTabWithSkills.Width = 150;
                     newTabWithSkills.Height = this.Height - 178;
                     newTabWithSkills.TabStop = false;
                     this.Controls.Add(newTabWithSkills);

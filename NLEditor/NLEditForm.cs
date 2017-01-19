@@ -26,9 +26,6 @@ namespace NLEditor
             RemoveFocus();
             SetRepeatButtonIntervals();
 
-            options = new Options(this);
-            options.ReadSettingsFromFile();
-
             LoadStylesFromFile.AddInitialImagesToLibrary();
 
             this.MouseWheel += new MouseEventHandler(NLEditForm_MouseWheel);
@@ -76,6 +73,8 @@ namespace NLEditor
 
             CreateNewLevelAndRenderer();
             UpdateFlagsForPieceActions();
+
+            InitializeSettings();
 
             pieceStartIndex = 0;
             pieceDoDisplayObject = false;
@@ -249,6 +248,11 @@ namespace NLEditor
         private void hotkeysToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DisplayHotkeyForm();
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            options.OpenSettingsWindow();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -603,6 +607,10 @@ namespace NLEditor
             {
                 backgroundToolStripMenuItem_Click(null, null);
             }
+            else if (e.KeyCode == Keys.F10)
+            {
+                settingsToolStripMenuItem_Click(null, null);
+            }
             else if (e.KeyCode == Keys.F11)
             {
                 DisplayHotkeyForm();
@@ -883,8 +891,6 @@ namespace NLEditor
             mouseButtonPressed = null;
             RemoveFocus();
         }
-
-
 
 
     }

@@ -21,12 +21,58 @@ namespace NLEditor
         public bool UseLvlPropertiesTabs { get; private set; }
         public bool UsePieceSelectionNames { get; private set; }
 
+        /// <summary>
+        /// Resets the editor options to the default values.
+        /// </summary>
         public void SetDefault()
         {
             UseLvlPropertiesTabs = true;
             UsePieceSelectionNames = false;
         }
 
+        /// <summary>
+        /// Displays the settings form with the settings options.
+        /// </summary>
+        public void OpenSettingsWindow()
+        {
+            Form settingsForm = new Form();
+            settingsForm.Width = 310;
+            settingsForm.Height = 170;
+            settingsForm.MaximizeBox = false;
+            settingsForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            settingsForm.Text = "NLEditor - Settings";
+            settingsForm.FormClosing += new FormClosingEventHandler(settingsForm_FormClosing);
+
+            settingsForm.Show();
+
+            CheckBox checkUseTabs = new CheckBox();
+            checkUseTabs.AutoSize = true;
+            checkUseTabs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkUseTabs.Checked = UseLvlPropertiesTabs;
+            checkUseTabs.Text = "Use tabs to display level proerties: ";
+            checkUseTabs.Top = 4;
+            checkUseTabs.Left = 160 - checkUseTabs.Width;
+            checkUseTabs.CheckedChanged += new EventHandler(checkUseTabs_CheckedChanged);
+
+            settingsForm.Controls.Add(checkUseTabs);
+        }
+
+        private void settingsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            WriteSettingsToFile();
+        }
+
+        private void checkUseTabs_CheckedChanged(object sender, EventArgs e)
+        {
+            UseLvlPropertiesTabs = ((sender as CheckBox).CheckState == CheckState.Checked);
+            editorForm.ApplyOptionLvlPropertiesTabs();
+        }
+
+
+
+        /// <summary>
+        /// Reads the users editor settings from NLEditorSettings.ini.
+        /// </summary>
         public void ReadSettingsFromFile()
         {
             SetDefault();
@@ -68,6 +114,9 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Saves the user's current editor settings to NLEditorSettings.ini. 
+        /// </summary>
         public void WriteSettingsToFile()
         {
             try

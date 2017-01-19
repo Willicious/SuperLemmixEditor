@@ -16,6 +16,17 @@ namespace NLEditor
          * -------------------------------------------------------- */
 
         /// <summary>
+        /// Reads the user's settings from the file NLEditorSettings.ini and applies these options.
+        /// </summary>
+        private void InitializeSettings()
+        {
+            options = new Options(this);
+            options.ReadSettingsFromFile();
+            ApplyOptionLvlPropertiesTabs();
+        }
+        
+
+        /// <summary>
         /// Sets fStyleList and creates the styles, but does not yet load sprites.
         /// </summary>
         private void CreateStyleList()

@@ -167,6 +167,7 @@
             this.but_FlipPieces = new NLEditor.RepeatButton();
             this.but_InvertPieces = new NLEditor.RepeatButton();
             this.but_RotatePieces = new NLEditor.RepeatButton();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -286,35 +287,35 @@
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.undoToolStripMenuItem.Text = "Undo (Ctrl+Z)";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.redoToolStripMenuItem.Text = "Redo (Ctrl+Y)";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.deleteToolStripMenuItem.Text = "Delete (Ctrl+X)";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // insertToolStripMenuItem
             // 
             this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
-            this.insertToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.insertToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.insertToolStripMenuItem.Text = "Insert (Ctrl+V)";
             this.insertToolStripMenuItem.Click += new System.EventHandler(this.insertToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.copyToolStripMenuItem.Text = "Copy (Ctrl+C)";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
@@ -395,20 +396,21 @@
             // playLevelToolStripMenuItem
             // 
             this.playLevelToolStripMenuItem.Name = "playLevelToolStripMenuItem";
-            this.playLevelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.playLevelToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.playLevelToolStripMenuItem.Text = "Play Level (F12)";
             this.playLevelToolStripMenuItem.Click += new System.EventHandler(this.playLevelToolStripMenuItem_Click);
             // 
             // validateLevelToolStripMenuItem
             // 
             this.validateLevelToolStripMenuItem.Name = "validateLevelToolStripMenuItem";
-            this.validateLevelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.validateLevelToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.validateLevelToolStripMenuItem.Text = "Validate Level";
             this.validateLevelToolStripMenuItem.Click += new System.EventHandler(this.validateLevelToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingsToolStripMenuItem,
             this.hotkeysToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -1749,6 +1751,13 @@
             this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
             this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
             // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Text = "Settings (F10)";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1968,6 +1977,7 @@
         private System.Windows.Forms.Label lbl_Global_Background;
         private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTipPieces;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
     }
 }
 
