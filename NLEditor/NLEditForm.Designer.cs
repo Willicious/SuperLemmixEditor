@@ -160,6 +160,9 @@
             this.txt_Focus = new System.Windows.Forms.TextBox();
             this.toolTipPieces = new System.Windows.Forms.ToolTip(this.components);
             this.tabLvlPieces = new System.Windows.Forms.TabControl();
+            this.tabLvlSkills = new System.Windows.Forms.TabControl();
+            this.scrollPicLevelHoriz = new System.Windows.Forms.HScrollBar();
+            this.scrollPicLevelVert = new System.Windows.Forms.VScrollBar();
             this.but_PieceRight = new NLEditor.RepeatButton();
             this.but_PieceLeft = new NLEditor.RepeatButton();
             this.but_MoveBackOne = new NLEditor.RepeatButton();
@@ -169,7 +172,6 @@
             this.but_FlipPieces = new NLEditor.RepeatButton();
             this.but_InvertPieces = new NLEditor.RepeatButton();
             this.but_RotatePieces = new NLEditor.RepeatButton();
-            this.tabLvlSkills = new System.Windows.Forms.TabControl();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -1671,6 +1673,38 @@
             this.tabLvlPieces.Visible = false;
             this.tabLvlPieces.Click += new System.EventHandler(this.tabLvlProperties_Click);
             // 
+            // tabLvlSkills
+            // 
+            this.tabLvlSkills.Enabled = false;
+            this.tabLvlSkills.Location = new System.Drawing.Point(364, 27);
+            this.tabLvlSkills.Name = "tabLvlSkills";
+            this.tabLvlSkills.SelectedIndex = 0;
+            this.tabLvlSkills.Size = new System.Drawing.Size(150, 422);
+            this.tabLvlSkills.TabIndex = 39;
+            this.tabLvlSkills.TabStop = false;
+            this.tabLvlSkills.Visible = false;
+            this.tabLvlSkills.Click += new System.EventHandler(this.tabLvlProperties_Click);
+            // 
+            // scrollPicLevelHoriz
+            // 
+            this.scrollPicLevelHoriz.LargeChange = 2;
+            this.scrollPicLevelHoriz.Location = new System.Drawing.Point(188, 456);
+            this.scrollPicLevelHoriz.Maximum = 1;
+            this.scrollPicLevelHoriz.Name = "scrollPicLevelHoriz";
+            this.scrollPicLevelHoriz.Size = new System.Drawing.Size(598, 16);
+            this.scrollPicLevelHoriz.TabIndex = 40;
+            this.scrollPicLevelHoriz.Visible = false;
+            // 
+            // scrollPicLevelVert
+            // 
+            this.scrollPicLevelVert.LargeChange = 2;
+            this.scrollPicLevelVert.Location = new System.Drawing.Point(770, 27);
+            this.scrollPicLevelVert.Maximum = 1;
+            this.scrollPicLevelVert.Name = "scrollPicLevelVert";
+            this.scrollPicLevelVert.Size = new System.Drawing.Size(16, 444);
+            this.scrollPicLevelVert.TabIndex = 41;
+            this.scrollPicLevelVert.Visible = false;
+            // 
             // but_PieceRight
             // 
             this.but_PieceRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1772,23 +1806,13 @@
             this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
             this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
             // 
-            // tabLvlSkills
-            // 
-            this.tabLvlSkills.Enabled = false;
-            this.tabLvlSkills.Location = new System.Drawing.Point(364, 27);
-            this.tabLvlSkills.Name = "tabLvlSkills";
-            this.tabLvlSkills.SelectedIndex = 0;
-            this.tabLvlSkills.Size = new System.Drawing.Size(150, 422);
-            this.tabLvlSkills.TabIndex = 39;
-            this.tabLvlSkills.TabStop = false;
-            this.tabLvlSkills.Visible = false;
-            this.tabLvlSkills.Click += new System.EventHandler(this.tabLvlProperties_Click);
-            // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 573);
+            this.Controls.Add(this.scrollPicLevelVert);
+            this.Controls.Add(this.scrollPicLevelHoriz);
             this.Controls.Add(this.tabLvlSkills);
             this.Controls.Add(this.tabLvlPieces);
             this.Controls.Add(this.txt_Focus);
@@ -2008,6 +2032,8 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.TabControl tabLvlPieces;
         private System.Windows.Forms.TabControl tabLvlSkills;
+        private System.Windows.Forms.HScrollBar scrollPicLevelHoriz;
+        private System.Windows.Forms.VScrollBar scrollPicLevelVert;
     }
 }
 

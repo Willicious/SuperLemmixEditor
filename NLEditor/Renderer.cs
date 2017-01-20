@@ -57,7 +57,6 @@ namespace NLEditor
          *    ScreenPosX
          *    ScreenPosY
          *    Zoom
-         *    MouseStartPos
          *    MouseCurPos
          * -------------------------------------------------------- */
         /// <summary>
@@ -560,6 +559,15 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Returns the rectangle of the displayed level area in level coordinates.
+        /// </summary>
+        /// <returns></returns>
+        public Rectangle GetLevelBmpRect()
+        {
+            return new Rectangle(ScreenPos, GetLevelBmpSize());
+        }
+
+        /// <summary>
         /// Adds the screen start rectangle to the zoomed and cropped image.
         /// </summary>
         /// <param name="levelBmp"></param>
@@ -738,10 +746,8 @@ namespace NLEditor
         private int EnsureScreenPosInLevel(bool isVert, int curPos)
         {
             int levelLength = isVert ? level.Height : level.Width;
-            int picBoxLength = isVert ? picBoxHeight : picBoxWidth;
-            int picBoxLengthUnzoomed = ApplyUnZoom(picBoxLength);
-            int maxCoord = levelLength - picBoxLengthUnzoomed;
-
+            int displayAreaLength = isVert ? GetLevelBmpSize().Height : GetLevelBmpSize().Width;
+            int maxCoord = levelLength - displayAreaLength;
             // do not interchange Max and Min because of possibly negative MaxCoord
             return Math.Max(Math.Min(curPos, maxCoord), 0);    
         }

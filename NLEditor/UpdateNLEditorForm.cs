@@ -235,7 +235,13 @@ namespace NLEditor
         /// </summary>
         private void MoveControlsOnFormResize()
         {
+            scrollPicLevelHoriz.Top = this.Height - 144;
+            scrollPicLevelVert.Left = this.Width - 29;
+
             RepositionPicLevel();
+
+            scrollPicLevelHoriz.Width = pic_Level.Width - 2;
+            scrollPicLevelVert.Height = pic_Level.Height - 2;
 
             foreach (TabControl tabControl in this.Controls.OfType<TabControl>())
             {
@@ -271,8 +277,71 @@ namespace NLEditor
                 pic_Level.Left += 328;
                 pic_Level.Width -= 328;
             }
-            
+
+            // Check for scroll bars. This method resizes pic_Level accordingly (if necessary).
+            CheckEnableLevelScrollbars();
         }
+
+        /// <summary>
+        /// Checks whether the level fits into the picLevel and enables scrollbars if necessary.
+        /// </summary>
+        private void CheckEnableLevelScrollbars()
+        {
+            Rectangle displayedLevelRect = curRenderer.GetLevelBmpRect();
+            bool displayScrollHoriz = false;
+            bool displayScrollVert = false;
+
+            displayScrollHoriz = (displayedLevelRect.Width + 1 < CurLevel.Width);
+            displayScrollVert = (displayedLevelRect.Height + 1 < CurLevel.Height);
+
+            if (displayScrollHoriz) pic_Level.Height -= 16;
+            if (displayScrollVert) pic_Level.Width -= 16;
+
+            // Check whether shrinking the level size made other scrollbar necessary, too
+            if (displayScrollHoriz ^ displayScrollVert)
+            {
+                displayedLevelRect = curRenderer.GetLevelBmpRect();
+                if (!displayScrollHoriz && displayedLevelRect.Width + 1 < CurLevel.Width)
+                {
+                    displayScrollHoriz = true;
+                    pic_Level.Height -= 16;
+                }
+                if (!displayScrollVert && displayedLevelRect.Height + 1 < CurLevel.Height)
+                {
+                    displayScrollVert = true;
+                    pic_Level.Width -= 16;
+                }
+            }
+
+            // Update displayed level area
+            displayedLevelRect = curRenderer.GetLevelBmpRect();
+
+            // Set scrollPicLevelHoriz
+            if (displayScrollHoriz)
+            {
+                int maxValue = CurLevel.Width - displayedLevelRect.Width + 1;
+                this.scrollPicLevelHoriz.Maximum = maxValue;
+                this.scrollPicLevelHoriz.SmallChange = 1;
+                this.scrollPicLevelHoriz.LargeChange = 2;
+                this.scrollPicLevelHoriz.Value = Math.Min(displayedLevelRect.Left, maxValue - 1);
+            }
+            this.scrollPicLevelHoriz.Enabled = displayScrollHoriz;
+            this.scrollPicLevelHoriz.Visible = displayScrollHoriz;
+
+            
+            // Set scrollPicLevelVert
+            if (displayScrollVert)
+            {
+                int maxValue = CurLevel.Height - displayedLevelRect.Height + 1;
+                this.scrollPicLevelVert.Maximum = maxValue;
+                this.scrollPicLevelVert.SmallChange = 1;
+                this.scrollPicLevelVert.LargeChange = 2;
+                this.scrollPicLevelVert.Value = Math.Min(displayedLevelRect.Top, maxValue - 1);
+            }
+            this.scrollPicLevelVert.Enabled = displayScrollVert;
+            this.scrollPicLevelVert.Visible = displayScrollVert;
+        }
+
 
         /// <summary>
         /// Moves the picture boxes to select new pieces to the correct position.
