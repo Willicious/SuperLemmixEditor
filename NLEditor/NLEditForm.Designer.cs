@@ -54,6 +54,7 @@
             this.playLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.validateLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.combo_PieceStyle = new System.Windows.Forms.ComboBox();
@@ -158,6 +159,7 @@
             this.lbl_Skill_Climber = new System.Windows.Forms.Label();
             this.txt_Focus = new System.Windows.Forms.TextBox();
             this.toolTipPieces = new System.Windows.Forms.ToolTip(this.components);
+            this.tabLvlPieces = new System.Windows.Forms.TabControl();
             this.but_PieceRight = new NLEditor.RepeatButton();
             this.but_PieceLeft = new NLEditor.RepeatButton();
             this.but_MoveBackOne = new NLEditor.RepeatButton();
@@ -167,7 +169,7 @@
             this.but_FlipPieces = new NLEditor.RepeatButton();
             this.but_InvertPieces = new NLEditor.RepeatButton();
             this.but_RotatePieces = new NLEditor.RepeatButton();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabLvlSkills = new System.Windows.Forms.TabControl();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -417,17 +419,24 @@
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.settingsToolStripMenuItem.Text = "Settings (F10)";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
             // hotkeysToolStripMenuItem
             // 
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys (F11)";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.aboutToolStripMenuItem.Text = "About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -1650,6 +1659,18 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
+            // tabLvlPieces
+            // 
+            this.tabLvlPieces.Enabled = false;
+            this.tabLvlPieces.Location = new System.Drawing.Point(182, 27);
+            this.tabLvlPieces.Name = "tabLvlPieces";
+            this.tabLvlPieces.SelectedIndex = 0;
+            this.tabLvlPieces.Size = new System.Drawing.Size(182, 422);
+            this.tabLvlPieces.TabIndex = 38;
+            this.tabLvlPieces.TabStop = false;
+            this.tabLvlPieces.Visible = false;
+            this.tabLvlPieces.Click += new System.EventHandler(this.tabLvlProperties_Click);
+            // 
             // but_PieceRight
             // 
             this.but_PieceRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1751,18 +1772,25 @@
             this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
             this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
             // 
-            // settingsToolStripMenuItem
+            // tabLvlSkills
             // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.settingsToolStripMenuItem.Text = "Settings (F10)";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            this.tabLvlSkills.Enabled = false;
+            this.tabLvlSkills.Location = new System.Drawing.Point(364, 27);
+            this.tabLvlSkills.Name = "tabLvlSkills";
+            this.tabLvlSkills.SelectedIndex = 0;
+            this.tabLvlSkills.Size = new System.Drawing.Size(150, 422);
+            this.tabLvlSkills.TabIndex = 39;
+            this.tabLvlSkills.TabStop = false;
+            this.tabLvlSkills.Visible = false;
+            this.tabLvlSkills.Click += new System.EventHandler(this.tabLvlProperties_Click);
             // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 573);
+            this.Controls.Add(this.tabLvlSkills);
+            this.Controls.Add(this.tabLvlPieces);
             this.Controls.Add(this.txt_Focus);
             this.Controls.Add(this.pic_Level);
             this.Controls.Add(this.but_PieceTerrObj);
@@ -1978,6 +2006,8 @@
         private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTipPieces;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabLvlPieces;
+        private System.Windows.Forms.TabControl tabLvlSkills;
     }
 }
 

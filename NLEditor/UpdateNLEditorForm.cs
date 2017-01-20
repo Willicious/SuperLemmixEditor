@@ -428,50 +428,38 @@ namespace NLEditor
 
             if (curSettings.UseLvlPropertiesTabs)
             {
-                if (tabWithPieces != this.tabLvlProperties)
+                if (tabPieces.Parent == this.tabLvlPieces)
                 {
-                    tabWithPieces.TabPages.Remove(tabPieces);
+                    this.tabLvlPieces.Enabled = false;
+                    this.tabLvlPieces.Visible = false;
+                    this.tabLvlPieces.TabPages.Remove(tabPieces);
                     this.tabLvlProperties.TabPages.Add(tabPieces);
-                    this.Controls.Remove(tabWithPieces);
-                    tabWithPieces.Dispose();
                 }
-
-                if (tabWithSkills != this.tabLvlProperties)
+                
+                if (tabSkills.Parent == this.tabLvlSkills)
                 {
-                    tabWithSkills.TabPages.Remove(tabSkills);
+                    this.tabLvlSkills.Enabled = false;
+                    this.tabLvlSkills.Visible = false;
+                    this.tabLvlSkills.TabPages.Remove(tabSkills);
                     this.tabLvlProperties.TabPages.Add(tabSkills);
-                    this.Controls.Remove(tabWithSkills);
-                    tabWithSkills.Dispose();
                 }
             }
             else
             {
                 if (tabWithPieces == this.tabLvlProperties)
                 {
-                    var newTabWithPieces = new TabControl();
-                    newTabWithPieces.Top = 27;
-                    newTabWithPieces.Left = 182;
-                    newTabWithPieces.Width = 182;
-                    newTabWithPieces.Height = this.Height - 178;
-                    newTabWithPieces.TabStop = false;
-                    this.Controls.Add(newTabWithPieces);
-
+                    this.tabLvlPieces.Enabled = true;
+                    this.tabLvlPieces.Visible = true;
                     this.tabLvlProperties.TabPages.Remove(tabPieces);
-                    newTabWithPieces.TabPages.Add(tabPieces);
+                    this.tabLvlPieces.TabPages.Add(tabPieces);
                 }
 
                 if (tabWithSkills == this.tabLvlProperties)
                 {
-                    var newTabWithSkills = new TabControl();
-                    newTabWithSkills.Top = 27;
-                    newTabWithSkills.Left = 364;
-                    newTabWithSkills.Width = 150;
-                    newTabWithSkills.Height = this.Height - 178;
-                    newTabWithSkills.TabStop = false;
-                    this.Controls.Add(newTabWithSkills);
-
+                    this.tabLvlSkills.Enabled = true;
+                    this.tabLvlSkills.Visible = true;
                     this.tabLvlProperties.TabPages.Remove(tabSkills);
-                    newTabWithSkills.TabPages.Add(tabSkills);
+                    this.tabLvlSkills.TabPages.Add(tabSkills);
                 }
             }
 
