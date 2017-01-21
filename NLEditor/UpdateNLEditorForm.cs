@@ -348,6 +348,21 @@ namespace NLEditor
             return newPicBoxSize;
         }
 
+        /// <summary>
+        /// Sets the scrollbar values for the editor screen position correctly.
+        /// </summary>
+        private void UpdateScrollBarValues()
+        {
+            if (scrollPicLevelHoriz.Enabled)
+            {
+                scrollPicLevelHoriz.Value = Math.Min(curRenderer.ScreenPosX, scrollPicLevelHoriz.Maximum - 1);
+            }
+            if (scrollPicLevelVert.Enabled)
+            {
+                scrollPicLevelVert.Value = Math.Min(curRenderer.ScreenPosY, scrollPicLevelVert.Maximum - 1);
+            }
+        }
+
 
         /// <summary>
         /// Moves the picture boxes to select new pieces to the correct position.

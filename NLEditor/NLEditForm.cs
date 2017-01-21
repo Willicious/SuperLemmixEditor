@@ -845,6 +845,7 @@ namespace NLEditor
                 case C.DragActions.MoveEditorPos:
                     {
                         curRenderer.UpdateScreenPos();
+                        UpdateScrollBarValues();
                         this.pic_Level.Image = curRenderer.CombineLayers();
                         break;
                     }
@@ -879,6 +880,7 @@ namespace NLEditor
                 case C.DragActions.MoveEditorPos:
                     {
                         curRenderer.UpdateScreenPos();
+                        UpdateScrollBarValues();
                         break;
                     }
                 case C.DragActions.DragPieces:
