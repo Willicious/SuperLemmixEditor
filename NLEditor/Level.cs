@@ -226,6 +226,26 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Creates a new piece and adds it to the level. 
+        /// </summary>
+        /// <param name="pieceKey"></param>
+        /// <param name="centerPos"></param>
+        public void AddPiece(string pieceKey, Point centerPos)
+        {
+            Point piecePos = new Point(centerPos.X - ImageLibrary.GetWidth(pieceKey) / 2,
+                                       centerPos.Y - ImageLibrary.GetHeight(pieceKey) / 2);
+
+            if (pieceKey.Contains("object"))
+            {
+                GadgetList.Add(new GadgetPiece(pieceKey, piecePos));
+            }
+            else
+            {
+                TerrainList.Add(new TerrainPiece(pieceKey, piecePos));
+            }
+        }
+
+        /// <summary>
         /// Sets the "IsSelected" flag for the first piece that can receive it.
         /// </summary>
         /// <param name="pos"></param>

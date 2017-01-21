@@ -369,6 +369,23 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Adds a new piece to the level and displays the result to the user.
+        /// <para> Warning: Only use this when adding pieces via FormPieceSelection! </para>
+        /// </summary>
+        /// <param name="pieceKey"></param>
+        /// <param name="centerPosition"></param>
+        public void AddNewPieceToLevel(string pieceKey, Point centerPosition)
+        {
+            CurLevel.UnselectAll();
+            CurLevel.AddPiece(pieceKey, centerPosition);
+
+            SaveChangesToOldLevelList();
+            pic_Level.Image = curRenderer.CreateLevelImage();
+            UpdateFlagsForPieceActions();
+            RemoveFocus();
+        }
+
+        /// <summary>
         /// Changes the selection of existing pieces by adding or removing one piece.
         /// </summary>
         private void LevelSelectSinglePiece()

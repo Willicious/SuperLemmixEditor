@@ -13,8 +13,8 @@ namespace NLEditor
 {
     public partial class FormPieceSelection : Form
     {
-        public FormPieceSelection(NLEditForm editorForm, List<string> pieceKeys, int startIndex, Style style, 
-                                  Point mousePosOnScreen, Point mousePosInLevel)
+        public FormPieceSelection(NLEditForm editorForm, Style style, bool doDisplayObjects, int startIndex, 
+                                  Point mousePosOnScreen, Point mousePosInLevel, Style mainStyle = null)
         {
             InitializeComponent();
 
@@ -22,8 +22,9 @@ namespace NLEditor
             stopWatchKey.Start();
 
             this.editorForm = editorForm;
-            this.pieceKeys = pieceKeys;
             this.style = style;
+            this.doDisplayObjects = doDisplayObjects;
+            this.mainStyle = mainStyle;
             this.curIndex = Math.Max(Math.Min(startIndex - 3, pieceKeys.Count - 6), 0);
             this.mousePosInLevel = mousePosInLevel;
 
@@ -33,32 +34,8 @@ namespace NLEditor
             lblPieceList = new List<Label>
                 { lblPieceSel0, lblPieceSel1, lblPieceSel2, lblPieceSel3, lblPieceSel4, lblPieceSel5 };
 
-
             scrollPieceSelect.Maximum = Math.Max(pieceKeys.Count - 6, 0) + 1;
             scrollPieceSelect.Value = curIndex;
-
-            // Make form smaller, if less pieces are available.
-            if (pieceKeys.Count < 6)
-            {
-                scrollPieceSelect.Enabled = false;
-                scrollPieceSelect.Visible = false;
-                foreach (var picBox in picPieceList.GetRange(pieceKeys.Count))
-                {
-                    this.Controls.Remove(picBox);
-                    picBox.Dispose();
-                }
-                foreach (var label in lblPieceList.GetRange(pieceKeys.Count))
-                {
-                    this.Controls.Remove(label);
-                    label.Dispose();
-                }
-
-                picPieceList = picPieceList.GetRange(0, pieceKeys.Count);
-                lblPieceList = lblPieceList.GetRange(0, pieceKeys.Count);
-
-                this.Width -= 16;
-                this.Height = 25 + 66 * pieceKeys.Count;
-            }
         }
 
         Stopwatch stopWatchKey;
@@ -69,31 +46,55 @@ namespace NLEditor
         readonly NLEditForm editorForm;
 
         readonly Style style;
-        readonly List<string> pieceKeys;
+        readonly Style mainStyle; // only for recoloring OWWs
+        bool doDisplayObjects;
+        List<string> pieceKeys => doDisplayObjects ? style.ObjectKeys : style.TerrainKeys;
         int curIndex;
 
-        readonly Point mousePosInLevel; 
+        readonly Point mousePosInLevel;
+
+        private void ClosePieceSelection()
+        {
+            foreach (Control control in this.Controls)
+            {
+                this.Controls.Remove(control);
+                control.Dispose();
+            }
+
+            this.Close();
+            this.Dispose();
+        }
+
 
         /// <summary>
         /// Displays the correct picutures, descriptions and sets the scroll bar correctly.
         /// </summary>
         private void UpdatePiecePictures()
         {
-            for (int picIndex = 0; picIndex < picPieceList.Count; picIndex++)
+            for (int picIndex = 0; picIndex < 6; picIndex++)
             {
-                string pieceKey = pieceKeys[curIndex + picIndex];
-                string pieceDescription = System.IO.Path.GetFileNameWithoutExtension(pieceKey)
-                                          + C.NewLine
-                                          + C.TooltipList[ImageLibrary.GetObjType(pieceKey)];
-                lblPieceList[picIndex].Text = pieceDescription;
+                string pieceKey = pieceKeys?[curIndex + picIndex];
 
-                int frameIndex = (ImageLibrary.GetObjType(pieceKey).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE)) ? 1 : 0;
-                Bitmap pieceImage = ImageLibrary.GetImage(pieceKey, RotateFlipType.RotateNoneFlipNone, frameIndex);
-                if (pieceKey.StartsWith("default") && ImageLibrary.GetObjType(pieceKey) == C.OBJ.ONE_WAY_WALL)
+                if (pieceKey == null)
                 {
-                    pieceImage = BmpModify.RecolorOWW(pieceImage, style);
+                    lblPieceList[picIndex].Text = "";
+                    picPieceList[picIndex].Image = null;
                 }
-                picPieceList[picIndex].Image = pieceImage;
+                else
+                {
+                    string pieceDescription = System.IO.Path.GetFileNameWithoutExtension(pieceKey)
+                                              + C.NewLine
+                                              + C.TooltipList[ImageLibrary.GetObjType(pieceKey)];
+                    lblPieceList[picIndex].Text = pieceDescription;
+
+                    int frameIndex = (ImageLibrary.GetObjType(pieceKey).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE)) ? 1 : 0;
+                    Bitmap pieceImage = ImageLibrary.GetImage(pieceKey, RotateFlipType.RotateNoneFlipNone, frameIndex);
+                    if (pieceKey.StartsWith("default") && ImageLibrary.GetObjType(pieceKey) == C.OBJ.ONE_WAY_WALL)
+                    {
+                        pieceImage = BmpModify.RecolorOWW(pieceImage, mainStyle);
+                    }
+                    picPieceList[picIndex].Image = pieceImage;
+                }
             }
 
             scrollPieceSelect.Value = curIndex;
@@ -105,9 +106,7 @@ namespace NLEditor
         /// <param name="delta"></param>
         private void ChangeCurIndex(int delta)
         {
-            curIndex += delta;
-            curIndex = Math.Max(Math.Min(curIndex, pieceKeys.Count - picPieceList.Count), 0);
-            UpdatePiecePictures();
+            SetCurIndex(curIndex + delta);
         }
 
         /// <summary>
@@ -116,13 +115,17 @@ namespace NLEditor
         /// <param name="newCurIndex"></param>
         private void SetCurIndex(int newCurIndex)
         {
-            curIndex = Math.Max(Math.Min(newCurIndex, pieceKeys.Count - picPieceList.Count), 0);
+            curIndex = Math.Max(Math.Min(newCurIndex, pieceKeys.Count - 6), 0);
             UpdatePiecePictures();
         }
 
         private void picSelPiece_Click(object sender, EventArgs e)
         {
-            // TODO: Add correct piece to selection
+            int picIndex = curIndex + picPieceList.FindIndex(pic => pic.Equals(sender));
+            if (picIndex > pieceKeys.Count) return;
+
+            editorForm.AddNewPieceToLevel(pieceKeys[picIndex], mousePosInLevel);
+            ClosePieceSelection();
         }
 
         private void FormPieceSelection_KeyDown(object sender, KeyEventArgs e)
@@ -132,7 +135,7 @@ namespace NLEditor
             // The main key-handling routine
             if (e.KeyCode == Keys.Escape || (e.Alt && e.KeyCode == Keys.F4))
             {
-                this.Dispose();
+                ClosePieceSelection();
             }
             else if (e.KeyCode == Keys.Up)
             {
@@ -141,6 +144,11 @@ namespace NLEditor
             else if (e.KeyCode == Keys.Down)
             {
                 ChangeCurIndex(1);
+            }
+            else if (e.KeyCode == Keys.Space)
+            {
+                doDisplayObjects = !doDisplayObjects;
+                UpdatePiecePictures();
             }
             else
             {
