@@ -92,6 +92,7 @@ namespace NLEditor
 
         /// <summary>
         /// Takes the global level settings and displays them in the correct form fields.
+        /// <para> This method indirectly calls RepositionPicLevel(), too. </para>
         /// </summary>
         private void WriteLevelInfoToForm()
         {
@@ -139,7 +140,6 @@ namespace NLEditor
             WriteLevelInfoToForm();
             UpdateBackgroundImage();
             UpdateFlagsForPieceActions();
-            RepositionPicLevel();
             this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
@@ -165,7 +165,6 @@ namespace NLEditor
 
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
-            RepositionPicLevel();
             this.pic_Level.Image = curRenderer.CreateLevelImage();
 
             combo_PieceStyle.Text = CurLevel.MainStyle.NameInEditor;
