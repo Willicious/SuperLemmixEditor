@@ -58,7 +58,7 @@ namespace NLEditor
         /// </summary>
         private void RemoveFocus()
         {
-            this.ActiveControl = this.txt_Focus;
+            this.ActiveControl = txt_Focus;
         }
 
 
@@ -67,26 +67,26 @@ namespace NLEditor
         /// </summary>
         private void ReadLevelInfoFromForm()
         {
-            CurLevel.Author = this.txt_LevelAuthor.Text;
-            CurLevel.Title = this.txt_LevelTitle.Text;
-            CurLevel.MusicFile = System.IO.Path.GetFileNameWithoutExtension(this.combo_Music.Text);
-            CurLevel.MainStyle = ValidateStyleName(this.combo_MainStyle.Text);
-            CurLevel.Width = decimal.ToInt32(this.num_Lvl_SizeX.Value);
-            CurLevel.Height = decimal.ToInt32(this.num_Lvl_SizeY.Value);
-            CurLevel.StartPosX = decimal.ToInt32(this.num_Lvl_StartX.Value);
-            CurLevel.StartPosY = decimal.ToInt32(this.num_Lvl_StartY.Value);
-            CurLevel.NumLems = decimal.ToInt32(this.num_Lvl_Lems.Value);
-            CurLevel.SaveReq = decimal.ToInt32(this.num_Lvl_Rescue.Value);
-            CurLevel.ReleaseRate = decimal.ToInt32(this.num_Lvl_RR.Value);
-            CurLevel.IsReleaseRateFix = this.check_Lvl_LockRR.Checked;
-            CurLevel.TimeLimit = decimal.ToInt32(this.num_Lvl_TimeMin.Value) * 60
-                                    + decimal.ToInt32(this.num_Lvl_TimeSec.Value);
-            CurLevel.IsNoTimeLimit = this.check_Lvl_InfTime.Checked;
-            CurLevel.BackgroundKey = this.combo_Background.Text;
+            CurLevel.Author = txt_LevelAuthor.Text;
+            CurLevel.Title = txt_LevelTitle.Text;
+            CurLevel.MusicFile = System.IO.Path.GetFileNameWithoutExtension(combo_Music.Text);
+            CurLevel.MainStyle = ValidateStyleName(combo_MainStyle.Text);
+            CurLevel.Width = decimal.ToInt32(num_Lvl_SizeX.Value);
+            CurLevel.Height = decimal.ToInt32(num_Lvl_SizeY.Value);
+            CurLevel.StartPosX = decimal.ToInt32(num_Lvl_StartX.Value);
+            CurLevel.StartPosY = decimal.ToInt32(num_Lvl_StartY.Value);
+            CurLevel.NumLems = decimal.ToInt32(num_Lvl_Lems.Value);
+            CurLevel.SaveReq = decimal.ToInt32(num_Lvl_Rescue.Value);
+            CurLevel.ReleaseRate = decimal.ToInt32(num_Lvl_RR.Value);
+            CurLevel.IsReleaseRateFix = check_Lvl_LockRR.Checked;
+            CurLevel.TimeLimit = decimal.ToInt32(num_Lvl_TimeMin.Value) * 60
+                                    + decimal.ToInt32(num_Lvl_TimeSec.Value);
+            CurLevel.IsNoTimeLimit = check_Lvl_InfTime.Checked;
+            CurLevel.BackgroundKey = combo_Background.Text;
 
             foreach (C.Skill skill in numericsSkillSet.Keys)
             {
-                    CurLevel.SkillSet[skill] = Decimal.ToInt32(numericsSkillSet[skill].Value);
+                    CurLevel.SkillSet[skill] = decimal.ToInt32(numericsSkillSet[skill].Value);
             }
         }
 
@@ -96,30 +96,30 @@ namespace NLEditor
         /// </summary>
         private void WriteLevelInfoToForm()
         {
-            this.txt_LevelAuthor.Text = CurLevel.Author;
-            this.txt_LevelTitle.Text = CurLevel.Title;
-            this.combo_Music.Text = CurLevel.MusicFile;
-            this.combo_MainStyle.Text = (CurLevel.MainStyle != null) ? CurLevel.MainStyle.NameInEditor : "";
-            this.num_Lvl_SizeX.Value = CurLevel.Width;
-            this.num_Lvl_SizeY.Value = CurLevel.Height;
-            this.num_Lvl_StartX.Value = CurLevel.StartPosX;
-            this.num_Lvl_StartY.Value = CurLevel.StartPosY;
-            this.num_Lvl_Lems.Value = CurLevel.NumLems;
-            this.num_Lvl_Rescue.Value = CurLevel.SaveReq;
-            this.num_Lvl_RR.Value = CurLevel.ReleaseRate;
-            this.check_Lvl_LockRR.Checked = CurLevel.IsReleaseRateFix;
-            this.num_Lvl_TimeMin.Value = CurLevel.TimeLimit / 60;
-            this.num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;
-            this.check_Lvl_InfTime.Checked = CurLevel.IsNoTimeLimit;
-            this.combo_Background.Text = System.IO.Path.GetFileName(CurLevel.BackgroundKey);
+            txt_LevelAuthor.Text = CurLevel.Author;
+            txt_LevelTitle.Text = CurLevel.Title;
+            combo_Music.Text = CurLevel.MusicFile;
+            combo_MainStyle.Text = (CurLevel.MainStyle != null) ? CurLevel.MainStyle.NameInEditor : "";
+            num_Lvl_SizeX.Value = CurLevel.Width;
+            num_Lvl_SizeY.Value = CurLevel.Height;
+            num_Lvl_StartX.Value = CurLevel.StartPosX;
+            num_Lvl_StartY.Value = CurLevel.StartPosY;
+            num_Lvl_Lems.Value = CurLevel.NumLems;
+            num_Lvl_Rescue.Value = CurLevel.SaveReq;
+            num_Lvl_RR.Value = CurLevel.ReleaseRate;
+            check_Lvl_LockRR.Checked = CurLevel.IsReleaseRateFix;
+            num_Lvl_TimeMin.Value = CurLevel.TimeLimit / 60;
+            num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;
+            check_Lvl_InfTime.Checked = CurLevel.IsNoTimeLimit;
+            combo_Background.Text = System.IO.Path.GetFileName(CurLevel.BackgroundKey);
 
             foreach (C.Skill skill in numericsSkillSet.Keys)
             {
                 numericsSkillSet[skill].Value = CurLevel.SkillSet[skill];
             }
 
-            this.num_Lvl_StartX.Maximum = CurLevel.Width - 320;
-            this.num_Lvl_StartY.Maximum = CurLevel.Height - 160;
+            num_Lvl_StartX.Maximum = CurLevel.Width - 320;
+            num_Lvl_StartY.Maximum = CurLevel.Height - 160;
         }
 
         /// <summary>
@@ -127,9 +127,9 @@ namespace NLEditor
         /// </summary>
         private void CreateNewLevelAndRenderer()
         {
-            Style mainStyle = StyleList?.Find(sty => sty.NameInEditor == this.combo_MainStyle.Text);
+            Style mainStyle = StyleList?.Find(sty => sty.NameInEditor == combo_MainStyle.Text);
             CurLevel = new Level(mainStyle);
-            curRenderer = new Renderer(CurLevel, this.pic_Level);
+            curRenderer = new Renderer(CurLevel, pic_Level);
 
             oldLevelList = new List<Level>();
             oldLevelList.Add(CurLevel.Clone());
@@ -140,7 +140,7 @@ namespace NLEditor
             WriteLevelInfoToForm();
             UpdateBackgroundImage();
             UpdateFlagsForPieceActions();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace NLEditor
 
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
 
             combo_PieceStyle.Text = CurLevel.MainStyle.NameInEditor;
         }
@@ -276,9 +276,8 @@ namespace NLEditor
         private void ValidateLevel()
         {
             ReadLevelInfoFromForm();
-
-            LevelValidator MyValidator = new LevelValidator(CurLevel);
-            MyValidator.Validate();
+            var validator = new LevelValidator(CurLevel);
+            validator.Validate();
         }
 
 
@@ -303,7 +302,7 @@ namespace NLEditor
             pieceStartIndex = 0;
             LoadPiecesIntoPictureBox();
 
-            this.but_PieceTerrObj.Text = pieceDoDisplayObject ? "Get Terrain" : "Get Objects";
+            but_PieceTerrObj.Text = pieceDoDisplayObject ? "Get Terrain" : "Get Objects";
         }
 
         /// <summary>
@@ -365,7 +364,7 @@ namespace NLEditor
             CurLevel.AddPiece(pieceCurStyle, pieceDoDisplayObject, pieceIndex, curRenderer.GetCenterPoint());
 
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -430,7 +429,7 @@ namespace NLEditor
         private void MoveLevelPieces(C.DIR direction, int step = 1)
         {
             CurLevel.MovePieces(direction, step);
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -450,7 +449,7 @@ namespace NLEditor
             CurLevel.RotatePieces();
             SaveChangesToOldLevelList();
             UpdateFlagsForPieceActions(); // needed for resizable pieces in selection
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -460,7 +459,7 @@ namespace NLEditor
         {
             CurLevel.InvertPieces();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -470,7 +469,7 @@ namespace NLEditor
         {
             CurLevel.FlipPieces();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -482,7 +481,7 @@ namespace NLEditor
             CurLevel.SetNoOverwrite(doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -494,7 +493,7 @@ namespace NLEditor
             CurLevel.SetErase(doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -506,7 +505,7 @@ namespace NLEditor
             CurLevel.SetOnlyOnTerrain(doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -518,7 +517,7 @@ namespace NLEditor
             CurLevel.SetOneWay(doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -541,7 +540,7 @@ namespace NLEditor
         private void MovePieceIndex(bool toFront, bool onlyOneStep)
         {
             CurLevel.MoveSelectedPieces(toFront, onlyOneStep);
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -566,7 +565,7 @@ namespace NLEditor
 
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -633,7 +632,7 @@ namespace NLEditor
             CurLevel.UnselectAll();
             AddOldSelectedListToLevel();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -645,7 +644,7 @@ namespace NLEditor
             CurLevel.TerrainList.RemoveAll(ter => ter.IsSelected);
             CurLevel.GadgetList.RemoveAll(obj => obj.IsSelected);
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -656,7 +655,7 @@ namespace NLEditor
             CurLevel.UnselectAll();
             AddOldSelectedListToLevel();
             SaveChangesToOldLevelList();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>

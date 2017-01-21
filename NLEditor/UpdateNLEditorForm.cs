@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -320,30 +318,30 @@ namespace NLEditor
             if (displayScrollHoriz)
             {
                 int maxValue = CurLevel.Width - displayedLevelRect.Width + 1;
-                this.scrollPicLevelHoriz.Maximum = maxValue;
-                this.scrollPicLevelHoriz.SmallChange = 1;
-                this.scrollPicLevelHoriz.LargeChange = 2;
-                this.scrollPicLevelHoriz.Value = Math.Min(displayedLevelRect.Left, maxValue - 1);
+                scrollPicLevelHoriz.Maximum = maxValue;
+                scrollPicLevelHoriz.SmallChange = 1;
+                scrollPicLevelHoriz.LargeChange = 2;
+                scrollPicLevelHoriz.Value = Math.Min(displayedLevelRect.Left, maxValue - 1);
             }
-            this.scrollPicLevelHoriz.Enabled = displayScrollHoriz;
-            this.scrollPicLevelHoriz.Visible = displayScrollHoriz;
+            scrollPicLevelHoriz.Enabled = displayScrollHoriz;
+            scrollPicLevelHoriz.Visible = displayScrollHoriz;
 
             
             // Set scrollPicLevelVert
             if (displayScrollVert)
             {
                 int maxValue = CurLevel.Height - displayedLevelRect.Height + 1;
-                this.scrollPicLevelVert.Maximum = maxValue;
-                this.scrollPicLevelVert.SmallChange = 1;
-                this.scrollPicLevelVert.LargeChange = 2;
-                this.scrollPicLevelVert.Value = Math.Min(displayedLevelRect.Top, maxValue - 1);
+                scrollPicLevelVert.Maximum = maxValue;
+                scrollPicLevelVert.SmallChange = 1;
+                scrollPicLevelVert.LargeChange = 2;
+                scrollPicLevelVert.Value = Math.Min(displayedLevelRect.Top, maxValue - 1);
             }
-            this.scrollPicLevelVert.Enabled = displayScrollVert;
-            this.scrollPicLevelVert.Visible = displayScrollVert;
+            scrollPicLevelVert.Enabled = displayScrollVert;
+            scrollPicLevelVert.Visible = displayScrollVert;
 
             // finally resize scrollbars correctly
-            this.scrollPicLevelHoriz.Width = newPicBoxSize.Width - 2;
-            this.scrollPicLevelVert.Height = newPicBoxSize.Height - 2;
+            scrollPicLevelHoriz.Width = newPicBoxSize.Width - 2;
+            scrollPicLevelVert.Height = newPicBoxSize.Height - 2;
 
             return newPicBoxSize;
         }
@@ -457,20 +455,20 @@ namespace NLEditor
             Label lblHotkeysGeneralKeys = new Label();
             lblHotkeysGeneralKeys.Location = new Point(0, 4);
             lblHotkeysGeneralKeys.Size = new Size(150, hotkeyTabs.Height - 4);
-            lblHotkeysGeneralKeys.Text = String.Join(C.NewLine, C.HotkeyDict[C.HotkeyTabs.General]);
+            lblHotkeysGeneralKeys.Text = string.Join(C.NewLine, C.HotkeyDict[C.HotkeyTabs.General]);
             Label lblHotkeysGeneralDescription = new Label();
             lblHotkeysGeneralDescription.Location = new Point(150, 4);
             lblHotkeysGeneralDescription.Size = new Size(hotkeyTabs.Width - 154, hotkeyTabs.Height - 4);
-            lblHotkeysGeneralDescription.Text = String.Join(C.NewLine, C.DescriptionDict[C.HotkeyTabs.General]);
+            lblHotkeysGeneralDescription.Text = string.Join(C.NewLine, C.DescriptionDict[C.HotkeyTabs.General]);
 
             Label lblHotkeysPiecesKeys = new Label();
             lblHotkeysPiecesKeys.Location = new Point(0, 4);
             lblHotkeysPiecesKeys.Size = new Size(150, hotkeyTabs.Height - 4);
-            lblHotkeysPiecesKeys.Text = String.Join(C.NewLine, C.HotkeyDict[C.HotkeyTabs.Pieces]);
+            lblHotkeysPiecesKeys.Text = string.Join(C.NewLine, C.HotkeyDict[C.HotkeyTabs.Pieces]);
             Label lblHotkeysPiecesDescription = new Label();
             lblHotkeysPiecesDescription.Location = new Point(150, 4);
             lblHotkeysPiecesDescription.Size = new Size(hotkeyTabs.Width - 154, hotkeyTabs.Height - 4);
-            lblHotkeysPiecesDescription.Text = String.Join(C.NewLine, C.DescriptionDict[C.HotkeyTabs.Pieces]);
+            lblHotkeysPiecesDescription.Text = string.Join(C.NewLine, C.DescriptionDict[C.HotkeyTabs.Pieces]);
 
             tabHotkeysGeneral.Controls.Add(lblHotkeysGeneralKeys);
             tabHotkeysGeneral.Controls.Add(lblHotkeysGeneralDescription);
@@ -518,48 +516,45 @@ namespace NLEditor
 
             if (curSettings.UseLvlPropertiesTabs)
             {
-                if (tabPieces.Parent == this.tabLvlPieces)
+                if (tabPieces.Parent == tabLvlPieces)
                 {
-                    this.tabLvlPieces.Enabled = false;
-                    this.tabLvlPieces.Visible = false;
-                    this.tabLvlPieces.TabPages.Remove(tabPieces);
-                    this.tabLvlProperties.TabPages.Add(tabPieces);
+                    tabLvlPieces.Enabled = false;
+                    tabLvlPieces.Visible = false;
+                    tabLvlPieces.TabPages.Remove(tabPieces);
+                    tabLvlProperties.TabPages.Add(tabPieces);
                 }
                 
-                if (tabSkills.Parent == this.tabLvlSkills)
+                if (tabSkills.Parent == tabLvlSkills)
                 {
-                    this.tabLvlSkills.Enabled = false;
-                    this.tabLvlSkills.Visible = false;
-                    this.tabLvlSkills.TabPages.Remove(tabSkills);
-                    this.tabLvlProperties.TabPages.Add(tabSkills);
+                    tabLvlSkills.Enabled = false;
+                    tabLvlSkills.Visible = false;
+                    tabLvlSkills.TabPages.Remove(tabSkills);
+                    tabLvlProperties.TabPages.Add(tabSkills);
                 }
             }
             else
             {
-                if (tabWithPieces == this.tabLvlProperties)
+                if (tabWithPieces == tabLvlProperties)
                 {
-                    this.tabLvlPieces.Enabled = true;
-                    this.tabLvlPieces.Visible = true;
-                    this.tabLvlProperties.TabPages.Remove(tabPieces);
-                    this.tabLvlPieces.TabPages.Add(tabPieces);
+                    tabLvlPieces.Enabled = true;
+                    tabLvlPieces.Visible = true;
+                    tabLvlProperties.TabPages.Remove(tabPieces);
+                    tabLvlPieces.TabPages.Add(tabPieces);
                 }
 
-                if (tabWithSkills == this.tabLvlProperties)
+                if (tabWithSkills == tabLvlProperties)
                 {
-                    this.tabLvlSkills.Enabled = true;
-                    this.tabLvlSkills.Visible = true;
-                    this.tabLvlProperties.TabPages.Remove(tabSkills);
-                    this.tabLvlSkills.TabPages.Add(tabSkills);
+                    tabLvlSkills.Enabled = true;
+                    tabLvlSkills.Visible = true;
+                    tabLvlProperties.TabPages.Remove(tabSkills);
+                    tabLvlSkills.TabPages.Add(tabSkills);
                 }
             }
 
             RepositionPicLevel();
             curRenderer.EnsureScreenPosInLevel();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
-
-
-
 
     }
 }

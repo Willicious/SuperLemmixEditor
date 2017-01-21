@@ -32,33 +32,33 @@ namespace NLEditor
 
             picPieceList = new List<PictureBox> 
                 { 
-                    this.picPiece0, this.picPiece1, this.picPiece2, this.picPiece3,
-                    this.picPiece4, this.picPiece5, this.picPiece6, this.picPiece7 
+                    picPiece0, picPiece1, picPiece2, picPiece3,
+                    picPiece4, picPiece5, picPiece6, picPiece7 
                 };
 
             checkboxesSkillFlags = new Dictionary<C.Skill, CheckBox>()
                 {
-                    { C.Skill.Climber, this.check_Piece_Climber }, { C.Skill.Floater, this.check_Piece_Floater },
-                    { C.Skill.Bomber, this.check_Piece_Exploder }, { C.Skill.Blocker, this.check_Piece_Blocker },
-                    { C.Skill.Builder, this.check_Piece_Builder }, { C.Skill.Basher, this.check_Piece_Basher },
-                    { C.Skill.Miner, this.check_Piece_Miner }, { C.Skill.Digger, this.check_Piece_Digger },
-                    { C.Skill.Walker, this.check_Piece_Walker }, { C.Skill.Swimmer, this.check_Piece_Swimmer },
-                    { C.Skill.Glider, this.check_Piece_Glider }, { C.Skill.Disarmer, this.check_Piece_Disarmer },
-                    { C.Skill.Stoner, this.check_Piece_Stoner }, { C.Skill.Platformer, this.check_Piece_Platformer },
-                    { C.Skill.Stacker, this.check_Piece_Stacker }, { C.Skill.Cloner, this.check_Piece_Cloner },
-                    { C.Skill.Zombie, this.check_Piece_Zombie }
+                    { C.Skill.Climber, check_Piece_Climber }, { C.Skill.Floater, check_Piece_Floater },
+                    { C.Skill.Bomber, check_Piece_Exploder }, { C.Skill.Blocker, check_Piece_Blocker },
+                    { C.Skill.Builder, check_Piece_Builder }, { C.Skill.Basher, check_Piece_Basher },
+                    { C.Skill.Miner, check_Piece_Miner }, { C.Skill.Digger, check_Piece_Digger },
+                    { C.Skill.Walker, check_Piece_Walker }, { C.Skill.Swimmer, check_Piece_Swimmer },
+                    { C.Skill.Glider, check_Piece_Glider }, { C.Skill.Disarmer, check_Piece_Disarmer },
+                    { C.Skill.Stoner, check_Piece_Stoner }, { C.Skill.Platformer, check_Piece_Platformer },
+                    { C.Skill.Stacker, check_Piece_Stacker }, { C.Skill.Cloner, check_Piece_Cloner },
+                    { C.Skill.Zombie, check_Piece_Zombie }
                 };
 
             numericsSkillSet = new Dictionary<C.Skill, NumericUpDown>()
                 {
-                    { C.Skill.Climber, this.num_Ski_Climber }, { C.Skill.Floater, this.num_Ski_Floater },
-                    { C.Skill.Bomber, this.num_Ski_Exploder }, { C.Skill.Blocker, this.num_Ski_Blocker },
-                    { C.Skill.Builder, this.num_Ski_Builder }, { C.Skill.Basher, this.num_Ski_Basher },
-                    { C.Skill.Miner, this.num_Ski_Miner }, { C.Skill.Digger, this.num_Ski_Digger },
-                    { C.Skill.Walker, this.num_Ski_Walker }, { C.Skill.Swimmer, this.num_Ski_Swimmer },
-                    { C.Skill.Glider, this.num_Ski_Glider }, { C.Skill.Disarmer, this.num_Ski_Disarmer },
-                    { C.Skill.Stoner, this.num_Ski_Stoner }, { C.Skill.Platformer, this.num_Ski_Platformer },
-                    { C.Skill.Stacker, this.num_Ski_Stacker }, { C.Skill.Cloner, this.num_Ski_Cloner }
+                    { C.Skill.Climber, num_Ski_Climber }, { C.Skill.Floater, num_Ski_Floater },
+                    { C.Skill.Bomber, num_Ski_Exploder }, { C.Skill.Blocker, num_Ski_Blocker },
+                    { C.Skill.Builder, num_Ski_Builder }, { C.Skill.Basher, num_Ski_Basher },
+                    { C.Skill.Miner, num_Ski_Miner }, { C.Skill.Digger, num_Ski_Digger },
+                    { C.Skill.Walker, num_Ski_Walker }, { C.Skill.Swimmer, num_Ski_Swimmer },
+                    { C.Skill.Glider, num_Ski_Glider }, { C.Skill.Disarmer, num_Ski_Disarmer },
+                    { C.Skill.Stoner, num_Ski_Stoner }, { C.Skill.Platformer, num_Ski_Platformer },
+                    { C.Skill.Stacker, num_Ski_Stacker }, { C.Skill.Cloner, num_Ski_Cloner }
                 };
 
             curSettings = new Settings(this);
@@ -80,7 +80,7 @@ namespace NLEditor
 
             pieceStartIndex = 0;
             pieceDoDisplayObject = false;
-            pieceCurStyle = ValidateStyleName(this.combo_PieceStyle.SelectedItem.ToString());
+            pieceCurStyle = ValidateStyleName(combo_PieceStyle.SelectedItem.ToString());
             LoadPiecesIntoPictureBox();
 
             stopWatchKey = new Stopwatch();
@@ -138,7 +138,7 @@ namespace NLEditor
         {
             MoveControlsOnFormResize();
             curRenderer.EnsureScreenPosInLevel();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         private void tabLvlProperties_Click(object sender, EventArgs e)
@@ -179,37 +179,37 @@ namespace NLEditor
         private void clearPhysicsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             curRenderer.ChangeIsClearPhsyics();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         private void terrainRenderingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             curRenderer.ChangeIsTerrainLayer();
-            this.pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void objectRenderingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             curRenderer.ChangeIsObjectLayer();
-            this.pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void triggerAreasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             curRenderer.ChangeIsTriggerLayer();
-            this.pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void screenStartToolStripMenuItem_Click(object sender, EventArgs e)
         {
             curRenderer.ChangeIsScreenStart();
-            this.pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
             curRenderer.ChangeIsBackgroundLayer();
-            this.pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -286,7 +286,7 @@ namespace NLEditor
 
         private void combo_MainStyle_TextChanged(object sender, EventArgs e)
         {
-            Style newStyle = ValidateStyleName(this.combo_MainStyle.Text);
+            Style newStyle = ValidateStyleName(combo_MainStyle.Text);
 
             if (newStyle == null || CurLevel == null || newStyle == CurLevel.MainStyle) return;
 
@@ -294,7 +294,7 @@ namespace NLEditor
             CurLevel.MainStyle = newStyle;
             UpdateBackgroundComboItems();
             UpdateBackgroundImage();
-            this.pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void num_Lvl_SizeX_ValueChanged(object sender, EventArgs e)
@@ -308,7 +308,7 @@ namespace NLEditor
             // Update screen position and render level
             curRenderer.ChangeZoom(0);
             RepositionPicLevel();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         private void num_Lvl_SizeY_ValueChanged(object sender, EventArgs e)
@@ -322,7 +322,7 @@ namespace NLEditor
             // Update screen position and render level
             curRenderer.ChangeZoom(0);
             RepositionPicLevel();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
 
@@ -330,7 +330,7 @@ namespace NLEditor
         {
             CurLevel.BackgroundKey = this.combo_Background.Text;
             UpdateBackgroundImage();
-            this.pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.Image = curRenderer.CombineLayers();
         }
 
 
@@ -472,7 +472,7 @@ namespace NLEditor
             bool isChecked = ((CheckBox)sender).CheckState == CheckState.Checked;
             SetSkillForObjects(skill, isChecked);
             RemoveFocus();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         private void num_Resize_Width_ValueChanged(object sender, EventArgs e)
@@ -481,7 +481,7 @@ namespace NLEditor
             CurLevel.SelectionList()
                     .FindAll(item => item is GadgetPiece)
                     .ForEach(obj => (obj as GadgetPiece).SpecWidth = newWidth);
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         private void num_Resize_Height_ValueChanged(object sender, EventArgs e)
@@ -490,7 +490,7 @@ namespace NLEditor
             CurLevel.SelectionList()
                     .FindAll(item => item is GadgetPiece)
                     .ForEach(obj => (obj as GadgetPiece).SpecHeight = newHeight);
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         private void but_PairTeleporter_Click(object sender, EventArgs e)
@@ -519,7 +519,7 @@ namespace NLEditor
         private void combo_PieceStyle_Leave(object sender, EventArgs e)
         {
             // Check whether to delete all pieces due to wrong style name
-            Style newStyle = ValidateStyleName(this.combo_PieceStyle.Text);
+            Style newStyle = ValidateStyleName(combo_PieceStyle.Text);
 
             if (newStyle == null)
             {
@@ -669,7 +669,7 @@ namespace NLEditor
             /* --------------------------------------------------------------------
              * ONLY USE THE FOLLOWING KEYS IF FOCUS IS NOT ON ONE OF THE TEXTBOXES
              * --------------------------------------------------------------------*/
-            else if (this.ActiveControl != this.txt_Focus)
+            else if (this.ActiveControl != txt_Focus)
             {
                 return; // and don't restart the StopWatch
             }
@@ -819,7 +819,7 @@ namespace NLEditor
 
             // Update level image
             RepositionPicLevel();
-            this.pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void pic_Level_MouseDown(object sender, MouseEventArgs e)
@@ -857,20 +857,20 @@ namespace NLEditor
             {
                 case C.DragActions.SelectArea:
                     {
-                        this.pic_Level.Image = curRenderer.CombineLayers();
+                        pic_Level.Image = curRenderer.CombineLayers();
                         break;
                     }
                 case C.DragActions.MoveEditorPos:
                     {
                         curRenderer.UpdateScreenPos();
                         UpdateScrollBarValues();
-                        this.pic_Level.Image = curRenderer.CombineLayers();
+                        pic_Level.Image = curRenderer.CombineLayers();
                         break;
                     }
                 case C.DragActions.DragPieces:
                     {
                         DragSelectedPieces();
-                        this.pic_Level.Image = curRenderer.CreateLevelImage();
+                        pic_Level.Image = curRenderer.CreateLevelImage();
                         break;
                     }
             }
@@ -910,7 +910,7 @@ namespace NLEditor
             }
 
             curRenderer.DeleteDraggingVars();
-            this.pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CreateLevelImage();
             UpdateFlagsForPieceActions();
 
             mouseButtonPressed = null;
