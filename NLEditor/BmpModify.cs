@@ -29,6 +29,7 @@ namespace NLEditor
          *     - DrawOnDottedRectangles(this Bitmap OrigBmp, Rectangle Rect)
          *     - PaveArea(this Bitmap OrigBmp, Rectangle Rect)
          *     - WriteText(this Bitmap OrigBmp, string Text, Color TextColor)
+         *     - RecolorOWW(Bitmap OrigBmp)
          * -------------------------------------------------------- */
 
         /// <summary>
@@ -864,6 +865,23 @@ namespace NLEditor
             }
 
             return new Point(posX, posY);
+        }
+
+        /// <summary>
+        /// Returns a recolored OWW according to the OWW color of the given style.
+        /// </summary>
+        /// <param name="pieceImage"></param>
+        /// <param name="owwStyle"></param>
+        /// <returns></returns>
+        public static Bitmap RecolorOWW(Bitmap pieceImage, Style owwStyle)
+        {
+            Color owwColor = owwStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? Color.Linen;
+            byte[] owwColorbytes = new byte[] { owwColor.B, owwColor.G, owwColor.R, 255 };
+            Func<byte, byte, bool> owwDrawType = ((b1, b2) => (b1 == 255));
+            BmpModify.SetCustomDrawMode((x, y) => owwColorbytes, owwDrawType);
+            Bitmap newBmp = new Bitmap(pieceImage.Width, pieceImage.Height);
+            newBmp.DrawOn(pieceImage, new Point(0, 0), C.CustDrawMode.Custom);
+            return newBmp;
         }
 
     }

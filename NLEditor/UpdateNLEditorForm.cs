@@ -67,7 +67,7 @@ namespace NLEditor
 
                 if (pieceKey.StartsWith("default") && ImageLibrary.GetObjType(pieceKey) == C.OBJ.ONE_WAY_WALL)
                 {
-                    pieceImage = RecolorOWW(pieceImage);
+                    pieceImage = BmpModify.RecolorOWW(pieceImage, CurLevel.MainStyle);
                 }
 
                 picPieceList[i].Image = pieceImage;
@@ -75,22 +75,6 @@ namespace NLEditor
             }
 
             return;
-        }
-
-        /// <summary>
-        /// Returns a recolored OWW according to the OWW color of the current main style.
-        /// </summary>
-        /// <param name="pieceName"></param>
-        /// <returns></returns>
-        private Bitmap RecolorOWW(Bitmap pieceImage)
-        {
-            Color owwColor = CurLevel.MainStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? Color.Linen;
-            byte[] owwColorbytes = new byte[] { owwColor.B, owwColor.G, owwColor.R, 255 };
-            Func<byte, byte, bool> owwDrawType = ((b1, b2) => (b1 == 255));
-            BmpModify.SetCustomDrawMode((x, y) => owwColorbytes, owwDrawType);
-            Bitmap newBmp = new Bitmap(pieceImage.Width, pieceImage.Height);
-            newBmp.DrawOn(pieceImage, new Point(0, 0), C.CustDrawMode.Custom);
-            return newBmp;
         }
 
         /// <summary>

@@ -52,6 +52,12 @@
     <Compile Include="BmpModify.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="FileParser.cs" />
+    <Compile Include="FormPieceSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPieceSelection.Designer.cs">
+      <DependentUpon>FormPieceSelection.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImageLibrary.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelFile.cs" />
@@ -79,6 +85,9 @@
     </Compile>
     <Compile Include="Utility.cs" />
     <Compile Include="ValidateLevel.cs" />
+    <EmbeddedResource Include="FormPieceSelection.resx">
+      <DependentUpon>FormPieceSelection.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NLEditForm.resx">
       <DependentUpon>NLEditForm.cs</DependentUpon>
     </EmbeddedResource>
