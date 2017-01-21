@@ -168,7 +168,7 @@ namespace NLEditor
             UpdateFlagsForPieceActions();
             pic_Level.Image = curRenderer.CreateLevelImage();
 
-            combo_PieceStyle.Text = CurLevel.MainStyle.NameInEditor;
+            combo_PieceStyle.Text = CurLevel.MainStyle?.NameInEditor;
         }
 
         /// <summary>

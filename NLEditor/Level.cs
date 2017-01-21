@@ -101,7 +101,7 @@ namespace NLEditor
         public string BackgroundKey 
         {
             get { 
-                if (string.IsNullOrEmpty(backgroundKey)) return "--none--";
+                if (string.IsNullOrEmpty(backgroundKey) || MainStyle == null) return "--none--";
                 else return MainStyle.NameInDirectory + C.DirSep + "backgrounds" + C.DirSep + backgroundKey; 
                 } 
             set { backgroundKey = value; } 
@@ -167,7 +167,8 @@ namespace NLEditor
             if ( otherLevel == null
                 || !this.Title.Equals(otherLevel.Title)
                 || !this.Author.Equals(otherLevel.Author)
-                || !this.MainStyle.NameInDirectory.Equals(otherLevel.MainStyle.NameInDirectory)
+                || !((this.MainStyle == null && otherLevel.MainStyle == null) ||
+                     (this.MainStyle != null && this.MainStyle.NameInDirectory.Equals(otherLevel.MainStyle?.NameInDirectory)))
                 || !this.MusicFile.Equals(otherLevel.MusicFile)
                 || this.LevelID != otherLevel.LevelID
                 || !this.BackgroundKey.Equals(otherLevel.BackgroundKey)

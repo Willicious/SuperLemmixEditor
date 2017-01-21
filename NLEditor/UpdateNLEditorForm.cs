@@ -113,7 +113,7 @@ namespace NLEditor
         private void UpdateBackgroundImage()
         {
             if (CurLevel.MainStyle == null) return;
-            Color backColor = CurLevel.MainStyle.GetColor(C.StyleColor.BACKGROUND);
+            Color backColor = CurLevel.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.NLColors[C.NLColor.BackDefault];
 
             picPieceList.ForEach(pic => pic.BackColor = backColor);
             curRenderer?.CreateBackgroundLayer();

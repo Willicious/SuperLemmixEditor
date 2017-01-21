@@ -338,10 +338,10 @@ namespace NLEditor
         public void CreateBackgroundLayer()
         {
             // Set background color
-            layerImages[C.Layer.Background].Clear(level.MainStyle.GetColor(C.StyleColor.BACKGROUND));
+            layerImages[C.Layer.Background].Clear(level.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.NLColors[C.NLColor.BackDefault]);
 
             // Display background images, if selected
-            if (level.MainStyle.BackgroundKeys.Contains(level.BackgroundKey))
+            if (level.MainStyle != null && level.MainStyle.BackgroundKeys.Contains(level.BackgroundKey))
             {
                 Bitmap backgroundImage = ImageLibrary.GetImage(level.BackgroundKey, RotateFlipType.RotateNoneFlipNone)
                                                      .PaveArea(new Rectangle(0, 0, level.Width, level.Height));
@@ -501,7 +501,7 @@ namespace NLEditor
             {
                 // Still use background color
                 levelBmp = new Bitmap(levelBmpSize.Width, levelBmpSize.Height);
-                levelBmp.Clear(level.MainStyle.GetColor(C.StyleColor.BACKGROUND));
+                levelBmp.Clear(level.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.NLColors[C.NLColor.BackDefault]);
             }
             
 
