@@ -810,12 +810,15 @@ namespace NLEditor
         /// <param name="text"></param>
         /// <param name="position"></param>
         /// <param name="textColor"></param>
-        public static void WriteText(this Bitmap origBmp, string text, Point position, Color textColor, int fontSize)
+        /// <param name="fontSize"></param>
+        /// <param name="alignment"></param>
+        public static void WriteText(this Bitmap origBmp, string text, Point position, Color textColor, int fontSize, ContentAlignment alignment = ContentAlignment.MiddleCenter)
         {
             // Reposition the text correctly according to its size.
             Font textFont = new Font("Tahoma", fontSize);
-            Size textLength = System.Windows.Forms.TextRenderer.MeasureText(text, textFont);
-            position = new Point(position.X - textLength.Width / 2, position.Y);
+            Size textSize = System.Windows.Forms.TextRenderer.MeasureText(text, textFont);
+            int textHeight = textSize.Height * 5 / 4;
+            Point topLeftCorner = AlignText(position, textSize.Width, textHeight, alignment);
 
             using (Graphics g = Graphics.FromImage(origBmp))
             {
@@ -824,9 +827,43 @@ namespace NLEditor
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                     g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                     g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
-                    g.DrawString(text, textFont, b, position);
+                    g.DrawString(text, textFont, b, topLeftCorner);
                 }
             }
+        }
+
+        /// <summary>
+        /// Computes the top left corner of text of given size and alignment.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="textWidth"></param>
+        /// <param name="textHeight"></param>
+        /// <param name="alignment"></param>
+        /// <returns></returns>
+        private static Point AlignText(Point position, int textWidth, int textHeight, ContentAlignment alignment)
+        {
+            int posX = position.X;
+            int posY = position.Y;
+
+            if (alignment.In(ContentAlignment.BottomCenter, ContentAlignment.MiddleCenter, ContentAlignment.TopCenter))
+            {
+                posX -= textWidth / 2;
+            }
+            else if (alignment.In(ContentAlignment.BottomRight, ContentAlignment.MiddleRight, ContentAlignment.TopRight))
+            {
+                posX -= textWidth;
+            }
+
+            if (alignment.In(ContentAlignment.MiddleCenter, ContentAlignment.MiddleLeft, ContentAlignment.MiddleRight))
+            {
+                posY -= textHeight / 2;
+            }
+            else if (alignment.In(ContentAlignment.BottomCenter, ContentAlignment.BottomLeft, ContentAlignment.BottomRight))
+            {
+                posY -= textHeight;
+            }
+
+            return new Point(posX, posY);
         }
 
     }

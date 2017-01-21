@@ -381,7 +381,7 @@ namespace NLEditor
             textFile.WriteLine(" START_X " + curLevel.StartPosX.ToString().PadLeft(4));
             textFile.WriteLine(" START_Y " + curLevel.StartPosY.ToString().PadLeft(4));
             textFile.WriteLine(" THEME " + curLevel.MainStyle.NameInDirectory);
-            if (curLevel.MainStyle.BackgroundNames.Contains(curLevel.BackgroundKey))
+            if (curLevel.MainStyle.BackgroundKeys.Contains(curLevel.BackgroundKey))
             {
                 textFile.WriteLine(" BACKGROUND " + Path.GetFileName(curLevel.BackgroundKey));
             }

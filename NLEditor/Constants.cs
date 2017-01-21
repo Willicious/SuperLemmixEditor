@@ -30,6 +30,8 @@ namespace NLEditor
         public static char DirSep => System.IO.Path.DirectorySeparatorChar;
         public static string NewLine => Environment.NewLine;
 
+        public static Size PicPieceSize => new Size(84, 84);
+
         public enum CustDrawMode 
         { 
             Default, DefaultOWW, Erase, OnlyAtMask, OnlyAtOWW,

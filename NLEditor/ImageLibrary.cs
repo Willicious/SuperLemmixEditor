@@ -44,6 +44,7 @@ namespace NLEditor
 
         Dictionary<RotateFlipType, List<Bitmap>> images;
         List<Bitmap> baseImages => images[RotateFlipType.RotateNoneFlipNone];
+        List<Bitmap> imageWithPieceNames;
 
         public Bitmap Image(RotateFlipType rotFlipType)
         {
@@ -54,6 +55,11 @@ namespace NLEditor
         {
             if (!images.ContainsKey(rotFlipType)) CreateRotatedImages(rotFlipType);
             return images[rotFlipType][index % images[rotFlipType].Count];
+        }
+        public Bitmap ImageWithPieceName(int index, string pieceKey)
+        {
+            if (imageWithPieceNames == null) CreateImagesWithPieceNames(pieceKey);
+            return imageWithPieceNames[index % imageWithPieceNames.Count];
         }
         public int Width { get; private set; }
         public int Height { get; private set; }
@@ -111,6 +117,28 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Creates images with the piece name at the bottom right corner.
+        /// </summary>
+        /// <param name="pieceKey"></param>
+        private void CreateImagesWithPieceNames(string pieceKey)
+        {
+            imageWithPieceNames = new List<Bitmap>();
+
+            foreach (Bitmap imageFrame in baseImages)
+            {
+                Bitmap newImage = new Bitmap(C.PicPieceSize.Width, C.PicPieceSize.Height);
+                int posX = (newImage.Width - imageFrame.Width) / 2;
+                int posY = (newImage.Height - imageFrame.Height) / 2;
+                newImage.DrawOn(imageFrame, new Point(posX, posY));
+
+                string pieceName = System.IO.Path.GetFileNameWithoutExtension(pieceKey);
+                Point bottomRightCorner = new Point(newImage.Width, newImage.Height);
+                newImage.WriteText(pieceName, bottomRightCorner, C.NLColors[C.NLColor.Text], 8, ContentAlignment.BottomRight);
+
+                imageWithPieceNames.Add(newImage);
+            }
+        }
 
     }
     
@@ -190,6 +218,28 @@ namespace NLEditor
             }
 
             return imageDict[imageKey].Image(rotFlipType, index);
+        }
+
+        /// <summary>
+        /// Returns the image with the piece's name at the bottom right.
+        /// <para> These images are used for the PieceSelection. </para>
+        /// </summary>
+        /// <param name="imageKey"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public static Bitmap GetImageWithPieceName(string imageKey, int index)
+        {
+            if (!imageDict.ContainsKey(imageKey))
+            {
+                bool success = AddNewImage(imageKey);
+                if (!success)
+                {
+                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".");
+                    return null;
+                }
+            }
+
+            return imageDict[imageKey].ImageWithPieceName(index, imageKey);
         }
 
         /// <summary>

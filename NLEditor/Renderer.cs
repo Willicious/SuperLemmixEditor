@@ -341,7 +341,7 @@ namespace NLEditor
             layerImages[C.Layer.Background].Clear(level.MainStyle.GetColor(C.StyleColor.BACKGROUND));
 
             // Display background images, if selected
-            if (level.MainStyle.BackgroundNames.Contains(level.BackgroundKey))
+            if (level.MainStyle.BackgroundKeys.Contains(level.BackgroundKey))
             {
                 Bitmap backgroundImage = ImageLibrary.GetImage(level.BackgroundKey, RotateFlipType.RotateNoneFlipNone)
                                                      .PaveArea(new Rectangle(0, 0, level.Width, level.Height));

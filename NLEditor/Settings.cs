@@ -50,11 +50,21 @@ namespace NLEditor
             checkUseTabs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             checkUseTabs.Checked = UseLvlPropertiesTabs;
             checkUseTabs.Text = "Use tabs to display level proerties: ";
-            checkUseTabs.Top = 4;
+            checkUseTabs.Top = 8;
             checkUseTabs.Left = 160 - checkUseTabs.Width;
             checkUseTabs.CheckedChanged += new EventHandler(checkUseTabs_CheckedChanged);
 
+            CheckBox checkPieceNames = new CheckBox();
+            checkPieceNames.AutoSize = true;
+            checkPieceNames.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkPieceNames.Checked = UsePieceSelectionNames;
+            checkPieceNames.Text = "Display piece names: ";
+            checkPieceNames.Top = 38;
+            checkPieceNames.Left = 160 - checkUseTabs.Width;
+            checkPieceNames.CheckedChanged += new EventHandler(checkPieceNames_CheckedChanged);
+
             settingsForm.Controls.Add(checkUseTabs);
+            settingsForm.Controls.Add(checkPieceNames);
         }
 
         private void settingsForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -68,7 +78,11 @@ namespace NLEditor
             editorForm.ApplyOptionLvlPropertiesTabs();
         }
 
-
+        private void checkPieceNames_CheckedChanged(object sender, EventArgs e)
+        {
+            UsePieceSelectionNames = ((sender as CheckBox).CheckState == CheckState.Checked);
+            editorForm.LoadPiecesIntoPictureBox();
+        }
 
         /// <summary>
         /// Reads the users editor settings from NLEditorSettings.ini.

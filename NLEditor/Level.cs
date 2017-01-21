@@ -210,7 +210,7 @@ namespace NLEditor
         /// <param name="centerPos"></param>
         public void AddPiece(Style newStyle, bool isObject, int newPieceIndex, Point centerPos)
         {
-            string pieceKey = isObject ? newStyle.ObjectNames[newPieceIndex] : newStyle.TerrainNames[newPieceIndex];
+            string pieceKey = isObject ? newStyle.ObjectKeys[newPieceIndex] : newStyle.TerrainKeys[newPieceIndex];
 
             Point piecePos = new Point(centerPos.X - ImageLibrary.GetWidth(pieceKey) / 2,
                                        centerPos.Y - ImageLibrary.GetHeight(pieceKey) / 2);

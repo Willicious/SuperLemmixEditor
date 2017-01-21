@@ -33,7 +33,7 @@ namespace NLEditor
         /// <summary>
         /// Displays the correct piece images for the piece selection.
         /// </summary>
-        private void LoadPiecesIntoPictureBox()
+        public void LoadPiecesIntoPictureBox()
         {
             if (pieceCurStyle == null)
             {
@@ -42,8 +42,8 @@ namespace NLEditor
             }
 
             // Get correct list of piece names
-            var pieceNameList = pieceDoDisplayObject ? pieceCurStyle.ObjectNames : pieceCurStyle.TerrainNames;
-            if (pieceNameList == null || pieceNameList.Count == 0)
+            var pieceKeys = pieceDoDisplayObject ? pieceCurStyle.ObjectKeys : pieceCurStyle.TerrainKeys;
+            if (pieceKeys == null || pieceKeys.Count == 0)
             {
                 ClearPiecesPictureBox();
                 return;
@@ -52,17 +52,26 @@ namespace NLEditor
             // load correct pictures
             for (int i = 0; i < picPieceList.Count; i++)
             {
-                string pieceName = pieceNameList[(pieceStartIndex + i) % pieceNameList.Count];
-                if (pieceName.StartsWith("default") && ImageLibrary.GetObjType(pieceName) == C.OBJ.ONE_WAY_WALL)
+                string pieceKey = pieceKeys[(pieceStartIndex + i) % pieceKeys.Count];
+                int frameIndex = (ImageLibrary.GetObjType(pieceKey).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE)) ? 1 : 0;
+                Bitmap pieceImage;
+
+                if (curSettings.UsePieceSelectionNames)
                 {
-                    picPieceList[i].Image = GetRecoloredOWW(pieceName);
+                    pieceImage = ImageLibrary.GetImageWithPieceName(pieceKey, frameIndex);
                 }
                 else
                 {
-                    int frameIndex = (ImageLibrary.GetObjType(pieceName).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE)) ? 1 : 0;
-                    picPieceList[i].Image = ImageLibrary.GetImage(pieceName, RotateFlipType.RotateNoneFlipNone, frameIndex);
+                    pieceImage = ImageLibrary.GetImage(pieceKey, RotateFlipType.RotateNoneFlipNone, frameIndex);
                 }
-                SetToolTipsForPicPiece(picPieceList[i], pieceName);
+
+                if (pieceKey.StartsWith("default") && ImageLibrary.GetObjType(pieceKey) == C.OBJ.ONE_WAY_WALL)
+                {
+                    pieceImage = RecolorOWW(pieceImage);
+                }
+
+                picPieceList[i].Image = pieceImage;
+                SetToolTipsForPicPiece(picPieceList[i], pieceKey);
             }
 
             return;
@@ -73,17 +82,16 @@ namespace NLEditor
         /// </summary>
         /// <param name="pieceName"></param>
         /// <returns></returns>
-        private Bitmap GetRecoloredOWW(string pieceName)
+        private Bitmap RecolorOWW(Bitmap pieceImage)
         {
             Color owwColor = CurLevel.MainStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? Color.Linen;
             byte[] owwColorbytes = new byte[] { owwColor.B, owwColor.G, owwColor.R, 255 };
-            BmpModify.SetCustomDrawMode((x, y) => owwColorbytes, null);
-            Bitmap origBmp = ImageLibrary.GetImage(pieceName, RotateFlipType.RotateNoneFlipNone);
-            Bitmap newBmp = new Bitmap(origBmp.Width, origBmp.Height);
-            newBmp.DrawOn(origBmp, new Point(0, 0), C.CustDrawMode.Custom);
+            Func<byte, byte, bool> owwDrawType = ((b1, b2) => (b1 == 255));
+            BmpModify.SetCustomDrawMode((x, y) => owwColorbytes, owwDrawType);
+            Bitmap newBmp = new Bitmap(pieceImage.Width, pieceImage.Height);
+            newBmp.DrawOn(pieceImage, new Point(0, 0), C.CustDrawMode.Custom);
             return newBmp;
         }
-
 
         /// <summary>
         /// Clears all piece selection PictureBoxes.
@@ -401,8 +409,7 @@ namespace NLEditor
         private PictureBox CreatePicPiece()
         { 
             PictureBox picPiece = new PictureBox();
-            picPiece.Width = 84;
-            picPiece.Height = 84;
+            picPiece.Size = C.PicPieceSize;
             picPiece.Top = this.Height - 122;
             picPiece.BorderStyle = BorderStyle.Fixed3D;
             picPiece.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -423,7 +430,7 @@ namespace NLEditor
             combo_Background.Items.Add("--none--");
             if (CurLevel.MainStyle != null)
             {
-                string[] backgroundNames = CurLevel.MainStyle.BackgroundNames.Select(name => 
+                string[] backgroundNames = CurLevel.MainStyle.BackgroundKeys.Select(name => 
                                                System.IO.Path.GetFileName(name)).ToArray();
                 combo_Background.Items.AddRange(backgroundNames);
             }
@@ -555,6 +562,5 @@ namespace NLEditor
             curRenderer.EnsureScreenPosInLevel();
             pic_Level.Image = curRenderer.CreateLevelImage();
         }
-
     }
 }

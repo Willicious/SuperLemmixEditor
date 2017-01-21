@@ -37,9 +37,9 @@ namespace NLEditor
 
         public string NameInDirectory { get; private set; }
         public string NameInEditor { get; set; }
-        public List<string> TerrainNames { get; private set; }
-        public List<string> ObjectNames { get; private set; }
-        public List<string> BackgroundNames { get; private set; }
+        public List<string> TerrainKeys { get; private set; }
+        public List<string> ObjectKeys { get; private set; }
+        public List<string> BackgroundKeys { get; private set; }
 
         /// <summary>
         /// Checks for equality of the style's FileName.
@@ -72,13 +72,13 @@ namespace NLEditor
 
             if (Directory.Exists(directoryPath))
             {
-                TerrainNames = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                TerrainKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
                                         .Select(file => ImageLibrary.CreatePieceKey(file))
                                         .ToList();
             }
             else // use empty list
             {
-                TerrainNames = new List<string>();
+                TerrainKeys = new List<string>();
             }
         }
 
@@ -92,13 +92,13 @@ namespace NLEditor
 
             if (Directory.Exists(directoryPath))
             {
-                ObjectNames = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                ObjectKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
                                        .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
                                        .ToList();
             }
             else
             {
-                ObjectNames = new List<string>();
+                ObjectKeys = new List<string>();
             }
 
             // Load now the default objects into the list
@@ -106,12 +106,12 @@ namespace NLEditor
 
             try
             {
-                ObjectNames.AddRange(Directory.GetFiles(directoryPathDefault, "*.png", SearchOption.TopDirectoryOnly)
+                ObjectKeys.AddRange(Directory.GetFiles(directoryPathDefault, "*.png", SearchOption.TopDirectoryOnly)
                                               .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
                                               .ToList()
                                               .FindAll(key => !key.Contains("_mask_")));
 
-                ObjectNames.Add("default" + C.DirSep + "objects" + C.DirSep + "lemming");
+                ObjectKeys.Add("default" + C.DirSep + "objects" + C.DirSep + "lemming");
             }
             catch (Exception Ex)
             {
@@ -131,13 +131,13 @@ namespace NLEditor
 
             if (Directory.Exists(directoryPath))
             {
-                BackgroundNames = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                BackgroundKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
                                            .Select(file => ImageLibrary.CreatePieceKey(file))
                                            .ToList();
             }
             else // use empty list
             {
-                BackgroundNames = new List<string>();
+                BackgroundKeys = new List<string>();
             }
         }
 
@@ -146,9 +146,9 @@ namespace NLEditor
         /// </summary>
         private void RemoveDuplicatedObjects()
         {
-            ObjectNames.RemoveAll(obj => obj.StartsWith("default")
+            ObjectKeys.RemoveAll(obj => obj.StartsWith("default")
                                       && !ImageLibrary.GetObjType(obj).In(C.OBJ.NONE, C.OBJ.ANIMATION, C.OBJ.BACKGROUND)
-                                      && ObjectNames.Exists(obj2 => !obj2.StartsWith("default")
+                                      && ObjectKeys.Exists(obj2 => !obj2.StartsWith("default")
                                                               && ImageLibrary.GetObjType(obj) == ImageLibrary.GetObjType(obj2)));
         }
 
@@ -157,7 +157,7 @@ namespace NLEditor
         /// </summary>
         private void SortObjectNamesByObjectType()
         {
-            ObjectNames.Sort((obj1, obj2) => ImageLibrary.GetObjType(obj1).CompareTo(ImageLibrary.GetObjType(obj2)));
+            ObjectKeys.Sort((obj1, obj2) => ImageLibrary.GetObjType(obj1).CompareTo(ImageLibrary.GetObjType(obj2)));
         }
     }
 }

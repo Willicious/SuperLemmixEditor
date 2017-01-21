@@ -22,8 +22,9 @@ namespace NLEditor
         {
             curSettings.ReadSettingsFromFile();
             ApplyOptionLvlPropertiesTabs();
+            // UsePieceSelectionNames is automatically updated when calling LoadPiecesIntoPictureBox(), so this doesn't need to be done here.
         }
-        
+
 
         /// <summary>
         /// Sets fStyleList and creates the styles, but does not yet load sprites.
@@ -311,7 +312,7 @@ namespace NLEditor
         /// <param name="movement"></param>
         private void MoveTerrPieceSelection(int movement)
         {
-            List<string> pieceNameList = pieceDoDisplayObject ? pieceCurStyle?.ObjectNames : pieceCurStyle?.TerrainNames;
+            List<string> pieceNameList = pieceDoDisplayObject ? pieceCurStyle?.ObjectKeys : pieceCurStyle?.TerrainKeys;
             if (pieceNameList == null || pieceNameList.Count == 0) return;
 
             // Pass to correct piece index
@@ -357,7 +358,7 @@ namespace NLEditor
         {
             CurLevel.UnselectAll();
             
-            List<string> pieceList = pieceDoDisplayObject ?  pieceCurStyle?.ObjectNames : pieceCurStyle?.TerrainNames;
+            List<string> pieceList = pieceDoDisplayObject ?  pieceCurStyle?.ObjectKeys : pieceCurStyle?.TerrainKeys;
             if (pieceList == null || pieceList.Count == 0) return;
             int pieceIndex = (picPieceIndex + pieceStartIndex) % pieceList.Count;
 
