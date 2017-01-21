@@ -612,7 +612,7 @@ namespace NLEditor
 
                 Point levelTextCenterPos = new Point(hatch.PosX + hatch.Width / 2, hatch.PosY);
                 Point screenTextCenterPos = GetPicPointFromLevelPoint(levelTextCenterPos);
-                screenTextCenterPos.Y -= fontSize * 3 / 2;
+                screenTextCenterPos.Y -= fontSize;
 
                 levelBmp.WriteText(text, screenTextCenterPos, C.NLColors[C.NLColor.Text], fontSize);
             }
