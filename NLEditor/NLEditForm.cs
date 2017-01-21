@@ -61,6 +61,8 @@ namespace NLEditor
                     { C.Skill.Stacker, this.num_Ski_Stacker }, { C.Skill.Cloner, this.num_Ski_Cloner }
                 };
 
+            curSettings = new Settings(this);
+
             CreateStyleList();
             if (StyleList.Count > 0)
             {
@@ -286,7 +288,8 @@ namespace NLEditor
             CurLevel.StartPosX = (int)num_Lvl_StartX.Value;
 
             // Update screen position and render level
-            curRenderer.ChangeZoom(0); 
+            curRenderer.ChangeZoom(0);
+            RepositionPicLevel();
             this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
@@ -300,6 +303,7 @@ namespace NLEditor
 
             // Update screen position and render level
             curRenderer.ChangeZoom(0);
+            RepositionPicLevel();
             this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
@@ -796,6 +800,7 @@ namespace NLEditor
             }
 
             // Update level image
+            RepositionPicLevel();
             this.pic_Level.Image = curRenderer.CombineLayers();
         }
 

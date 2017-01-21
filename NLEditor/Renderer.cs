@@ -548,13 +548,22 @@ namespace NLEditor
         /// <returns></returns>
         private Size GetLevelBmpSize()
         {
-            int levelBmpWidth = ApplyUnZoom(picBoxWidth);
-            int levelBmpHeight = ApplyUnZoom(picBoxHeight);
+            return GetLevelBmpSize(picBoxRect.Size);
+        }
+
+        /// <summary>
+        /// Gets the size of the specified displayable area in level coordinates.
+        /// </summary>
+        /// <returns></returns>
+        private Size GetLevelBmpSize(Size picBoxSize)
+        {
+            int levelBmpWidth = ApplyUnZoom(picBoxSize.Width);
+            int levelBmpHeight = ApplyUnZoom(picBoxSize.Height);
 
             // Ensure that the LevelBmpSize is at most the size of the level
             levelBmpWidth = Math.Min(levelBmpWidth, level.Width);
             levelBmpHeight = Math.Min(levelBmpHeight, level.Height);
-                
+
             return new Size(levelBmpWidth, levelBmpHeight);
         }
 
@@ -562,9 +571,9 @@ namespace NLEditor
         /// Returns the rectangle of the displayed level area in level coordinates.
         /// </summary>
         /// <returns></returns>
-        public Rectangle GetLevelBmpRect()
+        public Rectangle GetLevelBmpRect(Size picBoxSize)
         {
-            return new Rectangle(ScreenPos, GetLevelBmpSize());
+            return new Rectangle(ScreenPos, GetLevelBmpSize(picBoxSize));
         }
 
         /// <summary>

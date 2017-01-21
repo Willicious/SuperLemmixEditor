@@ -240,9 +240,6 @@ namespace NLEditor
 
             RepositionPicLevel();
 
-            scrollPicLevelHoriz.Width = pic_Level.Width - 2;
-            scrollPicLevelVert.Height = pic_Level.Height - 2;
-
             foreach (TabControl tabControl in this.Controls.OfType<TabControl>())
             {
                 tabControl.Height = this.Height - 178;
@@ -268,53 +265,56 @@ namespace NLEditor
         /// </summary>
         private void RepositionPicLevel()
         {
-            pic_Level.Left = 188;
-            pic_Level.Width = this.Width - 200;
-            pic_Level.Height = this.Height - 155;
+            pic_Level.Left = 188 + (curSettings.UseLvlPropertiesTabs ? 0 : 328);
+
+            Size newPicLevelSize = new Size(this.Width - 200, this.Height - 155);
 
             if (!curSettings.UseLvlPropertiesTabs)
             {
-                pic_Level.Left += 328;
-                pic_Level.Width -= 328;
+                newPicLevelSize.Width -= 328;
+                scrollPicLevelVert.Left += 328; // Width is set correctly in CheckEnableLevelScrollbars().
             }
 
             // Check for scroll bars. This method resizes pic_Level accordingly (if necessary).
-            CheckEnableLevelScrollbars();
+            newPicLevelSize = CheckEnableLevelScrollbars(newPicLevelSize);
+
+            pic_Level.Size = newPicLevelSize;
         }
 
         /// <summary>
         /// Checks whether the level fits into the picLevel and enables scrollbars if necessary.
+        /// <para> Warning: Always call RepositionPicLevel() instead of this method! </para>
         /// </summary>
-        private void CheckEnableLevelScrollbars()
+        private Size CheckEnableLevelScrollbars(Size newPicBoxSize)
         {
-            Rectangle displayedLevelRect = curRenderer.GetLevelBmpRect();
+            Rectangle displayedLevelRect = curRenderer.GetLevelBmpRect(newPicBoxSize);
             bool displayScrollHoriz = false;
             bool displayScrollVert = false;
 
             displayScrollHoriz = (displayedLevelRect.Width + 1 < CurLevel.Width);
             displayScrollVert = (displayedLevelRect.Height + 1 < CurLevel.Height);
 
-            if (displayScrollHoriz) pic_Level.Height -= 16;
-            if (displayScrollVert) pic_Level.Width -= 16;
+            if (displayScrollHoriz) newPicBoxSize.Height -= 16;
+            if (displayScrollVert) newPicBoxSize.Width -= 16;
 
             // Check whether shrinking the level size made other scrollbar necessary, too
             if (displayScrollHoriz ^ displayScrollVert)
             {
-                displayedLevelRect = curRenderer.GetLevelBmpRect();
+                displayedLevelRect = curRenderer.GetLevelBmpRect(newPicBoxSize);
                 if (!displayScrollHoriz && displayedLevelRect.Width + 1 < CurLevel.Width)
                 {
                     displayScrollHoriz = true;
-                    pic_Level.Height -= 16;
+                    newPicBoxSize.Height -= 16;
                 }
                 if (!displayScrollVert && displayedLevelRect.Height + 1 < CurLevel.Height)
                 {
                     displayScrollVert = true;
-                    pic_Level.Width -= 16;
+                    newPicBoxSize.Width -= 16;
                 }
             }
 
             // Update displayed level area
-            displayedLevelRect = curRenderer.GetLevelBmpRect();
+            displayedLevelRect = curRenderer.GetLevelBmpRect(newPicBoxSize);
 
             // Set scrollPicLevelHoriz
             if (displayScrollHoriz)
@@ -340,6 +340,12 @@ namespace NLEditor
             }
             this.scrollPicLevelVert.Enabled = displayScrollVert;
             this.scrollPicLevelVert.Visible = displayScrollVert;
+
+            // finally resize scrollbars correctly
+            this.scrollPicLevelHoriz.Width = newPicBoxSize.Width - 2;
+            this.scrollPicLevelVert.Height = newPicBoxSize.Height - 2;
+
+            return newPicBoxSize;
         }
 
 

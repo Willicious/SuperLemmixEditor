@@ -20,7 +20,6 @@ namespace NLEditor
         /// </summary>
         private void InitializeSettings()
         {
-            curSettings = new Settings(this);
             curSettings.ReadSettingsFromFile();
             ApplyOptionLvlPropertiesTabs();
         }
@@ -140,6 +139,7 @@ namespace NLEditor
             WriteLevelInfoToForm();
             UpdateBackgroundImage();
             UpdateFlagsForPieceActions();
+            RepositionPicLevel();
             this.pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
@@ -165,6 +165,7 @@ namespace NLEditor
 
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
+            RepositionPicLevel();
             this.pic_Level.Image = curRenderer.CreateLevelImage();
 
             combo_PieceStyle.Text = CurLevel.MainStyle.NameInEditor;
