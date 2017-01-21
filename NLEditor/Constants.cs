@@ -17,8 +17,9 @@ namespace NLEditor
                 #if DEBUG
                     return "C:\\Stephan\\Programme\\NLEditor\\";
                 #endif
-
-                return System.Windows.Forms.Application.StartupPath + DirSep; 
+                #if RELEASE
+                    return System.Windows.Forms.Application.StartupPath + DirSep; 
+                #endif
             }
         }
 
