@@ -75,15 +75,15 @@ namespace NLEditor
         {
             for (int picIndex = 0; picIndex < 6; picIndex++)
             {
-                string pieceKey = pieceKeys?[curIndex + picIndex];
-
-                if (pieceKey == null)
+                if (curIndex + picIndex >= pieceKeys.Count)
                 {
                     lblPieceList[picIndex].Text = "";
+                    picPieceList[picIndex].BackColor = mainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.NLColors[C.NLColor.BackDefault];
                     picPieceList[picIndex].Image = null;
                 }
                 else
                 {
+                    string pieceKey = pieceKeys[curIndex + picIndex];
                     string pieceDescription = System.IO.Path.GetFileNameWithoutExtension(pieceKey)
                                               + C.NewLine
                                               + C.TooltipList[ImageLibrary.GetObjType(pieceKey)];
@@ -125,7 +125,7 @@ namespace NLEditor
         private void picSelPiece_Click(object sender, EventArgs e)
         {
             int picIndex = curIndex + picPieceList.FindIndex(pic => pic.Equals(sender));
-            if (picIndex > pieceKeys.Count) return;
+            if (picIndex >= pieceKeys.Count) return;
 
             editorForm.AddNewPieceToLevel(pieceKeys[picIndex], mousePosInLevel);
             ClosePieceSelection();
@@ -151,6 +151,12 @@ namespace NLEditor
             else if (e.KeyCode == Keys.Space)
             {
                 doDisplayObjects = !doDisplayObjects;
+                if (pieceKeys.Count == 0)
+                {
+                    // revert change
+                    doDisplayObjects = !doDisplayObjects;
+                    return;
+                }
                 curIndex = Math.Max(Math.Min(curIndex, pieceKeys.Count - 6), 0);
                 scrollPieceSelect.Maximum = Math.Max(pieceKeys.Count - 6, 0);
                 scrollPieceSelect.Value = Math.Min(scrollPieceSelect.Value, scrollPieceSelect.Maximum);

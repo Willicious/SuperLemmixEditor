@@ -921,7 +921,10 @@ namespace NLEditor
             Point mouseScreenPos = MousePosition;
             Point mousePicBoxPos = pic_Level.PointToClient(mouseScreenPos);
             Point mouseLevelPos = curRenderer.GetMousePosInLevel(mousePicBoxPos);
-            int startIndex = pieceStartIndex + picPieceList.Count / 2;
+
+            List<string> pieceList = pieceDoDisplayObject ? pieceCurStyle?.ObjectKeys : pieceCurStyle?.TerrainKeys;
+            if (pieceList == null || pieceList.Count == 0) return;
+            int startIndex = (pieceStartIndex - 1 + picPieceList.Count / 2) % pieceList.Count;
 
             var selectForm = new FormPieceSelection(this, pieceCurStyle, pieceDoDisplayObject, startIndex, mouseLevelPos, CurLevel.MainStyle);
 
