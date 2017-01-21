@@ -1844,6 +1844,7 @@
             this.Click += new System.EventHandler(this.NLEditForm_Click);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NLEditForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.NLEditForm_KeyUp);
+            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.NLEditForm_MouseWheel);
             this.Resize += new System.EventHandler(this.NLEditForm_Resize);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();

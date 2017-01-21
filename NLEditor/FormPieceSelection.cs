@@ -34,8 +34,10 @@ namespace NLEditor
             lblPieceList = new List<Label>
                 { lblPieceSel0, lblPieceSel1, lblPieceSel2, lblPieceSel3, lblPieceSel4, lblPieceSel5 };
 
-            scrollPieceSelect.Maximum = Math.Max(pieceKeys.Count - 6, 0) + 1;
+            scrollPieceSelect.Maximum = Math.Max(pieceKeys.Count - 6, 0);
             scrollPieceSelect.Value = curIndex;
+
+            UpdatePiecePictures();
         }
 
         Stopwatch stopWatchKey;
@@ -93,6 +95,7 @@ namespace NLEditor
                     {
                         pieceImage = BmpModify.RecolorOWW(pieceImage, mainStyle);
                     }
+                    picPieceList[picIndex].BackColor = mainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.NLColors[C.NLColor.BackDefault];
                     picPieceList[picIndex].Image = pieceImage;
                 }
             }
@@ -148,6 +151,9 @@ namespace NLEditor
             else if (e.KeyCode == Keys.Space)
             {
                 doDisplayObjects = !doDisplayObjects;
+                curIndex = Math.Max(Math.Min(curIndex, pieceKeys.Count - 6), 0);
+                scrollPieceSelect.Maximum = Math.Max(pieceKeys.Count - 6, 0);
+                scrollPieceSelect.Value = Math.Min(scrollPieceSelect.Value, scrollPieceSelect.Maximum);
                 UpdatePiecePictures();
             }
             else
@@ -156,6 +162,12 @@ namespace NLEditor
             }
 
             stopWatchKey.Restart();
+        }
+
+        private void FormPieceSelection_MouseWheel(object sender, MouseEventArgs e)
+        {
+            int delta = -e.Delta / SystemInformation.MouseWheelScrollDelta;
+            ChangeCurIndex(delta);
         }
 
         private void scrollPieceSelect_Scroll(object sender, ScrollEventArgs e)

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPieceSelection));
             this.picSelPiece0 = new System.Windows.Forms.PictureBox();
             this.picSelPiece1 = new System.Windows.Forms.PictureBox();
             this.picSelPiece2 = new System.Windows.Forms.PictureBox();
@@ -202,12 +203,14 @@
             this.Controls.Add(this.picSelPiece2);
             this.Controls.Add(this.picSelPiece1);
             this.Controls.Add(this.picSelPiece0);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormPieceSelection";
-            this.Text = "Select Piece";
+            this.Text = "  Select Piece";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormPieceSelection_KeyDown);
+            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.FormPieceSelection_MouseWheel);
             ((System.ComponentModel.ISupportInitialize)(this.picSelPiece0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSelPiece1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSelPiece2)).EndInit();

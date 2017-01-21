@@ -28,8 +28,6 @@ namespace NLEditor
 
             LoadStylesFromFile.AddInitialImagesToLibrary();
 
-            this.MouseWheel += new MouseEventHandler(NLEditForm_MouseWheel);
-
             picPieceList = new List<PictureBox> 
                 { 
                     picPiece0, picPiece1, picPiece2, picPiece3,
@@ -920,14 +918,15 @@ namespace NLEditor
         {
             curRenderer.DeleteDraggingVars();
 
-            Point mouseScreenPos = pic_Level.PointToClient(MousePosition);
-            Point mouseLevelPos = curRenderer.GetMousePosInLevel(mouseScreenPos);
+            Point mouseScreenPos = MousePosition;
+            Point mousePicBoxPos = pic_Level.PointToClient(mouseScreenPos);
+            Point mouseLevelPos = curRenderer.GetMousePosInLevel(mousePicBoxPos);
             int startIndex = pieceStartIndex + picPieceList.Count / 2;
 
             var selectForm = new FormPieceSelection(this, pieceCurStyle, pieceDoDisplayObject, startIndex, mouseLevelPos, CurLevel.MainStyle);
 
             int formStartPosX;
-            if (mouseScreenPos.X + selectForm.Width > SystemInformation.VirtualScreen.Width - 12)
+            if (mouseScreenPos.X + selectForm.Width < SystemInformation.VirtualScreen.Width - 12)
             {
                 formStartPosX = mouseScreenPos.X + 4;
             }
