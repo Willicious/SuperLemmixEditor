@@ -568,6 +568,7 @@
             this.pic_Level.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pic_Level.TabIndex = 36;
             this.pic_Level.TabStop = false;
+            this.pic_Level.DoubleClick += new System.EventHandler(this.pic_Level_DoubleClick);
             this.pic_Level.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseDown);
             this.pic_Level.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseMove);
             this.pic_Level.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);

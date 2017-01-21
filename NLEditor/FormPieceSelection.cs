@@ -14,7 +14,7 @@ namespace NLEditor
     public partial class FormPieceSelection : Form
     {
         public FormPieceSelection(NLEditForm editorForm, Style style, bool doDisplayObjects, int startIndex, 
-                                  Point mousePosOnScreen, Point mousePosInLevel, Style mainStyle = null)
+                                  Point mousePosInLevel, Style mainStyle = null)
         {
             InitializeComponent();
 

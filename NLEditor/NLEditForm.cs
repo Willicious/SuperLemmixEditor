@@ -278,8 +278,6 @@ namespace NLEditor
             pic_Level.Image = curRenderer.CombineLayers();
         }
 
-        
-
         /* -----------------------------------------------------------
          *              Global Level Info Tab
          * ----------------------------------------------------------- */
@@ -916,5 +914,34 @@ namespace NLEditor
             mouseButtonPressed = null;
             RemoveFocus();
         }
+
+
+        private void pic_Level_DoubleClick(object sender, EventArgs e)
+        {
+            curRenderer.DeleteDraggingVars();
+
+            Point mouseScreenPos = pic_Level.PointToClient(MousePosition);
+            Point mouseLevelPos = curRenderer.GetMousePosInLevel(mouseScreenPos);
+            int startIndex = pieceStartIndex + picPieceList.Count / 2;
+
+            var selectForm = new FormPieceSelection(this, pieceCurStyle, pieceDoDisplayObject, startIndex, mouseLevelPos, CurLevel.MainStyle);
+
+            int formStartPosX;
+            if (mouseScreenPos.X + selectForm.Width > SystemInformation.VirtualScreen.Width - 12)
+            {
+                formStartPosX = mouseScreenPos.X + 4;
+            }
+            else
+            {
+                formStartPosX = mouseScreenPos.X - selectForm.Width - 4;
+            }
+            int formStartPosY = Math.Max(Math.Min(mouseScreenPos.Y - selectForm.Height / 3,
+                                         SystemInformation.VirtualScreen.Height - selectForm.Height - 4), 0);
+
+            selectForm.StartPosition = FormStartPosition.Manual;
+            selectForm.Location = new Point(formStartPosX, formStartPosY);
+            selectForm.Show();
+        }
+
     }
 }
