@@ -30,7 +30,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                MessageBox.Show("Klopt niet:" + Ex.Message);
+                MessageBox.Show("Klopt niet:" + Ex.Message, "Fatal error");
 
                 Application.Exit();
             }

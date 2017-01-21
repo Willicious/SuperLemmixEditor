@@ -47,7 +47,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                MessageBox.Show(Ex.Message);
+                MessageBox.Show(Ex.Message, "File corrupt");
                 return colorDict;
             }
 
@@ -255,7 +255,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                MessageBox.Show(Ex.Message);
+                MessageBox.Show(Ex.Message, "File corrupt");
                 return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode);
             }
 
@@ -308,7 +308,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                MessageBox.Show(Ex.Message);
+                MessageBox.Show(Ex.Message, "File corrupt");
             }
             finally
             {
@@ -337,7 +337,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                MessageBox.Show(Ex.Message);
+                MessageBox.Show(Ex.Message, "File corrupt");
                 return new BaseImageInfo(newBitmap, IsSteel);
             }
 
@@ -358,7 +358,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                MessageBox.Show(Ex.Message);
+                MessageBox.Show(Ex.Message, "File corrupt");
             }
             finally
             {

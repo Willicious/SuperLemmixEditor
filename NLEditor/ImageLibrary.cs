@@ -212,7 +212,7 @@ namespace NLEditor
                 bool success = AddNewImage(imageKey);
                 if (!success)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".");
+                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".", "File not found");
                     return null;
                 }
             }
@@ -234,7 +234,7 @@ namespace NLEditor
                 bool success = AddNewImage(imageKey);
                 if (!success)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".");
+                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".", "File not found");
                     return null;
                 }
             }
@@ -339,7 +339,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                System.Windows.Forms.MessageBox.Show("Warning: Could not read .nxmo or .nxmt file at " + imageKey + C.NewLine + Ex.Message);
+                System.Windows.Forms.MessageBox.Show("Warning: Could not read .nxmo or .nxmt file at " + imageKey + C.NewLine + Ex.Message, "File corrupt");
 
                 imageDict[imageKey] = new BaseImageInfo(new Bitmap(1, 1));
             }
@@ -365,7 +365,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                System.Windows.Forms.MessageBox.Show("Warning: Could not read .nxmo or .nxmt file at " + imageKey + C.NewLine + Ex.Message);
+                System.Windows.Forms.MessageBox.Show("Warning: Could not read .nxmo or .nxmt file at " + imageKey + C.NewLine + Ex.Message, "File corrupt");
                 
                 imageDict[imageKey] = new BaseImageInfo(new Bitmap(1, 1));
             }

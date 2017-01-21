@@ -44,7 +44,7 @@ namespace NLEditor
             {
                 Utility.LogException(Ex);
 
-                MessageBox.Show("Error: Could not find graphic styles in subdirectory 'styles'." + C.NewLine + Ex.Message);
+                MessageBox.Show("Error: Could not find graphic styles in subdirectory 'styles'." + C.NewLine + Ex.Message, "Directories missing");
                 Environment.Exit(-1);
             }
 
@@ -192,7 +192,7 @@ namespace NLEditor
             {
                 string message = "Warning: The following pieces are unknown: " + C.NewLine;
                 message += string.Join(C.NewLine + " ", missingImageNames);
-                MessageBox.Show(message);
+                MessageBox.Show(message, "Unknown level pieces");
             }
         }
 
@@ -263,7 +263,7 @@ namespace NLEditor
 
             if (!System.IO.File.Exists(playerStartInfo.FileName))
             {
-                MessageBox.Show("Error: Player NeoLemmix.exe not found in editor directory.");
+                MessageBox.Show("Error: Player NeoLemmix.exe not found in editor directory.", "File not found");
             }
             else
             {

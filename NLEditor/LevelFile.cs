@@ -53,7 +53,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                MessageBox.Show("Error while showing the file browser." + C.NewLine + Ex.Message);
+                MessageBox.Show("Error while showing the file browser." + C.NewLine + Ex.Message, "File browser error");
                 return newLevel;
             }
             finally
@@ -83,7 +83,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                MessageBox.Show(Ex.Message);
+                MessageBox.Show(Ex.Message, "File corrupt");
                 parser?.DisposeStreamReader();
                 return newLevel;
             }
@@ -134,7 +134,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                MessageBox.Show(Ex.Message);
+                MessageBox.Show(Ex.Message, "File corrupt");
             }
             finally
             {
@@ -322,14 +322,14 @@ namespace NLEditor
                     catch (Exception Ex)
                     {
                         Utility.LogException(Ex);
-                        MessageBox.Show("Could not save the level file!" + Environment.NewLine + Ex.Message);
+                        MessageBox.Show("Could not save the level file!" + Environment.NewLine + Ex.Message, "Could not save");
                     }
                 }
             }
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                MessageBox.Show("Error while showing the file browser." + Environment.NewLine + Ex.Message);
+                MessageBox.Show("Error while showing the file browser." + Environment.NewLine + Ex.Message, "File browser error");
             }
             finally
             {
@@ -352,7 +352,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                MessageBox.Show("Error: Cannot create text file at " + filePath + "." + C.NewLine + Ex.Message);
+                MessageBox.Show("Error: Cannot create text file at " + filePath + "." + C.NewLine + Ex.Message, "Could not save");
                 return;
             }
             
@@ -628,11 +628,11 @@ namespace NLEditor
 
             if (C.FileConverterErrorMsg.ContainsKey(exitCode))
             {
-                MessageBox.Show(C.FileConverterErrorMsg[exitCode]);
+                MessageBox.Show(C.FileConverterErrorMsg[exitCode], "File converter problem");
             }
             else if (exitCode >= 10)
             {
-                MessageBox.Show("Error: Level converter crashed due to unhandles exception.");
+                MessageBox.Show("Error: Level converter crashed due to unhandles exception.", "File converter problem");
             }
 
             return (exitCode < 10);

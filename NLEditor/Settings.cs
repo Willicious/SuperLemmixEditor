@@ -123,7 +123,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 MessageBox.Show("Warning: Could not read editor options from "
-                            + Path.GetFileName(C.AppPathSettings) + ". Editor uses the default settings.");
+                            + Path.GetFileName(C.AppPathSettings) + ". Editor uses the default settings.", "File not found");
                 Utility.LogException(Ex);
             }
         }
@@ -148,7 +148,7 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                MessageBox.Show("Error: Could not save settings to " + Path.GetFileName(C.AppPathSettings) + ".");
+                MessageBox.Show("Error: Could not save settings to " + Path.GetFileName(C.AppPathSettings) + ".", "Could not save");
                 return;
             }
         }

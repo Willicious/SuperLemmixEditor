@@ -117,7 +117,7 @@ namespace NLEditor
             {
                 Utility.LogException(Ex);
 
-                System.Windows.Forms.MessageBox.Show("Warning:" + Ex.Message);
+                System.Windows.Forms.MessageBox.Show("Warning:" + Ex.Message, "Files not found");
                 // ...but then start the editor as usual
             }
         }
