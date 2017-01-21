@@ -263,6 +263,24 @@ namespace NLEditor
         }
 
         /* -----------------------------------------------------------
+         *              Scrollbars for pic_Level
+         * ----------------------------------------------------------- */
+
+        private void scrollPicLevelHoriz_Scroll(object sender, ScrollEventArgs e)
+        {
+            curRenderer.ScreenPosX = e.NewValue;
+            pic_Level.Image = curRenderer.CombineLayers();
+        }
+
+        private void scrollPicLevelVert_Scroll(object sender, ScrollEventArgs e)
+        {
+            curRenderer.ScreenPosY = e.NewValue;
+            pic_Level.Image = curRenderer.CombineLayers();
+        }
+
+        
+
+        /* -----------------------------------------------------------
          *              Global Level Info Tab
          * ----------------------------------------------------------- */
 
@@ -898,7 +916,5 @@ namespace NLEditor
             mouseButtonPressed = null;
             RemoveFocus();
         }
-
-
     }
 }

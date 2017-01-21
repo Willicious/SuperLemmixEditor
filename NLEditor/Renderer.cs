@@ -53,11 +53,15 @@ namespace NLEditor
          *    GetDeltaPos()
          * 
          *  public varaibles:
-         *    ScreenPos
+         *    ScreenPos (read-only)
          *    ScreenPosX
          *    ScreenPosY
          *    Zoom
          *    MouseCurPos
+         *    MouseStartPos (read-only)
+         *    LevelStartPos (read-only)     
+         *    MouseDragAction (read-only)        
+         *            
          * -------------------------------------------------------- */
         /// <summary>
         /// Initializes an empty Renderer. 
@@ -106,8 +110,8 @@ namespace NLEditor
         Rectangle picBoxRect => new Rectangle(0, 0, picBoxWidth, picBoxHeight);
 
         public Point ScreenPos => new Point(ScreenPosX, ScreenPosY);
-        public int ScreenPosX { get; private set; }
-        public int ScreenPosY { get; private set; }
+        public int ScreenPosX { get; set; }
+        public int ScreenPosY { get; set; }
         public int ZoomFactor { get; private set; }
 
         public Point? MouseStartPos { get; private set; }
