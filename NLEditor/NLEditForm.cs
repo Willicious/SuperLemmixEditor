@@ -604,26 +604,32 @@ namespace NLEditor
             else if (e.KeyCode == Keys.F1)
             {
                 clearPhysicsToolStripMenuItem_Click(null, null);
+                clearPhysicsToolStripMenuItem.Checked = !clearPhysicsToolStripMenuItem.Checked;
             }
             else if (e.KeyCode == Keys.F2)
             {
                 terrainRenderingToolStripMenuItem_Click(null, null);
+                terrainRenderingToolStripMenuItem.Checked = !terrainRenderingToolStripMenuItem.Checked;
             }
             else if (e.KeyCode == Keys.F3)
             {
                 objectRenderingToolStripMenuItem_Click(null, null);
+                objectRenderingToolStripMenuItem.Checked = !objectRenderingToolStripMenuItem.Checked;
             }
             else if (e.KeyCode == Keys.F4)
             {
                 triggerAreasToolStripMenuItem_Click(null, null);
+                triggerAreasToolStripMenuItem.Checked = !triggerAreasToolStripMenuItem.Checked;
             }
             else if (e.KeyCode == Keys.F5)
             {
                 screenStartToolStripMenuItem_Click(null, null);
+                screenStartToolStripMenuItem.Checked = !screenStartToolStripMenuItem.Checked;
             }
             else if (e.KeyCode == Keys.F6)
             {
                 backgroundToolStripMenuItem_Click(null, null);
+                backgroundToolStripMenuItem.Checked = !backgroundToolStripMenuItem.Checked;
             }
             else if (e.KeyCode == Keys.F10)
             {
