@@ -38,6 +38,7 @@ namespace NLEditor
                     if (filePath.EndsWith("nxlv"))
                     {
                         newLevel = LoadLevelFromFile(filePath, styleList);
+                        newLevel.FilePathToSave = filePath;
                     }
                     else if (filePath.EndsWith("lvl"))
                     {
