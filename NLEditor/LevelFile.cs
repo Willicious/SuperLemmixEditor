@@ -475,16 +475,16 @@ namespace NLEditor
                 textFile.WriteLine("   COLLECTION " + gadget.Style);
                 textFile.WriteLine("   PIECE      " + gadget.Name);
             }
-            textFile.WriteLine("   X " + gadget.PosX.ToString().PadLeft(5));
-            textFile.WriteLine("   Y " + gadget.PosY.ToString().PadLeft(5));
+            textFile.WriteLine("   X      " + gadget.PosX.ToString().PadLeft(5));
+            textFile.WriteLine("   Y      " + gadget.PosY.ToString().PadLeft(5));
 
-            if (gadget.SpecWidth > 0)
+            if (gadget.MayResizeHoriz())
             {
                 textFile.WriteLine("   WIDTH  " + gadget.SpecWidth.ToString().PadLeft(5));
             }
-            if (gadget.SpecHeight > 0)
+            if (gadget.MayResizeVert())
             {
-                textFile.WriteLine("   HEIGHT " + gadget.SpecWidth.ToString().PadLeft(5));
+                textFile.WriteLine("   HEIGHT " + gadget.SpecHeight.ToString().PadLeft(5));
             }
             if (gadget.IsNoOverwrite)
             {
