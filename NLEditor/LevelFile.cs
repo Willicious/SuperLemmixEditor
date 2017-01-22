@@ -527,7 +527,7 @@ namespace NLEditor
             {
                 foreach (C.Skill skill in gadget.SkillFlags)
                 {
-                    textFile.WriteLine("  SKILL" + SkillString(skill));
+                    textFile.WriteLine("   SKILL " + SkillString(skill));
                 }
             }
 
