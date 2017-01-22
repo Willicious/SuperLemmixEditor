@@ -68,7 +68,7 @@ namespace NLEditor
                 issuesList.Add("Piece outside level boundary: " + piece.Name +
                                " in style " + piece.Style +
                                "(Position " + piece.PosX.ToString() +
-                               ", " + piece.PosY.ToString() + ")");
+                               ", " + piece.PosY.ToString() + ").");
             }
         }
 
@@ -200,6 +200,14 @@ namespace NLEditor
             {
                 issuesList.Add("Missing object: Exit.");
             }
+
+            foreach (GadgetPiece pickup in level.GadgetList.FindAll(gad => gad.ObjType == C.OBJ.PICKUP && gad.SkillFlags.Count == 0))
+            {
+                issuesList.Add("Pickup skill without selected skill " + 
+                               "(Position " + pickup.PosX.ToString() +
+                               ", " + pickup.PosY.ToString() + ").");
+            }
+
         }
 
 

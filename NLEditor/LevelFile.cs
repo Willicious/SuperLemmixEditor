@@ -465,6 +465,7 @@ namespace NLEditor
         static private void WriteObject(TextWriter textFile, GadgetPiece gadget)
         {
             if (gadget == null) return;
+            if (gadget.ObjType == C.OBJ.PICKUP && gadget.SkillFlags.Count == 0) return;
 
             if (gadget.ObjType == C.OBJ.LEMMING)
             {

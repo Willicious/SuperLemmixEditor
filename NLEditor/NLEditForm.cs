@@ -57,7 +57,7 @@ namespace NLEditor
                     { C.Skill.Glider, num_Ski_Glider }, { C.Skill.Disarmer, num_Ski_Disarmer },
                     { C.Skill.Stoner, num_Ski_Stoner }, { C.Skill.Platformer, num_Ski_Platformer },
                     { C.Skill.Stacker, num_Ski_Stacker }, { C.Skill.Cloner, num_Ski_Cloner },
-                    { C.Skill.Fencer, num_Ski_Fencer}
+                    { C.Skill.Fencer, num_Ski_Fencer }
                 };
 
             curSettings = new Settings(this);
