@@ -8,7 +8,7 @@ namespace NLEditor
 
     public class C // for Constants
     {
-        public static string Version => "0.4";
+        public static string Version => "0.5";
 
         public static string AppPath
         {
