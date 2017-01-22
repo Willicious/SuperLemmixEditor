@@ -125,13 +125,6 @@
             this.check_Pieces_OnlyOnTerrain = new System.Windows.Forms.CheckBox();
             this.check_Pieces_NoOv = new System.Windows.Forms.CheckBox();
             this.check_Pieces_Erase = new System.Windows.Forms.CheckBox();
-            this.but_MoveBackOne = new NLEditor.RepeatButton();
-            this.but_MoveFrontOne = new NLEditor.RepeatButton();
-            this.but_MoveBack = new NLEditor.RepeatButton();
-            this.but_MoveFront = new NLEditor.RepeatButton();
-            this.but_FlipPieces = new NLEditor.RepeatButton();
-            this.but_InvertPieces = new NLEditor.RepeatButton();
-            this.but_RotatePieces = new NLEditor.RepeatButton();
             this.tabSkills = new System.Windows.Forms.TabPage();
             this.num_Ski_Cloner = new System.Windows.Forms.NumericUpDown();
             this.num_Ski_Stacker = new System.Windows.Forms.NumericUpDown();
@@ -171,10 +164,17 @@
             this.tabLvlSkills = new System.Windows.Forms.TabControl();
             this.scrollPicLevelHoriz = new System.Windows.Forms.HScrollBar();
             this.scrollPicLevelVert = new System.Windows.Forms.VScrollBar();
-            this.but_PieceRight = new NLEditor.RepeatButton();
-            this.but_PieceLeft = new NLEditor.RepeatButton();
             this.num_Ski_Fencer = new System.Windows.Forms.NumericUpDown();
             this.lbl_Skill_Fencer = new System.Windows.Forms.Label();
+            this.but_PieceRight = new NLEditor.RepeatButton();
+            this.but_PieceLeft = new NLEditor.RepeatButton();
+            this.but_MoveBackOne = new NLEditor.RepeatButton();
+            this.but_MoveFrontOne = new NLEditor.RepeatButton();
+            this.but_MoveBack = new NLEditor.RepeatButton();
+            this.but_MoveFront = new NLEditor.RepeatButton();
+            this.but_FlipPieces = new NLEditor.RepeatButton();
+            this.but_InvertPieces = new NLEditor.RepeatButton();
+            this.but_RotatePieces = new NLEditor.RepeatButton();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -664,29 +664,30 @@
             // 
             this.combo_Music.FormattingEnabled = true;
             this.combo_Music.Items.AddRange(new object[] {
-            "Can-Can",
-            "Lemming 1 (DOS 1)",
-            "Tim 2 (DOS 8)",
-            "Lemming 2 (DOS 2)",
-            "Tim 8 (DOS 15)",
-            "Tim 3 (DOS 13)",
-            "Tim 5 (DOS 12)",
-            "How Much Is That Doggie",
-            "Dance of the Red Flutes",
-            "Lemming 3 (DOS 3)",
-            "Rondo Alla Turca",
-            "London Bridge",
-            "Tim 1 (DOS 7)",
-            "Forest Green",
-            "Tim 4 (DOS 10)",
-            "Ten Green Bottles",
-            "Coming Round the Mountain",
-            "ONML 1",
-            "ONML 2",
-            "ONML 3",
-            "ONML 4",
-            "ONML 5",
-            "ONML 6"});
+            "orig_00",
+            "orig_01",
+            "orig_02",
+            "orig_03",
+            "orig_04",
+            "orig_05",
+            "orig_06",
+            "orig_07",
+            "orig_08",
+            "orig_09",
+            "orig_10",
+            "orig_11",
+            "orig_12",
+            "orig_13",
+            "orig_14",
+            "orig_15",
+            "orig_16",
+            "orig_17",
+            "ohno_01",
+            "ohno_02",
+            "ohno_03",
+            "ohno_04",
+            "ohno_05",
+            "ohno_06"});
             this.combo_Music.Location = new System.Drawing.Point(70, 57);
             this.combo_Music.Name = "combo_Music";
             this.combo_Music.Size = new System.Drawing.Size(98, 21);
@@ -1372,83 +1373,6 @@
             this.check_Pieces_Erase.UseVisualStyleBackColor = true;
             this.check_Pieces_Erase.CheckedChanged += new System.EventHandler(this.check_Pieces_Erase_CheckedChanged);
             // 
-            // but_MoveBackOne
-            // 
-            this.but_MoveBackOne.Location = new System.Drawing.Point(92, 80);
-            this.but_MoveBackOne.Name = "but_MoveBackOne";
-            this.but_MoveBackOne.Size = new System.Drawing.Size(76, 30);
-            this.but_MoveBackOne.TabIndex = 6;
-            this.but_MoveBackOne.Text = "One to Back";
-            this.but_MoveBackOne.UseVisualStyleBackColor = true;
-            this.but_MoveBackOne.Click += new System.EventHandler(this.but_MoveBackOne_Click);
-            this.but_MoveBackOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveBackOne_MouseUp);
-            // 
-            // but_MoveFrontOne
-            // 
-            this.but_MoveFrontOne.Location = new System.Drawing.Point(8, 80);
-            this.but_MoveFrontOne.Name = "but_MoveFrontOne";
-            this.but_MoveFrontOne.Size = new System.Drawing.Size(76, 30);
-            this.but_MoveFrontOne.TabIndex = 5;
-            this.but_MoveFrontOne.Text = "One to Front";
-            this.but_MoveFrontOne.UseVisualStyleBackColor = true;
-            this.but_MoveFrontOne.Click += new System.EventHandler(this.but_MoveFrontOne_Click);
-            this.but_MoveFrontOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveFrontOne_MouseUp);
-            // 
-            // but_MoveBack
-            // 
-            this.but_MoveBack.Location = new System.Drawing.Point(92, 44);
-            this.but_MoveBack.Name = "but_MoveBack";
-            this.but_MoveBack.Size = new System.Drawing.Size(76, 30);
-            this.but_MoveBack.TabIndex = 4;
-            this.but_MoveBack.Text = "All to Back";
-            this.but_MoveBack.UseVisualStyleBackColor = true;
-            this.but_MoveBack.Click += new System.EventHandler(this.but_MoveBack_Click);
-            this.but_MoveBack.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveBack_MouseUp);
-            // 
-            // but_MoveFront
-            // 
-            this.but_MoveFront.Location = new System.Drawing.Point(8, 44);
-            this.but_MoveFront.Name = "but_MoveFront";
-            this.but_MoveFront.Size = new System.Drawing.Size(76, 30);
-            this.but_MoveFront.TabIndex = 3;
-            this.but_MoveFront.Text = "All to Front";
-            this.but_MoveFront.UseVisualStyleBackColor = true;
-            this.but_MoveFront.Click += new System.EventHandler(this.but_MoveFront_Click);
-            this.but_MoveFront.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveFront_MouseUp);
-            // 
-            // but_FlipPieces
-            // 
-            this.but_FlipPieces.Location = new System.Drawing.Point(119, 8);
-            this.but_FlipPieces.Name = "but_FlipPieces";
-            this.but_FlipPieces.Size = new System.Drawing.Size(49, 30);
-            this.but_FlipPieces.TabIndex = 2;
-            this.but_FlipPieces.Text = "Flip";
-            this.but_FlipPieces.UseVisualStyleBackColor = true;
-            this.but_FlipPieces.Click += new System.EventHandler(this.but_FlipPieces_Click);
-            this.but_FlipPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_FlipPieces_MouseUp);
-            // 
-            // but_InvertPieces
-            // 
-            this.but_InvertPieces.Location = new System.Drawing.Point(61, 8);
-            this.but_InvertPieces.Name = "but_InvertPieces";
-            this.but_InvertPieces.Size = new System.Drawing.Size(49, 30);
-            this.but_InvertPieces.TabIndex = 1;
-            this.but_InvertPieces.Text = "Invert";
-            this.but_InvertPieces.UseVisualStyleBackColor = true;
-            this.but_InvertPieces.Click += new System.EventHandler(this.but_InvertPieces_Click);
-            this.but_InvertPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_InvertPieces_MouseUp);
-            // 
-            // but_RotatePieces
-            // 
-            this.but_RotatePieces.Location = new System.Drawing.Point(6, 8);
-            this.but_RotatePieces.Name = "but_RotatePieces";
-            this.but_RotatePieces.Size = new System.Drawing.Size(49, 30);
-            this.but_RotatePieces.TabIndex = 0;
-            this.but_RotatePieces.Text = "Rotate";
-            this.but_RotatePieces.UseVisualStyleBackColor = true;
-            this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
-            this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
-            // 
             // tabSkills
             // 
             this.tabSkills.Controls.Add(this.lbl_Skill_Fencer);
@@ -1803,6 +1727,22 @@
             this.scrollPicLevelVert.Visible = false;
             this.scrollPicLevelVert.Scroll += new System.Windows.Forms.ScrollEventHandler(this.scrollPicLevelVert_Scroll);
             // 
+            // num_Ski_Fencer
+            // 
+            this.num_Ski_Fencer.Location = new System.Drawing.Point(84, 188);
+            this.num_Ski_Fencer.Name = "num_Ski_Fencer";
+            this.num_Ski_Fencer.Size = new System.Drawing.Size(52, 20);
+            this.num_Ski_Fencer.TabIndex = 24;
+            this.num_Ski_Fencer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // lbl_Skill_Fencer
+            // 
+            this.lbl_Skill_Fencer.Location = new System.Drawing.Point(8, 190);
+            this.lbl_Skill_Fencer.Name = "lbl_Skill_Fencer";
+            this.lbl_Skill_Fencer.Size = new System.Drawing.Size(70, 15);
+            this.lbl_Skill_Fencer.TabIndex = 33;
+            this.lbl_Skill_Fencer.Text = "Fencer";
+            // 
             // but_PieceRight
             // 
             this.but_PieceRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1827,21 +1767,82 @@
             this.but_PieceLeft.Click += new System.EventHandler(this.but_PieceLeft_Click);
             this.but_PieceLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseUp);
             // 
-            // num_Ski_Fencer
+            // but_MoveBackOne
             // 
-            this.num_Ski_Fencer.Location = new System.Drawing.Point(84, 188);
-            this.num_Ski_Fencer.Name = "num_Ski_Fencer";
-            this.num_Ski_Fencer.Size = new System.Drawing.Size(52, 20);
-            this.num_Ski_Fencer.TabIndex = 24;
-            this.num_Ski_Fencer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.but_MoveBackOne.Location = new System.Drawing.Point(92, 80);
+            this.but_MoveBackOne.Name = "but_MoveBackOne";
+            this.but_MoveBackOne.Size = new System.Drawing.Size(76, 30);
+            this.but_MoveBackOne.TabIndex = 6;
+            this.but_MoveBackOne.Text = "One to Back";
+            this.but_MoveBackOne.UseVisualStyleBackColor = true;
+            this.but_MoveBackOne.Click += new System.EventHandler(this.but_MoveBackOne_Click);
+            this.but_MoveBackOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveBackOne_MouseUp);
             // 
-            // lbl_Skill_Fencer
+            // but_MoveFrontOne
             // 
-            this.lbl_Skill_Fencer.Location = new System.Drawing.Point(8, 190);
-            this.lbl_Skill_Fencer.Name = "lbl_Skill_Fencer";
-            this.lbl_Skill_Fencer.Size = new System.Drawing.Size(70, 15);
-            this.lbl_Skill_Fencer.TabIndex = 33;
-            this.lbl_Skill_Fencer.Text = "Fencer";
+            this.but_MoveFrontOne.Location = new System.Drawing.Point(8, 80);
+            this.but_MoveFrontOne.Name = "but_MoveFrontOne";
+            this.but_MoveFrontOne.Size = new System.Drawing.Size(76, 30);
+            this.but_MoveFrontOne.TabIndex = 5;
+            this.but_MoveFrontOne.Text = "One to Front";
+            this.but_MoveFrontOne.UseVisualStyleBackColor = true;
+            this.but_MoveFrontOne.Click += new System.EventHandler(this.but_MoveFrontOne_Click);
+            this.but_MoveFrontOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveFrontOne_MouseUp);
+            // 
+            // but_MoveBack
+            // 
+            this.but_MoveBack.Location = new System.Drawing.Point(92, 44);
+            this.but_MoveBack.Name = "but_MoveBack";
+            this.but_MoveBack.Size = new System.Drawing.Size(76, 30);
+            this.but_MoveBack.TabIndex = 4;
+            this.but_MoveBack.Text = "All to Back";
+            this.but_MoveBack.UseVisualStyleBackColor = true;
+            this.but_MoveBack.Click += new System.EventHandler(this.but_MoveBack_Click);
+            this.but_MoveBack.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveBack_MouseUp);
+            // 
+            // but_MoveFront
+            // 
+            this.but_MoveFront.Location = new System.Drawing.Point(8, 44);
+            this.but_MoveFront.Name = "but_MoveFront";
+            this.but_MoveFront.Size = new System.Drawing.Size(76, 30);
+            this.but_MoveFront.TabIndex = 3;
+            this.but_MoveFront.Text = "All to Front";
+            this.but_MoveFront.UseVisualStyleBackColor = true;
+            this.but_MoveFront.Click += new System.EventHandler(this.but_MoveFront_Click);
+            this.but_MoveFront.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveFront_MouseUp);
+            // 
+            // but_FlipPieces
+            // 
+            this.but_FlipPieces.Location = new System.Drawing.Point(119, 8);
+            this.but_FlipPieces.Name = "but_FlipPieces";
+            this.but_FlipPieces.Size = new System.Drawing.Size(49, 30);
+            this.but_FlipPieces.TabIndex = 2;
+            this.but_FlipPieces.Text = "Flip";
+            this.but_FlipPieces.UseVisualStyleBackColor = true;
+            this.but_FlipPieces.Click += new System.EventHandler(this.but_FlipPieces_Click);
+            this.but_FlipPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_FlipPieces_MouseUp);
+            // 
+            // but_InvertPieces
+            // 
+            this.but_InvertPieces.Location = new System.Drawing.Point(61, 8);
+            this.but_InvertPieces.Name = "but_InvertPieces";
+            this.but_InvertPieces.Size = new System.Drawing.Size(49, 30);
+            this.but_InvertPieces.TabIndex = 1;
+            this.but_InvertPieces.Text = "Invert";
+            this.but_InvertPieces.UseVisualStyleBackColor = true;
+            this.but_InvertPieces.Click += new System.EventHandler(this.but_InvertPieces_Click);
+            this.but_InvertPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_InvertPieces_MouseUp);
+            // 
+            // but_RotatePieces
+            // 
+            this.but_RotatePieces.Location = new System.Drawing.Point(6, 8);
+            this.but_RotatePieces.Name = "but_RotatePieces";
+            this.but_RotatePieces.Size = new System.Drawing.Size(49, 30);
+            this.but_RotatePieces.TabIndex = 0;
+            this.but_RotatePieces.Text = "Rotate";
+            this.but_RotatePieces.UseVisualStyleBackColor = true;
+            this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
+            this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
             // 
             // NLEditForm
             // 
