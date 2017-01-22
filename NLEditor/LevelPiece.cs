@@ -399,7 +399,7 @@ namespace NLEditor
                 // Return the index of the skill + 1 or return 0 if no skill is selected
                 foreach (C.Skill skill in C.SkillArray)
                 {
-                    if (SkillFlags.Contains(skill)) return (int)skill + 1;
+                    if (SkillFlags.Contains(skill)) return (int)skill;
                 }
                 return 0;
             }
