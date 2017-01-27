@@ -923,6 +923,8 @@ namespace NLEditor
 
         private void pic_Level_DoubleClick(object sender, EventArgs e)
         {
+            if (!(e is MouseEventArgs) || (e as MouseEventArgs).Button != MouseButtons.Left) return;
+
             curRenderer.DeleteDraggingVars();
 
             Point mouseScreenPos = MousePosition;
