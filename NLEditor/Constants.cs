@@ -10,19 +10,7 @@ namespace NLEditor
     {
         public static string Version => "0.5";
 
-        public static string AppPath
-        {
-            get 
-            {
-                #if DEBUG
-                    return "C:\\Stephan\\Programme\\NLEditor\\";
-                #endif
-                #if RELEASE
-                    return System.Windows.Forms.Application.StartupPath + DirSep; 
-                #endif
-            }
-        }
-
+        public static string AppPath => System.Windows.Forms.Application.StartupPath + DirSep;
         public static string AppPathPieces => AppPath + "styles" + DirSep;
         public static string AppPathTempLevel => AppPath + "TempTestLevel.nxlv";
         public static string AppPathThemeInfo(string styleName) => AppPathPieces + styleName + C.DirSep + "theme.nxtm";

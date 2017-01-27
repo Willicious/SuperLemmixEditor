@@ -13,3 +13,5 @@ sound/
 NLEditor/Level.cs~RF4b1091c.TMP
 *.TMP
 NLEditorSettings.ini
+NLEditor.exe.config
+NLEditor.vshost.exe.config
