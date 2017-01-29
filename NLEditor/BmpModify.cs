@@ -629,26 +629,32 @@ namespace NLEditor
 
                 if (zoomFactor < 0)
                 {
+                    int newBmpWidth = newBmp.Width;
+                    int newBmpHeight = newBmp.Height;
+
                     zoomFactor = Math.Abs(zoomFactor) + 1;
 
                     // Copy the pixels
-                    for(int y = 0; y < newBmp.Height; y++)
+                    Parallel.For(0, newBmpHeight, y =>
                     {
                         byte* curNewLine = ptrNewFirstPixel + y * newBmpData.Stride;
                         byte* curOrigLine = ptrOrigFirstPixel + y * zoomFactor * origBmpData.Stride;
 
-                        for (int x = 0; x < newBmp.Width; x++)
+                        for (int x = 0; x < newBmpWidth; x++)
                         {
                             ChangePixel(curNewLine + x * BytesPerPixel, curOrigLine + x * BytesPerPixel * zoomFactor);
                         }
-                    }
+                    });
                 }
                 else
                 {
+                    int origBmpWidth = origBmp.Width;
+                    int origBmpHeight = origBmp.Height;
+
                     zoomFactor++;
-                    
+
                     // Copy the pixels
-                    for(int y = 0; y < origBmp.Height; y++)
+                    Parallel.For(0, origBmpHeight, y =>
                     {
                         byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
 
@@ -656,15 +662,15 @@ namespace NLEditor
                         {
                             byte* curNewLine = ptrNewFirstPixel + (y * zoomFactor + i) * newBmpData.Stride;
 
-                            for (int x = 0; x < origBmp.Width; x++)
+                            for (int x = 0; x < origBmpWidth; x++)
                             {
-                                for (int j = 0; j < zoomFactor; j++) 
+                                for (int j = 0; j < zoomFactor; j++)
                                 {
                                     ChangePixel(curNewLine + (zoomFactor * x + j) * BytesPerPixel, curOrigLine + x * BytesPerPixel);
                                 }
                             }
                         }
-                    }
+                    });
                 }
 
                 origBmp.UnlockBits(origBmpData);
