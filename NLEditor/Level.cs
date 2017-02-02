@@ -59,8 +59,8 @@ namespace NLEditor
 
             this.Width = 320;
             this.Height = 160;
-            this.StartPosX = 0;
-            this.StartPosY = 0;
+            this.StartPosX = 160;
+            this.StartPosY = 80;
 
             this.TerrainList = new List<TerrainPiece>();
             this.GadgetList = new List<GadgetPiece>();

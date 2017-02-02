@@ -588,7 +588,7 @@ namespace NLEditor
         /// <returns></returns>
         private Bitmap AddScreenStartRectangle(Bitmap levelBmp)
         {
-            Rectangle levelStartRect = new Rectangle(level.StartPosX, level.StartPosY, 320, 160);
+            Rectangle levelStartRect = new Rectangle(level.StartPosX - 160, level.StartPosY - 80, 320, 160);
             Rectangle screenStartRect = GetPicRectFromLevelRect(levelStartRect);
             levelBmp.DrawOnRectangles(new List<Rectangle>() { screenStartRect }, C.NLColors[C.NLColor.ScreenStart]);
 
