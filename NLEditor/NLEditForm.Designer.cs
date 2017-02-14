@@ -909,7 +909,7 @@
             0,
             0});
             this.num_Lvl_SizeY.Minimum = new decimal(new int[] {
-            160,
+            1,
             0,
             0,
             0});
@@ -938,7 +938,7 @@
             0,
             0});
             this.num_Lvl_SizeX.Minimum = new decimal(new int[] {
-            320,
+            1,
             0,
             0,
             0});
