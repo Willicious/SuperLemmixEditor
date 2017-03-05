@@ -157,7 +157,7 @@ namespace NLEditor
                 string key = line.Substring(0, seperatorIndex).Trim();
                 string text = line.Substring(seperatorIndex).Trim();
                 int value;
-                if (!Int32.TryParse(text, out value)) value = 0;
+                if (!int.TryParse(text, out value)) value = 0;
 
                 fileLine = new FileLine(key, text, value);
             }

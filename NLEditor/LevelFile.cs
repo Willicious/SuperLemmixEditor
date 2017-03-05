@@ -126,10 +126,10 @@ namespace NLEditor
                         case "SKILLSET":
                             ReadSkillSetFromLines(fileLines, newLevel);
                             newLevel.SkillSet[C.Skill.Zombie] = 0; break;
-                        case "OBJECT": hatchOrder = fileLines.FindAll(lin => lin.Key == "object").ConvertAll(lin => lin.Value); break;
+                        case "OBJECT": 
                         case "LEMMING": newLevel.GadgetList.Add(ReadGadgetFromLines(fileLines)); break;
                         case "TERRAIN": newLevel.TerrainList.Add(ReadTerrainFromLines(fileLines)); break;
-                        case "SPAWN_ORDER": break;
+                        case "SPAWN_ORDER": hatchOrder = fileLines.FindAll(lin => lin.Key == "object").ConvertAll(lin => lin.Value); break;
                     }
                 }
             }
