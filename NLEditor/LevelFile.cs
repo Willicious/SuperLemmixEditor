@@ -89,7 +89,7 @@ namespace NLEditor
                 return newLevel;
             }
 
-
+            List<int> hatchOrder = null;
             try
             {
                 List<FileLine> fileLines;
@@ -126,9 +126,10 @@ namespace NLEditor
                         case "SKILLSET":
                             ReadSkillSetFromLines(fileLines, newLevel);
                             newLevel.SkillSet[C.Skill.Zombie] = 0; break;
-                        case "OBJECT":
+                        case "OBJECT": hatchOrder = fileLines.FindAll(lin => lin.Key == "object").ConvertAll(lin => lin.Value); break;
                         case "LEMMING": newLevel.GadgetList.Add(ReadGadgetFromLines(fileLines)); break;
                         case "TERRAIN": newLevel.TerrainList.Add(ReadTerrainFromLines(fileLines)); break;
+                        case "SPAWN_ORDER": break;
                     }
                 }
             }
@@ -142,6 +143,7 @@ namespace NLEditor
                 parser?.DisposeStreamReader();
             }
 
+            ApplyWindowOrder(hatchOrder, newLevel);
             return newLevel;
         }
 
@@ -295,6 +297,22 @@ namespace NLEditor
 
             return newTerrain;
         }
+
+        /// <summary>
+        /// Applies a custom hatch order to the level. The correctly ordered hatches are appended at the beginning of the GadgetList.
+        /// </summary>
+        /// <param name="hatchOrderIndexes"></param>
+        /// <param name="newLevel"></param>
+        static private void ApplyWindowOrder(List<int> hatchOrderIndexes, Level newLevel)
+        {
+            if (hatchOrderIndexes == null) return;
+            var hatchOrder = hatchOrderIndexes.FindAll(ind => ind >= 0 && ind < newLevel.GadgetList.Count)
+                                              .ConvertAll(ind => (GadgetPiece)newLevel.GadgetList[ind].Clone());
+            hatchOrder.RemoveAll(hat => hat.ObjType != C.OBJ.HATCH);
+            newLevel.GadgetList.RemoveAll(obj => obj.ObjType == C.OBJ.HATCH);
+            newLevel.GadgetList.InsertRange(0, hatchOrder);
+        }
+
 
         /// <summary>
         /// Opens file browser and saves the current level to a .nxlv file.
