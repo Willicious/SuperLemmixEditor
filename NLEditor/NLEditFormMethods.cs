@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -119,8 +117,8 @@ namespace NLEditor
                 numericsSkillSet[skill].Value = CurLevel.SkillSet[skill];
             }
 
-            num_Lvl_StartX.Maximum = CurLevel.Width - 160;
-            num_Lvl_StartY.Maximum = CurLevel.Height - 80;
+            num_Lvl_StartX.Maximum = Math.Max(CurLevel.Width - 160, 160);
+            num_Lvl_StartY.Maximum = Math.Max(CurLevel.Height - 80, 80);
         }
 
         /// <summary>

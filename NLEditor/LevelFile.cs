@@ -144,6 +144,7 @@ namespace NLEditor
             }
 
             ApplyWindowOrder(hatchOrder, newLevel);
+            SanitizeInput(newLevel);
             return newLevel;
         }
 
@@ -312,6 +313,31 @@ namespace NLEditor
             newLevel.GadgetList.RemoveAll(obj => obj.ObjType == C.OBJ.HATCH);
             newLevel.GadgetList.InsertRange(0, hatchOrder);
         }
+
+        /// <summary>
+        /// Ensures that all level parameters are within sensible limits.
+        /// </summary>
+        /// <param name="newLevel"></param>
+        static private void SanitizeInput(Level newLevel)
+        {
+            // Level size
+            newLevel.Width = Math.Max(Math.Min(newLevel.Width, 2400), 1);
+            newLevel.Height = Math.Max(Math.Min(newLevel.Height, 2400), 1);
+            // Start position
+            newLevel.StartPosX = Math.Max(Math.Min(newLevel.StartPosX, newLevel.Width - 160), 160);
+            newLevel.StartPosY = Math.Max(Math.Min(newLevel.StartPosY, newLevel.Height - 80), 80);
+            // Global level properties
+            newLevel.NumLems = Math.Max(Math.Min(newLevel.NumLems, 500), 1);
+            newLevel.SaveReq = Math.Max(Math.Min(newLevel.SaveReq, 500), 1);
+            newLevel.ReleaseRate = Math.Max(Math.Min(newLevel.ReleaseRate, 99), 1);
+            newLevel.TimeLimit = Math.Max(Math.Min(newLevel.TimeLimit, 5999), 0);
+            // Skill numbers
+            foreach (C.Skill skill in C.SkillArray)
+            {
+                newLevel.SkillSet[skill] = Math.Max(Math.Min(newLevel.SkillSet[skill], 100), 0);
+            }
+        }
+
 
 
         /// <summary>
