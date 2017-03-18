@@ -631,6 +631,27 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Checks whether we may group the currently selected pieces.
+        /// </summary>
+        /// <returns></returns>
+        public bool MayGroupSelection()
+        {
+            var selection = TerrainList.FindAll(ter => ter.IsSelected);
+            var selectionVisible = selection.FindAll(ter => !ter.IsErase);
+            return selection.Count > 1 && selectionVisible.Count > 0
+                && (selectionVisible.TrueForAll(ter => ter.IsSteel) || selectionVisible.TrueForAll(ter => !ter.IsSteel));
+        }
+
+        /// <summary>
+        /// Checks whether we may ungroup (some of) the currently selected pieces.
+        /// </summary>
+        /// <returns></returns>
+        public bool MayUngroupSelection()
+        {
+            return TerrainList.Exists(ter => ter.IsSelected && ter is GroupPiece);
+        }
+
+        /// <summary>
         /// Groups all selected terrain pieces.
         /// </summary>
         public void GroupSelection()
