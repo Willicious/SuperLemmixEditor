@@ -683,5 +683,30 @@ namespace NLEditor
             UpdateFlagsForPieceActions();
         }
 
+        /// <summary>
+        /// Groups the selected pieces, if possible.
+        /// </summary>
+        private void GroupSelectedPieces()
+        {
+            if (CurLevel.MayGroupSelection())
+            {
+                CurLevel.GroupSelection();
+                SaveChangesToOldLevelList();
+                pic_Level.Image = curRenderer.CreateLevelImage();
+            }
+        }
+
+        /// <summary>
+        /// Ungroups the selected pieces, if possible.
+        /// </summary>
+        private void UngroupSelectedPieces()
+        {
+            if (CurLevel.MayUngroupSelection())
+            {
+                CurLevel.UngroupSelection();
+                SaveChangesToOldLevelList();
+                pic_Level.Image = curRenderer.CreateLevelImage();
+            }
+        }
     }
 }

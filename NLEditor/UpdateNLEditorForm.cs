@@ -20,8 +20,6 @@ namespace NLEditor
             but_RotatePieces.SetInterval(1000);
             but_InvertPieces.SetInterval(1000);
             but_FlipPieces.SetInterval(1000);
-            but_MoveBack.SetInterval(1000);
-            but_MoveFront.SetInterval(1000);
             but_MoveBackOne.SetInterval(150);
             but_MoveFrontOne.SetInterval(150);
             but_PieceLeft.SetInterval(100, MouseButtons.Left);
@@ -161,6 +159,8 @@ namespace NLEditor
             check_Pieces_OnlyOnTerrain.CheckedChanged -= check_Pieces_OnlyOnTerrain_CheckedChanged;
             check_Pieces_OnlyOnTerrain.Checked = selectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).IsOnlyOnTerrain);
             check_Pieces_OnlyOnTerrain.CheckedChanged += check_Pieces_OnlyOnTerrain_CheckedChanged;
+
+
 
 
             foreach (C.Skill skill in checkboxesSkillFlags.Keys)
@@ -429,7 +429,7 @@ namespace NLEditor
         {
             Form hotkeyForm = new Form();
             hotkeyForm.Width = 450;
-            hotkeyForm.Height = 410;
+            hotkeyForm.Height = 430;
             hotkeyForm.MaximizeBox = false;
             hotkeyForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             hotkeyForm.Text = "NLEditor - Hotkeys";

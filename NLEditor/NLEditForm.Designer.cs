@@ -98,6 +98,8 @@
             this.txt_LevelTitle = new System.Windows.Forms.TextBox();
             this.lbl_Global_Title = new System.Windows.Forms.Label();
             this.tabPieces = new System.Windows.Forms.TabPage();
+            this.but_UngroupSelection = new System.Windows.Forms.Button();
+            this.but_GroupSelection = new System.Windows.Forms.Button();
             this.check_Piece_Fencer = new System.Windows.Forms.CheckBox();
             this.but_PairTeleporter = new System.Windows.Forms.Button();
             this.lbl_Resize_Height = new System.Windows.Forms.Label();
@@ -127,8 +129,8 @@
             this.check_Pieces_Erase = new System.Windows.Forms.CheckBox();
             this.but_MoveBackOne = new NLEditor.RepeatButton();
             this.but_MoveFrontOne = new NLEditor.RepeatButton();
-            this.but_MoveBack = new NLEditor.RepeatButton();
-            this.but_MoveFront = new NLEditor.RepeatButton();
+            this.but_MoveBack = new NLEditor.NoPaddingButton();
+            this.but_MoveFront = new NLEditor.NoPaddingButton();
             this.but_FlipPieces = new NLEditor.RepeatButton();
             this.but_InvertPieces = new NLEditor.RepeatButton();
             this.but_RotatePieces = new NLEditor.RepeatButton();
@@ -175,8 +177,6 @@
             this.scrollPicLevelVert = new System.Windows.Forms.VScrollBar();
             this.but_PieceRight = new NLEditor.RepeatButton();
             this.but_PieceLeft = new NLEditor.RepeatButton();
-            this.repeatButton1 = new NLEditor.RepeatButton();
-            this.repeatButton2 = new NLEditor.RepeatButton();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -1022,8 +1022,8 @@
             // 
             // tabPieces
             // 
-            this.tabPieces.Controls.Add(this.repeatButton2);
-            this.tabPieces.Controls.Add(this.repeatButton1);
+            this.tabPieces.Controls.Add(this.but_UngroupSelection);
+            this.tabPieces.Controls.Add(this.but_GroupSelection);
             this.tabPieces.Controls.Add(this.check_Piece_Fencer);
             this.tabPieces.Controls.Add(this.but_PairTeleporter);
             this.tabPieces.Controls.Add(this.lbl_Resize_Height);
@@ -1065,6 +1065,26 @@
             this.tabPieces.TabIndex = 1;
             this.tabPieces.Text = "Pieces";
             this.tabPieces.UseVisualStyleBackColor = true;
+            // 
+            // but_UngroupSelection
+            // 
+            this.but_UngroupSelection.Location = new System.Drawing.Point(90, 84);
+            this.but_UngroupSelection.Name = "but_UngroupSelection";
+            this.but_UngroupSelection.Size = new System.Drawing.Size(80, 34);
+            this.but_UngroupSelection.TabIndex = 8;
+            this.but_UngroupSelection.Text = "Ungroup";
+            this.but_UngroupSelection.UseVisualStyleBackColor = true;
+            this.but_UngroupSelection.Click += new System.EventHandler(this.but_UngroupSelection_Click);
+            // 
+            // but_GroupSelection
+            // 
+            this.but_GroupSelection.Location = new System.Drawing.Point(4, 84);
+            this.but_GroupSelection.Name = "but_GroupSelection";
+            this.but_GroupSelection.Size = new System.Drawing.Size(80, 34);
+            this.but_GroupSelection.TabIndex = 7;
+            this.but_GroupSelection.Text = "Group";
+            this.but_GroupSelection.UseVisualStyleBackColor = true;
+            this.but_GroupSelection.Click += new System.EventHandler(this.but_GroupSelection_Click);
             // 
             // check_Piece_Fencer
             // 
@@ -1429,7 +1449,6 @@
             this.but_MoveBack.TabIndex = 6;
             this.but_MoveBack.UseVisualStyleBackColor = true;
             this.but_MoveBack.Click += new System.EventHandler(this.but_MoveBack_Click);
-            this.but_MoveBack.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveBack_MouseUp);
             // 
             // but_MoveFront
             // 
@@ -1440,7 +1459,6 @@
             this.but_MoveFront.TabIndex = 3;
             this.but_MoveFront.UseVisualStyleBackColor = true;
             this.but_MoveFront.Click += new System.EventHandler(this.but_MoveFront_Click);
-            this.but_MoveFront.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveFront_MouseUp);
             // 
             // but_FlipPieces
             // 
@@ -1874,26 +1892,6 @@
             this.but_PieceLeft.Click += new System.EventHandler(this.but_PieceLeft_Click);
             this.but_PieceLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseUp);
             // 
-            // repeatButton1
-            // 
-            this.repeatButton1.Location = new System.Drawing.Point(4, 84);
-            this.repeatButton1.Name = "repeatButton1";
-            this.repeatButton1.NoPaddingText = null;
-            this.repeatButton1.Size = new System.Drawing.Size(80, 34);
-            this.repeatButton1.TabIndex = 7;
-            this.repeatButton1.Text = "Group";
-            this.repeatButton1.UseVisualStyleBackColor = true;
-            // 
-            // repeatButton2
-            // 
-            this.repeatButton2.Location = new System.Drawing.Point(90, 84);
-            this.repeatButton2.Name = "repeatButton2";
-            this.repeatButton2.NoPaddingText = null;
-            this.repeatButton2.Size = new System.Drawing.Size(80, 34);
-            this.repeatButton2.TabIndex = 8;
-            this.repeatButton2.Text = "Ungroup";
-            this.repeatButton2.UseVisualStyleBackColor = true;
-            // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2106,8 +2104,8 @@
         private System.Windows.Forms.CheckBox check_Piece_Climber;
         private NLEditor.RepeatButton but_MoveBackOne;
         private NLEditor.RepeatButton but_MoveFrontOne;
-        private NLEditor.RepeatButton but_MoveBack;
-        private NLEditor.RepeatButton but_MoveFront;
+        private NLEditor.NoPaddingButton but_MoveBack;
+        private NLEditor.NoPaddingButton but_MoveFront;
         private System.Windows.Forms.CheckBox check_Piece_Zombie;
         private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
         private System.Windows.Forms.Label lbl_Resize_Height;
@@ -2127,8 +2125,8 @@
         private System.Windows.Forms.CheckBox check_Piece_Fencer;
         private System.Windows.Forms.Label lbl_Skill_Fencer;
         private System.Windows.Forms.NumericUpDown num_Ski_Fencer;
-        private RepeatButton repeatButton2;
-        private RepeatButton repeatButton1;
+        private System.Windows.Forms.Button but_UngroupSelection;
+        private System.Windows.Forms.Button but_GroupSelection;
     }
 }
 

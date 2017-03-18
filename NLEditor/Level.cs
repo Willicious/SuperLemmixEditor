@@ -671,13 +671,15 @@ namespace NLEditor
                 GroupList.Add(group);
             }
 
-            TerrainList.Insert(insertIndex, (TerrainPiece)group.Clone());
+            GroupPiece newGroup = (GroupPiece)group.Clone();
+            newGroup.IsSelected = true;
+            TerrainList.Insert(insertIndex, newGroup);
         }
 
         /// <summary>
         /// Ungroups all selected group pieces and adds the single pieces to the terrain list. 
         /// </summary>
-        public void UnGroupSelection()
+        public void UngroupSelection()
         {
             var selectedGroups = TerrainList.FindAll(ter => ter.IsSelected && ter is GroupPiece);
             selectedGroups.ForEach(grp => UnGroup((GroupPiece)grp));

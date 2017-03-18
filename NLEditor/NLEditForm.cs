@@ -382,29 +382,13 @@ namespace NLEditor
 
         private void but_MoveFront_Click(object sender, EventArgs e)
         {
-            if (!but_MoveFront.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_MoveFront.Interval() / 2)
-            {
-                stopWatchMouse.Restart();
-                MovePieceIndex(true, false);
-            }
-        }
-
-        private void but_MoveFront_MouseUp(object sender, MouseEventArgs e)
-        {
+            MovePieceIndex(true, false);
             RemoveFocus();
         }
 
         private void but_MoveBack_Click(object sender, EventArgs e)
         {
-            if (!but_MoveBack.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_MoveBack.Interval() / 2)
-            {
-                stopWatchMouse.Restart();
-                MovePieceIndex(false, false);
-            }
-        }
-
-        private void but_MoveBack_MouseUp(object sender, MouseEventArgs e)
-        {
+            MovePieceIndex(false, false);
             RemoveFocus();
         }
 
@@ -433,6 +417,18 @@ namespace NLEditor
 
         private void but_MoveBackOne_MouseUp(object sender, MouseEventArgs e)
         {
+            RemoveFocus();
+        }
+
+        private void but_GroupSelection_Click(object sender, EventArgs e)
+        {
+            GroupSelectedPieces();
+            RemoveFocus();
+        }
+
+        private void but_UngroupSelection_Click(object sender, EventArgs e)
+        {
+            UngroupSelectedPieces();
             RemoveFocus();
         }
 
@@ -763,6 +759,14 @@ namespace NLEditor
             else if (e.KeyCode == Keys.F)
             {
                 check_Pieces_OneWay.Checked = !check_Pieces_OneWay.Checked;
+            }
+            else if (e.KeyCode == Keys.G)
+            {
+                GroupSelectedPieces();
+            }
+            else if (e.KeyCode == Keys.H)
+            {
+                UngroupSelectedPieces();
             }
             else if (e.KeyCode == Keys.Home)
             {
