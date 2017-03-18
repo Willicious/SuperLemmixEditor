@@ -128,12 +128,10 @@ namespace NLEditor
             but_FlipPieces.Enabled = selectionList.Exists(p => p.MayFlip());
             but_InvertPieces.Enabled = selectionList.Exists(p => p.MayInvert());
 
-
             but_MoveBack.Enabled = (selectionList.Count > 0);
             but_MoveFront.Enabled = (selectionList.Count > 0);
             but_MoveBackOne.Enabled = (selectionList.Count > 0);
             but_MoveFrontOne.Enabled = (selectionList.Count > 0);
-
 
             check_Pieces_NoOv.Enabled = (selectionList.Count > 0);
             // Set check-mark correctly, without firing the CheckedChanged event
@@ -160,8 +158,8 @@ namespace NLEditor
             check_Pieces_OnlyOnTerrain.Checked = selectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).IsOnlyOnTerrain);
             check_Pieces_OnlyOnTerrain.CheckedChanged += check_Pieces_OnlyOnTerrain_CheckedChanged;
 
-
-
+            but_GroupSelection.Enabled = CurLevel.MayGroupSelection();
+            but_UngroupSelection.Enabled = CurLevel.MayUngroupSelection();
 
             foreach (C.Skill skill in checkboxesSkillFlags.Keys)
             {
