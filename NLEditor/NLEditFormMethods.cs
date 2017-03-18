@@ -692,6 +692,7 @@ namespace NLEditor
             {
                 CurLevel.GroupSelection();
                 SaveChangesToOldLevelList();
+                UpdateFlagsForPieceActions();
                 pic_Level.Image = curRenderer.CreateLevelImage();
             }
         }
@@ -705,6 +706,7 @@ namespace NLEditor
             {
                 CurLevel.UngroupSelection();
                 SaveChangesToOldLevelList();
+                UpdateFlagsForPieceActions();
                 pic_Level.Image = curRenderer.CreateLevelImage();
             }
         }
