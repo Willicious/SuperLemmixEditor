@@ -25,21 +25,20 @@ namespace NLEditor
 
             if (!string.IsNullOrEmpty(noPaddingText))
             {
-                // StringLaignment = Log_2(ContentAlignment)
-                // So compute this taking into account that ContentAlignment is a power of 2
-
-                /*int alignInt = 0;
-                int textAlign = (int)TextAlign;
-                while (textAlign != 1)
-                {
-                    alignInt++;
-                    textAlign = textAlign << 1;
-                }*/
-
                 using (StringFormat stringFormat = new StringFormat())
                 {
-                    stringFormat.Alignment = StringAlignment.Center;  // (StringAlignment)(alignInt / 4);
-                    stringFormat.LineAlignment = StringAlignment.Center;  // (StringAlignment)(alignInt % 4);
+                    // StringLaignment = Log_2(ContentAlignment)
+                    // So compute this taking into account that ContentAlignment is a power of 2
+                    int alignInt = 0;
+                    int textAlign = (int)TextAlign;
+                    while (textAlign != 1)
+                    {
+                        alignInt++;
+                        textAlign = textAlign >> 1;
+                    }
+
+                    stringFormat.Alignment = (StringAlignment)(alignInt / 4);
+                    stringFormat.LineAlignment = (StringAlignment)(alignInt % 4);
 
                     if (Enabled)
                     {
