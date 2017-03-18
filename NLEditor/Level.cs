@@ -10,38 +10,6 @@ namespace NLEditor
     /// </summary>
     public class Level
     {
-        /*---------------------------------------------------------
-         *          This class stores all global level infos
-         * -------------------------------------------------------- */
-
-        /*---------------------------------------------------------
-         *  public methods:
-         *    Level(Style MainStyle = null)
-         *    
-         *    Clone()
-         *    Equals()
-         *    AddPiece(Style NewStyle, bool IsObject, int NewPieceIndex, Point CenterPos)
-         *    
-         *    SelectOnePiece(Point Pos, bool IsAdded, bool IsHighest)
-         *    SelectAreaPiece(Rectangle Rect, bool IsAdded)
-         *    UnselectAll()
-         *    SelectionList()
-         *    SelectionRectangle()
-         *    HasSelectionAtPos(Point Pos)
-         *    MovePieces(C.DIR Direcion, int Step = 1)
-         *    RotatePieces()
-         *    InvertPieces()
-         *    FlipPieces()
-         *    GroupSelectedPieces()
-         *    SetNoOverwrite(bool DoAdd)
-         *    SetErase(bool DoAdd)
-         *    SetOnlyOnTerrain(bool DoAdd)
-         *    SetOneWay(bool DoAdd)
-         *    SetSkillForObjects(int Skill, bool DoAdd)
-         *    MoveSelectedIndex(bool ToTop, bool OnlyOneStep)
-         *    PairTeleporters()
-         * -------------------------------------------------------- */
-
         /// <summary>
         /// Creates a new level with the default values.
         /// </summary>
@@ -54,8 +22,7 @@ namespace NLEditor
             this.MusicFile = "";
             this.backgroundKey = "";
 
-            Random rnd = new Random();
-            this.LevelID = (uint)rnd.Next();
+            this.LevelID = (uint)Utility.Random().Next();
 
             this.Width = 320;
             this.Height = 160;

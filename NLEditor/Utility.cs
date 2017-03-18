@@ -133,6 +133,16 @@ namespace NLEditor
             return Color.FromArgb(argb);
         }
 
+        /// <summary>
+        /// Returns the global instance of the random number generator.
+        /// </summary>
+        /// <returns></returns>
+        public static Random Random()
+        {
+            if (rnd == null) new Random();
+            return rnd;
+        }
+        static Random rnd;
     }
 
 
