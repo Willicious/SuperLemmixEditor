@@ -36,11 +36,20 @@ namespace NLEditor
                     textAlign = textAlign << 1;
                 }*/
 
-                StringFormat stringFormat = new StringFormat();
-                stringFormat.Alignment = StringAlignment.Center;  // (StringAlignment)(alignInt / 4);
-                stringFormat.LineAlignment = StringAlignment.Center;  // (StringAlignment)(alignInt % 4);
+                using (StringFormat stringFormat = new StringFormat())
+                {
+                    stringFormat.Alignment = StringAlignment.Center;  // (StringAlignment)(alignInt / 4);
+                    stringFormat.LineAlignment = StringAlignment.Center;  // (StringAlignment)(alignInt % 4);
 
-                e.Graphics.DrawString(noPaddingText, Font, new SolidBrush(ForeColor), ClientRectangle, stringFormat);
+                    if (Enabled)
+                    {
+                        e.Graphics.DrawString(noPaddingText, Font, new SolidBrush(ForeColor), ClientRectangle, stringFormat);
+                    }
+                    else
+                    {
+                        ControlPaint.DrawStringDisabled(e.Graphics, noPaddingText, Font, SystemColors.Control, ClientRectangle, stringFormat);
+                    }
+                }
             }
         }
     }
