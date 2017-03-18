@@ -662,18 +662,16 @@ namespace NLEditor
             GroupPiece group = new GroupPiece(selection);
 
             // Check whether the same group was already created
-            if (GroupList.Exists(grp => grp.HasSameKey(group)))
+            if (!GroupList.Exists(grp => grp.HasSameKey(group)))
             {
-                group = GroupList.Find(grp => grp.HasSameKey(group));
-            }
-            else
-            {
-                GroupList.Add(group);
+                var newGroup = (GroupPiece)group.Clone();
+                newGroup.PosX = 0;
+                newGroup.PosY = 0;
+                GroupList.Add(newGroup);
             }
 
-            GroupPiece newGroup = (GroupPiece)group.Clone();
-            newGroup.IsSelected = true;
-            TerrainList.Insert(insertIndex, newGroup);
+            group.IsSelected = true;
+            TerrainList.Insert(insertIndex, group);
         }
 
         /// <summary>
