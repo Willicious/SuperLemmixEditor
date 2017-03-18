@@ -955,6 +955,5 @@ namespace NLEditor
             selectForm.Location = new Point(formStartPosX, formStartPosY);
             selectForm.Show();
         }
-
     }
 }

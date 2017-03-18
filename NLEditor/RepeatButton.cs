@@ -2,15 +2,54 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace NLEditor
 {
     /// <summary>
+    /// Button that has reduced padding around the text
+    /// </summary>
+    public class NoPaddingButton : Button
+    {
+        private string noPaddingText;
+        public string NoPaddingText
+        {
+            get { return noPaddingText; }
+            set { noPaddingText = value; Invalidate(); }
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            if (!string.IsNullOrEmpty(noPaddingText))
+            {
+                // StringLaignment = Log_2(ContentAlignment)
+                // So compute this taking into account that ContentAlignment is a power of 2
+
+                /*int alignInt = 0;
+                int textAlign = (int)TextAlign;
+                while (textAlign != 1)
+                {
+                    alignInt++;
+                    textAlign = textAlign << 1;
+                }*/
+
+                StringFormat stringFormat = new StringFormat();
+                stringFormat.Alignment = StringAlignment.Center;  // (StringAlignment)(alignInt / 4);
+                stringFormat.LineAlignment = StringAlignment.Center;  // (StringAlignment)(alignInt % 4);
+
+                e.Graphics.DrawString(noPaddingText, Font, new SolidBrush(ForeColor), ClientRectangle, stringFormat);
+            }
+        }
+    }
+
+
+    /// <summary>
     /// Button that acts periodically when mouse button is pressed
     /// </summary>
-    public class RepeatButton : Button
+    public class RepeatButton : NoPaddingButton
     {
         public RepeatButton() : base()
         {
