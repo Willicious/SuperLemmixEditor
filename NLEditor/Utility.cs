@@ -139,7 +139,7 @@ namespace NLEditor
         /// <returns></returns>
         public static Random Random()
         {
-            if (rnd == null) new Random();
+            if (rnd == null) rnd = new Random();
             return rnd;
         }
         static Random rnd;
