@@ -130,6 +130,11 @@ namespace NLEditor
                 && this.IsInvert == piece.IsInvert;
         }
 
+        public bool HasSameKey(LevelPiece piece)
+        {
+            return this.Key.Equals(piece.Key);
+        }
+
 
         /// <summary>
         /// Determines whether this piece can be rotated.
@@ -543,27 +548,29 @@ namespace NLEditor
         public GroupPiece(GroupPiece oldGroupPiece, Point pos)
             : base(oldGroupPiece.Key, pos)
         {
-            fTerPieceList = oldGroupPiece.fTerPieceList;
+            terrainPieces = oldGroupPiece.terrainPieces;
         }
 
         public GroupPiece(GroupPiece oldGroupPiece, Point pos, int rotation, bool isInvert, bool isErase, bool isNoOverwrite, bool isOneWay)
             : base(oldGroupPiece.Key, pos, rotation, isInvert, isErase, isNoOverwrite, isOneWay)
         {
-            fTerPieceList = oldGroupPiece.fTerPieceList;
+            terrainPieces = oldGroupPiece.terrainPieces;
         }
 
         public GroupPiece(List<TerrainPiece> terPieceList)
             : base(GetKeyFromTerPieceList(terPieceList), GetPosFromTerPieceList(terPieceList))
         {
-            fTerPieceList = terPieceList.ConvertAll(ter => (TerrainPiece)ter.Clone()).ToList();
-            fTerPieceList.ForEach(ter => { ter.PosX -= this.PosX; ter.PosY -= this.PosY; ter.IsSelected = false; });
+            terrainPieces = terPieceList.ConvertAll(ter => (TerrainPiece)ter.Clone()).ToList();
+            terrainPieces.ForEach(ter => { ter.PosX -= this.PosX; ter.PosY -= this.PosY; });
+            bool isSteelGroup = terrainPieces.Exists(ter => ter.IsSteel && !ter.IsErase);
             // Add the group image to the image library
             Renderer groupRenderer = new Renderer();
-            Bitmap groupImage = groupRenderer.CreateTerrainGroupImage(fTerPieceList);
-            ImageLibrary.AddNewImage(Key, groupImage, C.OBJ.TERRAIN, new Rectangle(), C.Resize.None);
+            Bitmap groupImage = groupRenderer.CreateTerrainGroupImage(terrainPieces);
+            ImageLibrary.AddNewImage(Key, groupImage, isSteelGroup ? C.OBJ.STEEL : C.OBJ.TERRAIN,
+                                     new Rectangle(), C.Resize.None);
         }
 
-        List<TerrainPiece> fTerPieceList; // already with adapted positions
+        List<TerrainPiece> terrainPieces; // already with adapted positions
 
         /// <summary>
         /// Creates the group key from the terrain list.
@@ -607,10 +614,29 @@ namespace NLEditor
 
         public override LevelPiece Clone()
         {
-            return new GroupPiece(this, new Point(this.PosX, this.PosY), this.Rotation,
-                                  this.IsInvert, this.IsErase, this.IsNoOverwrite, this.IsOneWay);
+            return new GroupPiece(this, new Point(PosX, PosY), Rotation,
+                                  IsInvert, IsErase, IsNoOverwrite, IsOneWay);
         }
 
+        /// <summary>
+        /// Gets a lits of all terrain pieces that are part of the group.
+        /// </summary>
+        /// <returns></returns>
+        public List<TerrainPiece> GetConstituents()
+        {
+            var terPieceList = terrainPieces.ConvertAll(ter => (TerrainPiece)ter.Clone()).ToList();
+            terPieceList.ForEach(ter => { ter.PosX += this.PosX; ter.PosY += this.PosY; });
+            return terPieceList;
+        }
 
+        /// <summary>
+        /// Checks whether a given level piece is a constituent of the group.
+        /// </summary>
+        /// <param name="piece"></param>
+        /// <returns></returns>
+        public bool ContainsConstituent(LevelPiece piece)
+        {
+            return terrainPieces.Exists(ter => ter.HasSameKey(piece));
+        }
     }
 }
