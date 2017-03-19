@@ -418,19 +418,20 @@ namespace NLEditor
 
         public override bool MayRotate()
         {
-            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE);
+            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL);
         }
 
         public override bool MayFlip()
         {
             return ObjType.In(C.OBJ.ANIMATION, C.OBJ.BACKGROUND, C.OBJ.FIRE, C.OBJ.HATCH, C.OBJ.LEMMING,
                               C.OBJ.NONE, C.OBJ.NOSPLAT, C.OBJ.RADIATION, C.OBJ.RECEIVER, C.OBJ.SLOWFREEZE,
-                              C.OBJ.SPLAT, C.OBJ.SPLITTER, C.OBJ.TELEPORTER, C.OBJ.TRAP, C.OBJ.TRAPONCE);
+                              C.OBJ.SPLAT, C.OBJ.SPLITTER, C.OBJ.TELEPORTER, C.OBJ.TRAP, C.OBJ.TRAPONCE,
+                              C.OBJ.ONE_WAY_WALL);
         }
 
         public override bool MayInvert()
         {
-            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE);
+            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL);
         }
 
         public override bool MayReceiveSkill(C.Skill skill)
