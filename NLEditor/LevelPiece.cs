@@ -558,14 +558,24 @@ namespace NLEditor
         }
 
         public GroupPiece(List<TerrainPiece> terPieceList)
-            : base(GetKeyFromTerPieceList(terPieceList), GetPosFromTerPieceList(terPieceList))
+            : base(GetKeyFromTerPieceList(terPieceList), GetPrelimPosFromTerPieceList(terPieceList))
         {
             terrainPieces = terPieceList.ConvertAll(ter => (TerrainPiece)ter.Clone()).ToList();
             terrainPieces.ForEach(ter => { ter.PosX -= this.PosX; ter.PosY -= this.PosY; });
             bool isSteelGroup = terrainPieces.Exists(ter => ter.IsSteel && !ter.IsErase);
-            // Add the group image to the image library
+            // Create a cropped image of the group
             Renderer groupRenderer = new Renderer();
             Bitmap groupImage = groupRenderer.CreateTerrainGroupImage(terrainPieces);
+            Rectangle cropRect = groupImage.GetCropTransparentRectangle();
+            groupImage = groupImage.Crop(cropRect);
+            // Adapt positions to cropped rectangle
+            if (cropRect.X != 0 || cropRect.Y != 0)
+            {
+                this.PosX += cropRect.X;
+                this.PosY += cropRect.Y;
+                terrainPieces.ForEach(ter => { ter.PosX -= cropRect.X; ter.PosY -= cropRect.Y; });
+            }
+            // Add the group image to the image library
             ImageLibrary.AddNewImage(Key, groupImage, isSteelGroup ? C.OBJ.STEEL : C.OBJ.TERRAIN,
                                      new Rectangle(), C.Resize.None);
         }
@@ -579,7 +589,7 @@ namespace NLEditor
         /// <returns></returns>
         private static string GetKeyFromTerPieceList(List<TerrainPiece> terPieceList)
         {
-            Point groupPos = GetPosFromTerPieceList(terPieceList);
+            Point groupPos = GetPrelimPosFromTerPieceList(terPieceList);
             
             StringBuilder keyString = new StringBuilder();
             foreach(TerrainPiece piece in terPieceList)
@@ -601,11 +611,11 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Gets the position of the group from a raw terrain list.
+        /// Gets the preliminarly position (before cropping) of the group from a raw terrain list.
         /// </summary>
         /// <param name="terPieceList"></param>
         /// <returns></returns>
-        private static Point GetPosFromTerPieceList(List<TerrainPiece> terPieceList)
+        private static Point GetPrelimPosFromTerPieceList(List<TerrainPiece> terPieceList)
         {
             int minXPos = terPieceList.Min(ter => ter.PosX);
             int minYPos = terPieceList.Min(ter => ter.PosY);

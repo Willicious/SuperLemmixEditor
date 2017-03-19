@@ -659,8 +659,17 @@ namespace NLEditor
             int insertIndex = TerrainList.FindIndex(ter => ter.IsSelected);
             var selection = TerrainList.FindAll(ter => ter.IsSelected);
             TerrainList.RemoveAll(ter => ter.IsSelected);
-            GroupPiece group = new GroupPiece(selection);
-
+            GroupPiece group = null;
+            try
+            {
+                group = new GroupPiece(selection);
+            }
+            catch (ArgumentException)
+            {
+                // Selection has no visible pixel, so don't add any kind of group piece.
+                return;
+            }
+            
             // Check whether the same group was already created
             if (!GroupList.Exists(grp => grp.HasSameKey(group)))
             {

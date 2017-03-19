@@ -7,31 +7,11 @@ using System.Diagnostics;
 
 namespace NLEditor
 {
+    /// <summary>
+    /// This class contains all methods to modify bitmaps
+    /// </summary>
     static class BmpModify
     {
-        /*---------------------------------------------------------
-         *  This class contains all methods to modify bitmaps
-         * -------------------------------------------------------- */
-
-        /* --------------------------------------------------------
-         *   public methods:
-         *     - Crop(this Bitmap OrigBmp, Rectangle CropRect)
-         *     - Clear(this Bitmap OrigBmp)
-         *     - Clear(this Bitmap OrigBmp, Color ClearColor)
-         *     - DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
-         *     - DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos, C.CustDrawMode ColorSelect)
-         *     - DrawOn(this Bitmap OrigBmp, Bitmap NewBmp, Bitmap MaskBmp, Point Pos, C.CustDrawMode ColorSelect)
-         *     - DrawOnWithAlpha(this Bitmap OrigBmp, Bitmap NewBmp, Point Pos)
-         *     - Zoom(this Bitmap OrigBmp, int ZoomFactor)
-         *     - Zoom(this Bitmap OrigBmp, int ZoomFactor, Size NewBmpSize)
-         *     - DrawOnRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
-         *     - DrawOnFilledRectangles(this Bitmap OrigBmp, List<Rectangle> RectList, Color RectColor)
-         *     - DrawOnDottedRectangles(this Bitmap OrigBmp, Rectangle Rect)
-         *     - PaveArea(this Bitmap OrigBmp, Rectangle Rect)
-         *     - WriteText(this Bitmap OrigBmp, string Text, Color TextColor)
-         *     - RecolorOWW(Bitmap OrigBmp)
-         * -------------------------------------------------------- */
-
         /// <summary>
         /// Initializes the dictionary ColorFuncDict.
         /// </summary>
@@ -888,6 +868,98 @@ namespace NLEditor
             Bitmap newBmp = new Bitmap(pieceImage.Width, pieceImage.Height);
             newBmp.DrawOn(pieceImage, new Point(0, 0), C.CustDrawMode.Custom);
             return newBmp;
+        }
+
+        /// <summary>
+        /// Gets the smallest rectangle around all non-transparent pixels of the bitmap.
+        /// <para> Throws an ArgumentException is the bitmap is completely transparent.</para>
+        /// </summary>
+        /// <param name="origBmp"></param>
+        /// <returns></returns>
+        public static Rectangle GetCropTransparentRectangle(this Bitmap origBmp)
+        {
+            Rectangle cropRect = new Rectangle();
+
+            unsafe
+            {
+                // Get pointer to first pixel of OrigBitmap
+                Rectangle origBmpRect = new Rectangle(0, 0, origBmp.Width, origBmp.Height);
+                BitmapData origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.WriteOnly, origBmp.PixelFormat);
+                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap to crop has no alpha channel!");
+
+                // Compute top edge of visible image
+                int top = 0;
+                do
+                {
+                    byte* origLine = ptrOrigFirstPixel + top * origBmpData.Stride;
+                    for (int x = 0; x < origBmpRect.Width; x++)
+                    {
+                        if (origLine[BytesPerPixel * x + 3] != 0)
+                        {
+                            cropRect.Y = top;
+                            goto END_TOP;
+                        }
+                    }
+                } while (++top != origBmpRect.Height);
+                // We can only get here if the bitmap is completely empty. 
+                // As we do not want to create empty bitmaps, we throw an exception!
+                // Note that we don't need this check for the other coordinates, because the exception was already thrown here.
+                throw new ArgumentException("Completely empty bitmap cropped of transparent pixels.");
+                END_TOP:
+
+                // Compute bottom edge of visible image
+                int bottom = origBmpRect.Height;
+                do
+                {
+                    byte* origLine = ptrOrigFirstPixel + (bottom - 1) * origBmpData.Stride;
+                    for (int x = 0; x < origBmpRect.Width; x++)
+                    {
+                        if (origLine[BytesPerPixel * x + 3] != 0)
+                        {
+                            cropRect.Height = bottom - cropRect.Y;
+                            goto END_BOTTOM;
+                        }
+                    }
+                } while (--bottom != 0);
+                END_BOTTOM:
+
+                // Compute left edge of visible image
+                int left = 0;
+                do
+                {
+                    for (int y = cropRect.Top; y < cropRect.Bottom; y++)
+                    {
+                        byte* origPixel = ptrOrigFirstPixel + y * origBmpData.Stride + BytesPerPixel * left;
+                        if (origPixel[3] != 0)
+                        {
+                            cropRect.X = left;
+                            goto END_LEFT;
+                        }
+                    }
+                } while (++left != origBmpRect.Width);
+                END_LEFT:
+
+                // Compute right edge of visible image
+                int right = origBmpRect.Width;
+                do
+                {
+                    for (int y = cropRect.Top; y < cropRect.Bottom; y++)
+                    {
+                        byte* origPixel = ptrOrigFirstPixel + y * origBmpData.Stride + BytesPerPixel * (right - 1);
+                        if (origPixel[3] != 0)
+                        {
+                            cropRect.Width = right - cropRect.X;
+                            goto END_RIGHT;
+                        }
+                    }
+                } while (--right != 0);
+                END_RIGHT:
+
+                origBmp.UnlockBits(origBmpData);
+            }
+
+            return cropRect;
         }
 
     }
