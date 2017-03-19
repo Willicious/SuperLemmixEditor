@@ -236,6 +236,16 @@ namespace NLEditor
             CopySelectedPieces();
         }
 
+        private void groupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GroupSelectedPieces();
+        }
+
+        private void ungroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UngroupSelectedPieces();
+        }
+
         private void playLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PlaytestLevel();
@@ -959,5 +969,7 @@ namespace NLEditor
             selectForm.Location = new Point(formStartPosX, formStartPosY);
             selectForm.Show();
         }
+
+
     }
 }
