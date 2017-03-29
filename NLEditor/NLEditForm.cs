@@ -135,6 +135,9 @@ namespace NLEditor
 
         private void NLEditForm_Resize(object sender, EventArgs e)
         {
+            // Don't do anything on minimizing the form!
+            if (WindowState == FormWindowState.Minimized) return;
+
             MoveControlsOnFormResize();
             curRenderer.EnsureScreenPosInLevel();
             pic_Level.Image = curRenderer.CreateLevelImage();
