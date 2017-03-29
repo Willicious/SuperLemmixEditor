@@ -211,6 +211,7 @@
             this.Name = "FormPieceSelection";
             this.ShowInTaskbar = false;
             this.Text = "  Select Piece";
+            this.Deactivate += new System.EventHandler(this.FormPieceSelection_Deactivate);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormPieceSelection_KeyDown);
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.FormPieceSelection_MouseWheel);
             ((System.ComponentModel.ISupportInitialize)(this.picSelPiece0)).EndInit();
