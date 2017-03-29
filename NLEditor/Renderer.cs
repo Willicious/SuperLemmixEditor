@@ -12,57 +12,12 @@ namespace NLEditor
     class Renderer
     {
         /*---------------------------------------------------------
-         *          This class renderes the level data
-         *       to produce bitmaps for the editor screen
-         * -------------------------------------------------------- */
-
-        /*---------------------------------------------------------
          *  IMPORTANT: The Terrain layer uses the alpha value 
          *             to encode the OWW-flag:
          *              One-Way-able     = C.ALPHA_OWW   = 255
          *              Not One-Way-able = C.ALPHA_NOOWW = 254
          * -------------------------------------------------------- */
 
-        /*---------------------------------------------------------
-         *  public methods:
-         *    Renderer(Level MyLevel) // constructor
-         *    
-         *    GetCenterPoint()
-         *    GetLevelPosFromMousePos(Point MousePos)
-         * 
-         *    CreateLevelImage() // recreates all layers (but not necessarily the background) and combines them
-         *    CombineLayers() // only combines existing layers
-         *    CreateBackgroundLayer() 
-         * 
-         *    CreateTerrainGroupImage(List<TerrainPiece> TerrPieceList)
-         * 
-         *    ChangeIsClearPhsyics() 
-         *    ChangeIsTerrainLayer()
-         *    ChangeIsTriggerLayer() 
-         *    ChangeIsScreenStart() 
-         *    ChangeIsBackgroundLayer()
-         *    SetLevel(Level NewLevel)
-         *    
-         *    ChangeZoom(int change, Point mouseScreenPos)
-         *    ChangeZoom(int change)
-         *    UpdateScreenPos()
-         *    EnsureScreenPosInLevel()
-         *    
-         *    SetDraggingVars(Point mousePos, C.DragActions dragAction)
-         *    DeleteDraggingVars()
-         *    GetDeltaPos()
-         * 
-         *  public varaibles:
-         *    ScreenPos (read-only)
-         *    ScreenPosX
-         *    ScreenPosY
-         *    Zoom
-         *    MouseCurPos
-         *    MouseStartPos (read-only)
-         *    LevelStartPos (read-only)     
-         *    MouseDragAction (read-only)        
-         *            
-         * -------------------------------------------------------- */
         /// <summary>
         /// Initializes an empty Renderer. 
         /// </summary>
@@ -693,6 +648,27 @@ namespace NLEditor
             levelBmp.DrawOnDottedRectangle(mouseRect);
             
             return levelBmp;
+        }
+
+        /// <summary>
+        /// Moves the screen position in a given direction in approx delta screen pixels.
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="delta"></param>
+        public void MoveScreenPos(C.DIR direction, int delta)
+        {
+            // Adapt delta to zoom level
+            int levelDelta = ApplyUnZoom(delta);
+
+            // Move screen position
+            switch (direction)
+            {
+                case C.DIR.E: ScreenPosX += levelDelta; break;
+                case C.DIR.W: ScreenPosX -= levelDelta; break;
+                case C.DIR.N: ScreenPosY -= levelDelta; break;
+                case C.DIR.S: ScreenPosY += levelDelta; break;
+            }
+            EnsureScreenPosInLevel();
         }
 
         /// <summary>

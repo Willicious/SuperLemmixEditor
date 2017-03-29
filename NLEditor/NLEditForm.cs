@@ -729,21 +729,28 @@ namespace NLEditor
                     UpdateFlagsForPieceActions();
                 }
             }
-            else if (e.KeyCode == Keys.Left)
+            else if (e.KeyCode.In(Keys.Left, Keys.Right, Keys.Up, Keys.Down))
             {
-                MoveLevelPieces(C.DIR.W, e.Control ? 8 : 1);
-            }
-            else if (e.KeyCode == Keys.Right)
-            {
-                MoveLevelPieces(C.DIR.E, e.Control ? 8 : 1);
-            }
-            else if (e.KeyCode == Keys.Up)
-            {
-                MoveLevelPieces(C.DIR.N, e.Control ? 8 : 1);
-            }
-            else if (e.KeyCode == Keys.Down)
-            {
-                MoveLevelPieces(C.DIR.S, e.Control ? 8 : 1);
+                C.DIR direction;
+                switch (e.KeyCode)
+                {
+                    case Keys.Left: direction = C.DIR.W; break;
+                    case Keys.Right: direction = C.DIR.E; break;
+                    case Keys.Up: direction = C.DIR.N; break;
+                    case Keys.Down: direction = C.DIR.S; break;
+                    default: direction = C.DIR.E; break;
+                }
+
+                // Move either selected pieces if they exist, or the screen position otherwise 
+                if (CurLevel.SelectionList().Count > 0)
+                {
+                    MoveLevelPieces(direction, e.Control ? 8 : 1);
+                }
+                else
+                {
+                    curRenderer.MoveScreenPos(direction, e.Control ? 64 : 8);
+                    pic_Level.Image = curRenderer.CombineLayers();
+                }
             }
             else if (e.KeyCode == Keys.R)
             {
