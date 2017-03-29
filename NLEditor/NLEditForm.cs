@@ -863,6 +863,7 @@ namespace NLEditor
             if (e.Button == MouseButtons.Right)
             {
                 dragAction = C.DragActions.MoveEditorPos;
+                Cursor = Cursors.SizeAll;
             }
             else if (hasSelectedPieceAtPos && !isAltPressed && !isCtrlPressed && !isShiftPressed)
             {
@@ -926,6 +927,7 @@ namespace NLEditor
                     }
                 case C.DragActions.MoveEditorPos:
                     {
+                        Cursor = Cursors.Default;
                         curRenderer.UpdateScreenPos();
                         UpdateScrollBarValues();
                         break;
