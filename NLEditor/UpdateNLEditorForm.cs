@@ -429,6 +429,7 @@ namespace NLEditor
             hotkeyForm.Width = 450;
             hotkeyForm.Height = 430;
             hotkeyForm.MaximizeBox = false;
+            hotkeyForm.ShowInTaskbar = false;
             hotkeyForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             hotkeyForm.Text = "NLEditor - Hotkeys";
 
@@ -479,6 +480,7 @@ namespace NLEditor
             versionForm.Width = 310;
             versionForm.Height = 170;
             versionForm.MaximizeBox = false;
+            versionForm.ShowInTaskbar = false;
             versionForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             versionForm.Text = "NLEditor - About";
 

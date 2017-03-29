@@ -203,11 +203,13 @@
             this.Controls.Add(this.picSelPiece2);
             this.Controls.Add(this.picSelPiece1);
             this.Controls.Add(this.picSelPiece0);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormPieceSelection";
+            this.ShowInTaskbar = false;
             this.Text = "  Select Piece";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormPieceSelection_KeyDown);
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.FormPieceSelection_MouseWheel);

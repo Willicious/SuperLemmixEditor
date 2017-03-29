@@ -220,6 +220,7 @@ namespace NLEditor
             validatorForm.Width = 500;
             validatorForm.Height = 300;
             validatorForm.MaximizeBox = false;
+            validatorForm.ShowInTaskbar = false;
             validatorForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             validatorForm.Text = "NLEditor - Level validation";
             validatorForm.FormClosing += new FormClosingEventHandler(ValidatorForm_FormClosing);

@@ -39,6 +39,7 @@ namespace NLEditor
             settingsForm.Width = 310;
             settingsForm.Height = 170;
             settingsForm.MaximizeBox = false;
+            settingsForm.ShowInTaskbar = false;
             settingsForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             settingsForm.Text = "NLEditor - Settings";
             settingsForm.FormClosing += new FormClosingEventHandler(settingsForm_FormClosing);
