@@ -361,27 +361,58 @@ namespace NLEditor
         /// Returns the position of the trigger area.
         /// <para> It does NOT adapt to rotation! </para>
         /// </summary>
-        public Rectangle TriggerRect { get 
+        public Rectangle TriggerRect
         {
-            Rectangle trigRect = ImageLibrary.GetTrigger(Key);
-            // Adjust to resizing
-            if (ResizeMode != C.Resize.None)
+            get
             {
-                trigRect.Width += SpecWidth - base.Width;
-                trigRect.Height += SpecHeight - base.Height;
-            }
+                Rectangle trigRect = ImageLibrary.GetTrigger(Key);
+                // Adjust to resizing
+                if (ResizeMode != C.Resize.None)
+                {
+                    trigRect.Width += SpecWidth - base.Width;
+                    trigRect.Height += SpecHeight - base.Height;
+                }
 
-            // Adjust to flipping
-            if (IsFlippedInPlayer && !IsInvertedInPlayer && !IsRotatedInPlayer)
-            {
-                trigRect.X = ImageRectangle.Width - trigRect.Right;
-            }
+                if (ObjType != C.OBJ.ONE_WAY_WALL)
+                {
+                    /*
+                    // Rotate the trigger area correctly
+                    if (IsRotatedInPlayer)
+                    {
+                        trigRect = new Rectangle(ImageRectangle.Height - trigRect.Bottom, trigRect.X, trigRect.Height, trigRect.Width);
+                    }
+                    */
 
-            // Shift to position relative to level
-            trigRect.X += PosX;
-            trigRect.Y += PosY;
-            return trigRect;
-        } }
+                    // Adjust to flipping
+                    if (IsFlippedInPlayer)
+                    {
+                        trigRect.X = ImageRectangle.Width - trigRect.Right;
+                    }
+
+                    // Adjust to inverting
+                    if (IsInvertedInPlayer)
+                    {
+                        trigRect.Y = ImageRectangle.Height - trigRect.Bottom;
+                    }
+
+                    // Offset due to inverting and rotating
+                    if (IsInvertedInPlayer && !IsRotatedInPlayer)
+                    {
+                        trigRect.Y += 10;
+                    }/*
+                    else if (IsRotatedInPlayer)
+                    {
+                        trigRect.X += IsFlippedInPlayer ? -5 : 5;
+                        trigRect.Y += 5;
+                    }*/
+                }
+
+                // Shift to position relative to level
+                trigRect.X += PosX;
+                trigRect.Y += PosY;
+                return trigRect;
+            }
+        }
 
         public override Bitmap Image { get
         {
@@ -418,7 +449,7 @@ namespace NLEditor
 
         public override bool MayRotate()
         {
-            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL);
+            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.FIRE, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL);
         }
 
         public override bool MayFlip()
@@ -431,7 +462,7 @@ namespace NLEditor
 
         public override bool MayInvert()
         {
-            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL);
+            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.FIRE, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL);
         }
 
         public override bool MayReceiveSkill(C.Skill skill)
