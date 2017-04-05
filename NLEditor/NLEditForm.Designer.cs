@@ -43,6 +43,8 @@
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ungroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearPhysicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.terrainRenderingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -127,13 +129,6 @@
             this.check_Pieces_OnlyOnTerrain = new System.Windows.Forms.CheckBox();
             this.check_Pieces_NoOv = new System.Windows.Forms.CheckBox();
             this.check_Pieces_Erase = new System.Windows.Forms.CheckBox();
-            this.but_MoveBackOne = new NLEditor.RepeatButton();
-            this.but_MoveFrontOne = new NLEditor.RepeatButton();
-            this.but_MoveBack = new NLEditor.NoPaddingButton();
-            this.but_MoveFront = new NLEditor.NoPaddingButton();
-            this.but_FlipPieces = new NLEditor.RepeatButton();
-            this.but_InvertPieces = new NLEditor.RepeatButton();
-            this.but_RotatePieces = new NLEditor.RepeatButton();
             this.tabSkills = new System.Windows.Forms.TabPage();
             this.lbl_Skill_Fencer = new System.Windows.Forms.Label();
             this.num_Ski_Fencer = new System.Windows.Forms.NumericUpDown();
@@ -177,8 +172,13 @@
             this.scrollPicLevelVert = new System.Windows.Forms.VScrollBar();
             this.but_PieceRight = new NLEditor.RepeatButton();
             this.but_PieceLeft = new NLEditor.RepeatButton();
-            this.groupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ungroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.but_MoveBackOne = new NLEditor.RepeatButton();
+            this.but_MoveFrontOne = new NLEditor.RepeatButton();
+            this.but_MoveBack = new NLEditor.NoPaddingButton();
+            this.but_MoveFront = new NLEditor.NoPaddingButton();
+            this.but_FlipPieces = new NLEditor.RepeatButton();
+            this.but_InvertPieces = new NLEditor.RepeatButton();
+            this.but_RotatePieces = new NLEditor.RepeatButton();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -301,37 +301,51 @@
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.undoToolStripMenuItem.Text = "Undo (Ctrl+Z)";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.redoToolStripMenuItem.Text = "Redo (Ctrl+Y)";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.deleteToolStripMenuItem.Text = "Cut (Ctrl+X)";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // insertToolStripMenuItem
             // 
             this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
-            this.insertToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.insertToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.insertToolStripMenuItem.Text = "Paste (Ctrl+V)";
             this.insertToolStripMenuItem.Click += new System.EventHandler(this.insertToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.copyToolStripMenuItem.Text = "Copy (Ctrl+C)";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // groupToolStripMenuItem
+            // 
+            this.groupToolStripMenuItem.Name = "groupToolStripMenuItem";
+            this.groupToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.groupToolStripMenuItem.Text = "Group (G)";
+            this.groupToolStripMenuItem.Click += new System.EventHandler(this.groupToolStripMenuItem_Click);
+            // 
+            // ungroupToolStripMenuItem
+            // 
+            this.ungroupToolStripMenuItem.Name = "ungroupToolStripMenuItem";
+            this.ungroupToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.ungroupToolStripMenuItem.Text = "Ungroup (H)";
+            this.ungroupToolStripMenuItem.Click += new System.EventHandler(this.ungroupToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
@@ -1422,84 +1436,6 @@
             this.check_Pieces_Erase.UseVisualStyleBackColor = true;
             this.check_Pieces_Erase.CheckedChanged += new System.EventHandler(this.check_Pieces_Erase_CheckedChanged);
             // 
-            // but_MoveBackOne
-            // 
-            this.but_MoveBackOne.Location = new System.Drawing.Point(88, 46);
-            this.but_MoveBackOne.Name = "but_MoveBackOne";
-            this.but_MoveBackOne.NoPaddingText = "One to Back";
-            this.but_MoveBackOne.Size = new System.Drawing.Size(40, 34);
-            this.but_MoveBackOne.TabIndex = 5;
-            this.but_MoveBackOne.UseVisualStyleBackColor = true;
-            this.but_MoveBackOne.Click += new System.EventHandler(this.but_MoveBackOne_Click);
-            this.but_MoveBackOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveBackOne_MouseUp);
-            // 
-            // but_MoveFrontOne
-            // 
-            this.but_MoveFrontOne.Location = new System.Drawing.Point(46, 46);
-            this.but_MoveFrontOne.Name = "but_MoveFrontOne";
-            this.but_MoveFrontOne.NoPaddingText = "One to Front";
-            this.but_MoveFrontOne.Size = new System.Drawing.Size(40, 34);
-            this.but_MoveFrontOne.TabIndex = 4;
-            this.but_MoveFrontOne.UseVisualStyleBackColor = true;
-            this.but_MoveFrontOne.Click += new System.EventHandler(this.but_MoveFrontOne_Click);
-            this.but_MoveFrontOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveFrontOne_MouseUp);
-            // 
-            // but_MoveBack
-            // 
-            this.but_MoveBack.Location = new System.Drawing.Point(130, 46);
-            this.but_MoveBack.Name = "but_MoveBack";
-            this.but_MoveBack.NoPaddingText = "All to Back";
-            this.but_MoveBack.Size = new System.Drawing.Size(40, 34);
-            this.but_MoveBack.TabIndex = 6;
-            this.but_MoveBack.UseVisualStyleBackColor = true;
-            this.but_MoveBack.Click += new System.EventHandler(this.but_MoveBack_Click);
-            // 
-            // but_MoveFront
-            // 
-            this.but_MoveFront.Location = new System.Drawing.Point(4, 46);
-            this.but_MoveFront.Name = "but_MoveFront";
-            this.but_MoveFront.NoPaddingText = "All to Front";
-            this.but_MoveFront.Size = new System.Drawing.Size(40, 34);
-            this.but_MoveFront.TabIndex = 3;
-            this.but_MoveFront.UseVisualStyleBackColor = true;
-            this.but_MoveFront.Click += new System.EventHandler(this.but_MoveFront_Click);
-            // 
-            // but_FlipPieces
-            // 
-            this.but_FlipPieces.Location = new System.Drawing.Point(118, 8);
-            this.but_FlipPieces.Name = "but_FlipPieces";
-            this.but_FlipPieces.NoPaddingText = null;
-            this.but_FlipPieces.Size = new System.Drawing.Size(52, 34);
-            this.but_FlipPieces.TabIndex = 2;
-            this.but_FlipPieces.Text = "Flip";
-            this.but_FlipPieces.UseVisualStyleBackColor = true;
-            this.but_FlipPieces.Click += new System.EventHandler(this.but_FlipPieces_Click);
-            this.but_FlipPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_FlipPieces_MouseUp);
-            // 
-            // but_InvertPieces
-            // 
-            this.but_InvertPieces.Location = new System.Drawing.Point(60, 8);
-            this.but_InvertPieces.Name = "but_InvertPieces";
-            this.but_InvertPieces.NoPaddingText = null;
-            this.but_InvertPieces.Size = new System.Drawing.Size(53, 34);
-            this.but_InvertPieces.TabIndex = 1;
-            this.but_InvertPieces.Text = "Invert";
-            this.but_InvertPieces.UseVisualStyleBackColor = true;
-            this.but_InvertPieces.Click += new System.EventHandler(this.but_InvertPieces_Click);
-            this.but_InvertPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_InvertPieces_MouseUp);
-            // 
-            // but_RotatePieces
-            // 
-            this.but_RotatePieces.Location = new System.Drawing.Point(4, 8);
-            this.but_RotatePieces.Name = "but_RotatePieces";
-            this.but_RotatePieces.NoPaddingText = null;
-            this.but_RotatePieces.Size = new System.Drawing.Size(52, 34);
-            this.but_RotatePieces.TabIndex = 0;
-            this.but_RotatePieces.Text = "Rotate";
-            this.but_RotatePieces.UseVisualStyleBackColor = true;
-            this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
-            this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
-            // 
             // tabSkills
             // 
             this.tabSkills.Controls.Add(this.lbl_Skill_Fencer);
@@ -1553,139 +1489,190 @@
             // 
             // num_Ski_Fencer
             // 
+            this.num_Ski_Fencer.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Fencer.Location = new System.Drawing.Point(84, 188);
             this.num_Ski_Fencer.Name = "num_Ski_Fencer";
             this.num_Ski_Fencer.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Fencer.TabIndex = 24;
             this.num_Ski_Fencer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Fencer.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Fencer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Cloner
             // 
+            this.num_Ski_Cloner.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Cloner.Location = new System.Drawing.Point(84, 372);
             this.num_Ski_Cloner.Name = "num_Ski_Cloner";
             this.num_Ski_Cloner.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Cloner.TabIndex = 32;
             this.num_Ski_Cloner.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Cloner.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Cloner.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Stacker
             // 
+            this.num_Ski_Stacker.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Stacker.Location = new System.Drawing.Point(84, 349);
             this.num_Ski_Stacker.Name = "num_Ski_Stacker";
             this.num_Ski_Stacker.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Stacker.TabIndex = 31;
             this.num_Ski_Stacker.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Stacker.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Stacker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Platformer
             // 
+            this.num_Ski_Platformer.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Platformer.Location = new System.Drawing.Point(84, 326);
             this.num_Ski_Platformer.Name = "num_Ski_Platformer";
             this.num_Ski_Platformer.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Platformer.TabIndex = 30;
             this.num_Ski_Platformer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Platformer.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Platformer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Stoner
             // 
+            this.num_Ski_Stoner.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Stoner.Location = new System.Drawing.Point(84, 303);
             this.num_Ski_Stoner.Name = "num_Ski_Stoner";
             this.num_Ski_Stoner.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Stoner.TabIndex = 29;
             this.num_Ski_Stoner.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Stoner.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Stoner.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Disarmer
             // 
+            this.num_Ski_Disarmer.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Disarmer.Location = new System.Drawing.Point(84, 280);
             this.num_Ski_Disarmer.Name = "num_Ski_Disarmer";
             this.num_Ski_Disarmer.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Disarmer.TabIndex = 28;
             this.num_Ski_Disarmer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Disarmer.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Disarmer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Glider
             // 
+            this.num_Ski_Glider.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Glider.Location = new System.Drawing.Point(84, 257);
             this.num_Ski_Glider.Name = "num_Ski_Glider";
             this.num_Ski_Glider.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Glider.TabIndex = 27;
             this.num_Ski_Glider.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Glider.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Glider.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Swimmer
             // 
+            this.num_Ski_Swimmer.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Swimmer.Location = new System.Drawing.Point(84, 234);
             this.num_Ski_Swimmer.Name = "num_Ski_Swimmer";
             this.num_Ski_Swimmer.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Swimmer.TabIndex = 26;
             this.num_Ski_Swimmer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Swimmer.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Swimmer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Walker
             // 
+            this.num_Ski_Walker.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Walker.Location = new System.Drawing.Point(84, 211);
             this.num_Ski_Walker.Name = "num_Ski_Walker";
             this.num_Ski_Walker.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Walker.TabIndex = 25;
             this.num_Ski_Walker.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Walker.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Walker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Digger
             // 
+            this.num_Ski_Digger.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Digger.Location = new System.Drawing.Point(84, 165);
             this.num_Ski_Digger.Name = "num_Ski_Digger";
             this.num_Ski_Digger.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Digger.TabIndex = 23;
             this.num_Ski_Digger.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Digger.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Digger.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Miner
             // 
+            this.num_Ski_Miner.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Miner.Location = new System.Drawing.Point(84, 142);
             this.num_Ski_Miner.Name = "num_Ski_Miner";
             this.num_Ski_Miner.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Miner.TabIndex = 22;
             this.num_Ski_Miner.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Miner.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Miner.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Basher
             // 
+            this.num_Ski_Basher.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Basher.Location = new System.Drawing.Point(84, 119);
             this.num_Ski_Basher.Name = "num_Ski_Basher";
             this.num_Ski_Basher.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Basher.TabIndex = 21;
             this.num_Ski_Basher.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Basher.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Basher.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Builder
             // 
+            this.num_Ski_Builder.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Builder.Location = new System.Drawing.Point(84, 96);
             this.num_Ski_Builder.Name = "num_Ski_Builder";
             this.num_Ski_Builder.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Builder.TabIndex = 20;
             this.num_Ski_Builder.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Builder.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Builder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Exploder
             // 
+            this.num_Ski_Exploder.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Exploder.Location = new System.Drawing.Point(84, 50);
             this.num_Ski_Exploder.Name = "num_Ski_Exploder";
             this.num_Ski_Exploder.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Exploder.TabIndex = 18;
             this.num_Ski_Exploder.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Exploder.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Exploder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Blocker
             // 
+            this.num_Ski_Blocker.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Blocker.Location = new System.Drawing.Point(84, 73);
             this.num_Ski_Blocker.Name = "num_Ski_Blocker";
             this.num_Ski_Blocker.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Blocker.TabIndex = 19;
             this.num_Ski_Blocker.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Blocker.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Blocker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Floater
             // 
+            this.num_Ski_Floater.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Floater.Location = new System.Drawing.Point(84, 27);
             this.num_Ski_Floater.Name = "num_Ski_Floater";
             this.num_Ski_Floater.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Floater.TabIndex = 17;
             this.num_Ski_Floater.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Floater.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Floater.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // num_Ski_Climber
             // 
+            this.num_Ski_Climber.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.num_Ski_Climber.Location = new System.Drawing.Point(84, 4);
             this.num_Ski_Climber.Name = "num_Ski_Climber";
             this.num_Ski_Climber.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Climber.TabIndex = 16;
             this.num_Ski_Climber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Climber.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Climber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             // 
             // lbl_Skill_Cloner
             // 
@@ -1896,19 +1883,83 @@
             this.but_PieceLeft.Click += new System.EventHandler(this.but_PieceLeft_Click);
             this.but_PieceLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseUp);
             // 
-            // groupToolStripMenuItem
+            // but_MoveBackOne
             // 
-            this.groupToolStripMenuItem.Name = "groupToolStripMenuItem";
-            this.groupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.groupToolStripMenuItem.Text = "Group (G)";
-            this.groupToolStripMenuItem.Click += new System.EventHandler(this.groupToolStripMenuItem_Click);
+            this.but_MoveBackOne.Location = new System.Drawing.Point(88, 46);
+            this.but_MoveBackOne.Name = "but_MoveBackOne";
+            this.but_MoveBackOne.NoPaddingText = "One to Back";
+            this.but_MoveBackOne.Size = new System.Drawing.Size(40, 34);
+            this.but_MoveBackOne.TabIndex = 5;
+            this.but_MoveBackOne.UseVisualStyleBackColor = true;
+            this.but_MoveBackOne.Click += new System.EventHandler(this.but_MoveBackOne_Click);
+            this.but_MoveBackOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveBackOne_MouseUp);
             // 
-            // ungroupToolStripMenuItem
+            // but_MoveFrontOne
             // 
-            this.ungroupToolStripMenuItem.Name = "ungroupToolStripMenuItem";
-            this.ungroupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.ungroupToolStripMenuItem.Text = "Ungroup (H)";
-            this.ungroupToolStripMenuItem.Click += new System.EventHandler(this.ungroupToolStripMenuItem_Click);
+            this.but_MoveFrontOne.Location = new System.Drawing.Point(46, 46);
+            this.but_MoveFrontOne.Name = "but_MoveFrontOne";
+            this.but_MoveFrontOne.NoPaddingText = "One to Front";
+            this.but_MoveFrontOne.Size = new System.Drawing.Size(40, 34);
+            this.but_MoveFrontOne.TabIndex = 4;
+            this.but_MoveFrontOne.UseVisualStyleBackColor = true;
+            this.but_MoveFrontOne.Click += new System.EventHandler(this.but_MoveFrontOne_Click);
+            this.but_MoveFrontOne.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_MoveFrontOne_MouseUp);
+            // 
+            // but_MoveBack
+            // 
+            this.but_MoveBack.Location = new System.Drawing.Point(130, 46);
+            this.but_MoveBack.Name = "but_MoveBack";
+            this.but_MoveBack.NoPaddingText = "All to Back";
+            this.but_MoveBack.Size = new System.Drawing.Size(40, 34);
+            this.but_MoveBack.TabIndex = 6;
+            this.but_MoveBack.UseVisualStyleBackColor = true;
+            this.but_MoveBack.Click += new System.EventHandler(this.but_MoveBack_Click);
+            // 
+            // but_MoveFront
+            // 
+            this.but_MoveFront.Location = new System.Drawing.Point(4, 46);
+            this.but_MoveFront.Name = "but_MoveFront";
+            this.but_MoveFront.NoPaddingText = "All to Front";
+            this.but_MoveFront.Size = new System.Drawing.Size(40, 34);
+            this.but_MoveFront.TabIndex = 3;
+            this.but_MoveFront.UseVisualStyleBackColor = true;
+            this.but_MoveFront.Click += new System.EventHandler(this.but_MoveFront_Click);
+            // 
+            // but_FlipPieces
+            // 
+            this.but_FlipPieces.Location = new System.Drawing.Point(118, 8);
+            this.but_FlipPieces.Name = "but_FlipPieces";
+            this.but_FlipPieces.NoPaddingText = null;
+            this.but_FlipPieces.Size = new System.Drawing.Size(52, 34);
+            this.but_FlipPieces.TabIndex = 2;
+            this.but_FlipPieces.Text = "Flip";
+            this.but_FlipPieces.UseVisualStyleBackColor = true;
+            this.but_FlipPieces.Click += new System.EventHandler(this.but_FlipPieces_Click);
+            this.but_FlipPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_FlipPieces_MouseUp);
+            // 
+            // but_InvertPieces
+            // 
+            this.but_InvertPieces.Location = new System.Drawing.Point(60, 8);
+            this.but_InvertPieces.Name = "but_InvertPieces";
+            this.but_InvertPieces.NoPaddingText = null;
+            this.but_InvertPieces.Size = new System.Drawing.Size(53, 34);
+            this.but_InvertPieces.TabIndex = 1;
+            this.but_InvertPieces.Text = "Invert";
+            this.but_InvertPieces.UseVisualStyleBackColor = true;
+            this.but_InvertPieces.Click += new System.EventHandler(this.but_InvertPieces_Click);
+            this.but_InvertPieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_InvertPieces_MouseUp);
+            // 
+            // but_RotatePieces
+            // 
+            this.but_RotatePieces.Location = new System.Drawing.Point(4, 8);
+            this.but_RotatePieces.Name = "but_RotatePieces";
+            this.but_RotatePieces.NoPaddingText = null;
+            this.but_RotatePieces.Size = new System.Drawing.Size(52, 34);
+            this.but_RotatePieces.TabIndex = 0;
+            this.but_RotatePieces.Text = "Rotate";
+            this.but_RotatePieces.UseVisualStyleBackColor = true;
+            this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
+            this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
             // 
             // NLEditForm
             // 

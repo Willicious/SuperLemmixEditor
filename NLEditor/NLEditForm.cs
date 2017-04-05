@@ -507,6 +507,28 @@ namespace NLEditor
             RemoveFocus();
         }
 
+        /* -----------------------------------------------------------
+         *              Skill Selection Tab
+         * ----------------------------------------------------------- */
+
+        private void num_Skill_ValueChanged(object sender, EventArgs e)
+        {
+            var numBox = (NumericUpDown)sender;
+
+            if (numBox.Value == 0)
+            {
+                numBox.BackColor = SystemColors.InactiveBorder;
+            }
+            else
+            {
+                numBox.BackColor = SystemColors.Window;
+            }
+        }
+
+        private void num_Skill_KeyDown(object sender, KeyEventArgs e)
+        {
+            (sender as NumericUpDown).BackColor = SystemColors.Window;
+        }
 
         /* -----------------------------------------------------------
          *              Piece Selection
@@ -981,7 +1003,5 @@ namespace NLEditor
             selectForm.Location = new Point(formStartPosX, formStartPosY);
             selectForm.Show();
         }
-
-
     }
 }
