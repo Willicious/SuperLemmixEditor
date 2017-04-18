@@ -96,6 +96,19 @@ namespace NLEditor
             return new Rectangle(left, top, width, height);
         }
 
+        public static Rectangle RotateInRectangle(this Rectangle origRect, Rectangle border)
+        {
+            Point center = new Point(border.Left + border.Width / 2, border.Top + border.Height / 2);
+            Point oldCorner = new Point(origRect.Left, origRect.Bottom);
+
+            int newPosX = center.X + center.Y - oldCorner.Y;
+            int newPosY = center.Y + oldCorner.X - center.X;
+
+            return new Rectangle(newPosX, newPosY, origRect.Height, origRect.Width);
+        }
+
+
+
         /// <summary>
         /// Logs an exception message to AppPath/ErrorLog.txt.
         /// </summary>

@@ -168,11 +168,16 @@ namespace NLEditor
         {
             if (!MayRotate()) return;
 
+            Rectangle newPieceRect = new Rectangle(PosX, PosY, Width, Height).RotateInRectangle(borderRect);
+            PosX = newPieceRect.Left;
+            PosY = newPieceRect.Top;
+            /*
             Point center = new Point(borderRect.Left + borderRect.Width / 2, borderRect.Top + borderRect.Height / 2);
             Point oldCorner = new Point(PosX, PosY + Height);
 
             PosX = center.X + center.Y - oldCorner.Y;
             PosY = center.Y + oldCorner.X - center.X;
+            */
             Rotation = (IsInvert ? Rotation + 3 : ++Rotation) % 4;
         }
 
