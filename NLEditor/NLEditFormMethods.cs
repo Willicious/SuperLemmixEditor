@@ -117,8 +117,8 @@ namespace NLEditor
                 numericsSkillSet[skill].Value = CurLevel.SkillSet[skill];
             }
 
-            num_Lvl_StartX.Maximum = Math.Max(CurLevel.Width - 160, 160);
-            num_Lvl_StartY.Maximum = Math.Max(CurLevel.Height - 80, 80);
+            num_Lvl_StartX.Maximum = CurLevel.Width;
+            num_Lvl_StartY.Maximum = CurLevel.Height;
         }
 
         /// <summary>

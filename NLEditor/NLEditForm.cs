@@ -312,11 +312,10 @@ namespace NLEditor
 
         private void num_Lvl_SizeX_ValueChanged(object sender, EventArgs e)
         {
-            // Adapt max start position
-            num_Lvl_StartX.Maximum = Math.Max(num_Lvl_SizeX.Value - 160, 0);
-            num_Lvl_StartX.Minimum = Math.Min(160, num_Lvl_StartX.Maximum);
-
             CurLevel.Width = (int)num_Lvl_SizeX.Value;
+
+            // Adapt max start position
+            num_Lvl_StartX.Maximum = CurLevel.Width;
             CurLevel.StartPosX = (int)num_Lvl_StartX.Value;
 
             // Update screen position and render level
@@ -327,11 +326,10 @@ namespace NLEditor
 
         private void num_Lvl_SizeY_ValueChanged(object sender, EventArgs e)
         {
-            // Adapt max start position
-            num_Lvl_StartY.Maximum = Math.Max(num_Lvl_SizeY.Value - 80, 0);
-            num_Lvl_StartY.Minimum = Math.Min(80, num_Lvl_StartY.Maximum);
-
             CurLevel.Height = (int)num_Lvl_SizeY.Value;
+            
+            // Adapt max start position
+            num_Lvl_StartY.Maximum = CurLevel.Height;
             CurLevel.StartPosY = (int)num_Lvl_StartY.Value;
 
             // Update screen position and render level
