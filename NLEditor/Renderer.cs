@@ -544,11 +544,19 @@ namespace NLEditor
         private Bitmap AddScreenStartRectangle(Bitmap levelBmp)
         {
             Size levelScreenSize = level.ScreenSize;
-            Point levelScreenPos = new Point(level.StartPosX - levelScreenSize.Width / 2, level.StartPosY - levelScreenSize.Height / 2);
-            Rectangle levelScreenRect = new Rectangle(levelScreenPos, levelScreenSize);
+            int levelScreenPosX = level.StartPosX - levelScreenSize.Width / 2;
+            int levelScreenPosY = level.StartPosY - levelScreenSize.Height / 2;
+            levelScreenPosX = Math.Max(Math.Min(levelScreenPosX, level.Width - levelScreenSize.Width), 0);
+            levelScreenPosY = Math.Max(Math.Min(levelScreenPosY, level.Height - levelScreenSize.Height), 0);
+            Rectangle levelScreenRect = new Rectangle(levelScreenPosX, levelScreenPosX, levelScreenSize.Width, levelScreenSize.Height);
             Rectangle screenStartRect = GetPicRectFromLevelRect(levelScreenRect);
-            levelBmp.DrawOnRectangles(new List<Rectangle>() { screenStartRect }, C.NLColors[C.NLColor.ScreenStart]);
 
+            Point screenCenterPos = GetPicPointFromLevelPoint(level.StartPos);
+            Rectangle screenCenterRect1 = new Rectangle(screenCenterPos.X - 1, screenCenterPos.Y - 1, 3, 3);
+            Rectangle screenCenterRect2 = new Rectangle(screenCenterPos.X - 3, screenCenterPos.Y - 3, 7, 7);
+
+            levelBmp.DrawOnRectangles(new List<Rectangle>() { screenStartRect, screenCenterRect1, screenCenterRect2 }, 
+                                      C.NLColors[C.NLColor.ScreenStart]);
             return levelBmp;
         }
 
