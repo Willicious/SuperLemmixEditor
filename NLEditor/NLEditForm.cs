@@ -10,7 +10,7 @@ namespace NLEditor
     /// <summary>
     /// Main editor form.
     /// </summary>
-    public partial class NLEditForm : Form
+    partial class NLEditForm : Form
     {
         /*---------------------------------------------------------
          *   Main Form: This part defines the variables 
@@ -25,6 +25,9 @@ namespace NLEditor
             InitializeComponent();
             RemoveFocus();
             SetRepeatButtonIntervals();
+
+            C.ScreenSize = new ScreenSize();
+            C.ScreenSize.InizializeSettings();
 
             LoadStylesFromFile.AddInitialImagesToLibrary();
 
@@ -101,7 +104,7 @@ namespace NLEditor
         public Level CurLevel { get; private set; }
         public List<Style> StyleList { get; private set; }
         Renderer curRenderer;
-        Settings curSettings; 
+        Settings curSettings;
 
         List<Level> oldLevelList;
         int curOldLevelIndex;

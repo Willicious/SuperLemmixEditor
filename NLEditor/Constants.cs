@@ -6,7 +6,7 @@ namespace NLEditor
 {
     using THotkeyTexts = Dictionary<C.HotkeyTabs, List<string>>;
 
-    public class C // for Constants
+    class C // for Constants
     {
         public static string Version => "0.5";
 
@@ -20,6 +20,8 @@ namespace NLEditor
         public static string NewLine => Environment.NewLine;
 
         public static Size PicPieceSize => new Size(84, 84);
+
+        public static ScreenSize ScreenSize;
 
         public enum CustDrawMode 
         { 

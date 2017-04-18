@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace NLEditor
 {
-    public partial class NLEditForm
+    partial class NLEditForm
     {
         /*---------------------------------------------------------
          *   Main Form: This part defines the methods

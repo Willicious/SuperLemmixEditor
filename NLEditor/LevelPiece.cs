@@ -9,7 +9,7 @@ namespace NLEditor
     /// <summary>
     /// Abstract class for all pieces.
     /// </summary>
-    public abstract class LevelPiece
+    abstract class LevelPiece
     {
         /*---------------------------------------------------------
          *          This class stores infos about pieces
@@ -171,13 +171,6 @@ namespace NLEditor
             Rectangle newPieceRect = new Rectangle(PosX, PosY, Width, Height).RotateInRectangle(borderRect);
             PosX = newPieceRect.Left;
             PosY = newPieceRect.Top;
-            /*
-            Point center = new Point(borderRect.Left + borderRect.Width / 2, borderRect.Top + borderRect.Height / 2);
-            Point oldCorner = new Point(PosX, PosY + Height);
-
-            PosX = center.X + center.Y - oldCorner.Y;
-            PosY = center.Y + oldCorner.X - center.X;
-            */
             Rotation = (IsInvert ? Rotation + 3 : ++Rotation) % 4;
         }
 
@@ -235,7 +228,7 @@ namespace NLEditor
     /// <summary>
     /// This stored all data of a terrain piece. Inherits from LevelPiece.
     /// </summary>
-    public class TerrainPiece : LevelPiece
+    class TerrainPiece : LevelPiece
     {
         /*---------------------------------------------------------
          *      This class stores infos about terrain pieces
@@ -306,7 +299,7 @@ namespace NLEditor
     /// <summary>
     /// This stored all data of a gadget. Inherits from LevelPiece.
     /// </summary>
-    public class GadgetPiece : LevelPiece
+    class GadgetPiece : LevelPiece
     { 
         public GadgetPiece(string key, Point pos)
             : base(key, true, pos)
@@ -579,7 +572,7 @@ namespace NLEditor
     /// <summary>
     /// This stored all data of a gadget. Inherits from LevelPiece.
     /// </summary>
-    public class GroupPiece : TerrainPiece
+    class GroupPiece : TerrainPiece
     { 
         public GroupPiece(GroupPiece oldGroupPiece, Point pos)
             : base(oldGroupPiece.Key, pos)

@@ -8,7 +8,7 @@ namespace NLEditor
     /// <summary>
     /// Stores and modifies the data of a lemming level.
     /// </summary>
-    public class Level
+    class Level
     {
         /// <summary>
         /// Creates a new level with the default values.
@@ -84,6 +84,8 @@ namespace NLEditor
         public bool IsNoTimeLimit { get; set; }
 
         public Dictionary<C.Skill, int> SkillSet { get; set; }
+
+        public Size ScreenSize => C.ScreenSize.ScreenArea(Width, Height);
 
         /// <summary>
         /// Creates a deep copy of the level.

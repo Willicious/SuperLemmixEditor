@@ -9,7 +9,7 @@ namespace NLEditor
     /// <summary>
     /// Stores all data of a graphics style, except the images themselves.
     /// </summary>
-    public class Style
+    class Style
     {
         /*---------------------------------------------------------
          *          This class stores all style infos

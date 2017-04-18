@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace NLEditor
 {
-    public partial class FormPieceSelection : Form
+    partial class FormPieceSelection : Form
     {
         public FormPieceSelection(NLEditForm editorForm, Style style, bool doDisplayObjects, int startIndex, 
                                   Point mousePosInLevel, Style mainStyle = null)

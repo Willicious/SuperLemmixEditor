@@ -7,7 +7,7 @@ namespace NLEditor
     /// <summary>
     /// Stores the common unchangable data of pieces.
     /// </summary>
-    public class BaseImageInfo
+    class BaseImageInfo
     {
         /// <summary>
         /// Use this to create the base-info of a new terrain piece.
