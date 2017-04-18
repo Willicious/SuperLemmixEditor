@@ -133,7 +133,7 @@ namespace NLEditor
                         "Shift + Alt + Right/Left",
                         "Shift + Up/Down",
                         "Shift + Space",
-                        "Ctrl + Number",
+                        "1, 2, 3, ..., 9, 0",
                         "",
                         "F1", 
                         "F2", 

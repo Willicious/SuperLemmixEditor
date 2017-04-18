@@ -744,7 +744,7 @@ namespace NLEditor
             {
                 CopySelectedPieces();
             }
-            else if (e.Control && e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
+            else if (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
             {
                 int keyValue = e.KeyValue - (int)Keys.D0;
                 if (keyValue == 0) keyValue = 10;
@@ -755,7 +755,7 @@ namespace NLEditor
                     UpdateFlagsForPieceActions();
                 }
             }
-            else if (e.Control && e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
+            else if (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
             {
                 int keyValue = e.KeyValue - (int)Keys.NumPad0;
                 if (keyValue == 0) keyValue = 10;
