@@ -380,13 +380,12 @@ namespace NLEditor
 
                 if (ObjType != C.OBJ.ONE_WAY_WALL)
                 {
-                    /*
                     // Rotate the trigger area correctly
                     if (IsRotatedInPlayer)
                     {
-                        trigRect = new Rectangle(ImageRectangle.Height - trigRect.Bottom, trigRect.X, trigRect.Height, trigRect.Width);
+                        int origImageHeight = ImageRectangle.Width;
+                        trigRect = new Rectangle(origImageHeight - trigRect.Bottom, trigRect.X, trigRect.Height, trigRect.Width);
                     }
-                    */
 
                     // Adjust to flipping
                     if (IsFlippedInPlayer)
@@ -404,12 +403,12 @@ namespace NLEditor
                     if (IsInvertedInPlayer && !IsRotatedInPlayer)
                     {
                         trigRect.Y += 10;
-                    }/*
+                    }
                     else if (IsRotatedInPlayer)
                     {
-                        trigRect.X += IsFlippedInPlayer ? -5 : 5;
+                        trigRect.X += IsFlippedInPlayer ? -4 : 4;
                         trigRect.Y += 5;
-                    }*/
+                    }
                 }
 
                 // Shift to position relative to level
