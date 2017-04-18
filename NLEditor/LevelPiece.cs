@@ -453,7 +453,7 @@ namespace NLEditor
 
         public override bool MayRotate()
         {
-            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.FIRE, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL);
+            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL);
         }
 
         public override bool MayFlip()
@@ -466,7 +466,7 @@ namespace NLEditor
 
         public override bool MayInvert()
         {
-            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.FIRE, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL);
+            return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL);
         }
 
         public override bool MayReceiveSkill(C.Skill skill)

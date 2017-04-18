@@ -43,18 +43,6 @@ namespace NLEditor
     /// </summary>
     class FileParser
     {
-        /*---------------------------------------------------------
-         *          This class parses NeoLemmix files
-         * -------------------------------------------------------- */
-
-        /*---------------------------------------------------------
-         *  public methods:
-         *    FileParser(string FilePath)
-         *    DisposeStreamReader()  
-         * 
-         *    GetNextLines()
-         * -------------------------------------------------------- */
-
         /// <summary>
         /// Initializes a new instance of the NLEditor.FileParser class and opens the text file to be parsed. 
         /// <para> You have to catch exceptions in the method creating the FileParser. </para>
