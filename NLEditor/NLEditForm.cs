@@ -315,7 +315,7 @@ namespace NLEditor
             CurLevel.Width = (int)num_Lvl_SizeX.Value;
 
             // Adapt max start position
-            num_Lvl_StartX.Maximum = CurLevel.Width;
+            num_Lvl_StartX.Maximum = CurLevel.Width - 1;
             CurLevel.StartPosX = (int)num_Lvl_StartX.Value;
 
             // Update screen position and render level
@@ -329,12 +329,26 @@ namespace NLEditor
             CurLevel.Height = (int)num_Lvl_SizeY.Value;
             
             // Adapt max start position
-            num_Lvl_StartY.Maximum = CurLevel.Height;
+            num_Lvl_StartY.Maximum = CurLevel.Height - 1;
             CurLevel.StartPosY = (int)num_Lvl_StartY.Value;
 
             // Update screen position and render level
             curRenderer.ChangeZoom(0);
             RepositionPicLevel();
+            pic_Level.Image = curRenderer.CreateLevelImage();
+        }
+
+        private void num_Lvl_StartX_ValueChanged(object sender, EventArgs e)
+        {
+            CurLevel.StartPosX = (int)num_Lvl_StartX.Value;
+            // Render level
+            pic_Level.Image = curRenderer.CreateLevelImage();
+        }
+
+        private void num_Lvl_StartY_ValueChanged(object sender, EventArgs e)
+        {
+            CurLevel.StartPosY = (int)num_Lvl_StartY.Value;
+            // Render level
             pic_Level.Image = curRenderer.CreateLevelImage();
         }
 

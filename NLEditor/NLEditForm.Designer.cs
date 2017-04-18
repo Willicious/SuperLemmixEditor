@@ -860,7 +860,7 @@
             0});
             this.num_Lvl_StartY.Location = new System.Drawing.Point(121, 136);
             this.num_Lvl_StartY.Maximum = new decimal(new int[] {
-            160,
+            159,
             0,
             0,
             0});
@@ -873,6 +873,7 @@
             0,
             0,
             0});
+            this.num_Lvl_StartY.ValueChanged += new System.EventHandler(this.num_Lvl_StartY_ValueChanged);
             // 
             // num_Lvl_StartX
             // 
@@ -883,7 +884,7 @@
             0});
             this.num_Lvl_StartX.Location = new System.Drawing.Point(70, 136);
             this.num_Lvl_StartX.Maximum = new decimal(new int[] {
-            320,
+            319,
             0,
             0,
             0});
@@ -896,6 +897,7 @@
             0,
             0,
             0});
+            this.num_Lvl_StartX.ValueChanged += new System.EventHandler(this.num_Lvl_StartX_ValueChanged);
             // 
             // lbl_Global_StartPos
             // 
