@@ -138,7 +138,7 @@ namespace NLEditor
                 // Round up on the separate zoom factors.
                 int zoomHoriz = (windowSize.Width + levelWidth - 1) / levelWidth;
                 int zoomVert = (windowSize.Height + levelHeight - 1) / levelHeight;
-                zoom = Math.Max(zoomHoriz, zoomVert);
+                zoom = Math.Max(Math.Max(zoomHoriz, zoomVert), zoomFactor);
             }
 
             // Round up on the screen width and height.
