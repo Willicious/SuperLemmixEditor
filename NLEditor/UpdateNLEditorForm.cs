@@ -6,12 +6,11 @@ using System.Windows.Forms;
 
 namespace NLEditor
 {
+    /// <summary>
+    /// Main Form: This part defines the methods updating the form members
+    /// </summary>
     partial class NLEditForm
     {
-        /*---------------------------------------------------------
-        *   Main Form: This part defines the methods
-        *     updating the form members
-        * -------------------------------------------------------- */
         /// <summary>
         /// Initializes the intervals for all repeat buttons.
         /// </summary>

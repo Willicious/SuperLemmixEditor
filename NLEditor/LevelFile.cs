@@ -324,8 +324,8 @@ namespace NLEditor
             newLevel.Width = Math.Max(Math.Min(newLevel.Width, 2400), 1);
             newLevel.Height = Math.Max(Math.Min(newLevel.Height, 2400), 1);
             // Start position
-            newLevel.StartPosX = Math.Max(Math.Min(newLevel.StartPosX, newLevel.Width - 160), 160);
-            newLevel.StartPosY = Math.Max(Math.Min(newLevel.StartPosY, newLevel.Height - 80), 80);
+            newLevel.StartPosX = Math.Max(Math.Min(newLevel.StartPosX, newLevel.Width - 1), 0);
+            newLevel.StartPosY = Math.Max(Math.Min(newLevel.StartPosY, newLevel.Height - 1), 0);
             // Global level properties
             newLevel.NumLems = Math.Max(Math.Min(newLevel.NumLems, 500), 1);
             newLevel.SaveReq = Math.Max(Math.Min(newLevel.SaveReq, 500), 1);

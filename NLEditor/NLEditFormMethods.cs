@@ -99,10 +99,27 @@ namespace NLEditor
             txt_LevelTitle.Text = CurLevel.Title;
             combo_Music.Text = CurLevel.MusicFile;
             combo_MainStyle.Text = (CurLevel.MainStyle != null) ? CurLevel.MainStyle.NameInEditor : "";
+
+            // Set size and start position, but without calling the Value_Changed methods,
+            // because they automatically call validation of the start position resp. render the level again.
+            num_Lvl_SizeX.ValueChanged -= num_Lvl_SizeX_ValueChanged;
+            num_Lvl_SizeY.ValueChanged -= num_Lvl_SizeY_ValueChanged;
+            num_Lvl_StartX.ValueChanged -= num_Lvl_StartX_ValueChanged;
+            num_Lvl_StartY.ValueChanged -= num_Lvl_StartY_ValueChanged;
+
             num_Lvl_SizeX.Value = CurLevel.Width;
             num_Lvl_SizeY.Value = CurLevel.Height;
+            num_Lvl_StartX.Maximum = CurLevel.Width - 1;
+            num_Lvl_StartY.Maximum = CurLevel.Height - 1;
             num_Lvl_StartX.Value = CurLevel.StartPosX;
             num_Lvl_StartY.Value = CurLevel.StartPosY;
+
+            num_Lvl_SizeX.ValueChanged += num_Lvl_SizeX_ValueChanged;
+            num_Lvl_SizeY.ValueChanged += num_Lvl_SizeY_ValueChanged;
+            num_Lvl_StartX.ValueChanged += num_Lvl_StartX_ValueChanged;
+            num_Lvl_StartY.ValueChanged += num_Lvl_StartY_ValueChanged;
+
+            // Add the rest of the values
             num_Lvl_Lems.Value = CurLevel.NumLems;
             num_Lvl_Rescue.Value = CurLevel.SaveReq;
             num_Lvl_RR.Value = CurLevel.ReleaseRate;
@@ -116,9 +133,6 @@ namespace NLEditor
             {
                 numericsSkillSet[skill].Value = CurLevel.SkillSet[skill];
             }
-
-            num_Lvl_StartX.Maximum = CurLevel.Width;
-            num_Lvl_StartY.Maximum = CurLevel.Height;
         }
 
         /// <summary>
