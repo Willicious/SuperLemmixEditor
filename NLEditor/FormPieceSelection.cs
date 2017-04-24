@@ -88,7 +88,8 @@ namespace NLEditor
                     Bitmap pieceImage = ImageLibrary.GetImage(pieceKey, RotateFlipType.RotateNoneFlipNone, frameIndex);
                     if (pieceKey.StartsWith("default") && ImageLibrary.GetObjType(pieceKey) == C.OBJ.ONE_WAY_WALL)
                     {
-                        pieceImage = BmpModify.RecolorOWW(pieceImage, mainStyle);
+                        Color blendColor = mainStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? C.NLColors[C.NLColor.OWWDefault];
+                        pieceImage = pieceImage.ApplyThemeColor(blendColor);
                     }
                     picPieceList[picIndex].BackColor = mainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.NLColors[C.NLColor.BackDefault];
                     picPieceList[picIndex].Image = pieceImage;

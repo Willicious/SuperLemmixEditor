@@ -249,9 +249,7 @@ namespace NLEditor
         /// </summary>
         /// <returns></returns>
         public Bitmap CreateLevelImage()
-        {
-            SetCustomDrawModeForOWW(); // Currently here, because we use the custom draw mode only for default OWWs.
-            
+        {            
             UpdateLayerBmpSize();
             
             CreateObjectBackLayer();
@@ -273,19 +271,6 @@ namespace NLEditor
                 CreateBackgroundLayer();
             }
         }
-
-        /// <summary>
-        /// Sets the custom draw mode to draw default OWWs according to the color scheme of the main style.
-        /// </summary>
-        private void SetCustomDrawModeForOWW()
-        {
-            Color owwColor = level.MainStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) 
-                                    ?? C.NLColors[C.NLColor.OWWDefault];
-            byte[] owwColorBytes = new byte[] { owwColor.B, owwColor.G, owwColor.R, owwColor.A };
-
-            BmpModify.SetCustomDrawMode((x, y) => owwColorBytes, BmpModify.DoDrawThisPixel_OnlyAtOWW);
-        }
-
 
         /// <summary>
         /// Creates the background layer with the correct background color and background image.
@@ -413,8 +398,16 @@ namespace NLEditor
             var owwGadgetList = level.GadgetList.FindAll(gad => gad.ObjType == C.OBJ.ONE_WAY_WALL);
             foreach (GadgetPiece gadget in owwGadgetList)
             {
-                C.CustDrawMode drawMode = (gadget.Style != "default") ? C.CustDrawMode.OnlyAtOWW : C.CustDrawMode.Custom;
-                layerImages[C.Layer.ObjTop].DrawOn(gadget.Image, layerImages[C.Layer.Terrain], gadget.Pos, drawMode);
+                Bitmap gadgetImage;
+                if (gadget.Style != "default")
+                {
+                    gadgetImage = gadget.Image;
+                }
+                else
+                {
+                    gadgetImage = gadget.Image.ApplyThemeColor(level.GetThemeColor(C.StyleColor.ONE_WAY_WALL));
+                }
+                layerImages[C.Layer.ObjTop].DrawOn(gadgetImage, layerImages[C.Layer.Terrain], gadget.Pos, C.CustDrawMode.OnlyAtOWW);
             }
 
             var normalGadgetList = level.GadgetList.FindAll(gad => 

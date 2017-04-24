@@ -6,7 +6,7 @@ namespace NLEditor
 {
     using THotkeyTexts = Dictionary<C.HotkeyTabs, List<string>>;
 
-    class C // for Constants
+    static class C // for Constants
     {
         public static string Version => "0.5";
 
@@ -54,6 +54,15 @@ namespace NLEditor
         public enum StyleColor
         { 
             BACKGROUND, ONE_WAY_WALL, MASK, PICKUP_BORDER, PICKUP_INSIDE 
+        }
+        public static NLColor ToNLColor(this StyleColor styleColor)
+        {
+            switch (styleColor)
+            {
+                case StyleColor.BACKGROUND: return NLColor.BackDefault;
+                case StyleColor.ONE_WAY_WALL: return NLColor.OWWDefault;
+                default: return NLColor.BackDefault;
+            }
         }
 
         public static readonly Dictionary<OBJ, string> TooltipList = new Dictionary<OBJ, string>

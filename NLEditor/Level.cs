@@ -173,6 +173,16 @@ namespace NLEditor
             return true;
         }
 
+        /// <summary>
+        /// Returns the theme color as specified by the main style.
+        /// </summary>
+        /// <param name="styleColor"></param>
+        /// <returns></returns>
+        public Color GetThemeColor(C.StyleColor styleColor)
+        {
+            return MainStyle?.GetColor(styleColor) ?? C.NLColors[styleColor.ToNLColor()];
+        }
+
 
         /// <summary>
         /// Creates a new piece and adds it to the level.

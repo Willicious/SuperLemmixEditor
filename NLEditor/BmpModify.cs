@@ -63,6 +63,7 @@ namespace NLEditor
         private static readonly byte[] COLOR_RECTANGLE_LIGHT = { 240, 240, 240, 255 };
         private static readonly byte[] COLOR_RECTANGLE_DARK = { 30, 30, 30, 255 };
 
+        [Obsolete]
         public static void SetCustomDrawMode(Func<int, int, byte[]> colorFunc, Func<byte, byte, bool> drawTypeFunc)
         {
             colorFuncDict[C.CustDrawMode.Custom] = colorFunc;
@@ -156,6 +157,21 @@ namespace NLEditor
             ptrToPixel[2] = ptrToNewPixel[2];
             ptrToPixel[3] = alpha;
         }
+
+        /// <summary>
+        /// Automatically blends the bytes of the NewPixel with a given color and assigns this value.
+        /// </summary>
+        /// <param name="ptrToPixel"></param>
+        /// <param name="ptrToNewPixel"></param>
+        /// <param name="colorBytes"></param>
+        private static unsafe void ChangePixel(byte* ptrToPixel, byte* ptrToNewPixel, byte[] colorBytes)
+        {
+            ptrToPixel[0] = (byte)(ptrToNewPixel[0] * colorBytes[0] / 255);
+            ptrToPixel[1] = (byte)(ptrToNewPixel[1] * colorBytes[1] / 255);
+            ptrToPixel[2] = (byte)(ptrToNewPixel[2] * colorBytes[2] / 255);
+            ptrToPixel[3] = 255;
+        }
+
 
         /// <summary>
         /// Copies the bytes of the NewPixel to the pixel pointed to in the first argument using swapped alpha blending.
@@ -569,6 +585,54 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Blends a sprite image with a given color.
+        /// </summary>
+        /// <param name="origBmp"></param>
+        /// <param name="blendColor"></param>
+        /// <returns></returns>
+        public static Bitmap ApplyThemeColor(this Bitmap origBmp, Color blendColor)
+        {
+            byte[] blendColorBytes = new byte[] { blendColor.B, blendColor.G, blendColor.R, 255 };
+
+            Rectangle origBmpRect = new Rectangle(0, 0, origBmp.Width, origBmp.Height);
+            Bitmap newBmp = new Bitmap(origBmpRect.Width, origBmpRect.Height);
+
+            unsafe
+            {
+                // Get pointer to first pixel of OrigBitmap
+                BitmapData origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadOnly, origBmp.PixelFormat);
+                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
+
+                // Get pointer to first pixel of NewBitmap
+                BitmapData newBmpData = newBmp.LockBits(origBmpRect, ImageLockMode.WriteOnly, newBmp.PixelFormat);
+                byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
+                Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
+
+                // Copy the pixels
+                Parallel.For(0, origBmpRect.Height, y =>
+                {
+                    // We start curOrigLine and curNewLine at pixel (0, y)
+                    byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
+                    byte* curNewLine = ptrNewFirstPixel + y * newBmpData.Stride;
+
+                    for (int x = 0; x < origBmpRect.Width; x++)
+                    {
+                        if (curOrigLine[x * BytesPerPixel + 3] > 63)
+                        {
+                            ChangePixel(curNewLine + x * BytesPerPixel, curOrigLine + x * BytesPerPixel, blendColorBytes);
+                        }
+                    }
+                });
+
+                origBmp.UnlockBits(origBmpData);
+                newBmp.UnlockBits(newBmpData);
+            }
+
+            return newBmp;
+        }
+
 
         /// <summary>
         /// Zooms a bitmap.
@@ -853,6 +917,7 @@ namespace NLEditor
             return new Point(posX, posY);
         }
 
+        [Obsolete]
         /// <summary>
         /// Returns a recolored OWW according to the OWW color of the given style.
         /// </summary>

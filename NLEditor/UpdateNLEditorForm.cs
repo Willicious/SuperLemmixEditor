@@ -65,7 +65,7 @@ namespace NLEditor
 
                 if (pieceKey.StartsWith("default") && ImageLibrary.GetObjType(pieceKey) == C.OBJ.ONE_WAY_WALL)
                 {
-                    pieceImage = BmpModify.RecolorOWW(pieceImage, CurLevel.MainStyle);
+                    pieceImage = pieceImage.ApplyThemeColor(CurLevel.GetThemeColor(C.StyleColor.ONE_WAY_WALL));
                 }
 
                 picPieceList[i].Image = pieceImage;
