@@ -153,6 +153,7 @@ namespace NLEditor
             WriteLevelInfoToForm();
             UpdateBackgroundImage();
             UpdateFlagsForPieceActions();
+            RepositionPicLevel();
             pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
@@ -178,6 +179,7 @@ namespace NLEditor
 
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
+            RepositionPicLevel();
             pic_Level.Image = curRenderer.CreateLevelImage();
 
             combo_PieceStyle.Text = CurLevel.MainStyle?.NameInEditor;
