@@ -541,7 +541,7 @@ namespace NLEditor
             int levelScreenPosY = level.StartPosY - levelScreenSize.Height / 2;
             levelScreenPosX = Math.Max(Math.Min(levelScreenPosX, level.Width - levelScreenSize.Width), 0);
             levelScreenPosY = Math.Max(Math.Min(levelScreenPosY, level.Height - levelScreenSize.Height), 0);
-            Rectangle levelScreenRect = new Rectangle(levelScreenPosX, levelScreenPosX, levelScreenSize.Width, levelScreenSize.Height);
+            Rectangle levelScreenRect = new Rectangle(levelScreenPosX, levelScreenPosY, levelScreenSize.Width, levelScreenSize.Height);
             Rectangle screenStartRect = GetPicRectFromLevelRect(levelScreenRect);
 
             Point screenCenterPos = GetPicPointFromLevelPoint(level.StartPos);
