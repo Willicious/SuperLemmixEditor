@@ -121,16 +121,17 @@ namespace NLEditor
         /// <param name="mousePos"></param>
         public void SetDraggingVars(Point mousePos, C.DragActions dragAction)
         {
+            if (dragAction == C.DragActions.Null) return;
+
             MouseDragAction = dragAction;
             MouseStartPos = mousePos;
             MouseCurPos = mousePos;
-            if (dragAction == C.DragActions.MoveEditorPos)
+
+            switch (dragAction)
             {
-                LevelStartPos = ScreenPos;
-            }
-            else if (dragAction == C.DragActions.DragPieces)
-            {
-                LevelStartPos = level.SelectionRectangle().Location;
+                case C.DragActions.MoveEditorPos: LevelStartPos = ScreenPos; break;
+                case C.DragActions.DragPieces: LevelStartPos = level.SelectionRectangle().Location; break;
+                case C.DragActions.MoveStartPos: LevelStartPos = level.StartPos; break;
             }
         }
 
@@ -529,6 +530,20 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Gets the screen start rectangle in level coordinates.
+        /// </summary>
+        /// <returns></returns>
+        public Rectangle ScreenStartRectangle()
+        {
+            Size levelScreenSize = level.ScreenSize;
+            int levelScreenPosX = level.StartPosX - levelScreenSize.Width / 2;
+            int levelScreenPosY = level.StartPosY - levelScreenSize.Height / 2;
+            levelScreenPosX = Math.Max(Math.Min(levelScreenPosX, level.Width - levelScreenSize.Width), 0);
+            levelScreenPosY = Math.Max(Math.Min(levelScreenPosY, level.Height - levelScreenSize.Height), 0);
+            return new Rectangle(levelScreenPosX, levelScreenPosY, levelScreenSize.Width, levelScreenSize.Height);
+        }
+
+        /// <summary>
         /// Adds the screen start rectangle to the zoomed and cropped image.
         /// </summary>
         /// <param name="levelBmp"></param>
@@ -536,13 +551,7 @@ namespace NLEditor
         /// <returns></returns>
         private Bitmap AddScreenStartRectangle(Bitmap levelBmp)
         {
-            Size levelScreenSize = level.ScreenSize;
-            int levelScreenPosX = level.StartPosX - levelScreenSize.Width / 2;
-            int levelScreenPosY = level.StartPosY - levelScreenSize.Height / 2;
-            levelScreenPosX = Math.Max(Math.Min(levelScreenPosX, level.Width - levelScreenSize.Width), 0);
-            levelScreenPosY = Math.Max(Math.Min(levelScreenPosY, level.Height - levelScreenSize.Height), 0);
-            Rectangle levelScreenRect = new Rectangle(levelScreenPosX, levelScreenPosY, levelScreenSize.Width, levelScreenSize.Height);
-            Rectangle screenStartRect = GetPicRectFromLevelRect(levelScreenRect);
+            Rectangle screenStartRect = GetPicRectFromLevelRect(ScreenStartRectangle());
 
             Point screenCenterPos = GetPicPointFromLevelPoint(level.StartPos);
             Rectangle screenCenterRect1 = new Rectangle(screenCenterPos.X - 1, screenCenterPos.Y - 1, 3, 3);

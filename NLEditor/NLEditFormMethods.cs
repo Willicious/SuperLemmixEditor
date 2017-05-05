@@ -91,7 +91,6 @@ namespace NLEditor
 
         /// <summary>
         /// Takes the global level settings and displays them in the correct form fields.
-        /// <para> This method indirectly calls RepositionPicLevel(), too. </para>
         /// </summary>
         private void WriteLevelInfoToForm()
         {
@@ -158,7 +157,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Displays a file browse and loads the selected level
+        /// Displays a file browser and loads the selected level
         /// </summary>
         private void LoadNewLevel()
         {
@@ -319,6 +318,53 @@ namespace NLEditor
 
             but_PieceTerrObj.Text = pieceDoDisplayObject ? "Get Terrain" : "Get Objects";
         }
+
+        /// <summary>
+        /// Moves the screen start position to the given level coordinates.
+        /// </summary>
+        /// <param name="newCenter"></param>
+        private void MoveScreenStartPosition(Point newCenter)
+        {
+            // Ensure that the new center position is within the correct bounds.
+            int newCenterX = newCenter.X.Restrict(0, (int)num_Lvl_StartX.Maximum);
+            int newCenterY = newCenter.Y.Restrict(0, (int)num_Lvl_StartY.Maximum);
+
+            // Remove these events to combine layers only once.
+            num_Lvl_StartX.ValueChanged -= num_Lvl_StartX_ValueChanged;
+            num_Lvl_StartY.ValueChanged -= num_Lvl_StartY_ValueChanged;
+            
+            num_Lvl_StartX.Value = newCenterX;
+            num_Lvl_StartY.Value = newCenterY;
+            CurLevel.StartPosX = newCenterX;
+            CurLevel.StartPosY = newCenterY;
+
+            num_Lvl_StartX.ValueChanged += num_Lvl_StartX_ValueChanged;
+            num_Lvl_StartY.ValueChanged += num_Lvl_StartY_ValueChanged;
+
+            // Save the changes and combine the layers now.
+            pic_Level.Image = curRenderer.CombineLayers();
+            SaveChangesToOldLevelList();
+        }
+
+        /// <summary>
+        /// Moves the current screen start position by 8 pixels in the given direction.
+        /// </summary>
+        /// <param name="direction"></param>
+        private void MoveScreenStartPosition(C.DIR direction)
+        {
+            Point newCenter;
+            switch (direction)
+            {
+                case C.DIR.N: newCenter = new Point(CurLevel.StartPosX, CurLevel.StartPosY - 8); break;
+                case C.DIR.S: newCenter = new Point(CurLevel.StartPosX, CurLevel.StartPosY + 8); break;
+                case C.DIR.E: newCenter = new Point(CurLevel.StartPosX + 8, CurLevel.StartPosY); break;
+                case C.DIR.W: newCenter = new Point(CurLevel.StartPosX - 8, CurLevel.StartPosY); break;
+                default: newCenter = CurLevel.StartPos; break;
+            }
+
+            MoveScreenStartPosition(newCenter);
+        }
+
 
         /// <summary>
         /// Displays new pieces on the piece selection bar.

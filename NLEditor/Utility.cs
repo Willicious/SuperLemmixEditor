@@ -46,6 +46,19 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Restricts an integer to an interval between min and max (inclusive).
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static int Restrict(this int x, int min, int max)
+        {
+            System.Diagnostics.Debug.Assert(max >= min, "int.Restrict called with minimum larger than the maximum.");
+            return Math.Min(Math.Max(x, min), max);
+        }
+
+        /// <summary>
         /// Loads a bitmap from a file and closes the file again.
         /// </summary>
         /// <param name="filePath"></param>

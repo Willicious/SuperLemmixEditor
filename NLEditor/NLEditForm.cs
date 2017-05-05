@@ -8,15 +8,10 @@ using System.Diagnostics;
 namespace NLEditor
 {
     /// <summary>
-    /// Main editor form.
+    /// Main editor form: Receives user input.
     /// </summary>
     partial class NLEditForm : Form
-    {
-        /*---------------------------------------------------------
-         *   Main Form: This part defines the variables 
-         *     and reads all the user input
-         * -------------------------------------------------------- */
-        
+    {        
         /// <summary>
         /// Initializes all important components and load an empty level.
         /// </summary>
@@ -118,7 +113,7 @@ namespace NLEditor
         bool isShiftPressed;
         bool isCtrlPressed;
         bool isAltPressed;
-        
+        bool isPPressed;   
 
         private void NLEditForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -154,7 +149,6 @@ namespace NLEditor
         /* -----------------------------------------------------------
          *              Menu Items
          * ----------------------------------------------------------- */
-
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -341,15 +335,13 @@ namespace NLEditor
         private void num_Lvl_StartX_ValueChanged(object sender, EventArgs e)
         {
             CurLevel.StartPosX = (int)num_Lvl_StartX.Value;
-            // Render level
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void num_Lvl_StartY_ValueChanged(object sender, EventArgs e)
         {
             CurLevel.StartPosY = (int)num_Lvl_StartY.Value;
-            // Render level
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.Image = curRenderer.CombineLayers();
         }
 
 
@@ -624,6 +616,7 @@ namespace NLEditor
                 case Keys.ShiftKey: isShiftPressed = true; break;
                 case Keys.ControlKey: isCtrlPressed = true; break;
                 case Keys.Menu: isAltPressed = true; break;
+                case Keys.P: isPPressed = true; break;
             }
 
             
@@ -717,6 +710,7 @@ namespace NLEditor
                 RemoveFocus();
                 ChangeObjTerrPieceDisplay();
             }
+            
             /* --------------------------------------------------------------------
              * ONLY USE THE FOLLOWING KEYS IF FOCUS IS NOT ON ONE OF THE TEXTBOXES
              * --------------------------------------------------------------------*/
@@ -778,11 +772,23 @@ namespace NLEditor
                     default: direction = C.DIR.E; break;
                 }
 
-                // Move either selected pieces if they exist, or the screen position otherwise 
-                if (CurLevel.SelectionList().Count > 0)
+                // Move screen start position, if 'P' is pressed in addition.
+                if (isPPressed)
+                {
+                    // display screen start
+                    if (!screenStartToolStripMenuItem.Checked)
+                    {
+                        curRenderer.ChangeIsScreenStart();
+                        screenStartToolStripMenuItem.Checked = true;
+                    }
+                    MoveScreenStartPosition(direction);
+                }
+                // ...or selected pieces if they exist 
+                else if (CurLevel.SelectionList().Count > 0)
                 {
                     MoveLevelPieces(direction, e.Control ? 8 : 1);
                 }
+                // ...or the screen position otherwise
                 else
                 {
                     curRenderer.MoveScreenPos(direction, e.Control ? 64 : 8);
@@ -860,6 +866,7 @@ namespace NLEditor
                 case Keys.ShiftKey: isShiftPressed = false; break;
                 case Keys.ControlKey: isCtrlPressed = false; break;
                 case Keys.Menu: isAltPressed = false; break;
+                case Keys.P: isPPressed = false; break;
             }
 
             if (e.KeyCode.In(Keys.Right, Keys.Left, Keys.Up, Keys.Down))
@@ -896,11 +903,26 @@ namespace NLEditor
             Point mousePos = curRenderer.GetMousePosInLevel(e.Location);
             bool hasSelectedPieceAtPos = CurLevel.HasSelectionAtPos(mousePos);
 
-            C.DragActions dragAction;
+            C.DragActions dragAction = C.DragActions.Null;
             if (e.Button == MouseButtons.Right)
             {
                 dragAction = C.DragActions.MoveEditorPos;
                 Cursor = Cursors.SizeAll;
+            }
+            else if (isPPressed)
+            {
+                // Only drag screen position, if it lies within the screen start rectangle
+                if (curRenderer.ScreenStartRectangle().Contains(mousePos))
+                {
+                    // display screen start
+                    if (!screenStartToolStripMenuItem.Checked)
+                    {
+                        curRenderer.ChangeIsScreenStart();
+                        screenStartToolStripMenuItem.Checked = true;
+                    }
+
+                    dragAction = C.DragActions.MoveStartPos;
+                }
             }
             else if (hasSelectedPieceAtPos && !isAltPressed && !isCtrlPressed && !isShiftPressed)
             {
@@ -940,6 +962,13 @@ namespace NLEditor
                         pic_Level.Image = curRenderer.CreateLevelImage();
                         break;
                     }
+                case C.DragActions.MoveStartPos:
+                    {
+                        Point newCenter = curRenderer.GetNewPosFromDragging();
+                        MoveScreenStartPosition(newCenter);
+                        pic_Level.Image = curRenderer.CombineLayers();
+                        break;
+                    }
             }
             pic_Level.Refresh();
         }
@@ -972,6 +1001,13 @@ namespace NLEditor
                 case C.DragActions.DragPieces:
                     {
                         DragSelectedPieces();
+                        SaveChangesToOldLevelList();
+                        break;
+                    }
+                case C.DragActions.MoveStartPos:
+                    {
+                        Point newCenter = curRenderer.GetNewPosFromDragging();
+                        MoveScreenStartPosition(newCenter);
                         SaveChangesToOldLevelList();
                         break;
                     }
