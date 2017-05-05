@@ -439,34 +439,34 @@ namespace NLEditor
             hotkeyTabs.TabIndex = 1;
             hotkeyTabs.TabStop = false;
 
-            TabPage tabHotkeysGeneral = new TabPage("General");
-            TabPage tabHotkeysPieces = new TabPage("Piece modification");
-            Label lblHotkeysGeneralKeys = new Label();
-            lblHotkeysGeneralKeys.Location = new Point(0, 4);
-            lblHotkeysGeneralKeys.Size = new Size(150, hotkeyTabs.Height - 4);
-            lblHotkeysGeneralKeys.Text = string.Join(C.NewLine, C.HotkeyDict[C.HotkeyTabs.General]);
-            Label lblHotkeysGeneralDescription = new Label();
-            lblHotkeysGeneralDescription.Location = new Point(150, 4);
-            lblHotkeysGeneralDescription.Size = new Size(hotkeyTabs.Width - 154, hotkeyTabs.Height - 4);
-            lblHotkeysGeneralDescription.Text = string.Join(C.NewLine, C.DescriptionDict[C.HotkeyTabs.General]);
+            var tabDictionary = new Dictionary<C.HotkeyTabs, TabPage>
+            {
+                { C.HotkeyTabs.General, new TabPage("General") },
+                { C.HotkeyTabs.Level, new TabPage("Level modification") },
+                { C.HotkeyTabs.Pieces, new TabPage("Piece modification") },
+            };
 
-            Label lblHotkeysPiecesKeys = new Label();
-            lblHotkeysPiecesKeys.Location = new Point(0, 4);
-            lblHotkeysPiecesKeys.Size = new Size(150, hotkeyTabs.Height - 4);
-            lblHotkeysPiecesKeys.Text = string.Join(C.NewLine, C.HotkeyDict[C.HotkeyTabs.Pieces]);
-            Label lblHotkeysPiecesDescription = new Label();
-            lblHotkeysPiecesDescription.Location = new Point(150, 4);
-            lblHotkeysPiecesDescription.Size = new Size(hotkeyTabs.Width - 154, hotkeyTabs.Height - 4);
-            lblHotkeysPiecesDescription.Text = string.Join(C.NewLine, C.DescriptionDict[C.HotkeyTabs.Pieces]);
+            foreach (C.HotkeyTabs tab in tabDictionary.Keys)
+            {
+                // Create labels
+                Label lblKeys = new Label();
+                lblKeys.Location = new Point(0, 4);
+                lblKeys.Size = new Size(150, hotkeyTabs.Height - 4);
+                lblKeys.Text = string.Join(C.NewLine, C.HotkeyDict[tab]);
+                Label lblDescription = new Label();
+                lblDescription.Location = new Point(150, 4);
+                lblDescription.Size = new Size(hotkeyTabs.Width - 154, hotkeyTabs.Height - 4);
+                lblDescription.Text = string.Join(C.NewLine, C.DescriptionDict[tab]);
 
-            tabHotkeysGeneral.Controls.Add(lblHotkeysGeneralKeys);
-            tabHotkeysGeneral.Controls.Add(lblHotkeysGeneralDescription);
-            tabHotkeysPieces.Controls.Add(lblHotkeysPiecesKeys);
-            tabHotkeysPieces.Controls.Add(lblHotkeysPiecesDescription);
-            hotkeyTabs.Controls.Add(tabHotkeysGeneral);
-            hotkeyTabs.Controls.Add(tabHotkeysPieces);
+                // Add labels to tab
+                tabDictionary[tab].Controls.Add(lblKeys);
+                tabDictionary[tab].Controls.Add(lblDescription);
+
+                // Add TabPage to TabControl
+                hotkeyTabs.Controls.Add(tabDictionary[tab]);
+            }
+
             hotkeyForm.Controls.Add(hotkeyTabs);
-
             hotkeyForm.Show();
         }
 

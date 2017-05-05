@@ -121,21 +121,39 @@ namespace NLEditor
         };
 
 
-        public enum HotkeyTabs { General, Pieces }
+        public enum HotkeyTabs { General, Level, Pieces }
 
         public static readonly THotkeyTexts HotkeyDict = new THotkeyTexts
             {
-                { HotkeyTabs.General, new List<string> 
+                { HotkeyTabs.General, new List<string>
                     {
-                        "Esc", 
-                        "Alt + F4", 
-                        "Ctrl + N", 
-                        "Ctrl + O", 
-                        "Ctrl + S", 
+                        "Esc",
+                        "Alt + F4",
+                        "Ctrl + N",
+                        "Ctrl + O",
+                        "Ctrl + S",
                         "Ctrl + Alt + S",
+                        "",
+                        "F1",
+                        "F2",
+                        "F3",
+                        "F4",
+                        "F5",
+                        "F6",
+                        "F11",
+                        "F12"
+                    }
+                },
+                { HotkeyTabs.Level, new List<string>
+                    {
+                        "Left mouse",
                         "",
                         "Left mouse (double)",
                         "Right mouse",
+                        "Middle mouse",
+                        "Ctrl + mouse",
+                        "Alt + mouse",
+                        "P + Left mouse",
                         "Mouse wheel",
                         "",
                         "Shift + Right/Left",
@@ -144,24 +162,11 @@ namespace NLEditor
                         "Shift + Space",
                         "1, 2, 3, ..., 9, 0",
                         "",
-                        "F1", 
-                        "F2", 
-                        "F3", 
-                        "F4", 
-                        "F5", 
-                        "F6",
-                        "F11",
-                        "F12" 
+                        "P + Up/Down/Right/Left"
                     }
                 },
-                { HotkeyTabs.Pieces, new List<string> 
+                { HotkeyTabs.Pieces, new List<string>
                     {
-                        "Left mouse",
-                        "",
-                        "Middle mouse",
-                        "Ctrl + mouse",
-                        "Alt + mouse",
-                        "",
                         "Ctrl + Z",
                         "Ctrl + Y",
                         "Ctrl + X",
@@ -200,16 +205,6 @@ namespace NLEditor
                         "Save the current level.",
                         "Save the current level in a new file.",
                         "",
-                        "Add a new piece via extra selection window.",
-                        "Drag current editor position.",
-                        "Change zoom.",
-                        "",
-                        "Display previous/next item in piece selection.",
-                        "Display previous/next group of items in piece selection.",
-                        "Change style for the piece selection to previous/next one.",
-                        "Toggle between new terrain and new objects.",
-                        "Add the respective piece to the level.",
-                        "",
                         "Switch to and from Clear Physics mode.",
                         "Switch to and from displaying terrain.",
                         "Switch to and from displaying interactive objects.",
@@ -220,14 +215,29 @@ namespace NLEditor
                         "Playtest the level in the NeoLemmix player."
                     }
                 },
-                { HotkeyTabs.Pieces, new List<string> 
+                { HotkeyTabs.Level, new List<string>
                     {
                         "Drag selected pieces or...",
                         "Select one piece or all pieces in an area.",
+                        "Add a new piece via extra selection window.",
+                        "Drag current editor position.",
                         "Remove one piece or all pieces in an area from selection.",
                         "Add/Remove pieces to current selection.",
                         "Invert priority of piece selection.",
+                        "Drag the start position.",
+                        "Change zoom.",
                         "",
+                        "Display previous/next item in piece selection.",
+                        "Display previous/next group of items in piece selection.",
+                        "Change style for the piece selection to previous/next one.",
+                        "Toggle between new terrain and new objects.",
+                        "Add the respective piece to the level.",
+                        "",
+                        "Move start position by 8 pixels."
+                    }
+                },
+                { HotkeyTabs.Pieces, new List<string> 
+                    {
                         "Undo last change.",
                         "Revert last Undo and redo that action.",
                         "Delete selected pieces.",
