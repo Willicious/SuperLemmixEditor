@@ -130,6 +130,15 @@ namespace NLEditor
                         case "LEMMING": newLevel.GadgetList.Add(ReadGadgetFromLines(fileLines)); break;
                         case "TERRAIN": newLevel.TerrainList.Add(ReadTerrainFromLines(fileLines)); break;
                         case "SPAWN_ORDER": hatchOrder = fileLines.FindAll(lin => lin.Key == "object").ConvertAll(lin => lin.Value); break;
+
+                        case "PRETEXT":
+                            var pretexts = fileLines.ConvertAll(lin => lin.Text);
+                            pretexts.RemoveAt(0);
+                            newLevel.PreviewText = pretexts; break;
+                        case "POSTTEXT":
+                            var posttexts = fileLines.ConvertAll(lin => lin.Text);
+                            posttexts.RemoveAt(0);
+                            newLevel.PreviewText = posttexts; break;
                     }
                 }
             }
@@ -464,6 +473,22 @@ namespace NLEditor
             }
             textFile.WriteLine(" $END ");
             textFile.WriteLine(" ");
+
+            if (curLevel.PreviewText?.Count > 0)
+            {
+                textFile.WriteLine(" $PRETEXT ");
+                curLevel.PreviewText.ForEach(lin => textFile.WriteLine("  LINE " + lin));
+                textFile.WriteLine(" $END ");
+                textFile.WriteLine(" ");
+            }
+
+            if (curLevel.PostviewText?.Count > 0)
+            {
+                textFile.WriteLine(" $POSTTEXT ");
+                curLevel.PostviewText.ForEach(lin => textFile.WriteLine("  LINE " + lin));
+                textFile.WriteLine(" $END ");
+                textFile.WriteLine(" ");
+            }
 
             textFile.WriteLine("#     Interactive objects       ");
             textFile.WriteLine("# ----------------------------- ");

@@ -45,6 +45,9 @@ namespace NLEditor
             {
                 SkillSet.Add(skill, 0);
             }
+
+            this.PreviewText = new List<string>();
+            this.PostviewText = new List<string>();
         }
 
         public string Title { get; set; }
@@ -84,6 +87,9 @@ namespace NLEditor
         public bool IsNoTimeLimit { get; set; }
 
         public Dictionary<C.Skill, int> SkillSet { get; set; }
+
+        public List<string> PreviewText { get; set; }  // not changable in editor
+        public List<string> PostviewText { get; set; } // not changable in editor
 
         public Size ScreenSize => C.ScreenSize.ScreenArea(Width, Height);
 
@@ -126,6 +132,9 @@ namespace NLEditor
                 newLevel.SkillSet.Add(skill, this.SkillSet[skill]);
             }
 
+            newLevel.PreviewText = new List<string>(this.PreviewText);
+            newLevel.PostviewText = new List<string>(this.PostviewText);
+
             return newLevel;
         }
 
@@ -155,7 +164,9 @@ namespace NLEditor
                 || this.ReleaseRate != otherLevel.ReleaseRate
                 || this.IsReleaseRateFix != otherLevel.IsReleaseRateFix
                 || this.IsNoTimeLimit != otherLevel.IsNoTimeLimit
-                || (this.TimeLimit != otherLevel.TimeLimit && !this.IsNoTimeLimit))
+                || (this.TimeLimit != otherLevel.TimeLimit && !this.IsNoTimeLimit)
+                || !this.PreviewText.ToString().Equals(otherLevel.PreviewText.ToString())
+                || !this.PostviewText.ToString().Equals(otherLevel.PostviewText.ToString()))
             {
                 return false;
             }
