@@ -157,8 +157,8 @@ namespace NLEditor
             check_Pieces_OnlyOnTerrain.Checked = selectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).IsOnlyOnTerrain);
             check_Pieces_OnlyOnTerrain.CheckedChanged += check_Pieces_OnlyOnTerrain_CheckedChanged;
 
-            but_GroupSelection.Enabled = CurLevel.MayGroupSelection();
-            but_UngroupSelection.Enabled = CurLevel.MayUngroupSelection();
+            but_GroupSelection.Enabled = false; //CurLevel.MayGroupSelection();
+            but_UngroupSelection.Enabled = false; //CurLevel.MayUngroupSelection();
 
             foreach (C.Skill skill in checkboxesSkillFlags.Keys)
             {
