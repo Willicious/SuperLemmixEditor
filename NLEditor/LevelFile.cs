@@ -104,8 +104,13 @@ namespace NLEditor
                         case "AUTHOR": newLevel.Author = line.Text; break;
                         case "ID":
                             {
-                                string idString = (line.Text.StartsWith("x")) ? line.Text.Substring(1) : line.Text;
-                                newLevel.LevelID = uint.Parse(idString, System.Globalization.NumberStyles.HexNumber);
+                                string idString = (line.Text.StartsWith("x")) ? line.Text : 'x' + line.Text;
+                                // double ID for old lvl files
+                                if (idString.Length == 9) idString += idString.Substring(1);
+                                // Make sure this is a 64bit hex number
+                                if (idString.Length < 17) idString.PadRight(17, '0');
+                                else if (idString.Length > 17) idString.Substring(0, 17);
+                                newLevel.LevelID = idString;
                                 break;
                             }
                         case "MUSIC": newLevel.MusicFile = line.Text; break;
@@ -425,7 +430,7 @@ namespace NLEditor
             {
                 textFile.WriteLine(" MUSIC " + Path.GetFileNameWithoutExtension(curLevel.MusicFile));
             }
-            textFile.WriteLine(" ID x" + curLevel.LevelID.ToString("X"));
+            textFile.WriteLine(" ID " + curLevel.LevelID);
             textFile.WriteLine(" ");
 
             textFile.WriteLine("#       Level dimensions        ");
