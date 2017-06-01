@@ -20,7 +20,7 @@ namespace NLEditor
             this.Author = "";
             this.MainStyle = mainStyle;
             this.MusicFile = "";
-            this.backgroundKey = "";
+            this.Background = null;
 
             // Create a random 64bit hex number in string format 
             this.LevelID = 'x' + ((uint)Utility.Random().Next()).ToString("X")
@@ -71,6 +71,9 @@ namespace NLEditor
         public List<GadgetPiece> GadgetList { get; set; }
         public List<GroupPiece> GroupList { get; set; }
 
+        public Background Background { get; set; }
+        
+        /*
         string backgroundKey;
         public string BackgroundKey 
         {
@@ -79,7 +82,7 @@ namespace NLEditor
                 else return MainStyle.NameInDirectory + C.DirSep + "backgrounds" + C.DirSep + backgroundKey; 
                 } 
             set { backgroundKey = value; } 
-        }
+        }  */
 
         public int NumLems { get; set; }
         public int SaveReq { get; set; }
@@ -106,8 +109,8 @@ namespace NLEditor
             newLevel.Author = string.Copy(this.Author);
             newLevel.MusicFile = string.Copy(this.MusicFile);
             newLevel.LevelID = string.Copy(this.LevelID);
-            newLevel.FilePathToSave = this.FilePathToSave; // shallow copy is fine here.
-            newLevel.backgroundKey = string.Copy(this.backgroundKey);
+            newLevel.FilePathToSave = this.FilePathToSave; // shallow copy is fine here
+            newLevel.Background = this.Background; // shallow copy is fine here
 
             newLevel.Width = this.Width;
             newLevel.Height = this.Height;
@@ -154,7 +157,7 @@ namespace NLEditor
                      (this.MainStyle != null && this.MainStyle.NameInDirectory.Equals(otherLevel.MainStyle?.NameInDirectory)))
                 || !this.MusicFile.Equals(otherLevel.MusicFile)
                 || this.LevelID.Equals(otherLevel.LevelID)
-                || !this.BackgroundKey.Equals(otherLevel.BackgroundKey)
+                || !this.Background.Equals(otherLevel.Background)
                 || this.Width != otherLevel.Width
                 || this.Height != otherLevel.Height
                 || this.StartPosX != otherLevel.StartPosX

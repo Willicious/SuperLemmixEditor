@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Background.cs" />
     <Compile Include="BmpModify.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="FileParser.cs" />

@@ -29,6 +29,8 @@ namespace NLEditor
         /// </summary>
         private void CreateStyleList()
         {
+            Backgrounds = new BackgroundList();
+
             // get list of all existing style names
             List<string> styleNameList = null;
 
@@ -48,8 +50,10 @@ namespace NLEditor
 
             // Create the StyleList from the StyleNameList
             styleNameList.RemoveAll(sty => sty == "default");
-            StyleList = styleNameList.ConvertAll(sty => new Style(sty));
+            StyleList = styleNameList.ConvertAll(sty => new Style(sty, Backgrounds));
             StyleList = LoadStylesFromFile.OrderAndRenameStyles(StyleList);
+
+            Backgrounds.SortBackgrounds();
         }
 
         /// <summary>
@@ -81,7 +85,7 @@ namespace NLEditor
             CurLevel.TimeLimit = decimal.ToInt32(num_Lvl_TimeMin.Value) * 60
                                     + decimal.ToInt32(num_Lvl_TimeSec.Value);
             CurLevel.IsNoTimeLimit = check_Lvl_InfTime.Checked;
-            CurLevel.BackgroundKey = combo_Background.Text;
+            CurLevel.Background = Backgrounds.Find(combo_Background.Text);
 
             foreach (C.Skill skill in numericsSkillSet.Keys)
             {
@@ -126,7 +130,7 @@ namespace NLEditor
             num_Lvl_TimeMin.Value = CurLevel.TimeLimit / 60;
             num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;
             check_Lvl_InfTime.Checked = CurLevel.IsNoTimeLimit;
-            combo_Background.Text = System.IO.Path.GetFileName(CurLevel.BackgroundKey);
+            combo_Background.Text = CurLevel.Background?.Name ?? "--none--";
 
             foreach (C.Skill skill in numericsSkillSet.Keys)
             {
@@ -163,7 +167,7 @@ namespace NLEditor
         {
             AskUserWhetherSaveLevel();
             
-            Level level = LevelFile.LoadLevel(StyleList);
+            Level level = LevelFile.LoadLevel(StyleList, Backgrounds);
             if (level == null) return;
 
             CurLevel = level;

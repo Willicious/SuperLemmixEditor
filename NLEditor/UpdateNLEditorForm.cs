@@ -408,16 +408,8 @@ namespace NLEditor
         private void UpdateBackgroundComboItems()
         {
             combo_Background.Items.Clear();
-            combo_Background.Items.Add("--none--");
-            if (CurLevel.MainStyle != null)
-            {
-                string[] backgroundNames = CurLevel.MainStyle.BackgroundKeys.Select(name => 
-                                               System.IO.Path.GetFileName(name)).ToArray();
-                combo_Background.Items.AddRange(backgroundNames);
-            }
+            combo_Background.Items.AddRange(Backgrounds.GetDisplayNames(CurLevel.MainStyle).ToArray());
         }
-
-
 
         /// <summary>
         /// Displays a list of all hotkeys in a new form window.

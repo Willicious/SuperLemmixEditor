@@ -282,9 +282,9 @@ namespace NLEditor
             layerImages[C.Layer.Background].Clear(level.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.NLColors[C.NLColor.BackDefault]);
 
             // Display background images, if selected
-            if (level.MainStyle != null && level.MainStyle.BackgroundKeys.Contains(level.BackgroundKey))
+            if (level.Background != null)
             {
-                Bitmap backgroundImage = ImageLibrary.GetImage(level.BackgroundKey, RotateFlipType.RotateNoneFlipNone)
+                Bitmap backgroundImage = ImageLibrary.GetImage(level.Background.Key, RotateFlipType.RotateNoneFlipNone)
                                                      .PaveArea(new Rectangle(0, 0, level.Width, level.Height));
                 
                 layerImages[C.Layer.Background].DrawOn(backgroundImage, new Point(0, 0));

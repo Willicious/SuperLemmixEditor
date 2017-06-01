@@ -18,7 +18,7 @@ namespace NLEditor
         /// </summary>
         /// <param name="styleList"></param>
         /// <returns></returns>
-        static public Level LoadLevel(List<Style> styleList)
+        static public Level LoadLevel(List<Style> styleList, BackgroundList backgrounds)
         {
             var openFileDialog = new OpenFileDialog();
 
@@ -37,7 +37,7 @@ namespace NLEditor
                     string filePath = openFileDialog.FileName;
                     if (filePath.EndsWith("nxlv"))
                     {
-                        newLevel = LoadLevelFromFile(filePath, styleList);
+                        newLevel = LoadLevelFromFile(filePath, styleList, backgrounds);
                         newLevel.FilePathToSave = filePath;
                     }
                     else if (filePath.EndsWith("lvl"))
@@ -45,7 +45,7 @@ namespace NLEditor
                         bool IsConverted = ConvertOldLevelType(filePath);
                         if (IsConverted)
                         {
-                            newLevel = LoadLevelFromFile(C.AppPathTempLevel, styleList);
+                            newLevel = LoadLevelFromFile(C.AppPathTempLevel, styleList, backgrounds);
                         } 
                     }
                     
@@ -72,7 +72,7 @@ namespace NLEditor
         /// <param name="filePath"></param>
         /// <param name="styleList"></param>
         /// <returns></returns>
-        static private Level LoadLevelFromFile(string filePath, List<Style> styleList)
+        static private Level LoadLevelFromFile(string filePath, List<Style> styleList, BackgroundList backgrounds)
         {
             Level newLevel = new Level();
 
@@ -126,7 +126,7 @@ namespace NLEditor
                             newLevel.IsNoTimeLimit = false; break;
                         case "RELEASE_RATE": newLevel.ReleaseRate = line.Value; break;
                         case "RELEAST_RATE_LOCKED": newLevel.IsReleaseRateFix = true; break;
-                        case "BACKGROUND": newLevel.BackgroundKey = line.Text; break;
+                        case "BACKGROUND": newLevel.Background = ReadBackgroundFromLines(line.Text, styleList, backgrounds); break;
 
                         case "SKILLSET":
                             ReadSkillSetFromLines(fileLines, newLevel);
@@ -314,6 +314,28 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Determines the background from the string in the level file.
+        /// </summary>
+        /// <param name="fileLineList"></param>
+        /// <param name="styles"></param>
+        /// <param name="backgrounds"></param>
+        /// <returns></returns>
+        static private Background ReadBackgroundFromLines(string text, List<Style> styles, BackgroundList backgrounds)
+        {
+            string[] bgInfo = text.Split(':');
+            if (bgInfo.Length == 1) // only the background's name
+            {
+                return backgrounds.Find(bgInfo[0]);
+            }
+            else if (bgInfo.Length == 2) // background's style and name
+            {
+                Style bgStyle = styles.Find(sty => sty.NameInDirectory.Equals(bgInfo[0].Trim()));
+                return backgrounds.Find(bgInfo[1], bgStyle);
+            }
+            else return null;
+        }
+
+        /// <summary>
         /// Applies a custom hatch order to the level. The correctly ordered hatches are appended at the beginning of the GadgetList.
         /// </summary>
         /// <param name="hatchOrderIndexes"></param>
@@ -441,9 +463,10 @@ namespace NLEditor
             textFile.WriteLine(" START_X " + curLevel.StartPosX.ToString().PadLeft(4));
             textFile.WriteLine(" START_Y " + curLevel.StartPosY.ToString().PadLeft(4));
             textFile.WriteLine(" THEME " + curLevel.MainStyle?.NameInDirectory);
-            if (curLevel.MainStyle != null && curLevel.MainStyle.BackgroundKeys.Contains(curLevel.BackgroundKey))
+            if (curLevel.Background != null)
             {
-                textFile.WriteLine(" BACKGROUND " + Path.GetFileName(curLevel.BackgroundKey));
+                textFile.WriteLine(" BACKGROUND " + curLevel.Background.Style.NameInDirectory + ":"
+                                                  + curLevel.Background.Name);
             }
             textFile.WriteLine(" ");
 

@@ -80,6 +80,8 @@ namespace NLEditor
             pieceCurStyle = ValidateStyleName(combo_PieceStyle.SelectedItem.ToString());
             LoadPiecesIntoPictureBox();
 
+            UpdateBackgroundComboItems();
+
             stopWatchKey = new Stopwatch();
             stopWatchKey.Start();
             stopWatchMouse = new Stopwatch();
@@ -98,6 +100,7 @@ namespace NLEditor
 
         public Level CurLevel { get; private set; }
         public List<Style> StyleList { get; private set; }
+        public BackgroundList Backgrounds { get; private set; }
         Renderer curRenderer;
         Settings curSettings;
 
@@ -349,7 +352,7 @@ namespace NLEditor
 
         private void combo_Background_TextChanged(object sender, EventArgs e)
         {
-            CurLevel.BackgroundKey = this.combo_Background.Text;
+            CurLevel.Background = Backgrounds.Find(this.combo_Background.Text);
             UpdateBackgroundImage();
             pic_Level.Image = curRenderer.CombineLayers();
         }

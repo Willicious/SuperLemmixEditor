@@ -988,7 +988,7 @@
             this.lbl_Global_Style.Name = "lbl_Global_Style";
             this.lbl_Global_Style.Size = new System.Drawing.Size(60, 15);
             this.lbl_Global_Style.TabIndex = 6;
-            this.lbl_Global_Style.Text = "Main Style";
+            this.lbl_Global_Style.Text = "Theme";
             // 
             // lbl_Global_Music
             // 

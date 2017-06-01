@@ -11,21 +11,18 @@ namespace NLEditor
     /// </summary>
     class Style
     {
-        /*---------------------------------------------------------
-         *          This class stores all style infos
-         * -------------------------------------------------------- */
         /// <summary>
         /// Initializes a new instance of a Style by searching for pieces in the directory AppPath/StyleName/.
         /// </summary>
         /// <param name="styleName"></param>
-        public Style(string styleName)
+        public Style(string styleName, BackgroundList backgroundList)
         {
             NameInDirectory = styleName;
             NameInEditor = styleName; // may be overwritten later when forming the StyleList
 
             SearchDirectoryForTerrain();
             SearchDirectoryForObjects();
-            SearchDirectoryForBackgrounds();
+            SearchDirectoryForBackgrounds(backgroundList);
 
             RemoveDuplicatedObjects();
             SortObjectNamesByObjectType();
@@ -39,7 +36,6 @@ namespace NLEditor
         public string NameInEditor { get; set; }
         public List<string> TerrainKeys { get; private set; }
         public List<string> ObjectKeys { get; private set; }
-        public List<string> BackgroundKeys { get; private set; }
 
         /// <summary>
         /// Checks for equality of the style's FileName.
@@ -48,7 +44,7 @@ namespace NLEditor
         /// <returns></returns>
         public bool Equals(Style otherStyle)
         {
-            return this.NameInDirectory.Equals(otherStyle.NameInDirectory);
+            return this.NameInDirectory.Equals(otherStyle?.NameInDirectory);
         }
 
         /// <summary>
@@ -125,19 +121,16 @@ namespace NLEditor
         /// <summary>
         /// Writes all pieces in AppPath/StyleName/backgrounds to the list of BackgroundNames.
         /// </summary>
-        private void SearchDirectoryForBackgrounds()
+        private void SearchDirectoryForBackgrounds(BackgroundList backgroundList)
         {
             string directoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "backgrounds";
 
             if (Directory.Exists(directoryPath))
             {
-                BackgroundKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                           .Select(file => ImageLibrary.CreatePieceKey(file))
-                                           .ToList();
-            }
-            else // use empty list
-            {
-                BackgroundKeys = new List<string>();
+                Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                         .Select(file => Path.GetFileNameWithoutExtension(file)) 
+                         .ToList()
+                         .ForEach(name => backgroundList.Add(this, name));
             }
         }
 
