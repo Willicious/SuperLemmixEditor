@@ -431,6 +431,7 @@ namespace NLEditor
                 textFile.WriteLine(" MUSIC " + Path.GetFileNameWithoutExtension(curLevel.MusicFile));
             }
             textFile.WriteLine(" ID " + curLevel.LevelID);
+            textFile.WriteLine(" AUTOSTEEL on ");
             textFile.WriteLine(" ");
 
             textFile.WriteLine("#       Level dimensions        ");
