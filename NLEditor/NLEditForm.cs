@@ -149,6 +149,12 @@ namespace NLEditor
             RemoveFocus();
         }
 
+        private void textbox_Leave(object sender, EventArgs e)
+        {
+            ReadLevelInfoFromForm();
+            SaveChangesToOldLevelList();
+        }
+
         /* -----------------------------------------------------------
          *              Menu Items
          * ----------------------------------------------------------- */
@@ -239,7 +245,6 @@ namespace NLEditor
             CopySelectedPieces();
         }
 
-        
         private void groupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //GroupSelectedPieces();
@@ -250,7 +255,6 @@ namespace NLEditor
             //UngroupSelectedPieces();
         }
         
-
         private void playLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PlaytestLevel();

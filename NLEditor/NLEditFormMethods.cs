@@ -623,6 +623,8 @@ namespace NLEditor
         {
             CurLevel.MoveSelectedPieces(toFront, onlyOneStep);
             pic_Level.Image = curRenderer.CreateLevelImage();
+
+            SaveChangesToOldLevelList();
         }
 
         /// <summary>
