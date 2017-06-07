@@ -145,24 +145,6 @@ namespace NLEditor
     /// </summary>
     static class ImageLibrary
     {
-        /*---------------------------------------------------------
-         *  This class contains and modifies a list of all images
-         *  It load new ones when required.
-         * -------------------------------------------------------- */
-
-        /* --------------------------------------------------------
-         *   public methods:
-         *     - ExistsKey(string ImageKey)
-         *     - GetImage(string ImageKey, RotateFlipType RotFlipType)
-         *     - GetImage(string ImageKey, RotateFlipType RotFlipType, int Index)
-         *     - GetWidth(string ImageKey)
-         *     - GetHeight(string ImageKey)
-         *     - GetObjType(string ImageKey)
-         *     - GetTrigger(string ImageKey)
-         *     - GetResizeMode(string ImageKey)
-         *     - CreatePieceKey(string FilePath)
-         *     - CreatePieceKey(string StyleName, string PieceName, bool IsObject)
-         * -------------------------------------------------------- */
         static ImageLibrary()
         {
             imageDict = new Dictionary<string, BaseImageInfo>();

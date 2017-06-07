@@ -72,17 +72,6 @@ namespace NLEditor
         public List<GroupPiece> GroupList { get; set; }
 
         public Background Background { get; set; }
-        
-        /*
-        string backgroundKey;
-        public string BackgroundKey 
-        {
-            get { 
-                if (string.IsNullOrEmpty(backgroundKey) || MainStyle == null) return "--none--";
-                else return MainStyle.NameInDirectory + C.DirSep + "backgrounds" + C.DirSep + backgroundKey; 
-                } 
-            set { backgroundKey = value; } 
-        }  */
 
         public int NumLems { get; set; }
         public int SaveReq { get; set; }
