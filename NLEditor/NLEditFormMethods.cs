@@ -284,7 +284,15 @@ namespace NLEditor
             }
             else
             {
-                System.Diagnostics.Process.Start(playerStartInfo);
+                try
+                {
+                    System.Diagnostics.Process.Start(playerStartInfo);
+                }
+                catch (Exception Ex)
+                {
+                    Utility.LogException(Ex);
+                    MessageBox.Show("Error: Starting NeoLemmix.exe failed or was aborted.", "Application start failed");
+                }
             }
         }
 
