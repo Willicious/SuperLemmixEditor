@@ -276,7 +276,7 @@ namespace NLEditor
             // Start the NeoLemmix player.
             var playerStartInfo = new System.Diagnostics.ProcessStartInfo();
             playerStartInfo.FileName = C.AppPath + "NeoLemmix.exe";
-            playerStartInfo.Arguments = C.AppPathTempLevel;
+            playerStartInfo.Arguments = "test " + "\"" + C.AppPathTempLevel + "\"";
 
             if (!System.IO.File.Exists(playerStartInfo.FileName))
             {
