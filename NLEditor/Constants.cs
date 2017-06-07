@@ -8,7 +8,7 @@ namespace NLEditor
 
     static class C // for Constants
     {
-        public static string Version => "0.5";
+        public static string Version => "0.6";
 
         public static string AppPath => System.Windows.Forms.Application.StartupPath + DirSep;
         public static string AppPathPieces => AppPath + "styles" + DirSep;
@@ -268,7 +268,7 @@ namespace NLEditor
         public static readonly List<string> VersionList = new List<string>
         {
             "Version " + Version,
-            "   by Stephan Neupert",
+            "   by Stephan Neupert (Nepster)",
             "",
             "Thanks to...",
             "  DMA for creating the original Lemmings games.",
