@@ -20,22 +20,35 @@ namespace NLEditor
             NameInDirectory = styleName;
             NameInEditor = styleName; // may be overwritten later when forming the StyleList
 
-            SearchDirectoryForTerrain();
-            SearchDirectoryForObjects();
             SearchDirectoryForBackgrounds(backgroundList);
-
-            RemoveDuplicatedObjects();
-            SortObjectNamesByObjectType();
 
             colorDict = LoadStylesFromFile.StyleColors(NameInDirectory);
         }
 
         Dictionary<C.StyleColor, Color> colorDict;
 
+        List<string> terrainKeys;
+        List<string> objectKeys;
+
         public string NameInDirectory { get; private set; }
         public string NameInEditor { get; set; }
-        public List<string> TerrainKeys { get; private set; }
-        public List<string> ObjectKeys { get; private set; }
+
+        public List<string> TerrainKeys
+        {
+            get
+            {
+                if (terrainKeys == null) LoadTerrainAndObjects();
+                return terrainKeys;
+            }
+        }
+        public List<string> ObjectKeys
+        {
+            get
+            {
+                if (objectKeys == null) LoadTerrainAndObjects();
+                return objectKeys;
+            }
+        }
 
         /// <summary>
         /// Checks for equality of the style's FileName.
@@ -46,6 +59,19 @@ namespace NLEditor
         {
             return this.NameInDirectory.Equals(otherStyle?.NameInDirectory);
         }
+
+        /// <summary>
+        /// Searches the style's directory for terrain and object pieces and sorts them.
+        /// </summary>
+        private void LoadTerrainAndObjects()
+        {
+            SearchDirectoryForTerrain();
+            SearchDirectoryForObjects();
+
+            RemoveDuplicatedObjects();
+            SortObjectNamesByObjectType();
+        }
+
 
         /// <summary>
         /// Reads the style's color or a default value if no color is specified.
@@ -68,13 +94,13 @@ namespace NLEditor
 
             if (Directory.Exists(directoryPath))
             {
-                TerrainKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                terrainKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
                                         .Select(file => ImageLibrary.CreatePieceKey(file))
                                         .ToList();
             }
             else // use empty list
             {
-                TerrainKeys = new List<string>();
+                terrainKeys = new List<string>();
             }
         }
 
@@ -88,13 +114,13 @@ namespace NLEditor
 
             if (Directory.Exists(directoryPath))
             {
-                ObjectKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                objectKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
                                        .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
                                        .ToList();
             }
             else
             {
-                ObjectKeys = new List<string>();
+                objectKeys = new List<string>();
             }
 
             // Load now the default objects into the list
