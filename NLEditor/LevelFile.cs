@@ -703,39 +703,86 @@ namespace NLEditor
 
         /// <summary>
         /// Converts an old .lvl level file to the current .nxlv type.
-        /// <para> This calls NLConverter.exe written in Delphi. </para>
+        /// <para> This calls either NeoLemmix.exe or the NLConverter.exe written in Delphi. </para>
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
         static bool ConvertOldLevelType(string filePath)
         {
-            // Before we are able to execute the NLConverter, we have to write it as a file to the disc!
-            using (var converterStream = new FileStream(C.AppPath + "NLConverter.exe", FileMode.CreateNew, FileAccess.Write))
+            return ContertWithNeoLemmix(filePath) || ConvertWithConverter(filePath);
+        }
+
+        /// <summary>
+        /// Converts an old .lvl level file to the current .nxlv type.
+        /// <para> This calls NLConverter.exe written in Delphi. </para>
+        /// </summary>
+        /// <param name="filepath"></param>
+        /// <returns></returns>
+        static bool ConvertWithConverter(string filePath)
+        {
+            try
             {
-                byte[] converterBytes = Properties.Resources.NLLevelConverter;
-                converterStream.Write(converterBytes, 0, converterBytes.Length);
+                // Before we are able to execute the NLConverter, we have to write it as a file to the disc!
+                using (var converterStream = new FileStream(C.AppPath + "NLConverter.exe", FileMode.CreateNew, FileAccess.Write))
+                {
+                    byte[] converterBytes = Properties.Resources.NLLevelConverter;
+                    converterStream.Write(converterBytes, 0, converterBytes.Length);
+                }
+
+                var converterStartInfo = new System.Diagnostics.ProcessStartInfo();
+                converterStartInfo.FileName = C.AppPath + "NLConverter.exe";
+                converterStartInfo.Arguments = filePath + " " + C.AppPathTempLevel;
+
+                var converterProcess = System.Diagnostics.Process.Start(converterStartInfo);
+                converterProcess.WaitForExit();
+                int exitCode = converterProcess.ExitCode;
+
+                Utility.DeleteFile(C.AppPath + "NLConverter.exe");
+
+                if (C.FileConverterErrorMsg.ContainsKey(exitCode))
+                {
+                    MessageBox.Show(C.FileConverterErrorMsg[exitCode], "File converter problem");
+                }
+                else if (exitCode >= 10)
+                {
+                    MessageBox.Show("Error: Level converter crashed due to unhandles exception.", "File converter problem");
+                }
+
+                return (exitCode < 10);
             }
-
-            var converterStartInfo = new System.Diagnostics.ProcessStartInfo();
-            converterStartInfo.FileName = C.AppPath + "NLConverter.exe";
-            converterStartInfo.Arguments = filePath + " " + C.AppPathTempLevel;
-
-            var converterProcess = System.Diagnostics.Process.Start(converterStartInfo);
-            converterProcess.WaitForExit();
-            int exitCode = converterProcess.ExitCode;
-
-            Utility.DeleteFile(C.AppPath + "NLConverter.exe");
-
-            if (C.FileConverterErrorMsg.ContainsKey(exitCode))
+            catch
             {
-                MessageBox.Show(C.FileConverterErrorMsg[exitCode], "File converter problem");
+                return false;
             }
-            else if (exitCode >= 10)
-            {
-                MessageBox.Show("Error: Level converter crashed due to unhandles exception.", "File converter problem");
-            }
+        }
 
-            return (exitCode < 10);
+        /// <summary>
+        /// Converts an old .lvl level file to the current .nxlv type.
+        /// <para> This calls NeoLemmix.exe written in Delphi. </para>
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        static bool ContertWithNeoLemmix(string filePath)
+        {
+            if (!File.Exists(C.AppPathNeoLemmix)) return false;
+
+            try
+            {
+                Utility.DeleteFile(C.AppPathTempLevel);
+
+                var converterStartInfo = new System.Diagnostics.ProcessStartInfo();
+                converterStartInfo.FileName = C.AppPathNeoLemmix;
+                converterStartInfo.Arguments = "convert \"" + filePath + "\" \"" + C.AppPathTempLevel + "\"";
+
+                var converterProcess = System.Diagnostics.Process.Start(converterStartInfo);
+                converterProcess.WaitForExit();
+
+                return File.Exists(C.AppPathTempLevel);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
     }

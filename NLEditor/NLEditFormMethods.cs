@@ -273,12 +273,7 @@ namespace NLEditor
             SaveLevel();
             CurLevel.FilePathToSave = origFilePath;
 
-            // Start the NeoLemmix player.
-            var playerStartInfo = new System.Diagnostics.ProcessStartInfo();
-            playerStartInfo.FileName = C.AppPath + "NeoLemmix.exe";
-            playerStartInfo.Arguments = "test " + "\"" + C.AppPathTempLevel + "\"";
-
-            if (!System.IO.File.Exists(playerStartInfo.FileName))
+            if (!System.IO.File.Exists(C.AppPathNeoLemmix))
             {
                 MessageBox.Show("Error: Player NeoLemmix.exe not found in editor directory.", "File not found");
             }
@@ -286,6 +281,11 @@ namespace NLEditor
             {
                 try
                 {
+                    // Start the NeoLemmix player.
+                    var playerStartInfo = new System.Diagnostics.ProcessStartInfo();
+                    playerStartInfo.FileName = C.AppPathNeoLemmix;
+                    playerStartInfo.Arguments = "test " + "\"" + C.AppPathTempLevel + "\"";
+
                     System.Diagnostics.Process.Start(playerStartInfo);
                 }
                 catch (Exception Ex)
