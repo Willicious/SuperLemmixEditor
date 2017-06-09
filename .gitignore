@@ -17,3 +17,7 @@ NLEditor.exe.config
 NLEditor.vshost.exe.config
 styles_OLD_2/
 data/
+levels/
+music/
+save/
+*.zip
