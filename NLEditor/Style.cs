@@ -95,8 +95,8 @@ namespace NLEditor
             if (Directory.Exists(directoryPath))
             {
                 terrainKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                        .Select(file => ImageLibrary.CreatePieceKey(file))
-                                        .ToList();
+                                       .Select(file => ImageLibrary.CreatePieceKey(file))
+                                       .ToList();
             }
             else // use empty list
             {
@@ -154,7 +154,7 @@ namespace NLEditor
             if (Directory.Exists(directoryPath))
             {
                 Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                         .Select(file => Path.GetFileNameWithoutExtension(file)) 
+                         .Select(file => Path.GetFileNameWithoutExtension(file))
                          .ToList()
                          .ForEach(name => backgroundList.Add(this, name));
             }
@@ -176,7 +176,17 @@ namespace NLEditor
         /// </summary>
         private void SortObjectNamesByObjectType()
         {
-            ObjectKeys.Sort((obj1, obj2) => ImageLibrary.GetObjType(obj1).CompareTo(ImageLibrary.GetObjType(obj2)));
+            ObjectKeys.Sort(delegate (string obj1, string obj2)
+            {
+                if (ImageLibrary.GetObjType(obj1) != ImageLibrary.GetObjType(obj2))
+                {
+                    return ImageLibrary.GetObjType(obj1).CompareTo(ImageLibrary.GetObjType(obj2));
+                }
+                else
+                {
+                    return Path.GetFileName(obj1).CompareTo(Path.GetFileName(obj2));
+                }
+            });
         }
     }
 }
