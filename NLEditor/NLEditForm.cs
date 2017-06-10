@@ -120,6 +120,8 @@ namespace NLEditor
 
         private void NLEditForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            curSettings.WriteSettingsToFile();
+
             Utility.DeleteFile(C.AppPathTempLevel);
             Utility.DeleteFile(System.IO.Path.ChangeExtension(C.AppPathTempLevel, ".nxsv"));
             

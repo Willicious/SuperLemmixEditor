@@ -33,12 +33,12 @@ namespace NLEditor
         /// <param name="pic_Level"></param>
         public Renderer(Level level, PictureBox pic_Level)
         {
-            this.isClearPhysics = false;
-            this.isTerrainLayer = true;
-            this.isObjectLayer = true;
-            this.isTriggerLayer = false;
-            this.isScreenStart = false;
-            this.isBackgroundLayer = false;
+            this.IsClearPhysics = false;
+            this.IsTerrainLayer = true;
+            this.IsObjectLayer = true;
+            this.IsTriggerLayer = false;
+            this.IsScreenStart = false;
+            this.IsBackgroundLayer = false;
 
             this.ScreenPosX = 0;
             this.ScreenPosY = 0;
@@ -52,12 +52,12 @@ namespace NLEditor
 
         Dictionary<C.Layer, Bitmap> layerImages;
         Level level;
-        bool isClearPhysics;
-        bool isTerrainLayer;
-        bool isObjectLayer;
-        bool isTriggerLayer;
-        bool isScreenStart;
-        bool isBackgroundLayer;
+        public bool IsClearPhysics { get; private set; }
+        public bool IsTerrainLayer { get; private set; }
+        public bool IsObjectLayer { get; private set; }
+        public bool IsTriggerLayer { get; private set; }
+        public bool IsScreenStart { get; private set; }
+        public bool IsBackgroundLayer { get; private set; }
         
         PictureBox levelPicBox;
         int picBoxWidth => levelPicBox.Size.Width - 4;
@@ -81,32 +81,32 @@ namespace NLEditor
 
         public void ChangeIsClearPhsyics() 
         {
-            isClearPhysics = !isClearPhysics;
+            IsClearPhysics = !IsClearPhysics;
         }
 
         public void ChangeIsTerrainLayer()
         { 
-            isTerrainLayer = !isTerrainLayer; 
+            IsTerrainLayer = !IsTerrainLayer; 
         } 
 
         public void ChangeIsObjectLayer() 
         { 
-            isObjectLayer = !isObjectLayer; 
+            IsObjectLayer = !IsObjectLayer; 
         }
 
         public void ChangeIsTriggerLayer() 
         { 
-            isTriggerLayer = !isTriggerLayer; 
+            IsTriggerLayer = !IsTriggerLayer; 
         }
         
         public void ChangeIsScreenStart() 
         { 
-            isScreenStart = !isScreenStart;
+            IsScreenStart = !IsScreenStart;
         }
 
         public void ChangeIsBackgroundLayer()
         {
-            isBackgroundLayer = !isBackgroundLayer;
+            IsBackgroundLayer = !IsBackgroundLayer;
         }
 
         public void SetLevel(Level newLevel)
@@ -351,7 +351,7 @@ namespace NLEditor
             if (terrPiece.IsErase) return C.CustDrawMode.Erase;
             else if (terrPiece.IsNoOverwrite)
             {
-                if (isClearPhysics)
+                if (IsClearPhysics)
                 { 
                     if (terrPiece.IsSteel) return C.CustDrawMode.ClearPhysicsSteelNoOverwrite;
                     else if (terrPiece.IsOneWay) return C.CustDrawMode.ClearPhysicsNoOverwriteOWW;
@@ -366,7 +366,7 @@ namespace NLEditor
             }
             else
             {
-                if (isClearPhysics)
+                if (IsClearPhysics)
                 {
                     if (terrPiece.IsSteel) return C.CustDrawMode.ClearPhysicsSteel;
                     else if (terrPiece.IsOneWay) return C.CustDrawMode.ClearPhysicsOWW;
@@ -442,7 +442,7 @@ namespace NLEditor
 
             Size levelBmpSize = GetLevelBmpSize();
             Bitmap levelBmp;
-            if (isBackgroundLayer)
+            if (IsBackgroundLayer)
             {
                 levelBmp = (Bitmap)layerImages[C.Layer.Background].Clone();
             }
@@ -454,22 +454,22 @@ namespace NLEditor
             }
             
 
-            if (isObjectLayer) 
+            if (IsObjectLayer) 
             {
                 levelBmp.DrawOn(layerImages[C.Layer.ObjBack], negativeScreenPos);
             }
 
-            if (isTerrainLayer)
+            if (IsTerrainLayer)
             {
                 levelBmp.DrawOn(layerImages[C.Layer.Terrain], negativeScreenPos);
             }
 
-            if (isTerrainLayer && isObjectLayer)
+            if (IsTerrainLayer && IsObjectLayer)
             {
                 levelBmp.DrawOn(layerImages[C.Layer.ObjTop], negativeScreenPos);
             }
 
-            if (isTriggerLayer)
+            if (IsTriggerLayer)
             {
                 levelBmp.DrawOnWithAlpha(layerImages[C.Layer.Trigger], negativeScreenPos);
             }
@@ -482,9 +482,9 @@ namespace NLEditor
             }
 
             // Add rectangles around selected pieces
-            if (isScreenStart) levelBmp = AddScreenStartRectangle(levelBmp);
+            if (IsScreenStart) levelBmp = AddScreenStartRectangle(levelBmp);
             levelBmp = AddSelectedRectangles(levelBmp);
-            if (ZoomFactor >= 0 && isObjectLayer) levelBmp = AddHatchOrder(levelBmp);
+            if (ZoomFactor >= 0 && IsObjectLayer) levelBmp = AddHatchOrder(levelBmp);
             levelBmp = AddMouseSelectionArea(levelBmp);
 
             // Revert changes to the screen position, until calling it properly

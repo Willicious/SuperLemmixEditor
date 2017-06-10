@@ -18,9 +18,47 @@ namespace NLEditor
         /// </summary>
         private void InitializeSettings()
         {
-            curSettings.ReadSettingsFromFile();
+            var displaySettings = curSettings.ReadSettingsFromFile();
             ApplyOptionLvlPropertiesTabs();
+            ApplyDisplaySettings(displaySettings);
             // UsePieceSelectionNames is automatically updated when calling LoadPiecesIntoPictureBox(), so this doesn't need to be done here.
+        }
+
+        /// <summary>
+        /// Applies the display settings for backgrounds, trigger areas and screen start.
+        /// </summary>
+        /// <param name="displaySettings"></param>
+        private void ApplyDisplaySettings(HashSet<string> displaySettings)
+        {
+            if (displaySettings.Contains("Backgrund"))
+            {
+                curRenderer.ChangeIsBackgroundLayer();
+                backgroundToolStripMenuItem.Checked = true;
+            }
+            if (displaySettings.Contains("Triggers"))
+            {
+                curRenderer.ChangeIsTriggerLayer();
+                triggerAreasToolStripMenuItem.Checked = true;
+            }
+            if (displaySettings.Contains("ScreenStart"))
+            {
+                curRenderer.ChangeIsScreenStart();
+                screenStartToolStripMenuItem.Checked = true;
+            }
+            pic_Level.Image = curRenderer.CombineLayers();
+        }
+
+        /// <summary>
+        /// Gets the set of layers that are displayed, ignoring the terrain and object layer.
+        /// </summary>
+        /// <returns></returns>
+        public HashSet<string> GetDisplaySettings()
+        {
+            var displaySettings = new HashSet<string>();
+            if (curRenderer.IsBackgroundLayer) displaySettings.Add("Background");
+            if (curRenderer.IsTriggerLayer) displaySettings.Add("Triggers");
+            if (curRenderer.IsScreenStart) displaySettings.Add("ScreenStart");
+            return displaySettings;
         }
 
 
