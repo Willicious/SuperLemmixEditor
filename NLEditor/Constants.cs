@@ -114,7 +114,7 @@ namespace NLEditor
         }
         public static readonly Dictionary<NLColor, Color> NLColors = new Dictionary<NLColor, Color>()
         {
-            { NLColor.Text, Color.WhiteSmoke },
+            { NLColor.Text, Utility.HexToColor("FEF5F5F5") }, // Color.WhiteSmoke with slightly reduced alpha
             { NLColor.OWWDefault, Color.Linen },
             { NLColor.BackDefault, Color.Black },
             { NLColor.Trigger, Utility.HexToColor("80EE82EE") }, // Color.Violet with reduced alpha

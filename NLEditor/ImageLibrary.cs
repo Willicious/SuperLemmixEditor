@@ -127,7 +127,7 @@ namespace NLEditor
                 Bitmap newImage = new Bitmap(C.PicPieceSize.Width, C.PicPieceSize.Height);
                 int posX = (newImage.Width - imageFrame.Width) / 2;
                 int posY = (newImage.Height - imageFrame.Height) / 2;
-                newImage.DrawOn(imageFrame, new Point(posX, posY));
+                newImage.DrawOn(imageFrame, new Point(posX, posY), 254);
 
                 string pieceName = System.IO.Path.GetFileNameWithoutExtension(pieceKey);
                 Point bottomRightCorner = new Point(newImage.Width, newImage.Height);

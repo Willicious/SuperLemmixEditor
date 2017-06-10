@@ -249,9 +249,9 @@ namespace NLEditor
         /// <param name="origBmp"></param>
         /// <param name="newBmp"></param>
         /// <param name="pos"></param>
-        public static void DrawOn(this Bitmap origBmp, Bitmap newBmp, Point pos)
+        public static void DrawOn(this Bitmap origBmp, Bitmap newBmp, Point pos, byte alpha = 255)
         {
-            origBmp.DrawOn(newBmp, pos, DoDrawThisPixel_DrawNew, 255);
+            origBmp.DrawOn(newBmp, pos, DoDrawThisPixel_DrawNew, alpha);
         }
 
         /// <summary>
@@ -620,6 +620,60 @@ namespace NLEditor
                     for (int x = 0; x < origBmpRect.Width; x++)
                     {
                         if (curOrigLine[x * BytesPerPixel + 3] > 63)
+                        {
+                            ChangePixel(curNewLine + x * BytesPerPixel, curOrigLine + x * BytesPerPixel, blendColorBytes);
+                        }
+                    }
+                });
+
+                origBmp.UnlockBits(origBmpData);
+                newBmp.UnlockBits(newBmpData);
+            }
+
+            return newBmp;
+        }
+
+
+        /// <summary>
+        /// Blends a sprite image with a given color, keeping all pixels with a specific alpha value.
+        /// </summary>
+        /// <param name="origBmp"></param>
+        /// <param name="blendColor"></param>
+        /// <param name="ignoreColor"></param>
+        /// <returns></returns>
+        public static Bitmap ApplyThemeColor(this Bitmap origBmp, Color blendColor, byte ignoreAlpha)
+        {
+            byte[] blendColorBytes = new byte[] { blendColor.B, blendColor.G, blendColor.R, 255 };
+
+            Rectangle origBmpRect = new Rectangle(0, 0, origBmp.Width, origBmp.Height);
+            Bitmap newBmp = new Bitmap(origBmpRect.Width, origBmpRect.Height);
+
+            unsafe
+            {
+                // Get pointer to first pixel of OrigBitmap
+                BitmapData origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadOnly, origBmp.PixelFormat);
+                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
+
+                // Get pointer to first pixel of NewBitmap
+                BitmapData newBmpData = newBmp.LockBits(origBmpRect, ImageLockMode.WriteOnly, newBmp.PixelFormat);
+                byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
+                Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
+
+                // Copy the pixels
+                Parallel.For(0, origBmpRect.Height, y =>
+                {
+                    // We start curOrigLine and curNewLine at pixel (0, y)
+                    byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
+                    byte* curNewLine = ptrNewFirstPixel + y * newBmpData.Stride;
+
+                    for (int x = 0; x < origBmpRect.Width; x++)
+                    {
+                        if (curOrigLine[x * BytesPerPixel + 3] == ignoreAlpha)
+                        {
+                            ChangePixel(curNewLine + x * BytesPerPixel, curOrigLine + x * BytesPerPixel);
+                        }
+                        else if (curOrigLine[x * BytesPerPixel + 3] > 63)
                         {
                             ChangePixel(curNewLine + x * BytesPerPixel, curOrigLine + x * BytesPerPixel, blendColorBytes);
                         }
