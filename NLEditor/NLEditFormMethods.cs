@@ -472,7 +472,7 @@ namespace NLEditor
             if (pieceList == null || pieceList.Count == 0) return;
             int pieceIndex = (picPieceIndex + pieceStartIndex) % pieceList.Count;
 
-            CurLevel.AddPiece(pieceCurStyle, pieceDoDisplayObject, pieceIndex, curRenderer.GetCenterPoint());
+            CurLevel.AddPiece(pieceCurStyle, pieceDoDisplayObject, pieceIndex, curRenderer.GetCenterPoint(), gridSize);
 
             SaveChangesToOldLevelList();
             pic_Level.Image = curRenderer.CreateLevelImage();
@@ -487,7 +487,7 @@ namespace NLEditor
         public void AddNewPieceToLevel(string pieceKey, Point centerPosition)
         {
             CurLevel.UnselectAll();
-            CurLevel.AddPiece(pieceKey, centerPosition);
+            CurLevel.AddPiece(pieceKey, centerPosition, gridSize);
 
             SaveChangesToOldLevelList();
             pic_Level.Image = curRenderer.CreateLevelImage();
@@ -556,7 +556,7 @@ namespace NLEditor
         /// <param name="step"></param>
         private void MoveLevelPieces(C.DIR direction, int step = 1)
         {
-            CurLevel.MovePieces(direction, step);
+            CurLevel.MovePieces(direction, step, gridSize);
             pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
@@ -566,7 +566,7 @@ namespace NLEditor
         private void DragSelectedPieces()
         {
             Point targetPos = curRenderer.GetNewPosFromDragging();
-            CurLevel.MovePieces(targetPos);
+            CurLevel.MovePieces(targetPos, gridSize);
         }
 
         /// <summary>

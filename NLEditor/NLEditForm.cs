@@ -109,6 +109,8 @@ namespace NLEditor
         List<LevelPiece> oldSelectedList;
         Level lastSavedLevel;
 
+        int gridSize => curSettings.GridSize;
+
         Stopwatch stopWatchKey;
         Stopwatch stopWatchMouse;
         MouseButtons? mouseButtonPressed;
@@ -797,7 +799,7 @@ namespace NLEditor
                 // ...or selected pieces if they exist 
                 else if (CurLevel.SelectionList().Count > 0)
                 {
-                    MoveLevelPieces(direction, e.Control ? 8 : 1);
+                    MoveLevelPieces(direction, e.Control ? 8 * gridSize : gridSize);
                 }
                 // ...or the screen position otherwise
                 else

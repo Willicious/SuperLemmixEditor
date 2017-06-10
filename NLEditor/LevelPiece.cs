@@ -89,7 +89,7 @@ namespace NLEditor
         /// </summary>
         /// <param name="direction"></param>
         /// <param name="step"></param>
-        public void Move(C.DIR direction, int step = 1)
+        public void Move(C.DIR direction, int step, int gridSize)
         {
             switch (direction)
             {
@@ -98,16 +98,20 @@ namespace NLEditor
                 case C.DIR.S: PosY = Math.Min(PosY + step, 3400); break;
                 case C.DIR.W: PosX = Math.Max(PosX - step, -1000); break;
             }
+
+            // Round position according to gridSize
+            PosX = PosX.RoundToMultiple(gridSize);
+            PosY = PosY.RoundToMultiple(gridSize);
         }
 
         /// <summary>
         /// Moves the piece in the level to the target position.
         /// </summary>
         /// <param name="targetPos"></param>
-        public void Move(Point targetPos)
+        public void Move(Point targetPos, int gridSize)
         {
-            PosX = targetPos.X;
-            PosY = targetPos.Y;
+            PosX = targetPos.X.RoundToMultiple(gridSize);
+            PosY = targetPos.Y.RoundToMultiple(gridSize);
         }
 
         /// <summary>

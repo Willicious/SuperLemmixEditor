@@ -59,6 +59,17 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Rounds to the nearest multiple of the value step.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="step"></param>
+        /// <returns></returns>
+        public static int RoundToMultiple(this int x, int step)
+        {
+            return ((x + step / 2) / step) * step;
+        }
+
+        /// <summary>
         /// Loads a bitmap from a file and closes the file again.
         /// </summary>
         /// <param name="filePath"></param>

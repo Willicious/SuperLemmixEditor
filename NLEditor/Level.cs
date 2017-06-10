@@ -196,21 +196,10 @@ namespace NLEditor
         /// <param name="isObject"></param>
         /// <param name="newPieceIndex"></param>
         /// <param name="centerPos"></param>
-        public void AddPiece(Style newStyle, bool isObject, int newPieceIndex, Point centerPos)
+        public void AddPiece(Style newStyle, bool isObject, int newPieceIndex, Point centerPos, int gridSize)
         {
             string pieceKey = isObject ? newStyle.ObjectKeys[newPieceIndex] : newStyle.TerrainKeys[newPieceIndex];
-
-            Point piecePos = new Point(centerPos.X - ImageLibrary.GetWidth(pieceKey) / 2,
-                                       centerPos.Y - ImageLibrary.GetHeight(pieceKey) / 2);
-
-            if (isObject)
-            {
-                GadgetList.Add(new GadgetPiece(pieceKey, piecePos));
-            }
-            else
-            {
-                TerrainList.Add(new TerrainPiece(pieceKey, piecePos));
-            }
+            AddPiece(pieceKey, centerPos, gridSize);
         }
 
         /// <summary>
@@ -218,10 +207,11 @@ namespace NLEditor
         /// </summary>
         /// <param name="pieceKey"></param>
         /// <param name="centerPos"></param>
-        public void AddPiece(string pieceKey, Point centerPos)
+        public void AddPiece(string pieceKey, Point centerPos, int gridSize)
         {
-            Point piecePos = new Point(centerPos.X - ImageLibrary.GetWidth(pieceKey) / 2,
-                                       centerPos.Y - ImageLibrary.GetHeight(pieceKey) / 2);
+            int piecePosX = (centerPos.X - ImageLibrary.GetWidth(pieceKey) / 2).RoundToMultiple(gridSize);
+            int piecePosY = (centerPos.Y - ImageLibrary.GetHeight(pieceKey) / 2).RoundToMultiple(gridSize);
+            Point piecePos = new Point(piecePosX, piecePosY);
 
             if (pieceKey.Contains("object"))
             {
@@ -349,23 +339,23 @@ namespace NLEditor
         /// </summary>
         /// <param name="direction"></param>
         /// <param name="step"></param>
-        public void MovePieces(C.DIR direction, int step = 1)
+        public void MovePieces(C.DIR direction, int step, int gridSize)
         {
-            SelectionList().ForEach(item => item.Move(direction, step));
+            SelectionList().ForEach(item => item.Move(direction, step, gridSize));
         }
 
         /// <summary>
         /// Moves all selected pieces to the target position. 
         /// </summary>
         /// <param name="targetPos">Location of the rectangle spanning all selected pieces.</param>
-        public void MovePieces(Point targetPos)
+        public void MovePieces(Point targetPos, int gridSize)
         {
             Point referencePos = SelectionRectangle().Location;
             foreach (LevelPiece piece in SelectionList())
             {
                 int pieceTargetX = targetPos.X + piece.PosX - referencePos.X;
                 int pieceTargetY = targetPos.Y + piece.PosY - referencePos.Y;
-                piece.Move(new Point(pieceTargetX, pieceTargetY));
+                piece.Move(new Point(pieceTargetX, pieceTargetY), gridSize);
             }
         }
 
