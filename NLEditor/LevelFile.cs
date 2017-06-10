@@ -292,7 +292,7 @@ namespace NLEditor
                 }
             }
 
-            // ... then create the correct Gadget piece
+            // ... then create the correct Terrain piece
             string key = ImageLibrary.CreatePieceKey(styleName, pieceName, false);
             Point pos = new Point(posX, posY);
             TerrainPiece newTerrain = new TerrainPiece(key, pos, 0, false, isErase, isNoOverwrite, isOneWay);
@@ -304,7 +304,7 @@ namespace NLEditor
             if (doRotate) newTerrain.RotateInRect(newTerrain.ImageRectangle);
             if (doFlip) newTerrain.FlipInRect(newTerrain.ImageRectangle);
             if (doInvert) newTerrain.InvertInRect(newTerrain.ImageRectangle);
-            //Reposition gadget to be sure...
+            //Reposition terrain piece to be sure...
             newTerrain.PosX = pos.X;
             newTerrain.PosY = pos.Y;
 
