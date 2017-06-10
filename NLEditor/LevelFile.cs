@@ -248,6 +248,13 @@ namespace NLEditor
             //Reposition gadget to be sure...
             newGadget.PosX = pos.X;
             newGadget.PosY = pos.Y;
+            // and offset preplaced lemmings, because the level file saves the position of the trigger area
+            if (newGadget.ObjType == C.OBJ.LEMMING)
+            {
+                newGadget.PosX -= C.LEM_OFFSET_X;
+                newGadget.PosY -= C.LEM_OFFSET_Y;
+            }
+
 
             newGadget.IsSelected = false;
 
@@ -575,8 +582,11 @@ namespace NLEditor
                 textFile.WriteLine("   COLLECTION " + gadget.Style);
                 textFile.WriteLine("   PIECE      " + gadget.Name);
             }
-            textFile.WriteLine("   X      " + gadget.PosX.ToString().PadLeft(5));
-            textFile.WriteLine("   Y      " + gadget.PosY.ToString().PadLeft(5));
+
+            int posX = gadget.PosX + (gadget.ObjType == C.OBJ.LEMMING ? C.LEM_OFFSET_X : 0);
+            int posY = gadget.PosY + (gadget.ObjType == C.OBJ.LEMMING ? C.LEM_OFFSET_Y : 0);
+            textFile.WriteLine("   X      " + posX.ToString().PadLeft(5));
+            textFile.WriteLine("   Y      " + posY.ToString().PadLeft(5));
 
             if (gadget.MayResizeHoriz())
             {

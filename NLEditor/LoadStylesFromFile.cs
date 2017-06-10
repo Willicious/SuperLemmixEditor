@@ -17,7 +17,8 @@ namespace NLEditor
             // preplaced lemming
             string imageKey = ImageLibrary.CreatePieceKey("default", "lemming", true);
             Bitmap image = Properties.Resources.Lemming;
-            ImageLibrary.AddNewImage(imageKey, image, C.OBJ.LEMMING, new Rectangle(2, 9, 1, 1), C.Resize.None);
+            Rectangle triggerArea = new Rectangle(C.LEM_OFFSET_X, C.LEM_OFFSET_Y, 1, 1);
+            ImageLibrary.AddNewImage(imageKey, image, C.OBJ.LEMMING, triggerArea, C.Resize.None);
         }
     
         static readonly Dictionary<string, C.StyleColor> KeyToStyleColorDict = new Dictionary<string, C.StyleColor>

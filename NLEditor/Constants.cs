@@ -103,6 +103,9 @@ namespace NLEditor
         public static readonly int ZOOM_MIN = -2;
         public static readonly int ZOOM_MAX = 7;
 
+        public static readonly int LEM_OFFSET_X = 2;
+        public static readonly int LEM_OFFSET_Y = 9;
+
         // Other colors are specified directly in BmpModify to speed up rendering.
         public enum NLColor
         {
