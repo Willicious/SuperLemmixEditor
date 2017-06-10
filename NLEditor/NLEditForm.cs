@@ -723,13 +723,16 @@ namespace NLEditor
                 RemoveFocus();
                 ChangeObjTerrPieceDisplay();
             }
-            
             /* --------------------------------------------------------------------
              * ONLY USE THE FOLLOWING KEYS IF FOCUS IS NOT ON ONE OF THE TEXTBOXES
              * --------------------------------------------------------------------*/
             else if (this.ActiveControl != txt_Focus)
             {
                 return; // and don't restart the StopWatch
+            }
+            else if (e.KeyCode == Keys.Space)
+            {
+                ChangeObjTerrPieceDisplay();
             }
             else if (e.Control && e.KeyCode == Keys.Z)
             {
