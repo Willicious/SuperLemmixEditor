@@ -11,10 +11,6 @@ namespace NLEditor
     /// </summary>
     abstract class LevelPiece
     {
-        /*---------------------------------------------------------
-         *          This class stores infos about pieces
-         * -------------------------------------------------------- */
-
         public LevelPiece(string key, bool isObj, Point pos,
                           int rotation = 0, bool isInvert = false)
         {
@@ -234,10 +230,6 @@ namespace NLEditor
     /// </summary>
     class TerrainPiece : LevelPiece
     {
-        /*---------------------------------------------------------
-         *      This class stores infos about terrain pieces
-         * -------------------------------------------------------- */
-
         public TerrainPiece(string key, Point pos)
             : base(key, false, pos)
         {
