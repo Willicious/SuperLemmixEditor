@@ -8,7 +8,14 @@ namespace NLEditor
 
     static class C // for Constants
     {
-        public static string Version => "0.6";
+        public static string Version
+        {
+            get
+            {
+                var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                return version.Major.ToString() + "." + version.Minor.ToString();
+            }
+        }
 
         public static string AppPath => System.Windows.Forms.Application.StartupPath + DirSep;
         public static string AppPathPieces => AppPath + "styles" + DirSep;
