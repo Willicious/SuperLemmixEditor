@@ -24,7 +24,7 @@ namespace NLEditor
 
             openFileDialog.InitialDirectory = C.AppPath;
             openFileDialog.Multiselect = false;
-            openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv|Old level files (*.lvl)|*.lvl";
+            openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv|Old level files (*.lvl, *.ini, *.lev)|*.lvl;*.ini;*.lev";
             openFileDialog.RestoreDirectory = true;
             openFileDialog.CheckFileExists = true;
 
@@ -35,12 +35,12 @@ namespace NLEditor
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string filePath = openFileDialog.FileName;
-                    if (filePath.EndsWith("nxlv"))
+                    if (Path.GetExtension(filePath).Equals(".nxlv"))
                     {
                         newLevel = LoadLevelFromFile(filePath, styleList, backgrounds);
                         newLevel.FilePathToSave = filePath;
                     }
-                    else if (filePath.EndsWith("lvl"))
+                    else
                     {
                         bool IsConverted = ConvertOldLevelType(filePath);
                         if (IsConverted)
@@ -719,7 +719,14 @@ namespace NLEditor
         /// <returns></returns>
         static bool ConvertOldLevelType(string filePath)
         {
-            return ContertWithNeoLemmix(filePath) || ConvertWithConverter(filePath);
+            if (Path.GetExtension(filePath).Equals(".lvl"))
+            {
+                return ContertWithNeoLemmix(filePath) || ConvertWithConverter(filePath);
+            }
+            else
+            {
+                return ContertWithNeoLemmix(filePath);
+            }
         }
 
         /// <summary>
