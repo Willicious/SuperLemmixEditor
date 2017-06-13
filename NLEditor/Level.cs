@@ -188,20 +188,6 @@ namespace NLEditor
             return MainStyle?.GetColor(styleColor) ?? C.NLColors[styleColor.ToNLColor()];
         }
 
-
-        /// <summary>
-        /// Creates a new piece and adds it to the level.
-        /// </summary>
-        /// <param name="newStyle"></param>
-        /// <param name="isObject"></param>
-        /// <param name="newPieceIndex"></param>
-        /// <param name="centerPos"></param>
-        public void AddPiece(Style newStyle, bool isObject, int newPieceIndex, Point centerPos, int gridSize)
-        {
-            string pieceKey = isObject ? newStyle.ObjectKeys[newPieceIndex] : newStyle.TerrainKeys[newPieceIndex];
-            AddPiece(pieceKey, centerPos, gridSize);
-        }
-
         /// <summary>
         /// Creates a new piece and adds it to the level. 
         /// </summary>

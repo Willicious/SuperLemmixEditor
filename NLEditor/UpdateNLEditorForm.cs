@@ -12,6 +12,19 @@ namespace NLEditor
     partial class NLEditForm
     {
         /// <summary>
+        /// Initializes the components needed for draggin new pieces
+        /// </summary>
+        private void InitializeDragNewPieceComponents()
+        {
+            dragNewPiecePicBox = new PictureBoxTransparent();
+            dragNewPiecePicBox.Visible = false;
+            this.Controls.Add(dragNewPiecePicBox);
+
+            dragNewPieceTimer = new Timer();
+            dragNewPieceTimer.Tick += new EventHandler((object sender, EventArgs e) => UpdateNewPiecePicBox());
+        }
+
+        /// <summary>
         /// Initializes the intervals for all repeat buttons.
         /// </summary>
         private void SetRepeatButtonIntervals()
@@ -396,6 +409,8 @@ namespace NLEditor
             picPiece.SizeMode = PictureBoxSizeMode.CenterImage;
 
             picPiece.Click += new EventHandler(picPieces_Click);
+            picPiece.MouseDown += new MouseEventHandler(picPieces_MouseDown);
+            picPiece.MouseUp += new MouseEventHandler(pic_Level_MouseUp);
 
             this.Controls.Add(picPiece);
 
@@ -410,6 +425,39 @@ namespace NLEditor
             combo_Background.Items.Clear();
             combo_Background.Items.AddRange(Backgrounds.GetDisplayNames(CurLevel.MainStyle).ToArray());
         }
+
+        /// <summary>
+        /// Updates the dragNewPiecePicBox.
+        /// </summary>
+        private void UpdateNewPiecePicBox()
+        {
+            if (curRenderer.MouseDragAction != C.DragActions.DragNewPiece
+                || MouseButtons != MouseButtons.Left)
+            {
+                // Stop timer and make PicBox invisible
+                dragNewPieceTimer.Enabled = false;
+                dragNewPiecePicBox.Visible = false;
+                if (curRenderer.MouseDragAction == C.DragActions.DragNewPiece)
+                {
+                    curRenderer.DeleteDraggingVars();
+                }
+            }
+            else
+            {
+                // If needed, turn PicBox visible
+                if (!dragNewPiecePicBox.Visible)
+                {
+                    dragNewPieceTimer.Interval = 50;
+                    dragNewPiecePicBox.Visible = true;
+                }
+                // Reposition the PicBox
+                Point mousePos = PointToClient(Cursor.Position);
+                int newPosX = mousePos.X - dragNewPiecePicBox.Width / 2;
+                int newPosY = mousePos.Y - dragNewPiecePicBox.Height / 2;
+                dragNewPiecePicBox.Location = new Point(newPosX, newPosY);
+            }
+        }
+
 
         /// <summary>
         /// Displays a list of all hotkeys in a new form window.

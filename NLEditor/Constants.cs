@@ -86,7 +86,10 @@ namespace NLEditor
                 {OBJ.TRAPONCE, "Single-use trap"}
             };
 
-        public enum DragActions { Null, SelectArea, DragPieces, MoveEditorPos, MoveStartPos }
+        public enum DragActions
+        {
+            Null, SelectArea, DragPieces, DragNewPiece, MoveEditorPos, MoveStartPos
+        }
 
         public enum Resize { None, Vert, Horiz, Both }
 

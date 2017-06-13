@@ -17,6 +17,7 @@ namespace NLEditor
         /// </summary>
         public NLEditForm()
         {
+            InitializeDragNewPieceComponents();
             InitializeComponent();
             RemoveFocus();
             SetRepeatButtonIntervals();
@@ -98,6 +99,10 @@ namespace NLEditor
         int pieceStartIndex;
         bool pieceDoDisplayObject;
 
+        PictureBoxTransparent dragNewPiecePicBox;
+        string dragNewPieceKey;
+        Timer dragNewPieceTimer;
+
         public Level CurLevel { get; private set; }
         public List<Style> StyleList { get; private set; }
         public BackgroundList Backgrounds { get; private set; }
@@ -110,6 +115,7 @@ namespace NLEditor
         Level lastSavedLevel;
 
         int gridSize => curSettings.GridSize;
+        
 
         Stopwatch stopWatchKey;
         Stopwatch stopWatchMouse;
@@ -613,10 +619,27 @@ namespace NLEditor
             Debug.Assert(picIndex != -1, "PicBox not found in picPieceList.");
 
             AddNewPieceToLevel(picIndex);
-            UpdateFlagsForPieceActions();
-            RemoveFocus();
+            curRenderer.DeleteDraggingVars();
+            //UpdateFlagsForPieceActions();
+            //RemoveFocus();
         }
 
+        private void picPieces_MouseDown(object sender, MouseEventArgs e)
+        {
+            int picIndex = picPieceList.FindIndex(pic => pic.Equals(sender));
+            Debug.Assert(picIndex != -1, "PicBox not found in picPieceList.");
+
+            dragNewPieceKey = GetPieceKeyFromIndex(picIndex);
+
+            dragNewPiecePicBox.Width = ImageLibrary.GetWidth(dragNewPieceKey);
+            dragNewPiecePicBox.Height = ImageLibrary.GetHeight(dragNewPieceKey);
+            dragNewPiecePicBox.Image = ImageLibrary.GetImage(dragNewPieceKey, RotateFlipType.RotateNoneFlipNone);
+
+            dragNewPieceTimer.Interval = 200;
+            dragNewPieceTimer.Enabled = true;
+
+            curRenderer.SetDraggingVars(new Point(0, 0), C.DragActions.DragNewPiece);
+        }
 
         /* -----------------------------------------------------------
          *              Direct Key and Mouse imput
@@ -1027,6 +1050,15 @@ namespace NLEditor
                         Point newCenter = curRenderer.GetNewPosFromDragging();
                         MoveScreenStartPosition(newCenter);
                         SaveChangesToOldLevelList();
+                        break;
+                    }
+                case C.DragActions.DragNewPiece:
+                    {
+                        Point mousePicBoxPos = pic_Level.PointToClient(MousePosition);
+                        Point mouseLevelPos = curRenderer.GetMousePosInLevel(mousePicBoxPos);
+                        AddNewPieceToLevel(dragNewPieceKey, mouseLevelPos);
+                        dragNewPieceTimer.Enabled = false;
+                        dragNewPiecePicBox.Visible = false;
                         break;
                     }
             }

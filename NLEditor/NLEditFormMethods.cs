@@ -461,26 +461,38 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Gets the key from the index of the clicked PieceBox.
+        /// </summary>
+        /// <param name="picPieceIndex"></param>
+        /// <returns></returns>
+        private string GetPieceKeyFromIndex(int picPieceIndex)
+        {
+            List<string> pieceList = pieceDoDisplayObject ? pieceCurStyle?.ObjectKeys : pieceCurStyle?.TerrainKeys;
+            if (pieceList == null || pieceList.Count == 0) return String.Empty;
+            int pieceIndex = (picPieceIndex + pieceStartIndex) % pieceList.Count;
+
+            if (pieceDoDisplayObject)
+            {
+                return pieceCurStyle.ObjectKeys[pieceIndex];
+            }
+            else
+            {
+                return pieceCurStyle.TerrainKeys[pieceIndex];
+            }
+         }
+
+        /// <summary>
         /// Adds a new piece to the level and displays the result to the user.
         /// </summary>
         /// <param name="picPieceIndex"></param>
         private void AddNewPieceToLevel(int picPieceIndex)
         {
-            CurLevel.UnselectAll();
-            
-            List<string> pieceList = pieceDoDisplayObject ?  pieceCurStyle?.ObjectKeys : pieceCurStyle?.TerrainKeys;
-            if (pieceList == null || pieceList.Count == 0) return;
-            int pieceIndex = (picPieceIndex + pieceStartIndex) % pieceList.Count;
-
-            CurLevel.AddPiece(pieceCurStyle, pieceDoDisplayObject, pieceIndex, curRenderer.GetCenterPoint(), gridSize);
-
-            SaveChangesToOldLevelList();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            string pieceKey = GetPieceKeyFromIndex(picPieceIndex);
+            AddNewPieceToLevel(pieceKey, curRenderer.GetCenterPoint());
         }
 
         /// <summary>
         /// Adds a new piece to the level and displays the result to the user.
-        /// <para> Warning: Only use this when adding pieces via FormPieceSelection! </para>
         /// </summary>
         /// <param name="pieceKey"></param>
         /// <param name="centerPosition"></param>
