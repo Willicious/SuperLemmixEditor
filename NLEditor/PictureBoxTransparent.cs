@@ -17,34 +17,11 @@ namespace NLEditor
                         | ControlStyles.ResizeRedraw
                         | ControlStyles.DoubleBuffer
                         | ControlStyles.UserPaint, true);
-        }
-        
-        
-        
-        /// <summary>
-        /// Paint background with underlying graphics from other controls
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            /*if (Parent != null)
-            {
-                using (Graphics tempGraphics = e.Graphics)
-                {
-                    // Take each control in turn
-                    int picBoxIndex = Parent.Controls.GetChildIndex(this);
-                    for (int i = Parent.Controls.Count - 1; i > picBoxIndex; i--)
-                    {
-                        DrawControlToGraphics(tempGraphics, Parent.Controls[i]);
-                    }
-                }
-            }
-            else
-            {
-                base.OnPaintBackground(e);
-            }*/
-        }
 
+            this.BackColor = Color.Black;
+            //this.LocationChanged += new EventHandler((object sender, EventArgs e) => RedrawBackground());
+        }
+        
         /// <summary>
         /// Draws the control to the Graphics object.
         /// </summary>
@@ -65,5 +42,25 @@ namespace NLEditor
             }
         }
 
+        private void RedrawBackground()
+        {
+            if (Parent == null) return;
+
+            this.BackColor = Parent.BackColor;
+
+            Bitmap bgBmp = new Bitmap(Width, Height);
+
+            using (Graphics background = Graphics.FromImage(bgBmp))
+            {
+                // Take each control in turn
+                int picBoxIndex = Parent.Controls.GetChildIndex(this);
+                for (int i = Parent.Controls.Count - 1; i > picBoxIndex; i--)
+                {
+                    DrawControlToGraphics(background, Parent.Controls[i]);
+                }
+            }
+            this.BackgroundImage = bgBmp;
+            this.Refresh();
+        }
     }
 }

@@ -631,9 +631,10 @@ namespace NLEditor
 
             dragNewPieceKey = GetPieceKeyFromIndex(picIndex);
 
-            dragNewPiecePicBox.Width = ImageLibrary.GetWidth(dragNewPieceKey);
-            dragNewPiecePicBox.Height = ImageLibrary.GetHeight(dragNewPieceKey);
-            dragNewPiecePicBox.Image = ImageLibrary.GetImage(dragNewPieceKey, RotateFlipType.RotateNoneFlipNone);
+            dragNewPiecePicBox.Width = curRenderer.ApplyZoom(ImageLibrary.GetWidth(dragNewPieceKey));
+            dragNewPiecePicBox.Height = curRenderer.ApplyZoom(ImageLibrary.GetHeight(dragNewPieceKey));
+            dragNewPiecePicBox.Image = ImageLibrary.GetImage(dragNewPieceKey, RotateFlipType.RotateNoneFlipNone)
+                                                   .Zoom(curRenderer.ZoomFactor);
 
             dragNewPieceTimer.Interval = 200;
             dragNewPieceTimer.Enabled = true;

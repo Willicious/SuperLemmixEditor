@@ -161,7 +161,7 @@ namespace NLEditor
         /// </summary>
         /// <param name="lvlCoord"></param>
         /// <returns></returns>
-        private int ApplyZoom(int lvlCoord)
+        public int ApplyZoom(int lvlCoord)
         {
             return (ZoomFactor < 0) ? (lvlCoord / (1 - ZoomFactor)) : (lvlCoord * (ZoomFactor + 1));
         }
@@ -171,7 +171,7 @@ namespace NLEditor
         /// </summary>
         /// <param name="screenCoord"></param>
         /// <returns></returns>
-        private int ApplyUnZoom(int screenCoord)
+        public int ApplyUnZoom(int screenCoord)
         {
             return (ZoomFactor < 0) ? (screenCoord * (1 - ZoomFactor)) : (screenCoord / (ZoomFactor + 1));
         }
