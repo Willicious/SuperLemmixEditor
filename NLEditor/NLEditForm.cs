@@ -117,7 +117,6 @@ namespace NLEditor
 
         int gridSize => curSettings.GridSize;
         
-
         Stopwatch stopWatchKey;
         Stopwatch stopWatchMouse;
         MouseButtons? mouseButtonPressed;

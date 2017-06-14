@@ -183,8 +183,10 @@ namespace NLEditor
         {
             Style mainStyle = StyleList?.Find(sty => sty.NameInEditor == combo_MainStyle.Text);
             CurLevel = new Level(mainStyle);
+            // Get new renderer with the standard display options
             if (curRenderer != null) curRenderer.Dispose();
             curRenderer = new Renderer(CurLevel, pic_Level);
+            EnsureRendererSettingsConformWithTabs();
 
             oldLevelList = new List<Level>();
             oldLevelList.Add(CurLevel.Clone());
@@ -225,6 +227,37 @@ namespace NLEditor
             pic_Level.Image = curRenderer.CreateLevelImage();
 
             combo_PieceStyle.Text = CurLevel.MainStyle?.NameInEditor;
+        }
+
+        /// <summary>
+        /// Reads the display settings from the tab menu and sets the renderer options accordingly.
+        /// </summary>
+        private void EnsureRendererSettingsConformWithTabs()
+        {
+            if (curRenderer.IsTerrainLayer != terrainRenderingToolStripMenuItem.Checked)
+            {
+                curRenderer.ChangeIsTerrainLayer();
+            }
+            if (curRenderer.IsObjectLayer != objectRenderingToolStripMenuItem.Checked)
+            {
+                curRenderer.ChangeIsObjectLayer();
+            }
+            if (curRenderer.IsTriggerLayer != triggerAreasToolStripMenuItem.Checked)
+            {
+                curRenderer.ChangeIsTriggerLayer();
+            }
+            if (curRenderer.IsScreenStart != screenStartToolStripMenuItem.Checked)
+            {
+                curRenderer.ChangeIsScreenStart();
+            }
+            if (curRenderer.IsBackgroundLayer != backgroundToolStripMenuItem.Checked)
+            {
+                curRenderer.ChangeIsBackgroundLayer();
+            }
+            if (curRenderer.IsClearPhysics != clearPhysicsToolStripMenuItem.Checked)
+            {
+                curRenderer.ChangeIsClearPhsyics();
+            }
         }
 
         /// <summary>
