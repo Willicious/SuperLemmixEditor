@@ -162,7 +162,7 @@ namespace NLEditor
                     {
                         "Left mouse",
                         "",
-                        "Left mouse (double)",
+                        "",
                         "Right mouse",
                         "Middle mouse",
                         "Ctrl + mouse",
@@ -232,8 +232,8 @@ namespace NLEditor
                 { HotkeyTabs.Level, new List<string>
                     {
                         "Drag selected pieces or...",
-                        "Select one piece or all pieces in an area.",
-                        "Add a new piece via extra selection window.",
+                        "Drag new piece from the bottom row or...",
+                        "Select a single piece or all pieces in an area.",
                         "Drag current editor position.",
                         "Remove one piece or all pieces in an area from selection.",
                         "Add/Remove pieces to current selection.",

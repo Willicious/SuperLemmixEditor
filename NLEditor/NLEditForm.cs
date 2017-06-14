@@ -1076,6 +1076,8 @@ namespace NLEditor
 
         private void pic_Level_DoubleClick(object sender, EventArgs e)
         {
+            // Removed ability to add pieces by double-clicking.
+            /*
             if (!(e is MouseEventArgs) || (e as MouseEventArgs).Button != MouseButtons.Left) return;
 
             curRenderer.DeleteDraggingVars();
@@ -1105,6 +1107,7 @@ namespace NLEditor
             selectForm.StartPosition = FormStartPosition.Manual;
             selectForm.Location = new Point(formStartPosX, formStartPosY);
             selectForm.Show();
+            */
         }
     }
 }
