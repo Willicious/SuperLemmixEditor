@@ -195,6 +195,18 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Returns whether a point in screen corrdinates relative to pic_Level lies in the level area.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public bool IsPointInLevelArea(Point? point)
+        {
+            if (point == null) return false;
+            Rectangle levelRect = new Rectangle(BorderWidth(), BorderHeight(), ApplyZoom(level.Width), ApplyZoom(level.Height));
+            return levelRect.Contains((Point)point);
+        }
+
+        /// <summary>
         /// Translates a point in screen coordinates (relative to pic_Level) into level coordinates.
         /// </summary>
         /// <param name="mouseScreenPos"></param>
@@ -319,6 +331,23 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Draws the piece with the given Key on the levelBmp at the current mouse position.
+        /// </summary>
+        /// <param name="levelBmp"></param>
+        /// <param name="newPieceKey"></param>
+        private void AddDragNewPiece(Bitmap levelBmp, string newPieceKey, Point offset)
+        {
+            if (MouseCurPos == null) return;
+
+            Bitmap pieceImage = ImageLibrary.GetImage(newPieceKey);
+            Point mouseLevelPos = GetMousePosInLevel((Point)MouseCurPos);
+
+            Point piecePos = new Point(mouseLevelPos.X - pieceImage.Width / 2 + offset.X,
+                                       mouseLevelPos.Y - pieceImage.Height / 2 + offset.Y);
+            levelBmp.DrawOn(pieceImage, piecePos, C.CustDrawMode.Default);
+        }
+
+        /// <summary>
         /// Renders all terrain pieces in the TerrPieceList.
         /// <para> This assumes IsClearPhysics = false.</para>
         /// </summary>
@@ -434,7 +463,7 @@ namespace NLEditor
         /// Combines and crops stored layers and returns the image to display on the screen.
         /// </summary>
         /// <returns></returns>
-        public Bitmap CombineLayers()
+        public Bitmap CombineLayers(string dragNewPieceKey = null)
         {
             UpdateScreenPos();
             Point oldScreenPos = new Point(ScreenPosX, ScreenPosY);
@@ -462,6 +491,12 @@ namespace NLEditor
             if (IsTerrainLayer)
             {
                 levelBmp.DrawOn(layerImages[C.Layer.Terrain], negativeScreenPos);
+            }
+
+            if (dragNewPieceKey != null && MouseDragAction == C.DragActions.DragNewPiece 
+                                        && IsPointInLevelArea(MouseCurPos))
+            {
+                AddDragNewPiece(levelBmp, dragNewPieceKey, negativeScreenPos);
             }
 
             if (IsTerrainLayer && IsObjectLayer)

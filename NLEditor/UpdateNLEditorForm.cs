@@ -431,6 +431,9 @@ namespace NLEditor
         /// </summary>
         private void UpdateNewPiecePicBox()
         {
+            Point mousePos = PointToClient(MousePosition);
+            Point mousePosPicLevel = pic_Level.PointToClient(MousePosition);
+
             if (curRenderer.MouseDragAction != C.DragActions.DragNewPiece
                 || MouseButtons != MouseButtons.Left)
             {
@@ -442,16 +445,24 @@ namespace NLEditor
                     curRenderer.DeleteDraggingVars();
                 }
             }
+            else if (curRenderer.IsPointInLevelArea(mousePosPicLevel))
+            {
+                // Display the piece via the renderer in the level
+                dragNewPiecePicBox.Visible = false;
+
+                curRenderer.MouseCurPos = mousePosPicLevel;
+                pic_Level.Image = curRenderer.CombineLayers(dragNewPieceKey);
+            }
             else
             {
-                // If needed, turn PicBox visible
+                // Display the piece via the picture box.
                 if (!dragNewPiecePicBox.Visible)
                 {
                     dragNewPieceTimer.Interval = 50;
                     dragNewPiecePicBox.Visible = true;
+                    pic_Level.Image = curRenderer.CombineLayers();
                 }
                 // Reposition the PicBox
-                Point mousePos = PointToClient(Cursor.Position);
                 int newPosX = mousePos.X - dragNewPiecePicBox.Width / 2;
                 int newPosY = mousePos.Y - dragNewPiecePicBox.Height / 2;
                 dragNewPiecePicBox.Location = new Point(newPosX, newPosY);

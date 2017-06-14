@@ -172,7 +172,7 @@ namespace NLEditor
         /// <param name="imageKey"></param>
         /// <param name="rotFlipType"></param>
         /// <returns></returns>
-        public static Bitmap GetImage(string imageKey, RotateFlipType rotFlipType)
+        public static Bitmap GetImage(string imageKey, RotateFlipType rotFlipType = RotateFlipType.RotateNoneFlipNone)
         {
             return GetImage(imageKey, rotFlipType, 0);
         }
