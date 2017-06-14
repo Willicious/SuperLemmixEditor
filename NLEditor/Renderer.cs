@@ -9,7 +9,7 @@ namespace NLEditor
     /// <summary>
     /// Produces the level image and stores all data for displaying it.
     /// </summary>
-    class Renderer
+    class Renderer : IDisposable
     {
         /*---------------------------------------------------------
          *  IMPORTANT: The Terrain layer uses the alpha value 
@@ -74,8 +74,17 @@ namespace NLEditor
         public Point? MouseCurPos { get; set; }
         public C.DragActions MouseDragAction { get; private set; }
 
+        public void Dispose()
+        {
+            if (layerImages != null)
+            {
+                layerImages.Values.ToList().ForEach(bmp => bmp.Dispose());
+            }
+        }
+
         private void ClearLayers()
         {
+            Dispose();
             layerImages = C.LayerList.ToDictionary(layer => layer, layer => new Bitmap(level.Width, level.Height));
         }
 

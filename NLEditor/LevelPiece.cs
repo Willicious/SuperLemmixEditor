@@ -589,8 +589,11 @@ namespace NLEditor
             terrainPieces.ForEach(ter => { ter.PosX -= this.PosX; ter.PosY -= this.PosY; });
             bool isSteelGroup = terrainPieces.Exists(ter => ter.IsSteel && !ter.IsErase);
             // Create a cropped image of the group
-            Renderer groupRenderer = new Renderer();
-            Bitmap groupImage = groupRenderer.CreateTerrainGroupImage(terrainPieces);
+            Bitmap groupImage;
+            using (Renderer groupRenderer = new Renderer())
+            {
+                groupImage = groupRenderer.CreateTerrainGroupImage(terrainPieces);
+            }
             Rectangle cropRect = groupImage.GetCropTransparentRectangle();
             groupImage = groupImage.Crop(cropRect);
             // Adapt positions to cropped rectangle

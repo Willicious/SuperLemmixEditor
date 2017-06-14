@@ -183,6 +183,7 @@ namespace NLEditor
         {
             Style mainStyle = StyleList?.Find(sty => sty.NameInEditor == combo_MainStyle.Text);
             CurLevel = new Level(mainStyle);
+            if (curRenderer != null) curRenderer.Dispose();
             curRenderer = new Renderer(CurLevel, pic_Level);
 
             oldLevelList = new List<Level>();
