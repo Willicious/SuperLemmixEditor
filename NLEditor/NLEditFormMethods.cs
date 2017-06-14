@@ -513,8 +513,12 @@ namespace NLEditor
         private void LevelSelectSinglePiece()
         {
             // Check whether MouseStartPos is actually in pic_Level
-            Point? levelPos = curRenderer.GetMousePosInLevel(false);
-            if (levelPos == null) return;
+            if (!curRenderer.IsPointInLevelArea() || curRenderer.GetMousePosInLevel() == null)
+            {
+                CurLevel.UnselectAll();
+                return;
+            }
+            Point levelPos = (Point)curRenderer.GetMousePosInLevel();
 
             if (mouseButtonPressed == MouseButtons.Left)
             {
@@ -525,12 +529,12 @@ namespace NLEditor
                 }
                 
                 // Add a single piece
-                CurLevel.SelectOnePiece((Point)levelPos, true, isAltPressed);
+                CurLevel.SelectOnePiece(levelPos, true, isAltPressed);
             }
             else if (mouseButtonPressed == MouseButtons.Middle)
             {
                 // Remove a single piece
-                CurLevel.SelectOnePiece((Point)levelPos, false, isAltPressed);
+                CurLevel.SelectOnePiece(levelPos, false, isAltPressed);
             }
         }
 

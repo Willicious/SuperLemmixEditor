@@ -207,6 +207,15 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Returns whether the current mouse position (as stored by the renderer) lies in the level area.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsPointInLevelArea()
+        {
+            return IsPointInLevelArea(MouseCurPos);
+        }
+
+        /// <summary>
         /// Translates a point in screen coordinates (relative to pic_Level) into level coordinates.
         /// </summary>
         /// <param name="mouseScreenPos"></param>
