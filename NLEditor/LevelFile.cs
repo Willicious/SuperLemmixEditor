@@ -784,16 +784,17 @@ namespace NLEditor
         static bool ContertWithNeoLemmix(string filePath)
         {
             if (!File.Exists(C.AppPathNeoLemmix)) return false;
-            /* We have to exclude old-format NeoLemmix players and 
-             * early versions of new-format NeoLemmix players.
-             * As version numbers are not accessible, we check file sizes:
-             * old-format:       5.5MB-6.5MB
-             * early new-format: 1.0-1.5MB
-             * later new-format: about 3MB  */
-            var NLInfo = new FileInfo(C.AppPathNeoLemmix);
-            double NLFileSize = (double)NLInfo.Length / (1024 * 1024); // in MB
-            if (NLFileSize < 1.5) return false;
-            if (NLFileSize > 5.5 && NLFileSize < 6.5) return false;
+
+            // Compare version number of the NeoLemmix.exe file
+            var versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(C.AppPathNeoLemmix);
+            string[] fileVersion = versionInfo.FileVersion.Split('.');
+            try
+            {
+                if (int.Parse(fileVersion[0]) < 11 || int.Parse(fileVersion[1]) < 14) return false;
+            }
+            // If that fails, the version is always wrong!
+            catch (FormatException) { return false; }
+            catch (ArgumentNullException) { return false; }
 
             try
             {
@@ -812,7 +813,7 @@ namespace NLEditor
             {
                 return false;
             }
-        }
+            }
 
     }
 }
