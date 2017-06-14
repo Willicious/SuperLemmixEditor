@@ -211,7 +211,7 @@ namespace NLEditor
         public bool IsPointInLevelArea(Point? point)
         {
             if (point == null) return false;
-            Rectangle levelRect = new Rectangle(BorderWidth(), BorderHeight(), ApplyZoom(level.Width), ApplyZoom(level.Height));
+            Rectangle levelRect = new Rectangle(BorderWidth(), BorderHeight(), picBoxWidth - 2 * BorderWidth(), picBoxHeight - 2 * BorderHeight());
             return levelRect.Contains((Point)point);
         }
 
