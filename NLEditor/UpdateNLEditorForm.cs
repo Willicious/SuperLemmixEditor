@@ -266,6 +266,7 @@ namespace NLEditor
             newPicLevelSize = CheckEnableLevelScrollbars(newPicLevelSize);
 
             pic_Level.Size = newPicLevelSize;
+            curRenderer.EnsureScreenPosInLevel();
         }
 
         /// <summary>
