@@ -124,8 +124,10 @@ namespace NLEditor
                         case "TIME_LIMIT":
                             newLevel.TimeLimit = line.Value;
                             newLevel.IsNoTimeLimit = false; break;
-                        case "RELEASE_RATE": newLevel.ReleaseRate = line.Value; break;
-                        case "RELEAST_RATE_LOCKED": newLevel.IsReleaseRateFix = true; break;
+                        case "MAX_SPAWN_INTERVAL": newLevel.SpawnRate = 103 - line.Value; break;
+                        case "SPAWN_INTERVAL_LOCKED": newLevel.IsSpawnRateFix = true; break;
+                        case "RELEASE_RATE": newLevel.SpawnRate = 50 + line.Value / 2; break;
+                        case "RELEASE_RATE_LOCKED": newLevel.IsSpawnRateFix = true; break;
                         case "BACKGROUND": newLevel.Background = ReadBackgroundFromLines(line.Text, styleList, backgrounds); break;
 
                         case "SKILLSET":
@@ -372,7 +374,7 @@ namespace NLEditor
             // Global level properties
             newLevel.NumLems = Math.Max(Math.Min(newLevel.NumLems, 500), 1);
             newLevel.SaveReq = Math.Max(Math.Min(newLevel.SaveReq, 500), 1);
-            newLevel.ReleaseRate = Math.Max(Math.Min(newLevel.ReleaseRate, 99), 1);
+            newLevel.SpawnRate = Math.Max(Math.Min(newLevel.SpawnRate, 99), 1);
             newLevel.TimeLimit = Math.Max(Math.Min(newLevel.TimeLimit, 5999), 0);
             // Skill numbers
             foreach (C.Skill skill in C.SkillArray)
@@ -485,10 +487,10 @@ namespace NLEditor
             {
                 textFile.WriteLine(" TIME_LIMIT   " + curLevel.TimeLimit.ToString().PadLeft(4));
             }
-            textFile.WriteLine(" RELEASE_RATE " + curLevel.ReleaseRate.ToString().PadLeft(4));
-            if (curLevel.IsReleaseRateFix)
+            textFile.WriteLine(" MAX_SPAWN_INTERVAL " + (103 - curLevel.SpawnRate).ToString().PadLeft(4));
+            if (curLevel.IsSpawnRateFix)
             {
-                textFile.WriteLine(" RELEASE_RATE_FIXED ");
+                textFile.WriteLine(" SPAWN_INTERVAL_LOCKED ");
             }
             textFile.WriteLine(" ");
 

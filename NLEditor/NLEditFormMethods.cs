@@ -118,8 +118,8 @@ namespace NLEditor
             CurLevel.StartPosY = decimal.ToInt32(num_Lvl_StartY.Value);
             CurLevel.NumLems = decimal.ToInt32(num_Lvl_Lems.Value);
             CurLevel.SaveReq = decimal.ToInt32(num_Lvl_Rescue.Value);
-            CurLevel.ReleaseRate = decimal.ToInt32(num_Lvl_RR.Value);
-            CurLevel.IsReleaseRateFix = check_Lvl_LockRR.Checked;
+            CurLevel.SpawnRate = decimal.ToInt32(num_Lvl_SR.Value);
+            CurLevel.IsSpawnRateFix = check_Lvl_LockSR.Checked;
             CurLevel.TimeLimit = decimal.ToInt32(num_Lvl_TimeMin.Value) * 60
                                     + decimal.ToInt32(num_Lvl_TimeSec.Value);
             CurLevel.IsNoTimeLimit = check_Lvl_InfTime.Checked;
@@ -163,8 +163,8 @@ namespace NLEditor
             // Add the rest of the values
             num_Lvl_Lems.Value = CurLevel.NumLems;
             num_Lvl_Rescue.Value = CurLevel.SaveReq;
-            num_Lvl_RR.Value = CurLevel.ReleaseRate;
-            check_Lvl_LockRR.Checked = CurLevel.IsReleaseRateFix;
+            num_Lvl_SR.Value = CurLevel.SpawnRate;
+            check_Lvl_LockSR.Checked = CurLevel.IsSpawnRateFix;
             num_Lvl_TimeMin.Value = CurLevel.TimeLimit / 60;
             num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;
             check_Lvl_InfTime.Checked = CurLevel.IsNoTimeLimit;

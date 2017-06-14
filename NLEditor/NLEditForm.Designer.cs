@@ -79,9 +79,9 @@
             this.num_Lvl_TimeSec = new System.Windows.Forms.NumericUpDown();
             this.num_Lvl_TimeMin = new System.Windows.Forms.NumericUpDown();
             this.lbl_Global_TimeLimit = new System.Windows.Forms.Label();
-            this.check_Lvl_LockRR = new System.Windows.Forms.CheckBox();
-            this.num_Lvl_RR = new System.Windows.Forms.NumericUpDown();
-            this.lbl_Global_RR = new System.Windows.Forms.Label();
+            this.check_Lvl_LockSR = new System.Windows.Forms.CheckBox();
+            this.num_Lvl_SR = new System.Windows.Forms.NumericUpDown();
+            this.lbl_Global_SR = new System.Windows.Forms.Label();
             this.num_Lvl_Rescue = new System.Windows.Forms.NumericUpDown();
             this.lbl_Global_Rescue = new System.Windows.Forms.Label();
             this.num_Lvl_Lems = new System.Windows.Forms.NumericUpDown();
@@ -194,7 +194,7 @@
             this.tabGlobalInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_TimeSec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_TimeMin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_RR)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_Rescue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_Lems)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_StartY)).BeginInit();
@@ -637,9 +637,9 @@
             this.tabGlobalInfo.Controls.Add(this.num_Lvl_TimeSec);
             this.tabGlobalInfo.Controls.Add(this.num_Lvl_TimeMin);
             this.tabGlobalInfo.Controls.Add(this.lbl_Global_TimeLimit);
-            this.tabGlobalInfo.Controls.Add(this.check_Lvl_LockRR);
-            this.tabGlobalInfo.Controls.Add(this.num_Lvl_RR);
-            this.tabGlobalInfo.Controls.Add(this.lbl_Global_RR);
+            this.tabGlobalInfo.Controls.Add(this.check_Lvl_LockSR);
+            this.tabGlobalInfo.Controls.Add(this.num_Lvl_SR);
+            this.tabGlobalInfo.Controls.Add(this.lbl_Global_SR);
             this.tabGlobalInfo.Controls.Add(this.num_Lvl_Rescue);
             this.tabGlobalInfo.Controls.Add(this.lbl_Global_Rescue);
             this.tabGlobalInfo.Controls.Add(this.num_Lvl_Lems);
@@ -770,49 +770,49 @@
             this.lbl_Global_TimeLimit.TabIndex = 21;
             this.lbl_Global_TimeLimit.Text = "Time Limit";
             // 
-            // check_Lvl_LockRR
+            // check_Lvl_LockSR
             // 
-            this.check_Lvl_LockRR.AutoSize = true;
-            this.check_Lvl_LockRR.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Lvl_LockRR.Location = new System.Drawing.Point(24, 240);
-            this.check_Lvl_LockRR.Name = "check_Lvl_LockRR";
-            this.check_Lvl_LockRR.Size = new System.Drawing.Size(118, 17);
-            this.check_Lvl_LockRR.TabIndex = 20;
-            this.check_Lvl_LockRR.Text = "Lock Release Rate";
-            this.check_Lvl_LockRR.UseVisualStyleBackColor = true;
-            this.check_Lvl_LockRR.Leave += new System.EventHandler(this.textbox_Leave);
+            this.check_Lvl_LockSR.AutoSize = true;
+            this.check_Lvl_LockSR.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Lvl_LockSR.Location = new System.Drawing.Point(24, 240);
+            this.check_Lvl_LockSR.Name = "check_Lvl_LockSR";
+            this.check_Lvl_LockSR.Size = new System.Drawing.Size(112, 17);
+            this.check_Lvl_LockSR.TabIndex = 20;
+            this.check_Lvl_LockSR.Text = "Lock Spawn Rate";
+            this.check_Lvl_LockSR.UseVisualStyleBackColor = true;
+            this.check_Lvl_LockSR.Leave += new System.EventHandler(this.textbox_Leave);
             // 
-            // num_Lvl_RR
+            // num_Lvl_SR
             // 
-            this.num_Lvl_RR.Location = new System.Drawing.Point(95, 214);
-            this.num_Lvl_RR.Maximum = new decimal(new int[] {
+            this.num_Lvl_SR.Location = new System.Drawing.Point(95, 214);
+            this.num_Lvl_SR.Maximum = new decimal(new int[] {
             99,
             0,
             0,
             0});
-            this.num_Lvl_RR.Minimum = new decimal(new int[] {
+            this.num_Lvl_SR.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.num_Lvl_RR.Name = "num_Lvl_RR";
-            this.num_Lvl_RR.Size = new System.Drawing.Size(47, 20);
-            this.num_Lvl_RR.TabIndex = 19;
-            this.num_Lvl_RR.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.num_Lvl_RR.Value = new decimal(new int[] {
-            1,
+            this.num_Lvl_SR.Name = "num_Lvl_SR";
+            this.num_Lvl_SR.Size = new System.Drawing.Size(47, 20);
+            this.num_Lvl_SR.TabIndex = 19;
+            this.num_Lvl_SR.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Lvl_SR.Value = new decimal(new int[] {
+            50,
             0,
             0,
             0});
-            this.num_Lvl_RR.Leave += new System.EventHandler(this.textbox_Leave);
+            this.num_Lvl_SR.Leave += new System.EventHandler(this.textbox_Leave);
             // 
-            // lbl_Global_RR
+            // lbl_Global_SR
             // 
-            this.lbl_Global_RR.Location = new System.Drawing.Point(6, 216);
-            this.lbl_Global_RR.Name = "lbl_Global_RR";
-            this.lbl_Global_RR.Size = new System.Drawing.Size(81, 15);
-            this.lbl_Global_RR.TabIndex = 18;
-            this.lbl_Global_RR.Text = "Release Rate";
+            this.lbl_Global_SR.Location = new System.Drawing.Point(6, 216);
+            this.lbl_Global_SR.Name = "lbl_Global_SR";
+            this.lbl_Global_SR.Size = new System.Drawing.Size(81, 15);
+            this.lbl_Global_SR.TabIndex = 18;
+            this.lbl_Global_SR.Text = "Spawn Rate";
             // 
             // num_Lvl_Rescue
             // 
@@ -2068,7 +2068,7 @@
             this.tabGlobalInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_TimeSec)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_TimeMin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_RR)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SR)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_Rescue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_Lems)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_StartY)).EndInit();
@@ -2183,9 +2183,9 @@
         private System.Windows.Forms.NumericUpDown num_Lvl_TimeSec;
         private System.Windows.Forms.NumericUpDown num_Lvl_TimeMin;
         private System.Windows.Forms.Label lbl_Global_TimeLimit;
-        private System.Windows.Forms.CheckBox check_Lvl_LockRR;
-        private System.Windows.Forms.NumericUpDown num_Lvl_RR;
-        private System.Windows.Forms.Label lbl_Global_RR;
+        private System.Windows.Forms.CheckBox check_Lvl_LockSR;
+        private System.Windows.Forms.NumericUpDown num_Lvl_SR;
+        private System.Windows.Forms.Label lbl_Global_SR;
         private System.Windows.Forms.ComboBox combo_Music;
         private System.Windows.Forms.ComboBox combo_PieceStyle;
         private System.Windows.Forms.PictureBox picPiece0;
