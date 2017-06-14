@@ -54,12 +54,18 @@ namespace NLEditor
         /// </summary>
         private void ReadPlayerSettings()
         {
+            string filePath = GetSettingsFilePath();
+            if (filePath == null)
+            {
+                SetDefault();
+                return;
+            }
+
             try
             {
                 int windowWidth = 320;
                 int windowHeight = 200;
 
-                string filePath = C.AppPath + "NeoLemmix147Settings.ini";
                 var fileReader = new StreamReader(filePath);
 
                 string line;
@@ -102,6 +108,17 @@ namespace NLEditor
             {
                 SetDefault();
             }
+        }
+
+        /// <summary>
+        /// Returns the location where the settings file is stored, or null if none exists.
+        /// </summary>
+        /// <returns></returns>
+        private string GetSettingsFilePath()
+        {
+            if (File.Exists(C.AppPathSettings)) return C.AppPathSettings;
+            else if (File.Exists(C.AppPathSettingsOld)) return C.AppPathSettingsOld;
+            else return null;
         }
 
         /// <summary>
