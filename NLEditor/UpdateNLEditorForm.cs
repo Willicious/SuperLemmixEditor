@@ -447,6 +447,7 @@ namespace NLEditor
                 if (!pic_DragNewPiece.Visible)
                 {
                     dragNewPieceTimer.Interval = 50;
+                    pic_DragNewPiece.BringToFront();
                     pic_DragNewPiece.Visible = true;
                     pic_Level.Image = curRenderer.CombineLayers();
                 }
