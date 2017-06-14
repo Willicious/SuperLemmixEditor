@@ -17,7 +17,6 @@ namespace NLEditor
         /// </summary>
         public NLEditForm()
         {
-            InitializeDragNewPieceComponents();
             InitializeComponent();
             RemoveFocus();
             SetRepeatButtonIntervals();
@@ -83,6 +82,9 @@ namespace NLEditor
 
             UpdateBackgroundComboItems();
 
+            dragNewPieceTimer = new Timer();
+            dragNewPieceTimer.Tick += new EventHandler((object sender, EventArgs e) => UpdateNewPiecePicBox());
+
             stopWatchKey = new Stopwatch();
             stopWatchKey.Start();
             stopWatchMouse = new Stopwatch();
@@ -99,7 +101,6 @@ namespace NLEditor
         int pieceStartIndex;
         bool pieceDoDisplayObject;
 
-        PictureBoxTransparent dragNewPiecePicBox;
         string dragNewPieceKey;
         Timer dragNewPieceTimer;
 
@@ -629,9 +630,9 @@ namespace NLEditor
 
             dragNewPieceKey = GetPieceKeyFromIndex(picIndex);
 
-            dragNewPiecePicBox.Width = ImageLibrary.GetWidth(dragNewPieceKey);
-            dragNewPiecePicBox.Height = ImageLibrary.GetHeight(dragNewPieceKey);
-            dragNewPiecePicBox.Image = ImageLibrary.GetImage(dragNewPieceKey, RotateFlipType.RotateNoneFlipNone);
+            pic_DragNewPiece.Width = ImageLibrary.GetWidth(dragNewPieceKey);
+            pic_DragNewPiece.Height = ImageLibrary.GetHeight(dragNewPieceKey);
+            pic_DragNewPiece.Image = ImageLibrary.GetImage(dragNewPieceKey);
 
             dragNewPieceTimer.Interval = 200;
             dragNewPieceTimer.Enabled = true;
@@ -1053,10 +1054,13 @@ namespace NLEditor
                 case C.DragActions.DragNewPiece:
                     {
                         Point mousePicBoxPos = pic_Level.PointToClient(MousePosition);
-                        Point mouseLevelPos = curRenderer.GetMousePosInLevel(mousePicBoxPos);
-                        AddNewPieceToLevel(dragNewPieceKey, mouseLevelPos);
+                        if (curRenderer.IsPointInLevelArea(mousePicBoxPos))
+                        {
+                            Point mouseLevelPos = curRenderer.GetMousePosInLevel(mousePicBoxPos);
+                            AddNewPieceToLevel(dragNewPieceKey, mouseLevelPos);
+                        }
                         dragNewPieceTimer.Enabled = false;
-                        dragNewPiecePicBox.Visible = false;
+                        pic_DragNewPiece.Visible = false;
                         break;
                     }
             }

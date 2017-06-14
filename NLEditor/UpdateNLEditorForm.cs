@@ -12,19 +12,6 @@ namespace NLEditor
     partial class NLEditForm
     {
         /// <summary>
-        /// Initializes the components needed for draggin new pieces
-        /// </summary>
-        private void InitializeDragNewPieceComponents()
-        {
-            dragNewPiecePicBox = new PictureBoxTransparent();
-            dragNewPiecePicBox.Visible = false;
-            this.Controls.Add(dragNewPiecePicBox);
-
-            dragNewPieceTimer = new Timer();
-            dragNewPieceTimer.Tick += new EventHandler((object sender, EventArgs e) => UpdateNewPiecePicBox());
-        }
-
-        /// <summary>
         /// Initializes the intervals for all repeat buttons.
         /// </summary>
         private void SetRepeatButtonIntervals()
@@ -439,7 +426,7 @@ namespace NLEditor
             {
                 // Stop timer and make PicBox invisible
                 dragNewPieceTimer.Enabled = false;
-                dragNewPiecePicBox.Visible = false;
+                pic_DragNewPiece.Visible = false;
                 if (curRenderer.MouseDragAction == C.DragActions.DragNewPiece)
                 {
                     curRenderer.DeleteDraggingVars();
@@ -448,7 +435,7 @@ namespace NLEditor
             else if (curRenderer.IsPointInLevelArea(mousePosPicLevel))
             {
                 // Display the piece via the renderer in the level
-                dragNewPiecePicBox.Visible = false;
+                pic_DragNewPiece.Visible = false;
 
                 curRenderer.MouseCurPos = mousePosPicLevel;
                 pic_Level.Image = curRenderer.CombineLayers(dragNewPieceKey);
@@ -456,16 +443,16 @@ namespace NLEditor
             else
             {
                 // Display the piece via the picture box.
-                if (!dragNewPiecePicBox.Visible)
+                if (!pic_DragNewPiece.Visible)
                 {
                     dragNewPieceTimer.Interval = 50;
-                    dragNewPiecePicBox.Visible = true;
+                    pic_DragNewPiece.Visible = true;
                     pic_Level.Image = curRenderer.CombineLayers();
                 }
                 // Reposition the PicBox
-                int newPosX = mousePos.X - dragNewPiecePicBox.Width / 2;
-                int newPosY = mousePos.Y - dragNewPiecePicBox.Height / 2;
-                dragNewPiecePicBox.Location = new Point(newPosX, newPosY);
+                int newPosX = mousePos.X - pic_DragNewPiece.Width / 2;
+                int newPosY = mousePos.Y - pic_DragNewPiece.Height / 2;
+                pic_DragNewPiece.Location = new Point(newPosX, newPosY);
             }
         }
 
