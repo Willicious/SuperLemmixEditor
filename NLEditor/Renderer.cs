@@ -33,13 +33,6 @@ namespace NLEditor
         /// <param name="pic_Level"></param>
         public Renderer(Level level, PictureBox pic_Level)
         {
-            this.IsClearPhysics = false;
-            this.IsTerrainLayer = true;
-            this.IsObjectLayer = true;
-            this.IsTriggerLayer = false;
-            this.IsScreenStart = false;
-            this.IsBackgroundLayer = false;
-
             this.ScreenPosX = 0;
             this.ScreenPosY = 0;
             this.ZoomFactor = 0;
@@ -52,13 +45,13 @@ namespace NLEditor
 
         Dictionary<C.Layer, Bitmap> layerImages;
         Level level;
-        public bool IsClearPhysics { get; private set; }
-        public bool IsTerrainLayer { get; private set; }
-        public bool IsObjectLayer { get; private set; }
-        public bool IsTriggerLayer { get; private set; }
-        public bool IsScreenStart { get; private set; }
-        public bool IsBackgroundLayer { get; private set; }
-        
+        bool IsClearPhysics => DisplaySettings.IsDisplayed(C.DisplayType.ClearPhysics);
+        bool IsTerrainLayer => DisplaySettings.IsDisplayed(C.DisplayType.Terrain);
+        bool IsObjectLayer => DisplaySettings.IsDisplayed(C.DisplayType.Objects);
+        bool IsTriggerLayer => DisplaySettings.IsDisplayed(C.DisplayType.Trigger);
+        bool IsScreenStart => DisplaySettings.IsDisplayed(C.DisplayType.ScreenStart);
+        bool IsBackgroundLayer => DisplaySettings.IsDisplayed(C.DisplayType.Background);
+
         PictureBox levelPicBox;
         int picBoxWidth => levelPicBox.Size.Width - 4;
         int picBoxHeight => levelPicBox.Size.Height - 5;
@@ -88,6 +81,7 @@ namespace NLEditor
             layerImages = C.LayerList.ToDictionary(layer => layer, layer => new Bitmap(level.Width, level.Height));
         }
 
+        /*
         public void ChangeIsClearPhsyics() 
         {
             IsClearPhysics = !IsClearPhysics;
@@ -116,7 +110,7 @@ namespace NLEditor
         public void ChangeIsBackgroundLayer()
         {
             IsBackgroundLayer = !IsBackgroundLayer;
-        }
+        }*/
 
         public void SetLevel(Level newLevel)
         {

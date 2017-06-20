@@ -58,6 +58,17 @@ namespace NLEditor
                     { C.Skill.Fencer, num_Ski_Fencer }
                 };
 
+            var displayTabItems = new Dictionary<C.DisplayType, ToolStripMenuItem>()
+                {
+                    { C.DisplayType.Background, backgroundToolStripMenuItem },
+                    { C.DisplayType.ClearPhysics, clearPhysicsToolStripMenuItem },
+                    { C.DisplayType.Objects, objectRenderingToolStripMenuItem },
+                    { C.DisplayType.ScreenStart, screenStartToolStripMenuItem },
+                    { C.DisplayType.Terrain, terrainRenderingToolStripMenuItem },
+                    { C.DisplayType.Trigger, triggerAreasToolStripMenuItem }
+                };
+            DisplaySettings.SetMenuTabItems(displayTabItems);
+
             curSettings = new Settings(this);
 
             CreateStyleList();
@@ -196,37 +207,37 @@ namespace NLEditor
 
         private void clearPhysicsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            curRenderer.ChangeIsClearPhsyics();
+            DisplaySettings.ChangeDisplayed(C.DisplayType.ClearPhysics);
             pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
         private void terrainRenderingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            curRenderer.ChangeIsTerrainLayer();
+            DisplaySettings.ChangeDisplayed(C.DisplayType.Terrain);
             pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void objectRenderingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            curRenderer.ChangeIsObjectLayer();
+            DisplaySettings.ChangeDisplayed(C.DisplayType.Objects);
             pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void triggerAreasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            curRenderer.ChangeIsTriggerLayer();
+            DisplaySettings.ChangeDisplayed(C.DisplayType.Trigger);
             pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void screenStartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            curRenderer.ChangeIsScreenStart();
+            DisplaySettings.ChangeDisplayed(C.DisplayType.ScreenStart);
             pic_Level.Image = curRenderer.CombineLayers();
         }
 
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            curRenderer.ChangeIsBackgroundLayer();
+            DisplaySettings.ChangeDisplayed(C.DisplayType.Background);
             pic_Level.Image = curRenderer.CombineLayers();
         }
 
@@ -680,32 +691,26 @@ namespace NLEditor
             else if (e.KeyCode == Keys.F1)
             {
                 clearPhysicsToolStripMenuItem_Click(null, null);
-                clearPhysicsToolStripMenuItem.Checked = !clearPhysicsToolStripMenuItem.Checked;
             }
             else if (e.KeyCode == Keys.F2)
             {
                 terrainRenderingToolStripMenuItem_Click(null, null);
-                terrainRenderingToolStripMenuItem.Checked = !terrainRenderingToolStripMenuItem.Checked;
             }
             else if (e.KeyCode == Keys.F3)
             {
                 objectRenderingToolStripMenuItem_Click(null, null);
-                objectRenderingToolStripMenuItem.Checked = !objectRenderingToolStripMenuItem.Checked;
             }
             else if (e.KeyCode == Keys.F4)
             {
                 triggerAreasToolStripMenuItem_Click(null, null);
-                triggerAreasToolStripMenuItem.Checked = !triggerAreasToolStripMenuItem.Checked;
             }
             else if (e.KeyCode == Keys.F5)
             {
                 screenStartToolStripMenuItem_Click(null, null);
-                screenStartToolStripMenuItem.Checked = !screenStartToolStripMenuItem.Checked;
             }
             else if (e.KeyCode == Keys.F6)
             {
                 backgroundToolStripMenuItem_Click(null, null);
-                backgroundToolStripMenuItem.Checked = !backgroundToolStripMenuItem.Checked;
             }
             else if (e.KeyCode == Keys.F10)
             {
@@ -812,12 +817,8 @@ namespace NLEditor
                 // Move screen start position, if 'P' is pressed in addition.
                 if (isPPressed)
                 {
-                    // display screen start
-                    if (!screenStartToolStripMenuItem.Checked)
-                    {
-                        curRenderer.ChangeIsScreenStart();
-                        screenStartToolStripMenuItem.Checked = true;
-                    }
+                    // ensure displaying the screen start
+                    DisplaySettings.SetDisplayed(C.DisplayType.ScreenStart, true);
                     MoveScreenStartPosition(direction);
                 }
                 // ...or selected pieces if they exist 
@@ -953,13 +954,8 @@ namespace NLEditor
                 // Only drag screen position, if it lies within the screen start rectangle
                 if (curRenderer.ScreenStartRectangle().Contains(mousePos))
                 {
-                    // display screen start
-                    if (!screenStartToolStripMenuItem.Checked)
-                    {
-                        curRenderer.ChangeIsScreenStart();
-                        screenStartToolStripMenuItem.Checked = true;
-                    }
-
+                    // ensure displaying the screen start
+                    DisplaySettings.SetDisplayed(C.DisplayType.ScreenStart, true);
                     dragAction = C.DragActions.MoveStartPos;
                 }
             }

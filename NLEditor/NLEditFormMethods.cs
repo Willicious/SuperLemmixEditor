@@ -18,49 +18,11 @@ namespace NLEditor
         /// </summary>
         private void InitializeSettings()
         {
-            var displaySettings = curSettings.ReadSettingsFromFile();
+            curSettings.ReadSettingsFromFile();
             ApplyOptionLvlPropertiesTabs();
-            ApplyDisplaySettings(displaySettings);
             // UsePieceSelectionNames is automatically updated when calling LoadPiecesIntoPictureBox(), so this doesn't need to be done here.
-        }
-
-        /// <summary>
-        /// Applies the display settings for backgrounds, trigger areas and screen start.
-        /// </summary>
-        /// <param name="displaySettings"></param>
-        private void ApplyDisplaySettings(HashSet<string> displaySettings)
-        {
-            if (displaySettings.Contains("Backgrund"))
-            {
-                curRenderer.ChangeIsBackgroundLayer();
-                backgroundToolStripMenuItem.Checked = true;
-            }
-            if (displaySettings.Contains("Triggers"))
-            {
-                curRenderer.ChangeIsTriggerLayer();
-                triggerAreasToolStripMenuItem.Checked = true;
-            }
-            if (displaySettings.Contains("ScreenStart"))
-            {
-                curRenderer.ChangeIsScreenStart();
-                screenStartToolStripMenuItem.Checked = true;
-            }
             pic_Level.Image = curRenderer.CombineLayers();
         }
-
-        /// <summary>
-        /// Gets the set of layers that are displayed, ignoring the terrain and object layer.
-        /// </summary>
-        /// <returns></returns>
-        public HashSet<string> GetDisplaySettings()
-        {
-            var displaySettings = new HashSet<string>();
-            if (curRenderer.IsBackgroundLayer) displaySettings.Add("Background");
-            if (curRenderer.IsTriggerLayer) displaySettings.Add("Triggers");
-            if (curRenderer.IsScreenStart) displaySettings.Add("ScreenStart");
-            return displaySettings;
-        }
-
 
         /// <summary>
         /// Sets fStyleList and creates the styles, but does not yet load sprites.
@@ -186,7 +148,6 @@ namespace NLEditor
             // Get new renderer with the standard display options
             if (curRenderer != null) curRenderer.Dispose();
             curRenderer = new Renderer(CurLevel, pic_Level);
-            EnsureRendererSettingsConformWithTabs();
 
             oldLevelList = new List<Level>();
             oldLevelList.Add(CurLevel.Clone());
@@ -227,37 +188,6 @@ namespace NLEditor
             pic_Level.Image = curRenderer.CreateLevelImage();
 
             combo_PieceStyle.Text = CurLevel.MainStyle?.NameInEditor;
-        }
-
-        /// <summary>
-        /// Reads the display settings from the tab menu and sets the renderer options accordingly.
-        /// </summary>
-        private void EnsureRendererSettingsConformWithTabs()
-        {
-            if (curRenderer.IsTerrainLayer != terrainRenderingToolStripMenuItem.Checked)
-            {
-                curRenderer.ChangeIsTerrainLayer();
-            }
-            if (curRenderer.IsObjectLayer != objectRenderingToolStripMenuItem.Checked)
-            {
-                curRenderer.ChangeIsObjectLayer();
-            }
-            if (curRenderer.IsTriggerLayer != triggerAreasToolStripMenuItem.Checked)
-            {
-                curRenderer.ChangeIsTriggerLayer();
-            }
-            if (curRenderer.IsScreenStart != screenStartToolStripMenuItem.Checked)
-            {
-                curRenderer.ChangeIsScreenStart();
-            }
-            if (curRenderer.IsBackgroundLayer != backgroundToolStripMenuItem.Checked)
-            {
-                curRenderer.ChangeIsBackgroundLayer();
-            }
-            if (curRenderer.IsClearPhysics != clearPhysicsToolStripMenuItem.Checked)
-            {
-                curRenderer.ChangeIsClearPhsyics();
-            }
         }
 
         /// <summary>

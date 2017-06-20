@@ -32,6 +32,11 @@ namespace NLEditor
 
         public static ScreenSize ScreenSize;
 
+        public enum DisplayType
+        {
+            Terrain, Objects, Trigger, ScreenStart, Background, ClearPhysics
+        }
+
         public enum CustDrawMode 
         { 
             Default, DefaultOWW, Erase, OnlyAtMask, OnlyAtOWW,

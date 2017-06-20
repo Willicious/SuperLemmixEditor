@@ -86,6 +86,7 @@
     <Compile Include="Background.cs" />
     <Compile Include="BmpModify.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="DisplaySettings.cs" />
     <Compile Include="FileParser.cs" />
     <Compile Include="FormPieceSelection.cs">
       <SubType>Form</SubType>

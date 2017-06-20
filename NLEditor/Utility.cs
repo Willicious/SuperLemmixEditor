@@ -70,6 +70,28 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Parses a string value to an enum of given type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static T ParseEnum<T>(string value)
+        {
+            return (T)Enum.Parse(typeof(T), value, true);
+        }
+
+        /// <summary>
+        /// Checks whether a string value can be parsed to an enum of given type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool ExistsInEnum<T>(string value)
+        {
+            return Enum.IsDefined(typeof(T), value);
+        }
+
+        /// <summary>
         /// Loads a bitmap from a file and closes the file again.
         /// </summary>
         /// <param name="filePath"></param>

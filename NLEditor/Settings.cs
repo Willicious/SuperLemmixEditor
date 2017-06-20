@@ -31,6 +31,13 @@ namespace NLEditor
             UsePieceSelectionNames = false;
             UseGridForPieces = false;
             gridSize = 8;
+
+            DisplaySettings.SetDisplayed(C.DisplayType.Terrain, true);
+            DisplaySettings.SetDisplayed(C.DisplayType.Objects, true);
+            DisplaySettings.SetDisplayed(C.DisplayType.Background, false);
+            DisplaySettings.SetDisplayed(C.DisplayType.ScreenStart, false);
+            DisplaySettings.SetDisplayed(C.DisplayType.Trigger, false);
+            DisplaySettings.SetDisplayed(C.DisplayType.ClearPhysics, false);
         }
 
         /// <summary>
@@ -131,12 +138,11 @@ namespace NLEditor
         /// <summary>
         /// Reads the users editor settings from NLEditorSettings.ini.
         /// </summary>
-        public HashSet<string> ReadSettingsFromFile()
+        public void ReadSettingsFromFile()
         {
             SetDefault();
-            var displaySettings = new HashSet<string>();
 
-            if (!File.Exists(C.AppPathSettings)) return displaySettings;
+            if (!File.Exists(C.AppPathSettings)) return;
 
             try
             {
@@ -168,7 +174,11 @@ namespace NLEditor
                             }
                         case "DISPLAY":
                             {
-                                displaySettings.Add(line.Text.Trim());
+                                if (Utility.ExistsInEnum<C.DisplayType>(line.Text.Trim()))
+                                {
+                                    C.DisplayType displayType = Utility.ParseEnum<C.DisplayType>(line.Text.Trim());
+                                    DisplaySettings.SetDisplayed(displayType, true);
+                                }
                                 break;
                             }
                     }
@@ -182,8 +192,6 @@ namespace NLEditor
                             + Path.GetFileName(C.AppPathSettings) + ". Editor uses the default settings.", "File not found");
                 Utility.LogException(Ex);
             }
-
-            return displaySettings;
         }
 
         /// <summary>
@@ -202,9 +210,17 @@ namespace NLEditor
                 settingsFile.WriteLine(" PieceSelectionNames " + (UsePieceSelectionNames ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
                 settingsFile.WriteLine("");
-                foreach (string displaySetting in editorForm.GetDisplaySettings())
+
+                var displayTypes = new List<C.DisplayType>()
                 {
-                    settingsFile.WriteLine(" Display             " + displaySetting);
+                    C.DisplayType.Trigger, C.DisplayType.ScreenStart, C.DisplayType.Background
+                };
+                foreach (var displayType in displayTypes)
+                {
+                    if (DisplaySettings.IsDisplayed(displayType))
+                    {
+                        settingsFile.WriteLine(" Display             " + displayType.ToString());
+                    }
                 }
 
                 settingsFile.Close();
