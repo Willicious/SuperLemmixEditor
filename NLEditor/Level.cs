@@ -234,13 +234,16 @@ namespace NLEditor
         /// <returns></returns>
         private LevelPiece GetOnePiece(Point pos, bool isUnselected, bool doPriorityInvert)
         {
-            LevelPiece selectedPiece;
+            LevelPiece selectedPiece = null;
 
             if (doPriorityInvert)
             {
-                selectedPiece = TerrainList.Find(ter => ter.ImageRectangle.Contains(pos)
-                                                    && (isUnselected ^ ter.IsSelected));
-                if (selectedPiece == null)
+                if (DisplaySettings.IsDisplayed(C.DisplayType.Terrain))
+                {
+                    selectedPiece = TerrainList.Find(ter => ter.ImageRectangle.Contains(pos)
+                                                        && (isUnselected ^ ter.IsSelected));
+                }
+                if (selectedPiece == null && DisplaySettings.IsDisplayed(C.DisplayType.Objects))
                 {
                     selectedPiece = GadgetList.Find(gad => gad.ImageRectangle.Contains(pos)
                                                        && (isUnselected ^ gad.IsSelected));
@@ -248,9 +251,12 @@ namespace NLEditor
             }
             else
             {
-                selectedPiece = GadgetList.FindLast(gad => gad.ImageRectangle.Contains(pos)
-                                                       && (isUnselected ^ gad.IsSelected));
-                if (selectedPiece == null)
+                if (DisplaySettings.IsDisplayed(C.DisplayType.Objects))
+                {
+                    selectedPiece = GadgetList.FindLast(gad => gad.ImageRectangle.Contains(pos)
+                                                           && (isUnselected ^ gad.IsSelected));
+                }
+                if (selectedPiece == null && DisplaySettings.IsDisplayed(C.DisplayType.Terrain))
                 {
                     selectedPiece = TerrainList.FindLast(ter => ter.ImageRectangle.Contains(pos)
                                                             && (isUnselected ^ ter.IsSelected));
@@ -267,10 +273,16 @@ namespace NLEditor
         /// <param name="isAdded"></param>
         public void SelectAreaPiece(Rectangle rectangle, bool isAdded)
         {
-            TerrainList.FindAll(ter => ter.ImageRectangle.IntersectsWith(rectangle))
-                       .ForEach(ter => ter.IsSelected = isAdded);
-            GadgetList.FindAll(gad => gad.ImageRectangle.IntersectsWith(rectangle))
-                      .ForEach(gad => gad.IsSelected = isAdded);
+            if (DisplaySettings.IsDisplayed(C.DisplayType.Terrain))
+            {
+                TerrainList.FindAll(ter => ter.ImageRectangle.IntersectsWith(rectangle))
+                           .ForEach(ter => ter.IsSelected = isAdded);
+            }
+            if (DisplaySettings.IsDisplayed(C.DisplayType.Terrain))
+            {
+                GadgetList.FindAll(gad => gad.ImageRectangle.IntersectsWith(rectangle))
+                          .ForEach(gad => gad.IsSelected = isAdded);
+            }
         }
 
         /// <summary>
