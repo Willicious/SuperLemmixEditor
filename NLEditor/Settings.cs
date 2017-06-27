@@ -34,7 +34,7 @@ namespace NLEditor
 
             DisplaySettings.SetDisplayed(C.DisplayType.Terrain, true);
             DisplaySettings.SetDisplayed(C.DisplayType.Objects, true);
-            DisplaySettings.SetDisplayed(C.DisplayType.Background, false);
+            DisplaySettings.SetDisplayed(C.DisplayType.Background, true);
             DisplaySettings.SetDisplayed(C.DisplayType.ScreenStart, false);
             DisplaySettings.SetDisplayed(C.DisplayType.Trigger, false);
             DisplaySettings.SetDisplayed(C.DisplayType.ClearPhysics, false);
@@ -143,6 +143,9 @@ namespace NLEditor
             SetDefault();
 
             if (!File.Exists(C.AppPathSettings)) return;
+
+            // Reset background display to false
+            DisplaySettings.SetDisplayed(C.DisplayType.Background, false);
 
             try
             {
