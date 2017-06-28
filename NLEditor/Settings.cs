@@ -19,6 +19,8 @@ namespace NLEditor
         public bool UseLvlPropertiesTabs { get; private set; }
         public bool UsePieceSelectionNames { get; private set; }
         public bool UseGridForPieces { get; private set; }
+        public int NumTooltipBottonDisplay { get; set; }
+        public bool UseTooltipBotton => (NumTooltipBottonDisplay > 0);
         private int gridSize;
         public int GridSize { get { return UseGridForPieces ? gridSize : 1; } }
 
@@ -31,6 +33,7 @@ namespace NLEditor
             UsePieceSelectionNames = false;
             UseGridForPieces = false;
             gridSize = 8;
+            NumTooltipBottonDisplay = 3;
 
             DisplaySettings.SetDisplayed(C.DisplayType.Terrain, true);
             DisplaySettings.SetDisplayed(C.DisplayType.Objects, true);
@@ -175,6 +178,11 @@ namespace NLEditor
                                 if (UseGridForPieces) gridSize = line.Value;
                                 break;
                             }
+                        case "BUTTON_TOOLTIP":
+                            {
+                                NumTooltipBottonDisplay = line.Value;
+                                break;
+                            }
                         case "DISPLAY":
                             {
                                 if (Utility.ExistsInEnum<C.DisplayType>(line.Text.Trim()))
@@ -212,6 +220,7 @@ namespace NLEditor
                 settingsFile.WriteLine(" LvlPropertiesTabs   " + (UseLvlPropertiesTabs ? "True" : "False"));
                 settingsFile.WriteLine(" PieceSelectionNames " + (UsePieceSelectionNames ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
+                settingsFile.WriteLine(" Button_Tooltip      " + NumTooltipBottonDisplay.ToString());
                 settingsFile.WriteLine("");
 
                 var displayTypes = new List<C.DisplayType>()

@@ -85,6 +85,7 @@ namespace NLEditor
             UpdateFlagsForPieceActions();
 
             InitializeSettings();
+            if (!curSettings.UseTooltipBotton) toolTipButton.Active = false;
 
             pieceStartIndex = 0;
             pieceDoDisplayObject = false;
@@ -174,6 +175,12 @@ namespace NLEditor
         {
             ReadLevelInfoFromForm();
             SaveChangesToOldLevelList();
+        }
+
+        private void toolTipButton_Popup(object sender, PopupEventArgs e)
+        {
+            if (!curSettings.UseTooltipBotton) toolTipButton.Active = false;
+            curSettings.NumTooltipBottonDisplay--;
         }
 
         /* -----------------------------------------------------------
