@@ -116,8 +116,8 @@ namespace NLEditor
         /// <returns></returns>
         private string GetSettingsFilePath()
         {
-            if (File.Exists(C.AppPathSettings)) return C.AppPathSettings;
-            else if (File.Exists(C.AppPathSettingsOld)) return C.AppPathSettingsOld;
+            if (File.Exists(C.AppPathPlayerSettings)) return C.AppPathPlayerSettings;
+            else if (File.Exists(C.AppPathPlayerSettingsOld)) return C.AppPathPlayerSettingsOld;
             else return null;
         }
 
