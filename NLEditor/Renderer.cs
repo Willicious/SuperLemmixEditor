@@ -81,37 +81,6 @@ namespace NLEditor
             layerImages = C.LayerList.ToDictionary(layer => layer, layer => new Bitmap(level.Width, level.Height));
         }
 
-        /*
-        public void ChangeIsClearPhsyics() 
-        {
-            IsClearPhysics = !IsClearPhysics;
-        }
-
-        public void ChangeIsTerrainLayer()
-        { 
-            IsTerrainLayer = !IsTerrainLayer; 
-        } 
-
-        public void ChangeIsObjectLayer() 
-        { 
-            IsObjectLayer = !IsObjectLayer; 
-        }
-
-        public void ChangeIsTriggerLayer() 
-        { 
-            IsTriggerLayer = !IsTriggerLayer; 
-        }
-        
-        public void ChangeIsScreenStart() 
-        { 
-            IsScreenStart = !IsScreenStart;
-        }
-
-        public void ChangeIsBackgroundLayer()
-        {
-            IsBackgroundLayer = !IsBackgroundLayer;
-        }*/
-
         public void SetLevel(Level newLevel)
         {
             level = newLevel;

@@ -65,7 +65,7 @@ namespace NLEditor
         public C.Resize ResizeMode { get; private set; }
 
         /// <summary>
-        /// Removes additional frames from an image and keeps only frame 0.
+        /// Separates the various frames in one bitmap.
         /// </summary>
         /// <param name="newBitmap"></param>
         /// <param name="numFrames"></param>
