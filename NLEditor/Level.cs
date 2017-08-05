@@ -313,6 +313,7 @@ namespace NLEditor
         public Rectangle SelectionRectangle()
         {
             var selectedPieces = SelectionList();
+            if (selectedPieces.Count == 0) return new Rectangle(0, 0, 1, 1);
 
             int left = selectedPieces.Min(item => item.PosX);
             int right = selectedPieces.Max(item => item.PosX + item.Width);
