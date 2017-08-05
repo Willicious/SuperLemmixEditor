@@ -23,15 +23,47 @@ namespace NLEditor
         {
             try
             {
+                // Handle exceptions of the UI
+                Application.ThreadException += 
+                    new System.Threading.ThreadExceptionEventHandler(NLEditForm.ExceptionHandler);
+                // Handle all other exceptions
+                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+                AppDomain.CurrentDomain.UnhandledException +=
+                    new UnhandledExceptionEventHandler(UnhandledExceptionHandler);
+
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new NLEditForm());
             }
             catch (Exception Ex)
             {
-                Utility.LogException(Ex);
-                MessageBox.Show("Klopt niet:" + Ex.Message, "Fatal error");
+                try
+                {
+                    Utility.LogException(Ex);
+                    MessageBox.Show("Klopt niet: " + Ex.Message + C.NewLine + "Editor will quit now.", "Fatal error");
+                }
+                finally
+                {
+                    Application.Exit();
+                }
+            }
+        }
 
+        /// <summary>
+        /// This handles exceptions not coming from the UI.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        {
+            try
+            {
+                Exception Ex = (Exception)e.ExceptionObject;
+                Utility.LogException(Ex);
+                MessageBox.Show("Klopt niet: " + Ex.Message + C.NewLine + "Editor will quit now.", "Fatal error");
+            }
+            finally
+            {
                 Application.Exit();
             }
         }

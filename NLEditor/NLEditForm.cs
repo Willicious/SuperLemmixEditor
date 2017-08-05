@@ -140,14 +140,29 @@ namespace NLEditor
 
         private void NLEditForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            curSettings.WriteSettingsToFile();
-
-            Utility.DeleteFile(C.AppPathTempLevel);
-            Utility.DeleteFile(System.IO.Path.ChangeExtension(C.AppPathTempLevel, ".nxsv"));
-            
-            if (e.CloseReason.In(CloseReason.UserClosing, CloseReason.ApplicationExitCall))
+            try
             {
-                AskUserWhetherSaveLevel();
+                curSettings.WriteSettingsToFile();
+
+                Utility.DeleteFile(C.AppPathTempLevel);
+                Utility.DeleteFile(System.IO.Path.ChangeExtension(C.AppPathTempLevel, ".nxsv"));
+
+                if (e.CloseReason.In(CloseReason.UserClosing, CloseReason.ApplicationExitCall))
+                {
+                    AskUserWhetherSaveLevel();
+                }
+            }
+            catch (Exception Ex)
+            {
+                // Log the exception, but we cannot do anything more.
+                try
+                {
+                    Utility.LogException(Ex);
+                }
+                catch
+                {
+                    // do nothing - we can't even save a lot entry.
+                }
             }
         }
 
@@ -1110,6 +1125,25 @@ namespace NLEditor
             selectForm.Location = new Point(formStartPosX, formStartPosY);
             selectForm.Show();
             */
+        }
+
+        /// <summary>
+        /// Catches all exceptions of this form (even when not run in Debug mode)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="t"></param>
+        public static void ExceptionHandler(object sender, System.Threading.ThreadExceptionEventArgs t)
+        {
+            try
+            {
+                Exception Ex = t.Exception;
+                Utility.LogException(Ex);
+                MessageBox.Show("Klopt niet: " + Ex.Message + C.NewLine + "Editor will quit now.", "Fatal error");
+            }
+            finally
+            {
+                Application.Exit();
+            }
         }
     }
 }
