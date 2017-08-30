@@ -141,8 +141,30 @@ namespace NLEditor
 
         };
 
-
         public enum HotkeyTabs { General, Level, Pieces }
+
+        public enum TalismanType { Bronze, Silver, Gold }
+        public enum TalismanReq
+        {
+            SaveReq, TimeLimit, SkillTotal,
+            SkillWalker, SkillClimber, SkillSwimmer, SkillFloater, SkillGlider,
+            SkillDisarmer, SkillBomber, SkillStoner, SkillBlocker,
+            SkillBuilder, SkillPlatformer, SkillStacker,
+            SkillBasher, SkillMiner, SkillDigger, SkillFencer, SkillCloner
+        }
+        public static readonly Dictionary<TalismanReq, string> TalismanKeys = new Dictionary<TalismanReq, string>()
+        {
+            { TalismanReq.SaveReq, "SAVE" }, { TalismanReq.TimeLimit, "TIME_LIMIT" },
+            { TalismanReq.SkillTotal, "SKILL_LIMIT" }, { TalismanReq.SkillWalker, "WALKER_LIMIT" },
+            { TalismanReq.SkillClimber, "CLIMBER_LIMIT"}, { TalismanReq.SkillSwimmer, "SWIMMER_LIMIT"},
+            { TalismanReq.SkillFloater, "FLOATER_LIMIT" }, { TalismanReq.SkillGlider, "GLIDER_LIMIT" },
+            { TalismanReq.SkillDisarmer, "DISARMER_LIMIT" }, { TalismanReq.SkillBomber, "BOMBER_LIMIT" },
+            { TalismanReq.SkillStoner, "STONER_LIMIT" }, { TalismanReq.SkillBlocker, "BLOCKER_LIMIT"},
+            { TalismanReq.SkillBuilder, "BUILDER_LIMIT" }, { TalismanReq.SkillPlatformer, "PLATOFORMER_LIMIT" },
+            { TalismanReq.SkillStacker, "STACKER_LIMIT" }, { TalismanReq.SkillBasher, "BASHER_LIMIT" },
+            { TalismanReq.SkillMiner, "MINER_LIMIT" }, { TalismanReq.SkillDigger, "DIGGER_LIMIT" },
+            { TalismanReq.SkillFencer, "FENCER_LIMIT" }, { TalismanReq.SkillCloner, "CLONER_LIMIT" }
+        };
 
         public static readonly THotkeyTexts HotkeyDict = new THotkeyTexts
             {

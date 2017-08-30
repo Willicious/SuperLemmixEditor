@@ -8,7 +8,7 @@ namespace NLEditor
     /// <summary>
     /// Stores and modifies the data of a lemming level.
     /// </summary>
-    class Level
+    class Level : IEquatable<Level>
     {
         /// <summary>
         /// Creates a new level with the default values.
@@ -50,6 +50,7 @@ namespace NLEditor
 
             this.PreviewText = new List<string>();
             this.PostviewText = new List<string>();
+            this.Talismans = new List<Talisman>();
         }
 
         public string Title { get; set; }
@@ -82,8 +83,9 @@ namespace NLEditor
 
         public Dictionary<C.Skill, int> SkillSet { get; set; }
 
-        public List<string> PreviewText { get; set; }  // not changable in editor
-        public List<string> PostviewText { get; set; } // not changable in editor
+        public List<Talisman> Talismans { get; set; }  // not changable in the editor
+        public List<string> PreviewText { get; set; }  // not changable in the editor
+        public List<string> PostviewText { get; set; } // not changable in the editor
 
         public Size ScreenSize => C.ScreenSize.ScreenArea(Width, Height);
 
@@ -126,6 +128,7 @@ namespace NLEditor
                 newLevel.SkillSet.Add(skill, this.SkillSet[skill]);
             }
 
+            newLevel.Talismans = new List<Talisman>(this.Talismans);
             newLevel.PreviewText = new List<string>(this.PreviewText);
             newLevel.PostviewText = new List<string>(this.PostviewText);
 
@@ -139,18 +142,18 @@ namespace NLEditor
         /// <returns></returns>
         public bool Equals(Level otherLevel)
         {
-            if ( otherLevel == null
+            if (otherLevel == null
                 || !this.Title.Equals(otherLevel.Title)
                 || !this.Author.Equals(otherLevel.Author)
                 || !((this.MainStyle == null && otherLevel.MainStyle == null) ||
                      (this.MainStyle != null && this.MainStyle.NameInDirectory.Equals(otherLevel.MainStyle?.NameInDirectory)))
                 || !this.MusicFile.Equals(otherLevel.MusicFile)
-                || this.LevelID.Equals(otherLevel.LevelID)
+                || !this.LevelID.Equals(otherLevel.LevelID)
                 || !this.Background.Equals(otherLevel.Background)
                 || this.Width != otherLevel.Width
                 || this.Height != otherLevel.Height
                 || this.StartPosX != otherLevel.StartPosX
-                || this.StartPosY != otherLevel.StartPosY 
+                || this.StartPosY != otherLevel.StartPosY
                 || this.TerrainList.Count != otherLevel.TerrainList.Count
                 || this.GadgetList.Count != otherLevel.GadgetList.Count
                 || this.NumLems != otherLevel.NumLems
@@ -159,6 +162,7 @@ namespace NLEditor
                 || this.IsSpawnRateFix != otherLevel.IsSpawnRateFix
                 || this.IsNoTimeLimit != otherLevel.IsNoTimeLimit
                 || (this.TimeLimit != otherLevel.TimeLimit && !this.IsNoTimeLimit)
+                || this.Talismans.Count != otherLevel.Talismans.Count
                 || !this.PreviewText.ToString().Equals(otherLevel.PreviewText.ToString())
                 || !this.PostviewText.ToString().Equals(otherLevel.PostviewText.ToString()))
             {
@@ -173,6 +177,11 @@ namespace NLEditor
             for (int i = 0; i < this.GadgetList.Count; i++)
             {
                 if (!this.GadgetList[i].Equals(otherLevel.GadgetList[i])) return false;
+            }
+
+            foreach (Talisman talisman in this.Talismans)
+            {
+                if (!otherLevel.Talismans.Contains(talisman)) return false;
             }
 
             return true;

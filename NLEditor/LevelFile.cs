@@ -146,6 +146,8 @@ namespace NLEditor
                             var posttexts = fileLines.ConvertAll(lin => lin.Text);
                             posttexts.RemoveAt(0);
                             newLevel.PreviewText = posttexts; break;
+
+                        case "TALISMAN": newLevel.Talismans.Add(ReadTalismanFromLines(fileLines)); break;
                     }
                 }
             }
@@ -344,6 +346,32 @@ namespace NLEditor
             else return null;
         }
 
+        static private Talisman ReadTalismanFromLines(List<FileLine> fileLineList)
+        {
+            Talisman talisman = new Talisman();
+
+            foreach (FileLine line in fileLineList)
+            {
+                switch (line.Key)
+                {
+                    case "TITLE": talisman.Title = line.Text; break;
+                    case "COLOR": talisman.AwardType = Utility.ParseEnum<C.TalismanType>(line.Text); break;
+                    default:
+                        {
+                            if (C.TalismanKeys.Values.Contains(line.Key))
+                            {
+                                C.TalismanReq requirement = C.TalismanKeys.First(pair => pair.Value.Equals(line.Key)).Key;
+                                talisman.Requirements[requirement] = line.Value;
+                            }
+                            break;
+                        }
+                }
+            }
+
+            return talisman;
+        }
+
+
         /// <summary>
         /// Applies a custom hatch order to the level. The correctly ordered hatches are appended at the beginning of the GadgetList.
         /// </summary>
@@ -528,6 +556,8 @@ namespace NLEditor
                 textFile.WriteLine(" ");
             }
 
+            curLevel.Talismans.ForEach(tal => WriteTalisman(textFile, tal, curLevel.Talismans.IndexOf(tal)));
+
             textFile.WriteLine("#     Interactive objects       ");
             textFile.WriteLine("# ----------------------------- ");
             curLevel.GadgetList.FindAll(gad => gad.ObjType != C.OBJ.LEMMING)
@@ -689,6 +719,25 @@ namespace NLEditor
                 textFile.WriteLine("   ONE_WAY");
             }
             textFile.WriteLine(" $END");
+            textFile.WriteLine(" ");
+        }
+
+        /// <summary>
+        /// Writes aa talisman in a text file.
+        /// </summary>
+        /// <param name="textFile"></param>
+        /// <param name="talisman"></param>
+        static private void WriteTalisman(TextWriter textFile, Talisman talisman, int index)
+        {
+            textFile.WriteLine(" $TALISMAN ");
+            textFile.WriteLine("   TITLE " + talisman.Title);
+            textFile.WriteLine("   ID " + index.ToString());
+            textFile.WriteLine("   COLOR " + talisman.AwardType.ToString());
+            foreach (C.TalismanReq requirement in talisman.Requirements.Keys)
+            {
+                textFile.WriteLine("   " + C.TalismanKeys[requirement] + " " + talisman.AwardType.ToString());
+            }
+            textFile.WriteLine(" $END ");
             textFile.WriteLine(" ");
         }
 
