@@ -296,7 +296,6 @@ namespace NLEditor
                         case "RECEIVER": objType = C.OBJ.RECEIVER; break;
                         case "SPLITTER": objType = C.OBJ.SPLITTER; break;
                         case "RADIATION": objType = C.OBJ.RADIATION; break;
-                        case "SLOWFREEZE": objType = C.OBJ.SLOWFREEZE; break;
                         case "UPDRAFT": objType = C.OBJ.UPDRAFT; break;
                         case "SPLATPAD": objType = C.OBJ.SPLAT; break;
                         case "ANTI_SPLATPAD": objType = C.OBJ.NOSPLAT; break;

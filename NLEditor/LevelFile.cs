@@ -346,6 +346,11 @@ namespace NLEditor
             else return null;
         }
 
+        /// <summary>
+        /// Reads the talisman info from a group of file lines.
+        /// </summary>
+        /// <param name="fileLineList"></param>
+        /// <returns></returns>
         static private Talisman ReadTalismanFromLines(List<FileLine> fileLineList)
         {
             Talisman talisman = new Talisman();

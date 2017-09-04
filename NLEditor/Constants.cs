@@ -61,8 +61,8 @@ namespace NLEditor
             EXIT_LOCKED = 20, BUTTON = 21,
             UPDRAFT = 22, NOSPLAT = 23, SPLAT = 24,
             FORCE_FIELD = 25,
-            SPLITTER = 27, RADIATION = 28, SLOWFREEZE = 29,
-            NONE = 50, ANIMATION = 51, BACKGROUND = 52, 
+            SPLITTER = 27, RADIATION = 28,
+            NONE = 50, BACKGROUND = 52, 
             NULL
         }
 
@@ -87,8 +87,8 @@ namespace NLEditor
                 {OBJ.TRAP, "Triggered trap"}, {OBJ.WATER, "Water"}, {OBJ.FIRE, "Fire"},
                 {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Preplaced lemming"},
                 {OBJ.PICKUP, "Pick-up skill"}, {OBJ.EXIT_LOCKED, "Locked exit"}, {OBJ.BUTTON, "Button"},
-                {OBJ.RADIATION, "Radiation"}, {OBJ.SLOWFREEZE, "Slowfreeze"}, {OBJ.UPDRAFT, "Updraft"},
-                {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"}, {OBJ.ANIMATION, "Do NOT use!"},
+                {OBJ.RADIATION, "Radiation"}, {OBJ.UPDRAFT, "Updraft"},
+                {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
                 {OBJ.NOSPLAT, "Anti-splat wire"}, {OBJ.SPLAT, "Splat wire"}, {OBJ.BACKGROUND, "Do NOT use!"},
                 {OBJ.TRAPONCE, "Single-use trap"}
             };
