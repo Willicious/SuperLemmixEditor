@@ -149,7 +149,8 @@ namespace NLEditor
                      (this.MainStyle != null && this.MainStyle.NameInDirectory.Equals(otherLevel.MainStyle?.NameInDirectory)))
                 || !this.MusicFile.Equals(otherLevel.MusicFile)
                 || !this.LevelID.Equals(otherLevel.LevelID)
-                || !this.Background.Equals(otherLevel.Background)
+                || !((this.Background == null && otherLevel.Background == null) ||
+                     (this.Background != null && this.Background.Equals(otherLevel.Background)))
                 || this.Width != otherLevel.Width
                 || this.Height != otherLevel.Height
                 || this.StartPosX != otherLevel.StartPosX
