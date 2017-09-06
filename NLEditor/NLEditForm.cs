@@ -89,7 +89,14 @@ namespace NLEditor
 
             pieceStartIndex = 0;
             pieceDoDisplayObject = false;
-            pieceCurStyle = ValidateStyleName(combo_PieceStyle.SelectedItem.ToString());
+            try
+            {
+                pieceCurStyle = ValidateStyleName(combo_PieceStyle.SelectedItem.ToString());
+            }
+            catch (NullReferenceException)
+            {
+                pieceCurStyle = null;
+            }
             LoadPiecesIntoPictureBox();
 
             UpdateBackgroundComboItems();

@@ -32,22 +32,27 @@ namespace NLEditor
             Backgrounds = new BackgroundList();
 
             // get list of all existing style names
-            List<string> styleNameList = null;
+            List<string> styleNameList = new List<string>();
 
-            try
+            if (System.IO.Directory.Exists(C.AppPathPieces))
             {
-                styleNameList = System.IO.Directory.GetDirectories(C.AppPathPieces)
-                                                   .Select(dir => System.IO.Path.GetFileName(dir))
-                                                   .ToList();
+                try
+                {
+                    styleNameList = System.IO.Directory.GetDirectories(C.AppPathPieces)
+                                                       .Select(dir => System.IO.Path.GetFileName(dir))
+                                                       .ToList();
+                }
+                catch (Exception Ex)
+                {
+                    Utility.LogException(Ex);
+
+                    MessageBox.Show("Error: Could not read the style folders." + C.NewLine + Ex.Message, "Error loading styles");
+                }
             }
-            catch (Exception Ex)
+            else
             {
-                Utility.LogException(Ex);
-
-                MessageBox.Show("Error: Could not find graphic styles in subdirectory 'styles'." + C.NewLine + Ex.Message, "Directories missing");
-                Environment.Exit(-1);
+                MessageBox.Show("Warning: The folder 'styles' is missing.", "Styles missing");
             }
-
             // Create the StyleList from the StyleNameList
             styleNameList.RemoveAll(sty => sty == "default");
             StyleList = styleNameList.ConvertAll(sty => new Style(sty, Backgrounds));
