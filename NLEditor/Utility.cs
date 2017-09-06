@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace NLEditor
 {
@@ -142,6 +143,12 @@ namespace NLEditor
             return new Rectangle(left, top, width, height);
         }
 
+        /// <summary>
+        /// Rotates one rectangle relative to another border rectangle.
+        /// </summary>
+        /// <param name="origRect"></param>
+        /// <param name="border"></param>
+        /// <returns></returns>
         public static Rectangle RotateInRectangle(this Rectangle origRect, Rectangle border)
         {
             Point center = new Point(border.Left + border.Width / 2, border.Top + border.Height / 2);
@@ -153,7 +160,24 @@ namespace NLEditor
             return new Rectangle(newPosX, newPosY, origRect.Height, origRect.Width);
         }
 
-
+        /// <summary>
+        /// Handles a global unexpected exception and displays a warning message to the user.
+        /// </summary>
+        /// <param name="Ex"></param>
+        public static void HandleGlobalException(Exception Ex)
+        {
+            try
+            {
+                Utility.LogException(Ex);
+                string errorString = "Klopt niet: " + Ex.Message + C.NewLine + "Try to continue working on the level? Selecting 'no' will quit the level editor.";
+                var result = MessageBox.Show(errorString, "Error", MessageBoxButtons.YesNo);
+                if (result == DialogResult.No) Application.Exit();
+            }
+            catch
+            {
+                Application.Exit();
+            }
+        }
 
         /// <summary>
         /// Logs an exception message to AppPath/ErrorLog.txt.

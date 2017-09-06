@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace NLEditor
@@ -20,52 +20,18 @@ namespace NLEditor
         /// </summary>
         [STAThread]
         static void Main()
-        {
-            try
-            {
-                // Handle exceptions of the UI
-                Application.ThreadException += 
-                    new System.Threading.ThreadExceptionEventHandler(NLEditForm.ExceptionHandler);
-                // Handle all other exceptions
-                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-                AppDomain.CurrentDomain.UnhandledException +=
-                    new UnhandledExceptionEventHandler(UnhandledExceptionHandler);
+        { 
+            // Handle exceptions of the UI
+            Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(
+                (object sender, ThreadExceptionEventArgs t) => Utility.HandleGlobalException(t.Exception));
+            // Handle all other exceptions
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(
+                (object sender, UnhandledExceptionEventArgs e) => Utility.HandleGlobalException((Exception)e.ExceptionObject));
 
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new NLEditForm());
-            }
-            catch (Exception Ex)
-            {
-                try
-                {
-                    Utility.LogException(Ex);
-                    MessageBox.Show("Klopt niet: " + Ex.Message + C.NewLine + "Editor will quit now.", "Fatal error");
-                }
-                finally
-                {
-                    Application.Exit();
-                }
-            }
-        }
-
-        /// <summary>
-        /// This handles exceptions not coming from the UI.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
-        {
-            try
-            {
-                Exception Ex = (Exception)e.ExceptionObject;
-                Utility.LogException(Ex);
-                MessageBox.Show("Klopt niet: " + Ex.Message + C.NewLine + "Editor will quit now.", "Fatal error");
-            }
-            finally
-            {
-                Application.Exit();
-            }
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new NLEditForm());
         }
     }
 }

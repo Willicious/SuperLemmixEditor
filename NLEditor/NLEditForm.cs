@@ -1133,24 +1133,5 @@ namespace NLEditor
             selectForm.Show();
             */
         }
-
-        /// <summary>
-        /// Catches all exceptions of this form (even when not run in Debug mode)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="t"></param>
-        public static void ExceptionHandler(object sender, System.Threading.ThreadExceptionEventArgs t)
-        {
-            try
-            {
-                Exception Ex = t.Exception;
-                Utility.LogException(Ex);
-                MessageBox.Show("Klopt niet: " + Ex.Message + C.NewLine + "Editor will quit now.", "Fatal error");
-            }
-            finally
-            {
-                Application.Exit();
-            }
-        }
     }
 }
