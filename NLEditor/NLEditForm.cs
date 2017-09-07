@@ -110,6 +110,9 @@ namespace NLEditor
             stopWatchMouse.Start();
 
             mouseButtonPressed = null;
+
+            // For our Linux users: Ignore first resize event to default size and don't try to move non-existing components around.
+            this.Resize += new EventHandler(NLEditForm_Resize);
         }
 
         Dictionary<C.Skill, CheckBox> checkboxesSkillFlags;
