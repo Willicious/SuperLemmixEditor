@@ -301,7 +301,8 @@ namespace NLEditor
                         case "ANTI_SPLATPAD": objType = C.OBJ.NOSPLAT; break;
                         case "FORCE_RIGHT":
                         case "FORCE_LEFT": objType = C.OBJ.FORCE_FIELD; break;
-                        case "BACKGROUND": objType = C.OBJ.BACKGROUND; break;
+                        case "BACKGROUND":
+                        case "MOVING_BACKGROUND": objType = C.OBJ.BACKGROUND; break;
                     }
                 }
             }
