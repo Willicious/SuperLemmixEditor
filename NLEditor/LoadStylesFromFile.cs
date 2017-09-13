@@ -295,10 +295,8 @@ namespace NLEditor
                         case "TELEPORTER": objType = C.OBJ.TELEPORTER; break;
                         case "RECEIVER": objType = C.OBJ.RECEIVER; break;
                         case "SPLITTER": objType = C.OBJ.SPLITTER; break;
-                        case "RADIATION": objType = C.OBJ.RADIATION; break;
                         case "UPDRAFT": objType = C.OBJ.UPDRAFT; break;
                         case "SPLATPAD": objType = C.OBJ.SPLAT; break;
-                        case "ANTI_SPLATPAD": objType = C.OBJ.NOSPLAT; break;
                         case "FORCE_RIGHT":
                         case "FORCE_LEFT": objType = C.OBJ.FORCE_FIELD; break;
                         case "BACKGROUND":

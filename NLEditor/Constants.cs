@@ -59,9 +59,7 @@ namespace NLEditor
             ONE_WAY_WALL = 10,
             LEMMING = 15, PICKUP = 16, TELEPORTER = 17, RECEIVER = 18,
             EXIT_LOCKED = 20, BUTTON = 21,
-            UPDRAFT = 22, NOSPLAT = 23, SPLAT = 24,
-            FORCE_FIELD = 25,
-            SPLITTER = 27, RADIATION = 28,
+            UPDRAFT = 22, SPLAT = 24, FORCE_FIELD = 25, SPLITTER = 27,
             NONE = 50, BACKGROUND = 52, 
             NULL
         }
@@ -87,10 +85,8 @@ namespace NLEditor
                 {OBJ.TRAP, "Triggered trap"}, {OBJ.WATER, "Water"}, {OBJ.FIRE, "Fire"},
                 {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Preplaced lemming"},
                 {OBJ.PICKUP, "Pick-up skill"}, {OBJ.EXIT_LOCKED, "Locked exit"}, {OBJ.BUTTON, "Button"},
-                {OBJ.RADIATION, "Radiation"}, {OBJ.UPDRAFT, "Updraft"},
-                {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
-                {OBJ.NOSPLAT, "Anti-splat wire"}, {OBJ.SPLAT, "Splat wire"}, {OBJ.BACKGROUND, "Do NOT use!"},
-                {OBJ.TRAPONCE, "Single-use trap"}
+                {OBJ.UPDRAFT, "Updraft"}, {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
+                {OBJ.SPLAT, "Splat wire"}, {OBJ.BACKGROUND, "Do NOT use!"}, {OBJ.TRAPONCE, "Single-use trap"}
             };
 
         public enum DragActions
