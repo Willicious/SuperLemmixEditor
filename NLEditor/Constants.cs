@@ -156,7 +156,7 @@ namespace NLEditor
             { TalismanReq.SkillFloater, "FLOATER_LIMIT" }, { TalismanReq.SkillGlider, "GLIDER_LIMIT" },
             { TalismanReq.SkillDisarmer, "DISARMER_LIMIT" }, { TalismanReq.SkillBomber, "BOMBER_LIMIT" },
             { TalismanReq.SkillStoner, "STONER_LIMIT" }, { TalismanReq.SkillBlocker, "BLOCKER_LIMIT"},
-            { TalismanReq.SkillBuilder, "BUILDER_LIMIT" }, { TalismanReq.SkillPlatformer, "PLATOFORMER_LIMIT" },
+            { TalismanReq.SkillBuilder, "BUILDER_LIMIT" }, { TalismanReq.SkillPlatformer, "PLATFORMER_LIMIT" },
             { TalismanReq.SkillStacker, "STACKER_LIMIT" }, { TalismanReq.SkillBasher, "BASHER_LIMIT" },
             { TalismanReq.SkillMiner, "MINER_LIMIT" }, { TalismanReq.SkillDigger, "DIGGER_LIMIT" },
             { TalismanReq.SkillFencer, "FENCER_LIMIT" }, { TalismanReq.SkillCloner, "CLONER_LIMIT" }
