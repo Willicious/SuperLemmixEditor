@@ -361,6 +361,7 @@ namespace NLEditor
                 {
                     case "TITLE": talisman.Title = line.Text; break;
                     case "COLOR": talisman.AwardType = Utility.ParseEnum<C.TalismanType>(line.Text); break;
+                    case "ID": talisman.ID = line.Value; break;
                     default:
                         {
                             if (C.TalismanKeys.Values.Contains(line.Key))
@@ -561,7 +562,7 @@ namespace NLEditor
                 textFile.WriteLine(" ");
             }
 
-            curLevel.Talismans.ForEach(tal => WriteTalisman(textFile, tal, curLevel.Talismans.IndexOf(tal)));
+            curLevel.Talismans.ForEach(tal => WriteTalisman(textFile, tal));
 
             textFile.WriteLine("#     Interactive objects       ");
             textFile.WriteLine("# ----------------------------- ");
@@ -732,11 +733,11 @@ namespace NLEditor
         /// </summary>
         /// <param name="textFile"></param>
         /// <param name="talisman"></param>
-        static private void WriteTalisman(TextWriter textFile, Talisman talisman, int index)
+        static private void WriteTalisman(TextWriter textFile, Talisman talisman)
         {
             textFile.WriteLine(" $TALISMAN ");
             textFile.WriteLine("   TITLE " + talisman.Title);
-            textFile.WriteLine("   ID " + index.ToString());
+            textFile.WriteLine("   ID " + talisman.ID);
             textFile.WriteLine("   COLOR " + talisman.AwardType.ToString());
             foreach (C.TalismanReq requirement in talisman.Requirements.Keys)
             {
