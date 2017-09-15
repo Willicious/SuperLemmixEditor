@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -107,7 +106,14 @@ namespace NLEditor
                 buttonIntervals.Add(button, interval);
             }
         }
-          
+
+        /// <summary>
+        /// Stops any repeated button press event, even if the user keeps pressing the button
+        /// </summary>
+        public void StopRepeatAction()
+        {
+            RepeatButton_MouseUp(null);
+        }
 
         private void RepeatButton_MouseDown(MouseEventArgs e)
         {

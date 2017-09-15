@@ -50,6 +50,13 @@ namespace NLEditor
             for (int i = 0; i < picPieceList.Count; i++)
             {
                 string pieceKey = pieceKeys[(pieceStartIndex + i) % pieceKeys.Count];
+                if (!ImageLibrary.IsImageLoadable(pieceKey))
+                {
+                    // Make sure to stop the repeat-buttons from firing again.
+                    but_PieceRight.StopRepeatAction();
+                    but_PieceLeft.StopRepeatAction();
+                }
+
                 int frameIndex = (ImageLibrary.GetObjType(pieceKey).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE)) ? 1 : 0;
                 Bitmap pieceImage;
 

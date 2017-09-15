@@ -164,6 +164,29 @@ namespace NLEditor
             else return AddNewImage(imageKey);
         }
 
+        /// <summary>
+        /// This checks whether an image exists or may be loaded. It does not actually load the image itself.
+        /// </summary>
+        /// <param name="imagekey"></param>
+        /// <returns></returns>
+        public static bool IsImageLoadable(string imageKey)
+        {
+            string filePath = C.AppPathPieces + imageKey + ".png";
+            if (imageDict.ContainsKey(imageKey)) return true;
+            else if (!System.IO.File.Exists(filePath)) return false;
+            else
+            {
+                try
+                {
+                    System.IO.File.Open(filePath, System.IO.FileMode.Open, System.IO.FileAccess.Read).Dispose();
+                }
+                catch (System.IO.IOException)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
 
         /// <summary>
         /// Returns a correctly oriented image corresponding to the key, or null if image cannot be found. 
