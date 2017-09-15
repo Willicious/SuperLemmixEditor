@@ -22,7 +22,7 @@ namespace NLEditor
         public static string AppPathTempLevel => AppPath + "TempTestLevel.nxlv";
         public static string AppPathThemeInfo(string styleName) => AppPathPieces + styleName + C.DirSep + "theme.nxtm";
         public static string AppPathSettings => AppPath + "NLEditorSettings.ini";
-        public static string AppPathPlayerSettings => AppPath + "save" + DirSep + "settings.ini";
+        public static string AppPathPlayerSettings => AppPath + "settings" + DirSep + "settings.ini";
         public static string AppPathPlayerSettingsOld => AppPath + "NeoLemmix147Settings.ini";
         public static string AppPathNeoLemmix => AppPath + "NeoLemmix.exe";
 
