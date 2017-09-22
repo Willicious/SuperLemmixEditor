@@ -472,8 +472,7 @@ namespace NLEditor
         private void DisplayHotkeyForm()
         {
             Form hotkeyForm = new Form();
-            hotkeyForm.Width = 450;
-            hotkeyForm.Height = 430;
+            hotkeyForm.ClientSize = new Size(450, 420);
             hotkeyForm.MaximizeBox = false;
             hotkeyForm.ShowInTaskbar = false;
             hotkeyForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
@@ -523,8 +522,7 @@ namespace NLEditor
         private void DisplayVersionForm()
         {
             Form versionForm = new Form();
-            versionForm.Width = 310;
-            versionForm.Height = 170;
+            versionForm.ClientSize = new Size(310, 160);
             versionForm.MaximizeBox = false;
             versionForm.ShowInTaskbar = false;
             versionForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;

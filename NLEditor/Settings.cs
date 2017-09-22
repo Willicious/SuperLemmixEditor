@@ -51,8 +51,7 @@ namespace NLEditor
             int leftPos = 30;
 
             settingsForm = new Form();
-            settingsForm.Width = 310;
-            settingsForm.Height = 170;
+            settingsForm.ClientSize = new System.Drawing.Size(310, 160);
             settingsForm.MaximizeBox = false;
             settingsForm.ShowInTaskbar = false;
             settingsForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
