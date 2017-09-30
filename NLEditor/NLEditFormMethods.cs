@@ -753,9 +753,9 @@ namespace NLEditor
         /// <summary>
         /// Deletes all selected pieces, saves them in memory and displays the result.
         /// </summary>
-        private void DeleteSelectedPieces()
+        private void DeleteSelectedPieces(bool doSaveSelection = true)
         {
-            WriteOldSelectedList();
+            if (doSaveSelection) WriteOldSelectedList();
             CurLevel.TerrainList.RemoveAll(ter => ter.IsSelected);
             CurLevel.GadgetList.RemoveAll(obj => obj.IsSelected);
             SaveChangesToOldLevelList();

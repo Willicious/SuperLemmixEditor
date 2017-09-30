@@ -792,6 +792,10 @@ namespace NLEditor
             {
                 ChangeObjTerrPieceDisplay();
             }
+            else if (e.KeyCode == Keys.Delete)
+            {
+                DeleteSelectedPieces(false);
+            }
             else if (e.Control && e.KeyCode == Keys.Z)
             {
                 UndoLastChange();
