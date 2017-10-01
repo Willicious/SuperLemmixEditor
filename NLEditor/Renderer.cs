@@ -507,6 +507,12 @@ namespace NLEditor
             ScreenPosX = oldScreenPos.X;
             ScreenPosY = oldScreenPos.Y;
 
+            // Add selection coordinates it applicable
+            if (level.SelectionList()?.Count > 0)
+            {
+                levelBmp = AddSelectionCoordinates(levelBmp);
+            }
+
             return levelBmp;
         }
 
@@ -601,6 +607,29 @@ namespace NLEditor
             }
 
             return levelBmp;
+        }
+
+        /// <summary>
+        /// Adds the selection coordinates at the bottom right of the level image.
+        /// </summary>
+        /// <param name="levelBmp"></param>
+        /// <returns></returns>
+        private Bitmap AddSelectionCoordinates(Bitmap levelBmp)
+        {
+            Bitmap fullBmp = new Bitmap(picBoxWidth, picBoxHeight);
+            fullBmp.Clear(Color.FromArgb(0, 0, 0, 0));
+
+            Point levelPos = new Point((picBoxWidth - levelBmp.Width) / 2, 
+                                       (picBoxHeight - levelBmp.Height) / 2);
+            fullBmp.DrawOn(levelBmp, levelPos);
+
+            Rectangle selectRect = level.SelectionRectangle();
+            string text = selectRect.X.ToString() + "/" + selectRect.Y.ToString();
+            Point textPos = new Point(picBoxWidth + 7, picBoxHeight + 3);
+
+            fullBmp.WriteText(text, textPos, C.NLColors[C.NLColor.Text], 10, ContentAlignment.BottomRight);
+
+            return fullBmp;
         }
 
         /// <summary>
