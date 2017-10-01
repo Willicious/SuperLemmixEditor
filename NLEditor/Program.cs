@@ -20,18 +20,25 @@ namespace NLEditor
         /// </summary>
         [STAThread]
         static void Main()
-        { 
-            // Handle exceptions of the UI
-            Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(
-                (object sender, ThreadExceptionEventArgs t) => Utility.HandleGlobalException(t.Exception));
-            // Handle all other exceptions
-            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(
-                (object sender, UnhandledExceptionEventArgs e) => Utility.HandleGlobalException((Exception)e.ExceptionObject));
+        {
+            try
+            {
+                // Handle exceptions of the UI
+                Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(
+                    (object sender, ThreadExceptionEventArgs t) => Utility.HandleGlobalException(t.Exception));
+                // Handle all other exceptions
+                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+                AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(
+                    (object sender, UnhandledExceptionEventArgs e) => Utility.HandleGlobalException((Exception)e.ExceptionObject));
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new NLEditForm());
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new NLEditForm());
+            }
+            catch (Exception Ex)
+            {
+                Utility.HandleGlobalException(Ex);
+            }
         }
     }
 }
