@@ -146,7 +146,14 @@ namespace NLEditor
         bool isShiftPressed;
         bool isCtrlPressed;
         bool isAltPressed;
-        bool isPPressed;   
+        bool isPPressed;
+
+        private static System.Threading.Mutex mutexMouseDown = new System.Threading.Mutex();
+        private static System.Threading.Mutex mutexMouseUp = new System.Threading.Mutex();
+        private static System.Threading.Mutex mutexMouseMove = new System.Threading.Mutex();
+        private static System.Threading.Mutex mutexMouseWheel = new System.Threading.Mutex();
+        private static System.Threading.Mutex mutexKeyDown = new System.Threading.Mutex();
+
 
         private void NLEditForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -688,6 +695,8 @@ namespace NLEditor
 
         private void NLEditForm_KeyDown(object sender, KeyEventArgs e)
         {
+            mutexKeyDown.WaitOne();
+
             switch (e.KeyCode)
             {
                 case Keys.ShiftKey: isShiftPressed = true; break;
@@ -933,6 +942,8 @@ namespace NLEditor
             }
 
             stopWatchKey.Restart();
+
+            mutexKeyDown.ReleaseMutex();
         }
 
         private void NLEditForm_KeyUp(object sender, KeyEventArgs e)
@@ -953,6 +964,8 @@ namespace NLEditor
 
         private void NLEditForm_MouseWheel(object sender, MouseEventArgs e)
         {
+            mutexMouseWheel.WaitOne();
+
             int movement = e.Delta / SystemInformation.MouseWheelScrollDelta;
             Point mousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
             Rectangle picLevelRect = new Rectangle(0, 0, pic_Level.Width, pic_Level.Height);
@@ -969,10 +982,14 @@ namespace NLEditor
             // Update level image
             RepositionPicLevel();
             pic_Level.Image = curRenderer.CombineLayers();
+
+            mutexMouseWheel.ReleaseMutex();
         }
 
         private void pic_Level_MouseDown(object sender, MouseEventArgs e)
         {
+            mutexMouseDown.WaitOne();
+
             mouseButtonPressed = e.Button;
             stopWatchMouse.Restart();
 
@@ -1005,11 +1022,15 @@ namespace NLEditor
             }
 
             curRenderer.SetDraggingVars(e.Location, dragAction);
+
+            mutexMouseDown.ReleaseMutex();
         }
 
         private void pic_Level_MouseMove(object sender, MouseEventArgs e)
         {
             if (curRenderer.MouseStartPos == null) return;
+
+            mutexMouseMove.WaitOne();
 
             curRenderer.MouseCurPos = e.Location;
 
@@ -1042,10 +1063,14 @@ namespace NLEditor
                     }
             }
             pic_Level.Refresh();
+
+            mutexMouseMove.ReleaseMutex();
         }
 
         private void pic_Level_MouseUp(object sender, MouseEventArgs e)
         {
+            mutexMouseUp.WaitOne();
+
             curRenderer.MouseCurPos = e.Location;
 
             switch (curRenderer.MouseDragAction)
@@ -1102,6 +1127,8 @@ namespace NLEditor
 
             mouseButtonPressed = null;
             RemoveFocus();
+
+            mutexMouseUp.ReleaseMutex();
         }
 
 
