@@ -507,13 +507,18 @@ namespace NLEditor
             ScreenPosX = oldScreenPos.X;
             ScreenPosY = oldScreenPos.Y;
 
-            // Add selection coordinates it applicable
-            if (level.SelectionList()?.Count > 0)
-            {
-                levelBmp = AddSelectionCoordinates(levelBmp);
-            }
+            // Embed it in a bitmap of the size of the whole picture box.
+            Bitmap fullBmp = new Bitmap(picBoxWidth, picBoxHeight);
+            fullBmp.Clear(Color.FromArgb(0, 0, 0, 0));
 
-            return levelBmp;
+            Point levelPos = new Point((picBoxWidth - levelBmp.Width) / 2,
+                                       (picBoxHeight - levelBmp.Height) / 2);
+            fullBmp.DrawOn(levelBmp, levelPos);
+
+            // Add selection coordinates it applicable
+            if (level.SelectionList()?.Count > 0) fullBmp = AddSelectionCoordinates(fullBmp);
+
+            return fullBmp;
         }
 
 
@@ -614,15 +619,8 @@ namespace NLEditor
         /// </summary>
         /// <param name="levelBmp"></param>
         /// <returns></returns>
-        private Bitmap AddSelectionCoordinates(Bitmap levelBmp)
+        private Bitmap AddSelectionCoordinates(Bitmap fullBmp)
         {
-            Bitmap fullBmp = new Bitmap(picBoxWidth, picBoxHeight);
-            fullBmp.Clear(Color.FromArgb(0, 0, 0, 0));
-
-            Point levelPos = new Point((picBoxWidth - levelBmp.Width) / 2, 
-                                       (picBoxHeight - levelBmp.Height) / 2);
-            fullBmp.DrawOn(levelBmp, levelPos);
-
             Rectangle selectRect = level.SelectionRectangle();
             string text = selectRect.X.ToString() + "/" + selectRect.Y.ToString();
             Point textPos = new Point(picBoxWidth + 7, picBoxHeight + 3);
