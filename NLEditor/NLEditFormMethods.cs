@@ -238,20 +238,20 @@ namespace NLEditor
         /// <summary>
         /// Displays a file browser and saves the current level in chosen location. 
         /// </summary>
-        private void SaveInNewFileLevel()
+        private void SaveInNewFileLevel(bool isPlaytest = false)
         {
             // get most up-to-date global info
             ReadLevelInfoFromForm();
 
             LevelFile.SaveLevel(CurLevel);
             SaveChangesToOldLevelList();
-            lastSavedLevel = CurLevel.Clone();
+            if (!isPlaytest) lastSavedLevel = CurLevel.Clone();
         }
 
         /// <summary>
         /// Saves the current level in the current location. If no location is known, the file browser is opened.
         /// </summary>
-        private void SaveLevel()
+        private void SaveLevel(bool isPlaytest = false)
         { 
             if (CurLevel.FilePathToSave == null)
             {
@@ -264,7 +264,7 @@ namespace NLEditor
 
                 LevelFile.SaveLevelToFile(CurLevel.FilePathToSave, CurLevel);
                 SaveChangesToOldLevelList();
-                lastSavedLevel = CurLevel.Clone();
+                if (!isPlaytest) lastSavedLevel = CurLevel.Clone();
             }
         }
 
@@ -277,7 +277,7 @@ namespace NLEditor
             // Save the level as TempTestLevel.nxlv.
             string origFilePath = CurLevel.FilePathToSave;
             CurLevel.FilePathToSave = C.AppPathTempLevel;
-            SaveLevel();
+            SaveLevel(true);
             CurLevel.FilePathToSave = origFilePath;
 
             if (!System.IO.File.Exists(C.AppPathNeoLemmix))
