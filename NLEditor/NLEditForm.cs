@@ -20,6 +20,7 @@ namespace NLEditor
             InitializeComponent();
             RemoveFocus();
             SetRepeatButtonIntervals();
+            SetMusicList();
 
             C.ScreenSize = new ScreenSize();
             C.ScreenSize.InizializeSettings();

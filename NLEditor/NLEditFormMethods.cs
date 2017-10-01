@@ -62,6 +62,28 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Sets the music options according to available files in the music folder.
+        /// </summary>
+        private void SetMusicList()
+        {
+            List<string> musicNames = null;
+            if (System.IO.Directory.Exists(C.AppPathMusic))
+            {
+                musicNames = System.IO.Directory.GetFiles(C.AppPathMusic)
+                                                .ToList()
+                                                .FindAll(dir => System.IO.Path.GetExtension(dir).In(".ogg", ".it", ".mp3"))
+                                                .ConvertAll(dir => System.IO.Path.GetFileNameWithoutExtension(dir));
+            }
+            else
+            {
+                musicNames = C.MusicNames;
+            }
+
+            combo_Music.Items.Clear();
+            musicNames.ForEach(music => combo_Music.Items.Add(music));
+       }
+
+        /// <summary>
         /// Removes focus from the current control and moves it to the default location txt_Focus.
         /// </summary>
         private void RemoveFocus()

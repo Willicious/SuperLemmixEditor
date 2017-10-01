@@ -19,6 +19,7 @@ namespace NLEditor
 
         public static string AppPath => System.Windows.Forms.Application.StartupPath + DirSep;
         public static string AppPathPieces => AppPath + "styles" + DirSep;
+        public static string AppPathMusic => AppPath + "music" + DirSep;
         public static string AppPathTempLevel => AppPath + "TempTestLevel.nxlv";
         public static string AppPathThemeInfo(string styleName) => AppPathPieces + styleName + C.DirSep + "theme.nxtm";
         public static string AppPathSettings => AppPath + "NLEditorSettings.ini";
@@ -161,6 +162,15 @@ namespace NLEditor
             { TalismanReq.SkillMiner, "MINER_LIMIT" }, { TalismanReq.SkillDigger, "DIGGER_LIMIT" },
             { TalismanReq.SkillFencer, "FENCER_LIMIT" }, { TalismanReq.SkillCloner, "CLONER_LIMIT" }
         };
+
+        public static readonly List<string> MusicNames = new List<string>()
+        {
+            "orig_01", "orig_02", "orig_03", "orig_04", "orig_05", "orig_06", "orig_07", "orig_08", "orig_09", "orig_10",
+            "orig_11", "orig_12", "orig_13", "orig_14", "orig_15", "orig_16", "orig_17",
+            "ohno_01", "ohno_02", "ohno_03", "ohno_04", "ohno_05", "ohno_06",
+            "xmas_01", "xmas_02", "xmas_03"
+        };
+
 
         public static readonly THotkeyTexts HotkeyDict = new THotkeyTexts
             {
