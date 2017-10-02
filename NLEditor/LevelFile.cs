@@ -22,7 +22,7 @@ namespace NLEditor
         {
             var openFileDialog = new OpenFileDialog();
 
-            openFileDialog.InitialDirectory = C.AppPath;
+            openFileDialog.InitialDirectory = Directory.Exists(C.AppPathLevels) ? C.AppPathLevels : C.AppPath;
             openFileDialog.Multiselect = false;
             openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv|Old level files (*.lvl, *.ini, *.lev)|*.lvl;*.ini;*.lev";
             openFileDialog.RestoreDirectory = true;
@@ -428,7 +428,7 @@ namespace NLEditor
             var saveFileDialog = new SaveFileDialog();
 
             saveFileDialog.AddExtension = true;
-            saveFileDialog.InitialDirectory = C.AppPath;
+            saveFileDialog.InitialDirectory = Directory.Exists(C.AppPathLevels) ? C.AppPathLevels : C.AppPath;
             saveFileDialog.OverwritePrompt = true;
             saveFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
             saveFileDialog.RestoreDirectory = true;

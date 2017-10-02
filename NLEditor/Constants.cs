@@ -20,6 +20,7 @@ namespace NLEditor
         public static string AppPath => System.Windows.Forms.Application.StartupPath + DirSep;
         public static string AppPathPieces => AppPath + "styles" + DirSep;
         public static string AppPathMusic => AppPath + "music" + DirSep;
+        public static string AppPathLevels => AppPath + "levels" + DirSep;
         public static string AppPathTempLevel => AppPath + "TempTestLevel.nxlv";
         public static string AppPathThemeInfo(string styleName) => AppPathPieces + styleName + C.DirSep + "theme.nxtm";
         public static string AppPathSettings => AppPath + "NLEditorSettings.ini";
