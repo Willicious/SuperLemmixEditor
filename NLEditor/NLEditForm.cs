@@ -998,12 +998,16 @@ namespace NLEditor
             bool hasSelectedPieceAtPos = CurLevel.HasSelectionAtPos(mousePos);
 
             C.DragActions dragAction = C.DragActions.Null;
-            if (e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right) // for scrolling
             {
                 dragAction = C.DragActions.MoveEditorPos;
                 Cursor = Cursors.SizeAll;
             }
-            else if (isPPressed)
+            if (e.Button == MouseButtons.Middle) // for removal
+            {
+                dragAction = C.DragActions.SelectArea;
+            }
+            else if (isPPressed) // for moving the screen start
             {
                 // Only drag screen position, if it lies within the screen start rectangle
                 if (curRenderer.ScreenStartRectangle().Contains(mousePos))

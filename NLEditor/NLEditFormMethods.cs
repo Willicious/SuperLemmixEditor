@@ -513,19 +513,24 @@ namespace NLEditor
 
             if (mouseButtonPressed == MouseButtons.Left)
             {
-                // Delete all existing selections
-                if (!isCtrlPressed)
+                if (isCtrlPressed)
                 {
-                    CurLevel.UnselectAll();
+                    // Add or remove a single piece, depending on whether there is a selected piece at the mouse position 
+                    bool doAdd = !CurLevel.HasSelectionAtPos(levelPos);
+                    CurLevel.SelectOnePiece(levelPos, doAdd, isAltPressed);
                 }
-                
-                // Add a single piece
-                CurLevel.SelectOnePiece(levelPos, true, isAltPressed);
+                else
+                {
+                    // Select only the one that is below the mouse cursor
+                    CurLevel.UnselectAll();
+                    CurLevel.SelectOnePiece(levelPos, true, isAltPressed);
+                }
             }
             else if (mouseButtonPressed == MouseButtons.Middle)
             {
-                // Remove a single piece
-                CurLevel.SelectOnePiece(levelPos, false, isAltPressed);
+                // Remove all pieces below the mouse point.
+                var selectArea = new Rectangle(levelPos.X, levelPos.Y, 1, 1);
+                CurLevel.SelectAreaPiece(selectArea, false);
             }
         }
 
