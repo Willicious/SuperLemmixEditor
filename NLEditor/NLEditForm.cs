@@ -113,7 +113,11 @@ namespace NLEditor
             mouseButtonPressed = null;
 
             // For our Linux users: Ignore first resize event to default size and don't try to move non-existing components around.
+            // But now we want to apply the size informations given by the settings.
+            if (curSettings.IsFormMaximized) ClientSize = curSettings.FormSize;
             this.Resize += new EventHandler(NLEditForm_Resize);
+            if (curSettings.IsFormMaximized) WindowState = FormWindowState.Maximized;
+            else ClientSize = curSettings.FormSize;
         }
 
         Dictionary<C.Skill, CheckBox> checkboxesSkillFlags;
@@ -197,6 +201,7 @@ namespace NLEditor
             MoveControlsOnFormResize();
             curRenderer.EnsureScreenPosInLevel();
             pic_Level.Image = curRenderer.CreateLevelImage();
+            curSettings.SetFormSize();
         }
 
         private void tabLvlProperties_Click(object sender, EventArgs e)

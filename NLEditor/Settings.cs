@@ -23,6 +23,8 @@ namespace NLEditor
         public bool UseTooltipBotton => (NumTooltipBottonDisplay > 0);
         private int gridSize;
         public int GridSize { get { return UseGridForPieces ? gridSize : 1; } }
+        public bool IsFormMaximized { get; private set; }
+        public System.Drawing.Size FormSize { get; private set; }
 
         /// <summary>
         /// Resets the editor options to the default values.
@@ -34,6 +36,8 @@ namespace NLEditor
             UseGridForPieces = false;
             gridSize = 8;
             NumTooltipBottonDisplay = 3;
+            IsFormMaximized = false;
+            FormSize = editorForm.MinimumSize;
 
             DisplaySettings.SetDisplayed(C.DisplayType.Terrain, true);
             DisplaySettings.SetDisplayed(C.DisplayType.Objects, true);
@@ -138,6 +142,22 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Sets the settings options regarding the form size according to current form usage.
+        /// </summary>
+        public void SetFormSize()
+        {
+            if (editorForm.WindowState == FormWindowState.Maximized)
+            {
+                IsFormMaximized = true;
+            }
+            else
+            {
+                IsFormMaximized = false;
+                FormSize = editorForm.ClientSize;
+            }
+        }
+
+        /// <summary>
         /// Reads the users editor settings from NLEditorSettings.ini.
         /// </summary>
         public void ReadSettingsFromFile()
@@ -161,14 +181,12 @@ namespace NLEditor
                     {
                         case "LVLPROPERTIESTABS":
                             {
-                                if (line.Text.Trim().ToUpper() == "TRUE") UseLvlPropertiesTabs = true;
-                                else if (line.Text.Trim().ToUpper() == "FALSE") UseLvlPropertiesTabs = false;
+                                UseLvlPropertiesTabs = (line.Text.Trim().ToUpper() == "TRUE");
                                 break;
                             }
                         case "PIECESELECTIONNAMES":
                             {
-                                if (line.Text.Trim().ToUpper() == "TRUE") UsePieceSelectionNames = true;
-                                else if (line.Text.Trim().ToUpper() == "FALSE") UsePieceSelectionNames = false;
+                                UsePieceSelectionNames = (line.Text.Trim().ToUpper() == "TRUE");
                                 break;
                             }
                         case "GRIDSIZE":
@@ -189,6 +207,21 @@ namespace NLEditor
                                     C.DisplayType displayType = Utility.ParseEnum<C.DisplayType>(line.Text.Trim());
                                     DisplaySettings.SetDisplayed(displayType, true);
                                 }
+                                break;
+                            }
+                        case "FORM_MAXIMIZED":
+                            {
+                                IsFormMaximized = (line.Text.Trim().ToUpper() == "TRUE");
+                                break;
+                            }
+                        case "FORM_WIDTH":
+                            {
+                                FormSize = new System.Drawing.Size(line.Value, FormSize.Height);
+                                break;
+                            }
+                        case "FORM_HEIGHT":
+                            {
+                                FormSize = new System.Drawing.Size(FormSize.Width, line.Value);
                                 break;
                             }
                     }
@@ -220,6 +253,10 @@ namespace NLEditor
                 settingsFile.WriteLine(" PieceSelectionNames " + (UsePieceSelectionNames ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
                 settingsFile.WriteLine(" Button_Tooltip      " + NumTooltipBottonDisplay.ToString());
+                settingsFile.WriteLine("");
+                settingsFile.WriteLine(" Form_Maximized      " + (IsFormMaximized ? "True" : "False"));
+                settingsFile.WriteLine(" Form_Width          " + FormSize.Width.ToString());
+                settingsFile.WriteLine(" Form_Height         " + FormSize.Height.ToString());
                 settingsFile.WriteLine("");
 
                 var displayTypes = new List<C.DisplayType>()
