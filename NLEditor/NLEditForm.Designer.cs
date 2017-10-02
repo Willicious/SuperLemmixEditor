@@ -1442,8 +1442,8 @@
             // 
             this.but_MoveBackOne.Location = new System.Drawing.Point(88, 46);
             this.but_MoveBackOne.Name = "but_MoveBackOne";
-            this.but_MoveBackOne.NoPaddingText = "One to Back";
-            this.but_MoveBackOne.Size = new System.Drawing.Size(40, 34);
+            this.but_MoveBackOne.NoPaddingText = "Back";
+            this.but_MoveBackOne.Size = new System.Drawing.Size(46, 34);
             this.but_MoveBackOne.TabIndex = 5;
             this.but_MoveBackOne.UseVisualStyleBackColor = true;
             this.but_MoveBackOne.Click += new System.EventHandler(this.but_MoveBackOne_Click);
@@ -1451,10 +1451,10 @@
             // 
             // but_MoveFrontOne
             // 
-            this.but_MoveFrontOne.Location = new System.Drawing.Point(46, 46);
+            this.but_MoveFrontOne.Location = new System.Drawing.Point(40, 46);
             this.but_MoveFrontOne.Name = "but_MoveFrontOne";
-            this.but_MoveFrontOne.NoPaddingText = "One to Front";
-            this.but_MoveFrontOne.Size = new System.Drawing.Size(40, 34);
+            this.but_MoveFrontOne.NoPaddingText = "Forward";
+            this.but_MoveFrontOne.Size = new System.Drawing.Size(46, 34);
             this.but_MoveFrontOne.TabIndex = 4;
             this.but_MoveFrontOne.UseVisualStyleBackColor = true;
             this.but_MoveFrontOne.Click += new System.EventHandler(this.but_MoveFrontOne_Click);
@@ -1462,10 +1462,10 @@
             // 
             // but_MoveBack
             // 
-            this.but_MoveBack.Location = new System.Drawing.Point(130, 46);
+            this.but_MoveBack.Location = new System.Drawing.Point(136, 46);
             this.but_MoveBack.Name = "but_MoveBack";
-            this.but_MoveBack.NoPaddingText = "All to Back";
-            this.but_MoveBack.Size = new System.Drawing.Size(40, 34);
+            this.but_MoveBack.NoPaddingText = "To Back";
+            this.but_MoveBack.Size = new System.Drawing.Size(34, 34);
             this.but_MoveBack.TabIndex = 6;
             this.but_MoveBack.UseVisualStyleBackColor = true;
             this.but_MoveBack.Click += new System.EventHandler(this.but_MoveBack_Click);
@@ -1474,8 +1474,8 @@
             // 
             this.but_MoveFront.Location = new System.Drawing.Point(4, 46);
             this.but_MoveFront.Name = "but_MoveFront";
-            this.but_MoveFront.NoPaddingText = "All to Front";
-            this.but_MoveFront.Size = new System.Drawing.Size(40, 34);
+            this.but_MoveFront.NoPaddingText = "To Front";
+            this.but_MoveFront.Size = new System.Drawing.Size(34, 34);
             this.but_MoveFront.TabIndex = 3;
             this.but_MoveFront.UseVisualStyleBackColor = true;
             this.but_MoveFront.Click += new System.EventHandler(this.but_MoveFront_Click);
