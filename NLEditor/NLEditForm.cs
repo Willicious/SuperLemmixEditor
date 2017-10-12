@@ -303,7 +303,7 @@ namespace NLEditor
 
         private void insertToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddPiecesFromMemory();
+            AddPiecesFromMemory(true);
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -825,9 +825,13 @@ namespace NLEditor
             }
             else if (e.Control && e.KeyCode == Keys.V)
             {
-                AddPiecesFromMemory();
+                AddPiecesFromMemory(true);
             }
             else if (e.Control && e.KeyCode == Keys.C)
+            {
+                WriteOldSelectedList();
+            }
+            else if (e.KeyCode == Keys.C)
             {
                 CopySelectedPieces();
             }

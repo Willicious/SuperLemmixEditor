@@ -199,6 +199,31 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Adds a list of pieces to the level.
+        /// </summary>
+        /// <param name="pieces"></param>
+        public void AddMultiplePieces(IEnumerable<LevelPiece> pieces)
+        {
+            if (pieces == null) return;
+
+            foreach (LevelPiece piece in pieces)
+            {
+                LevelPiece newPiece = piece.Clone();
+                newPiece.IsSelected = true;
+
+                if (newPiece is TerrainPiece)
+                {
+                    TerrainList.Add((TerrainPiece)newPiece);
+                }
+                else if (newPiece is GadgetPiece)
+                {
+                    GadgetList.Add((GadgetPiece)newPiece);
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Creates a new piece and adds it to the level. 
         /// </summary>
         /// <param name="pieceKey"></param>

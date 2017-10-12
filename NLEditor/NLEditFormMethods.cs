@@ -743,36 +743,13 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Adds copies of the pieces in fOldSelectedList to the level.
-        /// </summary>
-        private void AddOldSelectedListToLevel()
-        {
-            if (oldSelectedList == null) return;
-
-            foreach (LevelPiece piece in oldSelectedList)
-            {
-                LevelPiece newPiece = piece.Clone();
-                newPiece.IsSelected = true;
-
-                if (newPiece is TerrainPiece)
-                {
-                    CurLevel.TerrainList.Add((TerrainPiece)newPiece);
-                }
-                else if (newPiece is GadgetPiece)
-                {
-                    CurLevel.GadgetList.Add((GadgetPiece)newPiece);
-                }
-            }
-        }
-
-        /// <summary>
         /// Duplicates all selected pieces and displays the result.
         /// </summary>
         private void CopySelectedPieces()
         {
             WriteOldSelectedList();
             CurLevel.UnselectAll();
-            AddOldSelectedListToLevel();
+            AddPiecesFromMemory(false);
             SaveChangesToOldLevelList();
             pic_Level.Image = curRenderer.CreateLevelImage();
         }
@@ -792,13 +769,46 @@ namespace NLEditor
         /// <summary>
         /// Adds all pieces that are stored in memory by previously deleting/copying them.
         /// </summary>
-        private void AddPiecesFromMemory()
+        private void AddPiecesFromMemory(bool doCenterAtCursor)
         {
             CurLevel.UnselectAll();
-            AddOldSelectedListToLevel();
+            if (doCenterAtCursor)
+            {
+                var newPieces = CenterPiecesAtCursor(oldSelectedList);
+                CurLevel.AddMultiplePieces(newPieces);
+            }
+            else
+            {
+                CurLevel.AddMultiplePieces(oldSelectedList);
+            }
             SaveChangesToOldLevelList();
             pic_Level.Image = curRenderer.CreateLevelImage();
         }
+
+        /// <summary>
+        /// Centers the collection of pieces around the cursor.
+        /// </summary>
+        /// <param name="oldPieces"></param>
+        /// <returns></returns>
+        private IEnumerable<LevelPiece> CenterPiecesAtCursor(IEnumerable<LevelPiece> oldPieces)
+        {
+            Point mousePos = curRenderer.GetMousePosInLevel(Cursor.Position);
+            int oldCenterX = (oldPieces.Min(piece => piece.PosX) + oldPieces.Max(piece => piece.PosX + piece.Width)) / 2;
+            int oldCenterY = (oldPieces.Min(piece => piece.PosY) + oldPieces.Max(piece => piece.PosY + piece.Height)) / 2;
+
+            var newPieces = new List<LevelPiece>();
+
+            foreach (LevelPiece piece in oldPieces)
+            {
+                var newPiece = piece.Clone();
+                newPiece.PosX = mousePos.X + (piece.PosX - oldCenterX);
+                newPiece.PosY = mousePos.Y + (piece.PosY - oldCenterY);
+                newPieces.Add(newPiece);
+            }
+
+            return newPieces;
+        }
+
 
         /// <summary>
         /// Pairs a selected teleporter and receiver.
