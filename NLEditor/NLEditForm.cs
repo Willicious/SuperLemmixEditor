@@ -1012,7 +1012,7 @@ namespace NLEditor
                 dragAction = C.DragActions.MoveEditorPos;
                 Cursor = Cursors.SizeAll;
             }
-            if (e.Button == MouseButtons.Middle) // for removal
+            else if (e.Button == MouseButtons.Middle) // for removal
             {
                 dragAction = C.DragActions.SelectArea;
             }
