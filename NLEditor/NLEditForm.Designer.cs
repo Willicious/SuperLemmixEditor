@@ -2028,6 +2028,7 @@
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "NLEditForm";
             this.Text = "  NeoLemmix Editor";
+            this.Activated += new System.EventHandler(this.NLEditForm_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NLEditForm_FormClosing);
             this.Click += new System.EventHandler(this.NLEditForm_Click);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NLEditForm_KeyDown);

@@ -89,8 +89,19 @@ namespace NLEditor
         private void RemoveFocus()
         {
             this.ActiveControl = txt_Focus;
+            UpdateIsSystemKeyPressed();
         }
 
+        /// <summary>
+        /// Sets the key pressed state according to the current state.
+        /// </summary>
+        private void UpdateIsSystemKeyPressed()
+        {
+            isCtrlPressed = ((ModifierKeys & Keys.Control) != 0);
+            isShiftPressed = ((ModifierKeys & Keys.Shift) != 0);
+            isAltPressed = ((ModifierKeys & Keys.Alt) != 0);
+            isPPressed = ((ModifierKeys & Keys.P) != 0);
+        }
 
         /// <summary>
         /// Takes the global level data input on the form and stores it in the current level.

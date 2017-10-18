@@ -204,6 +204,11 @@ namespace NLEditor
             curSettings.SetFormSize();
         }
 
+        private void NLEditForm_Activated(object sender, EventArgs e)
+        {
+            UpdateIsSystemKeyPressed();
+        }
+
         private void tabLvlProperties_Click(object sender, EventArgs e)
         {
             RemoveFocus();
