@@ -367,7 +367,14 @@ namespace NLEditor
                             if (C.TalismanKeys.Values.Contains(line.Key))
                             {
                                 C.TalismanReq requirement = C.TalismanKeys.First(pair => pair.Value.Equals(line.Key)).Key;
-                                talisman.Requirements[requirement] = line.Value;
+                                if (requirement == C.TalismanReq.UseOnlySkill)
+                                {
+                                    talisman.Requirements[requirement] = (int)(Utility.ParseEnum<C.Skill>(line.Text));
+                                }
+                                else
+                                {
+                                    talisman.Requirements[requirement] = line.Value;
+                                }
                             }
                             break;
                         }
@@ -741,7 +748,14 @@ namespace NLEditor
             textFile.WriteLine("   COLOR " + talisman.AwardType.ToString());
             foreach (C.TalismanReq requirement in talisman.Requirements.Keys)
             {
-                textFile.WriteLine("   " + C.TalismanKeys[requirement] + " " + talisman.AwardType.ToString());
+                if (requirement == C.TalismanReq.UseOnlySkill)
+                {
+                    textFile.WriteLine("   " + C.TalismanKeys[requirement] + " " + ((C.Skill)talisman.Requirements[requirement]).ToString());
+                }
+                else
+                {
+                    textFile.WriteLine("   " + C.TalismanKeys[requirement] + " " + talisman.Requirements[requirement].ToString());
+                }
             }
             textFile.WriteLine(" $END ");
             textFile.WriteLine(" ");

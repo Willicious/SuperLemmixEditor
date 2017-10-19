@@ -148,7 +148,8 @@ namespace NLEditor
             SkillWalker, SkillClimber, SkillSwimmer, SkillFloater, SkillGlider,
             SkillDisarmer, SkillBomber, SkillStoner, SkillBlocker,
             SkillBuilder, SkillPlatformer, SkillStacker,
-            SkillBasher, SkillMiner, SkillDigger, SkillFencer, SkillCloner
+            SkillBasher, SkillMiner, SkillDigger, SkillFencer, SkillCloner,
+            SkillEachLimit, UseOnlySkill
         }
         public static readonly Dictionary<TalismanReq, string> TalismanKeys = new Dictionary<TalismanReq, string>()
         {
@@ -161,7 +162,8 @@ namespace NLEditor
             { TalismanReq.SkillBuilder, "BUILDER_LIMIT" }, { TalismanReq.SkillPlatformer, "PLATFORMER_LIMIT" },
             { TalismanReq.SkillStacker, "STACKER_LIMIT" }, { TalismanReq.SkillBasher, "BASHER_LIMIT" },
             { TalismanReq.SkillMiner, "MINER_LIMIT" }, { TalismanReq.SkillDigger, "DIGGER_LIMIT" },
-            { TalismanReq.SkillFencer, "FENCER_LIMIT" }, { TalismanReq.SkillCloner, "CLONER_LIMIT" }
+            { TalismanReq.SkillFencer, "FENCER_LIMIT" }, { TalismanReq.SkillCloner, "CLONER_LIMIT" },
+            { TalismanReq.SkillEachLimit, "SKILL_EACH_LIMIT" }, { TalismanReq.UseOnlySkill, "USE_ONLY_SKILL" }
         };
 
         public static readonly List<string> MusicNames = new List<string>()
