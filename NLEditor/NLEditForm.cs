@@ -139,7 +139,7 @@ namespace NLEditor
 
         List<Level> oldLevelList;
         int curOldLevelIndex;
-        List<LevelPiece> oldSelectedList;
+        List<LevelPiece> clipboard;
         Level lastSavedLevel;
 
         int gridSize => curSettings.GridSize;
@@ -308,12 +308,12 @@ namespace NLEditor
 
         private void insertToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddPiecesFromMemory(true);
+            AddFromClipboard(true);
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CopySelectedPieces();
+            DuplicateSelectedPieces();
         }
 
         private void groupToolStripMenuItem_Click(object sender, EventArgs e)
@@ -830,15 +830,15 @@ namespace NLEditor
             }
             else if (e.Control && e.KeyCode == Keys.V)
             {
-                AddPiecesFromMemory(true);
+                AddFromClipboard(true);
             }
             else if (e.Control && e.KeyCode == Keys.C)
             {
-                WriteOldSelectedList();
+                WriteToClipboard();
             }
             else if (e.KeyCode == Keys.C)
             {
-                CopySelectedPieces();
+                DuplicateSelectedPieces();
             }
             else if (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
             {

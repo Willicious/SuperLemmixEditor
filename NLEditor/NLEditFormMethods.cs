@@ -190,7 +190,7 @@ namespace NLEditor
             oldLevelList = new List<Level>();
             oldLevelList.Add(CurLevel.Clone());
             curOldLevelIndex = 0;
-            oldSelectedList = new List<LevelPiece>();
+            clipboard = new List<LevelPiece>();
             lastSavedLevel = null;
 
             WriteLevelInfoToForm();
@@ -217,7 +217,7 @@ namespace NLEditor
             oldLevelList = new List<Level>();
             oldLevelList.Add(CurLevel.Clone());
             curOldLevelIndex = 0;
-            oldSelectedList = new List<LevelPiece>();
+            clipboard = new List<LevelPiece>();
             lastSavedLevel = level.Clone();
 
             WriteLevelInfoToForm();
@@ -748,19 +748,19 @@ namespace NLEditor
         /// <summary>
         /// Copies all currently selected pieces to the fOldSelectedList.
         /// </summary>
-        private void WriteOldSelectedList()
+        private void WriteToClipboard()
         {
-            oldSelectedList = CurLevel.SelectionList().Select(piece => piece.Clone()).ToList();
+            clipboard = CurLevel.SelectionList().Select(piece => piece.Clone()).ToList();
         }
 
         /// <summary>
         /// Duplicates all selected pieces and displays the result.
         /// </summary>
-        private void CopySelectedPieces()
+        private void DuplicateSelectedPieces()
         {
-            WriteOldSelectedList();
+            WriteToClipboard();
             CurLevel.UnselectAll();
-            AddPiecesFromMemory(false);
+            AddFromClipboard(false);
             SaveChangesToOldLevelList();
             pic_Level.Image = curRenderer.CreateLevelImage();
         }
@@ -770,7 +770,7 @@ namespace NLEditor
         /// </summary>
         private void DeleteSelectedPieces(bool doSaveSelection = true)
         {
-            if (doSaveSelection) WriteOldSelectedList();
+            if (doSaveSelection) WriteToClipboard();
             CurLevel.TerrainList.RemoveAll(ter => ter.IsSelected);
             CurLevel.GadgetList.RemoveAll(obj => obj.IsSelected);
             SaveChangesToOldLevelList();
@@ -780,17 +780,17 @@ namespace NLEditor
         /// <summary>
         /// Adds all pieces that are stored in memory by previously deleting/copying them.
         /// </summary>
-        private void AddPiecesFromMemory(bool doCenterAtCursor)
+        private void AddFromClipboard(bool doCenterAtCursor)
         {
             CurLevel.UnselectAll();
             if (doCenterAtCursor)
             {
-                var newPieces = CenterPiecesAtCursor(oldSelectedList);
+                var newPieces = CenterPiecesAtCursor(clipboard);
                 CurLevel.AddMultiplePieces(newPieces);
             }
             else
             {
-                CurLevel.AddMultiplePieces(oldSelectedList);
+                CurLevel.AddMultiplePieces(clipboard);
             }
             SaveChangesToOldLevelList();
             pic_Level.Image = curRenderer.CreateLevelImage();
@@ -799,21 +799,23 @@ namespace NLEditor
         /// <summary>
         /// Centers the collection of pieces around the cursor.
         /// </summary>
-        /// <param name="oldPieces"></param>
+        /// <param name="clipPieces"></param>
         /// <returns></returns>
-        private IEnumerable<LevelPiece> CenterPiecesAtCursor(IEnumerable<LevelPiece> oldPieces)
+        private IEnumerable<LevelPiece> CenterPiecesAtCursor(IEnumerable<LevelPiece> clipPieces)
         {
-            Point mousePos = curRenderer.GetMousePosInLevel(Cursor.Position);
-            int oldCenterX = (oldPieces.Min(piece => piece.PosX) + oldPieces.Max(piece => piece.PosX + piece.Width)) / 2;
-            int oldCenterY = (oldPieces.Min(piece => piece.PosY) + oldPieces.Max(piece => piece.PosY + piece.Height)) / 2;
+            Point mousePos = curRenderer.GetMousePosInLevel(pic_Level.PointToClient(Cursor.Position));
+            int clipPosX = clipPieces.Min(piece => piece.PosX);
+            int clipPosY = clipPieces.Min(piece => piece.PosY);
+            int clipWidth = clipPieces.Max(piece => piece.PosX + piece.Width) - clipPosX;
+            int clipHeight = clipPieces.Max(piece => piece.PosY + piece.Height) - clipPosY;
 
             var newPieces = new List<LevelPiece>();
 
-            foreach (LevelPiece piece in oldPieces)
+            foreach (LevelPiece piece in clipPieces)
             {
                 var newPiece = piece.Clone();
-                newPiece.PosX = mousePos.X + (piece.PosX - oldCenterX);
-                newPiece.PosY = mousePos.Y + (piece.PosY - oldCenterY);
+                newPiece.PosX = mousePos.X - clipWidth / 2 + (piece.PosX - clipPosX);
+                newPiece.PosY = mousePos.Y - clipHeight / 2 + (piece.PosY - clipPosY);
                 newPieces.Add(newPiece);
             }
 
