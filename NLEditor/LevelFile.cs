@@ -18,11 +18,18 @@ namespace NLEditor
         /// </summary>
         /// <param name="styleList"></param>
         /// <returns></returns>
-        static public Level LoadLevel(List<Style> styleList, BackgroundList backgrounds)
+        static public Level LoadLevel(List<Style> styleList, BackgroundList backgrounds, string levelDirectory)
         {
             var openFileDialog = new OpenFileDialog();
 
-            openFileDialog.InitialDirectory = Directory.Exists(C.AppPathLevels) ? C.AppPathLevels : C.AppPath;
+            if (!string.IsNullOrEmpty(levelDirectory) && Directory.Exists(levelDirectory))
+            {
+                openFileDialog.InitialDirectory = levelDirectory;
+            }
+            else
+            {
+                openFileDialog.InitialDirectory = Directory.Exists(C.AppPathLevels) ? C.AppPathLevels : C.AppPath;
+            }
             openFileDialog.Multiselect = false;
             openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv|Old level files (*.lvl, *.ini, *.lev)|*.lvl;*.ini;*.lev";
             openFileDialog.RestoreDirectory = true;
@@ -430,12 +437,19 @@ namespace NLEditor
         /// Opens file browser and saves the current level to a .nxlv file.
         /// </summary>
         /// <param name="curLevel"></param>
-        static public void SaveLevel(Level curLevel)
+        static public void SaveLevel(Level curLevel, string levelDirectory)
         {
             var saveFileDialog = new SaveFileDialog();
 
             saveFileDialog.AddExtension = true;
-            saveFileDialog.InitialDirectory = Directory.Exists(C.AppPathLevels) ? C.AppPathLevels : C.AppPath;
+            if (!string.IsNullOrEmpty(levelDirectory) && Directory.Exists(levelDirectory))
+            {
+                saveFileDialog.InitialDirectory = levelDirectory;
+            }
+            else
+            {
+                saveFileDialog.InitialDirectory = Directory.Exists(C.AppPathLevels) ? C.AppPathLevels : C.AppPath;
+            }
             saveFileDialog.OverwritePrompt = true;
             saveFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
             saveFileDialog.RestoreDirectory = true;

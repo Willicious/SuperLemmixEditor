@@ -142,6 +142,8 @@ namespace NLEditor
         List<LevelPiece> clipboard;
         Level lastSavedLevel;
 
+        string levelDirectory; // for starting directory for saving/loading
+
         int gridSize => curSettings.GridSize;
         
         Stopwatch stopWatchKey;

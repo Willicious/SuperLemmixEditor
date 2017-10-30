@@ -207,9 +207,10 @@ namespace NLEditor
         {
             AskUserWhetherSaveLevel();
             
-            Level level = LevelFile.LoadLevel(StyleList, Backgrounds);
+            Level level = LevelFile.LoadLevel(StyleList, Backgrounds, levelDirectory);
             if (level == null) return;
 
+            levelDirectory = System.IO.Path.GetDirectoryName(level.FilePathToSave);
             CurLevel = level;
             curRenderer.SetLevel(CurLevel);
             RemoveInvalidLevelPieces();
@@ -276,8 +277,9 @@ namespace NLEditor
             // get most up-to-date global info
             ReadLevelInfoFromForm();
 
-            LevelFile.SaveLevel(CurLevel);
+            LevelFile.SaveLevel(CurLevel, levelDirectory);
             SaveChangesToOldLevelList();
+            levelDirectory = System.IO.Path.GetDirectoryName(CurLevel.FilePathToSave);
             if (!isPlaytest) lastSavedLevel = CurLevel.Clone();
         }
 
