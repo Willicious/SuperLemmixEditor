@@ -384,11 +384,16 @@ namespace NLEditor
 
             if (newStyle == null || CurLevel == null || newStyle == CurLevel.MainStyle) return;
 
-            // Load new style into PictureBoxes
             CurLevel.MainStyle = newStyle;
             UpdateBackgroundComboItems();
             UpdateBackgroundImage();
             pic_Level.Image = curRenderer.CombineLayers();
+
+            // If the level is empty, switch piece style, too
+            if (CurLevel.GadgetList.Count == 0 && CurLevel.TerrainList.Count == 0)
+            {
+                combo_PieceStyle.Text = newStyle.NameInEditor;
+            }
         }
 
         private void num_Lvl_SizeX_ValueChanged(object sender, EventArgs e)
@@ -630,7 +635,7 @@ namespace NLEditor
 
         private void combo_PieceStyle_TextChanged(object sender, EventArgs e)
         {
-            Style newStyle = ValidateStyleName(this.combo_PieceStyle.Text);
+            Style newStyle = ValidateStyleName(combo_PieceStyle.Text);
 
             if (newStyle == null || newStyle == pieceCurStyle) return;
 
