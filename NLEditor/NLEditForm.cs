@@ -808,11 +808,6 @@ namespace NLEditor
                 RemoveFocus();
                 ChangeNewPieceStyleSelection(1);
             }
-            else if (e.Shift && e.KeyCode == Keys.Space)
-            {
-                RemoveFocus();
-                ChangeObjTerrPieceDisplay();
-            }
             /* --------------------------------------------------------------------
              * ONLY USE THE FOLLOWING KEYS IF FOCUS IS NOT ON ONE OF THE TEXTBOXES
              * --------------------------------------------------------------------*/
