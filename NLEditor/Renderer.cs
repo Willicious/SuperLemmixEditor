@@ -291,7 +291,8 @@ namespace NLEditor
         {
             layerImages[C.Layer.ObjBack].Clear();
 
-            foreach (GadgetPiece gadget in level.GadgetList.FindAll(obj => obj.IsNoOverwrite))
+            var backGadgets = (level.GadgetList.FindAll(obj => obj.IsNoOverwrite) as IEnumerable<GadgetPiece>).Reverse();
+            foreach (GadgetPiece gadget in backGadgets)
             {
                 layerImages[C.Layer.ObjBack].DrawOn(gadget.Image, gadget.Pos);
             }
