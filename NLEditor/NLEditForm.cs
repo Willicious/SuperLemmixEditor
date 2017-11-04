@@ -315,6 +315,11 @@ namespace NLEditor
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            WriteToClipboard(); 
+        }
+
+        private void duplicateCToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             DuplicateSelectedPieces();
         }
 
