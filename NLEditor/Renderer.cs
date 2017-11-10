@@ -291,7 +291,14 @@ namespace NLEditor
         {
             layerImages[C.Layer.ObjBack].Clear();
 
-            var backGadgets = (level.GadgetList.FindAll(obj => obj.IsNoOverwrite) as IEnumerable<GadgetPiece>).Reverse();
+            var backgroundGadgets = level.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.BACKGROUND && !obj.IsOnlyOnTerrain);
+            foreach (GadgetPiece gadget in backgroundGadgets)
+            {
+                layerImages[C.Layer.ObjBack].DrawOn(gadget.Image, gadget.Pos);
+            }
+
+            var backGadgets = level.GadgetList.FindAll(obj => obj.IsNoOverwrite && obj.ObjType != C.OBJ.BACKGROUND); 
+            backGadgets.Reverse();
             foreach (GadgetPiece gadget in backGadgets)
             {
                 layerImages[C.Layer.ObjBack].DrawOn(gadget.Image, gadget.Pos);
@@ -423,7 +430,7 @@ namespace NLEditor
             }
 
             var normalGadgetList = level.GadgetList.FindAll(gad => 
-                    !gad.IsNoOverwrite && !gad.IsOnlyOnTerrain && gad.ObjType != C.OBJ.ONE_WAY_WALL);
+                    !gad.IsNoOverwrite && !gad.IsOnlyOnTerrain && !gad.ObjType.In(C.OBJ.ONE_WAY_WALL, C.OBJ.BACKGROUND));
             foreach (GadgetPiece gadget in normalGadgetList)
             {
                 layerImages[C.Layer.ObjTop].DrawOn(gadget.Image, gadget.Pos);
