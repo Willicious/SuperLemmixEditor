@@ -126,21 +126,24 @@ namespace NLEditor
             // Load now the default objects into the list
             string directoryPathDefault = C.AppPathPieces + "default" + C.DirSep + "objects";
 
-            try
+            if (Directory.Exists(directoryPathDefault))
             {
-                ObjectKeys.AddRange(Directory.GetFiles(directoryPathDefault, "*.png", SearchOption.TopDirectoryOnly)
-                                              .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
-                                              .ToList()
-                                              .FindAll(key => !key.Contains("_mask_")));
+                try
+                {
+                    ObjectKeys.AddRange(Directory.GetFiles(directoryPathDefault, "*.png", SearchOption.TopDirectoryOnly)
+                                                  .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
+                                                  .ToList()
+                                                  .FindAll(key => !key.Contains("_mask_")));
 
-                ObjectKeys.Add("default" + C.DirSep + "objects" + C.DirSep + "lemming");
-            }
-            catch (Exception Ex)
-            {
-                Utility.LogException(Ex);
+                    ObjectKeys.Add("default" + C.DirSep + "objects" + C.DirSep + "lemming");
+                }
+                catch (Exception Ex)
+                {
+                    Utility.LogException(Ex);
 
-                System.Windows.Forms.MessageBox.Show("Warning:" + Ex.Message, "Files not found");
-                // ...but then start the editor as usual
+                    System.Windows.Forms.MessageBox.Show("Warning:" + Ex.Message, "Files not found");
+                    // ...but then start the editor as usual
+                }
             }
         }
 
