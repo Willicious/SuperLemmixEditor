@@ -313,7 +313,7 @@ namespace NLEditor
                 TerrainList.FindAll(ter => ter.ImageRectangle.IntersectsWith(rectangle))
                            .ForEach(ter => ter.IsSelected = isAdded);
             }
-            if (DisplaySettings.IsDisplayed(C.DisplayType.Terrain))
+            if (DisplaySettings.IsDisplayed(C.DisplayType.Objects))
             {
                 GadgetList.FindAll(gad => gad.ImageRectangle.IntersectsWith(rectangle))
                           .ForEach(gad => gad.IsSelected = isAdded);
