@@ -937,6 +937,26 @@ namespace NLEditor
             }
         }
 
+        public static void WriteTextEdged(this Bitmap origBmp, string text, Point position, Color textColor, int fontSize, ContentAlignment alignment = ContentAlignment.MiddleCenter)
+        {
+            // Reposition the text correctly according to its size.
+            Font textFont = new Font("Tahoma", fontSize);
+            Size textSize = System.Windows.Forms.TextRenderer.MeasureText(text, textFont);
+            Point topLeftCorner = AlignText(position, textSize.Width, textSize.Height, alignment);
+
+            using (Graphics g = Graphics.FromImage(origBmp))
+            {
+                using (Brush b = new SolidBrush(textColor))
+                {
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+                    g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
+                    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixel;
+                    g.DrawString(text, textFont, b, topLeftCorner);
+                }
+            }
+        }
+
         /// <summary>
         /// Computes the top left corner of text of given size and alignment.
         /// </summary>

@@ -606,6 +606,13 @@ namespace NLEditor
             RemoveFocus();
         }
 
+        private void num_PickupSkillCount_ValueChanged(object sender, EventArgs e)
+        {
+            int newSkillCount = (int)num_PickupSkillCount.Value;
+            CurLevel.SetPickupSkillCount(newSkillCount);
+            pic_Level.Image = curRenderer.CreateLevelImage();
+        }
+
         /* -----------------------------------------------------------
          *              Skill Selection Tab
          * ----------------------------------------------------------- */
@@ -1193,5 +1200,6 @@ namespace NLEditor
             selectForm.Show();
             */
         }
+
     }
 }

@@ -403,12 +403,24 @@ namespace NLEditor
             }
         }
 
-        public override Bitmap Image { get
-        {
-            if (ResizeMode == C.Resize.None) return base.Image;
-            else if (SpecWidth < 1 || SpecHeight < 1) return new Bitmap(1, 1); // should never happen
-            else return base.Image.PaveArea(new Rectangle(0, 0, Width, Height));
-        } }
+        public override Bitmap Image
+        { get
+            {
+                Bitmap image;
+                if (ObjType == C.OBJ.PICKUP && Val_L > 1)
+                {
+                    image = AddPickupSkillNumber(base.Image);
+                }
+                else
+                {
+                    image = base.Image;
+                }
+
+                if (ResizeMode == C.Resize.None) return image;
+                else if (SpecWidth < 1 || SpecHeight < 1) return new Bitmap(1, 1); // should never happen
+                else return image.PaveArea(new Rectangle(0, 0, Width, Height));
+            }
+        }
 
         public override int Width => (ResizeMode == C.Resize.None) ? base.Width : SpecWidth;
         public override int Height => (ResizeMode == C.Resize.None) ? base.Height : SpecHeight;
@@ -559,6 +571,29 @@ namespace NLEditor
         {
             System.Diagnostics.Debug.Assert(ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER), "Teleporter pairing key set for object, that is neither teleporter nor receiver.");            
             Val_L = newValue;
+        }
+
+        /// <summary>
+        /// Sets the number of skills a pick-up skill gives the player.
+        /// </summary>
+        /// <param name="newValue"></param>
+        public void SetPickupSkillCount(int newValue)
+        {
+            System.Diagnostics.Debug.Assert(ObjType == C.OBJ.PICKUP, "Pickup skill count set for object of another type.");
+            Val_L = newValue;
+        }
+
+        /// <summary>
+        /// Adds the Pickup skill number to the base image
+        /// </summary>
+        /// <param name="baseImage"></param>
+        /// <returns></returns>
+        private Bitmap AddPickupSkillNumber(Bitmap baseImage)
+        {
+            Bitmap image = (Bitmap)baseImage.Clone();
+            image.WriteTextEdged(Val_L.ToString(), new Point(image.Width + 4, image.Height + 1), Color.FromArgb(16, 16, 16), 5, ContentAlignment.BottomRight);
+            image.WriteTextEdged(Val_L.ToString(), new Point(image.Width + 5, image.Height + 1), Color.FromArgb(240, 240, 240), 5, ContentAlignment.BottomRight);
+            return image;
         }
 
     }

@@ -232,6 +232,7 @@ namespace NLEditor
                     case "DIRECTION": doFlip = line.Text.ToUpper().StartsWith("L"); break;
                     case "FLIP_LEMMING": doFlip = true; break;
                     case "PAIRING": val_L = line.Value; break;
+                    case "SKILLCOUNT": val_L = line.Value; break;
                 }
             }
 
@@ -250,6 +251,12 @@ namespace NLEditor
                 }
             }
 
+            // Ensure that pickup skills add at least one skill
+            if (newGadget.ObjType == C.OBJ.PICKUP && newGadget.Val_L < 1)
+            {
+                newGadget.SetPickupSkillCount(1);
+            }
+
             // For compatibility with player: NoOverwrite + OnlyOnTerrain gadgets work like OnlyOnTerrain 
             if (newGadget.IsNoOverwrite && newGadget.IsOnlyOnTerrain) newGadget.IsNoOverwrite = false;
 
@@ -265,7 +272,6 @@ namespace NLEditor
                 newGadget.PosX -= C.LEM_OFFSET_X;
                 newGadget.PosY -= C.LEM_OFFSET_Y;
             }
-
 
             newGadget.IsSelected = false;
 
@@ -697,6 +703,11 @@ namespace NLEditor
                 foreach (C.Skill skill in gadget.SkillFlags)
                 {
                     textFile.WriteLine("   SKILL " + SkillString(skill));
+                }
+
+                if (gadget.Val_L > 1)
+                {
+                    textFile.WriteLine("   SKILLCOUNT " + gadget.Val_L.ToString());
                 }
             }
 

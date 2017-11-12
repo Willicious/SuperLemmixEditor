@@ -648,6 +648,18 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Sets the pickup skill count to the first piece in the selection list.
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetPickupSkillCount(int value)
+        {
+            GadgetPiece pickup = (GadgetPiece)SelectionList().First();
+            System.Diagnostics.Debug.Assert(pickup != null && pickup.ObjType == C.OBJ.PICKUP, "Set pickup skill count, but first selected piece is not a pickup object!");
+
+            pickup.SetPickupSkillCount(value);
+        }
+
+        /// <summary>
         /// Removes the key-value RemoveValue from all teleporter and receiver objects.
         /// </summary>
         /// <param name="removeValue"></param>

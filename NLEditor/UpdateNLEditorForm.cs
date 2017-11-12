@@ -178,16 +178,20 @@ namespace NLEditor
 
             if (selectionList.Count == 1 && selectionList[0] is GadgetPiece)
             { 
-                GadgetPiece MyGadget = (GadgetPiece)selectionList[0];
-                lbl_Resize_Width.Visible = MyGadget.MayResizeHoriz();
+                GadgetPiece gadget = (GadgetPiece)selectionList[0];
+                lbl_Resize_Width.Visible = gadget.MayResizeHoriz();
                 num_Resize_Width.Maximum = CurLevel.Width;
-                num_Resize_Width.Value = Math.Min(Math.Max(MyGadget.SpecWidth, num_Resize_Width.Minimum), num_Resize_Width.Maximum);
-                num_Resize_Width.Visible = MyGadget.MayResizeHoriz();
+                num_Resize_Width.Value = Math.Min(Math.Max(gadget.SpecWidth, num_Resize_Width.Minimum), num_Resize_Width.Maximum);
+                num_Resize_Width.Visible = gadget.MayResizeHoriz();
 
-                lbl_Resize_Height.Visible = MyGadget.MayResizeVert();
+                lbl_Resize_Height.Visible = gadget.MayResizeVert();
                 num_Resize_Height.Maximum = CurLevel.Height;
-                num_Resize_Height.Value = Math.Min(Math.Max(MyGadget.SpecHeight, num_Resize_Height.Minimum), num_Resize_Height.Maximum);
-                num_Resize_Height.Visible = MyGadget.MayResizeVert();
+                num_Resize_Height.Value = Math.Min(Math.Max(gadget.SpecHeight, num_Resize_Height.Minimum), num_Resize_Height.Maximum);
+                num_Resize_Height.Visible = gadget.MayResizeVert();
+
+                lbl_PickupSkillCount.Visible = (gadget.ObjType == C.OBJ.PICKUP);
+                num_PickupSkillCount.Value = Math.Min(Math.Max(gadget.Val_L, num_PickupSkillCount.Minimum), num_PickupSkillCount.Maximum);
+                num_PickupSkillCount.Visible = (gadget.ObjType == C.OBJ.PICKUP);
             }
             else
             {
