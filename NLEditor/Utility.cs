@@ -107,6 +107,18 @@ namespace NLEditor
             return image;
         }
 
+        /// <summary>
+        /// Sets the image of an existing PictureBox and disposes the used image
+        /// </summary>
+        /// <param name="picBox"></param>
+        /// <param name="image"></param>
+        public static void SetImage(this PictureBox picBox, Bitmap image)
+        {
+            Bitmap oldImage = picBox.Image as Bitmap;
+            picBox.Image = image;
+            if (oldImage != null) oldImage.Dispose();
+        }
+
 
         /// <summary>
         /// Deletes the specified file, if it exists.

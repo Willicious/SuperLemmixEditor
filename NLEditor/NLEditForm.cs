@@ -202,7 +202,7 @@ namespace NLEditor
 
             MoveControlsOnFormResize();
             curRenderer.EnsureScreenPosInLevel();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.SetImage(curRenderer.CreateLevelImage());
             curSettings.SetFormSize();
         }
 
@@ -260,37 +260,37 @@ namespace NLEditor
         private void clearPhysicsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.ClearPhysics);
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 
         private void terrainRenderingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.Terrain);
-            pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.SetImage(curRenderer.CombineLayers());
         }
 
         private void objectRenderingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.Objects);
-            pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.SetImage(curRenderer.CombineLayers());
         }
 
         private void triggerAreasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.Trigger);
-            pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.SetImage(curRenderer.CombineLayers());
         }
 
         private void screenStartToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.ScreenStart);
-            pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.SetImage(curRenderer.CombineLayers());
         }
 
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.Background);
-            pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.SetImage(curRenderer.CombineLayers());
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -365,13 +365,13 @@ namespace NLEditor
         private void scrollPicLevelHoriz_Scroll(object sender, ScrollEventArgs e)
         {
             curRenderer.ScreenPosX = e.NewValue;
-            pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.SetImage(curRenderer.CombineLayers());
         }
 
         private void scrollPicLevelVert_Scroll(object sender, ScrollEventArgs e)
         {
             curRenderer.ScreenPosY = e.NewValue;
-            pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.SetImage(curRenderer.CombineLayers());
         }
 
         /* -----------------------------------------------------------
@@ -387,7 +387,7 @@ namespace NLEditor
             CurLevel.MainStyle = newStyle;
             UpdateBackgroundComboItems();
             UpdateBackgroundImage();
-            pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.SetImage(curRenderer.CombineLayers());
 
             // If the level is empty, switch piece style, too
             if (CurLevel.GadgetList.Count == 0 && CurLevel.TerrainList.Count == 0)
@@ -407,7 +407,7 @@ namespace NLEditor
             // Update screen position and render level
             curRenderer.ChangeZoom(0);
             RepositionPicLevel();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 
         private void num_Lvl_SizeY_ValueChanged(object sender, EventArgs e)
@@ -421,19 +421,19 @@ namespace NLEditor
             // Update screen position and render level
             curRenderer.ChangeZoom(0);
             RepositionPicLevel();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 
         private void num_Lvl_StartX_ValueChanged(object sender, EventArgs e)
         {
             CurLevel.StartPosX = (int)num_Lvl_StartX.Value;
-            pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.SetImage(curRenderer.CombineLayers());
         }
 
         private void num_Lvl_StartY_ValueChanged(object sender, EventArgs e)
         {
             CurLevel.StartPosY = (int)num_Lvl_StartY.Value;
-            pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.SetImage(curRenderer.CombineLayers());
         }
 
 
@@ -441,7 +441,7 @@ namespace NLEditor
         {
             CurLevel.Background = Backgrounds.Find(this.combo_Background.Text);
             UpdateBackgroundImage();
-            pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.SetImage(curRenderer.CombineLayers());
         }
 
 
@@ -579,7 +579,7 @@ namespace NLEditor
             bool isChecked = ((CheckBox)sender).CheckState == CheckState.Checked;
             SetSkillForObjects(skill, isChecked);
             RemoveFocus();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 
         private void num_Resize_Width_ValueChanged(object sender, EventArgs e)
@@ -588,7 +588,7 @@ namespace NLEditor
             CurLevel.SelectionList()
                     .FindAll(item => item is GadgetPiece)
                     .ForEach(obj => (obj as GadgetPiece).SpecWidth = newWidth);
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 
         private void num_Resize_Height_ValueChanged(object sender, EventArgs e)
@@ -597,7 +597,7 @@ namespace NLEditor
             CurLevel.SelectionList()
                     .FindAll(item => item is GadgetPiece)
                     .ForEach(obj => (obj as GadgetPiece).SpecHeight = newHeight);
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 
         private void but_PairTeleporter_Click(object sender, EventArgs e)
@@ -610,7 +610,7 @@ namespace NLEditor
         {
             int newSkillCount = (int)num_PickupSkillCount.Value;
             CurLevel.SetPickupSkillCount(newSkillCount);
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 
         /* -----------------------------------------------------------
@@ -904,7 +904,7 @@ namespace NLEditor
                 else
                 {
                     curRenderer.MoveScreenPos(direction, e.Control ? 64 : 8);
-                    pic_Level.Image = curRenderer.CombineLayers();
+                    pic_Level.SetImage(curRenderer.CombineLayers());
                 }
             }
             else if (e.KeyCode == Keys.R)
@@ -1010,7 +1010,7 @@ namespace NLEditor
 
             // Update level image
             RepositionPicLevel();
-            pic_Level.Image = curRenderer.CombineLayers();
+            pic_Level.SetImage(curRenderer.CombineLayers());
 
             mutexMouseWheel.ReleaseMutex();
         }
@@ -1071,27 +1071,27 @@ namespace NLEditor
             {
                 case C.DragActions.SelectArea:
                     {
-                        pic_Level.Image = curRenderer.CombineLayers();
+                        pic_Level.SetImage(curRenderer.CombineLayers());
                         break;
                     }
                 case C.DragActions.MoveEditorPos:
                     {
                         curRenderer.UpdateScreenPos();
                         UpdateScrollBarValues();
-                        pic_Level.Image = curRenderer.CombineLayers();
+                        pic_Level.SetImage(curRenderer.CombineLayers());
                         break;
                     }
                 case C.DragActions.DragPieces:
                     {
                         DragSelectedPieces();
-                        pic_Level.Image = curRenderer.CreateLevelImage();
+                        pic_Level.SetImage(curRenderer.CreateLevelImage());
                         break;
                     }
                 case C.DragActions.MoveStartPos:
                     {
                         Point newCenter = curRenderer.GetNewPosFromDragging();
                         MoveScreenStartPosition(newCenter);
-                        pic_Level.Image = curRenderer.CombineLayers();
+                        pic_Level.SetImage(curRenderer.CombineLayers());
                         break;
                     }
             }
@@ -1155,7 +1155,7 @@ namespace NLEditor
             }
 
             curRenderer.DeleteDraggingVars();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            pic_Level.SetImage(curRenderer.CreateLevelImage());
             UpdateFlagsForPieceActions();
 
             mouseButtonPressed = null;
