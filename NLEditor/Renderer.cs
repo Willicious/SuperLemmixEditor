@@ -44,6 +44,7 @@ namespace NLEditor
         }
 
         Dictionary<C.Layer, Bitmap> layerImages;
+        Bitmap baseLevelImage;
         Level level;
         bool IsClearPhysics => DisplaySettings.IsDisplayed(C.DisplayType.ClearPhysics);
         bool IsTerrainLayer => DisplaySettings.IsDisplayed(C.DisplayType.Terrain);
@@ -69,11 +70,136 @@ namespace NLEditor
 
         public void Dispose()
         {
-            if (layerImages != null)
+            layerImages?.Values.ToList().ForEach(bmp => bmp.Dispose());
+            baseLevelImage?.Dispose();
+        }
+
+        /// <summary>
+        /// Renders all layers again and stores the result.
+        /// <para> Then combines and crops them and returns the image to display on the screen.</para>
+        /// </summary>
+        /// <returns></returns>
+        public Bitmap CreateLevelImage()
+        {
+            UpdateLayerBmpSize();
+
+            CreateObjectBackLayer();
+            CreateTerrainLayer();
+            CreateObjectTopLayer();
+            CreateTriggerLayer();
+
+            return CombineLayers();
+        }
+
+        /// <summary>
+        /// Combines and crops stored layers and returns the image to display on the screen.
+        /// </summary>
+        /// <returns></returns>
+        public Bitmap CombineLayers(string dragNewPieceKey = null)
+        {
+            // Create the base level image
+            CreateLevelImageFromLayers(dragNewPieceKey);
+
+            // Crop the whole level and add the editor helpers
+            return GetScreenImage();
+        }
+
+        /// <summary>
+        /// Create the screen image from the zoomed level
+        /// </summary>
+        /// <returns></returns>
+        public Bitmap GetScreenImage()
+        {
+            return CreateScreenImage();
+        }
+
+        /// <summary>
+        /// Combine the layers to the (correctly zoomed) level image
+        /// </summary>
+        private void CreateLevelImageFromLayers(string dragNewPieceKey = null)
+        {
+            // Dispose existing baseLevelImage
+            baseLevelImage?.Dispose();
+
+            // Create new baseLevelImage
+            if (IsBackgroundLayer)
             {
-                layerImages.Values.ToList().ForEach(bmp => bmp.Dispose());
+                baseLevelImage = (Bitmap)layerImages[C.Layer.Background].Clone();
+            }
+            else
+            {
+                // Still use background color
+                baseLevelImage = new Bitmap(level.Width, level.Height);
+                baseLevelImage.Clear(level.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.NLColors[C.NLColor.BackDefault]);
+            }
+
+            // Draw all the layers
+            if (IsObjectLayer)
+            {
+                baseLevelImage.DrawOn(layerImages[C.Layer.ObjBack]);
+            }
+
+            if (IsTerrainLayer)
+            {
+                baseLevelImage.DrawOn(layerImages[C.Layer.Terrain]);
+            }
+
+            if (dragNewPieceKey != null && MouseDragAction == C.DragActions.DragNewPiece
+                                        && IsPointInLevelArea(MouseCurPos))
+            {
+                AddDragNewPiece(baseLevelImage, dragNewPieceKey, new Point(0, 0));
+            }
+
+            if (IsTerrainLayer && IsObjectLayer)
+            {
+                baseLevelImage.DrawOn(layerImages[C.Layer.ObjTop]);
+            }
+
+            if (IsTriggerLayer)
+            {
+                baseLevelImage.DrawOnWithAlpha(layerImages[C.Layer.Trigger]);
             }
         }
+
+        /// <summary>
+        /// Creates the screen image from the zoomed level image
+        /// </summary>
+        /// <returns></returns>
+        private Bitmap CreateScreenImage()
+        {
+            UpdateScreenPos();
+
+            // Create the rectangle where to crop the zoomedLevelImage
+            Size levelBmpSize = GetLevelBmpSize();
+            Rectangle screenBmpRect = new Rectangle(ScreenPosX, ScreenPosY, levelBmpSize.Width, levelBmpSize.Height);
+            Bitmap croppedBmp = baseLevelImage.Crop(screenBmpRect);
+
+            // Zoom this image
+            Bitmap screenBmp = croppedBmp.Zoom(ZoomFactor);
+
+            // Add rectangles around selected pieces
+            if (IsScreenStart) AddScreenStartRectangle(ref screenBmp);
+            AddSelectedRectangles(ref screenBmp);
+            if (ZoomFactor >= 0 && IsObjectLayer) AddHatchOrder(ref screenBmp);
+            AddMouseSelectionArea(ref screenBmp);
+
+            // Embed the screen image in a bitmap of the size of the whole picture box.
+            Bitmap fullBmp = new Bitmap(picBoxWidth, picBoxHeight);
+            fullBmp.Clear(Color.FromArgb(0, 0, 0, 0));
+
+            Point levelPos = new Point((picBoxWidth - screenBmp.Width) / 2,
+                                       (picBoxHeight - screenBmp.Height) / 2);
+            fullBmp.DrawOn(screenBmp, levelPos);
+
+            // Add selection coordinates it applicable
+            if (level.SelectionList()?.Count > 0) AddSelectionCoordinates(ref fullBmp);
+
+            // Dispose the single screen bitmap
+            croppedBmp.Dispose();
+            screenBmp.Dispose();
+
+            return fullBmp;
+        } 
 
         private void ClearLayers()
         {
@@ -235,23 +361,6 @@ namespace NLEditor
             if (lvlPos1 == null || lvlPos2 == null) return null;
 
             return Utility.RectangleFrom((Point)lvlPos1, (Point)lvlPos2);
-        }
-
-        /// <summary>
-        /// Renders all layers again and stores the result.
-        /// <para> Then combines and crops them and returns the image to display on the screen.</para>
-        /// </summary>
-        /// <returns></returns>
-        public Bitmap CreateLevelImage()
-        {            
-            UpdateLayerBmpSize();
-            
-            CreateObjectBackLayer();
-            CreateTerrainLayer();
-            CreateObjectTopLayer();
-            CreateTriggerLayer();
-
-            return CombineLayers();
         }
 
         /// <summary>
@@ -449,88 +558,6 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Combines and crops stored layers and returns the image to display on the screen.
-        /// </summary>
-        /// <returns></returns>
-        public Bitmap CombineLayers(string dragNewPieceKey = null)
-        {
-            UpdateScreenPos();
-            Point oldScreenPos = new Point(ScreenPosX, ScreenPosY);
-            Point negativeScreenPos = new Point(-ScreenPosX, -ScreenPosY);
-
-            Size levelBmpSize = GetLevelBmpSize();
-            Bitmap levelBmp;
-            if (IsBackgroundLayer)
-            {
-                levelBmp = (Bitmap)layerImages[C.Layer.Background].Clone();
-            }
-            else
-            {
-                // Still use background color
-                levelBmp = new Bitmap(levelBmpSize.Width, levelBmpSize.Height);
-                levelBmp.Clear(level.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.NLColors[C.NLColor.BackDefault]);
-            }
-            
-
-            if (IsObjectLayer) 
-            {
-                levelBmp.DrawOn(layerImages[C.Layer.ObjBack], negativeScreenPos);
-            }
-
-            if (IsTerrainLayer)
-            {
-                levelBmp.DrawOn(layerImages[C.Layer.Terrain], negativeScreenPos);
-            }
-
-            if (dragNewPieceKey != null && MouseDragAction == C.DragActions.DragNewPiece 
-                                        && IsPointInLevelArea(MouseCurPos))
-            {
-                AddDragNewPiece(levelBmp, dragNewPieceKey, negativeScreenPos);
-            }
-
-            if (IsTerrainLayer && IsObjectLayer)
-            {
-                levelBmp.DrawOn(layerImages[C.Layer.ObjTop], negativeScreenPos);
-            }
-
-            if (IsTriggerLayer)
-            {
-                levelBmp.DrawOnWithAlpha(layerImages[C.Layer.Trigger], negativeScreenPos);
-            }
-
-            // Zoom the LevelBmp correctly
-            levelBmp = levelBmp.Zoom(ZoomFactor);
-            if (picBoxWidth < levelBmp.Width || picBoxHeight < levelBmp.Height)
-            {
-                levelBmp = levelBmp.Crop(picBoxRect);
-            }
-
-            // Add rectangles around selected pieces
-            if (IsScreenStart) levelBmp = AddScreenStartRectangle(levelBmp);
-            levelBmp = AddSelectedRectangles(levelBmp);
-            if (ZoomFactor >= 0 && IsObjectLayer) levelBmp = AddHatchOrder(levelBmp);
-            levelBmp = AddMouseSelectionArea(levelBmp);
-
-            // Revert changes to the screen position, until calling it properly
-            ScreenPosX = oldScreenPos.X;
-            ScreenPosY = oldScreenPos.Y;
-
-            // Embed it in a bitmap of the size of the whole picture box.
-            Bitmap fullBmp = new Bitmap(picBoxWidth, picBoxHeight);
-            fullBmp.Clear(Color.FromArgb(0, 0, 0, 0));
-
-            Point levelPos = new Point((picBoxWidth - levelBmp.Width) / 2,
-                                       (picBoxHeight - levelBmp.Height) / 2);
-            fullBmp.DrawOn(levelBmp, levelPos);
-
-            // Add selection coordinates it applicable
-            if (level.SelectionList()?.Count > 0) fullBmp = AddSelectionCoordinates(fullBmp);
-
-            return fullBmp;
-        }
-
-
-        /// <summary>
         /// Gets the size of the displayable area in level coordinates.
         /// </summary>
         /// <returns></returns>
@@ -584,7 +611,7 @@ namespace NLEditor
         /// <param name="levelBmp"></param>
         /// <param name="NegScreenPos"></param>
         /// <returns></returns>
-        private Bitmap AddScreenStartRectangle(Bitmap levelBmp)
+        private void AddScreenStartRectangle(ref Bitmap levelBmp)
         {
             Rectangle screenStartRect = GetPicRectFromLevelRect(ScreenStartRectangle());
 
@@ -594,7 +621,6 @@ namespace NLEditor
 
             levelBmp.DrawOnRectangles(new List<Rectangle>() { screenStartRect, screenCenterRect1, screenCenterRect2 }, 
                                       C.NLColors[C.NLColor.ScreenStart]);
-            return levelBmp;
         }
 
         /// <summary>
@@ -602,7 +628,7 @@ namespace NLEditor
         /// </summary>
         /// <param name="levelBmp"></param>
         /// <returns></returns>
-        private Bitmap AddHatchOrder(Bitmap levelBmp)
+        private void AddHatchOrder(ref Bitmap levelBmp)
         {
             var hatches = level.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.HATCH);
 
@@ -618,8 +644,6 @@ namespace NLEditor
 
                 levelBmp.WriteText(text, screenTextCenterPos, C.NLColors[C.NLColor.Text], fontSize);
             }
-
-            return levelBmp;
         }
 
         /// <summary>
@@ -627,15 +651,13 @@ namespace NLEditor
         /// </summary>
         /// <param name="levelBmp"></param>
         /// <returns></returns>
-        private Bitmap AddSelectionCoordinates(Bitmap fullBmp)
+        private void AddSelectionCoordinates(ref Bitmap fullBmp)
         {
             Rectangle selectRect = level.SelectionRectangle();
             string text = selectRect.X.ToString() + "/" + selectRect.Y.ToString();
             Point textPos = new Point(picBoxWidth + 7, picBoxHeight + 3);
 
             fullBmp.WriteText(text, textPos, C.NLColors[C.NLColor.Text], 10, ContentAlignment.BottomRight);
-
-            return fullBmp;
         }
 
         /// <summary>
@@ -643,7 +665,7 @@ namespace NLEditor
         /// </summary>
         /// <param name="levelBmp"></param>
         /// <returns></returns>
-        private Bitmap AddSelectedRectangles(Bitmap levelBmp)
+        private void AddSelectedRectangles(ref Bitmap levelBmp)
         {
             // First get a list of all Rectangled to draw (in image coordinates)
             var gadgetRectangles = level.GadgetList.FindAll(gad => gad.IsSelected)
@@ -653,8 +675,6 @@ namespace NLEditor
             var TerrRectangles = level.TerrainList.FindAll(ter => ter.IsSelected)
                                                   .ConvertAll(ter => GetPicRectFromLevelRect(ter.ImageRectangle));
             levelBmp.DrawOnRectangles(TerrRectangles, C.NLColors[C.NLColor.SelRectTerrain]);
-
-            return levelBmp;
         }
 
         /// <summary>
@@ -697,10 +717,10 @@ namespace NLEditor
         /// </summary>
         /// <param name="levelBmp"></param>
         /// <returns></returns>
-        private Bitmap AddMouseSelectionArea(Bitmap levelBmp)
+        private void AddMouseSelectionArea(ref Bitmap levelBmp)
         {
-            if (MouseDragAction != C.DragActions.SelectArea) return levelBmp;
-            if (MouseStartPos == null || MouseCurPos == null) return levelBmp;
+            if (MouseDragAction != C.DragActions.SelectArea) return;
+            if (MouseStartPos == null || MouseCurPos == null) return;
 
             Rectangle mouseRect = Utility.RectangleFrom((Point)MouseStartPos, (Point)MouseCurPos);
             
@@ -709,8 +729,6 @@ namespace NLEditor
             mouseRect.Y -= BorderHeight();
 
             levelBmp.DrawOnDottedRectangle(mouseRect);
-            
-            return levelBmp;
         }
 
         /// <summary>

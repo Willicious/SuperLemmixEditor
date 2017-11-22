@@ -249,6 +249,17 @@ namespace NLEditor
         /// <param name="origBmp"></param>
         /// <param name="newBmp"></param>
         /// <param name="pos"></param>
+        public static void DrawOn(this Bitmap origBmp, Bitmap newBmp)
+        {
+            origBmp.DrawOn(newBmp, new Point(0, 0), DoDrawThisPixel_DrawNew, 255);
+        }
+
+        /// <summary>
+        /// Copies pixels from a new bitmap to the base bitmap. 
+        /// </summary>
+        /// <param name="origBmp"></param>
+        /// <param name="newBmp"></param>
+        /// <param name="pos"></param>
         public static void DrawOn(this Bitmap origBmp, Bitmap newBmp, Point pos, byte alpha = 255)
         {
             origBmp.DrawOn(newBmp, pos, DoDrawThisPixel_DrawNew, alpha);
@@ -542,6 +553,18 @@ namespace NLEditor
         /// </summary>
         /// <param name="origBmp"></param>
         /// <param name="newBmp"></param>
+        public static void DrawOnWithAlpha(this Bitmap origBmp, Bitmap newBmp)
+        {
+            origBmp.DrawOnWithAlpha(newBmp, new Point(0, 0));
+        }
+
+
+        /// <summary>
+        /// Copies pixels from a new bitmap to the base bitmap using swapped alpha blending.
+        /// <para> All pixels of the original bitmap have alpha 128, all pixels in the result have alpha 255.</para>
+        /// </summary>
+        /// <param name="origBmp"></param>
+        /// <param name="newBmp"></param>
         /// <param name="pos"></param>
         public static void DrawOnWithAlpha(this Bitmap origBmp, Bitmap newBmp, Point pos)
         {
@@ -696,8 +719,8 @@ namespace NLEditor
         /// <returns></returns>
         public static Bitmap Zoom(this Bitmap origBmp, int zoomFactor)
         {
-            int newWidth = (zoomFactor < 0) ? origBmp.Width / (Math.Abs(zoomFactor) + 1) : origBmp.Width * (zoomFactor + 1);
-            int newHeight = (zoomFactor < 0) ? origBmp.Height / (Math.Abs(zoomFactor) + 1) : origBmp.Height * (zoomFactor + 1);
+            int newWidth = (zoomFactor < 0) ? Math.Max(origBmp.Width / (Math.Abs(zoomFactor) + 1), 1) : origBmp.Width * (zoomFactor + 1);
+            int newHeight = (zoomFactor < 0) ? Math.Max(origBmp.Height / (Math.Abs(zoomFactor) + 1), 1) : origBmp.Height * (zoomFactor + 1);
 
             return origBmp.Zoom(zoomFactor, new Size(newWidth, newHeight));
         }
