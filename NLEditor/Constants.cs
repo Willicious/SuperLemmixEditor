@@ -88,7 +88,7 @@ namespace NLEditor
                 {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Preplaced lemming"},
                 {OBJ.PICKUP, "Pick-up skill"}, {OBJ.EXIT_LOCKED, "Locked exit"}, {OBJ.BUTTON, "Button"},
                 {OBJ.UPDRAFT, "Updraft"}, {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
-                {OBJ.SPLAT, "Splat wire"}, {OBJ.BACKGROUND, "Do NOT use!"}, {OBJ.TRAPONCE, "Single-use trap"}
+                {OBJ.SPLAT, "Splat wire"}, {OBJ.BACKGROUND, "Decoration"}, {OBJ.TRAPONCE, "Single-use trap"}
             };
 
         public enum DragActions
