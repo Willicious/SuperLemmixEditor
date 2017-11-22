@@ -365,13 +365,13 @@ namespace NLEditor
         private void scrollPicLevelHoriz_Scroll(object sender, ScrollEventArgs e)
         {
             curRenderer.ScreenPosX = e.NewValue;
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            pic_Level.SetImage(curRenderer.GetScreenImage());
         }
 
         private void scrollPicLevelVert_Scroll(object sender, ScrollEventArgs e)
         {
             curRenderer.ScreenPosY = e.NewValue;
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            pic_Level.SetImage(curRenderer.GetScreenImage());
         }
 
         /* -----------------------------------------------------------
@@ -427,13 +427,13 @@ namespace NLEditor
         private void num_Lvl_StartX_ValueChanged(object sender, EventArgs e)
         {
             CurLevel.StartPosX = (int)num_Lvl_StartX.Value;
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            pic_Level.SetImage(curRenderer.GetScreenImage());
         }
 
         private void num_Lvl_StartY_ValueChanged(object sender, EventArgs e)
         {
             CurLevel.StartPosY = (int)num_Lvl_StartY.Value;
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            pic_Level.SetImage(curRenderer.GetScreenImage());
         }
 
 
@@ -904,7 +904,7 @@ namespace NLEditor
                 else
                 {
                     curRenderer.MoveScreenPos(direction, e.Control ? 64 : 8);
-                    pic_Level.SetImage(curRenderer.CombineLayers());
+                    pic_Level.SetImage(curRenderer.GetScreenImage());
                 }
             }
             else if (e.KeyCode == Keys.R)
@@ -1010,7 +1010,7 @@ namespace NLEditor
 
             // Update level image
             RepositionPicLevel();
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            pic_Level.SetImage(curRenderer.GetScreenImage());
 
             mutexMouseWheel.ReleaseMutex();
         }
@@ -1071,14 +1071,14 @@ namespace NLEditor
             {
                 case C.DragActions.SelectArea:
                     {
-                        pic_Level.SetImage(curRenderer.CombineLayers());
+                        pic_Level.SetImage(curRenderer.GetScreenImage());
                         break;
                     }
                 case C.DragActions.MoveEditorPos:
                     {
                         curRenderer.UpdateScreenPos();
                         UpdateScrollBarValues();
-                        pic_Level.SetImage(curRenderer.CombineLayers());
+                        pic_Level.SetImage(curRenderer.GetScreenImage());
                         break;
                     }
                 case C.DragActions.DragPieces:
@@ -1091,7 +1091,7 @@ namespace NLEditor
                     {
                         Point newCenter = curRenderer.GetNewPosFromDragging();
                         MoveScreenStartPosition(newCenter);
-                        pic_Level.SetImage(curRenderer.CombineLayers());
+                        pic_Level.SetImage(curRenderer.GetScreenImage());
                         break;
                     }
             }
