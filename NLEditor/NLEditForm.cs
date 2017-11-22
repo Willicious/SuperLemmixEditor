@@ -1024,6 +1024,7 @@ namespace NLEditor
 
             Point mousePos = curRenderer.GetMousePosInLevel(e.Location);
             bool hasSelectedPieceAtPos = CurLevel.HasSelectionAtPos(mousePos);
+            bool hasPieceAtPos = CurLevel.HasPieceAtPos(mousePos);
 
             C.DragActions dragAction = C.DragActions.Null;
             if (e.Button == MouseButtons.Right) // for scrolling
@@ -1047,6 +1048,14 @@ namespace NLEditor
             }
             else if (hasSelectedPieceAtPos && !isAltPressed && !isCtrlPressed && !isShiftPressed)
             {
+                dragAction = C.DragActions.DragPieces;
+            }
+            else if (hasPieceAtPos && !isCtrlPressed && !isShiftPressed)
+            {
+                // select piece (possibly with priority invert) and drag it
+                curRenderer.MouseCurPos = e.Location;
+                LevelSelectSinglePiece();
+                pic_Level.SetImage(curRenderer.GetScreenImage());
                 dragAction = C.DragActions.DragPieces;
             }
             else

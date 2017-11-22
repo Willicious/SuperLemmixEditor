@@ -369,6 +369,18 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Returns whether there is any terrain or object piece at this point.
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public bool HasPieceAtPos(Point pos)
+        {
+            return TerrainList.Exists(item => item.ImageRectangle.Contains(pos))
+                || GadgetList.Exists(item => item.ImageRectangle.Contains(pos));
+        }
+
+
+        /// <summary>
         /// Moves all selected pieces a given number of pixels into a given direction. 
         /// </summary>
         /// <param name="direction"></param>
