@@ -180,7 +180,7 @@ namespace NLEditor
         {
             try
             {
-                Utility.LogException(Ex);
+                LogException(Ex);
                 string errorString = "Klopt niet: " + Ex.Message + C.NewLine + "Try to continue working on the level? Selecting 'no' will quit the level editor.";
                 var result = MessageBox.Show(errorString, "Error", MessageBoxButtons.YesNo);
                 if (result == DialogResult.No) Application.Exit();
@@ -197,8 +197,9 @@ namespace NLEditor
         /// <param name="ex"></param>
         public static void LogException(Exception ex)
         {
-            String errorPath = C.AppPath + "ErrorLog.txt";
+            string errorPath = C.AppPath + "ErrorLog.txt";
             System.IO.TextWriter textFile = new System.IO.StreamWriter(errorPath, true);
+            textFile.WriteLine(DateTime.Now.ToString("yyyyMMddHHmmss"));
             textFile.WriteLine(ex.ToString());
             textFile.Close();
         }
