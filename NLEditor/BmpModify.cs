@@ -852,6 +852,8 @@ namespace NLEditor
             // Shrink rectangle to Bitmap size
             rect.Intersect(origBmpRect);
 
+            if (rect.Width < 1 || rect.Height < 1) return;
+
             unsafe
             {
                 // Get pointer to first pixel of OrigBitmap
