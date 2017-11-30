@@ -1024,7 +1024,8 @@ namespace NLEditor
 
             Point mousePos = curRenderer.GetMousePosInLevel(e.Location);
             bool hasSelectedPieceAtPos = CurLevel.HasSelectionAtPos(mousePos);
-            bool hasPieceAtPos = CurLevel.HasPieceAtPos(mousePos);
+            bool hasPieceAtPos = curRenderer.GetLevelBmpRect().Contains(curRenderer.GetMousePosInLevel(e.Location, false))
+                                  && CurLevel.HasPieceAtPos(mousePos);
 
             C.DragActions dragAction = C.DragActions.Null;
             if (e.Button == MouseButtons.Right) // for scrolling

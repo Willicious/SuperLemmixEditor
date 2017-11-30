@@ -318,13 +318,23 @@ namespace NLEditor
         /// </summary>
         /// <param name="mouseScreenPos"></param>
         /// <returns></returns>
-        public Point GetMousePosInLevel(Point mouseScreenPos)
+        public Point GetMousePosInLevel(Point mouseScreenPos, bool doCropToLevelArea = true)
         {
             // Adapt to images that do not fill the whole pic_Level and to Mouse positions outside the level
-            int mouseScreenPosX = Math.Min(Math.Max(mouseScreenPos.X, BorderWidth()), picBoxWidth - BorderWidth())
+            int mouseScreenPosX;
+            int mouseScreenPosY;
+            if (doCropToLevelArea)
+            {
+                mouseScreenPosX = Math.Min(Math.Max(mouseScreenPos.X, BorderWidth()), picBoxWidth - BorderWidth())
                                     - BorderWidth();
-            int mouseScreenPosY = Math.Min(Math.Max(mouseScreenPos.Y, BorderHeight()), picBoxHeight - BorderHeight())
+                mouseScreenPosY = Math.Min(Math.Max(mouseScreenPos.Y, BorderHeight()), picBoxHeight - BorderHeight())
                                     - BorderHeight();
+            }
+            else
+            {
+                mouseScreenPosX = mouseScreenPos.X - BorderWidth();
+                mouseScreenPosY = mouseScreenPos.Y - BorderHeight();
+            }
 
             int posX = ScreenPosX + ApplyUnZoom(mouseScreenPosX);
             int posY = ScreenPosY + ApplyUnZoom(mouseScreenPosY);
@@ -586,6 +596,15 @@ namespace NLEditor
         /// Returns the rectangle of the displayed level area in level coordinates.
         /// </summary>
         /// <returns></returns>
+        public Rectangle GetLevelBmpRect()
+        {
+            return new Rectangle(ScreenPos, GetLevelBmpSize(new Size(picBoxWidth, picBoxHeight)));
+        }
+
+        /// <summary>
+        /// Returns the rectangle of the displayed level area in level coordinates.
+        /// </summary>
+        /// <returns></returns>
         public Rectangle GetLevelBmpRect(Size picBoxSize)
         {
             return new Rectangle(ScreenPos, GetLevelBmpSize(picBoxSize));
@@ -672,9 +691,9 @@ namespace NLEditor
                                                    .ConvertAll(gad => GetPicRectFromLevelRect(gad.ImageRectangle));
             levelBmp.DrawOnRectangles(gadgetRectangles, C.NLColors[C.NLColor.SelRectGadget]);
             
-            var TerrRectangles = level.TerrainList.FindAll(ter => ter.IsSelected)
+            var terrRectangles = level.TerrainList.FindAll(ter => ter.IsSelected)
                                                   .ConvertAll(ter => GetPicRectFromLevelRect(ter.ImageRectangle));
-            levelBmp.DrawOnRectangles(TerrRectangles, C.NLColors[C.NLColor.SelRectTerrain]);
+            levelBmp.DrawOnRectangles(terrRectangles, C.NLColors[C.NLColor.SelRectTerrain]);
         }
 
         /// <summary>
@@ -723,7 +742,7 @@ namespace NLEditor
             if (MouseStartPos == null || MouseCurPos == null) return;
 
             Rectangle mouseRect = Utility.RectangleFrom((Point)MouseStartPos, (Point)MouseCurPos);
-            
+
             // Adapt to borders
             mouseRect.X -= BorderWidth();
             mouseRect.Y -= BorderHeight();
