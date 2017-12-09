@@ -52,7 +52,7 @@ namespace NLEditor
                 return colorDict;
             }
 
-            
+
             try
             {
                 List<FileLine> newFileLine;
@@ -65,10 +65,23 @@ namespace NLEditor
                         {
                             string colorString = colorLine.Text;
                             if (colorString.StartsWith("x")) colorString = colorString.Substring(1);
-                            colorDict[KeyToStyleColorDict[key]] = ColorTranslator.FromHtml("#" + colorString);
+                            try
+                            {
+                                colorDict[KeyToStyleColorDict[key]] = ColorTranslator.FromHtml("#" + colorString);
+                            }
+                            catch
+                            {
+                                // ignore the problematic color
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception Ex)
+            {
+                // log, but otherwise ignore the exception
+                Utility.LogException(Ex);
+                MessageBox.Show(Ex.Message, "Error reading color file for " + styleName);
             }
             finally
             {
