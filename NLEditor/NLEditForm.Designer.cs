@@ -486,7 +486,7 @@
             this.combo_PieceStyle.FormattingEnabled = true;
             this.combo_PieceStyle.Location = new System.Drawing.Point(0, 451);
             this.combo_PieceStyle.Name = "combo_PieceStyle";
-            this.combo_PieceStyle.Size = new System.Drawing.Size(98, 21);
+            this.combo_PieceStyle.Size = new System.Drawing.Size(97, 21);
             this.combo_PieceStyle.TabIndex = 24;
             this.combo_PieceStyle.TextChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
             this.combo_PieceStyle.Leave += new System.EventHandler(this.combo_PieceStyle_Leave);
@@ -716,9 +716,9 @@
             // combo_Music
             // 
             this.combo_Music.FormattingEnabled = true;
-            this.combo_Music.Location = new System.Drawing.Point(70, 57);
+            this.combo_Music.Location = new System.Drawing.Point(45, 57);
             this.combo_Music.Name = "combo_Music";
-            this.combo_Music.Size = new System.Drawing.Size(98, 21);
+            this.combo_Music.Size = new System.Drawing.Size(123, 21);
             this.combo_Music.TabIndex = 5;
             this.combo_Music.Leave += new System.EventHandler(this.textbox_Leave);
             // 
@@ -995,9 +995,9 @@
             // combo_MainStyle
             // 
             this.combo_MainStyle.FormattingEnabled = true;
-            this.combo_MainStyle.Location = new System.Drawing.Point(70, 84);
+            this.combo_MainStyle.Location = new System.Drawing.Point(45, 84);
             this.combo_MainStyle.Name = "combo_MainStyle";
-            this.combo_MainStyle.Size = new System.Drawing.Size(98, 21);
+            this.combo_MainStyle.Size = new System.Drawing.Size(123, 21);
             this.combo_MainStyle.TabIndex = 7;
             this.combo_MainStyle.TextChanged += new System.EventHandler(this.combo_MainStyle_TextChanged);
             this.combo_MainStyle.Leave += new System.EventHandler(this.textbox_Leave);
