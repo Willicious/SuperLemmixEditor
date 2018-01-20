@@ -431,6 +431,17 @@ namespace NLEditor
         {
             Rectangle borderRect = SelectionRectangle();
             SelectionList().ForEach(item => item.FlipInRect(borderRect));
+
+            // check that paired teleporters/receivers got flipped correctly
+            var Teleporters = SelectionList().FindAll(item => item.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER) && (item as GadgetPiece).Val_L != 0);
+            foreach (GadgetPiece item in Teleporters)
+            {
+                var pairedObject = GadgetList.Find(gadget => gadget != item && gadget.Val_L == item.Val_L);
+                if (pairedObject != null && !Teleporters.Contains(pairedObject))
+                {
+                    pairedObject.FlipInRect(pairedObject.ImageRectangle);
+                } 
+            }
         }
 
         /// <summary>
@@ -657,6 +668,12 @@ namespace NLEditor
 
             teleporter.SetTeleporterValue(newPairingValue);
             receiver.SetTeleporterValue(newPairingValue);
+
+            // Set flipping of receiver according to teleporter
+            if (receiver.IsFlippedInPlayer != teleporter.IsFlippedInPlayer)
+            {
+                receiver.FlipInRect(receiver.ImageRectangle);
+            }
         }
 
         /// <summary>

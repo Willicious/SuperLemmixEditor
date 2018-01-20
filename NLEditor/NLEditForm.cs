@@ -602,8 +602,9 @@ namespace NLEditor
 
         private void but_PairTeleporter_Click(object sender, EventArgs e)
         {
-            PairTeleporters();
+            PairTeleporters();            
             RemoveFocus();
+            pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 
         private void num_PickupSkillCount_ValueChanged(object sender, EventArgs e)

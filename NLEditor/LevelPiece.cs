@@ -175,7 +175,7 @@ namespace NLEditor
         /// Inverts the piece wrt. a specified rectangle, if allowed for this piece.
         /// </summary>
         /// <param name="borderRect"></param>
-        public void InvertInRect(Rectangle borderRect)
+        public virtual void InvertInRect(Rectangle borderRect)
         {
             PosY = borderRect.Top + borderRect.Bottom - PosY - Height;
             if (MayInvert()) IsInvert = !IsInvert;
@@ -185,7 +185,7 @@ namespace NLEditor
         /// Flips the piece wrt. a specified rectangle, if allowed for this piece.
         /// </summary>
         /// <param name="borderRect"></param>
-        public void FlipInRect(Rectangle borderRect)
+        public virtual void FlipInRect(Rectangle borderRect)
         {
             PosX = borderRect.Left + borderRect.Right - PosX - Width;
             if (MayFlip())
@@ -507,7 +507,6 @@ namespace NLEditor
                 SpecHeight = oldSpecWidth;
             }
         }
-
 
         /// <summary>
         /// Adjusts the flag for the specified skill, depending on the object type.
