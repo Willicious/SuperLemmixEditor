@@ -83,7 +83,7 @@ namespace NLEditor
         public static readonly Dictionary<OBJ, string> TooltipList = new Dictionary<OBJ, string>
             {
                 {OBJ.TERRAIN, "Terrain"}, {OBJ.STEEL, "Steel"}, {OBJ.NONE, "No effect"},
-                {OBJ.EXIT, "Exit"}, {OBJ.FORCE_FIELD, "Force-field"}, {OBJ.ONE_WAY_WALL, "One-way-wall"},
+                {OBJ.EXIT, "Exit"}, {OBJ.FORCE_FIELD, "Turning field"}, {OBJ.ONE_WAY_WALL, "One-way-wall"},
                 {OBJ.TRAP, "Triggered trap"}, {OBJ.WATER, "Water"}, {OBJ.FIRE, "Fire"},
                 {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Preplaced lemming"},
                 {OBJ.PICKUP, "Pick-up skill"}, {OBJ.EXIT_LOCKED, "Locked exit"}, {OBJ.BUTTON, "Button"},
