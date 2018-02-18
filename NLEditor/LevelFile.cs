@@ -677,7 +677,7 @@ namespace NLEditor
             {
                 textFile.WriteLine("   FLIP_VERTICAL");
             }
-            if (gadget.IsFlippedInPlayer)
+            if (gadget.IsFlippedInPlayer && gadget.ObjType != C.OBJ.HATCH)
             {
                 textFile.WriteLine("   FLIP_HORIZONTAL");
             }
