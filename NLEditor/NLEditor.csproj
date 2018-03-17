@@ -88,6 +88,9 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DisplaySettings.cs" />
     <Compile Include="FileParser.cs" />
+    <Compile Include="FocusTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="FormPieceSelection.cs">
       <SubType>Form</SubType>
     </Compile>
