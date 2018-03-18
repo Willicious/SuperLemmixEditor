@@ -13,33 +13,32 @@ using System.Windows.Forms;
 
 namespace NLEditor
 {
-  static class Program
-  {
-    /// <summary>
-    /// The main entry point for the application.
-    /// </summary>
-    [STAThread]
-    static void Main()
+    static class Program
     {
-      /*try
-      {
-        
-        // Handle exceptions of the UI
-        Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(
-            (object sender, ThreadExceptionEventArgs t) => Utility.HandleGlobalException(t.Exception));
-        // Handle all other exceptions
-        Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-        AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(
-            (object sender, UnhandledExceptionEventArgs e) => Utility.HandleGlobalException((Exception)e.ExceptionObject));
-*/
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
-        Application.Run(new NLEditForm());
-      /*}
-      catch (Exception Ex)
-      {
-        Utility.HandleGlobalException(Ex);
-      }*/
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            try
+            {
+                // Handle exceptions of the UI
+                Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(
+                    (object sender, ThreadExceptionEventArgs t) => Utility.HandleGlobalException(t.Exception));
+                // Handle all other exceptions
+                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+                AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(
+                    (object sender, UnhandledExceptionEventArgs e) => Utility.HandleGlobalException((Exception)e.ExceptionObject));
+
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new NLEditForm());
+            }
+            catch (Exception Ex)
+            {
+                Utility.HandleGlobalException(Ex);
+            }
+        }
     }
-  }
 }
