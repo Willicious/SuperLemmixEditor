@@ -776,8 +776,6 @@ namespace NLEditor
       CurLevel.GadgetList.RemoveAll(obj => obj.IsSelected);
       SaveChangesToOldLevelList();
       pic_Level.Image = curRenderer.CreateLevelImage();
-
-      var stuff = Utility.GetDataFromClipboard<List<LevelPiece>>();
     }
 
     /// <summary>

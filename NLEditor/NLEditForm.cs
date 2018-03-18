@@ -743,10 +743,6 @@ namespace NLEditor
       {
         Application.Exit();
       }
-      else if (e.KeyCode == Keys.L)
-      {
-        var stuff = Utility.GetDataFromClipboard<List<LevelPiece>>();
-      }
       else if (e.Control && e.KeyCode == Keys.N)
       {
         CreateNewLevelAndRenderer();
