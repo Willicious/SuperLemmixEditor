@@ -759,7 +759,10 @@ namespace NLEditor
     /// </summary>
     private void DuplicateSelectedPieces()
     {
-      WriteToClipboard();
+      if (CurLevel.SelectionList().Count > 0)
+      {
+        WriteToClipboard();
+      }
       CurLevel.UnselectAll();
       AddFromClipboard(false);
       SaveChangesToOldLevelList();
