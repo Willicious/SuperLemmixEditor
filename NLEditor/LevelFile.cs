@@ -152,7 +152,7 @@ namespace NLEditor
                         case "POSTTEXT":
                             var posttexts = fileLines.ConvertAll(lin => lin.Text);
                             posttexts.RemoveAt(0);
-                            newLevel.PreviewText = posttexts; break;
+                            newLevel.PostviewText = posttexts; break;
 
                         case "TALISMAN": newLevel.Talismans.Add(ReadTalismanFromLines(fileLines)); break;
                     }
