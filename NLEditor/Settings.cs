@@ -32,7 +32,7 @@ namespace NLEditor
         public void SetDefault()
         {
             UseLvlPropertiesTabs = true;
-            UsePieceSelectionNames = false;
+            UsePieceSelectionNames = true;
             UseGridForPieces = false;
             gridSize = 8;
             NumTooltipBottonDisplay = 3;
