@@ -999,7 +999,12 @@ namespace NLEditor
       Point mousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
       Rectangle picLevelRect = new Rectangle(0, 0, pic_Level.Width, pic_Level.Height);
 
-      if (picLevelRect.Contains(mousePosRelPicLevel))
+      // Move piece selection when being in the bottom part, otherwise zoom the level.
+      if (picPieceList[0].PointToClient(this.PointToScreen(e.Location)).Y > -5)
+      {
+        MoveTerrPieceSelection(movement > 0 ? 1 : -1);
+      }
+      else if (picLevelRect.Contains(mousePosRelPicLevel))
       {
         curRenderer.ChangeZoom(movement > 0 ? 1 : -1, mousePosRelPicLevel);
       }
