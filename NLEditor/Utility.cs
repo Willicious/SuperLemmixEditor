@@ -21,6 +21,19 @@ namespace NLEditor
     }
 
     /// <summary>
+    /// Swaps the values of the two objects
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="obj1"></param>
+    /// <param name="obj2"></param>
+    public static void Swap<T>(ref T obj1, ref T obj2)
+    {
+      T temp = obj1;
+      obj1 = obj2;
+      obj2 = temp;
+    }
+
+    /// <summary>
     /// Swaps two elements of given index in the list.
     /// </summary>
     /// <typeparam name="T"></typeparam>
