@@ -149,10 +149,11 @@ namespace NLEditor
     Stopwatch stopWatchMouse;
     MouseButtons? mouseButtonPressed;
 
-    bool isShiftPressed;
-    bool isCtrlPressed;
-    bool isAltPressed;
-    bool isPPressed;
+    bool isShiftPressed = false;
+    bool isCtrlPressed = false;
+    bool isAltPressed = false;
+    bool isPPressed = false;
+    bool isMouseWheelActive = false;
 
     private static System.Threading.Mutex mutexMouseDown = new System.Threading.Mutex();
     private static System.Threading.Mutex mutexMouseUp = new System.Threading.Mutex();
@@ -734,7 +735,7 @@ namespace NLEditor
         case Keys.Menu: isAltPressed = true; break;
         case Keys.P: isPPressed = true; break;
       }
-
+      isMouseWheelActive = false;
 
       if (stopWatchKey.ElapsedMilliseconds < 50) return;
 
@@ -996,21 +997,21 @@ namespace NLEditor
       mutexMouseWheel.WaitOne();
 
       int movement = e.Delta / SystemInformation.MouseWheelScrollDelta;
-      Point mousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
-      Rectangle picLevelRect = new Rectangle(0, 0, pic_Level.Width, pic_Level.Height);
 
       // Move piece selection when being in the bottom part, otherwise zoom the level.
       if (picPieceList[0].PointToClient(this.PointToScreen(e.Location)).Y > -5)
       {
         MoveTerrPieceSelection(movement > 0 ? 1 : -1);
       }
-      else if (picLevelRect.Contains(mousePosRelPicLevel))
-      {
-        curRenderer.ChangeZoom(movement > 0 ? 1 : -1, mousePosRelPicLevel);
-      }
       else
       {
-        curRenderer.ChangeZoom(movement > 0 ? 1 : -1);
+        if (!isMouseWheelActive)
+        {
+          isMouseWheelActive = true;
+          Point mousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
+          curRenderer.SetZoomMousePos(mousePosRelPicLevel);
+        }
+        curRenderer.ChangeZoom(movement > 0 ? 1 : -1, true);
       }
 
       // Update level image
@@ -1024,6 +1025,7 @@ namespace NLEditor
     {
       mutexMouseDown.WaitOne();
 
+      isMouseWheelActive = false;
       mouseButtonPressed = e.Button;
       stopWatchMouse.Restart();
 
