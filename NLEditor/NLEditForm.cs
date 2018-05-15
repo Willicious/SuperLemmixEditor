@@ -387,7 +387,8 @@ namespace NLEditor
       CurLevel.MainStyle = newStyle;
       UpdateBackgroundComboItems();
       UpdateBackgroundImage();
-      pic_Level.SetImage(curRenderer.CombineLayers());
+      LoadPiecesIntoPictureBox();
+      pic_Level.SetImage(curRenderer.CreateLevelImage());
 
       // If the level is empty, switch piece style, too
       if (CurLevel.GadgetList.Count == 0 && CurLevel.TerrainList.Count == 0)
