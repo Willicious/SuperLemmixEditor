@@ -43,6 +43,8 @@ namespace NLEditor
       ClearLayers();
     }
 
+    public const int AllowedGrayBorder = 10;
+
     Dictionary<C.Layer, Bitmap> layerImages;
     Bitmap baseLevelImage;
     Level level;
@@ -189,9 +191,13 @@ namespace NLEditor
       // Embed the screen image in a bitmap of the size of the whole picture box.
       Bitmap fullBmp = new Bitmap(picBoxWidth, picBoxHeight);
       fullBmp.Clear(Color.FromArgb(0, 0, 0, 0));
-
-      Point levelPos = new Point((picBoxWidth - screenBmp.Width) / 2,
-                                 (picBoxHeight - screenBmp.Height) / 2);
+      int levelPosX = DoesFitLevelHorizontally()
+                      ? (picBoxWidth - screenBmp.Width) / 2
+                      : Math.Max(-ApplyZoom(ScreenPosX), 0);
+      int levelPosY = DoesFitLevelVertically()
+                      ? (picBoxHeight - screenBmp.Height) / 2
+                      : Math.Max(-ApplyZoom(ScreenPosY), 0);
+      Point levelPos = new Point(levelPosX, levelPosY);
       fullBmp.DrawOn(screenBmp, levelPos);
 
       // Add selection coordinates it applicable
@@ -245,6 +251,24 @@ namespace NLEditor
       MouseCurPos = null;
       LevelStartPos = null;
       MouseDragAction = C.DragActions.Null;
+    }
+
+    /// <summary>
+    /// Returns whether the whole level fits into the picturebox horizontally
+    /// </summary>
+    /// <returns></returns>
+    private bool DoesFitLevelHorizontally()
+    {
+      return picBoxWidth > ApplyZoom(baseLevelImage?.Width ?? 0);
+    }
+
+    /// <summary>
+    /// Returns whether the whole level fits into the picturebox vertically
+    /// </summary>
+    /// <returns></returns>
+    private bool DoesFitLevelVertically()
+    {
+      return picBoxHeight > ApplyZoom(baseLevelImage?.Height ?? 0);
     }
 
     /// <summary>
@@ -706,8 +730,8 @@ namespace NLEditor
     /// <returns></returns>
     private Rectangle GetPicRectFromLevelRect(Rectangle origRect)
     {
-      int posX = ApplyZoom(origRect.X - ScreenPosX);
-      int posY = ApplyZoom(origRect.Y - ScreenPosY);
+      int posX = ApplyZoom(origRect.X - Math.Max(ScreenPosX, 0));
+      int posY = ApplyZoom(origRect.Y - Math.Max(ScreenPosY, 0));
 
       int width = ApplyZoom(origRect.Width - 1);
       int height = ApplyZoom(origRect.Height - 1);
@@ -728,8 +752,8 @@ namespace NLEditor
     /// <returns></returns>
     private Point GetPicPointFromLevelPoint(Point origPoint)
     {
-      int posX = ApplyZoom(origPoint.X - ScreenPosX);
-      int posY = ApplyZoom(origPoint.Y - ScreenPosY);
+      int posX = ApplyZoom(origPoint.X - Math.Max(ScreenPosX, 0));
+      int posY = ApplyZoom(origPoint.Y - Math.Max(ScreenPosY, 0));
       return new Point(posX, posY);
     }
 
@@ -873,7 +897,9 @@ namespace NLEditor
       int displayAreaLength = isVert ? GetLevelBmpSize().Height : GetLevelBmpSize().Width;
       int maxCoord = levelLength - displayAreaLength;
       // do not interchange Max and Min because of possibly negative MaxCoord
-      return Math.Max(Math.Min(curPos, maxCoord), 0);
+      bool doAllowBorder = isVert ? !DoesFitLevelVertically() : !DoesFitLevelHorizontally();
+      int allowedBorder = doAllowBorder ? AllowedGrayBorder : 0;
+      return Math.Max(Math.Min(curPos, maxCoord + allowedBorder), -allowedBorder);
     }
 
     /// <summary>

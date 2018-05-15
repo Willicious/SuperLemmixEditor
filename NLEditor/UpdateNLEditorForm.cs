@@ -323,11 +323,12 @@ namespace NLEditor
       // Set scrollPicLevelHoriz
       if (displayScrollHoriz)
       {
-        int maxValue = CurLevel.Width - displayedLevelRect.Width + 1;
+        int maxValue = CurLevel.Width + Renderer.AllowedGrayBorder - displayedLevelRect.Width + 1;
+        scrollPicLevelHoriz.Minimum = -Renderer.AllowedGrayBorder;
         scrollPicLevelHoriz.Maximum = maxValue;
         scrollPicLevelHoriz.SmallChange = 1;
         scrollPicLevelHoriz.LargeChange = 2;
-        scrollPicLevelHoriz.Value = Math.Min(displayedLevelRect.Left, maxValue - 1);
+        scrollPicLevelHoriz.Value = Math.Max(Math.Min(displayedLevelRect.Left, maxValue - 1), -Renderer.AllowedGrayBorder);
       }
       scrollPicLevelHoriz.Enabled = displayScrollHoriz;
       scrollPicLevelHoriz.Visible = displayScrollHoriz;
@@ -336,11 +337,12 @@ namespace NLEditor
       // Set scrollPicLevelVert
       if (displayScrollVert)
       {
-        int maxValue = CurLevel.Height - displayedLevelRect.Height + 1;
+        int maxValue = CurLevel.Height + Renderer.AllowedGrayBorder - displayedLevelRect.Height + 1;
+        scrollPicLevelVert.Minimum = -Renderer.AllowedGrayBorder;
         scrollPicLevelVert.Maximum = maxValue;
         scrollPicLevelVert.SmallChange = 1;
         scrollPicLevelVert.LargeChange = 2;
-        scrollPicLevelVert.Value = Math.Min(displayedLevelRect.Top, maxValue - 1);
+        scrollPicLevelVert.Value = Math.Max(Math.Min(displayedLevelRect.Top, maxValue - 1), -Renderer.AllowedGrayBorder);
       }
       scrollPicLevelVert.Enabled = displayScrollVert;
       scrollPicLevelVert.Visible = displayScrollVert;
@@ -359,11 +361,11 @@ namespace NLEditor
     {
       if (scrollPicLevelHoriz.Enabled)
       {
-        scrollPicLevelHoriz.Value = Math.Min(curRenderer.ScreenPosX, scrollPicLevelHoriz.Maximum - 1);
+        scrollPicLevelHoriz.Value = Math.Max(Math.Min(curRenderer.ScreenPosX, scrollPicLevelHoriz.Maximum - 1), scrollPicLevelHoriz.Minimum);
       }
       if (scrollPicLevelVert.Enabled)
       {
-        scrollPicLevelVert.Value = Math.Min(curRenderer.ScreenPosY, scrollPicLevelVert.Maximum - 1);
+        scrollPicLevelVert.Value = Math.Max(Math.Min(curRenderer.ScreenPosY, scrollPicLevelVert.Maximum - 1), scrollPicLevelVert.Minimum);
       }
     }
 
