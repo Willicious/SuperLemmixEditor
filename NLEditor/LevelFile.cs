@@ -526,7 +526,7 @@ namespace NLEditor
       textFile.WriteLine(" AUTHOR " + curLevel.Author);
       if (!string.IsNullOrEmpty(curLevel.MusicFile))
       {
-        textFile.WriteLine(" MUSIC " + Path.GetFileNameWithoutExtension(curLevel.MusicFile));
+        textFile.WriteLine(" MUSIC " + Path.ChangeExtension(curLevel.MusicFile, null));
       }
       textFile.WriteLine(" ID " + curLevel.LevelID);
       textFile.WriteLine(" AUTOSTEEL on ");
