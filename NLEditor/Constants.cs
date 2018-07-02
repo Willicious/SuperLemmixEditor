@@ -192,6 +192,7 @@ namespace NLEditor
                         "F4",
                         "F5",
                         "F6",
+                        "F9",
                         "F10",
                         "F11",
                         "F12"
@@ -266,6 +267,7 @@ namespace NLEditor
                         "Switch to and from displaying trigger areas.",
                         "Switch to and from displaying the screen start.",
                         "Switch to and from displaying background images.",
+                        "Toggle grid usage.",
                         "Display a window to change global options.",
                         "Display this hotkey help window.",
                         "Playtest the level in the NeoLemmix player."

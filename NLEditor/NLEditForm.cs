@@ -785,6 +785,10 @@ namespace NLEditor
       {
         backgroundToolStripMenuItem_Click(null, null);
       }
+      else if (e.KeyCode == Keys.F9)
+      {
+        SwitchGridUsage();
+      }
       else if (e.KeyCode == Keys.F10)
       {
         settingsToolStripMenuItem_Click(null, null);

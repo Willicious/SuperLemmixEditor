@@ -874,5 +874,14 @@ namespace NLEditor
         pic_Level.Image = curRenderer.CreateLevelImage();
       }
     }
+
+    /// <summary>
+    /// Switches between Grid usage and no such
+    /// </summary>
+    private void SwitchGridUsage()
+    {
+      curSettings.SwitchGridUsage();
+    }
+
   }
 }
