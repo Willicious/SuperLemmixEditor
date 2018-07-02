@@ -904,7 +904,10 @@ namespace NLEditor
         // ...or selected pieces if they exist 
         else if (CurLevel.SelectionList().Count > 0)
         {
-          MoveLevelPieces(direction, e.Control ? 8 * gridSize : gridSize);
+          // If no grid is used, Ctrl switches between 1 and 8 pixels.
+          // If the grid is used, pressing Ctrl allows moving the pieces by only 1 pixel.
+          int numPixels = e.Control ? (gridSize == 1 ? 8 : 1) : gridSize;
+          MoveLevelPieces(direction, numPixels);
         }
         // ...or the screen position otherwise
         else
