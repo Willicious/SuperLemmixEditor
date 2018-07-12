@@ -255,16 +255,19 @@ namespace NLEditor
     /// <summary>
     /// If the levle changed, displays a message box and asks whether to save the current level.  
     /// </summary>
-    private void AskUserWhetherSaveLevel()
+    private bool AskUserWhetherSaveLevel()
     {
-      if (CurLevel.Equals(lastSavedLevel)) return;
-      if (CurLevel.TerrainList.Count == 0 && CurLevel.GadgetList.Count == 0) return;
+      if (CurLevel.Equals(lastSavedLevel)) return false;
+      if (CurLevel.TerrainList.Count == 0 && CurLevel.GadgetList.Count == 0) return false;
 
-      DialogResult dialogResult = MessageBox.Show("Do you want to save this level?", "Save level?", MessageBoxButtons.YesNo);
-      if (dialogResult == DialogResult.Yes)
+      DialogResult dialogResult = MessageBox.Show("Do you want to save this level?", "Save level?", MessageBoxButtons.YesNoCancel);
+      switch (dialogResult)
       {
-        SaveLevel();
+        case DialogResult.Yes: SaveLevel(); break;
+        case DialogResult.Cancel: return true;
       }
+
+      return false;
     }
 
     /// <summary>

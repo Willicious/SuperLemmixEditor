@@ -173,7 +173,7 @@ namespace NLEditor
 
         if (e.CloseReason.In(CloseReason.UserClosing, CloseReason.ApplicationExitCall))
         {
-          AskUserWhetherSaveLevel();
+          e.Cancel = AskUserWhetherSaveLevel();
         }
       }
       catch (Exception Ex)
