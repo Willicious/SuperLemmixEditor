@@ -741,7 +741,7 @@ namespace NLEditor
       if (stopWatchKey.ElapsedMilliseconds < 50) return;
 
       // The main key-handling routine
-      if (e.KeyCode == Keys.Escape || (e.Alt && e.KeyCode == Keys.F4))
+      if (e.Alt && e.KeyCode == Keys.F4)
       {
         Application.Exit();
       }
