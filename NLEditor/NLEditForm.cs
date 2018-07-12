@@ -745,6 +745,12 @@ namespace NLEditor
       {
         Application.Exit();
       }
+      else if (e.KeyCode == Keys.Escape)
+      {
+        // Pass it further to secondary windows
+        e.Handled = false;
+        return;
+      }
       else if (e.Control && e.KeyCode == Keys.N)
       {
         CreateNewLevelAndRenderer();

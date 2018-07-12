@@ -482,7 +482,7 @@ namespace NLEditor
     /// </summary>
     private void DisplayHotkeyForm()
     {
-      Form hotkeyForm = new Form();
+      Form hotkeyForm = new EscExitForm();
       hotkeyForm.ClientSize = new Size(450, 420);
       hotkeyForm.MaximizeBox = false;
       hotkeyForm.ShowInTaskbar = false;
@@ -532,7 +532,7 @@ namespace NLEditor
     /// </summary>
     private void DisplayVersionForm()
     {
-      Form versionForm = new Form();
+      Form versionForm = new EscExitForm();
       versionForm.ClientSize = new Size(310, 160);
       versionForm.MaximizeBox = false;
       versionForm.ShowInTaskbar = false;

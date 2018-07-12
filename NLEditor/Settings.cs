@@ -54,7 +54,7 @@ namespace NLEditor
     {
       int leftPos = 30;
 
-      settingsForm = new Form();
+      settingsForm = new EscExitForm();
       settingsForm.ClientSize = new System.Drawing.Size(310, 160);
       settingsForm.MaximizeBox = false;
       settingsForm.ShowInTaskbar = false;
