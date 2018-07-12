@@ -53,10 +53,10 @@
     <ApplicationIcon>Icon_Editor_V2.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>160FB4722CBFC6DB1328114C07E197B65D20696B</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>37CE8CFD2B7D309E411C858161956CE3841A59AC</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>NLEditor_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>NLEditor_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -64,11 +64,12 @@
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -87,6 +88,9 @@
     <Compile Include="BmpModify.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DisplaySettings.cs" />
+    <Compile Include="EscExitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FileParser.cs" />
     <Compile Include="FocusTextBox.cs">
       <SubType>Component</SubType>
@@ -145,6 +149,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="NLEditor_1_TemporaryKey.pfx" />
     <None Include="NLEditor_TemporaryKey.pfx" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
