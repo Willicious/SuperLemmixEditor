@@ -762,12 +762,10 @@ namespace NLEditor
     /// </summary>
     private void DuplicateSelectedPieces()
     {
-      if (CurLevel.SelectionList().Count > 0)
-      {
-        WriteToClipboard();
-      }
+      if (CurLevel.SelectionList().Count == 0) return;
+      var selection = CurLevel.SelectionList();
       CurLevel.UnselectAll();
-      AddFromClipboard(false);
+      CurLevel.AddMultiplePieces(selection);
       SaveChangesToOldLevelList();
       pic_Level.Image = curRenderer.CreateLevelImage();
     }
