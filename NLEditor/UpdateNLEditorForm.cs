@@ -107,7 +107,7 @@ namespace NLEditor
       {
         toolTipText = C.TooltipList[pieceObjType];
       }
-      if (ImageLibrary.GetWidth(pieceKey) > 0 && ImageLibrary.GetHeight(pieceKey) > 0)
+      if (pieceKey != null && ImageLibrary.GetWidth(pieceKey) > 0 && ImageLibrary.GetHeight(pieceKey) > 0)
       {
         toolTipText += " (" + ImageLibrary.GetWidth(pieceKey).ToString() + ",";
         toolTipText += ImageLibrary.GetHeight(pieceKey).ToString() + ")";
