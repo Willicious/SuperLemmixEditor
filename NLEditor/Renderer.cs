@@ -812,7 +812,6 @@ namespace NLEditor
       {
         zoomMouseScreenPos = new Point(-1, -1);
         zoomMouseLevelPos = new Point(-1, -1);
-        throw new DivideByZeroException();
       }
     }
 
@@ -859,7 +858,6 @@ namespace NLEditor
       ScreenPosX += (int)(picBoxWidth * changeFactor) - oldBorderWidth;
       ScreenPosY += (int)(picBoxHeight * changeFactor) - oldBorderHeight;
       EnsureScreenPosInLevel();
-      throw new Exception();
     }
 
     /// <summary>
