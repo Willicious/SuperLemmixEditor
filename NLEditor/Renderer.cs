@@ -127,7 +127,12 @@ namespace NLEditor
       baseLevelImage?.Dispose();
 
       // Create new baseLevelImage
-      if (IsBackgroundLayer)
+      if (IsClearPhysics)
+      {
+        // Always use a black background here
+        baseLevelImage = new Bitmap(level.Width, level.Height);
+      }
+      else if (IsBackgroundLayer)
       {
         baseLevelImage = (Bitmap)layerImages[C.Layer.Background].Clone();
       }
