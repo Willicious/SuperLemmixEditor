@@ -160,7 +160,7 @@ namespace NLEditor
         AddDragNewPiece(baseLevelImage, dragNewPieceKey, new Point(0, 0));
       }
 
-      if (IsTerrainLayer && IsObjectLayer)
+      if (IsObjectLayer)
       {
         baseLevelImage.DrawOn(layerImages[C.Layer.ObjTop]);
       }
