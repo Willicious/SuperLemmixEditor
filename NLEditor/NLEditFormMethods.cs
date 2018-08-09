@@ -110,7 +110,7 @@ namespace NLEditor
     {
       CurLevel.Author = txt_LevelAuthor.Text;
       CurLevel.Title = txt_LevelTitle.Text;
-      CurLevel.MusicFile = System.IO.Path.GetFileNameWithoutExtension(combo_Music.Text);
+      CurLevel.MusicFile = System.IO.Path.ChangeExtension(combo_Music.Text, null);
       CurLevel.MainStyle = ValidateStyleName(combo_MainStyle.Text);
       CurLevel.Width = decimal.ToInt32(num_Lvl_SizeX.Value);
       CurLevel.Height = decimal.ToInt32(num_Lvl_SizeY.Value);
