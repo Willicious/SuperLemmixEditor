@@ -168,6 +168,12 @@ namespace NLEditor
       { TalismanReq.SkillEachLimit, "SKILL_EACH_LIMIT" }, { TalismanReq.UseOnlySkill, "USE_ONLY_SKILL" }
     };
 
+    public static readonly string[] MusicExtensions = new List<string>()
+    {
+      ".ogg", ".it", ".mp3", ".mo3", ".wav", ".aiff", ".aif", 
+      ".mod", ".xm", ".s3m", ".mtm", ".umx"
+    }.ToArray();
+
     public static readonly List<string> MusicNames = new List<string>()
     {
       "orig_01", "orig_02", "orig_03", "orig_04", "orig_05", "orig_06", "orig_07", "orig_08", "orig_09", "orig_10",

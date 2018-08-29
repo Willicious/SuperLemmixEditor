@@ -71,7 +71,7 @@ namespace NLEditor
       {
         musicNames = System.IO.Directory.GetFiles(C.AppPathMusic)
                                         .ToList()
-                                        .FindAll(dir => System.IO.Path.GetExtension(dir).In(".ogg", ".it", ".mp3"))
+                                        .FindAll(dir => System.IO.Path.GetExtension(dir).In(C.MusicExtensions))
                                         .ConvertAll(dir => System.IO.Path.GetFileNameWithoutExtension(dir));
       }
       else
