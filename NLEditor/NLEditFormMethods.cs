@@ -181,6 +181,8 @@ namespace NLEditor
     /// </summary>
     private void CreateNewLevelAndRenderer()
     {
+      if (AskUserWhetherSaveLevel()) return;
+
       Style mainStyle = StyleList?.Find(sty => sty.NameInEditor == combo_MainStyle.Text);
       CurLevel = new Level(mainStyle);
       // Get new renderer with the standard display options
@@ -204,7 +206,7 @@ namespace NLEditor
     /// </summary>
     private void LoadNewLevel()
     {
-      AskUserWhetherSaveLevel();
+      if (AskUserWhetherSaveLevel()) return;
 
       Level level = LevelFile.LoadLevel(StyleList, Backgrounds, levelDirectory);
       if (level == null) return;
