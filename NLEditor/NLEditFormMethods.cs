@@ -259,7 +259,7 @@ namespace NLEditor
     /// </summary>
     private bool AskUserWhetherSaveLevel()
     {
-      if (CurLevel.Equals(lastSavedLevel)) return false;
+      if (lastSavedLevel == null || CurLevel.Equals(lastSavedLevel)) return false;
       if (CurLevel.TerrainList.Count == 0 && CurLevel.GadgetList.Count == 0) return false;
 
       DialogResult dialogResult = MessageBox.Show("Do you want to save this level?", "Save level?", MessageBoxButtons.YesNoCancel);
