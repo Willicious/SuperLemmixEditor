@@ -181,22 +181,27 @@ namespace NLEditor
         checkboxesSkillFlags[skill].CheckedChanged += check_Piece_Skill_CheckedChanged;
       }
 
-      if (selectionList.Count == 1 && selectionList[0] is GadgetPiece)
+      if (selectionList.Count > 0 && selectionList.All(item => item is GadgetPiece))
       {
-        GadgetPiece gadget = (GadgetPiece)selectionList[0];
-        lbl_Resize_Width.Visible = gadget.MayResizeHoriz();
-        num_Resize_Width.Maximum = CurLevel.Width;
-        num_Resize_Width.Value = Math.Min(Math.Max(gadget.SpecWidth, num_Resize_Width.Minimum), num_Resize_Width.Maximum);
-        num_Resize_Width.Visible = gadget.MayResizeHoriz();
+        int specWidth = (selectionList[0] as GadgetPiece).SpecWidth;
+        int specHeight = (selectionList[0] as GadgetPiece).SpecHeight;
+        bool mayResizeHoriz = selectionList.All(item => item.MayResizeHoriz() && (item as GadgetPiece).SpecWidth == specWidth);
+        bool mayResizeVert = selectionList.All(item => item.MayResizeVert() && (item as GadgetPiece).SpecHeight == specHeight);
 
-        lbl_Resize_Height.Visible = gadget.MayResizeVert();
-        num_Resize_Height.Maximum = CurLevel.Height;
-        num_Resize_Height.Value = Math.Min(Math.Max(gadget.SpecHeight, num_Resize_Height.Minimum), num_Resize_Height.Maximum);
-        num_Resize_Height.Visible = gadget.MayResizeVert();
-
-        lbl_PickupSkillCount.Visible = (gadget.ObjType == C.OBJ.PICKUP);
-        num_PickupSkillCount.Value = Math.Min(Math.Max(gadget.Val_L, num_PickupSkillCount.Minimum), num_PickupSkillCount.Maximum);
-        num_PickupSkillCount.Visible = (gadget.ObjType == C.OBJ.PICKUP);
+        lbl_Resize_Width.Visible = mayResizeHoriz;
+        num_Resize_Width.Visible = mayResizeHoriz;
+        if (mayResizeHoriz)
+        {
+          num_Resize_Width.Maximum = CurLevel.Width;
+          num_Resize_Width.Value = Math.Min(Math.Max(specWidth, num_Resize_Width.Minimum), num_Resize_Width.Maximum);
+        }
+        lbl_Resize_Height.Visible = mayResizeVert;
+        num_Resize_Height.Visible = mayResizeVert;
+        if (mayResizeVert)
+        {
+          num_Resize_Height.Maximum = CurLevel.Height;
+          num_Resize_Height.Value = Math.Min(Math.Max(specHeight, num_Resize_Height.Minimum), num_Resize_Height.Maximum);          
+        }
       }
       else
       {
@@ -204,6 +209,19 @@ namespace NLEditor
         num_Resize_Width.Visible = false;
         lbl_Resize_Height.Visible = false;
         num_Resize_Height.Visible = false;
+      }
+
+      if (selectionList.Count == 1 && selectionList[0] is GadgetPiece)
+      {
+        GadgetPiece gadget = (GadgetPiece)selectionList[0];
+        lbl_PickupSkillCount.Visible = (gadget.ObjType == C.OBJ.PICKUP);
+        num_PickupSkillCount.Value = Math.Min(Math.Max(gadget.Val_L, num_PickupSkillCount.Minimum), num_PickupSkillCount.Maximum);
+        num_PickupSkillCount.Visible = (gadget.ObjType == C.OBJ.PICKUP);
+      }
+      else
+      {
+        lbl_PickupSkillCount.Visible = false;
+        num_PickupSkillCount.Visible = false;
       }
 
       if (selectionList.Count == 2
