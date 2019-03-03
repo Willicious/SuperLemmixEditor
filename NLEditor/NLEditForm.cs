@@ -843,13 +843,13 @@ namespace NLEditor
       {
         DeleteSelectedPieces(false);
       }
+      else if ((e.Control && e.KeyCode == Keys.Y) || (e.Control && e.Shift && e.KeyCode == Keys.Z))
+      {
+        CancelLastUndo();
+      }
       else if (e.Control && e.KeyCode == Keys.Z)
       {
         UndoLastChange();
-      }
-      else if (e.Control && e.KeyCode == Keys.Y)
-      {
-        CancelLastUndo();
       }
       else if (e.Control && e.KeyCode == Keys.X)
       {
@@ -866,6 +866,12 @@ namespace NLEditor
       else if (e.KeyCode == Keys.C)
       {
         DuplicateSelectedPieces();
+      }
+      else if (e.KeyCode.In(Keys.Add, Keys.Subtract))
+      {
+        curRenderer.ChangeZoom(e.KeyCode == Keys.Add ? 1 : -1, false);
+        RepositionPicLevel();
+        pic_Level.SetImage(curRenderer.GetScreenImage());
       }
       else if (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
       {

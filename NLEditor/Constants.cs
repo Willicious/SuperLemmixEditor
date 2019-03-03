@@ -217,6 +217,7 @@ namespace NLEditor
           "Alt + mouse",
           "P + Left mouse",
           "Mouse wheel",
+          "Numpad plus/minus",
           "",
           "Shift + Right/Left",
           "Shift + Alt + Right/Left",
@@ -230,6 +231,7 @@ namespace NLEditor
       { HotkeyTabs.Pieces, new List<string>
         {
           "Ctrl + Z",
+          "Ctrl + Shift + Z",
           "Ctrl + Y",
           "Ctrl + X",
           "Ctrl + V",
@@ -292,6 +294,7 @@ namespace NLEditor
           "Invert priority of piece selection.",
           "Drag the start position.",
           "Change zoom.",
+          "Change zoom.",
           "",
           "Display previous/next item in piece selection.",
           "Display previous/next group of items in piece selection.",
@@ -305,6 +308,7 @@ namespace NLEditor
       { HotkeyTabs.Pieces, new List<string>
         {
           "Undo last change.",
+          "Revert last Undo and redo that action.",
           "Revert last Undo and redo that action.",
           "Cut selected pieces.",
           "Insert previously deleted or copied pieces.",
