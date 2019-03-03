@@ -43,7 +43,8 @@ namespace NLEditor
                     { C.Skill.Glider, check_Piece_Glider }, { C.Skill.Disarmer, check_Piece_Disarmer },
                     { C.Skill.Stoner, check_Piece_Stoner }, { C.Skill.Platformer, check_Piece_Platformer },
                     { C.Skill.Stacker, check_Piece_Stacker }, { C.Skill.Cloner, check_Piece_Cloner },
-                    { C.Skill.Fencer, check_Piece_Fencer },  { C.Skill.Zombie, check_Piece_Zombie }
+                    { C.Skill.Fencer, check_Piece_Fencer },  { C.Skill.Shimmier, check_Piece_Shimmier },
+                    { C.Skill.Zombie, check_Piece_Zombie }
                 };
 
       numericsSkillSet = new Dictionary<C.Skill, NumericUpDown>()
@@ -56,7 +57,7 @@ namespace NLEditor
                     { C.Skill.Glider, num_Ski_Glider }, { C.Skill.Disarmer, num_Ski_Disarmer },
                     { C.Skill.Stoner, num_Ski_Stoner }, { C.Skill.Platformer, num_Ski_Platformer },
                     { C.Skill.Stacker, num_Ski_Stacker }, { C.Skill.Cloner, num_Ski_Cloner },
-                    { C.Skill.Fencer, num_Ski_Fencer }
+                    { C.Skill.Fencer, num_Ski_Fencer }, { C.Skill.Shimmier, num_Ski_Shimmier }
                 };
 
       var displayTabItems = new Dictionary<C.DisplayType, ToolStripMenuItem>()
