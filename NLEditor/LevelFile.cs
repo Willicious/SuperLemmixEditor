@@ -566,14 +566,8 @@ namespace NLEditor
       {
         if (IsSkillRequired(curLevel, skill))
         {
-          if (curLevel.SkillSet[skill] > 99)
-          {
-            textFile.WriteLine(PaddedSkillString(skill) + "INFINITE");
-          }
-          else
-          {
-            textFile.WriteLine(PaddedSkillString(skill) + curLevel.SkillSet[skill].ToString().PadLeft(4));
-          }
+          var count = curLevel.SkillSet[skill] > 99 ? "INFINITE" : curLevel.SkillSet[skill].ToString().PadLeft(4);
+          textFile.WriteLine(PaddedSkillString(skill) + count);
         }
       }
       textFile.WriteLine(" $END ");
