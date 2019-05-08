@@ -114,7 +114,7 @@ namespace NLEditor
 
             if (Directory.Exists(directoryPath))
             {
-                objectKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                objectKeys = Directory.GetFiles(directoryPath, "*.nxmo", SearchOption.TopDirectoryOnly)
                                        .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
                                        .ToList();
             }
@@ -130,10 +130,9 @@ namespace NLEditor
             {
                 try
                 {
-                    ObjectKeys.AddRange(Directory.GetFiles(directoryPathDefault, "*.png", SearchOption.TopDirectoryOnly)
+                    ObjectKeys.AddRange(Directory.GetFiles(directoryPathDefault, "*.nxmo", SearchOption.TopDirectoryOnly)
                                                   .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
-                                                  .ToList()
-                                                  .FindAll(key => !key.Contains("_mask_")));
+                                                  .ToList());
 
                     ObjectKeys.Add("default" + C.DirSep + "objects" + C.DirSep + "lemming");
                 }
