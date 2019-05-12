@@ -308,7 +308,7 @@ namespace NLEditor
     }
 
     public GadgetPiece(string key, Point pos, int rotation, bool isInvert, bool isNoOverwrite,
-                       bool isOnlyOnTerrain, int valL, HashSet<C.Skill> skillFlags, 
+                       bool isOnlyOnTerrain, int valL, HashSet<C.Skill> skillFlags,
                        int specWidth = -1, int specHeight = -1,
                        int bgSpeed = 0, int bgAngle = 0)
         : base(key, true, pos, rotation, isInvert)
@@ -335,7 +335,7 @@ namespace NLEditor
 
     public override LevelPiece Clone()
     {
-      int val_l = ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER) ? 0 : Val_L;       
+      int val_l = ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER) ? 0 : Val_L;
       return new GadgetPiece(Key, Pos, Rotation, IsInvert, IsNoOverwrite, IsOnlyOnTerrain,
                              val_l, SkillFlags, SpecWidth, SpecHeight, BackgroundSpeed, BackgroundAngle);
     }

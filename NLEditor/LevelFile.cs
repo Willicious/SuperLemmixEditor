@@ -249,7 +249,7 @@ namespace NLEditor
       // ... then create the correct Gadget piece
       string key = ImageLibrary.CreatePieceKey(styleName, gadgetName, true);
       Point pos = new Point(posX, posY);
-      GadgetPiece newGadget = new GadgetPiece(key, pos, 0, false, isNoOverwrite, isOnlyOnTerrain, 
+      GadgetPiece newGadget = new GadgetPiece(key, pos, 0, false, isNoOverwrite, isOnlyOnTerrain,
         val_L, skillFlags, specWidth, specHeight, bgSpeed, bgAngle);
 
       // Read in skill information

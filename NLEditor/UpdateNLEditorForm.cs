@@ -200,7 +200,7 @@ namespace NLEditor
         if (mayResizeVert)
         {
           num_Resize_Height.Maximum = CurLevel.Height;
-          num_Resize_Height.Value = Math.Min(Math.Max(specHeight, num_Resize_Height.Minimum), num_Resize_Height.Maximum);          
+          num_Resize_Height.Value = Math.Min(Math.Max(specHeight, num_Resize_Height.Minimum), num_Resize_Height.Maximum);
         }
       }
       else

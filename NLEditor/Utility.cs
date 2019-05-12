@@ -285,7 +285,7 @@ namespace NLEditor
         using (var stream = retrievedData.GetData("NLPieces") as System.IO.MemoryStream)
         {
           if (stream == null) return default(T);
-          stream.Seek(0, System.IO.SeekOrigin.Begin);          
+          stream.Seek(0, System.IO.SeekOrigin.Begin);
           var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
           return (T)formatter.Deserialize(stream);
         }
