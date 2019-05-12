@@ -212,6 +212,8 @@ namespace NLEditor
       bool doInvert = false;
       bool doFlip = false;
       int val_L = 0;
+      int bgSpeed = 0;
+      int bgAngle = 0;
       HashSet<C.Skill> skillFlags = new HashSet<C.Skill>();
 
       foreach (FileLine line in fileLineList)
@@ -233,6 +235,8 @@ namespace NLEditor
           case "FLIP_LEMMING": doFlip = true; break;
           case "PAIRING": val_L = line.Value; break;
           case "SKILLCOUNT": val_L = line.Value; break;
+          case "SPEED": bgSpeed = line.Value; break;
+          case "ANGLE": bgAngle = line.Value; break;
         }
       }
 
@@ -245,7 +249,8 @@ namespace NLEditor
       // ... then create the correct Gadget piece
       string key = ImageLibrary.CreatePieceKey(styleName, gadgetName, true);
       Point pos = new Point(posX, posY);
-      GadgetPiece newGadget = new GadgetPiece(key, pos, 0, false, isNoOverwrite, isOnlyOnTerrain, val_L, skillFlags, specWidth, specHeight);
+      GadgetPiece newGadget = new GadgetPiece(key, pos, 0, false, isNoOverwrite, isOnlyOnTerrain, 
+        val_L, skillFlags, specWidth, specHeight, bgSpeed, bgAngle);
 
       // Read in skill information
       foreach (C.Skill skill in C.SkillArray)
@@ -714,6 +719,12 @@ namespace NLEditor
       if (gadget.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
       {
         textFile.WriteLine("   PAIRING " + gadget.Val_L.ToString().PadLeft(4));
+      }
+
+      if (gadget.ObjType.In(C.OBJ.BACKGROUND))
+      {
+        textFile.WriteLine("   SPEED   " + gadget.BackgroundSpeed.ToString().PadLeft(4));
+        textFile.WriteLine("   ANGLE   " + gadget.BackgroundAngle.ToString().PadLeft(4));
       }
 
       textFile.WriteLine(" $END");

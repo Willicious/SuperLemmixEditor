@@ -308,7 +308,9 @@ namespace NLEditor
     }
 
     public GadgetPiece(string key, Point pos, int rotation, bool isInvert, bool isNoOverwrite,
-                       bool isOnlyOnTerrain, int valL, HashSet<C.Skill> skillFlags, int specWidth = -1, int specHeight = -1)
+                       bool isOnlyOnTerrain, int valL, HashSet<C.Skill> skillFlags, 
+                       int specWidth = -1, int specHeight = -1,
+                       int bgSpeed = 0, int bgAngle = 0)
         : base(key, true, pos, rotation, isInvert)
     {
       IsNoOverwrite = isNoOverwrite;
@@ -317,6 +319,8 @@ namespace NLEditor
       SkillFlags = new HashSet<C.Skill>(skillFlags);
       SpecWidth = (specWidth > 0) ? specWidth : base.Width;
       SpecHeight = (specHeight > 0) ? specHeight : base.Height;
+      BackgroundAngle = bgAngle;
+      BackgroundSpeed = bgSpeed;
     }
 
     public bool IsNoOverwrite { get; set; }
@@ -326,12 +330,14 @@ namespace NLEditor
     public bool IsZombie => SkillFlags.Contains(C.Skill.Zombie);
     public int SpecWidth { get; set; }
     public int SpecHeight { get; set; }
+    public int BackgroundAngle { get; set; }
+    public int BackgroundSpeed { get; set; }
 
     public override LevelPiece Clone()
     {
-      int val_l = ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER) ? 0 : Val_L; 
+      int val_l = ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER) ? 0 : Val_L;       
       return new GadgetPiece(Key, Pos, Rotation, IsInvert, IsNoOverwrite, IsOnlyOnTerrain,
-                             val_l, SkillFlags, SpecWidth, SpecHeight);
+                             val_l, SkillFlags, SpecWidth, SpecHeight, BackgroundSpeed, BackgroundAngle);
     }
 
 
@@ -348,7 +354,9 @@ namespace NLEditor
           && this.Val_L == piece.Val_L
           && this.SkillFlags.SetEquals(piece.SkillFlags)
           && this.SpecWidth == piece.SpecWidth
-          && this.SpecHeight == piece.SpecHeight;
+          && this.SpecHeight == piece.SpecHeight
+          && this.BackgroundAngle == piece.BackgroundAngle
+          && this.BackgroundSpeed == piece.BackgroundSpeed;
     }
 
     /// <summary>
