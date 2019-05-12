@@ -363,8 +363,8 @@ namespace NLEditor
         // Adjust to resizing
         if (ResizeMode != C.Resize.None)
         {
-          trigRect.Width += SpecWidth - base.Width;
-          trigRect.Height += SpecHeight - base.Height;
+          trigRect.Width = IsRotatedInPlayer ? SpecHeight : SpecWidth;
+          trigRect.Height = IsRotatedInPlayer ? SpecWidth : SpecHeight;
         }
 
         if (ObjType != C.OBJ.ONE_WAY_WALL)
