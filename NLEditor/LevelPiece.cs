@@ -37,7 +37,7 @@ namespace NLEditor
     public virtual int Height => (Rotation % 2 == 0) ? ImageLibrary.GetHeight(Key) : ImageLibrary.GetWidth(Key);
     public string Style { get; private set; }
     public string Name { get; private set; }
-    protected string Key { get; private set; }
+    public string Key { get; private set; }
 
     // RULE: FIRST ROTATE CLOCKWISE - THEN INVERT
     protected int Rotation { get; private set; }

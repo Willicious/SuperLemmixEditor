@@ -23,10 +23,13 @@ namespace NLEditor
     }
 
     static readonly Dictionary<string, C.StyleColor> KeyToStyleColorDict = new Dictionary<string, C.StyleColor>
-        {
-            {"BACKGROUND", C.StyleColor.BACKGROUND}, {"MASK", C.StyleColor.MASK}, {"ONE_WAYS", C.StyleColor.ONE_WAY_WALL},
-            {"PICKUP_BORDER", C.StyleColor.PICKUP_BORDER}, {"PICKUP_INSIDE", C.StyleColor.PICKUP_INSIDE}
-        };
+      {
+        { "BACKGROUND", C.StyleColor.BACKGROUND },
+        { "MASK", C.StyleColor.MASK },
+        { "ONE_WAYS", C.StyleColor.ONE_WAY_WALL },
+        { "PICKUP_BORDER", C.StyleColor.PICKUP_BORDER },
+        { "PICKUP_INSIDE", C.StyleColor.PICKUP_INSIDE }
+      };
 
 
     /// <summary>
@@ -121,24 +124,24 @@ namespace NLEditor
 
       // Reorder the styles
       styleList.Sort((sty1, sty2) =>
+        {
+          if (styleOrderDict.ContainsKey(sty1.NameInDirectory) && styleOrderDict.ContainsKey(sty2.NameInDirectory))
           {
-            if (styleOrderDict.ContainsKey(sty1.NameInDirectory) && styleOrderDict.ContainsKey(sty2.NameInDirectory))
-            {
-              return styleOrderDict[sty1.NameInDirectory].CompareTo(styleOrderDict[sty2.NameInDirectory]);
-            }
-            else if (styleOrderDict.ContainsKey(sty1.NameInDirectory))
-            {
-              return -1;
-            }
-            else if (styleOrderDict.ContainsKey(sty2.NameInDirectory))
-            {
-              return 1;
-            }
-            else
-            {
-              return styleList.FindIndex(sty => sty == sty1).CompareTo(styleList.FindIndex(sty => sty == sty2));
-            }
-          });
+            return styleOrderDict[sty1.NameInDirectory].CompareTo(styleOrderDict[sty2.NameInDirectory]);
+          }
+          else if (styleOrderDict.ContainsKey(sty1.NameInDirectory))
+          {
+            return -1;
+          }
+          else if (styleOrderDict.ContainsKey(sty2.NameInDirectory))
+          {
+            return 1;
+          }
+          else
+          {
+            return styleList.FindIndex(sty => sty == sty1).CompareTo(styleList.FindIndex(sty => sty == sty2));
+          }
+        });
 
       return styleList;
     }
@@ -262,6 +265,13 @@ namespace NLEditor
       Rectangle triggerRect = new Rectangle(0, 0, 1, 1);
       C.Resize resizeMode = C.Resize.None;
 
+      Bitmap secImage = null;
+      int secFrames = 0;
+      bool secIsVert = true;
+      int secOffsetX = 0;
+      int secOffsetY = 0;
+
+
       FileParser parser;
       try
       {
@@ -315,6 +325,25 @@ namespace NLEditor
             case "FORCE_LEFT": objType = C.OBJ.FORCE_FIELD; break;
             case "BACKGROUND":
             case "MOVING_BACKGROUND": objType = C.OBJ.BACKGROUND; break;
+            case "ANIMATION":
+              {
+                foreach (var fileLine in fileLineList)
+                {
+                  switch (fileLine.Key)
+                  {
+                    case "NAME":
+                      {
+                        var secondaryPath = filePath.Substring(0, filePath.Length - 5) + "_" + fileLine.Text + ".png";
+                        secImage = Utility.CreateBitmapFromFile(secondaryPath);
+                        break;
+                      }
+                    case "FRAMES": secFrames = fileLine.Value; break;
+                    case "OFFSET_X": secOffsetX = fileLine.Value; break;
+                    case "OFFSET_Y": secOffsetY = fileLine.Value; break;
+                  }
+                }
+                break;
+              }
           }
         }
       }
@@ -328,7 +357,19 @@ namespace NLEditor
         parser?.DisposeStreamReader();
       }
 
-      return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode);
+      if (secImage == null)
+      {
+        return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode);
+      }
+      else
+      {
+        return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode,
+          secImage, secFrames, secIsVert, secOffsetX, secOffsetY);
+      }
+
+
+
+      
     }
 
     /// <summary>

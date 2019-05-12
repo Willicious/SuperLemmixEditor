@@ -37,6 +37,35 @@ namespace NLEditor
       this.ObjectType = objType;
       this.TriggerRect = triggerRect;
       this.ResizeMode = resizeMode;
+      this.PrimaryImageLocation = new Rectangle(0, 0, this.Width, this.Height);
+    }
+
+    /// <summary>
+    /// Use this to create the base-info of a new object piece with secondary animations.
+    /// </summary>
+    /// <param name="newImage"></param>
+    /// <param name="objType"></param>
+    /// <param name="numFrames"></param>
+    /// <param name="isVert"></param>
+    /// <param name="triggerRect"></param>
+    /// <param name="secondaryImage"></param>
+    /// <param name="secNumFrames"></param>
+    /// <param name="secIsVert"></param>
+    /// <param name="secOffsetX"></param>
+    /// <param name="secOffsetY"></param>
+    public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, bool isVert, Rectangle triggerRect, C.Resize resizeMode,
+      Bitmap secondaryImage, int secNumFrames, bool secIsVert, int secOffsetX, int secOffsetY)
+    {
+      this.images = new Dictionary<RotateFlipType, List<Bitmap>>();
+      var primaryImages = SeparateFrames(newImage, numFrames, isVert);
+      var secondaryImages = SeparateFrames(secondaryImage, secNumFrames, secIsVert);
+      this.images[RotateFlipType.RotateNoneFlipNone] = CombineSecondaryImages(primaryImages, secondaryImages, secOffsetX, secOffsetY);
+      this.Width = this.baseImages[0].Width;
+      this.Height = this.baseImages[0].Height;
+      this.ObjectType = objType;
+      this.TriggerRect = triggerRect;
+      this.ResizeMode = resizeMode;
+      this.PrimaryImageLocation = new Rectangle(Math.Max(0, -secOffsetX), Math.Max(0, -secOffsetY), primaryImages[0].Width, primaryImages[0].Height);
     }
 
     Dictionary<RotateFlipType, List<Bitmap>> images;
@@ -63,6 +92,7 @@ namespace NLEditor
     public C.OBJ ObjectType { get; private set; }
     public Rectangle TriggerRect { get; private set; }
     public C.Resize ResizeMode { get; private set; }
+    public Rectangle PrimaryImageLocation { get; private set; }
 
     /// <summary>
     /// Separates the various frames in one bitmap.
@@ -98,6 +128,35 @@ namespace NLEditor
 
       return imageFrames;
     }
+
+    /// <summary>
+    /// Combine primary and secondary images to a single list of frames
+    /// </summary>
+    /// <param name="primaryImages"></param>
+    /// <param name="secondaryImages"></param>
+    /// <param name="secOffsetX"></param>
+    /// <param name="secOffsetY"></param>
+    /// <returns></returns>
+    private List<Bitmap> CombineSecondaryImages(List<Bitmap> primaryImages, List<Bitmap> secondaryImages, int secOffsetX, int secOffsetY)
+    {
+      List<Bitmap> combinedImages = new List<Bitmap>();
+      // Determine size of the combined image
+      int totalWidth = Math.Max(primaryImages[0].Width, secondaryImages[0].Width + secOffsetX) - Math.Min(0, secOffsetX);
+      int totalHeight = Math.Max(primaryImages[0].Height, secondaryImages[0].Height + secOffsetY) - Math.Min(0, secOffsetY);
+      Point primaryPosition = new Point(Math.Max(0, -secOffsetX), Math.Max(0, -secOffsetY));
+      Point secondaryPosition = new Point(Math.Max(0, secOffsetX), Math.Max(0, secOffsetY));
+
+      foreach (Bitmap primaryImage in primaryImages)
+      {
+        Bitmap combinedImage = new Bitmap(totalWidth, totalHeight);
+        combinedImage.DrawOn(secondaryImages[0], secondaryPosition);
+        combinedImage.DrawOn(primaryImage, primaryPosition);
+        combinedImages.Add(combinedImage);
+      }
+
+      return combinedImages;
+    }
+
 
     /// <summary>
     /// Creates rotated images of the desired orientation, if these do not yet exist.
@@ -398,6 +457,45 @@ namespace NLEditor
     {
       return styleName + C.DirSep + (isObject ? "objects" : "terrain")
                        + C.DirSep + pieceName;
+    }
+
+    /// <summary>
+    /// Transforms the piece location from level file location (using only the primary image)
+    /// to editor location (using the merge of primary and secondary animations)
+    /// </summary>
+    /// <param name="levelFileLocation"></param>
+    /// <returns></returns>
+    public static Point LevelFileToEditorCoordinates(string imageKey, Point levelFileLocation)
+    {
+      if (!imageDict.ContainsKey(imageKey))
+      {
+        bool success = AddNewImage(imageKey);
+        if (!success) return levelFileLocation;
+      }
+
+      var primaryImageLocation = imageDict[imageKey].PrimaryImageLocation;
+      return new Point(levelFileLocation.X - primaryImageLocation.X, 
+                       levelFileLocation.Y - primaryImageLocation.Y);
+    }
+
+    /// <summary>
+    /// Transforms the piece location from editor location (using the merge of primary and secondary animations)
+    /// to level file location (using only the primary image)
+    /// </summary>
+    /// <param name="imageKey"></param>
+    /// <param name="editorLocation"></param>
+    /// <returns></returns>
+    public static Point EditorToLevelFileCoordinates(string imageKey, Point editorLocation)
+    {
+      if (!imageDict.ContainsKey(imageKey))
+      {
+        bool success = AddNewImage(imageKey);
+        if (!success) return editorLocation;
+      }
+
+      var primaryImageLocation = imageDict[imageKey].PrimaryImageLocation;
+      return new Point(editorLocation.X + primaryImageLocation.X,
+                       editorLocation.Y + primaryImageLocation.Y);
     }
   }
 }

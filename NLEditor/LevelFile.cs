@@ -248,8 +248,9 @@ namespace NLEditor
 
       // ... then create the correct Gadget piece
       string key = ImageLibrary.CreatePieceKey(styleName, gadgetName, true);
-      Point pos = new Point(posX, posY);
-      GadgetPiece newGadget = new GadgetPiece(key, pos, 0, false, isNoOverwrite, isOnlyOnTerrain, 
+      Point levelFilePos = new Point(posX, posY);
+      Point editorPos = ImageLibrary.LevelFileToEditorCoordinates(key, levelFilePos);
+      GadgetPiece newGadget = new GadgetPiece(key, editorPos, 0, false, isNoOverwrite, isOnlyOnTerrain, 
         val_L, skillFlags, specWidth, specHeight, bgSpeed, bgAngle);
 
       // Read in skill information
@@ -275,8 +276,8 @@ namespace NLEditor
       if (doFlip) newGadget.FlipInRect(newGadget.ImageRectangle);
       if (doInvert) newGadget.InvertInRect(newGadget.ImageRectangle);
       //Reposition gadget to be sure...
-      newGadget.PosX = pos.X;
-      newGadget.PosY = pos.Y;
+      newGadget.PosX = editorPos.X;
+      newGadget.PosY = editorPos.Y;
       // and offset preplaced lemmings, because the level file saves the position of the trigger area
       if (newGadget.ObjType == C.OBJ.LEMMING)
       {
@@ -653,8 +654,9 @@ namespace NLEditor
         textFile.WriteLine("   PIECE      " + gadget.Name);
       }
 
-      int posX = gadget.PosX + (gadget.ObjType == C.OBJ.LEMMING ? C.LEM_OFFSET_X : 0);
-      int posY = gadget.PosY + (gadget.ObjType == C.OBJ.LEMMING ? C.LEM_OFFSET_Y : 0);
+      Point levelFilePos = ImageLibrary.EditorToLevelFileCoordinates(gadget.Key, gadget.Pos);
+      int posX = levelFilePos.X + (gadget.ObjType == C.OBJ.LEMMING ? C.LEM_OFFSET_X : 0);
+      int posY = levelFilePos.Y + (gadget.ObjType == C.OBJ.LEMMING ? C.LEM_OFFSET_Y : 0);
       textFile.WriteLine("   X      " + posX.ToString().PadLeft(5));
       textFile.WriteLine("   Y      " + posY.ToString().PadLeft(5));
 
