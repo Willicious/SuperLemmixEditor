@@ -384,7 +384,7 @@ namespace NLEditor
           }
 
           // Adjust to flipping
-          if (IsFlippedInPlayer)
+          if (IsFlippedInPlayer && ObjType != C.OBJ.HATCH)
           {
             trigRect.X = ImageRectangle.Width - trigRect.Right;
           }
