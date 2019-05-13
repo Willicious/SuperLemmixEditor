@@ -361,7 +361,6 @@ namespace NLEditor
 
     /// <summary>
     /// Returns the position of the trigger area.
-    /// <para> It does NOT adapt to rotation! </para>
     /// </summary>
     public Rectangle TriggerRect
     {
