@@ -328,6 +328,7 @@ namespace NLEditor
     public int Val_L { get; private set; }
     public HashSet<C.Skill> SkillFlags { get; private set; }
     public bool IsZombie => SkillFlags.Contains(C.Skill.Zombie);
+    public bool IsNeutral => SkillFlags.Contains(C.Skill.Neutral);
     public int SpecWidth { get; set; }
     public int SpecHeight { get; set; }
     public int BackgroundAngle { get; set; }
@@ -491,13 +492,14 @@ namespace NLEditor
         case C.OBJ.HATCH:
           {
             return skill.In(C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
-                            C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Zombie);
+                            C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Zombie,
+                            C.Skill.Neutral);
           }
         case C.OBJ.LEMMING:
           {
             return skill.In(C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
                             C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Zombie,
-                            C.Skill.Blocker);
+                            C.Skill.Blocker, C.Skill.Neutral);
           }
         case C.OBJ.PICKUP:
           {

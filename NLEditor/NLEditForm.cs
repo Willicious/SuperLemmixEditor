@@ -44,7 +44,7 @@ namespace NLEditor
                     { C.Skill.Stoner, check_Piece_Stoner }, { C.Skill.Platformer, check_Piece_Platformer },
                     { C.Skill.Stacker, check_Piece_Stacker }, { C.Skill.Cloner, check_Piece_Cloner },
                     { C.Skill.Fencer, check_Piece_Fencer },  { C.Skill.Shimmier, check_Piece_Shimmier },
-                    { C.Skill.Zombie, check_Piece_Zombie }
+                    { C.Skill.Zombie, check_Piece_Zombie }, { C.Skill.Neutral, check_Piece_Neutral }
                 };
 
       numericsSkillSet = new Dictionary<C.Skill, NumericUpDown>()
