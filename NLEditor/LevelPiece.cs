@@ -310,7 +310,7 @@ namespace NLEditor
     public GadgetPiece(string key, Point pos, int rotation, bool isInvert, bool isNoOverwrite,
                        bool isOnlyOnTerrain, int valL, HashSet<C.Skill> skillFlags,
                        int specWidth = -1, int specHeight = -1,
-                       int bgSpeed = 0, int bgAngle = 0)
+                       int bgSpeed = 0, int bgAngle = 0, int lemmingCap = 0)
         : base(key, true, pos, rotation, isInvert)
     {
       IsNoOverwrite = isNoOverwrite;
@@ -321,6 +321,7 @@ namespace NLEditor
       SpecHeight = (specHeight > 0) ? specHeight : base.Height;
       BackgroundAngle = bgAngle;
       BackgroundSpeed = bgSpeed;
+      LemmingCap = lemmingCap;
     }
 
     public bool IsNoOverwrite { get; set; }
@@ -332,6 +333,7 @@ namespace NLEditor
     public int SpecHeight { get; set; }
     public int BackgroundAngle { get; set; }
     public int BackgroundSpeed { get; set; }
+    public int LemmingCap { get; set; }
 
     public override LevelPiece Clone()
     {

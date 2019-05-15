@@ -214,6 +214,7 @@ namespace NLEditor
       int val_L = 0;
       int bgSpeed = 0;
       int bgAngle = 0;
+      int lemmingCap = 0;
       HashSet<C.Skill> skillFlags = new HashSet<C.Skill>();
 
       foreach (FileLine line in fileLineList)
@@ -237,6 +238,7 @@ namespace NLEditor
           case "SKILLCOUNT": val_L = line.Value; break;
           case "SPEED": bgSpeed = line.Value; break;
           case "ANGLE": bgAngle = line.Value; break;
+          case "LEMMINGS": lemmingCap = line.Value; break;
         }
       }
 
@@ -249,8 +251,8 @@ namespace NLEditor
       // ... then create the correct Gadget piece
       string key = ImageLibrary.CreatePieceKey(styleName, gadgetName, true);
       Point pos = new Point(posX, posY);
-      GadgetPiece newGadget = new GadgetPiece(key, pos, 0, false, isNoOverwrite, isOnlyOnTerrain,
-        val_L, skillFlags, specWidth, specHeight, bgSpeed, bgAngle);
+      GadgetPiece newGadget = new GadgetPiece(key, pos, 0, false, isNoOverwrite, isOnlyOnTerrain, 
+        val_L, skillFlags, specWidth, specHeight, bgSpeed, bgAngle, lemmingCap);
 
       // Read in skill information
       foreach (C.Skill skill in C.SkillArray)
@@ -725,6 +727,11 @@ namespace NLEditor
       {
         textFile.WriteLine("   SPEED   " + gadget.BackgroundSpeed.ToString().PadLeft(4));
         textFile.WriteLine("   ANGLE   " + gadget.BackgroundAngle.ToString().PadLeft(4));
+      }
+
+      if (gadget.ObjType.In(C.OBJ.EXIT, C.OBJ.EXIT_LOCKED, C.OBJ.HATCH) && gadget.LemmingCap > 0)
+      {
+        textFile.WriteLine("   LEMMINGS " + gadget.LemmingCap);
       }
 
       textFile.WriteLine(" $END");
