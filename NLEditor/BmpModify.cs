@@ -942,13 +942,14 @@ namespace NLEditor
     /// <param name="textColor"></param>
     /// <param name="fontSize"></param>
     /// <param name="alignment"></param>
-    public static void WriteText(this Bitmap origBmp, string text, Point position, Color textColor, int fontSize, ContentAlignment alignment = ContentAlignment.MiddleCenter)
+    public static void WriteText(this Bitmap origBmp, string text, Point position, Color textColor, int fontSize, ContentAlignment alignment = ContentAlignment.MiddleCenter, Size? forceTextSize = null)
     {
       // Reposition the text correctly according to its size.
       Font textFont = new Font("Tahoma", fontSize);
       Size textSize = System.Windows.Forms.TextRenderer.MeasureText(text, textFont);
-      int textHeight = textSize.Height * 5 / 4;
-      Point topLeftCorner = AlignText(position, textSize.Width, textHeight, alignment);
+      int textHeight = forceTextSize?.Height ?? textSize.Height * 5 / 4;
+      int textWidth = forceTextSize?.Width ?? textSize.Width;
+      Point topLeftCorner = AlignText(position, textWidth, textHeight, alignment);
 
       using (Graphics g = Graphics.FromImage(origBmp))
       {

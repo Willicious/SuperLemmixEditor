@@ -423,6 +423,10 @@ namespace NLEditor
         {
           image = AddPickupSkillNumber(base.Image);
         }
+        if (ObjType == C.OBJ.HATCH)
+        {
+          image = ImageLibrary.GetWindowImageWithDirection(Key, GetRotateFlipType(), GetFrameIndex());
+        }
         else
         {
           image = base.Image;
