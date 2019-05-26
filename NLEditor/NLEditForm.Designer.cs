@@ -1,33 +1,33 @@
 ﻿namespace NLEditor
 {
-    partial class NLEditForm
+  partial class NLEditForm
+  {
+    /// <summary>
+    /// Required designer variable.
+    /// </summary>
+    private System.ComponentModel.IContainer components = null;
+
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+      if (disposing && (components != null))
+      {
+        components.Dispose();
+      }
+      base.Dispose(disposing);
+    }
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+    #region Windows Form Designer generated code
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
+    /// <summary>
+    /// Required method for Designer support - do not modify
+    /// the contents of this method with the code editor.
+    /// </summary>
+    private void InitializeComponent()
+    {
       this.components = new System.ComponentModel.Container();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NLEditForm));
       this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -1058,16 +1058,17 @@
       // 
       // tabPieces
       // 
-      this.tabPieces.Controls.Add(this.check_Piece_Shimmier);
+      
       this.tabPieces.Controls.Add(this.num_PickupSkillCount);
       this.tabPieces.Controls.Add(this.lbl_PickupSkillCount);
       this.tabPieces.Controls.Add(this.but_UngroupSelection);
       this.tabPieces.Controls.Add(this.but_GroupSelection);
-      this.tabPieces.Controls.Add(this.check_Piece_Fencer);
       this.tabPieces.Controls.Add(this.but_PairTeleporter);
       this.tabPieces.Controls.Add(this.lbl_Resize_Height);
       this.tabPieces.Controls.Add(this.lbl_Resize_Width);
       this.tabPieces.Controls.Add(this.check_Piece_Zombie);
+      this.tabPieces.Controls.Add(this.check_Piece_Shimmier);
+      this.tabPieces.Controls.Add(this.check_Piece_Fencer);
       this.tabPieces.Controls.Add(this.check_Piece_Cloner);
       this.tabPieces.Controls.Add(this.check_Piece_Stacker);
       this.tabPieces.Controls.Add(this.check_Piece_Platformer);
@@ -1080,8 +1081,8 @@
       this.tabPieces.Controls.Add(this.check_Piece_Miner);
       this.tabPieces.Controls.Add(this.check_Piece_Basher);
       this.tabPieces.Controls.Add(this.check_Piece_Builder);
-      this.tabPieces.Controls.Add(this.check_Piece_Exploder);
       this.tabPieces.Controls.Add(this.check_Piece_Blocker);
+      this.tabPieces.Controls.Add(this.check_Piece_Exploder);
       this.tabPieces.Controls.Add(this.check_Piece_Floater);
       this.tabPieces.Controls.Add(this.check_Piece_Climber);
       this.tabPieces.Controls.Add(this.check_Pieces_OneWay);
@@ -2173,164 +2174,164 @@
       this.ResumeLayout(false);
       this.PerformLayout();
 
-        }
+    }
 
-        #endregion
+    #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clearPhysicsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem terrainRenderingToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem objectRenderingToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem triggerAreasToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem screenStartToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem playLevelToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem validateLevelToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem insertToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabGlobalInfo;
-        private System.Windows.Forms.TabPage tabPieces;
-        private System.Windows.Forms.TabPage tabSkills;
-        private System.Windows.Forms.Label lbl_Skill_Cloner;
-        private System.Windows.Forms.Label lbl_Skill_Stacker;
-        private System.Windows.Forms.Label lbl_Skill_Platformer;
-        private System.Windows.Forms.Label lbl_Skill_Stoner;
-        private System.Windows.Forms.Label lbl_Skill_Disarmer;
-        private System.Windows.Forms.Label lbl_Skill_Glider;
-        private System.Windows.Forms.Label lbl_Skill_Swimmer;
-        private System.Windows.Forms.Label lbl_Skill_Walker;
-        private System.Windows.Forms.Label lbl_Skill_Digger;
-        private System.Windows.Forms.Label lbl_Skill_Miner;
-        private System.Windows.Forms.Label lbl_Skill_Basher;
-        private System.Windows.Forms.Label lbl_Skill_Builder;
-        private System.Windows.Forms.Label lbl_Skill_Exploder;
-        private System.Windows.Forms.Label lbl_Skill_Blocker;
-        private System.Windows.Forms.Label lbl_Skill_Floater;
-        private System.Windows.Forms.Label lbl_Skill_Climber;
-        private NLEditor.NumUpDownOverwrite num_Ski_Cloner;
-        private NLEditor.NumUpDownOverwrite num_Ski_Stacker;
-        private NLEditor.NumUpDownOverwrite num_Ski_Platformer;
-        private NLEditor.NumUpDownOverwrite num_Ski_Stoner;
-        private NLEditor.NumUpDownOverwrite num_Ski_Disarmer;
-        private NLEditor.NumUpDownOverwrite num_Ski_Glider;
-        private NLEditor.NumUpDownOverwrite num_Ski_Swimmer;
-        private NLEditor.NumUpDownOverwrite num_Ski_Walker;
-        private NLEditor.NumUpDownOverwrite num_Ski_Digger;
-        private NLEditor.NumUpDownOverwrite num_Ski_Miner;
-        private NLEditor.NumUpDownOverwrite num_Ski_Basher;
-        private NLEditor.NumUpDownOverwrite num_Ski_Builder;
-        private NLEditor.NumUpDownOverwrite num_Ski_Exploder;
-        private NLEditor.NumUpDownOverwrite num_Ski_Blocker;
-        private NLEditor.NumUpDownOverwrite num_Ski_Floater;
-        private NLEditor.NumUpDownOverwrite num_Ski_Climber;
-        private NLEditor.NumUpDownOverwrite num_Lvl_Rescue;
-        private System.Windows.Forms.Label lbl_Global_Rescue;
-        private NLEditor.NumUpDownOverwrite num_Lvl_Lems;
-        private System.Windows.Forms.Label lbl_Global_Lemmings;
-        private NLEditor.NumUpDownOverwrite num_Lvl_StartY;
-        private NLEditor.NumUpDownOverwrite num_Lvl_StartX;
-        private System.Windows.Forms.Label lbl_Global_StartPos;
-        private NLEditor.NumUpDownOverwrite num_Lvl_SizeY;
-        private NLEditor.NumUpDownOverwrite num_Lvl_SizeX;
-        private System.Windows.Forms.Label lbl_Global_Size;
-        private System.Windows.Forms.ComboBox combo_MainStyle;
-        private System.Windows.Forms.Label lbl_Global_Style;
-        private System.Windows.Forms.Label lbl_Global_Music;
-        private System.Windows.Forms.TextBox txt_LevelAuthor;
-        private System.Windows.Forms.Label lbl_Global_Author;
-        private System.Windows.Forms.TextBox txt_LevelTitle;
-        private System.Windows.Forms.Label lbl_Global_Title;
-        private NLEditor.NumUpDownOverwrite num_Lvl_TimeSec;
-        private NLEditor.NumUpDownOverwrite num_Lvl_TimeMin;
-        private System.Windows.Forms.Label lbl_Global_TimeLimit;
-        private System.Windows.Forms.CheckBox check_Lvl_LockSR;
-        private NLEditor.NumUpDownOverwrite num_Lvl_SR;
-        private System.Windows.Forms.Label lbl_Global_SR;
-        private System.Windows.Forms.ComboBox combo_Music;
-        private System.Windows.Forms.ComboBox combo_PieceStyle;
-        private System.Windows.Forms.PictureBox picPiece0;
-        private NLEditor.RepeatButton but_PieceLeft;
-        private System.Windows.Forms.PictureBox picPiece1;
-        private System.Windows.Forms.PictureBox picPiece2;
-        private NLEditor.RepeatButton but_PieceRight;
-        private System.Windows.Forms.PictureBox picPiece3;
-        private System.Windows.Forms.PictureBox picPiece4;
-        private System.Windows.Forms.PictureBox picPiece5;
-        private System.Windows.Forms.PictureBox picPiece6;
-        private System.Windows.Forms.PictureBox picPiece7;
-        private System.Windows.Forms.Button but_PieceTerrObj;
-        private System.Windows.Forms.CheckBox check_Lvl_InfTime;
-        private System.Windows.Forms.PictureBox pic_Level;
-        private System.Windows.Forms.TabControl tabLvlProperties;
-        private NLEditor.FocusTextBox txt_Focus;
-        private NLEditor.RepeatButton but_FlipPieces;
-        private NLEditor.RepeatButton but_InvertPieces;
-        private NLEditor.RepeatButton but_RotatePieces;
-        private System.Windows.Forms.CheckBox check_Pieces_OneWay;
-        private System.Windows.Forms.CheckBox check_Pieces_OnlyOnTerrain;
-        private System.Windows.Forms.CheckBox check_Pieces_NoOv;
-        private System.Windows.Forms.CheckBox check_Pieces_Erase;
-        private System.Windows.Forms.CheckBox check_Piece_Cloner;
-        private System.Windows.Forms.CheckBox check_Piece_Stacker;
-        private System.Windows.Forms.CheckBox check_Piece_Platformer;
-        private System.Windows.Forms.CheckBox check_Piece_Stoner;
-        private System.Windows.Forms.CheckBox check_Piece_Disarmer;
-        private System.Windows.Forms.CheckBox check_Piece_Glider;
-        private System.Windows.Forms.CheckBox check_Piece_Swimmer;
-        private System.Windows.Forms.CheckBox check_Piece_Walker;
-        private System.Windows.Forms.CheckBox check_Piece_Digger;
-        private System.Windows.Forms.CheckBox check_Piece_Miner;
-        private System.Windows.Forms.CheckBox check_Piece_Basher;
-        private System.Windows.Forms.CheckBox check_Piece_Builder;
-        private System.Windows.Forms.CheckBox check_Piece_Exploder;
-        private System.Windows.Forms.CheckBox check_Piece_Blocker;
-        private System.Windows.Forms.CheckBox check_Piece_Floater;
-        private System.Windows.Forms.CheckBox check_Piece_Climber;
-        private NLEditor.RepeatButton but_MoveBackOne;
-        private NLEditor.RepeatButton but_MoveFrontOne;
-        private NLEditor.NoPaddingButton but_MoveBack;
-        private NLEditor.NoPaddingButton but_MoveFront;
-        private System.Windows.Forms.CheckBox check_Piece_Zombie;
-        private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
-        private System.Windows.Forms.Label lbl_Resize_Height;
-        private NLEditor.NumUpDownOverwrite num_Resize_Height;
-        private NLEditor.NumUpDownOverwrite num_Resize_Width;
-        private System.Windows.Forms.Label lbl_Resize_Width;
-        private System.Windows.Forms.Button but_PairTeleporter;
-        private System.Windows.Forms.ComboBox combo_Background;
-        private System.Windows.Forms.Label lbl_Global_Background;
-        private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem;
-        private System.Windows.Forms.ToolTip toolTipPieces;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabLvlPieces;
-        private System.Windows.Forms.TabControl tabLvlSkills;
-        private System.Windows.Forms.HScrollBar scrollPicLevelHoriz;
-        private System.Windows.Forms.VScrollBar scrollPicLevelVert;
-        private System.Windows.Forms.CheckBox check_Piece_Fencer;
-        private System.Windows.Forms.Label lbl_Skill_Fencer;
-        private NLEditor.NumUpDownOverwrite num_Ski_Fencer;
-        private System.Windows.Forms.Button but_UngroupSelection;
-        private System.Windows.Forms.Button but_GroupSelection;
-        private System.Windows.Forms.ToolStripMenuItem groupToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ungroupToolStripMenuItem;
-        private System.Windows.Forms.PictureBox pic_DragNewPiece;
-        private System.Windows.Forms.ToolTip toolTipButton;
-        private System.Windows.Forms.ToolStripMenuItem duplicateCToolStripMenuItem;
-        private NumUpDownOverwrite num_PickupSkillCount;
-        private System.Windows.Forms.Label lbl_PickupSkillCount;
+    private System.Windows.Forms.MenuStrip menuStrip;
+    private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem clearPhysicsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem terrainRenderingToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem objectRenderingToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem triggerAreasToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem screenStartToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem playLevelToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem validateLevelToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem insertToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
+    private System.Windows.Forms.TabPage tabGlobalInfo;
+    private System.Windows.Forms.TabPage tabPieces;
+    private System.Windows.Forms.TabPage tabSkills;
+    private System.Windows.Forms.Label lbl_Skill_Cloner;
+    private System.Windows.Forms.Label lbl_Skill_Stacker;
+    private System.Windows.Forms.Label lbl_Skill_Platformer;
+    private System.Windows.Forms.Label lbl_Skill_Stoner;
+    private System.Windows.Forms.Label lbl_Skill_Disarmer;
+    private System.Windows.Forms.Label lbl_Skill_Glider;
+    private System.Windows.Forms.Label lbl_Skill_Swimmer;
+    private System.Windows.Forms.Label lbl_Skill_Walker;
+    private System.Windows.Forms.Label lbl_Skill_Digger;
+    private System.Windows.Forms.Label lbl_Skill_Miner;
+    private System.Windows.Forms.Label lbl_Skill_Basher;
+    private System.Windows.Forms.Label lbl_Skill_Builder;
+    private System.Windows.Forms.Label lbl_Skill_Exploder;
+    private System.Windows.Forms.Label lbl_Skill_Blocker;
+    private System.Windows.Forms.Label lbl_Skill_Floater;
+    private System.Windows.Forms.Label lbl_Skill_Climber;
+    private NLEditor.NumUpDownOverwrite num_Ski_Cloner;
+    private NLEditor.NumUpDownOverwrite num_Ski_Stacker;
+    private NLEditor.NumUpDownOverwrite num_Ski_Platformer;
+    private NLEditor.NumUpDownOverwrite num_Ski_Stoner;
+    private NLEditor.NumUpDownOverwrite num_Ski_Disarmer;
+    private NLEditor.NumUpDownOverwrite num_Ski_Glider;
+    private NLEditor.NumUpDownOverwrite num_Ski_Swimmer;
+    private NLEditor.NumUpDownOverwrite num_Ski_Walker;
+    private NLEditor.NumUpDownOverwrite num_Ski_Digger;
+    private NLEditor.NumUpDownOverwrite num_Ski_Miner;
+    private NLEditor.NumUpDownOverwrite num_Ski_Basher;
+    private NLEditor.NumUpDownOverwrite num_Ski_Builder;
+    private NLEditor.NumUpDownOverwrite num_Ski_Exploder;
+    private NLEditor.NumUpDownOverwrite num_Ski_Blocker;
+    private NLEditor.NumUpDownOverwrite num_Ski_Floater;
+    private NLEditor.NumUpDownOverwrite num_Ski_Climber;
+    private NLEditor.NumUpDownOverwrite num_Lvl_Rescue;
+    private System.Windows.Forms.Label lbl_Global_Rescue;
+    private NLEditor.NumUpDownOverwrite num_Lvl_Lems;
+    private System.Windows.Forms.Label lbl_Global_Lemmings;
+    private NLEditor.NumUpDownOverwrite num_Lvl_StartY;
+    private NLEditor.NumUpDownOverwrite num_Lvl_StartX;
+    private System.Windows.Forms.Label lbl_Global_StartPos;
+    private NLEditor.NumUpDownOverwrite num_Lvl_SizeY;
+    private NLEditor.NumUpDownOverwrite num_Lvl_SizeX;
+    private System.Windows.Forms.Label lbl_Global_Size;
+    private System.Windows.Forms.ComboBox combo_MainStyle;
+    private System.Windows.Forms.Label lbl_Global_Style;
+    private System.Windows.Forms.Label lbl_Global_Music;
+    private System.Windows.Forms.TextBox txt_LevelAuthor;
+    private System.Windows.Forms.Label lbl_Global_Author;
+    private System.Windows.Forms.TextBox txt_LevelTitle;
+    private System.Windows.Forms.Label lbl_Global_Title;
+    private NLEditor.NumUpDownOverwrite num_Lvl_TimeSec;
+    private NLEditor.NumUpDownOverwrite num_Lvl_TimeMin;
+    private System.Windows.Forms.Label lbl_Global_TimeLimit;
+    private System.Windows.Forms.CheckBox check_Lvl_LockSR;
+    private NLEditor.NumUpDownOverwrite num_Lvl_SR;
+    private System.Windows.Forms.Label lbl_Global_SR;
+    private System.Windows.Forms.ComboBox combo_Music;
+    private System.Windows.Forms.ComboBox combo_PieceStyle;
+    private System.Windows.Forms.PictureBox picPiece0;
+    private NLEditor.RepeatButton but_PieceLeft;
+    private System.Windows.Forms.PictureBox picPiece1;
+    private System.Windows.Forms.PictureBox picPiece2;
+    private NLEditor.RepeatButton but_PieceRight;
+    private System.Windows.Forms.PictureBox picPiece3;
+    private System.Windows.Forms.PictureBox picPiece4;
+    private System.Windows.Forms.PictureBox picPiece5;
+    private System.Windows.Forms.PictureBox picPiece6;
+    private System.Windows.Forms.PictureBox picPiece7;
+    private System.Windows.Forms.Button but_PieceTerrObj;
+    private System.Windows.Forms.CheckBox check_Lvl_InfTime;
+    private System.Windows.Forms.PictureBox pic_Level;
+    private System.Windows.Forms.TabControl tabLvlProperties;
+    private NLEditor.FocusTextBox txt_Focus;
+    private NLEditor.RepeatButton but_FlipPieces;
+    private NLEditor.RepeatButton but_InvertPieces;
+    private NLEditor.RepeatButton but_RotatePieces;
+    private System.Windows.Forms.CheckBox check_Pieces_OneWay;
+    private System.Windows.Forms.CheckBox check_Pieces_OnlyOnTerrain;
+    private System.Windows.Forms.CheckBox check_Pieces_NoOv;
+    private System.Windows.Forms.CheckBox check_Pieces_Erase;
+    private System.Windows.Forms.CheckBox check_Piece_Cloner;
+    private System.Windows.Forms.CheckBox check_Piece_Stacker;
+    private System.Windows.Forms.CheckBox check_Piece_Platformer;
+    private System.Windows.Forms.CheckBox check_Piece_Stoner;
+    private System.Windows.Forms.CheckBox check_Piece_Disarmer;
+    private System.Windows.Forms.CheckBox check_Piece_Glider;
+    private System.Windows.Forms.CheckBox check_Piece_Swimmer;
+    private System.Windows.Forms.CheckBox check_Piece_Walker;
+    private System.Windows.Forms.CheckBox check_Piece_Digger;
+    private System.Windows.Forms.CheckBox check_Piece_Miner;
+    private System.Windows.Forms.CheckBox check_Piece_Basher;
+    private System.Windows.Forms.CheckBox check_Piece_Builder;
+    private System.Windows.Forms.CheckBox check_Piece_Exploder;
+    private System.Windows.Forms.CheckBox check_Piece_Blocker;
+    private System.Windows.Forms.CheckBox check_Piece_Floater;
+    private System.Windows.Forms.CheckBox check_Piece_Climber;
+    private NLEditor.RepeatButton but_MoveBackOne;
+    private NLEditor.RepeatButton but_MoveFrontOne;
+    private NLEditor.NoPaddingButton but_MoveBack;
+    private NLEditor.NoPaddingButton but_MoveFront;
+    private System.Windows.Forms.CheckBox check_Piece_Zombie;
+    private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
+    private System.Windows.Forms.Label lbl_Resize_Height;
+    private NLEditor.NumUpDownOverwrite num_Resize_Height;
+    private NLEditor.NumUpDownOverwrite num_Resize_Width;
+    private System.Windows.Forms.Label lbl_Resize_Width;
+    private System.Windows.Forms.Button but_PairTeleporter;
+    private System.Windows.Forms.ComboBox combo_Background;
+    private System.Windows.Forms.Label lbl_Global_Background;
+    private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem;
+    private System.Windows.Forms.ToolTip toolTipPieces;
+    private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+    private System.Windows.Forms.TabControl tabLvlPieces;
+    private System.Windows.Forms.TabControl tabLvlSkills;
+    private System.Windows.Forms.HScrollBar scrollPicLevelHoriz;
+    private System.Windows.Forms.VScrollBar scrollPicLevelVert;
+    private System.Windows.Forms.CheckBox check_Piece_Fencer;
+    private System.Windows.Forms.Label lbl_Skill_Fencer;
+    private NLEditor.NumUpDownOverwrite num_Ski_Fencer;
+    private System.Windows.Forms.Button but_UngroupSelection;
+    private System.Windows.Forms.Button but_GroupSelection;
+    private System.Windows.Forms.ToolStripMenuItem groupToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem ungroupToolStripMenuItem;
+    private System.Windows.Forms.PictureBox pic_DragNewPiece;
+    private System.Windows.Forms.ToolTip toolTipButton;
+    private System.Windows.Forms.ToolStripMenuItem duplicateCToolStripMenuItem;
+    private NumUpDownOverwrite num_PickupSkillCount;
+    private System.Windows.Forms.Label lbl_PickupSkillCount;
     private System.Windows.Forms.CheckBox check_Piece_Shimmier;
     private System.Windows.Forms.Label lbl_Skill_Shimmier;
     private NumUpDownOverwrite num_Ski_Shimmier;
