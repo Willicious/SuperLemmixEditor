@@ -200,7 +200,7 @@ namespace NLEditor
     /// Translates stored piece data to a RotateFlipType that can be applied to images.
     /// </summary>
     /// <returns></returns>
-    private RotateFlipType GetRotateFlipType()
+    protected RotateFlipType GetRotateFlipType()
     {
       switch (Rotation)
       {
@@ -308,7 +308,7 @@ namespace NLEditor
     }
 
     public GadgetPiece(string key, Point pos, int rotation, bool isInvert, bool isNoOverwrite,
-                       bool isOnlyOnTerrain, int valL, HashSet<C.Skill> skillFlags, 
+                       bool isOnlyOnTerrain, int valL, HashSet<C.Skill> skillFlags,
                        int specWidth = -1, int specHeight = -1,
                        int bgSpeed = 0, int bgAngle = 0)
         : base(key, true, pos, rotation, isInvert)
@@ -335,7 +335,7 @@ namespace NLEditor
 
     public override LevelPiece Clone()
     {
-      int val_l = ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER) ? 0 : Val_L;       
+      int val_l = ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER) ? 0 : Val_L;
       return new GadgetPiece(Key, Pos, Rotation, IsInvert, IsNoOverwrite, IsOnlyOnTerrain,
                              val_l, SkillFlags, SpecWidth, SpecHeight, BackgroundSpeed, BackgroundAngle);
     }
@@ -361,7 +361,6 @@ namespace NLEditor
 
     /// <summary>
     /// Returns the position of the trigger area.
-    /// <para> It does NOT adapt to rotation! </para>
     /// </summary>
     public Rectangle TriggerRect
     {
@@ -385,7 +384,7 @@ namespace NLEditor
           }
 
           // Adjust to flipping
-          if (IsFlippedInPlayer)
+          if (IsFlippedInPlayer && ObjType != C.OBJ.HATCH)
           {
             trigRect.X = ImageRectangle.Width - trigRect.Right;
           }
@@ -423,6 +422,10 @@ namespace NLEditor
         if (ObjType == C.OBJ.PICKUP && Val_L > 1)
         {
           image = AddPickupSkillNumber(base.Image);
+        }
+        if (ObjType == C.OBJ.HATCH)
+        {
+          image = ImageLibrary.GetWindowImageWithDirection(Key, GetRotateFlipType(), GetFrameIndex());
         }
         else
         {

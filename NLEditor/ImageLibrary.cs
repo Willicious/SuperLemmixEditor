@@ -87,6 +87,16 @@ namespace NLEditor
       if (imageWithPieceNames == null) CreateImagesWithPieceNames(pieceKey);
       return imageWithPieceNames[index % imageWithPieceNames.Count];
     }
+    public Bitmap WindowImageWithDirection(RotateFlipType rotFlipType, int index)
+    {
+      // Warning: Ignore rotFlipType for actual image and use it only for the directional arrow!
+      Bitmap image = (Bitmap)Image(RotateFlipType.RotateNoneFlipNone, index).Clone();
+      bool isFlipped = rotFlipType.In(RotateFlipType.RotateNoneFlipX, RotateFlipType.RotateNoneFlipXY, RotateFlipType.Rotate90FlipY, RotateFlipType.Rotate90FlipXY);
+      string directionString = isFlipped ? "←" : "→";
+      Point bottomRightCorner = new Point(image.Width, image.Height);
+      image.WriteText(directionString, bottomRightCorner, C.NLColors[C.NLColor.Text], 7, ContentAlignment.BottomRight, new Size(12, 9));
+      return image;
+    }
     public int Width { get; private set; }
     public int Height { get; private set; }
     public C.OBJ ObjectType { get; private set; }
@@ -301,6 +311,27 @@ namespace NLEditor
       }
 
       return imageDict[imageKey].ImageWithPieceName(index, imageKey);
+    }
+
+    /// <summary>
+    /// Returns the image with the directional arrow at the bottom right.
+    /// </summary>
+    /// <param name="imageKey"></param>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public static Bitmap GetWindowImageWithDirection(string imageKey, RotateFlipType rotFlipType, int index)
+    {
+      if (!imageDict.ContainsKey(imageKey))
+      {
+        bool success = AddNewImage(imageKey);
+        if (!success)
+        {
+          System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".", "File not found");
+          return null;
+        }
+      }
+
+      return imageDict[imageKey].WindowImageWithDirection(rotFlipType, index);
     }
 
     /// <summary>

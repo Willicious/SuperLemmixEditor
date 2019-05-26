@@ -170,7 +170,7 @@ namespace NLEditor
 
     public static readonly string[] MusicExtensions = new List<string>()
     {
-      ".ogg", ".it", ".mp3", ".mo3", ".wav", ".aiff", ".aif", 
+      ".ogg", ".it", ".mp3", ".mo3", ".wav", ".aiff", ".aif",
       ".mod", ".xm", ".s3m", ".mtm", ".umx"
     }.ToArray();
 
