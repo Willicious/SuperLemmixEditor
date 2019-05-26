@@ -200,7 +200,7 @@ namespace NLEditor
     /// Translates stored piece data to a RotateFlipType that can be applied to images.
     /// </summary>
     /// <returns></returns>
-    private RotateFlipType GetRotateFlipType()
+    protected RotateFlipType GetRotateFlipType()
     {
       switch (Rotation)
       {
