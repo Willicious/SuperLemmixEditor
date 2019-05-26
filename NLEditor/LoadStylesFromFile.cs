@@ -264,13 +264,16 @@ namespace NLEditor
       C.OBJ objType = C.OBJ.NONE;
       Rectangle triggerRect = new Rectangle(0, 0, 1, 1);
       C.Resize resizeMode = C.Resize.None;
-
+      
       Bitmap secImage = null;
       int secFrames = 0;
       bool secIsVert = true;
       int secOffsetX = 0;
       int secOffsetY = 0;
-
+      
+      int[] nineSliceSizes = new int[4]; // Not appropriate to use a Rectangle yet. File contains the width/height of the slice,
+                                         // not a rectangle of the center; and we don't know the width of the object yet. Order
+                                         // in the array is Left, Top, Right, Bottom.
 
       FileParser parser;
       try
@@ -303,6 +306,10 @@ namespace NLEditor
             case "RESIZE_VERTICAL": resizeMode = resizeMode.In(C.Resize.Horiz, C.Resize.Both) ? C.Resize.Both : C.Resize.Vert; break;
             case "RESIZE_HORIZONTAL": resizeMode = resizeMode.In(C.Resize.Vert, C.Resize.Both) ? C.Resize.Both : C.Resize.Horiz; break;
             case "RESIZE_BOTH": resizeMode = C.Resize.Both; break;
+            case "NINE_SLICE_LEFT": nineSliceSizes[0] = line.Value; break;
+            case "NINE_SLICE_TOP": nineSliceSizes[1] = line.Value; break;
+            case "NINE_SLICE_RIGHT": nineSliceSizes[2] = line.Value; break;
+            case "NINE_SLICE_BOTTOM": nineSliceSizes[3] = line.Value; break;
             case "WINDOW": objType = C.OBJ.HATCH; break;
             case "EXIT": objType = C.OBJ.EXIT; break;
             case "TRAP": objType = C.OBJ.TRAP; break;
@@ -369,6 +376,15 @@ namespace NLEditor
         parser?.DisposeStreamReader();
       }
 
+      // Convert the nine-slice sizes to a nine-slice center rectangle
+      Rectangle? nineSliceRect;
+      if (nineSliceSizes.Any(size => size != 0))
+        nineSliceRect = new Rectangle(nineSliceSizes[0], nineSliceSizes[1],
+                                      newBitmap.Width - nineSliceSizes[0] - nineSliceSizes[2],
+                                      newBitmap.Height - nineSliceSizes[1] - nineSliceSizes[3]);
+      else
+        nineSliceRect = null;
+        
       if (secImage == null)
       {
         return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode);
@@ -378,10 +394,6 @@ namespace NLEditor
         return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode,
           secImage, secFrames, secIsVert, secOffsetX, secOffsetY);
       }
-
-
-
-      
     }
 
     /// <summary>
