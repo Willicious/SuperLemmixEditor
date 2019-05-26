@@ -1058,16 +1058,17 @@
       // 
       // tabPieces
       // 
-      this.tabPieces.Controls.Add(this.check_Piece_Shimmier);
+      
       this.tabPieces.Controls.Add(this.num_PickupSkillCount);
       this.tabPieces.Controls.Add(this.lbl_PickupSkillCount);
       this.tabPieces.Controls.Add(this.but_UngroupSelection);
       this.tabPieces.Controls.Add(this.but_GroupSelection);
-      this.tabPieces.Controls.Add(this.check_Piece_Fencer);
       this.tabPieces.Controls.Add(this.but_PairTeleporter);
       this.tabPieces.Controls.Add(this.lbl_Resize_Height);
       this.tabPieces.Controls.Add(this.lbl_Resize_Width);
       this.tabPieces.Controls.Add(this.check_Piece_Zombie);
+      this.tabPieces.Controls.Add(this.check_Piece_Shimmier);
+      this.tabPieces.Controls.Add(this.check_Piece_Fencer);
       this.tabPieces.Controls.Add(this.check_Piece_Cloner);
       this.tabPieces.Controls.Add(this.check_Piece_Stacker);
       this.tabPieces.Controls.Add(this.check_Piece_Platformer);
@@ -1080,8 +1081,8 @@
       this.tabPieces.Controls.Add(this.check_Piece_Miner);
       this.tabPieces.Controls.Add(this.check_Piece_Basher);
       this.tabPieces.Controls.Add(this.check_Piece_Builder);
-      this.tabPieces.Controls.Add(this.check_Piece_Exploder);
       this.tabPieces.Controls.Add(this.check_Piece_Blocker);
+      this.tabPieces.Controls.Add(this.check_Piece_Exploder);
       this.tabPieces.Controls.Add(this.check_Piece_Floater);
       this.tabPieces.Controls.Add(this.check_Piece_Climber);
       this.tabPieces.Controls.Add(this.check_Pieces_OneWay);
