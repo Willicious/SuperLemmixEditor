@@ -325,6 +325,18 @@ namespace NLEditor
             case "FORCE_LEFT": objType = C.OBJ.FORCE_FIELD; break;
             case "BACKGROUND":
             case "MOVING_BACKGROUND": objType = C.OBJ.BACKGROUND; break;
+
+            case "PRIMARY_ANIMATION":
+              foreach (var fileLine in fileLineList)
+              {
+                switch (fileLine.Key)
+                {
+                  case "FRAMES": numFrames = fileLine.Value; break;
+                  case "HORIZONTAL_STRIP": isVert = false; break;
+                }
+              }
+              break;
+
             case "ANIMATION":
               {
                 foreach (var fileLine in fileLineList)
