@@ -1,33 +1,33 @@
 ﻿namespace NLEditor
 {
-    partial class NLEditForm
+  partial class NLEditForm
+  {
+    /// <summary>
+    /// Required designer variable.
+    /// </summary>
+    private System.ComponentModel.IContainer components = null;
+
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+      if (disposing && (components != null))
+      {
+        components.Dispose();
+      }
+      base.Dispose(disposing);
+    }
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+    #region Windows Form Designer generated code
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
+    /// <summary>
+    /// Required method for Designer support - do not modify
+    /// the contents of this method with the code editor.
+    /// </summary>
+    private void InitializeComponent()
+    {
       this.components = new System.ComponentModel.Container();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NLEditForm));
       this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -1068,7 +1068,10 @@
       this.tabPieces.Controls.Add(this.lbl_Resize_Height);
       this.tabPieces.Controls.Add(this.lbl_Resize_Width);
       this.tabPieces.Controls.Add(this.check_Piece_Zombie);
+<<<<<<< HEAD
       this.tabPieces.Controls.Add(this.check_Piece_Neutral);
+=======
+>>>>>>> master
       this.tabPieces.Controls.Add(this.check_Piece_Shimmier);
       this.tabPieces.Controls.Add(this.check_Piece_Fencer);
       this.tabPieces.Controls.Add(this.check_Piece_Cloner);
@@ -2187,9 +2190,9 @@
       this.ResumeLayout(false);
       this.PerformLayout();
 
-        }
+    }
 
-        #endregion
+    #endregion
 
     private System.Windows.Forms.MenuStrip menuStrip;
     private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -2318,7 +2321,10 @@
     private NLEditor.NoPaddingButton but_MoveBack;
     private NLEditor.NoPaddingButton but_MoveFront;
     private System.Windows.Forms.CheckBox check_Piece_Zombie;
+<<<<<<< HEAD
     private System.Windows.Forms.CheckBox check_Piece_Neutral;
+=======
+>>>>>>> master
     private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
     private System.Windows.Forms.Label lbl_Resize_Height;
     private NLEditor.NumUpDownOverwrite num_Resize_Height;
