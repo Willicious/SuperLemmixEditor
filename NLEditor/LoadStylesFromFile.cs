@@ -289,8 +289,7 @@ namespace NLEditor
             case "TRIGGER_Y": triggerRect.Y = line.Value; break;
             case "TRIGGER_WIDTH": triggerRect.Width = line.Value; break;
             case "TRIGGER_HEIGHT": triggerRect.Height = line.Value; break;
-            case "VERTICAL": isVert = true; break;
-            case "HORIZONTAL": isVert = false; break;
+            case "HORIZONTAL_STRIP": isVert = false; break;
             case "RESIZE_VERTICAL": resizeMode = resizeMode.In(C.Resize.Horiz, C.Resize.Both) ? C.Resize.Both : C.Resize.Vert; break;
             case "RESIZE_HORIZONTAL": resizeMode = resizeMode.In(C.Resize.Vert, C.Resize.Both) ? C.Resize.Both : C.Resize.Horiz; break;
             case "RESIZE_BOTH": resizeMode = C.Resize.Both; break;
@@ -302,7 +301,8 @@ namespace NLEditor
             case "FIRE": objType = C.OBJ.FIRE; break;
             case "ONE_WAY_RIGHT":
             case "ONE_WAY_LEFT":
-            case "ONE_WAY_DOWN": objType = C.OBJ.ONE_WAY_WALL; break;
+            case "ONE_WAY_DOWN":
+            case "ONE_WAY_UP": objType = C.OBJ.ONE_WAY_WALL; break;
             case "BUTTON": objType = C.OBJ.BUTTON; break;
             case "LOCKED_EXIT": objType = C.OBJ.EXIT_LOCKED; break;
             case "PICKUP_SKILL": objType = C.OBJ.PICKUP; break;
