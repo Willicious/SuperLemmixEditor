@@ -497,7 +497,7 @@ namespace NLEditor
           {
             return skill.In(C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
                             C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Zombie,
-                            C.Skill.Blocker);
+                            C.Skill.Blocker, C.Skill.Shimmier);
           }
         case C.OBJ.PICKUP:
           {
