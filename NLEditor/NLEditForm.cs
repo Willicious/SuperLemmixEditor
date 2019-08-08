@@ -616,6 +616,13 @@ namespace NLEditor
       pic_Level.SetImage(curRenderer.CreateLevelImage());
     }
 
+    private void num_LemmingLimit_ValueChanged(object sender, EventArgs e)
+    {
+      int newLimit = (int)num_LemmingLimit.Value;
+      CurLevel.SetLemmingLimit(newLimit);
+      pic_Level.SetImage(curRenderer.CreateLevelImage());
+    }
+
     /* -----------------------------------------------------------
      *              Skill Selection Tab
      * ----------------------------------------------------------- */

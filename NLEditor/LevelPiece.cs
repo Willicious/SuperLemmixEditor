@@ -600,6 +600,12 @@ namespace NLEditor
       Val_L = newValue;
     }
 
+    public void SetLemmingLimit(int newValue)
+    {
+      System.Diagnostics.Debug.Assert(new[] { C.OBJ.EXIT, C.OBJ.EXIT_LOCKED, C.OBJ.HATCH }.Contains(ObjType), "Lemming limit set for incompatible object.");
+      LemmingCap = newValue;
+    }
+
     /// <summary>
     /// Adds the Pickup skill number to the base image
     /// </summary>

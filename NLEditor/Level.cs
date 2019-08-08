@@ -689,6 +689,14 @@ namespace NLEditor
       pickup.SetPickupSkillCount(value);
     }
 
+    public void SetLemmingLimit(int value)
+    {
+      GadgetPiece gadget = (GadgetPiece)SelectionList().First();
+      System.Diagnostics.Debug.Assert(gadget != null && new[] { C.OBJ.EXIT, C.OBJ.EXIT_LOCKED, C.OBJ.HATCH }.Contains(gadget.ObjType), "Set lemming limit, but first selected piece is not able to have this value!");
+
+      gadget.SetLemmingLimit(value);
+    }
+
     /// <summary>
     /// Removes the key-value RemoveValue from all teleporter and receiver objects.
     /// </summary>

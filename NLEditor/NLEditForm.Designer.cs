@@ -104,6 +104,8 @@
       this.check_Piece_Shimmier = new System.Windows.Forms.CheckBox();
       this.num_PickupSkillCount = new NLEditor.NumUpDownOverwrite();
       this.lbl_PickupSkillCount = new System.Windows.Forms.Label();
+      this.num_LemmingLimit = new NLEditor.NumUpDownOverwrite();
+      this.lbl_LemmingLimit = new System.Windows.Forms.Label();
       this.but_UngroupSelection = new System.Windows.Forms.Button();
       this.but_GroupSelection = new System.Windows.Forms.Button();
       this.check_Piece_Fencer = new System.Windows.Forms.CheckBox();
@@ -210,6 +212,7 @@
       ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeX)).BeginInit();
       this.tabPieces.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.num_PickupSkillCount)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.num_LemmingLimit)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).BeginInit();
       this.tabSkills.SuspendLayout();
@@ -1061,6 +1064,8 @@
       
       this.tabPieces.Controls.Add(this.num_PickupSkillCount);
       this.tabPieces.Controls.Add(this.lbl_PickupSkillCount);
+      this.tabPieces.Controls.Add(this.num_LemmingLimit);
+      this.tabPieces.Controls.Add(this.lbl_LemmingLimit);
       this.tabPieces.Controls.Add(this.but_UngroupSelection);
       this.tabPieces.Controls.Add(this.but_GroupSelection);
       this.tabPieces.Controls.Add(this.but_PairTeleporter);
@@ -1155,6 +1160,45 @@
       this.lbl_PickupSkillCount.TabIndex = 34;
       this.lbl_PickupSkillCount.Text = "Skill Count";
       this.lbl_PickupSkillCount.Visible = false;
+      // 
+      // num_LemmingLimit
+      // 
+      this.num_LemmingLimit.Increment = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+      this.num_LemmingLimit.Location = new System.Drawing.Point(69, 350);
+      this.num_LemmingLimit.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+      this.num_LemmingLimit.Minimum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+      this.num_LemmingLimit.Name = "num_LemmingLimit";
+      this.num_LemmingLimit.Size = new System.Drawing.Size(47, 20);
+      this.num_LemmingLimit.TabIndex = 35;
+      this.num_LemmingLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      this.num_LemmingLimit.Value = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+      this.num_LemmingLimit.Visible = false;
+      this.num_LemmingLimit.ValueChanged += new System.EventHandler(this.num_LemmingLimit_ValueChanged);
+      // 
+      // lbl_LemmingLimit
+      // 
+      this.lbl_LemmingLimit.Location = new System.Drawing.Point(9, 352);
+      this.lbl_LemmingLimit.Name = "lbl_LemmingLimit";
+      this.lbl_LemmingLimit.Size = new System.Drawing.Size(60, 15);
+      this.lbl_LemmingLimit.TabIndex = 34;
+      this.lbl_LemmingLimit.Text = "Lemming Limit";
+      this.lbl_LemmingLimit.Visible = false;
       // 
       // but_UngroupSelection
       // 
@@ -2149,6 +2193,7 @@
       ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeX)).EndInit();
       this.tabPieces.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.num_PickupSkillCount)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.num_LemmingLimit)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).EndInit();
       this.tabSkills.ResumeLayout(false);
@@ -2332,6 +2377,8 @@
     private System.Windows.Forms.ToolStripMenuItem duplicateCToolStripMenuItem;
     private NumUpDownOverwrite num_PickupSkillCount;
     private System.Windows.Forms.Label lbl_PickupSkillCount;
+    private NumUpDownOverwrite num_LemmingLimit;
+    private System.Windows.Forms.Label lbl_LemmingLimit;
     private System.Windows.Forms.CheckBox check_Piece_Shimmier;
     private System.Windows.Forms.Label lbl_Skill_Shimmier;
     private NumUpDownOverwrite num_Ski_Shimmier;
