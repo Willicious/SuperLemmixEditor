@@ -340,6 +340,10 @@ namespace NLEditor
                 {
                   case "FRAMES": numFrames = fileLine.Value; break;
                   case "HORIZONTAL_STRIP": isVert = false; break;
+                  case "NINE_SLICE_LEFT": nineSliceSizes[0] = line.Value; break;
+                  case "NINE_SLICE_TOP": nineSliceSizes[1] = line.Value; break;
+                  case "NINE_SLICE_RIGHT": nineSliceSizes[2] = line.Value; break;
+                  case "NINE_SLICE_BOTTOM": nineSliceSizes[3] = line.Value; break;
                 }
               }
               break;
