@@ -383,20 +383,29 @@ namespace NLEditor
       // Convert the nine-slice sizes to a nine-slice center rectangle
       Rectangle? nineSliceRect;
       if (nineSliceSizes.Any(size => size != 0))
+      {
+        int oneFrameWidth = newBitmap.Width;
+        int oneFrameHeight = newBitmap.Height;
+        if (!isVert)
+          oneFrameWidth = oneFrameWidth / numFrames;
+        else
+          oneFrameHeight = oneFrameHeight / numFrames;
+
         nineSliceRect = new Rectangle(nineSliceSizes[0], nineSliceSizes[1],
-                                      newBitmap.Width - nineSliceSizes[0] - nineSliceSizes[2],
-                                      newBitmap.Height - nineSliceSizes[1] - nineSliceSizes[3]);
+                                      oneFrameWidth - nineSliceSizes[0] - nineSliceSizes[2],
+                                      oneFrameHeight - nineSliceSizes[1] - nineSliceSizes[3]);
+      }
       else
         nineSliceRect = null;
         
       if (secImage == null)
       {
-        return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode);
+        return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode, nineSliceRect);
       }
       else
       {
         return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode,
-          secImage, secFrames, secIsVert, secOffsetX, secOffsetY);
+          secImage, secFrames, secIsVert, secOffsetX, secOffsetY, nineSliceRect);
       }
     }
 

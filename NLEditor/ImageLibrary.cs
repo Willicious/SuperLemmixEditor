@@ -28,7 +28,8 @@ namespace NLEditor
     /// <param name="numFrames"></param>
     /// <param name="isVert"></param>
     /// <param name="triggerRect"></param>
-    public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, bool isVert, Rectangle triggerRect, C.Resize resizeMode)
+    public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, bool isVert, Rectangle triggerRect, 
+      C.Resize resizeMode, Rectangle? nineSlicingArea = null)
     {
       this.images = new Dictionary<RotateFlipType, List<Bitmap>>();
       this.images[RotateFlipType.RotateNoneFlipNone] = SeparateFrames(newImage, numFrames, isVert);
@@ -38,6 +39,7 @@ namespace NLEditor
       this.TriggerRect = triggerRect;
       this.ResizeMode = resizeMode;
       this.PrimaryImageLocation = new Rectangle(0, 0, this.Width, this.Height);
+      this.NineSlicingArea = nineSlicingArea;
     }
 
     /// <summary>
@@ -54,7 +56,7 @@ namespace NLEditor
     /// <param name="secOffsetX"></param>
     /// <param name="secOffsetY"></param>
     public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, bool isVert, Rectangle triggerRect, C.Resize resizeMode,
-      Bitmap secondaryImage, int secNumFrames, bool secIsVert, int secOffsetX, int secOffsetY)
+      Bitmap secondaryImage, int secNumFrames, bool secIsVert, int secOffsetX, int secOffsetY, Rectangle? nineSlicingArea = null)
     {
       this.images = new Dictionary<RotateFlipType, List<Bitmap>>();
       var primaryImages = SeparateFrames(newImage, numFrames, isVert);
@@ -66,6 +68,7 @@ namespace NLEditor
       this.TriggerRect = triggerRect;
       this.ResizeMode = resizeMode;
       this.PrimaryImageLocation = new Rectangle(Math.Max(0, -secOffsetX), Math.Max(0, -secOffsetY), primaryImages[0].Width, primaryImages[0].Height);
+      this.NineSlicingArea = nineSlicingArea;
     }
 
     Dictionary<RotateFlipType, List<Bitmap>> images;
@@ -103,6 +106,7 @@ namespace NLEditor
     public Rectangle TriggerRect { get; private set; }
     public C.Resize ResizeMode { get; private set; }
     public Rectangle PrimaryImageLocation { get; private set; }
+    public Rectangle? NineSlicingArea { get; private set; }
 
     /// <summary>
     /// Separates the various frames in one bitmap.
@@ -412,6 +416,36 @@ namespace NLEditor
       }
 
       return imageDict[imageKey].ResizeMode;
+    }
+
+    public static Rectangle? GetNineSliceArea(string imageKey, RotateFlipType rotFlipType = RotateFlipType.RotateNoneFlipNone)
+    {
+      if (!imageDict.ContainsKey(imageKey))
+      {
+        bool success = AddNewImage(imageKey);
+        if (!success) return null;
+      }
+
+      Rectangle? baseArea = imageDict[imageKey].NineSlicingArea;
+      if (baseArea == null) return null;
+
+      int height = imageDict[imageKey].Height;
+      int width = imageDict[imageKey].Width;
+      Rectangle area = baseArea.Value;
+
+      // Apply rotation
+      switch (rotFlipType)
+      {
+        case RotateFlipType.RotateNoneFlipNone: return baseArea;
+        case RotateFlipType.RotateNoneFlipX: return new Rectangle(width - area.Right, area.Top, area.Width, area.Height);
+        case RotateFlipType.RotateNoneFlipY: return new Rectangle(area.Left, height - area.Bottom, area.Width, area.Height);
+        case RotateFlipType.RotateNoneFlipXY: return new Rectangle(area.Left, height - area.Bottom, area.Width, area.Height);
+        case RotateFlipType.Rotate90FlipNone: return new Rectangle(height - area.Bottom, area.Left, area.Height, area.Width);
+        case RotateFlipType.Rotate90FlipX: return new Rectangle(area.Top, area.Left, area.Height, area.Width);
+        case RotateFlipType.Rotate90FlipY: return new Rectangle(height - area.Bottom, width - area.Right, area.Height, area.Width);
+        case RotateFlipType.Rotate90FlipXY: return new Rectangle(area.Top, width - area.Right, area.Height, area.Width);
+        default: return null;
+      }
     }
 
     /// <summary>

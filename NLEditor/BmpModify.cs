@@ -199,7 +199,10 @@ namespace NLEditor
     {
       cropRect.Intersect(new Rectangle(0, 0, origBmp.Width, origBmp.Height));
 
-      return origBmp.Clone(cropRect, origBmp.PixelFormat);
+      if ((cropRect.Width > 0) && (cropRect.Height > 0))
+        return origBmp.Clone(cropRect, origBmp.PixelFormat);
+      else
+        return null;
     }
 
     /// <summary>
@@ -912,6 +915,9 @@ namespace NLEditor
     /// <returns></returns>
     public static Bitmap PaveArea(this Bitmap origBmp, Rectangle rect)
     {
+      if (origBmp == null)
+        return null;
+
       Bitmap newBmp = new Bitmap(rect.Width, rect.Height);
       int origWidth = origBmp.Width;
       int origHeight = origBmp.Height;
@@ -929,6 +935,66 @@ namespace NLEditor
           newBmp.DrawOn(origBmp, position);
         }
       }
+      return newBmp;
+    }
+
+    /// <summary>
+    /// Paves a rectangle with copies of the original bitmap using nine-slicing and returns the new image.
+    /// </summary>
+    /// <param name="origBmp"></param>
+    /// <param name="rect"></param>
+    /// <param name="centerArea"></param>
+    /// <returns></returns>
+    public static Bitmap NineSliceArea(this Bitmap origBmp, Rectangle rect, Rectangle centerArea)
+    {
+      int topCut = centerArea.Top;
+      int bottomCut = origBmp.Height - centerArea.Bottom;
+      int vertMiddle = origBmp.Height - topCut - bottomCut;
+      int newVertMiddle = rect.Height - topCut - bottomCut;
+      int leftCut = centerArea.Left;
+      int rightCut = origBmp.Width - centerArea.Right;
+      int horizMiddle = origBmp.Width - leftCut - rightCut;
+      int newHorizMiddle = rect.Width - leftCut - rightCut;
+      
+      Rectangle newCenterArea = new Rectangle(0, 0, newHorizMiddle, newVertMiddle);
+      Bitmap newCenter = origBmp.Crop(centerArea).PaveArea(newCenterArea);
+
+      Rectangle origTopArea = new Rectangle(leftCut, 0, horizMiddle, topCut);
+      Rectangle newTopArea = new Rectangle(0, 0, newHorizMiddle, topCut);
+      Bitmap newTop = origBmp.Crop(origTopArea).PaveArea(newTopArea);
+
+      Rectangle origBottomArea = new Rectangle(leftCut, origBmp.Height - bottomCut, horizMiddle, bottomCut);
+      Rectangle newBottomArea = new Rectangle(0, 0, newHorizMiddle, bottomCut);
+      Bitmap newBottom = origBmp.Crop(origBottomArea).PaveArea(newBottomArea);
+
+      Rectangle origLeftArea = new Rectangle(0, topCut, leftCut, vertMiddle);
+      Rectangle newLeftArea = new Rectangle(0, 0, leftCut, newVertMiddle);
+      Bitmap newLeft = origBmp.Crop(origLeftArea).PaveArea(newLeftArea);
+
+      Rectangle origRightArea = new Rectangle(origBmp.Width - rightCut, topCut, rightCut, vertMiddle);
+      Rectangle newRightArea = new Rectangle(0, 0, rightCut, newVertMiddle);
+      Bitmap newRight = origBmp.Crop(origRightArea).PaveArea(newLeftArea);
+
+      Bitmap topLeftCorner = origBmp.Crop(new Rectangle(0, 0, leftCut, topCut));
+      Bitmap topRightCorner = origBmp.Crop(new Rectangle(origBmp.Width - rightCut, 0, rightCut, topCut));
+      Bitmap bottomLeftCorner = origBmp.Crop(new Rectangle(0, origBmp.Height - bottomCut, leftCut, bottomCut));
+      Bitmap bottomRightCorner = origBmp.Crop(new Rectangle(origBmp.Width - rightCut, origBmp.Height - bottomCut, rightCut, bottomCut));
+
+      Bitmap newBmp = new Bitmap(rect.Width, rect.Height);
+      if (newCenter != null) newBmp.DrawOn(newCenter, new Point(leftCut, topCut));
+      if (newTop != null) newBmp.DrawOn(newTop, new Point(leftCut, 0));
+      if (newBottom != null) newBmp.DrawOn(newBottom, new Point(leftCut, topCut + newCenterArea.Height));
+      if (newLeft != null) newBmp.DrawOn(newLeft, new Point(0, topCut));
+      if (newRight != null) newBmp.DrawOn(newRight, new Point(leftCut + newCenterArea.Width, topCut));
+      if (topLeftCorner != null) newBmp.DrawOn(topLeftCorner, new Point(0, 0));
+      if (topRightCorner != null) newBmp.DrawOn(topRightCorner, new Point(leftCut + newCenterArea.Width, 0));
+      if (bottomLeftCorner != null) newBmp.DrawOn(bottomLeftCorner, new Point(0, topCut + newCenterArea.Height));
+      if (bottomRightCorner != null) newBmp.DrawOn(bottomRightCorner, new Point(leftCut + newCenterArea.Width, topCut + newCenterArea.Height));
+
+      newCenter.Save(C.AppPath + "center.bmp");
+      newBmp.Save(C.AppPath + "newbmp.bmp");
+
+      //System.Diagnostics.Debugger.Break();
 
       return newBmp;
     }
