@@ -1125,7 +1125,7 @@
       // num_PickupSkillCount
       // 
       this.num_PickupSkillCount.Increment = new decimal(new int[] {
-            8,
+            1,
             0,
             0,
             0});
@@ -1164,7 +1164,7 @@
       // num_LemmingLimit
       // 
       this.num_LemmingLimit.Increment = new decimal(new int[] {
-            8,
+            1,
             0,
             0,
             0});
