@@ -1656,7 +1656,7 @@
       // 
       // lbl_Skill_Shimmier
       // 
-      this.lbl_Skill_Shimmier.Location = new System.Drawing.Point(8, 363);
+      this.lbl_Skill_Shimmier.Location = new System.Drawing.Point(8, 27);
       this.lbl_Skill_Shimmier.Name = "lbl_Skill_Shimmier";
       this.lbl_Skill_Shimmier.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Shimmier.TabIndex = 34;
@@ -1665,7 +1665,7 @@
       // num_Ski_Shimmier
       // 
       this.num_Ski_Shimmier.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Shimmier.Location = new System.Drawing.Point(84, 361);
+      this.num_Ski_Shimmier.Location = new System.Drawing.Point(84, 25);
       this.num_Ski_Shimmier.Name = "num_Ski_Shimmier";
       this.num_Ski_Shimmier.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Shimmier.TabIndex = 35;
@@ -1674,7 +1674,7 @@
       // 
       // lbl_Skill_Fencer
       // 
-      this.lbl_Skill_Fencer.Location = new System.Drawing.Point(8, 174);
+      this.lbl_Skill_Fencer.Location = new System.Drawing.Point(8, 301);
       this.lbl_Skill_Fencer.Name = "lbl_Skill_Fencer";
       this.lbl_Skill_Fencer.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Fencer.TabIndex = 33;
@@ -1682,7 +1682,7 @@
       // 
       // lbl_Skill_Cloner
       // 
-      this.lbl_Skill_Cloner.Location = new System.Drawing.Point(8, 342);
+      this.lbl_Skill_Cloner.Location = new System.Drawing.Point(8, 364);
       this.lbl_Skill_Cloner.Name = "lbl_Skill_Cloner";
       this.lbl_Skill_Cloner.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Cloner.TabIndex = 15;
@@ -1690,7 +1690,7 @@
       // 
       // lbl_Skill_Stacker
       // 
-      this.lbl_Skill_Stacker.Location = new System.Drawing.Point(8, 321);
+      this.lbl_Skill_Stacker.Location = new System.Drawing.Point(8, 259);
       this.lbl_Skill_Stacker.Name = "lbl_Skill_Stacker";
       this.lbl_Skill_Stacker.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Stacker.TabIndex = 14;
@@ -1698,7 +1698,7 @@
       // 
       // lbl_Skill_Platformer
       // 
-      this.lbl_Skill_Platformer.Location = new System.Drawing.Point(8, 300);
+      this.lbl_Skill_Platformer.Location = new System.Drawing.Point(8, 217);
       this.lbl_Skill_Platformer.Name = "lbl_Skill_Platformer";
       this.lbl_Skill_Platformer.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Platformer.TabIndex = 13;
@@ -1706,7 +1706,7 @@
       // 
       // lbl_Skill_Stoner
       // 
-      this.lbl_Skill_Stoner.Location = new System.Drawing.Point(8, 279);
+      this.lbl_Skill_Stoner.Location = new System.Drawing.Point(8, 175);
       this.lbl_Skill_Stoner.Name = "lbl_Skill_Stoner";
       this.lbl_Skill_Stoner.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Stoner.TabIndex = 12;
@@ -1714,7 +1714,7 @@
       // 
       // lbl_Skill_Disarmer
       // 
-      this.lbl_Skill_Disarmer.Location = new System.Drawing.Point(8, 258);
+      this.lbl_Skill_Disarmer.Location = new System.Drawing.Point(8, 132);
       this.lbl_Skill_Disarmer.Name = "lbl_Skill_Disarmer";
       this.lbl_Skill_Disarmer.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Disarmer.TabIndex = 11;
@@ -1722,7 +1722,7 @@
       // 
       // lbl_Skill_Glider
       // 
-      this.lbl_Skill_Glider.Location = new System.Drawing.Point(8, 237);
+      this.lbl_Skill_Glider.Location = new System.Drawing.Point(8, 111);
       this.lbl_Skill_Glider.Name = "lbl_Skill_Glider";
       this.lbl_Skill_Glider.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Glider.TabIndex = 10;
@@ -1730,7 +1730,7 @@
       // 
       // lbl_Skill_Swimmer
       // 
-      this.lbl_Skill_Swimmer.Location = new System.Drawing.Point(8, 216);
+      this.lbl_Skill_Swimmer.Location = new System.Drawing.Point(8, 69);
       this.lbl_Skill_Swimmer.Name = "lbl_Skill_Swimmer";
       this.lbl_Skill_Swimmer.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Swimmer.TabIndex = 9;
@@ -1738,7 +1738,7 @@
       // 
       // lbl_Skill_Walker
       // 
-      this.lbl_Skill_Walker.Location = new System.Drawing.Point(8, 195);
+      this.lbl_Skill_Walker.Location = new System.Drawing.Point(8, 6);
       this.lbl_Skill_Walker.Name = "lbl_Skill_Walker";
       this.lbl_Skill_Walker.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Walker.TabIndex = 8;
@@ -1746,7 +1746,7 @@
       // 
       // lbl_Skill_Digger
       // 
-      this.lbl_Skill_Digger.Location = new System.Drawing.Point(8, 153);
+      this.lbl_Skill_Digger.Location = new System.Drawing.Point(8, 343);
       this.lbl_Skill_Digger.Name = "lbl_Skill_Digger";
       this.lbl_Skill_Digger.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Digger.TabIndex = 7;
@@ -1754,7 +1754,7 @@
       // 
       // lbl_Skill_Miner
       // 
-      this.lbl_Skill_Miner.Location = new System.Drawing.Point(8, 132);
+      this.lbl_Skill_Miner.Location = new System.Drawing.Point(8, 322);
       this.lbl_Skill_Miner.Name = "lbl_Skill_Miner";
       this.lbl_Skill_Miner.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Miner.TabIndex = 6;
@@ -1762,7 +1762,7 @@
       // 
       // lbl_Skill_Basher
       // 
-      this.lbl_Skill_Basher.Location = new System.Drawing.Point(8, 111);
+      this.lbl_Skill_Basher.Location = new System.Drawing.Point(8, 280);
       this.lbl_Skill_Basher.Name = "lbl_Skill_Basher";
       this.lbl_Skill_Basher.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Basher.TabIndex = 5;
@@ -1770,7 +1770,7 @@
       // 
       // lbl_Skill_Builder
       // 
-      this.lbl_Skill_Builder.Location = new System.Drawing.Point(8, 90);
+      this.lbl_Skill_Builder.Location = new System.Drawing.Point(8, 238);
       this.lbl_Skill_Builder.Name = "lbl_Skill_Builder";
       this.lbl_Skill_Builder.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Builder.TabIndex = 4;
@@ -1778,7 +1778,7 @@
       // 
       // lbl_Skill_Exploder
       // 
-      this.lbl_Skill_Exploder.Location = new System.Drawing.Point(8, 48);
+      this.lbl_Skill_Exploder.Location = new System.Drawing.Point(8, 154);
       this.lbl_Skill_Exploder.Name = "lbl_Skill_Exploder";
       this.lbl_Skill_Exploder.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Exploder.TabIndex = 3;
@@ -1786,7 +1786,7 @@
       // 
       // lbl_Skill_Blocker
       // 
-      this.lbl_Skill_Blocker.Location = new System.Drawing.Point(8, 69);
+      this.lbl_Skill_Blocker.Location = new System.Drawing.Point(8, 196);
       this.lbl_Skill_Blocker.Name = "lbl_Skill_Blocker";
       this.lbl_Skill_Blocker.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Blocker.TabIndex = 2;
@@ -1794,7 +1794,7 @@
       // 
       // lbl_Skill_Floater
       // 
-      this.lbl_Skill_Floater.Location = new System.Drawing.Point(8, 27);
+      this.lbl_Skill_Floater.Location = new System.Drawing.Point(8, 90);
       this.lbl_Skill_Floater.Name = "lbl_Skill_Floater";
       this.lbl_Skill_Floater.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Floater.TabIndex = 1;
@@ -1802,7 +1802,7 @@
       // 
       // lbl_Skill_Climber
       // 
-      this.lbl_Skill_Climber.Location = new System.Drawing.Point(8, 6);
+      this.lbl_Skill_Climber.Location = new System.Drawing.Point(8, 48);
       this.lbl_Skill_Climber.Name = "lbl_Skill_Climber";
       this.lbl_Skill_Climber.Size = new System.Drawing.Size(70, 15);
       this.lbl_Skill_Climber.TabIndex = 0;
@@ -1811,7 +1811,7 @@
       // num_Ski_Fencer
       // 
       this.num_Ski_Fencer.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Fencer.Location = new System.Drawing.Point(84, 172);
+      this.num_Ski_Fencer.Location = new System.Drawing.Point(84, 299);
       this.num_Ski_Fencer.Name = "num_Ski_Fencer";
       this.num_Ski_Fencer.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Fencer.TabIndex = 24;
@@ -1823,7 +1823,7 @@
       // num_Ski_Cloner
       // 
       this.num_Ski_Cloner.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Cloner.Location = new System.Drawing.Point(84, 340);
+      this.num_Ski_Cloner.Location = new System.Drawing.Point(84, 362);
       this.num_Ski_Cloner.Name = "num_Ski_Cloner";
       this.num_Ski_Cloner.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Cloner.TabIndex = 32;
@@ -1835,7 +1835,7 @@
       // num_Ski_Stacker
       // 
       this.num_Ski_Stacker.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Stacker.Location = new System.Drawing.Point(84, 319);
+      this.num_Ski_Stacker.Location = new System.Drawing.Point(84, 257);
       this.num_Ski_Stacker.Name = "num_Ski_Stacker";
       this.num_Ski_Stacker.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Stacker.TabIndex = 31;
@@ -1847,7 +1847,7 @@
       // num_Ski_Platformer
       // 
       this.num_Ski_Platformer.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Platformer.Location = new System.Drawing.Point(84, 298);
+      this.num_Ski_Platformer.Location = new System.Drawing.Point(84, 215);
       this.num_Ski_Platformer.Name = "num_Ski_Platformer";
       this.num_Ski_Platformer.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Platformer.TabIndex = 30;
@@ -1859,7 +1859,7 @@
       // num_Ski_Stoner
       // 
       this.num_Ski_Stoner.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Stoner.Location = new System.Drawing.Point(84, 277);
+      this.num_Ski_Stoner.Location = new System.Drawing.Point(84, 173);
       this.num_Ski_Stoner.Name = "num_Ski_Stoner";
       this.num_Ski_Stoner.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Stoner.TabIndex = 29;
@@ -1871,7 +1871,7 @@
       // num_Ski_Disarmer
       // 
       this.num_Ski_Disarmer.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Disarmer.Location = new System.Drawing.Point(84, 256);
+      this.num_Ski_Disarmer.Location = new System.Drawing.Point(84, 130);
       this.num_Ski_Disarmer.Name = "num_Ski_Disarmer";
       this.num_Ski_Disarmer.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Disarmer.TabIndex = 28;
@@ -1883,7 +1883,7 @@
       // num_Ski_Glider
       // 
       this.num_Ski_Glider.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Glider.Location = new System.Drawing.Point(84, 235);
+      this.num_Ski_Glider.Location = new System.Drawing.Point(84, 109);
       this.num_Ski_Glider.Name = "num_Ski_Glider";
       this.num_Ski_Glider.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Glider.TabIndex = 27;
@@ -1895,7 +1895,7 @@
       // num_Ski_Swimmer
       // 
       this.num_Ski_Swimmer.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Swimmer.Location = new System.Drawing.Point(84, 214);
+      this.num_Ski_Swimmer.Location = new System.Drawing.Point(84, 67);
       this.num_Ski_Swimmer.Name = "num_Ski_Swimmer";
       this.num_Ski_Swimmer.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Swimmer.TabIndex = 26;
@@ -1907,7 +1907,7 @@
       // num_Ski_Walker
       // 
       this.num_Ski_Walker.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Walker.Location = new System.Drawing.Point(84, 193);
+      this.num_Ski_Walker.Location = new System.Drawing.Point(84, 4);
       this.num_Ski_Walker.Name = "num_Ski_Walker";
       this.num_Ski_Walker.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Walker.TabIndex = 25;
@@ -1919,7 +1919,7 @@
       // num_Ski_Digger
       // 
       this.num_Ski_Digger.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Digger.Location = new System.Drawing.Point(84, 151);
+      this.num_Ski_Digger.Location = new System.Drawing.Point(84, 341);
       this.num_Ski_Digger.Name = "num_Ski_Digger";
       this.num_Ski_Digger.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Digger.TabIndex = 23;
@@ -1931,7 +1931,7 @@
       // num_Ski_Miner
       // 
       this.num_Ski_Miner.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Miner.Location = new System.Drawing.Point(84, 130);
+      this.num_Ski_Miner.Location = new System.Drawing.Point(84, 320);
       this.num_Ski_Miner.Name = "num_Ski_Miner";
       this.num_Ski_Miner.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Miner.TabIndex = 22;
@@ -1943,7 +1943,7 @@
       // num_Ski_Basher
       // 
       this.num_Ski_Basher.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Basher.Location = new System.Drawing.Point(84, 109);
+      this.num_Ski_Basher.Location = new System.Drawing.Point(84, 278);
       this.num_Ski_Basher.Name = "num_Ski_Basher";
       this.num_Ski_Basher.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Basher.TabIndex = 21;
@@ -1955,7 +1955,7 @@
       // num_Ski_Builder
       // 
       this.num_Ski_Builder.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Builder.Location = new System.Drawing.Point(84, 88);
+      this.num_Ski_Builder.Location = new System.Drawing.Point(84, 236);
       this.num_Ski_Builder.Name = "num_Ski_Builder";
       this.num_Ski_Builder.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Builder.TabIndex = 20;
@@ -1967,7 +1967,7 @@
       // num_Ski_Exploder
       // 
       this.num_Ski_Exploder.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Exploder.Location = new System.Drawing.Point(84, 46);
+      this.num_Ski_Exploder.Location = new System.Drawing.Point(84, 152);
       this.num_Ski_Exploder.Name = "num_Ski_Exploder";
       this.num_Ski_Exploder.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Exploder.TabIndex = 18;
@@ -1979,7 +1979,7 @@
       // num_Ski_Blocker
       // 
       this.num_Ski_Blocker.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Blocker.Location = new System.Drawing.Point(84, 67);
+      this.num_Ski_Blocker.Location = new System.Drawing.Point(84, 194);
       this.num_Ski_Blocker.Name = "num_Ski_Blocker";
       this.num_Ski_Blocker.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Blocker.TabIndex = 19;
@@ -1991,7 +1991,7 @@
       // num_Ski_Floater
       // 
       this.num_Ski_Floater.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Floater.Location = new System.Drawing.Point(84, 25);
+      this.num_Ski_Floater.Location = new System.Drawing.Point(84, 88);
       this.num_Ski_Floater.Name = "num_Ski_Floater";
       this.num_Ski_Floater.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Floater.TabIndex = 17;
@@ -2003,7 +2003,7 @@
       // num_Ski_Climber
       // 
       this.num_Ski_Climber.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Climber.Location = new System.Drawing.Point(84, 4);
+      this.num_Ski_Climber.Location = new System.Drawing.Point(84, 46);
       this.num_Ski_Climber.Name = "num_Ski_Climber";
       this.num_Ski_Climber.Size = new System.Drawing.Size(52, 20);
       this.num_Ski_Climber.TabIndex = 16;
