@@ -101,18 +101,18 @@
       this.txt_LevelTitle = new System.Windows.Forms.TextBox();
       this.lbl_Global_Title = new System.Windows.Forms.Label();
       this.tabPieces = new System.Windows.Forms.TabPage();
-      this.check_Piece_Shimmier = new System.Windows.Forms.CheckBox();
       this.num_PickupSkillCount = new NLEditor.NumUpDownOverwrite();
       this.lbl_PickupSkillCount = new System.Windows.Forms.Label();
       this.num_LemmingLimit = new NLEditor.NumUpDownOverwrite();
       this.lbl_LemmingLimit = new System.Windows.Forms.Label();
       this.but_UngroupSelection = new System.Windows.Forms.Button();
       this.but_GroupSelection = new System.Windows.Forms.Button();
-      this.check_Piece_Fencer = new System.Windows.Forms.CheckBox();
       this.but_PairTeleporter = new System.Windows.Forms.Button();
       this.lbl_Resize_Height = new System.Windows.Forms.Label();
       this.lbl_Resize_Width = new System.Windows.Forms.Label();
       this.check_Piece_Zombie = new System.Windows.Forms.CheckBox();
+      this.check_Piece_Shimmier = new System.Windows.Forms.CheckBox();
+      this.check_Piece_Fencer = new System.Windows.Forms.CheckBox();
       this.check_Piece_Cloner = new System.Windows.Forms.CheckBox();
       this.check_Piece_Stacker = new System.Windows.Forms.CheckBox();
       this.check_Piece_Platformer = new System.Windows.Forms.CheckBox();
@@ -125,8 +125,8 @@
       this.check_Piece_Miner = new System.Windows.Forms.CheckBox();
       this.check_Piece_Basher = new System.Windows.Forms.CheckBox();
       this.check_Piece_Builder = new System.Windows.Forms.CheckBox();
-      this.check_Piece_Exploder = new System.Windows.Forms.CheckBox();
       this.check_Piece_Blocker = new System.Windows.Forms.CheckBox();
+      this.check_Piece_Exploder = new System.Windows.Forms.CheckBox();
       this.check_Piece_Floater = new System.Windows.Forms.CheckBox();
       this.check_Piece_Climber = new System.Windows.Forms.CheckBox();
       this.check_Pieces_OneWay = new System.Windows.Forms.CheckBox();
@@ -143,6 +143,8 @@
       this.but_InvertPieces = new NLEditor.RepeatButton();
       this.but_RotatePieces = new NLEditor.RepeatButton();
       this.tabSkills = new System.Windows.Forms.TabPage();
+      this.lbl_Skill_Shimmier = new System.Windows.Forms.Label();
+      this.num_Ski_Shimmier = new NLEditor.NumUpDownOverwrite();
       this.lbl_Skill_Fencer = new System.Windows.Forms.Label();
       this.lbl_Skill_Cloner = new System.Windows.Forms.Label();
       this.lbl_Skill_Stacker = new System.Windows.Forms.Label();
@@ -187,8 +189,6 @@
       this.toolTipButton = new System.Windows.Forms.ToolTip(this.components);
       this.but_PieceRight = new NLEditor.RepeatButton();
       this.but_PieceLeft = new NLEditor.RepeatButton();
-      this.lbl_Skill_Shimmier = new System.Windows.Forms.Label();
-      this.num_Ski_Shimmier = new NLEditor.NumUpDownOverwrite();
       this.menuStrip.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -216,6 +216,7 @@
       ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).BeginInit();
       this.tabSkills.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Shimmier)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Fencer)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Cloner)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stacker)).BeginInit();
@@ -234,7 +235,6 @@
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Shimmier)).BeginInit();
       this.SuspendLayout();
       // 
       // menuStrip
@@ -260,41 +260,41 @@
             this.saveAsToolStripMenuItem,
             this.exitToolStripMenuItem});
       this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-      this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+      this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
       this.fileToolStripMenuItem.Text = "File";
       // 
       // newToolStripMenuItem
       // 
       this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-      this.newToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+      this.newToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
       this.newToolStripMenuItem.Text = "New (Ctrl+N)";
       this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
       // 
       // loadToolStripMenuItem
       // 
       this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-      this.loadToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+      this.loadToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
       this.loadToolStripMenuItem.Text = "Open (Ctrl+O)";
       this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
       // 
       // saveToolStripMenuItem
       // 
       this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-      this.saveToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+      this.saveToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
       this.saveToolStripMenuItem.Text = "Save (Ctrl+S)";
       this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
       // 
       // saveAsToolStripMenuItem
       // 
       this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-      this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+      this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
       this.saveAsToolStripMenuItem.Text = "Save as (Ctrl+Shift+S)";
       this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
       // 
       // exitToolStripMenuItem
       // 
       this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-      this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+      this.exitToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
       this.exitToolStripMenuItem.Text = "Exit (Alt+F4)";
       this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
       // 
@@ -310,62 +310,62 @@
             this.groupToolStripMenuItem,
             this.ungroupToolStripMenuItem});
       this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-      this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+      this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
       this.editToolStripMenuItem.Text = "Edit";
       // 
       // undoToolStripMenuItem
       // 
       this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-      this.undoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+      this.undoToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
       this.undoToolStripMenuItem.Text = "Undo (Ctrl+Z)";
       this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
       // 
       // redoToolStripMenuItem
       // 
       this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-      this.redoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+      this.redoToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
       this.redoToolStripMenuItem.Text = "Redo (Ctrl+Y)";
       this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
       // 
       // deleteToolStripMenuItem
       // 
       this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-      this.deleteToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+      this.deleteToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
       this.deleteToolStripMenuItem.Text = "Cut (Ctrl+X)";
       this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
       // 
       // insertToolStripMenuItem
       // 
       this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
-      this.insertToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+      this.insertToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
       this.insertToolStripMenuItem.Text = "Paste (Ctrl+V)";
       this.insertToolStripMenuItem.Click += new System.EventHandler(this.insertToolStripMenuItem_Click);
       // 
       // copyToolStripMenuItem
       // 
       this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-      this.copyToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+      this.copyToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
       this.copyToolStripMenuItem.Text = "Copy (Ctrl+C)";
       this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
       // 
       // duplicateCToolStripMenuItem
       // 
       this.duplicateCToolStripMenuItem.Name = "duplicateCToolStripMenuItem";
-      this.duplicateCToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+      this.duplicateCToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
       this.duplicateCToolStripMenuItem.Text = "Duplicate (C)";
       this.duplicateCToolStripMenuItem.Click += new System.EventHandler(this.duplicateCToolStripMenuItem_Click);
       // 
       // groupToolStripMenuItem
       // 
       this.groupToolStripMenuItem.Name = "groupToolStripMenuItem";
-      this.groupToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+      this.groupToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
       this.groupToolStripMenuItem.Text = "Group (G)";
       this.groupToolStripMenuItem.Click += new System.EventHandler(this.groupToolStripMenuItem_Click);
       // 
       // ungroupToolStripMenuItem
       // 
       this.ungroupToolStripMenuItem.Name = "ungroupToolStripMenuItem";
-      this.ungroupToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+      this.ungroupToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
       this.ungroupToolStripMenuItem.Text = "Ungroup (H)";
       this.ungroupToolStripMenuItem.Click += new System.EventHandler(this.ungroupToolStripMenuItem_Click);
       // 
@@ -379,14 +379,14 @@
             this.screenStartToolStripMenuItem,
             this.backgroundToolStripMenuItem});
       this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-      this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+      this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
       this.viewToolStripMenuItem.Text = "View";
       // 
       // clearPhysicsToolStripMenuItem
       // 
       this.clearPhysicsToolStripMenuItem.CheckOnClick = true;
       this.clearPhysicsToolStripMenuItem.Name = "clearPhysicsToolStripMenuItem";
-      this.clearPhysicsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+      this.clearPhysicsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
       this.clearPhysicsToolStripMenuItem.Text = "Clear Physics (F1)";
       this.clearPhysicsToolStripMenuItem.Click += new System.EventHandler(this.clearPhysicsToolStripMenuItem_Click);
       // 
@@ -396,7 +396,7 @@
       this.terrainRenderingToolStripMenuItem.CheckOnClick = true;
       this.terrainRenderingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
       this.terrainRenderingToolStripMenuItem.Name = "terrainRenderingToolStripMenuItem";
-      this.terrainRenderingToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+      this.terrainRenderingToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
       this.terrainRenderingToolStripMenuItem.Text = "Terrain rendering (F2)";
       this.terrainRenderingToolStripMenuItem.Click += new System.EventHandler(this.terrainRenderingToolStripMenuItem_Click);
       // 
@@ -406,7 +406,7 @@
       this.objectRenderingToolStripMenuItem.CheckOnClick = true;
       this.objectRenderingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
       this.objectRenderingToolStripMenuItem.Name = "objectRenderingToolStripMenuItem";
-      this.objectRenderingToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+      this.objectRenderingToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
       this.objectRenderingToolStripMenuItem.Text = "Object rendering (F3)";
       this.objectRenderingToolStripMenuItem.Click += new System.EventHandler(this.objectRenderingToolStripMenuItem_Click);
       // 
@@ -414,7 +414,7 @@
       // 
       this.triggerAreasToolStripMenuItem.CheckOnClick = true;
       this.triggerAreasToolStripMenuItem.Name = "triggerAreasToolStripMenuItem";
-      this.triggerAreasToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+      this.triggerAreasToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
       this.triggerAreasToolStripMenuItem.Text = "Trigger areas (F4)";
       this.triggerAreasToolStripMenuItem.Click += new System.EventHandler(this.triggerAreasToolStripMenuItem_Click);
       // 
@@ -422,7 +422,7 @@
       // 
       this.screenStartToolStripMenuItem.CheckOnClick = true;
       this.screenStartToolStripMenuItem.Name = "screenStartToolStripMenuItem";
-      this.screenStartToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+      this.screenStartToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
       this.screenStartToolStripMenuItem.Text = "Screen start (F5)";
       this.screenStartToolStripMenuItem.Click += new System.EventHandler(this.screenStartToolStripMenuItem_Click);
       // 
@@ -430,7 +430,7 @@
       // 
       this.backgroundToolStripMenuItem.CheckOnClick = true;
       this.backgroundToolStripMenuItem.Name = "backgroundToolStripMenuItem";
-      this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+      this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
       this.backgroundToolStripMenuItem.Text = "Background image (F6)";
       this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
       // 
@@ -440,20 +440,20 @@
             this.playLevelToolStripMenuItem,
             this.validateLevelToolStripMenuItem});
       this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-      this.toolsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+      this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
       this.toolsToolStripMenuItem.Text = "Tools";
       // 
       // playLevelToolStripMenuItem
       // 
       this.playLevelToolStripMenuItem.Name = "playLevelToolStripMenuItem";
-      this.playLevelToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+      this.playLevelToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
       this.playLevelToolStripMenuItem.Text = "Play Level (F12)";
       this.playLevelToolStripMenuItem.Click += new System.EventHandler(this.playLevelToolStripMenuItem_Click);
       // 
       // validateLevelToolStripMenuItem
       // 
       this.validateLevelToolStripMenuItem.Name = "validateLevelToolStripMenuItem";
-      this.validateLevelToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+      this.validateLevelToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
       this.validateLevelToolStripMenuItem.Text = "Validate Level";
       this.validateLevelToolStripMenuItem.Click += new System.EventHandler(this.validateLevelToolStripMenuItem_Click);
       // 
@@ -464,27 +464,27 @@
             this.hotkeysToolStripMenuItem,
             this.aboutToolStripMenuItem});
       this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-      this.helpToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+      this.helpToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
       this.helpToolStripMenuItem.Text = "Options";
       // 
       // settingsToolStripMenuItem
       // 
       this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-      this.settingsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+      this.settingsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
       this.settingsToolStripMenuItem.Text = "Settings (F10)";
       this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
       // 
       // hotkeysToolStripMenuItem
       // 
       this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-      this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+      this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
       this.hotkeysToolStripMenuItem.Text = "Hotkeys (F11)";
       this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
       // 
       // aboutToolStripMenuItem
       // 
       this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-      this.aboutToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+      this.aboutToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
       this.aboutToolStripMenuItem.Text = "About...";
       this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
       // 
@@ -1061,7 +1061,23 @@
       // 
       // tabPieces
       // 
-      
+      this.tabPieces.Controls.Add(this.check_Piece_Zombie);
+      this.tabPieces.Controls.Add(this.check_Piece_Cloner);
+      this.tabPieces.Controls.Add(this.check_Piece_Digger);
+      this.tabPieces.Controls.Add(this.check_Piece_Fencer);
+      this.tabPieces.Controls.Add(this.check_Piece_Miner);
+      this.tabPieces.Controls.Add(this.check_Piece_Basher);
+      this.tabPieces.Controls.Add(this.check_Piece_Builder);
+      this.tabPieces.Controls.Add(this.check_Piece_Stacker);
+      this.tabPieces.Controls.Add(this.check_Piece_Platformer);
+      this.tabPieces.Controls.Add(this.check_Piece_Stoner);
+      this.tabPieces.Controls.Add(this.check_Piece_Blocker);
+      this.tabPieces.Controls.Add(this.check_Piece_Disarmer);
+      this.tabPieces.Controls.Add(this.check_Piece_Exploder);
+      this.tabPieces.Controls.Add(this.check_Piece_Glider);
+      this.tabPieces.Controls.Add(this.check_Piece_Floater);
+      this.tabPieces.Controls.Add(this.check_Piece_Swimmer);
+      this.tabPieces.Controls.Add(this.check_Piece_Climber);
       this.tabPieces.Controls.Add(this.num_PickupSkillCount);
       this.tabPieces.Controls.Add(this.lbl_PickupSkillCount);
       this.tabPieces.Controls.Add(this.num_LemmingLimit);
@@ -1071,25 +1087,8 @@
       this.tabPieces.Controls.Add(this.but_PairTeleporter);
       this.tabPieces.Controls.Add(this.lbl_Resize_Height);
       this.tabPieces.Controls.Add(this.lbl_Resize_Width);
-      this.tabPieces.Controls.Add(this.check_Piece_Zombie);
       this.tabPieces.Controls.Add(this.check_Piece_Shimmier);
-      this.tabPieces.Controls.Add(this.check_Piece_Fencer);
-      this.tabPieces.Controls.Add(this.check_Piece_Cloner);
-      this.tabPieces.Controls.Add(this.check_Piece_Stacker);
-      this.tabPieces.Controls.Add(this.check_Piece_Platformer);
-      this.tabPieces.Controls.Add(this.check_Piece_Stoner);
-      this.tabPieces.Controls.Add(this.check_Piece_Disarmer);
-      this.tabPieces.Controls.Add(this.check_Piece_Glider);
-      this.tabPieces.Controls.Add(this.check_Piece_Swimmer);
       this.tabPieces.Controls.Add(this.check_Piece_Walker);
-      this.tabPieces.Controls.Add(this.check_Piece_Digger);
-      this.tabPieces.Controls.Add(this.check_Piece_Miner);
-      this.tabPieces.Controls.Add(this.check_Piece_Basher);
-      this.tabPieces.Controls.Add(this.check_Piece_Builder);
-      this.tabPieces.Controls.Add(this.check_Piece_Blocker);
-      this.tabPieces.Controls.Add(this.check_Piece_Exploder);
-      this.tabPieces.Controls.Add(this.check_Piece_Floater);
-      this.tabPieces.Controls.Add(this.check_Piece_Climber);
       this.tabPieces.Controls.Add(this.check_Pieces_OneWay);
       this.tabPieces.Controls.Add(this.check_Pieces_OnlyOnTerrain);
       this.tabPieces.Controls.Add(this.check_Pieces_NoOv);
@@ -1111,24 +1110,8 @@
       this.tabPieces.Text = "Pieces";
       this.tabPieces.UseVisualStyleBackColor = true;
       // 
-      // check_Piece_Shimmier
-      // 
-      this.check_Piece_Shimmier.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Shimmier.Location = new System.Drawing.Point(92, 310);
-      this.check_Piece_Shimmier.Name = "check_Piece_Shimmier";
-      this.check_Piece_Shimmier.Size = new System.Drawing.Size(76, 17);
-      this.check_Piece_Shimmier.TabIndex = 30;
-      this.check_Piece_Shimmier.Text = "Shimmier";
-      this.check_Piece_Shimmier.UseVisualStyleBackColor = true;
-      this.check_Piece_Shimmier.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-      // 
       // num_PickupSkillCount
       // 
-      this.num_PickupSkillCount.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
       this.num_PickupSkillCount.Location = new System.Drawing.Point(69, 350);
       this.num_PickupSkillCount.Maximum = new decimal(new int[] {
             99,
@@ -1163,19 +1146,9 @@
       // 
       // num_LemmingLimit
       // 
-      this.num_LemmingLimit.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
       this.num_LemmingLimit.Location = new System.Drawing.Point(69, 350);
       this.num_LemmingLimit.Maximum = new decimal(new int[] {
             999,
-            0,
-            0,
-            0});
-      this.num_LemmingLimit.Minimum = new decimal(new int[] {
-            0,
             0,
             0,
             0});
@@ -1183,11 +1156,6 @@
       this.num_LemmingLimit.Size = new System.Drawing.Size(47, 20);
       this.num_LemmingLimit.TabIndex = 35;
       this.num_LemmingLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      this.num_LemmingLimit.Value = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
       this.num_LemmingLimit.Visible = false;
       this.num_LemmingLimit.ValueChanged += new System.EventHandler(this.num_LemmingLimit_ValueChanged);
       // 
@@ -1219,17 +1187,6 @@
       this.but_GroupSelection.Text = "Group";
       this.but_GroupSelection.UseVisualStyleBackColor = true;
       this.but_GroupSelection.Click += new System.EventHandler(this.but_GroupSelection_Click);
-      // 
-      // check_Piece_Fencer
-      // 
-      this.check_Piece_Fencer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Fencer.Location = new System.Drawing.Point(8, 310);
-      this.check_Piece_Fencer.Name = "check_Piece_Fencer";
-      this.check_Piece_Fencer.Size = new System.Drawing.Size(76, 17);
-      this.check_Piece_Fencer.TabIndex = 21;
-      this.check_Piece_Fencer.Text = "Fencer";
-      this.check_Piece_Fencer.UseVisualStyleBackColor = true;
-      this.check_Piece_Fencer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
       // 
       // but_PairTeleporter
       // 
@@ -1271,10 +1228,32 @@
       this.check_Piece_Zombie.UseVisualStyleBackColor = true;
       this.check_Piece_Zombie.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
       // 
+      // check_Piece_Shimmier
+      // 
+      this.check_Piece_Shimmier.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+      this.check_Piece_Shimmier.Location = new System.Drawing.Point(92, 190);
+      this.check_Piece_Shimmier.Name = "check_Piece_Shimmier";
+      this.check_Piece_Shimmier.Size = new System.Drawing.Size(76, 17);
+      this.check_Piece_Shimmier.TabIndex = 30;
+      this.check_Piece_Shimmier.Text = "Shimmier";
+      this.check_Piece_Shimmier.UseVisualStyleBackColor = true;
+      this.check_Piece_Shimmier.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+      // 
+      // check_Piece_Fencer
+      // 
+      this.check_Piece_Fencer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+      this.check_Piece_Fencer.Location = new System.Drawing.Point(8, 295);
+      this.check_Piece_Fencer.Name = "check_Piece_Fencer";
+      this.check_Piece_Fencer.Size = new System.Drawing.Size(76, 17);
+      this.check_Piece_Fencer.TabIndex = 21;
+      this.check_Piece_Fencer.Text = "Fencer";
+      this.check_Piece_Fencer.UseVisualStyleBackColor = true;
+      this.check_Piece_Fencer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+      // 
       // check_Piece_Cloner
       // 
       this.check_Piece_Cloner.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Cloner.Location = new System.Drawing.Point(92, 295);
+      this.check_Piece_Cloner.Location = new System.Drawing.Point(92, 310);
       this.check_Piece_Cloner.Name = "check_Piece_Cloner";
       this.check_Piece_Cloner.Size = new System.Drawing.Size(76, 17);
       this.check_Piece_Cloner.TabIndex = 29;
@@ -1285,7 +1264,7 @@
       // check_Piece_Stacker
       // 
       this.check_Piece_Stacker.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Stacker.Location = new System.Drawing.Point(92, 280);
+      this.check_Piece_Stacker.Location = new System.Drawing.Point(8, 280);
       this.check_Piece_Stacker.Name = "check_Piece_Stacker";
       this.check_Piece_Stacker.Size = new System.Drawing.Size(76, 17);
       this.check_Piece_Stacker.TabIndex = 28;
@@ -1297,7 +1276,7 @@
       // 
       this.check_Piece_Platformer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
       this.check_Piece_Platformer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.check_Piece_Platformer.Location = new System.Drawing.Point(92, 265);
+      this.check_Piece_Platformer.Location = new System.Drawing.Point(8, 265);
       this.check_Piece_Platformer.Name = "check_Piece_Platformer";
       this.check_Piece_Platformer.Size = new System.Drawing.Size(76, 17);
       this.check_Piece_Platformer.TabIndex = 27;
@@ -1308,7 +1287,7 @@
       // check_Piece_Stoner
       // 
       this.check_Piece_Stoner.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Stoner.Location = new System.Drawing.Point(92, 250);
+      this.check_Piece_Stoner.Location = new System.Drawing.Point(8, 250);
       this.check_Piece_Stoner.Name = "check_Piece_Stoner";
       this.check_Piece_Stoner.Size = new System.Drawing.Size(76, 17);
       this.check_Piece_Stoner.TabIndex = 26;
@@ -1319,7 +1298,7 @@
       // check_Piece_Disarmer
       // 
       this.check_Piece_Disarmer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Disarmer.Location = new System.Drawing.Point(92, 235);
+      this.check_Piece_Disarmer.Location = new System.Drawing.Point(8, 235);
       this.check_Piece_Disarmer.Name = "check_Piece_Disarmer";
       this.check_Piece_Disarmer.Size = new System.Drawing.Size(76, 17);
       this.check_Piece_Disarmer.TabIndex = 25;
@@ -1352,7 +1331,7 @@
       // check_Piece_Walker
       // 
       this.check_Piece_Walker.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Walker.Location = new System.Drawing.Point(92, 190);
+      this.check_Piece_Walker.Location = new System.Drawing.Point(8, 190);
       this.check_Piece_Walker.Name = "check_Piece_Walker";
       this.check_Piece_Walker.Size = new System.Drawing.Size(76, 17);
       this.check_Piece_Walker.TabIndex = 22;
@@ -1363,7 +1342,7 @@
       // check_Piece_Digger
       // 
       this.check_Piece_Digger.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Digger.Location = new System.Drawing.Point(8, 295);
+      this.check_Piece_Digger.Location = new System.Drawing.Point(8, 310);
       this.check_Piece_Digger.Name = "check_Piece_Digger";
       this.check_Piece_Digger.Size = new System.Drawing.Size(76, 17);
       this.check_Piece_Digger.TabIndex = 20;
@@ -1374,7 +1353,7 @@
       // check_Piece_Miner
       // 
       this.check_Piece_Miner.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Miner.Location = new System.Drawing.Point(8, 280);
+      this.check_Piece_Miner.Location = new System.Drawing.Point(92, 295);
       this.check_Piece_Miner.Name = "check_Piece_Miner";
       this.check_Piece_Miner.Size = new System.Drawing.Size(76, 17);
       this.check_Piece_Miner.TabIndex = 19;
@@ -1385,7 +1364,7 @@
       // check_Piece_Basher
       // 
       this.check_Piece_Basher.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Basher.Location = new System.Drawing.Point(8, 265);
+      this.check_Piece_Basher.Location = new System.Drawing.Point(92, 280);
       this.check_Piece_Basher.Name = "check_Piece_Basher";
       this.check_Piece_Basher.Size = new System.Drawing.Size(76, 17);
       this.check_Piece_Basher.TabIndex = 18;
@@ -1396,7 +1375,7 @@
       // check_Piece_Builder
       // 
       this.check_Piece_Builder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Builder.Location = new System.Drawing.Point(8, 250);
+      this.check_Piece_Builder.Location = new System.Drawing.Point(92, 265);
       this.check_Piece_Builder.Name = "check_Piece_Builder";
       this.check_Piece_Builder.Size = new System.Drawing.Size(76, 17);
       this.check_Piece_Builder.TabIndex = 17;
@@ -1404,21 +1383,10 @@
       this.check_Piece_Builder.UseVisualStyleBackColor = true;
       this.check_Piece_Builder.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
       // 
-      // check_Piece_Exploder
-      // 
-      this.check_Piece_Exploder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Exploder.Location = new System.Drawing.Point(8, 220);
-      this.check_Piece_Exploder.Name = "check_Piece_Exploder";
-      this.check_Piece_Exploder.Size = new System.Drawing.Size(76, 17);
-      this.check_Piece_Exploder.TabIndex = 15;
-      this.check_Piece_Exploder.Text = "Exploder";
-      this.check_Piece_Exploder.UseVisualStyleBackColor = true;
-      this.check_Piece_Exploder.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-      // 
       // check_Piece_Blocker
       // 
       this.check_Piece_Blocker.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Blocker.Location = new System.Drawing.Point(8, 235);
+      this.check_Piece_Blocker.Location = new System.Drawing.Point(92, 250);
       this.check_Piece_Blocker.Name = "check_Piece_Blocker";
       this.check_Piece_Blocker.Size = new System.Drawing.Size(76, 17);
       this.check_Piece_Blocker.TabIndex = 16;
@@ -1426,10 +1394,21 @@
       this.check_Piece_Blocker.UseVisualStyleBackColor = true;
       this.check_Piece_Blocker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
       // 
+      // check_Piece_Exploder
+      // 
+      this.check_Piece_Exploder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+      this.check_Piece_Exploder.Location = new System.Drawing.Point(92, 235);
+      this.check_Piece_Exploder.Name = "check_Piece_Exploder";
+      this.check_Piece_Exploder.Size = new System.Drawing.Size(76, 17);
+      this.check_Piece_Exploder.TabIndex = 15;
+      this.check_Piece_Exploder.Text = "Bomber";
+      this.check_Piece_Exploder.UseVisualStyleBackColor = true;
+      this.check_Piece_Exploder.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+      // 
       // check_Piece_Floater
       // 
       this.check_Piece_Floater.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Floater.Location = new System.Drawing.Point(8, 205);
+      this.check_Piece_Floater.Location = new System.Drawing.Point(8, 220);
       this.check_Piece_Floater.Name = "check_Piece_Floater";
       this.check_Piece_Floater.Size = new System.Drawing.Size(76, 17);
       this.check_Piece_Floater.TabIndex = 14;
@@ -1440,7 +1419,7 @@
       // check_Piece_Climber
       // 
       this.check_Piece_Climber.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Climber.Location = new System.Drawing.Point(8, 190);
+      this.check_Piece_Climber.Location = new System.Drawing.Point(8, 205);
       this.check_Piece_Climber.Name = "check_Piece_Climber";
       this.check_Piece_Climber.Size = new System.Drawing.Size(76, 17);
       this.check_Piece_Climber.TabIndex = 13;
@@ -1674,6 +1653,24 @@
       this.tabSkills.TabIndex = 2;
       this.tabSkills.Text = "Skills";
       this.tabSkills.UseVisualStyleBackColor = true;
+      // 
+      // lbl_Skill_Shimmier
+      // 
+      this.lbl_Skill_Shimmier.Location = new System.Drawing.Point(8, 363);
+      this.lbl_Skill_Shimmier.Name = "lbl_Skill_Shimmier";
+      this.lbl_Skill_Shimmier.Size = new System.Drawing.Size(70, 15);
+      this.lbl_Skill_Shimmier.TabIndex = 34;
+      this.lbl_Skill_Shimmier.Text = "Shimmier";
+      // 
+      // num_Ski_Shimmier
+      // 
+      this.num_Ski_Shimmier.BackColor = System.Drawing.SystemColors.InactiveBorder;
+      this.num_Ski_Shimmier.Location = new System.Drawing.Point(84, 361);
+      this.num_Ski_Shimmier.Name = "num_Ski_Shimmier";
+      this.num_Ski_Shimmier.Size = new System.Drawing.Size(52, 20);
+      this.num_Ski_Shimmier.TabIndex = 35;
+      this.num_Ski_Shimmier.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      this.num_Ski_Shimmier.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
       // 
       // lbl_Skill_Fencer
       // 
@@ -2112,24 +2109,6 @@
       this.but_PieceLeft.Click += new System.EventHandler(this.but_PieceLeft_Click);
       this.but_PieceLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseUp);
       // 
-      // lbl_Skill_Shimmier
-      // 
-      this.lbl_Skill_Shimmier.Location = new System.Drawing.Point(8, 363);
-      this.lbl_Skill_Shimmier.Name = "lbl_Skill_Shimmier";
-      this.lbl_Skill_Shimmier.Size = new System.Drawing.Size(70, 15);
-      this.lbl_Skill_Shimmier.TabIndex = 34;
-      this.lbl_Skill_Shimmier.Text = "Shimmier";
-      // 
-      // num_Ski_Shimmier
-      // 
-      this.num_Ski_Shimmier.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Shimmier.Location = new System.Drawing.Point(84, 361);
-      this.num_Ski_Shimmier.Name = "num_Ski_Shimmier";
-      this.num_Ski_Shimmier.Size = new System.Drawing.Size(52, 20);
-      this.num_Ski_Shimmier.TabIndex = 35;
-      this.num_Ski_Shimmier.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      this.num_Ski_Shimmier.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
-      // 
       // NLEditForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2197,6 +2176,7 @@
       ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).EndInit();
       this.tabSkills.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Shimmier)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Fencer)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Cloner)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stacker)).EndInit();
@@ -2215,7 +2195,6 @@
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Shimmier)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
