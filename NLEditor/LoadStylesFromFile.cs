@@ -270,6 +270,8 @@ namespace NLEditor
       bool secIsVert = true;
       int secOffsetX = 0;
       int secOffsetY = 0;
+
+      bool isDeprecated = false;
       
       int[] nineSliceSizes = new int[4]; // Not appropriate to use a Rectangle yet. File contains the width/height of the slice,
                                          // not a rectangle of the center; and we don't know the width of the object yet. Order
@@ -310,6 +312,8 @@ namespace NLEditor
             case "NINE_SLICE_TOP": nineSliceSizes[1] = line.Value; break;
             case "NINE_SLICE_RIGHT": nineSliceSizes[2] = line.Value; break;
             case "NINE_SLICE_BOTTOM": nineSliceSizes[3] = line.Value; break;
+            case "DEPRECATED": isDeprecated = true; break;
+
             case "WINDOW": objType = C.OBJ.HATCH; break;
             case "EXIT": objType = C.OBJ.EXIT; break;
             case "TRAP": objType = C.OBJ.TRAP; break;
@@ -400,12 +404,12 @@ namespace NLEditor
         
       if (secImage == null)
       {
-        return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode, nineSliceRect);
+        return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode, isDeprecated, nineSliceRect);
       }
       else
       {
         return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode,
-          secImage, secFrames, secIsVert, secOffsetX, secOffsetY, nineSliceRect);
+          secImage, secFrames, secIsVert, secOffsetX, secOffsetY, isDeprecated, nineSliceRect);
       }
     }
 
@@ -419,6 +423,7 @@ namespace NLEditor
     private static BaseImageInfo CreateNewTerrainInfo(Bitmap newBitmap, string filePath)
     {
       bool IsSteel = false;
+      bool isDeprecated = false;
 
       FileParser parser;
       try
@@ -443,6 +448,7 @@ namespace NLEditor
           switch (line.Key)
           {
             case "STEEL": IsSteel = true; break;
+            case "DEPRECATED": isDeprecated = true; break;
           }
         }
       }
@@ -456,7 +462,7 @@ namespace NLEditor
         parser?.DisposeStreamReader();
       }
 
-      return new BaseImageInfo(newBitmap, IsSteel);
+      return new BaseImageInfo(newBitmap, IsSteel, isDeprecated);
     }
   }
 }

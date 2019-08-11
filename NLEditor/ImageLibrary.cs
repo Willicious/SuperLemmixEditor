@@ -14,8 +14,8 @@ namespace NLEditor
     /// </summary>
     /// <param name="newImage"></param>
     /// <param name="isSteel"></param>
-    public BaseImageInfo(Bitmap newImage, bool isSteel = false)
-        : this(newImage, isSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, false, new Rectangle(0, 0, 0, 0), C.Resize.None)
+    public BaseImageInfo(Bitmap newImage, bool isSteel = false, bool isDeprecated = false)
+        : this(newImage, isSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, false, new Rectangle(0, 0, 0, 0), C.Resize.None, isDeprecated)
     {
       // nothing more
     }
@@ -29,7 +29,7 @@ namespace NLEditor
     /// <param name="isVert"></param>
     /// <param name="triggerRect"></param>
     public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, bool isVert, Rectangle triggerRect, 
-      C.Resize resizeMode, Rectangle? nineSlicingArea = null)
+      C.Resize resizeMode, bool isDeprecated = false, Rectangle? nineSlicingArea = null)
     {
       this.images = new Dictionary<RotateFlipType, List<Bitmap>>();
       this.images[RotateFlipType.RotateNoneFlipNone] = SeparateFrames(newImage, numFrames, isVert);
@@ -40,6 +40,7 @@ namespace NLEditor
       this.ResizeMode = resizeMode;
       this.PrimaryImageLocation = new Rectangle(0, 0, this.Width, this.Height);
       this.NineSlicingArea = nineSlicingArea;
+      this.Deprecated = isDeprecated;
     }
 
     /// <summary>
@@ -56,7 +57,8 @@ namespace NLEditor
     /// <param name="secOffsetX"></param>
     /// <param name="secOffsetY"></param>
     public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, bool isVert, Rectangle triggerRect, C.Resize resizeMode,
-      Bitmap secondaryImage, int secNumFrames, bool secIsVert, int secOffsetX, int secOffsetY, Rectangle? nineSlicingArea = null)
+      Bitmap secondaryImage, int secNumFrames, bool secIsVert, int secOffsetX, int secOffsetY, bool isDeprecated = false,
+      Rectangle? nineSlicingArea = null)
     {
       this.images = new Dictionary<RotateFlipType, List<Bitmap>>();
       var primaryImages = SeparateFrames(newImage, numFrames, isVert);
@@ -69,6 +71,7 @@ namespace NLEditor
       this.ResizeMode = resizeMode;
       this.PrimaryImageLocation = new Rectangle(Math.Max(0, -secOffsetX), Math.Max(0, -secOffsetY), primaryImages[0].Width, primaryImages[0].Height);
       this.NineSlicingArea = nineSlicingArea;
+      this.Deprecated = isDeprecated;
     }
 
     Dictionary<RotateFlipType, List<Bitmap>> images;
@@ -107,6 +110,7 @@ namespace NLEditor
     public C.Resize ResizeMode { get; private set; }
     public Rectangle PrimaryImageLocation { get; private set; }
     public Rectangle? NineSlicingArea { get; private set; }
+    public bool Deprecated { get; private set; }
 
     /// <summary>
     /// Separates the various frames in one bitmap.
