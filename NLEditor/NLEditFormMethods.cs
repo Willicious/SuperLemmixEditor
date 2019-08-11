@@ -476,16 +476,17 @@ namespace NLEditor
     {
       List<string> pieceList = pieceDoDisplayObject ? pieceCurStyle?.ObjectKeys : pieceCurStyle?.TerrainKeys;
       if (pieceList == null || pieceList.Count == 0) return String.Empty;
-      int pieceIndex = (picPieceIndex + pieceStartIndex) % pieceList.Count;
 
-      if (pieceDoDisplayObject)
+      int actualPicPieceIndex = -1;
+      for (int i = 0; i <= picPieceIndex; i++)
       {
-        return pieceCurStyle.ObjectKeys[pieceIndex];
+        actualPicPieceIndex++;
+        if (!DisplaySettings.IsDisplayed(C.DisplayType.Deprecated))
+          if (ImageLibrary.GetDeprecated(pieceList[(pieceStartIndex + actualPicPieceIndex) % pieceList.Count]))
+            actualPicPieceIndex++;
       }
-      else
-      {
-        return pieceCurStyle.TerrainKeys[pieceIndex];
-      }
+
+      return pieceList[(pieceStartIndex + actualPicPieceIndex) % pieceList.Count];
     }
 
     /// <summary>
