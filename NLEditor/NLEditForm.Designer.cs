@@ -50,6 +50,7 @@
       this.clearPhysicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.terrainRenderingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.objectRenderingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.deprecatedPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.triggerAreasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.screenStartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.backgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -377,7 +378,8 @@
             this.objectRenderingToolStripMenuItem,
             this.triggerAreasToolStripMenuItem,
             this.screenStartToolStripMenuItem,
-            this.backgroundToolStripMenuItem});
+            this.backgroundToolStripMenuItem,
+            this.deprecatedPiecesToolStripMenuItem});
       this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
       this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
       this.viewToolStripMenuItem.Text = "View";
@@ -417,6 +419,14 @@
       this.triggerAreasToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
       this.triggerAreasToolStripMenuItem.Text = "Trigger areas (F4)";
       this.triggerAreasToolStripMenuItem.Click += new System.EventHandler(this.triggerAreasToolStripMenuItem_Click);
+      // 
+      // deprecatedPiecesToolStripMenuItem
+      // 
+      this.deprecatedPiecesToolStripMenuItem.CheckOnClick = true;
+      this.deprecatedPiecesToolStripMenuItem.Name = "deprecatedPiecesToolStripMenuItem";
+      this.deprecatedPiecesToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+      this.deprecatedPiecesToolStripMenuItem.Text = "Deprecated pieces (F7)";
+      this.deprecatedPiecesToolStripMenuItem.Click += new System.EventHandler(this.deprecatedPiecesToolStripMenuItem_Click);
       // 
       // screenStartToolStripMenuItem
       // 
@@ -2217,6 +2227,7 @@
     private System.Windows.Forms.ToolStripMenuItem terrainRenderingToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem objectRenderingToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem triggerAreasToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem deprecatedPiecesToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem screenStartToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem playLevelToolStripMenuItem;

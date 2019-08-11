@@ -45,6 +45,7 @@ namespace NLEditor
       DisplaySettings.SetDisplayed(C.DisplayType.ScreenStart, false);
       DisplaySettings.SetDisplayed(C.DisplayType.Trigger, false);
       DisplaySettings.SetDisplayed(C.DisplayType.ClearPhysics, false);
+      DisplaySettings.SetDisplayed(C.DisplayType.Deprecated, false);
     }
 
     /// <summary>
@@ -269,7 +270,7 @@ namespace NLEditor
 
         var displayTypes = new List<C.DisplayType>()
                 {
-                    C.DisplayType.Trigger, C.DisplayType.ScreenStart, C.DisplayType.Background
+                    C.DisplayType.Trigger, C.DisplayType.ScreenStart, C.DisplayType.Background, C.DisplayType.Deprecated
                 };
         foreach (var displayType in displayTypes)
         {

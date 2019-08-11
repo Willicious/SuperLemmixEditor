@@ -67,7 +67,8 @@ namespace NLEditor
                     { C.DisplayType.Objects, objectRenderingToolStripMenuItem },
                     { C.DisplayType.ScreenStart, screenStartToolStripMenuItem },
                     { C.DisplayType.Terrain, terrainRenderingToolStripMenuItem },
-                    { C.DisplayType.Trigger, triggerAreasToolStripMenuItem }
+                    { C.DisplayType.Trigger, triggerAreasToolStripMenuItem },
+                    { C.DisplayType.Deprecated, deprecatedPiecesToolStripMenuItem }
                 };
       DisplaySettings.SetMenuTabItems(displayTabItems);
 
@@ -256,6 +257,11 @@ namespace NLEditor
     private void exitToolStripMenuItem_Click(object sender, EventArgs e)
     {
       Application.Exit();
+    }
+
+    private void deprecatedPiecesToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      DisplaySettings.ChangeDisplayed(C.DisplayType.Deprecated);
     }
 
     private void clearPhysicsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -798,6 +804,10 @@ namespace NLEditor
       else if (e.KeyCode == Keys.F6)
       {
         backgroundToolStripMenuItem_Click(null, null);
+      }
+      else if (e.KeyCode == Keys.F7)
+      {
+        deprecatedPiecesToolStripMenuItem_Click(null, null);
       }
       else if (e.KeyCode == Keys.F9)
       {

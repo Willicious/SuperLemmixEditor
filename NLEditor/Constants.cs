@@ -37,7 +37,7 @@ namespace NLEditor
 
     public enum DisplayType
     {
-      Terrain, Objects, Trigger, ScreenStart, Background, ClearPhysics
+      Terrain, Objects, Trigger, ScreenStart, Background, ClearPhysics, Deprecated
     }
 
     public enum CustDrawMode
