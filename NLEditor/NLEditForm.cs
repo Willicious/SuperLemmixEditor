@@ -262,6 +262,7 @@ namespace NLEditor
     private void deprecatedPiecesToolStripMenuItem_Click(object sender, EventArgs e)
     {
       DisplaySettings.ChangeDisplayed(C.DisplayType.Deprecated);
+      LoadPiecesIntoPictureBox();
     }
 
     private void clearPhysicsToolStripMenuItem_Click(object sender, EventArgs e)

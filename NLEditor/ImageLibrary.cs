@@ -422,6 +422,17 @@ namespace NLEditor
       return imageDict[imageKey].ResizeMode;
     }
 
+    public static bool GetDeprecated(string imageKey)
+    {
+      if (!imageDict.ContainsKey(imageKey))
+      {
+        bool success = AddNewImage(imageKey);
+        if (!success) return false;
+      }
+
+      return imageDict[imageKey].Deprecated;
+    }
+
     public static Rectangle? GetNineSliceArea(string imageKey, RotateFlipType rotFlipType = RotateFlipType.RotateNoneFlipNone)
     {
       if (!imageDict.ContainsKey(imageKey))
