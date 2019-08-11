@@ -56,6 +56,7 @@ namespace NLEditor
       FindIssuesTimeLimit();
       FindIssuesTooManySkills();
       FindIssuesMissingObjects();
+      FindIssuesDeprecation();
     }
 
     /// <summary>
@@ -176,9 +177,9 @@ namespace NLEditor
         }
       }
 
-      if (numSkillsUsed > 8)
+      if (numSkillsUsed > 10)
       {
-        issuesList.Add(numSkillsUsed.ToString() + " skill types used. Only 8 allowed.");
+        issuesList.Add(numSkillsUsed.ToString() + " skill types used. Only 10 allowed.");
       }
     }
 
@@ -208,6 +209,23 @@ namespace NLEditor
                        ", " + pickup.PosY.ToString() + ").");
       }
 
+    }
+
+    private void FindIssuesDeprecation()
+    {
+      foreach (GadgetPiece deprecated in level.GadgetList.FindAll(gad => ImageLibrary.GetDeprecated(gad.Key)))
+      {
+        issuesList.Add("Deprecated gadget " +
+                       "(Position " + deprecated.PosX.ToString() +
+                       ", " + deprecated.PosY.ToString() + ").");
+      }
+
+      foreach (TerrainPiece deprecated in level.TerrainList.FindAll(gad => ImageLibrary.GetDeprecated(gad.Key)))
+      {
+        issuesList.Add("Deprecated terrain piece " +
+                       "(Position " + deprecated.PosX.ToString() +
+                       ", " + deprecated.PosY.ToString() + ").");
+      }
     }
 
 
