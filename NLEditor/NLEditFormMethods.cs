@@ -192,7 +192,7 @@ namespace NLEditor
       oldLevelList = new List<Level>();
       oldLevelList.Add(CurLevel.Clone());
       curOldLevelIndex = 0;
-      lastSavedLevel = null;
+      lastSavedLevel = CurLevel.Clone();
 
       WriteLevelInfoToForm();
       UpdateBackgroundImage();
