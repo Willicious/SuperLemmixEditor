@@ -201,14 +201,14 @@ namespace NLEditor
         num_Resize_Width.Visible = mayResizeHoriz;
         if (mayResizeHoriz)
         {
-          num_Resize_Width.Maximum = CurLevel.Width;
+          num_Resize_Width.Maximum = CurLevel.Width + specWidth;
           num_Resize_Width.Value = Math.Min(Math.Max(specWidth, num_Resize_Width.Minimum), num_Resize_Width.Maximum);
         }
         lbl_Resize_Height.Visible = mayResizeVert;
         num_Resize_Height.Visible = mayResizeVert;
         if (mayResizeVert)
         {
-          num_Resize_Height.Maximum = CurLevel.Height;
+          num_Resize_Height.Maximum = CurLevel.Height + specHeight;
           num_Resize_Height.Value = Math.Min(Math.Max(specHeight, num_Resize_Height.Minimum), num_Resize_Height.Maximum);
         }
       }
