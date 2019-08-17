@@ -915,7 +915,7 @@ namespace NLEditor
     /// <returns></returns>
     public static Bitmap PaveArea(this Bitmap origBmp, Rectangle rect)
     {
-      if (origBmp == null)
+      if ((origBmp == null) || (rect.Width <= 0) || (rect.Height <= 0))
         return null;
 
       Bitmap newBmp = new Bitmap(rect.Width, rect.Height);
@@ -990,11 +990,6 @@ namespace NLEditor
       if (topRightCorner != null) newBmp.DrawOn(topRightCorner, new Point(leftCut + newCenterArea.Width, 0));
       if (bottomLeftCorner != null) newBmp.DrawOn(bottomLeftCorner, new Point(0, topCut + newCenterArea.Height));
       if (bottomRightCorner != null) newBmp.DrawOn(bottomRightCorner, new Point(leftCut + newCenterArea.Width, topCut + newCenterArea.Height));
-
-      newCenter.Save(C.AppPath + "center.bmp");
-      newBmp.Save(C.AppPath + "newbmp.bmp");
-
-      //System.Diagnostics.Debugger.Break();
 
       return newBmp;
     }
