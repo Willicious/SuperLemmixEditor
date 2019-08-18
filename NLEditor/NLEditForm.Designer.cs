@@ -127,7 +127,7 @@
       this.check_Piece_Basher = new System.Windows.Forms.CheckBox();
       this.check_Piece_Builder = new System.Windows.Forms.CheckBox();
       this.check_Piece_Blocker = new System.Windows.Forms.CheckBox();
-      this.check_Piece_Exploder = new System.Windows.Forms.CheckBox();
+      this.check_Piece_Bomber = new System.Windows.Forms.CheckBox();
       this.check_Piece_Floater = new System.Windows.Forms.CheckBox();
       this.check_Piece_Climber = new System.Windows.Forms.CheckBox();
       this.check_Pieces_OneWay = new System.Windows.Forms.CheckBox();
@@ -159,7 +159,7 @@
       this.lbl_Skill_Miner = new System.Windows.Forms.Label();
       this.lbl_Skill_Basher = new System.Windows.Forms.Label();
       this.lbl_Skill_Builder = new System.Windows.Forms.Label();
-      this.lbl_Skill_Exploder = new System.Windows.Forms.Label();
+      this.lbl_Skill_Bomber = new System.Windows.Forms.Label();
       this.lbl_Skill_Blocker = new System.Windows.Forms.Label();
       this.lbl_Skill_Floater = new System.Windows.Forms.Label();
       this.lbl_Skill_Climber = new System.Windows.Forms.Label();
@@ -176,7 +176,7 @@
       this.num_Ski_Miner = new NLEditor.NumUpDownOverwrite();
       this.num_Ski_Basher = new NLEditor.NumUpDownOverwrite();
       this.num_Ski_Builder = new NLEditor.NumUpDownOverwrite();
-      this.num_Ski_Exploder = new NLEditor.NumUpDownOverwrite();
+      this.num_Ski_Bomber = new NLEditor.NumUpDownOverwrite();
       this.num_Ski_Blocker = new NLEditor.NumUpDownOverwrite();
       this.num_Ski_Floater = new NLEditor.NumUpDownOverwrite();
       this.num_Ski_Climber = new NLEditor.NumUpDownOverwrite();
@@ -231,7 +231,7 @@
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Miner)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Basher)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Builder)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Exploder)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Bomber)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Blocker)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).BeginInit();
@@ -1083,7 +1083,7 @@
       this.tabPieces.Controls.Add(this.check_Piece_Stoner);
       this.tabPieces.Controls.Add(this.check_Piece_Blocker);
       this.tabPieces.Controls.Add(this.check_Piece_Disarmer);
-      this.tabPieces.Controls.Add(this.check_Piece_Exploder);
+      this.tabPieces.Controls.Add(this.check_Piece_Bomber);
       this.tabPieces.Controls.Add(this.check_Piece_Glider);
       this.tabPieces.Controls.Add(this.check_Piece_Floater);
       this.tabPieces.Controls.Add(this.check_Piece_Swimmer);
@@ -1404,16 +1404,16 @@
       this.check_Piece_Blocker.UseVisualStyleBackColor = true;
       this.check_Piece_Blocker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
       // 
-      // check_Piece_Exploder
+      // check_Piece_Bomber
       // 
-      this.check_Piece_Exploder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.check_Piece_Exploder.Location = new System.Drawing.Point(92, 235);
-      this.check_Piece_Exploder.Name = "check_Piece_Exploder";
-      this.check_Piece_Exploder.Size = new System.Drawing.Size(76, 17);
-      this.check_Piece_Exploder.TabIndex = 15;
-      this.check_Piece_Exploder.Text = "Bomber";
-      this.check_Piece_Exploder.UseVisualStyleBackColor = true;
-      this.check_Piece_Exploder.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+      this.check_Piece_Bomber.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+      this.check_Piece_Bomber.Location = new System.Drawing.Point(92, 235);
+      this.check_Piece_Bomber.Name = "check_Piece_Bomber";
+      this.check_Piece_Bomber.Size = new System.Drawing.Size(76, 17);
+      this.check_Piece_Bomber.TabIndex = 15;
+      this.check_Piece_Bomber.Text = "Bomber";
+      this.check_Piece_Bomber.UseVisualStyleBackColor = true;
+      this.check_Piece_Bomber.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
       // 
       // check_Piece_Floater
       // 
@@ -1636,7 +1636,7 @@
       this.tabSkills.Controls.Add(this.lbl_Skill_Miner);
       this.tabSkills.Controls.Add(this.lbl_Skill_Basher);
       this.tabSkills.Controls.Add(this.lbl_Skill_Builder);
-      this.tabSkills.Controls.Add(this.lbl_Skill_Exploder);
+      this.tabSkills.Controls.Add(this.lbl_Skill_Bomber);
       this.tabSkills.Controls.Add(this.lbl_Skill_Blocker);
       this.tabSkills.Controls.Add(this.lbl_Skill_Floater);
       this.tabSkills.Controls.Add(this.lbl_Skill_Climber);
@@ -1653,7 +1653,7 @@
       this.tabSkills.Controls.Add(this.num_Ski_Miner);
       this.tabSkills.Controls.Add(this.num_Ski_Basher);
       this.tabSkills.Controls.Add(this.num_Ski_Builder);
-      this.tabSkills.Controls.Add(this.num_Ski_Exploder);
+      this.tabSkills.Controls.Add(this.num_Ski_Bomber);
       this.tabSkills.Controls.Add(this.num_Ski_Blocker);
       this.tabSkills.Controls.Add(this.num_Ski_Floater);
       this.tabSkills.Controls.Add(this.num_Ski_Climber);
@@ -1786,13 +1786,13 @@
       this.lbl_Skill_Builder.TabIndex = 4;
       this.lbl_Skill_Builder.Text = "Builder";
       // 
-      // lbl_Skill_Exploder
+      // lbl_Skill_Bomber
       // 
-      this.lbl_Skill_Exploder.Location = new System.Drawing.Point(8, 154);
-      this.lbl_Skill_Exploder.Name = "lbl_Skill_Exploder";
-      this.lbl_Skill_Exploder.Size = new System.Drawing.Size(70, 15);
-      this.lbl_Skill_Exploder.TabIndex = 3;
-      this.lbl_Skill_Exploder.Text = "Exploder";
+      this.lbl_Skill_Bomber.Location = new System.Drawing.Point(8, 154);
+      this.lbl_Skill_Bomber.Name = "lbl_Skill_Bomber";
+      this.lbl_Skill_Bomber.Size = new System.Drawing.Size(70, 15);
+      this.lbl_Skill_Bomber.TabIndex = 3;
+      this.lbl_Skill_Bomber.Text = "Bomber";
       // 
       // lbl_Skill_Blocker
       // 
@@ -1974,17 +1974,17 @@
       this.num_Ski_Builder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
       this.num_Ski_Builder.Leave += new System.EventHandler(this.textbox_Leave);
       // 
-      // num_Ski_Exploder
+      // num_Ski_Bomber
       // 
-      this.num_Ski_Exploder.BackColor = System.Drawing.SystemColors.InactiveBorder;
-      this.num_Ski_Exploder.Location = new System.Drawing.Point(84, 152);
-      this.num_Ski_Exploder.Name = "num_Ski_Exploder";
-      this.num_Ski_Exploder.Size = new System.Drawing.Size(52, 20);
-      this.num_Ski_Exploder.TabIndex = 18;
-      this.num_Ski_Exploder.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      this.num_Ski_Exploder.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
-      this.num_Ski_Exploder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
-      this.num_Ski_Exploder.Leave += new System.EventHandler(this.textbox_Leave);
+      this.num_Ski_Bomber.BackColor = System.Drawing.SystemColors.InactiveBorder;
+      this.num_Ski_Bomber.Location = new System.Drawing.Point(84, 152);
+      this.num_Ski_Bomber.Name = "num_Ski_Bomber";
+      this.num_Ski_Bomber.Size = new System.Drawing.Size(52, 20);
+      this.num_Ski_Bomber.TabIndex = 18;
+      this.num_Ski_Bomber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      this.num_Ski_Bomber.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+      this.num_Ski_Bomber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
+      this.num_Ski_Bomber.Leave += new System.EventHandler(this.textbox_Leave);
       // 
       // num_Ski_Blocker
       // 
@@ -2200,7 +2200,7 @@
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Miner)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Basher)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Builder)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Exploder)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Bomber)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Blocker)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).EndInit();
@@ -2252,7 +2252,7 @@
     private System.Windows.Forms.Label lbl_Skill_Miner;
     private System.Windows.Forms.Label lbl_Skill_Basher;
     private System.Windows.Forms.Label lbl_Skill_Builder;
-    private System.Windows.Forms.Label lbl_Skill_Exploder;
+    private System.Windows.Forms.Label lbl_Skill_Bomber;
     private System.Windows.Forms.Label lbl_Skill_Blocker;
     private System.Windows.Forms.Label lbl_Skill_Floater;
     private System.Windows.Forms.Label lbl_Skill_Climber;
@@ -2268,7 +2268,7 @@
     private NLEditor.NumUpDownOverwrite num_Ski_Miner;
     private NLEditor.NumUpDownOverwrite num_Ski_Basher;
     private NLEditor.NumUpDownOverwrite num_Ski_Builder;
-    private NLEditor.NumUpDownOverwrite num_Ski_Exploder;
+    private NLEditor.NumUpDownOverwrite num_Ski_Bomber;
     private NLEditor.NumUpDownOverwrite num_Ski_Blocker;
     private NLEditor.NumUpDownOverwrite num_Ski_Floater;
     private NLEditor.NumUpDownOverwrite num_Ski_Climber;
@@ -2331,7 +2331,7 @@
     private System.Windows.Forms.CheckBox check_Piece_Miner;
     private System.Windows.Forms.CheckBox check_Piece_Basher;
     private System.Windows.Forms.CheckBox check_Piece_Builder;
-    private System.Windows.Forms.CheckBox check_Piece_Exploder;
+    private System.Windows.Forms.CheckBox check_Piece_Bomber;
     private System.Windows.Forms.CheckBox check_Piece_Blocker;
     private System.Windows.Forms.CheckBox check_Piece_Floater;
     private System.Windows.Forms.CheckBox check_Piece_Climber;

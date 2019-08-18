@@ -36,7 +36,7 @@ namespace NLEditor
       checkboxesSkillFlags = new Dictionary<C.Skill, CheckBox>()
                 {
                     { C.Skill.Climber, check_Piece_Climber }, { C.Skill.Floater, check_Piece_Floater },
-                    { C.Skill.Bomber, check_Piece_Exploder }, { C.Skill.Blocker, check_Piece_Blocker },
+                    { C.Skill.Bomber, check_Piece_Bomber }, { C.Skill.Blocker, check_Piece_Blocker },
                     { C.Skill.Builder, check_Piece_Builder }, { C.Skill.Basher, check_Piece_Basher },
                     { C.Skill.Miner, check_Piece_Miner }, { C.Skill.Digger, check_Piece_Digger },
                     { C.Skill.Walker, check_Piece_Walker }, { C.Skill.Swimmer, check_Piece_Swimmer },
@@ -50,7 +50,7 @@ namespace NLEditor
       numericsSkillSet = new Dictionary<C.Skill, NumericUpDown>()
                 {
                     { C.Skill.Climber, num_Ski_Climber }, { C.Skill.Floater, num_Ski_Floater },
-                    { C.Skill.Bomber, num_Ski_Exploder }, { C.Skill.Blocker, num_Ski_Blocker },
+                    { C.Skill.Bomber, num_Ski_Bomber }, { C.Skill.Blocker, num_Ski_Blocker },
                     { C.Skill.Builder, num_Ski_Builder }, { C.Skill.Basher, num_Ski_Basher },
                     { C.Skill.Miner, num_Ski_Miner }, { C.Skill.Digger, num_Ski_Digger },
                     { C.Skill.Walker, num_Ski_Walker }, { C.Skill.Swimmer, num_Ski_Swimmer },
