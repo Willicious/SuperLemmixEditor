@@ -53,6 +53,7 @@ namespace NLEditor
             if (IsConverted)
             {
               newLevel = LoadLevelFromFile(C.AppPathTempLevel, styleList, backgrounds);
+              newLevel.FilePathToSave = Path.ChangeExtension(filePath, ".nxlv");
             }
           }
 
