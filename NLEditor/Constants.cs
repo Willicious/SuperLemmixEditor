@@ -340,7 +340,7 @@ namespace NLEditor
     public static readonly List<string> VersionList = new List<string>
     {
       "Version " + Version,
-      "   by Stephan Neupert (Nepster)",
+      "   by Stephan Neupert (Nepster), updates by Namida Verasche (namida)",
       "",
       "Thanks to...",
       "  DMA for creating the original Lemmings games.",
