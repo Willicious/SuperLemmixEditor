@@ -223,6 +223,7 @@ namespace NLEditor
         switch (line.Key)
         {
           case "COLLECTION": styleName = line.Text; break;
+          case "STYLE": styleName = line.Text; break;
           case "PIECE": gadgetName = line.Text; break;
           case "X": posX = line.Value; break;
           case "Y": posY = line.Value; break;
@@ -319,6 +320,7 @@ namespace NLEditor
         switch (line.Key)
         {
           case "COLLECTION": styleName = line.Text; break;
+          case "STYLE": styleName = line.Text; break;
           case "PIECE": pieceName = line.Text; break;
           case "X": posX = line.Value; break;
           case "Y": posY = line.Value; break;
