@@ -223,13 +223,29 @@ namespace NLEditor
       if (selectionList.Count == 1 && selectionList[0] is GadgetPiece)
       {
         GadgetPiece gadget = (GadgetPiece)selectionList[0];
-        lbl_PickupSkillCount.Visible = (gadget.ObjType == C.OBJ.PICKUP);
-        num_PickupSkillCount.Value = Math.Min(Math.Max(gadget.Val_L, num_PickupSkillCount.Minimum), num_PickupSkillCount.Maximum);
-        num_PickupSkillCount.Visible = (gadget.ObjType == C.OBJ.PICKUP);
+        if (gadget.ObjType == C.OBJ.PICKUP)
+        {
+          lbl_PickupSkillCount.Visible = true;
+          num_PickupSkillCount.Value = Math.Min(Math.Max(gadget.Val_L, num_PickupSkillCount.Minimum), num_PickupSkillCount.Maximum);
+          num_PickupSkillCount.Visible = true;
+        }
+        else
+        {
+          lbl_PickupSkillCount.Visible = false;
+          num_PickupSkillCount.Visible = false;
+        }
 
-        lbl_LemmingLimit.Visible = new[] { C.OBJ.EXIT, C.OBJ.EXIT_LOCKED, C.OBJ.HATCH }.Contains(gadget.ObjType);
-        num_LemmingLimit.Value = Math.Min(Math.Max(gadget.LemmingCap, 0), 999);
-        num_LemmingLimit.Visible = new[] { C.OBJ.EXIT, C.OBJ.EXIT_LOCKED, C.OBJ.HATCH }.Contains(gadget.ObjType);
+        if (new[] { C.OBJ.EXIT, C.OBJ.EXIT_LOCKED, C.OBJ.HATCH }.Contains(gadget.ObjType))
+        {
+          lbl_LemmingLimit.Visible = true;
+          num_LemmingLimit.Value = Math.Min(Math.Max(gadget.LemmingCap, 0), 999);
+          num_LemmingLimit.Visible = true;
+        }
+        else
+        {
+          lbl_LemmingLimit.Visible = false;
+          num_LemmingLimit.Visible = false;
+        }
       }
       else
       {
