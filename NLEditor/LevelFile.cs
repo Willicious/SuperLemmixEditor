@@ -128,23 +128,24 @@ namespace NLEditor
             case "START_Y": newLevel.StartPosY = line.Value; break;
             case "THEME": newLevel.MainStyle = styleList.Find(sty => sty.NameInDirectory == line.Text); break;
             case "LEMMINGS": newLevel.NumLems = line.Value; break;
-            case "REQUIREMENT": newLevel.SaveReq = line.Value; break;
+            case "SAVE_REQUIREMENT": newLevel.NumLems = line.Value; break;
+            case "REQUIREMENT": newLevel.SaveReq = line.Value; break; // Deprecated
             case "TIME_LIMIT":
               newLevel.TimeLimit = line.Value;
               newLevel.IsNoTimeLimit = false; break;
             case "MAX_SPAWN_INTERVAL": newLevel.SpawnRate = 103 - line.Value; break;
             case "SPAWN_INTERVAL_LOCKED": newLevel.IsSpawnRateFix = true; break;
-            case "RELEASE_RATE": newLevel.SpawnRate = 50 + line.Value / 2; break;
-            case "RELEASE_RATE_LOCKED": newLevel.IsSpawnRateFix = true; break;
+            case "RELEASE_RATE": newLevel.SpawnRate = 50 + line.Value / 2; break; // Deprecated
+            case "RELEASE_RATE_LOCKED": newLevel.IsSpawnRateFix = true; break; // Deprecated
             case "BACKGROUND": newLevel.Background = ReadBackgroundFromLines(line.Text, styleList, backgrounds); break;
 
             case "SKILLSET":
               ReadSkillSetFromLines(fileLines, newLevel);
               newLevel.SkillSet[C.Skill.Zombie] = 0; break;
-            case "OBJECT":
+            case "OBJECT": // Deprecated - but the other key words here are NOT deprecated!
+            case "GADGET":
             case "LEMMING": newLevel.GadgetList.Add(ReadGadgetFromLines(fileLines)); break;
             case "TERRAIN": newLevel.TerrainList.Add(ReadTerrainFromLines(fileLines)); break;
-            case "SPAWN_ORDER": hatchOrder = fileLines.FindAll(lin => lin.Key == "object").ConvertAll(lin => lin.Value); break;
 
             case "PRETEXT":
               var pretexts = fileLines.ConvertAll(lin => lin.Text);
@@ -222,7 +223,7 @@ namespace NLEditor
       {
         switch (line.Key)
         {
-          case "COLLECTION": styleName = line.Text; break;
+          case "COLLECTION": styleName = line.Text; break; // Deprecated
           case "STYLE": styleName = line.Text; break;
           case "PIECE": gadgetName = line.Text; break;
           case "X": posX = line.Value; break;
@@ -234,10 +235,11 @@ namespace NLEditor
           case "ROTATE": doRotate = true; break;
           case "FLIP_HORIZONTAL": doFlip = true; break;
           case "FLIP_VERTICAL": doInvert = true; break;
-          case "DIRECTION": doFlip = line.Text.ToUpper().StartsWith("L"); break;
-          case "FLIP_LEMMING": doFlip = true; break;
+          case "DIRECTION": doFlip = line.Text.ToUpper().StartsWith("L"); break; // Deprecated
+          case "FLIP_LEMMING": doFlip = true; break; // Deprecated
           case "PAIRING": val_L = line.Value; break;
-          case "SKILLCOUNT": val_L = line.Value; break;
+          case "SKILL_COUNT": val_L = line.Value; break;
+          case "SKILLCOUNT": val_L = line.Value; break; // Deprecated
           case "SPEED": bgSpeed = line.Value; break;
           case "ANGLE": bgAngle = line.Value; break;
           case "LEMMINGS": lemmingCap = line.Value; break;
@@ -319,7 +321,7 @@ namespace NLEditor
       {
         switch (line.Key)
         {
-          case "COLLECTION": styleName = line.Text; break;
+          case "COLLECTION": styleName = line.Text; break; // Deprecated
           case "STYLE": styleName = line.Text; break;
           case "PIECE": pieceName = line.Text; break;
           case "X": posX = line.Value; break;
@@ -392,6 +394,7 @@ namespace NLEditor
           case "TITLE": talisman.Title = line.Text; break;
           case "COLOR": talisman.AwardType = Utility.ParseEnum<C.TalismanType>(line.Text); break;
           case "ID": talisman.ID = line.Value; break;
+          case "SAVE": talisman.Requirements[C.TalismanReq.SaveReq] = line.Value; break;
           default:
             {
               if (C.TalismanKeys.Values.Contains(line.Key))
@@ -540,13 +543,12 @@ namespace NLEditor
         textFile.WriteLine(" MUSIC " + Path.ChangeExtension(curLevel.MusicFile, null));
       }
       textFile.WriteLine(" ID " + curLevel.LevelID);
-      textFile.WriteLine(" AUTOSTEEL on ");
       textFile.WriteLine(" ");
 
       textFile.WriteLine("#       Level dimensions        ");
       textFile.WriteLine("# ----------------------------- ");
-      textFile.WriteLine(" WIDTH   " + curLevel.Width.ToString().PadLeft(4));
-      textFile.WriteLine(" HEIGHT  " + curLevel.Height.ToString().PadLeft(4));
+      textFile.WriteLine(" WIDTH " + curLevel.Width.ToString().PadLeft(4));
+      textFile.WriteLine(" HEIGHT " + curLevel.Height.ToString().PadLeft(4));
       textFile.WriteLine(" START_X " + curLevel.StartPosX.ToString().PadLeft(4));
       textFile.WriteLine(" START_Y " + curLevel.StartPosY.ToString().PadLeft(4));
       textFile.WriteLine(" THEME " + curLevel.MainStyle?.NameInDirectory);
@@ -559,16 +561,16 @@ namespace NLEditor
 
       textFile.WriteLine("#         Level stats           ");
       textFile.WriteLine("# ----------------------------- ");
-      textFile.WriteLine(" LEMMINGS     " + curLevel.NumLems.ToString().PadLeft(4));
-      textFile.WriteLine(" REQUIREMENT  " + curLevel.SaveReq.ToString().PadLeft(4));
+      textFile.WriteLine(" LEMMINGS " + curLevel.NumLems.ToString().PadLeft(4));
+      textFile.WriteLine(" SAVE_REQUIREMENT " + curLevel.SaveReq.ToString().PadLeft(4));
       if (!curLevel.IsNoTimeLimit)
       {
-        textFile.WriteLine(" TIME_LIMIT   " + curLevel.TimeLimit.ToString().PadLeft(4));
+        textFile.WriteLine(" TIME_LIMIT " + curLevel.TimeLimit.ToString().PadLeft(4));
       }
       textFile.WriteLine(" MAX_SPAWN_INTERVAL " + (103 - curLevel.SpawnRate).ToString().PadLeft(4));
       if (curLevel.IsSpawnRateFix)
       {
-        textFile.WriteLine(" SPAWN_INTERVAL_LOCKED ");
+        textFile.WriteLine(" SPAWN_INTERVAL_LOCKED");
       }
       textFile.WriteLine(" ");
 
@@ -654,20 +656,20 @@ namespace NLEditor
       }
       else
       {
-        textFile.WriteLine(" $OBJECT");
-        textFile.WriteLine("   COLLECTION " + gadget.Style);
-        textFile.WriteLine("   PIECE      " + gadget.Name);
+        textFile.WriteLine(" $GADGET");
+        textFile.WriteLine("   STYLE " + gadget.Style);
+        textFile.WriteLine("   PIECE " + gadget.Name);
       }
 
       Point levelFilePos = ImageLibrary.EditorToLevelFileCoordinates(gadget.Key, gadget.Pos);
       int posX = levelFilePos.X + (gadget.ObjType == C.OBJ.LEMMING ? C.LEM_OFFSET_X : 0);
       int posY = levelFilePos.Y + (gadget.ObjType == C.OBJ.LEMMING ? C.LEM_OFFSET_Y : 0);
-      textFile.WriteLine("   X      " + posX.ToString().PadLeft(5));
-      textFile.WriteLine("   Y      " + posY.ToString().PadLeft(5));
+      textFile.WriteLine("   X " + posX.ToString().PadLeft(5));
+      textFile.WriteLine("   Y " + posY.ToString().PadLeft(5));
 
       if (gadget.MayResizeHoriz())
       {
-        textFile.WriteLine("   WIDTH  " + gadget.SpecWidth.ToString().PadLeft(5));
+        textFile.WriteLine("   WIDTH " + gadget.SpecWidth.ToString().PadLeft(5));
       }
       if (gadget.MayResizeVert())
       {
@@ -685,24 +687,14 @@ namespace NLEditor
       {
         textFile.WriteLine("   ROTATE");
       }
+      if (gadget.IsFlippedInPlayer)
+      {
+        textFile.WriteLine("   FLIP_HORIZONTAL");
+      }
       if (gadget.IsInvertedInPlayer)
       {
         textFile.WriteLine("   FLIP_VERTICAL");
       }
-      if (gadget.IsFlippedInPlayer && gadget.ObjType != C.OBJ.HATCH)
-      {
-        textFile.WriteLine("   FLIP_HORIZONTAL");
-      }
-
-      if (gadget.ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING))
-      {
-        textFile.WriteLine("   DIRECTION " + ((gadget.IsFlippedInPlayer) ? "left" : "right"));
-      }
-      else if (gadget.ObjType.In(C.OBJ.TELEPORTER))
-      {
-        if (gadget.IsFlippedInPlayer) textFile.WriteLine("   FLIP_LEMMING ");
-      }
-
       if (gadget.ObjType.In(C.OBJ.HATCH, C.OBJ.LEMMING))
       {
         foreach (C.Skill skill in gadget.SkillFlags)
@@ -730,8 +722,8 @@ namespace NLEditor
 
       if (gadget.ObjType.In(C.OBJ.BACKGROUND))
       {
-        textFile.WriteLine("   SPEED   " + gadget.BackgroundSpeed.ToString().PadLeft(4));
-        textFile.WriteLine("   ANGLE   " + gadget.BackgroundAngle.ToString().PadLeft(4));
+        textFile.WriteLine("   SPEED " + gadget.BackgroundSpeed.ToString().PadLeft(4));
+        textFile.WriteLine("   ANGLE " + gadget.BackgroundAngle.ToString().PadLeft(4));
       }
 
       if (gadget.ObjType.In(C.OBJ.EXIT, C.OBJ.EXIT_LOCKED, C.OBJ.HATCH) && gadget.LemmingCap > 0)
@@ -751,8 +743,8 @@ namespace NLEditor
     static private void WriteTerrain(TextWriter textFile, TerrainPiece terrain)
     {
       textFile.WriteLine(" $TERRAIN");
-      textFile.WriteLine("   COLLECTION " + terrain.Style);
-      textFile.WriteLine("   PIECE      " + terrain.Name);
+      textFile.WriteLine("   STYLE " + terrain.Style);
+      textFile.WriteLine("   PIECE " + terrain.Name);
       textFile.WriteLine("   X " + terrain.PosX.ToString().PadLeft(5));
       textFile.WriteLine("   Y " + terrain.PosY.ToString().PadLeft(5));
       if (terrain.IsNoOverwrite)

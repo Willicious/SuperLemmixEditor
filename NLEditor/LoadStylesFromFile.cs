@@ -331,11 +331,40 @@ namespace NLEditor
             case "RECEIVER": objType = C.OBJ.RECEIVER; break;
             case "SPLITTER": objType = C.OBJ.SPLITTER; break;
             case "UPDRAFT": objType = C.OBJ.UPDRAFT; break;
+            case "ANTISPLATPAD":
             case "SPLATPAD": objType = C.OBJ.SPLAT; break;
             case "FORCE_RIGHT":
             case "FORCE_LEFT": objType = C.OBJ.FORCE_FIELD; break;
             case "BACKGROUND":
             case "MOVING_BACKGROUND": objType = C.OBJ.BACKGROUND; break;
+
+            case "EFFECT":
+              switch (line.Text.Trim().ToUpperInvariant())
+              {
+                case "ENTRANCE": objType = C.OBJ.HATCH; break;
+                case "EXIT": objType = C.OBJ.EXIT; break;
+                case "TRAP": objType = C.OBJ.TRAP; break;
+                case "TRAPONCE": objType = C.OBJ.TRAPONCE; break;
+                case "WATER": objType = C.OBJ.WATER; break;
+                case "FIRE": objType = C.OBJ.FIRE; break;
+                case "ONEWAYRIGHT":
+                case "ONEWAYLEFT":
+                case "ONEWAYDOWN":
+                case "ONEWAYUP": objType = C.OBJ.ONE_WAY_WALL; break;
+                case "UNLOCKBUTTON": objType = C.OBJ.BUTTON; break;
+                case "LOCKEDEXIT": objType = C.OBJ.EXIT_LOCKED; break;
+                case "PICKUPSKILL": objType = C.OBJ.PICKUP; break;
+                case "TELEPORTER": objType = C.OBJ.TELEPORTER; break;
+                case "RECEIVER": objType = C.OBJ.RECEIVER; break;
+                case "SPLITTER": objType = C.OBJ.SPLITTER; break;
+                case "UPDRAFT": objType = C.OBJ.UPDRAFT; break;
+                case "ANTISPLATPAD":
+                case "SPLATPAD": objType = C.OBJ.SPLAT; break;
+                case "FORCERIGHT":
+                case "FORCELEFT": objType = C.OBJ.FORCE_FIELD; break;
+                case "BACKGROUND": objType = C.OBJ.BACKGROUND; break;
+              }
+              break;
 
             case "PRIMARY_ANIMATION":
               foreach (var fileLine in fileLineList)
