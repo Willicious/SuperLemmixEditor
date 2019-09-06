@@ -114,6 +114,7 @@
       this.check_Piece_Zombie = new System.Windows.Forms.CheckBox();
       this.check_Piece_Shimmier = new System.Windows.Forms.CheckBox();
       this.check_Piece_Fencer = new System.Windows.Forms.CheckBox();
+      this.check_Piece_Neutral = new System.Windows.Forms.CheckBox();
       this.check_Piece_Cloner = new System.Windows.Forms.CheckBox();
       this.check_Piece_Stacker = new System.Windows.Forms.CheckBox();
       this.check_Piece_Platformer = new System.Windows.Forms.CheckBox();
@@ -1072,6 +1073,7 @@
       // tabPieces
       // 
       this.tabPieces.Controls.Add(this.check_Piece_Zombie);
+      this.tabPieces.Controls.Add(this.check_Piece_Neutral);
       this.tabPieces.Controls.Add(this.check_Piece_Cloner);
       this.tabPieces.Controls.Add(this.check_Piece_Digger);
       this.tabPieces.Controls.Add(this.check_Piece_Fencer);
@@ -1259,6 +1261,16 @@
       this.check_Piece_Fencer.Text = "Fencer";
       this.check_Piece_Fencer.UseVisualStyleBackColor = true;
       this.check_Piece_Fencer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+      // check_Piece_Neutral
+      // 
+      this.check_Piece_Neutral.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+      this.check_Piece_Neutral.Location = new System.Drawing.Point(92, 325);
+      this.check_Piece_Neutral.Name = "check_Piece_Neutral";
+      this.check_Piece_Neutral.Size = new System.Drawing.Size(76, 17);
+      this.check_Piece_Neutral.TabIndex = 31;
+      this.check_Piece_Neutral.Text = "Neutral";
+      this.check_Piece_Neutral.UseVisualStyleBackColor = true;
+      this.check_Piece_Neutral.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
       // 
       // check_Piece_Cloner
       // 
@@ -2340,6 +2352,7 @@
     private NLEditor.NoPaddingButton but_MoveBack;
     private NLEditor.NoPaddingButton but_MoveFront;
     private System.Windows.Forms.CheckBox check_Piece_Zombie;
+    private System.Windows.Forms.CheckBox check_Piece_Neutral;
     private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
     private System.Windows.Forms.Label lbl_Resize_Height;
     private NLEditor.NumUpDownOverwrite num_Resize_Height;

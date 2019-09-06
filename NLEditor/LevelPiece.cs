@@ -329,6 +329,7 @@ namespace NLEditor
     public int Val_L { get; private set; }
     public HashSet<C.Skill> SkillFlags { get; private set; }
     public bool IsZombie => SkillFlags.Contains(C.Skill.Zombie);
+    public bool IsNeutral => SkillFlags.Contains(C.Skill.Neutral);
     public int SpecWidth { get; set; }
     public int SpecHeight { get; set; }
     public int BackgroundAngle { get; set; }
@@ -486,24 +487,24 @@ namespace NLEditor
     public override bool MayRotate()
     {
       return !(ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING));
-      return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL,
-                        C.OBJ.FIRE, C.OBJ.WATER, C.OBJ.TRAP, C.OBJ.TRAPONCE);
+      //return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL,
+      //                  C.OBJ.FIRE, C.OBJ.WATER, C.OBJ.TRAP, C.OBJ.TRAPONCE);
     }
 
     public override bool MayFlip()
     {
       return true;
-      return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.FIRE, C.OBJ.HATCH, C.OBJ.LEMMING,
-                        C.OBJ.NONE, C.OBJ.RECEIVER, C.OBJ.SPLAT, C.OBJ.SPLITTER,
-                        C.OBJ.TELEPORTER, C.OBJ.TRAP, C.OBJ.TRAPONCE,
-                        C.OBJ.WATER, C.OBJ.ONE_WAY_WALL);
+      //return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.FIRE, C.OBJ.HATCH, C.OBJ.LEMMING,
+      //                  C.OBJ.NONE, C.OBJ.RECEIVER, C.OBJ.SPLAT, C.OBJ.SPLITTER,
+      //                  C.OBJ.TELEPORTER, C.OBJ.TRAP, C.OBJ.TRAPONCE,
+      //                  C.OBJ.WATER, C.OBJ.ONE_WAY_WALL);
     }
 
     public override bool MayInvert()
     {
       return !(ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING));
-      return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL,
-                        C.OBJ.FIRE, C.OBJ.WATER, C.OBJ.TRAP, C.OBJ.TRAPONCE);
+      //return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL,
+      //                  C.OBJ.FIRE, C.OBJ.WATER, C.OBJ.TRAP, C.OBJ.TRAPONCE);
     }
 
     public override bool MayReceiveSkill(C.Skill skill)
@@ -513,13 +514,14 @@ namespace NLEditor
         case C.OBJ.HATCH:
           {
             return skill.In(C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
-                            C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Zombie);
+                            C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Zombie,
+                            C.Skill.Neutral);
           }
         case C.OBJ.LEMMING:
           {
             return skill.In(C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
                             C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Zombie,
-                            C.Skill.Blocker, C.Skill.Shimmier);
+                            C.Skill.Blocker, C.Skill.Shimmier, C.Skill.Neutral);
           }
         case C.OBJ.PICKUP:
           {

@@ -141,7 +141,9 @@ namespace NLEditor
 
             case "SKILLSET":
               ReadSkillSetFromLines(fileLines, newLevel);
-              newLevel.SkillSet[C.Skill.Zombie] = 0; break;
+              newLevel.SkillSet[C.Skill.Zombie] = 0;
+              newLevel.SkillSet[C.Skill.Neutral] = 0;
+              break;
             case "OBJECT": // Deprecated - but the other key words here are NOT deprecated!
             case "GADGET":
             case "LEMMING": newLevel.GadgetList.Add(ReadGadgetFromLines(fileLines)); break;
