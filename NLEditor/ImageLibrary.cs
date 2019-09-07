@@ -15,7 +15,7 @@ namespace NLEditor
     /// <param name="newImage"></param>
     /// <param name="isSteel"></param>
     public BaseImageInfo(Bitmap newImage, bool isSteel = false, bool isDeprecated = false)
-        : this(newImage, isSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, false, new Rectangle(0, 0, 0, 0), C.Resize.None, isDeprecated)
+        : this(newImage, isSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, new Rectangle(0, 0, 0, 0), C.Resize.None, isDeprecated)
     {
       // nothing more
     }
@@ -28,48 +28,17 @@ namespace NLEditor
     /// <param name="numFrames"></param>
     /// <param name="isVert"></param>
     /// <param name="triggerRect"></param>
-    public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, bool isVert, Rectangle triggerRect, 
+    public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, Rectangle triggerRect, 
       C.Resize resizeMode, bool isDeprecated = false, Rectangle? nineSlicingArea = null)
     {
       this.images = new Dictionary<RotateFlipType, List<Bitmap>>();
-      this.images[RotateFlipType.RotateNoneFlipNone] = SeparateFrames(newImage, numFrames, isVert);
+      this.images[RotateFlipType.RotateNoneFlipNone] = SeparateFrames(newImage, numFrames, true);
       this.Width = this.baseImages[0].Width;
       this.Height = this.baseImages[0].Height;
       this.ObjectType = objType;
       this.TriggerRect = triggerRect;
       this.ResizeMode = resizeMode;
       this.PrimaryImageLocation = new Rectangle(0, 0, this.Width, this.Height);
-      this.NineSlicingArea = nineSlicingArea;
-      this.Deprecated = isDeprecated;
-    }
-
-    /// <summary>
-    /// Use this to create the base-info of a new object piece with secondary animations.
-    /// </summary>
-    /// <param name="newImage"></param>
-    /// <param name="objType"></param>
-    /// <param name="numFrames"></param>
-    /// <param name="isVert"></param>
-    /// <param name="triggerRect"></param>
-    /// <param name="secondaryImage"></param>
-    /// <param name="secNumFrames"></param>
-    /// <param name="secIsVert"></param>
-    /// <param name="secOffsetX"></param>
-    /// <param name="secOffsetY"></param>
-    public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, bool isVert, Rectangle triggerRect, C.Resize resizeMode,
-      Bitmap secondaryImage, int secNumFrames, bool secIsVert, int secOffsetX, int secOffsetY, bool isDeprecated = false,
-      Rectangle? nineSlicingArea = null)
-    {
-      this.images = new Dictionary<RotateFlipType, List<Bitmap>>();
-      var primaryImages = SeparateFrames(newImage, numFrames, isVert);
-      var secondaryImages = SeparateFrames(secondaryImage, secNumFrames, secIsVert);
-      this.images[RotateFlipType.RotateNoneFlipNone] = CombineSecondaryImages(primaryImages, secondaryImages, secOffsetX, secOffsetY);
-      this.Width = this.baseImages[0].Width;
-      this.Height = this.baseImages[0].Height;
-      this.ObjectType = objType;
-      this.TriggerRect = triggerRect;
-      this.ResizeMode = resizeMode;
-      this.PrimaryImageLocation = new Rectangle(Math.Max(0, -secOffsetX), Math.Max(0, -secOffsetY), primaryImages[0].Width, primaryImages[0].Height);
       this.NineSlicingArea = nineSlicingArea;
       this.Deprecated = isDeprecated;
     }
@@ -498,7 +467,7 @@ namespace NLEditor
 
       try
       {
-        imageDict[imageKey] = new BaseImageInfo(image, objType, 1, false, triggerRect, resizeMode);
+        imageDict[imageKey] = new BaseImageInfo(image, objType, 1, triggerRect, resizeMode);
       }
       catch (Exception Ex)
       {

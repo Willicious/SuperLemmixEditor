@@ -259,9 +259,6 @@ namespace NLEditor
     /// <returns></returns>
     private static BaseImageInfo CreateNewObjectInfo(string filePath)
     {
-      Bitmap newBitmap;
-      int numFrames = 1;
-      bool isVert = true;
       C.OBJ objType = C.OBJ.NONE;
       Rectangle triggerRect = new Rectangle(0, 0, 1, 1);
       C.Resize resizeMode = C.Resize.None;
@@ -274,8 +271,11 @@ namespace NLEditor
       List<LoadStyleAnimData> animData = new List<LoadStyleAnimData>();
       LoadStyleAnimData primaryAnim = new LoadStyleAnimData()
       {
+        Frame = -1,
         ZIndex = 1
       };
+
+      animData.Add(primaryAnim);
 
       FileParser parser = null;
       try
@@ -370,14 +370,13 @@ namespace NLEditor
                   case "INITIAL_FRAME": primaryAnim.Frame = Math.Max(0, fileLine.Value); break;
                   case "OFFSET_X": primaryAnim.OffsetX = fileLine.Value; break;
                   case "OFFSET_Y": primaryAnim.OffsetY = fileLine.Value; break;
+                  case "HIDDEN": primaryAnim.Hidden = true; break;
                   case "NINE_SLICE_LEFT": nineSliceSizes[0] = line.Value; break;
                   case "NINE_SLICE_TOP": nineSliceSizes[1] = line.Value; break;
                   case "NINE_SLICE_RIGHT": nineSliceSizes[2] = line.Value; break;
                   case "NINE_SLICE_BOTTOM": nineSliceSizes[3] = line.Value; break;
                 }
               }
-
-              animData.Add(primaryAnim);
               break;
 
             case "ANIMATION":
@@ -393,6 +392,7 @@ namespace NLEditor
                   case "INITIAL_FRAME": newAnim.Frame = Math.Max(0, fileLine.Value); break;
                   case "OFFSET_X": newAnim.OffsetX = fileLine.Value; break;
                   case "OFFSET_Y": newAnim.OffsetY = fileLine.Value; break;
+                  case "HIDE": newAnim.Hidden = true; break;
                 }
               }
 
@@ -411,31 +411,93 @@ namespace NLEditor
         parser?.DisposeStreamReader();
       }
 
-      if (primaryAnim.Name?.ToUpperInvariant() == "*PICKUP")
-        newBitmap = Properties.Resources.PickupAnim;
-      else
-        newBitmap = string.IsNullOrEmpty(primaryAnim.Name) ?
-          Image(filePath) : Image(filePath + "_" + primaryAnim.Name);
+      Bitmap newBitmap = CreateCompositeImage(filePath, animData, primaryAnim,
+        out int marginLeft, out int marginTop, out int marginRight, out int marginBottom);
 
       // Convert the nine-slice sizes to a nine-slice center rectangle
       Rectangle? nineSliceRect;
       if (nineSliceSizes.Any(size => size != 0))
       {
-        int oneFrameWidth = newBitmap.Width;
-        int oneFrameHeight = newBitmap.Height;
-        if (!isVert)
-          oneFrameWidth = oneFrameWidth / numFrames;
-        else
-          oneFrameHeight = oneFrameHeight / numFrames;
+        int oneFrameWidth = primaryAnim.Width;
+        int oneFrameHeight = primaryAnim.Height;
 
-        nineSliceRect = new Rectangle(nineSliceSizes[0], nineSliceSizes[1],
-                                      oneFrameWidth - nineSliceSizes[0] - nineSliceSizes[2],
-                                      oneFrameHeight - nineSliceSizes[1] - nineSliceSizes[3]);
+        nineSliceRect = new Rectangle(nineSliceSizes[0] + marginLeft, nineSliceSizes[1] + marginTop,
+                                      oneFrameWidth - nineSliceSizes[0] - nineSliceSizes[2] - marginRight,
+                                      oneFrameHeight - nineSliceSizes[1] - nineSliceSizes[3] - marginBottom);
       }
       else
         nineSliceRect = null;
+
+      newBitmap.Save(C.AppPath + Path.GetFileName(filePath) + ".png", System.Drawing.Imaging.ImageFormat.Png);
         
-      return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode, isDeprecated, nineSliceRect);
+      return new BaseImageInfo(newBitmap, objType, primaryAnim.Frames, triggerRect, resizeMode, isDeprecated, nineSliceRect);
+    }
+
+    public static Bitmap CreateCompositeImage(string filePath, List<LoadStyleAnimData> anims, LoadStyleAnimData primaryAnim,
+      out int marginLeft, out int marginTop, out int marginRight, out int marginBottom)
+    {
+      int minX = 0;
+      int minY = 0;
+      int maxX = 0;
+      int maxY = 0;
+
+      var localAnims = anims.OrderBy(anim => anim.ZIndex);
+
+      foreach (var anim in localAnims)
+      {
+        if (anim.Name?.ToUpperInvariant() == "*PICKUP")
+        {
+          anim.Image = Properties.Resources.PickupAnim;
+          anim.Frames = 36;
+        }
+        else
+        {
+          anim.Image = Image(filePath + (string.IsNullOrEmpty(anim.Name) ? "" : "_" + anim.Name));
+        }
+
+        if (anim.HorizontalStrip)
+        {
+          anim.Width = anim.Image.Width / anim.Frames;
+          anim.Height = anim.Image.Height;
+        }
+        else
+        {
+          anim.Width = anim.Image.Width;
+          anim.Height = anim.Image.Height / anim.Frames;
+        }
+
+        minX = Math.Min(minX, anim.OffsetX);
+        minY = Math.Min(minY, anim.OffsetY);
+        maxX = Math.Max(maxX, anim.OffsetX + anim.Width);
+        maxY = Math.Max(maxY, anim.OffsetY + anim.Height);
+      }
+
+      marginLeft = -minX;
+      marginTop = -minY;
+      marginRight = maxX - primaryAnim.Width;
+      marginBottom = maxY - primaryAnim.Height;
+
+      Bitmap result = new Bitmap(maxX - minX, (maxY - minY) * primaryAnim.Frames);
+
+      for (int n = 0; n < primaryAnim.Frames; n++)
+      {
+        foreach (var anim in localAnims)
+        {
+          if (anim.Hidden) continue;
+
+          Rectangle srcRect = new Rectangle(0, 0, anim.Width, anim.Height);
+          int doFrame = anim.Frame >= 0 ? anim.Frame : n;
+
+          if (anim.HorizontalStrip)
+            srcRect.X = anim.Width * doFrame;
+          else
+            srcRect.Y = anim.Height * doFrame;
+
+          result.DrawOn(anim.Image.Crop(srcRect), new Point(anim.OffsetX + marginLeft, anim.OffsetY + marginTop + ((maxY - minY) * n)));
+        }
+      }
+
+      return result;
     }
 
     /// <summary>
