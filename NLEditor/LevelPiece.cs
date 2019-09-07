@@ -486,14 +486,14 @@ namespace NLEditor
 
     public override bool MayRotate()
     {
-      return !(ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING));
+      return !(ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING, C.OBJ.PICKUP));
       //return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL,
       //                  C.OBJ.FIRE, C.OBJ.WATER, C.OBJ.TRAP, C.OBJ.TRAPONCE);
     }
 
     public override bool MayFlip()
     {
-      return true;
+      return !(ObjType.In(C.OBJ.PICKUP));
       //return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.FIRE, C.OBJ.HATCH, C.OBJ.LEMMING,
       //                  C.OBJ.NONE, C.OBJ.RECEIVER, C.OBJ.SPLAT, C.OBJ.SPLITTER,
       //                  C.OBJ.TELEPORTER, C.OBJ.TRAP, C.OBJ.TRAPONCE,
@@ -502,7 +502,7 @@ namespace NLEditor
 
     public override bool MayInvert()
     {
-      return !(ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING));
+      return !(ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING, C.OBJ.PICKUP));
       //return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL,
       //                  C.OBJ.FIRE, C.OBJ.WATER, C.OBJ.TRAP, C.OBJ.TRAPONCE);
     }
