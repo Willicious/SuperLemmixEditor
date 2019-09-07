@@ -128,7 +128,7 @@ namespace NLEditor
             case "START_Y": newLevel.StartPosY = line.Value; break;
             case "THEME": newLevel.MainStyle = styleList.Find(sty => sty.NameInDirectory == line.Text); break;
             case "LEMMINGS": newLevel.NumLems = line.Value; break;
-            case "SAVE_REQUIREMENT": newLevel.NumLems = line.Value; break;
+            case "SAVE_REQUIREMENT": newLevel.SaveReq = line.Value; break;
             case "REQUIREMENT": newLevel.SaveReq = line.Value; break; // Deprecated
             case "TIME_LIMIT":
               newLevel.TimeLimit = line.Value;
