@@ -470,22 +470,19 @@ namespace NLEditor
     /// <returns></returns>
     static bool AddNewImage(string imageKey)
     {
-      Bitmap newBitmap = LoadStylesFromFile.Image(imageKey);
-      if (newBitmap == null) return false;
-
       try
       {
-        imageDict[imageKey] = LoadStylesFromFile.ImageInfo(newBitmap, imageKey);
+        imageDict[imageKey] = LoadStylesFromFile.ImageInfo(imageKey);
+
+        return true;
       }
       catch (Exception Ex)
       {
         Utility.LogException(Ex);
         System.Windows.Forms.MessageBox.Show("Warning: Could not read .nxmo or .nxmt file at " + imageKey + C.NewLine + Ex.Message, "File corrupt");
 
-        imageDict[imageKey] = new BaseImageInfo(new Bitmap(1, 1));
+        return false;
       }
-
-      return true;
     }
 
     /// <summary>

@@ -105,6 +105,7 @@
     <Compile Include="Level.cs" />
     <Compile Include="LevelFile.cs" />
     <Compile Include="LevelPiece.cs" />
+    <Compile Include="LoadStyleAnimData.cs" />
     <Compile Include="LoadStylesFromFile.cs" />
     <Compile Include="NLEditForm.cs">
       <SubType>Form</SubType>
@@ -168,7 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon_Editor_V2.ico" />
-    <EmbeddedResource Include="pickup_anim.png" />
+    <None Include="Resources\PickupAnim.png" />
     <None Include="Resources\NLLevelConverter.exe" />
   </ItemGroup>
   <ItemGroup>

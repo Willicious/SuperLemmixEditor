@@ -207,7 +207,12 @@ namespace NLEditor
     /// <returns></returns>
     public static Bitmap Image(string imageKey)
     {
-      string imagePath = C.AppPathPieces + imageKey;
+      string imagePath;
+
+      if (Path.IsPathRooted(imageKey))
+        imagePath = imageKey;
+      else
+        imagePath = C.AppPathPieces + imageKey;
 
       try
       {
@@ -219,7 +224,7 @@ namespace NLEditor
         return null;
       }
     }
-
+    
     /// <summary>
     /// Reads further piece infos from a .nxob resp. nxtp file.
     /// <para> Returns a finished BaseImageInfo containing both the image and the further info. <\para> 
@@ -227,24 +232,19 @@ namespace NLEditor
     /// <param name="image"></param>
     /// <param name="imageName"></param>
     /// <returns></returns>
-    public static BaseImageInfo ImageInfo(Bitmap image, string imageName)
+    public static BaseImageInfo ImageInfo(string imageName)
     {
       string imagePath = C.AppPathPieces + imageName;
 
       if (File.Exists(imagePath + ".nxmo"))
       {
         // create a new object piece
-        return CreateNewObjectInfo(image, imagePath + ".nxmo");
-      }
-      else if (File.Exists(imagePath + ".nxmt"))
-      {
-        // create a new object piece
-        return CreateNewTerrainInfo(image, imagePath + ".nxmt");
+        return CreateNewObjectInfo(imagePath);
       }
       else
       {
         // create a new terrain piece
-        return new BaseImageInfo(image);
+        return CreateNewTerrainInfo(imagePath); // This can handle the NXMT file not existing.
       }
     }
 
@@ -257,40 +257,31 @@ namespace NLEditor
     /// <param name="newBitmap"></param>
     /// <param name="FilePathInfo"></param>
     /// <returns></returns>
-    private static BaseImageInfo CreateNewObjectInfo(Bitmap newBitmap, string filePath)
+    private static BaseImageInfo CreateNewObjectInfo(string filePath)
     {
+      Bitmap newBitmap;
       int numFrames = 1;
       bool isVert = true;
       C.OBJ objType = C.OBJ.NONE;
       Rectangle triggerRect = new Rectangle(0, 0, 1, 1);
       C.Resize resizeMode = C.Resize.None;
-      
-      Bitmap secImage = null;
-      int secFrames = 0;
-      bool secIsVert = true;
-      int secOffsetX = 0;
-      int secOffsetY = 0;
-
       bool isDeprecated = false;
       
       int[] nineSliceSizes = new int[4]; // Not appropriate to use a Rectangle yet. File contains the width/height of the slice,
                                          // not a rectangle of the center; and we don't know the width of the object yet. Order
                                          // in the array is Left, Top, Right, Bottom.
 
-      FileParser parser;
-      try
+      List<LoadStyleAnimData> animData = new List<LoadStyleAnimData>();
+      LoadStyleAnimData primaryAnim = new LoadStyleAnimData()
       {
-        parser = new FileParser(filePath);
-      }
-      catch (Exception Ex)
-      {
-        Utility.LogException(Ex);
-        MessageBox.Show(Ex.Message, "File corrupt");
-        return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode);
-      }
+        ZIndex = 1
+      };
 
+      FileParser parser = null;
       try
       {
+        parser = new FileParser(filePath + ".nxmo");
+
         List<FileLine> fileLineList;
         while ((fileLineList = parser.GetNextLines()) != null)
         {
@@ -299,12 +290,13 @@ namespace NLEditor
           FileLine line = fileLineList[0];
           switch (line.Key)
           {
-            case "FRAMES": numFrames = line.Value; break;
+            case "FRAMES": primaryAnim.Frames = line.Value; break;
             case "TRIGGER_X": triggerRect.X = line.Value; break;
             case "TRIGGER_Y": triggerRect.Y = line.Value; break;
             case "TRIGGER_WIDTH": triggerRect.Width = line.Value; break;
             case "TRIGGER_HEIGHT": triggerRect.Height = line.Value; break;
-            case "HORIZONTAL_STRIP": isVert = false; break;
+            case "HORIZONTAL_STRIP": primaryAnim.HorizontalStrip = true; break;
+            case "INITIAL_FRAME": primaryAnim.Frame = line.Value; break;
             case "RESIZE_VERTICAL": resizeMode = resizeMode.In(C.Resize.Horiz, C.Resize.Both) ? C.Resize.Both : C.Resize.Vert; break;
             case "RESIZE_HORIZONTAL": resizeMode = resizeMode.In(C.Resize.Vert, C.Resize.Both) ? C.Resize.Both : C.Resize.Horiz; break;
             case "RESIZE_BOTH": resizeMode = C.Resize.Both; break;
@@ -371,35 +363,41 @@ namespace NLEditor
               {
                 switch (fileLine.Key)
                 {
-                  case "FRAMES": numFrames = fileLine.Value; break;
-                  case "HORIZONTAL_STRIP": isVert = false; break;
+                  case "NAME": primaryAnim.Name = fileLine.Text; break;
+                  case "FRAMES": primaryAnim.Frames = fileLine.Value; break;
+                  case "HORIZONTAL_STRIP": primaryAnim.HorizontalStrip = true; break;
+                  case "Z_INDEX": primaryAnim.ZIndex = fileLine.Value; break;
+                  case "INITIAL_FRAME": primaryAnim.Frame = Math.Max(0, fileLine.Value); break;
+                  case "OFFSET_X": primaryAnim.OffsetX = fileLine.Value; break;
+                  case "OFFSET_Y": primaryAnim.OffsetY = fileLine.Value; break;
                   case "NINE_SLICE_LEFT": nineSliceSizes[0] = line.Value; break;
                   case "NINE_SLICE_TOP": nineSliceSizes[1] = line.Value; break;
                   case "NINE_SLICE_RIGHT": nineSliceSizes[2] = line.Value; break;
                   case "NINE_SLICE_BOTTOM": nineSliceSizes[3] = line.Value; break;
                 }
               }
+
+              animData.Add(primaryAnim);
               break;
 
             case "ANIMATION":
+              LoadStyleAnimData newAnim = new LoadStyleAnimData();
+              foreach (var fileLine in fileLineList)
               {
-                foreach (var fileLine in fileLineList)
+                switch (fileLine.Key)
                 {
-                  switch (fileLine.Key)
-                  {
-                    case "NAME":
-                      {
-                        var secondaryPath = filePath.Substring(0, filePath.Length - 5) + "_" + fileLine.Text + ".png";
-                        secImage = Utility.CreateBitmapFromFile(secondaryPath);
-                        break;
-                      }
-                    case "FRAMES": secFrames = fileLine.Value; break;
-                    case "OFFSET_X": secOffsetX = fileLine.Value; break;
-                    case "OFFSET_Y": secOffsetY = fileLine.Value; break;
-                  }
+                  case "NAME": newAnim.Name = fileLine.Text; break;
+                  case "FRAMES": newAnim.Frames = fileLine.Value; break;
+                  case "HORIZONTAL_STRIP": newAnim.HorizontalStrip = true; break;
+                  case "Z_INDEX": newAnim.ZIndex = fileLine.Value; break;
+                  case "INITIAL_FRAME": newAnim.Frame = Math.Max(0, fileLine.Value); break;
+                  case "OFFSET_X": newAnim.OffsetX = fileLine.Value; break;
+                  case "OFFSET_Y": newAnim.OffsetY = fileLine.Value; break;
                 }
-                break;
               }
+
+              animData.Add(newAnim);
+              break;
           }
         }
       }
@@ -412,6 +410,12 @@ namespace NLEditor
       {
         parser?.DisposeStreamReader();
       }
+
+      if (primaryAnim.Name?.ToUpperInvariant() == "*PICKUP")
+        newBitmap = Properties.Resources.PickupAnim;
+      else
+        newBitmap = string.IsNullOrEmpty(primaryAnim.Name) ?
+          Image(filePath) : Image(filePath + "_" + primaryAnim.Name);
 
       // Convert the nine-slice sizes to a nine-slice center rectangle
       Rectangle? nineSliceRect;
@@ -431,15 +435,7 @@ namespace NLEditor
       else
         nineSliceRect = null;
         
-      if (secImage == null)
-      {
-        return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode, isDeprecated, nineSliceRect);
-      }
-      else
-      {
-        return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode,
-          secImage, secFrames, secIsVert, secOffsetX, secOffsetY, isDeprecated, nineSliceRect);
-      }
+      return new BaseImageInfo(newBitmap, objType, numFrames, isVert, triggerRect, resizeMode, isDeprecated, nineSliceRect);
     }
 
     /// <summary>
@@ -449,47 +445,43 @@ namespace NLEditor
     /// <param name="newBitmap"></param>
     /// <param name="FilePathInfo"></param>
     /// <returns></returns>
-    private static BaseImageInfo CreateNewTerrainInfo(Bitmap newBitmap, string filePath)
+    private static BaseImageInfo CreateNewTerrainInfo(string filePath)
     {
       bool IsSteel = false;
       bool isDeprecated = false;
 
-      FileParser parser;
-      try
+      if (File.Exists(filePath + ".nxmt"))
       {
-        parser = new FileParser(filePath);
-      }
-      catch (Exception Ex)
-      {
-        Utility.LogException(Ex);
-        MessageBox.Show(Ex.Message, "File corrupt");
-        return new BaseImageInfo(newBitmap, IsSteel);
-      }
-
-      try
-      {
-        List<FileLine> fileLineList;
-        while ((fileLineList = parser.GetNextLines()) != null)
+        FileParser parser = null;
+        try
         {
-          System.Diagnostics.Debug.Assert(fileLineList.Count > 0, "FileParser returned empty list.");
+          parser = new FileParser(filePath + ".nxmt");
 
-          FileLine line = fileLineList[0];
-          switch (line.Key)
+          List<FileLine> fileLineList;
+          while ((fileLineList = parser.GetNextLines()) != null)
           {
-            case "STEEL": IsSteel = true; break;
-            case "DEPRECATED": isDeprecated = true; break;
+            System.Diagnostics.Debug.Assert(fileLineList.Count > 0, "FileParser returned empty list.");
+
+            FileLine line = fileLineList[0];
+            switch (line.Key)
+            {
+              case "STEEL": IsSteel = true; break;
+              case "DEPRECATED": isDeprecated = true; break;
+            }
           }
         }
+        catch (Exception Ex)
+        {
+          Utility.LogException(Ex);
+          MessageBox.Show(Ex.Message, "File corrupt");
+        }
+        finally
+        {
+          parser?.DisposeStreamReader();
+        }
       }
-      catch (Exception Ex)
-      {
-        Utility.LogException(Ex);
-        MessageBox.Show(Ex.Message, "File corrupt");
-      }
-      finally
-      {
-        parser?.DisposeStreamReader();
-      }
+
+      Bitmap newBitmap = Image(filePath);
 
       return new BaseImageInfo(newBitmap, IsSteel, isDeprecated);
     }
