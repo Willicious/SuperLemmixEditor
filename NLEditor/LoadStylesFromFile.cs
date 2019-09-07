@@ -450,8 +450,16 @@ namespace NLEditor
         {
           anim.Image = Properties.Resources.PickupAnim;
           anim.Frames = 36;
+
+          var eraseAnim = localAnims.FirstOrDefault(item => item.Name == "skill_mask");
+          if (eraseAnim != null)
+          {
+            eraseAnim.Image = Image(filePath + "_skill_mask");
+            for (int n = 0; n < anim.Frames; n++)
+              anim.Image.DrawOn(eraseAnim.Image.Crop(new Rectangle(0, (n % 2) * 24, 24, 24)), new Point(0, n * 24), C.CustDrawMode.Erase);
+          }
         }
-        else
+        else if (anim.Image == null)
         {
           anim.Image = Image(filePath + (string.IsNullOrEmpty(anim.Name) ? "" : "_" + anim.Name));
         }

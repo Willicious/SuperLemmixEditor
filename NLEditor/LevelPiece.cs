@@ -525,7 +525,7 @@ namespace NLEditor
           }
         case C.OBJ.PICKUP:
           {
-            return skill != C.Skill.Zombie;
+            return !skill.In(C.Skill.Zombie, C.Skill.Neutral);
           }
         default: return false;
       }

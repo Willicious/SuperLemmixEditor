@@ -110,12 +110,14 @@ namespace NLEditor
     // The integer values here are only used to pick the correct frame of pickup-skills
     public enum Skill
     {
-      Climber = 2, Floater = 4, Bomber = 7, Blocker = 9,
-      Builder = 11, Basher = 13, Miner = 15, Digger = 16,
-      Walker = 1, Swimmer = 3, Glider = 5, Disarmer = 6,
-      Stoner = 8, Platformer = 10, Stacker = 12, Cloner = 17,
-      Fencer = 14, Shimmier = 18, Zombie = 0, Neutral = -1
-    }
+      Neutral = -1, Zombie = 0,
+      Walker = 1, Shimmier = 3,
+      Climber = 5, Swimmer = 7, Floater = 9, Glider = 11, Disarmer = 13,
+      Bomber = 15, Stoner = 17, Blocker = 19,
+      Platformer = 21, Builder = 23, Stacker = 25,
+      Basher = 27, Fencer = 29, Miner = 31, Digger = 33,
+      Cloner = 35
+    };
     public static Array SkillArray => Enum.GetValues(typeof(C.Skill));
 
     public static readonly int ZOOM_MIN = -2;
