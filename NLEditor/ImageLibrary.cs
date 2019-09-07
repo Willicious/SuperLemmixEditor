@@ -15,7 +15,8 @@ namespace NLEditor
     /// <param name="newImage"></param>
     /// <param name="isSteel"></param>
     public BaseImageInfo(Bitmap newImage, bool isSteel = false, bool isDeprecated = false)
-        : this(newImage, isSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, new Rectangle(0, 0, 0, 0), C.Resize.None, isDeprecated)
+        : this(newImage, isSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, new Rectangle(0, 0, 0, 0), C.Resize.None,
+            0, 0, 0, 0, isDeprecated)
     {
       // nothing more
     }
@@ -29,7 +30,8 @@ namespace NLEditor
     /// <param name="isVert"></param>
     /// <param name="triggerRect"></param>
     public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, Rectangle triggerRect, 
-      C.Resize resizeMode, bool isDeprecated = false, Rectangle? nineSlicingArea = null)
+      C.Resize resizeMode, int leftMargin = 0, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0,
+      bool isDeprecated = false, Rectangle? nineSlicingArea = null)
     {
       this.images = new Dictionary<RotateFlipType, List<Bitmap>>();
       this.images[RotateFlipType.RotateNoneFlipNone] = SeparateFrames(newImage, numFrames, true);
@@ -38,7 +40,7 @@ namespace NLEditor
       this.ObjectType = objType;
       this.TriggerRect = triggerRect;
       this.ResizeMode = resizeMode;
-      this.PrimaryImageLocation = new Rectangle(0, 0, this.Width, this.Height);
+      this.PrimaryImageLocation = new Rectangle(leftMargin, topMargin, this.Width - leftMargin - rightMargin, this.Height - topMargin - bottomMargin);
       this.NineSlicingArea = nineSlicingArea;
       this.Deprecated = isDeprecated;
     }
@@ -115,35 +117,6 @@ namespace NLEditor
 
       return imageFrames;
     }
-
-    /// <summary>
-    /// Combine primary and secondary images to a single list of frames
-    /// </summary>
-    /// <param name="primaryImages"></param>
-    /// <param name="secondaryImages"></param>
-    /// <param name="secOffsetX"></param>
-    /// <param name="secOffsetY"></param>
-    /// <returns></returns>
-    private List<Bitmap> CombineSecondaryImages(List<Bitmap> primaryImages, List<Bitmap> secondaryImages, int secOffsetX, int secOffsetY)
-    {
-      List<Bitmap> combinedImages = new List<Bitmap>();
-      // Determine size of the combined image
-      int totalWidth = Math.Max(primaryImages[0].Width, secondaryImages[0].Width + secOffsetX) - Math.Min(0, secOffsetX);
-      int totalHeight = Math.Max(primaryImages[0].Height, secondaryImages[0].Height + secOffsetY) - Math.Min(0, secOffsetY);
-      Point primaryPosition = new Point(Math.Max(0, -secOffsetX), Math.Max(0, -secOffsetY));
-      Point secondaryPosition = new Point(Math.Max(0, secOffsetX), Math.Max(0, secOffsetY));
-
-      foreach (Bitmap primaryImage in primaryImages)
-      {
-        Bitmap combinedImage = new Bitmap(totalWidth, totalHeight);
-        combinedImage.DrawOn(secondaryImages[0], secondaryPosition);
-        combinedImage.DrawOn(primaryImage, primaryPosition);
-        combinedImages.Add(combinedImage);
-      }
-
-      return combinedImages;
-    }
-
 
     /// <summary>
     /// Creates rotated images of the desired orientation, if these do not yet exist.
@@ -511,7 +484,8 @@ namespace NLEditor
     /// </summary>
     /// <param name="levelFileLocation"></param>
     /// <returns></returns>
-    public static Point LevelFileToEditorCoordinates(string imageKey, Point levelFileLocation)
+    public static Point LevelFileToEditorCoordinates(string imageKey, Point levelFileLocation,
+      bool rotate, bool flip, bool invert)
     {
       if (!imageDict.ContainsKey(imageKey))
       {
@@ -519,7 +493,14 @@ namespace NLEditor
         if (!success) return levelFileLocation;
       }
 
-      var primaryImageLocation = imageDict[imageKey].PrimaryImageLocation;
+      var img = imageDict[imageKey];
+      var primaryImageLocation = img.PrimaryImageLocation;
+      var boundsRect = new Rectangle(0, 0, img.Width, img.Height);
+
+      if (rotate) primaryImageLocation = primaryImageLocation.RotateInRectangle(boundsRect);
+      if (flip) primaryImageLocation.X = boundsRect.Right - primaryImageLocation.Right;
+      if (invert) primaryImageLocation.Y = boundsRect.Bottom - primaryImageLocation.Bottom;
+
       return new Point(levelFileLocation.X - primaryImageLocation.X, 
                        levelFileLocation.Y - primaryImageLocation.Y);
     }
@@ -531,7 +512,8 @@ namespace NLEditor
     /// <param name="imageKey"></param>
     /// <param name="editorLocation"></param>
     /// <returns></returns>
-    public static Point EditorToLevelFileCoordinates(string imageKey, Point editorLocation)
+    public static Point EditorToLevelFileCoordinates(string imageKey, Point editorLocation,
+      bool rotate, bool flip, bool invert)
     {
       if (!imageDict.ContainsKey(imageKey))
       {
@@ -539,7 +521,14 @@ namespace NLEditor
         if (!success) return editorLocation;
       }
 
-      var primaryImageLocation = imageDict[imageKey].PrimaryImageLocation;
+      var img = imageDict[imageKey];
+      var primaryImageLocation = img.PrimaryImageLocation;
+      var boundsRect = new Rectangle(0, 0, img.Width, img.Height);
+
+      if (rotate) primaryImageLocation = primaryImageLocation.RotateInRectangle(boundsRect);
+      if (flip) primaryImageLocation.X = boundsRect.Right - primaryImageLocation.Right;
+      if (invert) primaryImageLocation.Y = boundsRect.Bottom - primaryImageLocation.Bottom;
+
       return new Point(editorLocation.X + primaryImageLocation.X,
                        editorLocation.Y + primaryImageLocation.Y);
     }

@@ -257,7 +257,7 @@ namespace NLEditor
       // ... then create the correct Gadget piece
       string key = ImageLibrary.CreatePieceKey(styleName, gadgetName, true);
       Point levelFilePos = new Point(posX, posY);
-      Point editorPos = ImageLibrary.LevelFileToEditorCoordinates(key, levelFilePos);
+      Point editorPos = ImageLibrary.LevelFileToEditorCoordinates(key, levelFilePos, doRotate, doFlip, doInvert);
       GadgetPiece newGadget = new GadgetPiece(key, editorPos, 0, false, isNoOverwrite, isOnlyOnTerrain, 
         val_L, skillFlags, specWidth, specHeight, bgSpeed, bgAngle, lemmingCap);
 
@@ -663,7 +663,8 @@ namespace NLEditor
         textFile.WriteLine("   PIECE " + gadget.Name);
       }
 
-      Point levelFilePos = ImageLibrary.EditorToLevelFileCoordinates(gadget.Key, gadget.Pos);
+      Point levelFilePos = ImageLibrary.EditorToLevelFileCoordinates(gadget.Key, gadget.Pos, gadget.IsRotatedInPlayer,
+        gadget.IsFlippedInPlayer, gadget.IsInvertedInPlayer);
       int posX = levelFilePos.X + (gadget.ObjType == C.OBJ.LEMMING ? C.LEM_OFFSET_X : 0);
       int posY = levelFilePos.Y + (gadget.ObjType == C.OBJ.LEMMING ? C.LEM_OFFSET_Y : 0);
       textFile.WriteLine("   X " + posX.ToString().PadLeft(5));

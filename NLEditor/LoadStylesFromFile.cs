@@ -430,7 +430,8 @@ namespace NLEditor
 
       newBitmap.Save(C.AppPath + Path.GetFileName(filePath) + ".png", System.Drawing.Imaging.ImageFormat.Png);
         
-      return new BaseImageInfo(newBitmap, objType, primaryAnim.Frames, triggerRect, resizeMode, isDeprecated, nineSliceRect);
+      return new BaseImageInfo(newBitmap, objType, primaryAnim.Frames, triggerRect, resizeMode,
+        marginLeft, marginTop, marginRight, marginBottom, isDeprecated, nineSliceRect);
     }
 
     public static Bitmap CreateCompositeImage(string filePath, List<LoadStyleAnimData> anims, LoadStyleAnimData primaryAnim,
