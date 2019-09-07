@@ -497,9 +497,24 @@ namespace NLEditor
       var primaryImageLocation = img.PrimaryImageLocation;
       var boundsRect = new Rectangle(0, 0, img.Width, img.Height);
 
-      if (rotate) primaryImageLocation = primaryImageLocation.RotateInRectangle(boundsRect);
-      if (flip) primaryImageLocation.X = boundsRect.Right - primaryImageLocation.Right;
-      if (invert) primaryImageLocation.Y = boundsRect.Bottom - primaryImageLocation.Bottom;
+      if (rotate)
+      {
+        int oldX = primaryImageLocation.X;
+        primaryImageLocation.X = boundsRect.Height - primaryImageLocation.Y - primaryImageLocation.Height;
+        primaryImageLocation.Y = oldX;
+
+        int oldW = primaryImageLocation.Width;
+        primaryImageLocation.Width = primaryImageLocation.Height;
+        primaryImageLocation.Height = oldW;
+
+        if (flip) primaryImageLocation.X = boundsRect.Bottom - primaryImageLocation.Left - primaryImageLocation.Width;
+        if (invert) primaryImageLocation.Y = boundsRect.Right - primaryImageLocation.Top - primaryImageLocation.Height;
+      }
+      else
+      {
+        if (flip) primaryImageLocation.X = boundsRect.Right - primaryImageLocation.Right;
+        if (invert) primaryImageLocation.Y = boundsRect.Bottom - primaryImageLocation.Bottom;
+      }
 
       return new Point(levelFileLocation.X - primaryImageLocation.X, 
                        levelFileLocation.Y - primaryImageLocation.Y);
@@ -525,9 +540,24 @@ namespace NLEditor
       var primaryImageLocation = img.PrimaryImageLocation;
       var boundsRect = new Rectangle(0, 0, img.Width, img.Height);
 
-      if (rotate) primaryImageLocation = primaryImageLocation.RotateInRectangle(boundsRect);
-      if (flip) primaryImageLocation.X = boundsRect.Right - primaryImageLocation.Right;
-      if (invert) primaryImageLocation.Y = boundsRect.Bottom - primaryImageLocation.Bottom;
+      if (rotate)
+      {
+        int oldX = primaryImageLocation.X;
+        primaryImageLocation.X = boundsRect.Height - primaryImageLocation.Y - primaryImageLocation.Height;
+        primaryImageLocation.Y = oldX;
+
+        int oldW = primaryImageLocation.Width;
+        primaryImageLocation.Width = primaryImageLocation.Height;
+        primaryImageLocation.Height = oldW;
+
+        if (flip) primaryImageLocation.X = boundsRect.Bottom - primaryImageLocation.Left - primaryImageLocation.Width;
+        if (invert) primaryImageLocation.Y = boundsRect.Right - primaryImageLocation.Top - primaryImageLocation.Height;
+      }
+      else
+      {
+        if (flip) primaryImageLocation.X = boundsRect.Right - primaryImageLocation.Right;
+        if (invert) primaryImageLocation.Y = boundsRect.Bottom - primaryImageLocation.Bottom;
+      }
 
       return new Point(editorLocation.X + primaryImageLocation.X,
                        editorLocation.Y + primaryImageLocation.Y);
