@@ -427,6 +427,8 @@ namespace NLEditor
       }
       else
         nineSliceRect = null;
+
+      triggerRect.Offset(marginLeft, marginTop);
         
       return new BaseImageInfo(newBitmap, objType, primaryAnim.Frames, triggerRect, resizeMode,
         marginLeft, marginTop, marginRight, marginBottom, isDeprecated, nineSliceRect);

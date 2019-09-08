@@ -370,11 +370,21 @@ namespace NLEditor
       get
       {
         Rectangle trigRect = ImageLibrary.GetTrigger(Key);
+
         // Adjust to resizing
-        if (ResizeMode != C.Resize.None)
+        if (IsRotatedInPlayer)
         {
-          trigRect.Width = IsRotatedInPlayer ? SpecHeight : SpecWidth;
-          trigRect.Height = IsRotatedInPlayer ? SpecWidth : SpecHeight;
+          if (ResizeMode.In(C.Resize.Both, C.Resize.Vert))
+            trigRect.Height += SpecWidth - ImageLibrary.GetHeight(Key);
+          if (ResizeMode.In(C.Resize.Both, C.Resize.Horiz))
+            trigRect.Width += SpecHeight - ImageLibrary.GetWidth(Key);
+        }
+        else
+        {
+          if (ResizeMode.In(C.Resize.Both, C.Resize.Horiz))
+            trigRect.Width += SpecWidth - ImageLibrary.GetWidth(Key);
+          if (ResizeMode.In(C.Resize.Both, C.Resize.Vert))
+            trigRect.Height += SpecHeight - ImageLibrary.GetHeight(Key);
         }
 
         if (ObjType != C.OBJ.ONE_WAY_WALL)
