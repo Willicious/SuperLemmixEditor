@@ -2062,6 +2062,7 @@
             // 
             // lbTalismans
             // 
+            this.lbTalismans.DisplayMember = "Title";
             this.lbTalismans.FormattingEnabled = true;
             this.lbTalismans.Location = new System.Drawing.Point(8, 25);
             this.lbTalismans.Name = "lbTalismans";

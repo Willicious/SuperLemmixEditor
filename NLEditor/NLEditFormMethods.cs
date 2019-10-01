@@ -174,6 +174,12 @@ namespace NLEditor
             {
                 numericsSkillSet[skill].Value = CurLevel.SkillSet[skill];
             }
+
+            lbTalismans.Items.Clear();
+            foreach (var talisman in CurLevel.Talismans)
+            {
+                lbTalismans.Items.Add(talisman);
+            }
         }
 
         /// <summary>
