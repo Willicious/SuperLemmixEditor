@@ -4,83 +4,86 @@ using System.Drawing;
 
 namespace NLEditor
 {
-  using THotkeyTexts = Dictionary<C.HotkeyTabs, List<string>>;
+    using THotkeyTexts = Dictionary<C.HotkeyTabs, List<string>>;
 
-  static class C // for Constants
-  {
-    public static string Version
+    static class C // for Constants
     {
-      get
-      {
-        var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-        return version.Major.ToString() + "." + version.Minor.ToString();
-      }
-    }
+        public static string Version
+        {
+            get
+            {
+                var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                return version.Major.ToString() + "." + version.Minor.ToString();
+            }
+        }
 
-    public static string AppPath => System.Windows.Forms.Application.StartupPath + DirSep;
-    public static string AppPathPieces => AppPath + "styles" + DirSep;
-    public static string AppPathMusic => AppPath + "music" + DirSep;
-    public static string AppPathLevels => AppPath + "levels" + DirSep;
-    public static string AppPathTempLevel => AppPath + "TempTestLevel.nxlv";
-    public static string AppPathThemeInfo(string styleName) => AppPathPieces + styleName + C.DirSep + "theme.nxtm";
-    public static string AppPathSettings => AppPath + "NLEditorSettings.ini";
-    public static string AppPathPlayerSettings => AppPath + "settings" + DirSep + "settings.ini";
-    public static string AppPathPlayerSettingsOld => AppPath + "NeoLemmix147Settings.ini";
-    public static string AppPathNeoLemmix => AppPath + "NeoLemmix.exe";
+        public static string AppPath => System.Windows.Forms.Application.StartupPath + DirSep;
+        public static string AppPathPieces => AppPath + "styles" + DirSep;
+        public static string AppPathMusic => AppPath + "music" + DirSep;
+        public static string AppPathLevels => AppPath + "levels" + DirSep;
+        public static string AppPathTempLevel => AppPath + "TempTestLevel.nxlv";
+        public static string AppPathThemeInfo(string styleName) => AppPathPieces + styleName + C.DirSep + "theme.nxtm";
+        public static string AppPathSettings => AppPath + "NLEditorSettings.ini";
+        public static string AppPathPlayerSettings => AppPath + "settings" + DirSep + "settings.ini";
+        public static string AppPathPlayerSettingsOld => AppPath + "NeoLemmix147Settings.ini";
+        public static string AppPathNeoLemmix => AppPath + "NeoLemmix.exe";
 
-    public static char DirSep => System.IO.Path.DirectorySeparatorChar;
-    public static string NewLine => Environment.NewLine;
+        public static char DirSep => System.IO.Path.DirectorySeparatorChar;
+        public static string NewLine => Environment.NewLine;
 
-    public static Size PicPieceSize => new Size(84, 84);
+        public static Size PicPieceSize => new Size(84, 84);
 
-    public static ScreenSize ScreenSize;
+        public static ScreenSize ScreenSize;
 
-    public enum DisplayType
-    {
-      Terrain, Objects, Trigger, ScreenStart, Background, ClearPhysics, Deprecated
-    }
+        public enum DisplayType
+        {
+            Terrain, Objects, Trigger, ScreenStart, Background, ClearPhysics, Deprecated
+        }
 
-    public enum CustDrawMode
-    {
-      Default, DefaultOWW, Erase, OnlyAtMask, OnlyAtOWW,
-      NoOverwrite, NoOverwriteOWW,
-      ClearPhysics, ClearPhysicsOWW, ClearPhysicsSteel,
-      ClearPhysicsNoOverwrite, ClearPhysicsNoOverwriteOWW, ClearPhysicsSteelNoOverwrite,
-      Custom
-    }
+        public enum CustDrawMode
+        {
+            Default, DefaultOWW, Erase, OnlyAtMask, OnlyAtOWW,
+            NoOverwrite, NoOverwriteOWW,
+            ClearPhysics, ClearPhysicsOWW, ClearPhysicsSteel,
+            ClearPhysicsNoOverwrite, ClearPhysicsNoOverwriteOWW, ClearPhysicsSteelNoOverwrite,
+            Custom
+        }
 
-    public enum DIR { N, E, S, W }
+        public enum DIR { N, E, S, W }
 
-    /// <summary>
-    /// Warning: The values of the object types here do NOT correspond to the numbers used in NeoLemmix! 
-    /// </summary>
-    public enum OBJ
-    {
-      TERRAIN = -1, STEEL = -2,
-      HATCH = 0, EXIT = 1, TRAP = 4, TRAPONCE = 5, WATER = 6, FIRE = 7,
-      ONE_WAY_WALL = 10,
-      LEMMING = 15, PICKUP = 16, TELEPORTER = 17, RECEIVER = 18,
-      EXIT_LOCKED = 20, BUTTON = 21,
-      UPDRAFT = 22, SPLAT = 24, FORCE_FIELD = 25, SPLITTER = 27,
-      NONE = 50, BACKGROUND = 52,
-      NULL
-    }
+        /// <summary>
+        /// Warning: The values of the object types here do NOT correspond to the numbers used in NeoLemmix! 
+        /// </summary>
+        public enum OBJ
+        {
+            TERRAIN = -1, STEEL = -2,
+            HATCH = 0, EXIT = 1, TRAP = 4, TRAPONCE = 5, WATER = 6, FIRE = 7,
+            ONE_WAY_WALL = 10,
+            LEMMING = 15, PICKUP = 16, TELEPORTER = 17, RECEIVER = 18,
+            EXIT_LOCKED = 20, BUTTON = 21,
+            UPDRAFT = 22, SPLAT = 24, FORCE_FIELD = 25, SPLITTER = 27,
+            NONE = 50, BACKGROUND = 52,
+            NULL
+        }
 
-    public enum StyleColor
-    {
-      BACKGROUND, ONE_WAY_WALL, MASK, PICKUP_BORDER, PICKUP_INSIDE
-    }
-    public static NLColor ToNLColor(this StyleColor styleColor)
-    {
-      switch (styleColor)
-      {
-        case StyleColor.BACKGROUND: return NLColor.BackDefault;
-        case StyleColor.ONE_WAY_WALL: return NLColor.OWWDefault;
-        default: return NLColor.BackDefault;
-      }
-    }
+        public enum StyleColor
+        {
+            BACKGROUND, ONE_WAY_WALL, MASK, PICKUP_BORDER, PICKUP_INSIDE
+        }
+        public static NLColor ToNLColor(this StyleColor styleColor)
+        {
+            switch (styleColor)
+            {
+                case StyleColor.BACKGROUND:
+                    return NLColor.BackDefault;
+                case StyleColor.ONE_WAY_WALL:
+                    return NLColor.OWWDefault;
+                default:
+                    return NLColor.BackDefault;
+            }
+        }
 
-    public static readonly Dictionary<OBJ, string> TooltipList = new Dictionary<OBJ, string>
+        public static readonly Dictionary<OBJ, string> TooltipList = new Dictionary<OBJ, string>
     {
       {OBJ.TERRAIN, "Terrain"}, {OBJ.STEEL, "Steel"}, {OBJ.NONE, "No effect"},
       {OBJ.EXIT, "Exit"}, {OBJ.FORCE_FIELD, "Turning field"}, {OBJ.ONE_WAY_WALL, "One-way-wall"},
@@ -91,48 +94,48 @@ namespace NLEditor
       {OBJ.SPLAT, "Splat wire"}, {OBJ.BACKGROUND, "Decoration"}, {OBJ.TRAPONCE, "Single-use trap"}
     };
 
-    public enum DragActions
-    {
-      Null, SelectArea, DragPieces, DragNewPiece, MoveEditorPos, MoveStartPos
-    }
+        public enum DragActions
+        {
+            Null, SelectArea, DragPieces, DragNewPiece, MoveEditorPos, MoveStartPos
+        }
 
-    public enum Resize { None, Vert, Horiz, Both }
+        public enum Resize { None, Vert, Horiz, Both }
 
-    public static readonly byte ALPHA_OWW = 255;
-    public static readonly byte ALPHA_NOOWW = 254;
+        public static readonly byte ALPHA_OWW = 255;
+        public static readonly byte ALPHA_NOOWW = 254;
 
-    public enum Layer { Background, ObjBack, Terrain, ObjTop, Trigger }
-    public static readonly List<Layer> LayerList = new List<Layer>()
+        public enum Layer { Background, ObjBack, Terrain, ObjTop, Trigger }
+        public static readonly List<Layer> LayerList = new List<Layer>()
     {
       Layer.Background, Layer.ObjBack, Layer.Terrain, Layer.ObjTop, Layer.Trigger
     };
 
-    // The integer values here are only used to pick the correct frame of pickup-skills
-    public enum Skill
-    {
-      Neutral = -1, Zombie = 0,
-      Walker = 1, Shimmier = 3,
-      Climber = 5, Swimmer = 7, Floater = 9, Glider = 11, Disarmer = 13,
-      Bomber = 15, Stoner = 17, Blocker = 19,
-      Platformer = 21, Builder = 23, Stacker = 25,
-      Basher = 27, Fencer = 29, Miner = 31, Digger = 33,
-      Cloner = 35
-    };
-    public static Array SkillArray => Enum.GetValues(typeof(C.Skill));
+        // The integer values here are only used to pick the correct frame of pickup-skills
+        public enum Skill
+        {
+            Neutral = -1, Zombie = 0,
+            Walker = 1, Shimmier = 3,
+            Climber = 5, Swimmer = 7, Floater = 9, Glider = 11, Disarmer = 13,
+            Bomber = 15, Stoner = 17, Blocker = 19,
+            Platformer = 21, Builder = 23, Stacker = 25,
+            Basher = 27, Fencer = 29, Miner = 31, Digger = 33,
+            Cloner = 35
+        };
+        public static Array SkillArray => Enum.GetValues(typeof(C.Skill));
 
-    public static readonly int ZOOM_MIN = -2;
-    public static readonly int ZOOM_MAX = 7;
+        public static readonly int ZOOM_MIN = -2;
+        public static readonly int ZOOM_MAX = 7;
 
-    public static readonly int LEM_OFFSET_X = 2;
-    public static readonly int LEM_OFFSET_Y = 9;
+        public static readonly int LEM_OFFSET_X = 2;
+        public static readonly int LEM_OFFSET_Y = 9;
 
-    // Other colors are specified directly in BmpModify to speed up rendering.
-    public enum NLColor
-    {
-      Text, OWWDefault, BackDefault,
-      Trigger, ScreenStart, SelRectGadget, SelRectTerrain
-    }
-    public static readonly Dictionary<NLColor, Color> NLColors = new Dictionary<NLColor, Color>()
+        // Other colors are specified directly in BmpModify to speed up rendering.
+        public enum NLColor
+        {
+            Text, OWWDefault, BackDefault,
+            Trigger, ScreenStart, SelRectGadget, SelRectTerrain
+        }
+        public static readonly Dictionary<NLColor, Color> NLColors = new Dictionary<NLColor, Color>()
     {
       { NLColor.Text, Utility.HexToColor("FEF5F5F5") }, // Color.WhiteSmoke with slightly reduced alpha
       { NLColor.OWWDefault, Color.Linen },
@@ -143,19 +146,19 @@ namespace NLEditor
       { NLColor.SelRectTerrain, Color.Gold }
     };
 
-    public enum HotkeyTabs { General, Level, Pieces }
+        public enum HotkeyTabs { General, Level, Pieces }
 
-    public enum TalismanType { Bronze, Silver, Gold }
-    public enum TalismanReq
-    {
-      SaveReq, TimeLimit, SkillTotal,
-      SkillWalker, SkillShimmier, SkillClimber, SkillSwimmer, SkillFloater, SkillGlider,
-      SkillDisarmer, SkillBomber, SkillStoner, SkillBlocker,
-      SkillBuilder, SkillPlatformer, SkillStacker,
-      SkillBasher, SkillMiner, SkillDigger, SkillFencer, SkillCloner,
-      SkillEachLimit, UseOnlySkill
-    }
-    public static Array TalismanReqArray => Enum.GetValues(typeof(C.TalismanReq));
+        public enum TalismanType { Bronze, Silver, Gold }
+        public enum TalismanReq
+        {
+            SaveReq, TimeLimit, SkillTotal,
+            SkillWalker, SkillShimmier, SkillClimber, SkillSwimmer, SkillFloater, SkillGlider,
+            SkillDisarmer, SkillBomber, SkillStoner, SkillBlocker,
+            SkillBuilder, SkillPlatformer, SkillStacker,
+            SkillBasher, SkillMiner, SkillDigger, SkillFencer, SkillCloner,
+            SkillEachLimit, UseOnlySkill
+        }
+        public static Array TalismanReqArray => Enum.GetValues(typeof(C.TalismanReq));
 
 
 
@@ -212,13 +215,13 @@ namespace NLEditor
       { TalismanReq.SkillEachLimit, "SKILL_EACH_LIMIT" }, { TalismanReq.UseOnlySkill, "USE_ONLY_SKILL" }
     };
 
-    public static readonly string[] MusicExtensions = new List<string>()
+        public static readonly string[] MusicExtensions = new List<string>()
     {
       ".ogg", ".it", ".mp3", ".mo3", ".wav", ".aiff", ".aif",
       ".mod", ".xm", ".s3m", ".mtm", ".umx"
     }.ToArray();
 
-    public static readonly List<string> MusicNames = new List<string>()
+        public static readonly List<string> MusicNames = new List<string>()
     {
       "orig_01", "orig_02", "orig_03", "orig_04", "orig_05", "orig_06", "orig_07", "orig_08", "orig_09", "orig_10",
       "orig_11", "orig_12", "orig_13", "orig_14", "orig_15", "orig_16", "orig_17",
@@ -227,7 +230,7 @@ namespace NLEditor
     };
 
 
-    public static readonly THotkeyTexts HotkeyDict = new THotkeyTexts
+        public static readonly THotkeyTexts HotkeyDict = new THotkeyTexts
     {
       { HotkeyTabs.General, new List<string>
         {
@@ -304,7 +307,7 @@ namespace NLEditor
       }
     };
 
-    public static readonly THotkeyTexts DescriptionDict = new THotkeyTexts
+        public static readonly THotkeyTexts DescriptionDict = new THotkeyTexts
     {
       { HotkeyTabs.General, new List<string>
         {
@@ -381,7 +384,7 @@ namespace NLEditor
       }
     };
 
-    public static readonly List<string> VersionList = new List<string>
+        public static readonly List<string> VersionList = new List<string>
     {
       "Version " + Version,
       "   by Stephan Neupert (Nepster), updates by Namida Verasche (namida)",
@@ -396,7 +399,7 @@ namespace NLEditor
     };
 
 
-    public static readonly Dictionary<int, string> FileConverterErrorMsg = new Dictionary<int, string>()
+        public static readonly Dictionary<int, string> FileConverterErrorMsg = new Dictionary<int, string>()
     {
       { 2, "Warning: Could not convert some object properties to the nxlv. format due to missing .nxmo files." },
       { 90, "Error: Level converter got passed invalid file paths." },
@@ -404,5 +407,5 @@ namespace NLEditor
       { 92, "Error: Level converter could not find the translation table .nxtt for the graphic style used in the level." },
       { 99, "Error: Level converter encountered an unknown error." }
     };
-  }
+    }
 }

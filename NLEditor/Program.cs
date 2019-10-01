@@ -13,14 +13,14 @@ using System.Windows.Forms;
 
 namespace NLEditor
 {
-  static class Program
-  {
-    /// <summary>
-    /// The main entry point for the application.
-    /// </summary>
-    [STAThread]
-    static void Main()
+    static class Program
     {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
 #if !DEBUG
       try
       {
@@ -32,9 +32,9 @@ namespace NLEditor
         AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(
             (object sender, UnhandledExceptionEventArgs e) => Utility.HandleGlobalException((Exception)e.ExceptionObject));
 #endif
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
-        Application.Run(new NLEditForm());
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new NLEditForm());
 #if !DEBUG
       }
       catch (Exception Ex)
@@ -42,6 +42,6 @@ namespace NLEditor
         Utility.HandleGlobalException(Ex);
       }
 #endif
+        }
     }
-  }
 }
