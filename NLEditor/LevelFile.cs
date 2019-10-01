@@ -654,6 +654,8 @@ namespace NLEditor
                 return;
             }
 
+            curLevel.PrepareForSave();
+
             TextWriter textFile = new StreamWriter(filePath, true);
 
             textFile.WriteLine("# ----------------------------- ");

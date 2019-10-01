@@ -222,6 +222,9 @@ namespace NLEditor
                 }
                 else if (newPiece is GadgetPiece)
                 {
+                    if (newPiece.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
+                        ((GadgetPiece)newPiece).SetTeleporterValue(0);
+
                     GadgetList.Add((GadgetPiece)newPiece);
                 }
             }
