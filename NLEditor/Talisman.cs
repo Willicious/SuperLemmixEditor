@@ -10,7 +10,7 @@ namespace NLEditor
             AwardType = C.TalismanType.Bronze;
             Requirements = new Dictionary<C.TalismanReq, int>();
             Title = string.Empty;
-            ID = 0;
+            ID = -1;
         }
 
         public C.TalismanType AwardType { get; set; }

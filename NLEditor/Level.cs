@@ -810,5 +810,21 @@ namespace NLEditor
                 GroupList.Remove(group);
             }
         }
+
+        public void PrepareForSave()
+        {
+            ValidateTalismanIDs();
+        }
+
+        public void ValidateTalismanIDs()
+        {
+            foreach (var talisman in this.Talismans.Where(tal => tal.ID < 0))
+            {
+                int i = 0;
+                while (Talismans.Count(tal => tal.ID == i) > 0)
+                    i++;
+                talisman.ID = i;
+            }
+        }
     }
 }
