@@ -101,6 +101,12 @@
     <Compile Include="FormPieceSelection.Designer.cs">
       <DependentUpon>FormPieceSelection.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormTalisman.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTalisman.Designer.cs">
+      <DependentUpon>FormTalisman.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImageLibrary.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelFile.cs" />
@@ -136,6 +142,9 @@
     <Compile Include="ValidateLevel.cs" />
     <EmbeddedResource Include="FormPieceSelection.resx">
       <DependentUpon>FormPieceSelection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTalisman.resx">
+      <DependentUpon>FormTalisman.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NLEditForm.resx">
       <DependentUpon>NLEditForm.cs</DependentUpon>

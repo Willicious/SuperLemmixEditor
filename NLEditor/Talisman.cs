@@ -32,5 +32,31 @@ namespace NLEditor
 
       return true;
     }
-  }
+
+        /// <summary>
+        /// Gets the text of the requirement to be displayed on the form.
+        /// </summary>
+        /// <param name="requirement"></param>
+        /// <returns></returns>
+        public string GetRequirementText(C.TalismanReq requirement)
+        {
+            if (!Requirements.ContainsKey(requirement))
+                return string.Empty;
+
+            if (requirement == C.TalismanReq.TimeLimit)
+            {
+                int min = Requirements[requirement] / 17 / 60;
+                int sec = (Requirements[requirement] / 17) % 60;
+                return C.TalismanReqText[requirement] + ": " + min.ToString() + ":" + sec.ToString();
+            }
+            else if (requirement == C.TalismanReq.UseOnlySkill)
+            {
+                return C.TalismanReqText[requirement] + ": " + C.TalismanSkills[Requirements[requirement]];
+            }
+            else
+            {
+                return C.TalismanReqText[requirement] + ": " + Requirements[requirement].ToString();
+            }
+        }
+    }
 }
