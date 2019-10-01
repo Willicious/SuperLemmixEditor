@@ -50,10 +50,10 @@
             this.clearPhysicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.terrainRenderingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectRenderingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deprecatedPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.triggerAreasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.screenStartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deprecatedPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.validateLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -102,6 +102,24 @@
             this.txt_LevelTitle = new System.Windows.Forms.TextBox();
             this.lbl_Global_Title = new System.Windows.Forms.Label();
             this.tabPieces = new System.Windows.Forms.TabPage();
+            this.check_Piece_Zombie = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Neutral = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Cloner = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Digger = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Fencer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Miner = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Basher = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Builder = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Stacker = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Platformer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Stoner = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Blocker = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Disarmer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Bomber = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Glider = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Floater = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Swimmer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Climber = new System.Windows.Forms.CheckBox();
             this.num_PickupSkillCount = new NLEditor.NumUpDownOverwrite();
             this.lbl_PickupSkillCount = new System.Windows.Forms.Label();
             this.num_LemmingLimit = new NLEditor.NumUpDownOverwrite();
@@ -111,26 +129,8 @@
             this.but_PairTeleporter = new System.Windows.Forms.Button();
             this.lbl_Resize_Height = new System.Windows.Forms.Label();
             this.lbl_Resize_Width = new System.Windows.Forms.Label();
-            this.check_Piece_Zombie = new System.Windows.Forms.CheckBox();
             this.check_Piece_Shimmier = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Fencer = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Neutral = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Cloner = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Stacker = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Platformer = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Stoner = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Disarmer = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Glider = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Swimmer = new System.Windows.Forms.CheckBox();
             this.check_Piece_Walker = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Digger = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Miner = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Basher = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Builder = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Blocker = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Bomber = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Floater = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Climber = new System.Windows.Forms.CheckBox();
             this.check_Pieces_OneWay = new System.Windows.Forms.CheckBox();
             this.check_Pieces_OnlyOnTerrain = new System.Windows.Forms.CheckBox();
             this.check_Pieces_NoOv = new System.Windows.Forms.CheckBox();
@@ -181,6 +181,9 @@
             this.num_Ski_Blocker = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Floater = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Climber = new NLEditor.NumUpDownOverwrite();
+            this.tabMisc = new System.Windows.Forms.TabPage();
+            this.lblTalismans = new System.Windows.Forms.Label();
+            this.lbTalismans = new System.Windows.Forms.ListBox();
             this.txt_Focus = new NLEditor.FocusTextBox();
             this.toolTipPieces = new System.Windows.Forms.ToolTip(this.components);
             this.tabLvlPieces = new System.Windows.Forms.TabControl();
@@ -236,6 +239,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Blocker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).BeginInit();
+            this.tabMisc.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).BeginInit();
             this.SuspendLayout();
             // 
@@ -421,14 +425,6 @@
             this.triggerAreasToolStripMenuItem.Text = "Trigger areas (F4)";
             this.triggerAreasToolStripMenuItem.Click += new System.EventHandler(this.triggerAreasToolStripMenuItem_Click);
             // 
-            // deprecatedPiecesToolStripMenuItem
-            // 
-            this.deprecatedPiecesToolStripMenuItem.CheckOnClick = true;
-            this.deprecatedPiecesToolStripMenuItem.Name = "deprecatedPiecesToolStripMenuItem";
-            this.deprecatedPiecesToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.deprecatedPiecesToolStripMenuItem.Text = "Deprecated pieces (F7)";
-            this.deprecatedPiecesToolStripMenuItem.Click += new System.EventHandler(this.deprecatedPiecesToolStripMenuItem_Click);
-            // 
             // screenStartToolStripMenuItem
             // 
             this.screenStartToolStripMenuItem.CheckOnClick = true;
@@ -445,13 +441,21 @@
             this.backgroundToolStripMenuItem.Text = "Background image (F6)";
             this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
             // 
+            // deprecatedPiecesToolStripMenuItem
+            // 
+            this.deprecatedPiecesToolStripMenuItem.CheckOnClick = true;
+            this.deprecatedPiecesToolStripMenuItem.Name = "deprecatedPiecesToolStripMenuItem";
+            this.deprecatedPiecesToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.deprecatedPiecesToolStripMenuItem.Text = "Deprecated pieces (F7)";
+            this.deprecatedPiecesToolStripMenuItem.Click += new System.EventHandler(this.deprecatedPiecesToolStripMenuItem_Click);
+            // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.playLevelToolStripMenuItem,
             this.validateLevelToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // playLevelToolStripMenuItem
@@ -651,6 +655,7 @@
             this.tabLvlProperties.Controls.Add(this.tabGlobalInfo);
             this.tabLvlProperties.Controls.Add(this.tabPieces);
             this.tabLvlProperties.Controls.Add(this.tabSkills);
+            this.tabLvlProperties.Controls.Add(this.tabMisc);
             this.tabLvlProperties.Location = new System.Drawing.Point(0, 27);
             this.tabLvlProperties.Name = "tabLvlProperties";
             this.tabLvlProperties.SelectedIndex = 0;
@@ -1122,6 +1127,205 @@
             this.tabPieces.Text = "Pieces";
             this.tabPieces.UseVisualStyleBackColor = true;
             // 
+            // check_Piece_Zombie
+            // 
+            this.check_Piece_Zombie.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Zombie.Location = new System.Drawing.Point(8, 325);
+            this.check_Piece_Zombie.Name = "check_Piece_Zombie";
+            this.check_Piece_Zombie.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Zombie.TabIndex = 31;
+            this.check_Piece_Zombie.Text = "Zombie";
+            this.check_Piece_Zombie.UseVisualStyleBackColor = true;
+            this.check_Piece_Zombie.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Neutral
+            // 
+            this.check_Piece_Neutral.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Neutral.Location = new System.Drawing.Point(92, 325);
+            this.check_Piece_Neutral.Name = "check_Piece_Neutral";
+            this.check_Piece_Neutral.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Neutral.TabIndex = 31;
+            this.check_Piece_Neutral.Text = "Neutral";
+            this.check_Piece_Neutral.UseVisualStyleBackColor = true;
+            this.check_Piece_Neutral.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Cloner
+            // 
+            this.check_Piece_Cloner.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Cloner.Location = new System.Drawing.Point(92, 310);
+            this.check_Piece_Cloner.Name = "check_Piece_Cloner";
+            this.check_Piece_Cloner.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Cloner.TabIndex = 29;
+            this.check_Piece_Cloner.Text = "Cloner";
+            this.check_Piece_Cloner.UseVisualStyleBackColor = true;
+            this.check_Piece_Cloner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Digger
+            // 
+            this.check_Piece_Digger.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Digger.Location = new System.Drawing.Point(8, 310);
+            this.check_Piece_Digger.Name = "check_Piece_Digger";
+            this.check_Piece_Digger.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Digger.TabIndex = 20;
+            this.check_Piece_Digger.Text = "Digger";
+            this.check_Piece_Digger.UseVisualStyleBackColor = true;
+            this.check_Piece_Digger.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Fencer
+            // 
+            this.check_Piece_Fencer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Fencer.Location = new System.Drawing.Point(8, 295);
+            this.check_Piece_Fencer.Name = "check_Piece_Fencer";
+            this.check_Piece_Fencer.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Fencer.TabIndex = 21;
+            this.check_Piece_Fencer.Text = "Fencer";
+            this.check_Piece_Fencer.UseVisualStyleBackColor = true;
+            this.check_Piece_Fencer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Miner
+            // 
+            this.check_Piece_Miner.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Miner.Location = new System.Drawing.Point(92, 295);
+            this.check_Piece_Miner.Name = "check_Piece_Miner";
+            this.check_Piece_Miner.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Miner.TabIndex = 19;
+            this.check_Piece_Miner.Text = "Miner";
+            this.check_Piece_Miner.UseVisualStyleBackColor = true;
+            this.check_Piece_Miner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Basher
+            // 
+            this.check_Piece_Basher.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Basher.Location = new System.Drawing.Point(92, 280);
+            this.check_Piece_Basher.Name = "check_Piece_Basher";
+            this.check_Piece_Basher.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Basher.TabIndex = 18;
+            this.check_Piece_Basher.Text = "Basher";
+            this.check_Piece_Basher.UseVisualStyleBackColor = true;
+            this.check_Piece_Basher.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Builder
+            // 
+            this.check_Piece_Builder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Builder.Location = new System.Drawing.Point(92, 265);
+            this.check_Piece_Builder.Name = "check_Piece_Builder";
+            this.check_Piece_Builder.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Builder.TabIndex = 17;
+            this.check_Piece_Builder.Text = "Builder";
+            this.check_Piece_Builder.UseVisualStyleBackColor = true;
+            this.check_Piece_Builder.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Stacker
+            // 
+            this.check_Piece_Stacker.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Stacker.Location = new System.Drawing.Point(8, 280);
+            this.check_Piece_Stacker.Name = "check_Piece_Stacker";
+            this.check_Piece_Stacker.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Stacker.TabIndex = 28;
+            this.check_Piece_Stacker.Text = "Stacker";
+            this.check_Piece_Stacker.UseVisualStyleBackColor = true;
+            this.check_Piece_Stacker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Platformer
+            // 
+            this.check_Piece_Platformer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Platformer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.check_Piece_Platformer.Location = new System.Drawing.Point(8, 265);
+            this.check_Piece_Platformer.Name = "check_Piece_Platformer";
+            this.check_Piece_Platformer.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Platformer.TabIndex = 27;
+            this.check_Piece_Platformer.Text = "Platformer";
+            this.check_Piece_Platformer.UseVisualStyleBackColor = true;
+            this.check_Piece_Platformer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Stoner
+            // 
+            this.check_Piece_Stoner.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Stoner.Location = new System.Drawing.Point(8, 250);
+            this.check_Piece_Stoner.Name = "check_Piece_Stoner";
+            this.check_Piece_Stoner.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Stoner.TabIndex = 26;
+            this.check_Piece_Stoner.Text = "Stoner";
+            this.check_Piece_Stoner.UseVisualStyleBackColor = true;
+            this.check_Piece_Stoner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Blocker
+            // 
+            this.check_Piece_Blocker.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Blocker.Location = new System.Drawing.Point(92, 250);
+            this.check_Piece_Blocker.Name = "check_Piece_Blocker";
+            this.check_Piece_Blocker.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Blocker.TabIndex = 16;
+            this.check_Piece_Blocker.Text = "Blocker";
+            this.check_Piece_Blocker.UseVisualStyleBackColor = true;
+            this.check_Piece_Blocker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Disarmer
+            // 
+            this.check_Piece_Disarmer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Disarmer.Location = new System.Drawing.Point(8, 235);
+            this.check_Piece_Disarmer.Name = "check_Piece_Disarmer";
+            this.check_Piece_Disarmer.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Disarmer.TabIndex = 25;
+            this.check_Piece_Disarmer.Text = "Disarmer";
+            this.check_Piece_Disarmer.UseVisualStyleBackColor = true;
+            this.check_Piece_Disarmer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Bomber
+            // 
+            this.check_Piece_Bomber.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Bomber.Location = new System.Drawing.Point(92, 235);
+            this.check_Piece_Bomber.Name = "check_Piece_Bomber";
+            this.check_Piece_Bomber.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Bomber.TabIndex = 15;
+            this.check_Piece_Bomber.Text = "Bomber";
+            this.check_Piece_Bomber.UseVisualStyleBackColor = true;
+            this.check_Piece_Bomber.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Glider
+            // 
+            this.check_Piece_Glider.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Glider.Location = new System.Drawing.Point(92, 220);
+            this.check_Piece_Glider.Name = "check_Piece_Glider";
+            this.check_Piece_Glider.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Glider.TabIndex = 24;
+            this.check_Piece_Glider.Text = "Glider";
+            this.check_Piece_Glider.UseVisualStyleBackColor = true;
+            this.check_Piece_Glider.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Floater
+            // 
+            this.check_Piece_Floater.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Floater.Location = new System.Drawing.Point(8, 220);
+            this.check_Piece_Floater.Name = "check_Piece_Floater";
+            this.check_Piece_Floater.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Floater.TabIndex = 14;
+            this.check_Piece_Floater.Text = "Floater";
+            this.check_Piece_Floater.UseVisualStyleBackColor = true;
+            this.check_Piece_Floater.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Swimmer
+            // 
+            this.check_Piece_Swimmer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Swimmer.Location = new System.Drawing.Point(92, 205);
+            this.check_Piece_Swimmer.Name = "check_Piece_Swimmer";
+            this.check_Piece_Swimmer.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Swimmer.TabIndex = 23;
+            this.check_Piece_Swimmer.Text = "Swimmer";
+            this.check_Piece_Swimmer.UseVisualStyleBackColor = true;
+            this.check_Piece_Swimmer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Climber
+            // 
+            this.check_Piece_Climber.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Climber.Location = new System.Drawing.Point(8, 205);
+            this.check_Piece_Climber.Name = "check_Piece_Climber";
+            this.check_Piece_Climber.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Climber.TabIndex = 13;
+            this.check_Piece_Climber.Text = "Climber";
+            this.check_Piece_Climber.UseVisualStyleBackColor = true;
+            this.check_Piece_Climber.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
             // num_PickupSkillCount
             // 
             this.num_PickupSkillCount.Location = new System.Drawing.Point(69, 350);
@@ -1229,17 +1433,6 @@
             this.lbl_Resize_Width.Text = "Width";
             this.lbl_Resize_Width.Visible = false;
             // 
-            // check_Piece_Zombie
-            // 
-            this.check_Piece_Zombie.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Zombie.Location = new System.Drawing.Point(8, 325);
-            this.check_Piece_Zombie.Name = "check_Piece_Zombie";
-            this.check_Piece_Zombie.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Zombie.TabIndex = 31;
-            this.check_Piece_Zombie.Text = "Zombie";
-            this.check_Piece_Zombie.UseVisualStyleBackColor = true;
-            this.check_Piece_Zombie.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
             // check_Piece_Shimmier
             // 
             this.check_Piece_Shimmier.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1251,105 +1444,6 @@
             this.check_Piece_Shimmier.UseVisualStyleBackColor = true;
             this.check_Piece_Shimmier.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
-            // check_Piece_Fencer
-            // 
-            this.check_Piece_Fencer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Fencer.Location = new System.Drawing.Point(8, 295);
-            this.check_Piece_Fencer.Name = "check_Piece_Fencer";
-            this.check_Piece_Fencer.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Fencer.TabIndex = 21;
-            this.check_Piece_Fencer.Text = "Fencer";
-            this.check_Piece_Fencer.UseVisualStyleBackColor = true;
-            this.check_Piece_Fencer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // check_Piece_Neutral
-            // 
-            this.check_Piece_Neutral.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Neutral.Location = new System.Drawing.Point(92, 325);
-            this.check_Piece_Neutral.Name = "check_Piece_Neutral";
-            this.check_Piece_Neutral.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Neutral.TabIndex = 31;
-            this.check_Piece_Neutral.Text = "Neutral";
-            this.check_Piece_Neutral.UseVisualStyleBackColor = true;
-            this.check_Piece_Neutral.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Cloner
-            // 
-            this.check_Piece_Cloner.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Cloner.Location = new System.Drawing.Point(92, 310);
-            this.check_Piece_Cloner.Name = "check_Piece_Cloner";
-            this.check_Piece_Cloner.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Cloner.TabIndex = 29;
-            this.check_Piece_Cloner.Text = "Cloner";
-            this.check_Piece_Cloner.UseVisualStyleBackColor = true;
-            this.check_Piece_Cloner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Stacker
-            // 
-            this.check_Piece_Stacker.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Stacker.Location = new System.Drawing.Point(8, 280);
-            this.check_Piece_Stacker.Name = "check_Piece_Stacker";
-            this.check_Piece_Stacker.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Stacker.TabIndex = 28;
-            this.check_Piece_Stacker.Text = "Stacker";
-            this.check_Piece_Stacker.UseVisualStyleBackColor = true;
-            this.check_Piece_Stacker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Platformer
-            // 
-            this.check_Piece_Platformer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Platformer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.check_Piece_Platformer.Location = new System.Drawing.Point(8, 265);
-            this.check_Piece_Platformer.Name = "check_Piece_Platformer";
-            this.check_Piece_Platformer.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Platformer.TabIndex = 27;
-            this.check_Piece_Platformer.Text = "Platformer";
-            this.check_Piece_Platformer.UseVisualStyleBackColor = true;
-            this.check_Piece_Platformer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Stoner
-            // 
-            this.check_Piece_Stoner.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Stoner.Location = new System.Drawing.Point(8, 250);
-            this.check_Piece_Stoner.Name = "check_Piece_Stoner";
-            this.check_Piece_Stoner.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Stoner.TabIndex = 26;
-            this.check_Piece_Stoner.Text = "Stoner";
-            this.check_Piece_Stoner.UseVisualStyleBackColor = true;
-            this.check_Piece_Stoner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Disarmer
-            // 
-            this.check_Piece_Disarmer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Disarmer.Location = new System.Drawing.Point(8, 235);
-            this.check_Piece_Disarmer.Name = "check_Piece_Disarmer";
-            this.check_Piece_Disarmer.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Disarmer.TabIndex = 25;
-            this.check_Piece_Disarmer.Text = "Disarmer";
-            this.check_Piece_Disarmer.UseVisualStyleBackColor = true;
-            this.check_Piece_Disarmer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Glider
-            // 
-            this.check_Piece_Glider.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Glider.Location = new System.Drawing.Point(92, 220);
-            this.check_Piece_Glider.Name = "check_Piece_Glider";
-            this.check_Piece_Glider.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Glider.TabIndex = 24;
-            this.check_Piece_Glider.Text = "Glider";
-            this.check_Piece_Glider.UseVisualStyleBackColor = true;
-            this.check_Piece_Glider.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Swimmer
-            // 
-            this.check_Piece_Swimmer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Swimmer.Location = new System.Drawing.Point(92, 205);
-            this.check_Piece_Swimmer.Name = "check_Piece_Swimmer";
-            this.check_Piece_Swimmer.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Swimmer.TabIndex = 23;
-            this.check_Piece_Swimmer.Text = "Swimmer";
-            this.check_Piece_Swimmer.UseVisualStyleBackColor = true;
-            this.check_Piece_Swimmer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
             // check_Piece_Walker
             // 
             this.check_Piece_Walker.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1360,94 +1454,6 @@
             this.check_Piece_Walker.Text = "Walker";
             this.check_Piece_Walker.UseVisualStyleBackColor = true;
             this.check_Piece_Walker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Digger
-            // 
-            this.check_Piece_Digger.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Digger.Location = new System.Drawing.Point(8, 310);
-            this.check_Piece_Digger.Name = "check_Piece_Digger";
-            this.check_Piece_Digger.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Digger.TabIndex = 20;
-            this.check_Piece_Digger.Text = "Digger";
-            this.check_Piece_Digger.UseVisualStyleBackColor = true;
-            this.check_Piece_Digger.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Miner
-            // 
-            this.check_Piece_Miner.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Miner.Location = new System.Drawing.Point(92, 295);
-            this.check_Piece_Miner.Name = "check_Piece_Miner";
-            this.check_Piece_Miner.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Miner.TabIndex = 19;
-            this.check_Piece_Miner.Text = "Miner";
-            this.check_Piece_Miner.UseVisualStyleBackColor = true;
-            this.check_Piece_Miner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Basher
-            // 
-            this.check_Piece_Basher.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Basher.Location = new System.Drawing.Point(92, 280);
-            this.check_Piece_Basher.Name = "check_Piece_Basher";
-            this.check_Piece_Basher.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Basher.TabIndex = 18;
-            this.check_Piece_Basher.Text = "Basher";
-            this.check_Piece_Basher.UseVisualStyleBackColor = true;
-            this.check_Piece_Basher.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Builder
-            // 
-            this.check_Piece_Builder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Builder.Location = new System.Drawing.Point(92, 265);
-            this.check_Piece_Builder.Name = "check_Piece_Builder";
-            this.check_Piece_Builder.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Builder.TabIndex = 17;
-            this.check_Piece_Builder.Text = "Builder";
-            this.check_Piece_Builder.UseVisualStyleBackColor = true;
-            this.check_Piece_Builder.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Blocker
-            // 
-            this.check_Piece_Blocker.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Blocker.Location = new System.Drawing.Point(92, 250);
-            this.check_Piece_Blocker.Name = "check_Piece_Blocker";
-            this.check_Piece_Blocker.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Blocker.TabIndex = 16;
-            this.check_Piece_Blocker.Text = "Blocker";
-            this.check_Piece_Blocker.UseVisualStyleBackColor = true;
-            this.check_Piece_Blocker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Bomber
-            // 
-            this.check_Piece_Bomber.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Bomber.Location = new System.Drawing.Point(92, 235);
-            this.check_Piece_Bomber.Name = "check_Piece_Bomber";
-            this.check_Piece_Bomber.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Bomber.TabIndex = 15;
-            this.check_Piece_Bomber.Text = "Bomber";
-            this.check_Piece_Bomber.UseVisualStyleBackColor = true;
-            this.check_Piece_Bomber.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Floater
-            // 
-            this.check_Piece_Floater.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Floater.Location = new System.Drawing.Point(8, 220);
-            this.check_Piece_Floater.Name = "check_Piece_Floater";
-            this.check_Piece_Floater.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Floater.TabIndex = 14;
-            this.check_Piece_Floater.Text = "Floater";
-            this.check_Piece_Floater.UseVisualStyleBackColor = true;
-            this.check_Piece_Floater.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Climber
-            // 
-            this.check_Piece_Climber.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Climber.Location = new System.Drawing.Point(8, 205);
-            this.check_Piece_Climber.Name = "check_Piece_Climber";
-            this.check_Piece_Climber.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Climber.TabIndex = 13;
-            this.check_Piece_Climber.Text = "Climber";
-            this.check_Piece_Climber.UseVisualStyleBackColor = true;
-            this.check_Piece_Climber.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Pieces_OneWay
             // 
@@ -2034,6 +2040,34 @@
             this.num_Ski_Climber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             this.num_Ski_Climber.Leave += new System.EventHandler(this.textbox_Leave);
             // 
+            // tabMisc
+            // 
+            this.tabMisc.Controls.Add(this.lblTalismans);
+            this.tabMisc.Controls.Add(this.lbTalismans);
+            this.tabMisc.Location = new System.Drawing.Point(4, 22);
+            this.tabMisc.Name = "tabMisc";
+            this.tabMisc.Size = new System.Drawing.Size(174, 396);
+            this.tabMisc.TabIndex = 3;
+            this.tabMisc.Text = "Misc.";
+            this.tabMisc.UseVisualStyleBackColor = true;
+            // 
+            // lblTalismans
+            // 
+            this.lblTalismans.AutoSize = true;
+            this.lblTalismans.Location = new System.Drawing.Point(8, 9);
+            this.lblTalismans.Name = "lblTalismans";
+            this.lblTalismans.Size = new System.Drawing.Size(54, 13);
+            this.lblTalismans.TabIndex = 1;
+            this.lblTalismans.Text = "Talismans";
+            // 
+            // lbTalismans
+            // 
+            this.lbTalismans.FormattingEnabled = true;
+            this.lbTalismans.Location = new System.Drawing.Point(8, 25);
+            this.lbTalismans.Name = "lbTalismans";
+            this.lbTalismans.Size = new System.Drawing.Size(151, 108);
+            this.lbTalismans.TabIndex = 0;
+            // 
             // txt_Focus
             // 
             this.txt_Focus.Location = new System.Drawing.Point(-100, 1);
@@ -2046,7 +2080,7 @@
             // tabLvlPieces
             // 
             this.tabLvlPieces.Enabled = false;
-            this.tabLvlPieces.Location = new System.Drawing.Point(182, 27);
+            this.tabLvlPieces.Location = new System.Drawing.Point(415, 50);
             this.tabLvlPieces.Name = "tabLvlPieces";
             this.tabLvlPieces.SelectedIndex = 0;
             this.tabLvlPieces.Size = new System.Drawing.Size(182, 422);
@@ -2058,7 +2092,7 @@
             // tabLvlSkills
             // 
             this.tabLvlSkills.Enabled = false;
-            this.tabLvlSkills.Location = new System.Drawing.Point(364, 27);
+            this.tabLvlSkills.Location = new System.Drawing.Point(510, 31);
             this.tabLvlSkills.Name = "tabLvlSkills";
             this.tabLvlSkills.SelectedIndex = 0;
             this.tabLvlSkills.Size = new System.Drawing.Size(150, 422);
@@ -2216,6 +2250,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Blocker)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).EndInit();
+            this.tabMisc.ResumeLayout(false);
+            this.tabMisc.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -2385,6 +2421,9 @@
         private System.Windows.Forms.CheckBox check_Piece_Shimmier;
         private System.Windows.Forms.Label lbl_Skill_Shimmier;
         private NumUpDownOverwrite num_Ski_Shimmier;
+        private System.Windows.Forms.TabPage tabMisc;
+        private System.Windows.Forms.ListBox lbTalismans;
+        private System.Windows.Forms.Label lblTalismans;
     }
 }
 
