@@ -182,6 +182,11 @@
             this.num_Ski_Floater = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Climber = new NLEditor.NumUpDownOverwrite();
             this.tabMisc = new System.Windows.Forms.TabPage();
+            this.btnTalismanMoveDown = new System.Windows.Forms.Button();
+            this.btnTalismanMoveUp = new System.Windows.Forms.Button();
+            this.btnTalismanDelete = new System.Windows.Forms.Button();
+            this.btnTalismanEdit = new System.Windows.Forms.Button();
+            this.btnTalismanAdd = new System.Windows.Forms.Button();
             this.lblTalismans = new System.Windows.Forms.Label();
             this.lbTalismans = new System.Windows.Forms.ListBox();
             this.txt_Focus = new NLEditor.FocusTextBox();
@@ -2042,6 +2047,11 @@
             // 
             // tabMisc
             // 
+            this.tabMisc.Controls.Add(this.btnTalismanMoveDown);
+            this.tabMisc.Controls.Add(this.btnTalismanMoveUp);
+            this.tabMisc.Controls.Add(this.btnTalismanDelete);
+            this.tabMisc.Controls.Add(this.btnTalismanEdit);
+            this.tabMisc.Controls.Add(this.btnTalismanAdd);
             this.tabMisc.Controls.Add(this.lblTalismans);
             this.tabMisc.Controls.Add(this.lbTalismans);
             this.tabMisc.Location = new System.Drawing.Point(4, 22);
@@ -2050,6 +2060,53 @@
             this.tabMisc.TabIndex = 3;
             this.tabMisc.Text = "Misc.";
             this.tabMisc.UseVisualStyleBackColor = true;
+            // 
+            // btnTalismanMoveDown
+            // 
+            this.btnTalismanMoveDown.Location = new System.Drawing.Point(80, 159);
+            this.btnTalismanMoveDown.Name = "btnTalismanMoveDown";
+            this.btnTalismanMoveDown.Size = new System.Drawing.Size(79, 20);
+            this.btnTalismanMoveDown.TabIndex = 6;
+            this.btnTalismanMoveDown.Text = "Move Down";
+            this.btnTalismanMoveDown.UseVisualStyleBackColor = true;
+            this.btnTalismanMoveDown.Click += new System.EventHandler(this.btnTalismanMoveDown_Click);
+            // 
+            // btnTalismanMoveUp
+            // 
+            this.btnTalismanMoveUp.Location = new System.Drawing.Point(10, 159);
+            this.btnTalismanMoveUp.Name = "btnTalismanMoveUp";
+            this.btnTalismanMoveUp.Size = new System.Drawing.Size(68, 20);
+            this.btnTalismanMoveUp.TabIndex = 5;
+            this.btnTalismanMoveUp.Text = "Move Up";
+            this.btnTalismanMoveUp.UseVisualStyleBackColor = true;
+            this.btnTalismanMoveUp.Click += new System.EventHandler(this.btnTalismanMoveUp_Click);
+            // 
+            // btnTalismanDelete
+            // 
+            this.btnTalismanDelete.Location = new System.Drawing.Point(112, 138);
+            this.btnTalismanDelete.Name = "btnTalismanDelete";
+            this.btnTalismanDelete.Size = new System.Drawing.Size(47, 20);
+            this.btnTalismanDelete.TabIndex = 4;
+            this.btnTalismanDelete.Text = "Delete";
+            this.btnTalismanDelete.UseVisualStyleBackColor = true;
+            // 
+            // btnTalismanEdit
+            // 
+            this.btnTalismanEdit.Location = new System.Drawing.Point(61, 138);
+            this.btnTalismanEdit.Name = "btnTalismanEdit";
+            this.btnTalismanEdit.Size = new System.Drawing.Size(50, 20);
+            this.btnTalismanEdit.TabIndex = 3;
+            this.btnTalismanEdit.Text = "Edit";
+            this.btnTalismanEdit.UseVisualStyleBackColor = true;
+            // 
+            // btnTalismanAdd
+            // 
+            this.btnTalismanAdd.Location = new System.Drawing.Point(10, 138);
+            this.btnTalismanAdd.Name = "btnTalismanAdd";
+            this.btnTalismanAdd.Size = new System.Drawing.Size(50, 20);
+            this.btnTalismanAdd.TabIndex = 2;
+            this.btnTalismanAdd.Text = "Add";
+            this.btnTalismanAdd.UseVisualStyleBackColor = true;
             // 
             // lblTalismans
             // 
@@ -2425,6 +2482,11 @@
         private System.Windows.Forms.TabPage tabMisc;
         private System.Windows.Forms.ListBox lbTalismans;
         private System.Windows.Forms.Label lblTalismans;
+        private System.Windows.Forms.Button btnTalismanMoveDown;
+        private System.Windows.Forms.Button btnTalismanMoveUp;
+        private System.Windows.Forms.Button btnTalismanDelete;
+        private System.Windows.Forms.Button btnTalismanEdit;
+        private System.Windows.Forms.Button btnTalismanAdd;
     }
 }
 

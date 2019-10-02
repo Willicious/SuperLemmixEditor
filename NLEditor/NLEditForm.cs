@@ -1295,5 +1295,31 @@ namespace NLEditor
             */
         }
 
+        private void btnTalismanMoveUp_Click(object sender, EventArgs e)
+        {
+            int talIndex = lbTalismans.SelectedIndex;
+
+            if (talIndex > 0)
+            {
+                Talisman tal = CurLevel.Talismans[talIndex];
+                CurLevel.Talismans.Remove(tal);
+                CurLevel.Talismans.Insert(talIndex - 1, tal);
+                RegenerateTalismanList();
+            }
+        }
+
+        private void btnTalismanMoveDown_Click(object sender, EventArgs e)
+        {
+            int talIndex = lbTalismans.SelectedIndex;
+
+            if ((talIndex >= 0) && (talIndex < CurLevel.Talismans.Count-1))
+            {
+                ReadLevelInfoFromForm();
+                Talisman tal = CurLevel.Talismans[talIndex];
+                CurLevel.Talismans.Remove(tal);
+                CurLevel.Talismans.Insert(talIndex + 1, tal);
+                RegenerateTalismanList();
+            }
+        }
     }
 }
