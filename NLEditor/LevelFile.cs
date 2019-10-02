@@ -709,7 +709,7 @@ namespace NLEditor
                 if (IsSkillRequired(curLevel, skill))
                 {
                     var count = curLevel.SkillSet[skill] > 99 ? "INFINITE" : curLevel.SkillSet[skill].ToString();
-                    textFile.WriteLine(SkillString(skill) + count);
+                    textFile.WriteLine(PaddedSkillString(skill) + count);
                 }
             }
             textFile.WriteLine(" $END ");
@@ -718,7 +718,7 @@ namespace NLEditor
             if (curLevel.PreviewText?.Count > 0)
             {
                 textFile.WriteLine(" $PRETEXT ");
-                curLevel.PreviewText.ForEach(lin => textFile.WriteLine("  LINE " + lin));
+                curLevel.PreviewText.ForEach(lin => textFile.WriteLine("   LINE " + lin));
                 textFile.WriteLine(" $END ");
                 textFile.WriteLine(" ");
             }
@@ -726,7 +726,7 @@ namespace NLEditor
             if (curLevel.PostviewText?.Count > 0)
             {
                 textFile.WriteLine(" $POSTTEXT ");
-                curLevel.PostviewText.ForEach(lin => textFile.WriteLine("  LINE " + lin));
+                curLevel.PostviewText.ForEach(lin => textFile.WriteLine("   LINE " + lin));
                 textFile.WriteLine(" $END ");
                 textFile.WriteLine(" ");
             }
@@ -941,6 +941,17 @@ namespace NLEditor
         static string SkillString(C.Skill skill)
         {
             return Enum.GetName(typeof(C.Skill), skill).ToUpper();
+        }
+
+
+        /// <summary>
+        /// Returns the name of the skill as a string, padded to length 12.
+        /// </summary>
+        /// <param name="skill"></param>
+        /// <returns></returns>
+        static string PaddedSkillString(C.Skill skill)
+        {
+            return "   " + SkillString(skill) + " ";
         }
 
         /// <summary>
