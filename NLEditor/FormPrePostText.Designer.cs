@@ -1,6 +1,6 @@
 ﻿namespace NLEditor
 {
-    partial class FormPrePostTest
+    partial class FormPrePostText
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPrePostTest));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPrePostText));
             this.txtPrePostText = new System.Windows.Forms.TextBox();
             this.butPTextOK = new System.Windows.Forms.Button();
             this.butPTextCancel = new System.Windows.Forms.Button();

@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace NLEditor
 {
-    partial class FormPrePostTest : Form
+    partial class FormPrePostText : Form
     {
-        public FormPrePostTest(Level level, bool ispreText)
+        public FormPrePostText(Level level, bool ispreText)
         {
             InitializeComponent();
 

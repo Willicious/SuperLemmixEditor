@@ -101,11 +101,11 @@
     <Compile Include="FormPieceSelection.Designer.cs">
       <DependentUpon>FormPieceSelection.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormPrePostTest.cs">
+    <Compile Include="FormPrePostText.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormPrePostTest.Designer.cs">
-      <DependentUpon>FormPrePostTest.cs</DependentUpon>
+    <Compile Include="FormPrePostText.Designer.cs">
+      <DependentUpon>FormPrePostText.cs</DependentUpon>
     </Compile>
     <Compile Include="FormTalisman.cs">
       <SubType>Form</SubType>
@@ -149,8 +149,8 @@
     <EmbeddedResource Include="FormPieceSelection.resx">
       <DependentUpon>FormPieceSelection.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormPrePostTest.resx">
-      <DependentUpon>FormPrePostTest.cs</DependentUpon>
+    <EmbeddedResource Include="FormPrePostText.resx">
+      <DependentUpon>FormPrePostText.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTalisman.resx">
       <DependentUpon>FormTalisman.cs</DependentUpon>

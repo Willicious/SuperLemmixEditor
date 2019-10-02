@@ -1355,7 +1355,7 @@ namespace NLEditor
 
         private void btnEditPreview_Click(object sender, EventArgs e)
         {
-            using (var textForm = new FormPrePostTest(CurLevel, true))
+            using (var textForm = new FormPrePostText(CurLevel, true))
             {
                 textForm.ShowDialog(this);
             }
@@ -1363,7 +1363,7 @@ namespace NLEditor
 
         private void btnEditPostview_Click(object sender, EventArgs e)
         {
-            using (var textForm = new FormPrePostTest(CurLevel, false))
+            using (var textForm = new FormPrePostText(CurLevel, false))
             {
                 textForm.ShowDialog(this);
             }

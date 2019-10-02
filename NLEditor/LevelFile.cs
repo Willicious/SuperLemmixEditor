@@ -676,10 +676,10 @@ namespace NLEditor
 
             textFile.WriteLine("#       Level dimensions        ");
             textFile.WriteLine("# ----------------------------- ");
-            textFile.WriteLine(" WIDTH " + curLevel.Width.ToString().PadLeft(4));
-            textFile.WriteLine(" HEIGHT " + curLevel.Height.ToString().PadLeft(4));
-            textFile.WriteLine(" START_X " + curLevel.StartPosX.ToString().PadLeft(4));
-            textFile.WriteLine(" START_Y " + curLevel.StartPosY.ToString().PadLeft(4));
+            textFile.WriteLine(" WIDTH " + curLevel.Width.ToString());
+            textFile.WriteLine(" HEIGHT " + curLevel.Height.ToString());
+            textFile.WriteLine(" START_X " + curLevel.StartPosX.ToString());
+            textFile.WriteLine(" START_Y " + curLevel.StartPosY.ToString());
             textFile.WriteLine(" THEME " + curLevel.MainStyle?.NameInDirectory);
             if (curLevel.Background != null)
             {
@@ -690,13 +690,13 @@ namespace NLEditor
 
             textFile.WriteLine("#         Level stats           ");
             textFile.WriteLine("# ----------------------------- ");
-            textFile.WriteLine(" LEMMINGS " + curLevel.NumLems.ToString().PadLeft(4));
-            textFile.WriteLine(" SAVE_REQUIREMENT " + curLevel.SaveReq.ToString().PadLeft(4));
+            textFile.WriteLine(" LEMMINGS " + curLevel.NumLems.ToString());
+            textFile.WriteLine(" SAVE_REQUIREMENT " + curLevel.SaveReq.ToString());
             if (!curLevel.IsNoTimeLimit)
             {
-                textFile.WriteLine(" TIME_LIMIT " + curLevel.TimeLimit.ToString().PadLeft(4));
+                textFile.WriteLine(" TIME_LIMIT " + curLevel.TimeLimit.ToString());
             }
-            textFile.WriteLine(" MAX_SPAWN_INTERVAL " + (103 - curLevel.SpawnRate).ToString().PadLeft(4));
+            textFile.WriteLine(" MAX_SPAWN_INTERVAL " + (103 - curLevel.SpawnRate).ToString());
             if (curLevel.IsSpawnRateFix)
             {
                 textFile.WriteLine(" SPAWN_INTERVAL_LOCKED");
@@ -708,8 +708,8 @@ namespace NLEditor
             {
                 if (IsSkillRequired(curLevel, skill))
                 {
-                    var count = curLevel.SkillSet[skill] > 99 ? "INFINITE" : curLevel.SkillSet[skill].ToString().PadLeft(4);
-                    textFile.WriteLine(PaddedSkillString(skill) + count);
+                    var count = curLevel.SkillSet[skill] > 99 ? "INFINITE" : curLevel.SkillSet[skill].ToString();
+                    textFile.WriteLine(SkillString(skill) + count);
                 }
             }
             textFile.WriteLine(" $END ");
@@ -796,16 +796,16 @@ namespace NLEditor
               gadget.IsFlippedInPlayer, gadget.IsInvertedInPlayer);
             int posX = levelFilePos.X + (gadget.ObjType == C.OBJ.LEMMING ? C.LEM_OFFSET_X : 0);
             int posY = levelFilePos.Y + (gadget.ObjType == C.OBJ.LEMMING ? C.LEM_OFFSET_Y : 0);
-            textFile.WriteLine("   X " + posX.ToString().PadLeft(5));
-            textFile.WriteLine("   Y " + posY.ToString().PadLeft(5));
+            textFile.WriteLine("   X " + posX.ToString());
+            textFile.WriteLine("   Y " + posY.ToString());
 
             if (gadget.MayResizeHoriz())
             {
-                textFile.WriteLine("   WIDTH " + gadget.SpecWidth.ToString().PadLeft(5));
+                textFile.WriteLine("   WIDTH " + gadget.SpecWidth.ToString());
             }
             if (gadget.MayResizeVert())
             {
-                textFile.WriteLine("   HEIGHT " + gadget.SpecHeight.ToString().PadLeft(5));
+                textFile.WriteLine("   HEIGHT " + gadget.SpecHeight.ToString());
             }
             if (gadget.IsNoOverwrite)
             {
@@ -849,13 +849,13 @@ namespace NLEditor
 
             if (gadget.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
             {
-                textFile.WriteLine("   PAIRING " + gadget.Val_L.ToString().PadLeft(4));
+                textFile.WriteLine("   PAIRING " + gadget.Val_L.ToString());
             }
 
             if (gadget.ObjType.In(C.OBJ.BACKGROUND))
             {
-                textFile.WriteLine("   SPEED " + gadget.BackgroundSpeed.ToString().PadLeft(4));
-                textFile.WriteLine("   ANGLE " + gadget.BackgroundAngle.ToString().PadLeft(4));
+                textFile.WriteLine("   SPEED " + gadget.BackgroundSpeed.ToString());
+                textFile.WriteLine("   ANGLE " + gadget.BackgroundAngle.ToString());
             }
 
             if (gadget.ObjType.In(C.OBJ.EXIT, C.OBJ.EXIT_LOCKED, C.OBJ.HATCH) && gadget.LemmingCap > 0)
@@ -877,8 +877,8 @@ namespace NLEditor
             textFile.WriteLine(" $TERRAIN");
             textFile.WriteLine("   STYLE " + terrain.Style);
             textFile.WriteLine("   PIECE " + terrain.Name);
-            textFile.WriteLine("   X " + terrain.PosX.ToString().PadLeft(5));
-            textFile.WriteLine("   Y " + terrain.PosY.ToString().PadLeft(5));
+            textFile.WriteLine("   X " + terrain.PosX.ToString());
+            textFile.WriteLine("   Y " + terrain.PosY.ToString());
             if (terrain.IsNoOverwrite)
             {
                 textFile.WriteLine("   NO_OVERWRITE");
@@ -943,17 +943,6 @@ namespace NLEditor
             return Enum.GetName(typeof(C.Skill), skill).ToUpper();
         }
 
-
-        /// <summary>
-        /// Returns the name of the skill as a string, padded to length 12.
-        /// </summary>
-        /// <param name="skill"></param>
-        /// <returns></returns>
-        static string PaddedSkillString(C.Skill skill)
-        {
-            return SkillString(skill).PadLeft(11).PadRight(12);
-        }
-
         /// <summary>
         /// Converts an old .lvl level file to the current .nxlv type.
         /// <para> This calls either NeoLemmix.exe or the NLConverter.exe written in Delphi. </para>
@@ -962,58 +951,7 @@ namespace NLEditor
         /// <returns></returns>
         static bool ConvertOldLevelType(string filePath)
         {
-            if (Path.GetExtension(filePath).Equals(".lvl"))
-            {
-                return ContertWithNeoLemmix(filePath) || ConvertWithConverter(filePath);
-            }
-            else
-            {
-                return ContertWithNeoLemmix(filePath);
-            }
-        }
-
-        /// <summary>
-        /// Converts an old .lvl level file to the current .nxlv type.
-        /// <para> This calls NLConverter.exe written in Delphi. </para>
-        /// </summary>
-        /// <param name="filepath"></param>
-        /// <returns></returns>
-        static bool ConvertWithConverter(string filePath)
-        {
-            try
-            {
-                // Before we are able to execute the NLConverter, we have to write it as a file to the disc!
-                using (var converterStream = new FileStream(C.AppPath + "NLConverter.exe", FileMode.CreateNew, FileAccess.Write))
-                {
-                    byte[] converterBytes = Properties.Resources.NLLevelConverter;
-                    converterStream.Write(converterBytes, 0, converterBytes.Length);
-                }
-
-                var converterStartInfo = new System.Diagnostics.ProcessStartInfo();
-                converterStartInfo.FileName = C.AppPath + "NLConverter.exe";
-                converterStartInfo.Arguments = filePath + " " + C.AppPathTempLevel;
-
-                var converterProcess = System.Diagnostics.Process.Start(converterStartInfo);
-                converterProcess.WaitForExit();
-                int exitCode = converterProcess.ExitCode;
-
-                Utility.DeleteFile(C.AppPath + "NLConverter.exe");
-
-                if (C.FileConverterErrorMsg.ContainsKey(exitCode))
-                {
-                    MessageBox.Show(C.FileConverterErrorMsg[exitCode], "File converter problem");
-                }
-                else if (exitCode >= 10)
-                {
-                    MessageBox.Show("Error: Level converter crashed due to unhandles exception.", "File converter problem");
-                }
-
-                return (exitCode < 10);
-            }
-            catch
-            {
-                return false;
-            }
+            return ConvertWithNeoLemmix(filePath);
         }
 
         /// <summary>
@@ -1022,7 +960,7 @@ namespace NLEditor
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        static bool ContertWithNeoLemmix(string filePath)
+        static bool ConvertWithNeoLemmix(string filePath)
         {
             if (!File.Exists(C.AppPathNeoLemmix))
                 return false;
