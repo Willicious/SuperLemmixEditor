@@ -1332,8 +1332,10 @@ namespace NLEditor
 
         private void btnTalismanAdd_Click(object sender, EventArgs e)
         {
-            var talForm = new FormTalisman(CurLevel);
-            talForm.ShowDialog(this);
+            using (var talForm = new FormTalisman(CurLevel))
+            {
+                talForm.ShowDialog(this);
+            }
             RegenerateTalismanList();
         }
 
@@ -1343,9 +1345,27 @@ namespace NLEditor
 
             if (tal != null)
             {
-                var talForm = new FormTalisman(CurLevel, tal);
-                talForm.ShowDialog(this);
+                using (var talForm = new FormTalisman(CurLevel, tal))
+                {
+                    talForm.ShowDialog(this);
+                }
                 RegenerateTalismanList();
+            }
+        }
+
+        private void btnEditPreview_Click(object sender, EventArgs e)
+        {
+            using (var textForm = new FormPrePostTest(CurLevel, true))
+            {
+                textForm.ShowDialog(this);
+            }
+        }
+
+        private void btnEditPostview_Click(object sender, EventArgs e)
+        {
+            using (var textForm = new FormPrePostTest(CurLevel, false))
+            {
+                textForm.ShowDialog(this);
             }
         }
     }

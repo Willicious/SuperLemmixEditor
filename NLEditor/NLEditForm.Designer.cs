@@ -182,6 +182,8 @@
             this.num_Ski_Floater = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Climber = new NLEditor.NumUpDownOverwrite();
             this.tabMisc = new System.Windows.Forms.TabPage();
+            this.btnEditPostview = new System.Windows.Forms.Button();
+            this.btnEditPreview = new System.Windows.Forms.Button();
             this.btnTalismanMoveDown = new System.Windows.Forms.Button();
             this.btnTalismanMoveUp = new System.Windows.Forms.Button();
             this.btnTalismanDelete = new System.Windows.Forms.Button();
@@ -2047,6 +2049,8 @@
             // 
             // tabMisc
             // 
+            this.tabMisc.Controls.Add(this.btnEditPostview);
+            this.tabMisc.Controls.Add(this.btnEditPreview);
             this.tabMisc.Controls.Add(this.btnTalismanMoveDown);
             this.tabMisc.Controls.Add(this.btnTalismanMoveUp);
             this.tabMisc.Controls.Add(this.btnTalismanDelete);
@@ -2060,6 +2064,26 @@
             this.tabMisc.TabIndex = 3;
             this.tabMisc.Text = "Misc.";
             this.tabMisc.UseVisualStyleBackColor = true;
+            // 
+            // btnEditPostview
+            // 
+            this.btnEditPostview.Location = new System.Drawing.Point(8, 214);
+            this.btnEditPostview.Name = "btnEditPostview";
+            this.btnEditPostview.Size = new System.Drawing.Size(150, 20);
+            this.btnEditPostview.TabIndex = 8;
+            this.btnEditPostview.Text = "Edit Postview Text";
+            this.btnEditPostview.UseVisualStyleBackColor = true;
+            this.btnEditPostview.Click += new System.EventHandler(this.btnEditPostview_Click);
+            // 
+            // btnEditPreview
+            // 
+            this.btnEditPreview.Location = new System.Drawing.Point(8, 192);
+            this.btnEditPreview.Name = "btnEditPreview";
+            this.btnEditPreview.Size = new System.Drawing.Size(150, 20);
+            this.btnEditPreview.TabIndex = 7;
+            this.btnEditPreview.Text = "Edit Preview Text";
+            this.btnEditPreview.UseVisualStyleBackColor = true;
+            this.btnEditPreview.Click += new System.EventHandler(this.btnEditPreview_Click);
             // 
             // btnTalismanMoveDown
             // 
@@ -2490,6 +2514,8 @@
         private System.Windows.Forms.Button btnTalismanDelete;
         private System.Windows.Forms.Button btnTalismanEdit;
         private System.Windows.Forms.Button btnTalismanAdd;
+        private System.Windows.Forms.Button btnEditPostview;
+        private System.Windows.Forms.Button btnEditPreview;
     }
 }
 

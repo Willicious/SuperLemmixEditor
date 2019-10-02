@@ -48,6 +48,16 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Splits the string at all new-lines.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static List<string> SplitAtNewLine(this string text)
+        {
+            return text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
+        }
+
+        /// <summary>
         /// Creates a shallow copy of a range of elements from index to the end of the list.
         /// </summary>
         /// <typeparam name="T"></typeparam>
