@@ -462,7 +462,7 @@ namespace NLEditor
                 layerImages[C.Layer.ObjBack].DrawOn(gadget.Image, gadget.Pos);
             }
 
-            var backGadgets = level.GadgetList.FindAll(obj => obj.IsNoOverwrite && obj.ObjType != C.OBJ.BACKGROUND);
+            var backGadgets = level.GadgetList.FindAll(obj => obj.IsNoOverwrite && !obj.ObjType.In(C.OBJ.BACKGROUND, C.OBJ.ONE_WAY_WALL));
             backGadgets.Reverse();
             foreach (GadgetPiece gadget in backGadgets)
             {
