@@ -2089,6 +2089,7 @@
             this.btnTalismanDelete.TabIndex = 4;
             this.btnTalismanDelete.Text = "Delete";
             this.btnTalismanDelete.UseVisualStyleBackColor = true;
+            this.btnTalismanDelete.Click += new System.EventHandler(this.btnTalismanDelete_Click);
             // 
             // btnTalismanEdit
             // 
@@ -2098,6 +2099,7 @@
             this.btnTalismanEdit.TabIndex = 3;
             this.btnTalismanEdit.Text = "Edit";
             this.btnTalismanEdit.UseVisualStyleBackColor = true;
+            this.btnTalismanEdit.Click += new System.EventHandler(this.btnTalismanEdit_Click);
             // 
             // btnTalismanAdd
             // 
@@ -2107,6 +2109,7 @@
             this.btnTalismanAdd.TabIndex = 2;
             this.btnTalismanAdd.Text = "Add";
             this.btnTalismanAdd.UseVisualStyleBackColor = true;
+            this.btnTalismanAdd.Click += new System.EventHandler(this.btnTalismanAdd_Click);
             // 
             // lblTalismans
             // 

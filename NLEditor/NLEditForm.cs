@@ -1321,5 +1321,32 @@ namespace NLEditor
                 RegenerateTalismanList();
             }
         }
+
+        private void btnTalismanDelete_Click(object sender, EventArgs e)
+        {
+            var tal = (Talisman)lbTalismans.SelectedItem;
+
+            if (tal != null)
+                CurLevel.Talismans.Remove(tal);
+        }
+
+        private void btnTalismanAdd_Click(object sender, EventArgs e)
+        {
+            var talForm = new FormTalisman(CurLevel);
+            talForm.ShowDialog(this);
+            RegenerateTalismanList();
+        }
+
+        private void btnTalismanEdit_Click(object sender, EventArgs e)
+        {
+            var tal = (Talisman)lbTalismans.SelectedItem;
+
+            if (tal != null)
+            {
+                var talForm = new FormTalisman(CurLevel, tal);
+                talForm.ShowDialog(this);
+                RegenerateTalismanList();
+            }
+        }
     }
 }
