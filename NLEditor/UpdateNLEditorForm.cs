@@ -585,7 +585,7 @@ namespace NLEditor
         private void DisplayVersionForm()
         {
             Form versionForm = new EscExitForm();
-            versionForm.ClientSize = new Size(310, 160);
+            versionForm.ClientSize = new Size(390, 160);
             versionForm.MaximizeBox = false;
             versionForm.ShowInTaskbar = false;
             versionForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
