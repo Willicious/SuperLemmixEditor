@@ -49,6 +49,8 @@ namespace NLEditor
                     }
                     else
                     {
+
+
                         bool IsConverted = ConvertOldLevelType(filePath);
                         if (IsConverted)
                         {
@@ -981,7 +983,7 @@ namespace NLEditor
             string[] fileVersion = versionInfo.FileVersion.Split('.');
             try
             {
-                if (int.Parse(fileVersion[0]) < 11 || int.Parse(fileVersion[1]) < 14)
+                if (int.Parse(fileVersion[0]) < 12)
                     return false;
             }
             // If that fails, the version is always wrong!
