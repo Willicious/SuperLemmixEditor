@@ -410,6 +410,8 @@ namespace NLEditor
             else
                 scrollPicLevelHoriz.Left = 188;
 
+            scrollPicLevelVert.Left = scrollPicLevelVert.Parent.ClientRectangle.Width - scrollPicLevelVert.Width;
+
             return newPicBoxSize;
         }
 
