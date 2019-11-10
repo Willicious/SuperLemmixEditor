@@ -201,6 +201,7 @@
             this.toolTipButton = new System.Windows.Forms.ToolTip(this.components);
             this.but_PieceRight = new NLEditor.RepeatButton();
             this.but_PieceLeft = new NLEditor.RepeatButton();
+            this.tabLvlMisc = new System.Windows.Forms.TabControl();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -2250,11 +2251,23 @@
             this.but_PieceLeft.Click += new System.EventHandler(this.but_PieceLeft_Click);
             this.but_PieceLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseUp);
             // 
+            // tabLvlMisc
+            // 
+            this.tabLvlMisc.Enabled = false;
+            this.tabLvlMisc.Location = new System.Drawing.Point(514, 27);
+            this.tabLvlMisc.Name = "tabLvlMisc";
+            this.tabLvlMisc.SelectedIndex = 0;
+            this.tabLvlMisc.Size = new System.Drawing.Size(181, 422);
+            this.tabLvlMisc.TabIndex = 43;
+            this.tabLvlMisc.TabStop = false;
+            this.tabLvlMisc.Visible = false;
+            // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 573);
+            this.Controls.Add(this.tabLvlMisc);
             this.Controls.Add(this.pic_DragNewPiece);
             this.Controls.Add(this.scrollPicLevelVert);
             this.Controls.Add(this.scrollPicLevelHoriz);
@@ -2516,6 +2529,7 @@
         private System.Windows.Forms.Button btnTalismanAdd;
         private System.Windows.Forms.Button btnEditPostview;
         private System.Windows.Forms.Button btnEditPreview;
+        private System.Windows.Forms.TabControl tabLvlMisc;
     }
 }
 

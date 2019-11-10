@@ -611,6 +611,7 @@ namespace NLEditor
         {
             var tabWithPieces = (TabControl)tabPieces.Parent;
             var tabWithSkills = (TabControl)tabSkills.Parent;
+            var tabWithMisc = (TabControl)tabMisc.Parent;
 
             if (curSettings.UseLvlPropertiesTabs)
             {
@@ -629,6 +630,14 @@ namespace NLEditor
                     tabLvlSkills.TabPages.Remove(tabSkills);
                     tabLvlProperties.TabPages.Add(tabSkills);
                 }
+
+                if (tabMisc.Parent == tabLvlMisc)
+                {
+                    tabLvlMisc.Enabled = false;
+                    tabLvlMisc.Visible = false;
+                    tabLvlMisc.TabPages.Remove(tabMisc);
+                    tabLvlProperties.TabPages.Add(tabMisc);
+                }
             }
             else
             {
@@ -646,6 +655,14 @@ namespace NLEditor
                     tabLvlSkills.Visible = true;
                     tabLvlProperties.TabPages.Remove(tabSkills);
                     tabLvlSkills.TabPages.Add(tabSkills);
+                }
+
+                if (tabWithMisc == tabLvlProperties)
+                {
+                    tabLvlMisc.Enabled = true;
+                    tabLvlMisc.Visible = true;
+                    tabLvlProperties.TabPages.Remove(tabMisc);
+                    tabLvlMisc.TabPages.Add(tabMisc);
                 }
             }
 
