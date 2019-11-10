@@ -2165,7 +2165,7 @@
             // tabLvlPieces
             // 
             this.tabLvlPieces.Enabled = false;
-            this.tabLvlPieces.Location = new System.Drawing.Point(415, 50);
+            this.tabLvlPieces.Location = new System.Drawing.Point(182, 27);
             this.tabLvlPieces.Name = "tabLvlPieces";
             this.tabLvlPieces.SelectedIndex = 0;
             this.tabLvlPieces.Size = new System.Drawing.Size(182, 422);
@@ -2177,7 +2177,7 @@
             // tabLvlSkills
             // 
             this.tabLvlSkills.Enabled = false;
-            this.tabLvlSkills.Location = new System.Drawing.Point(510, 31);
+            this.tabLvlSkills.Location = new System.Drawing.Point(364, 27);
             this.tabLvlSkills.Name = "tabLvlSkills";
             this.tabLvlSkills.SelectedIndex = 0;
             this.tabLvlSkills.Size = new System.Drawing.Size(150, 422);
