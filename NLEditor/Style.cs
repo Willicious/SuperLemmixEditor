@@ -135,6 +135,7 @@ namespace NLEditor
                 try
                 {
                     ObjectKeys.AddRange(Directory.GetFiles(directoryPathDefault, "*.nxmo", SearchOption.TopDirectoryOnly)
+                                                  .Where(file => file.ToLowerInvariant().Substring(file.Length - 13) != "fallback.nxmo")
                                                   .Select(file => ImageLibrary.CreatePieceKey(Path.GetFullPath(file)))
                                                   .ToList());
 
