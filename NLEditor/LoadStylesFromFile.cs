@@ -657,6 +657,58 @@ namespace NLEditor
                 }
             }
 
+            int minSolidX = result.Width - 1;
+            int minSolidY = result.Height - 1;
+            int maxSolidX = 0;
+            int maxSolidY = 0;
+
+            for (int y = 0; y < result.Height / primaryAnim.Frames; y++)
+                for (int x = 0; x < result.Width; x++)
+                    for (int f = 0; f < primaryAnim.Frames; f++)
+                        if (result.GetPixel(x, y + (f * result.Height / primaryAnim.Frames)).A > 0)
+                        {
+                            minSolidX = Math.Min(minSolidX, x);
+                            minSolidY = Math.Min(minSolidY, y);
+                            maxSolidX = Math.Max(maxSolidX, x);
+                            maxSolidY = Math.Max(maxSolidY, y);
+                        }
+
+            while (maxSolidX - minSolidX < 7)
+            {
+                maxSolidX++;
+                minSolidX--;
+            }
+
+            while (maxSolidY - minSolidY < 7)
+            {
+                maxSolidY++;
+                minSolidY--;
+            }
+
+            minSolidX = Math.Max(minSolidX, 0);
+            minSolidY = Math.Max(minSolidY, 0);
+            maxSolidX = Math.Min(maxSolidX, result.Width - 1);
+            maxSolidY = Math.Min(maxSolidY, (result.Height / primaryAnim.Frames) - 1);
+
+            marginLeft -= minSolidX;
+            marginTop -= minSolidY;
+            marginRight -= result.Width - maxSolidX - 1;
+            marginBottom -= (result.Height / primaryAnim.Frames) - maxSolidY - 1;
+
+            Bitmap oldResult = result;
+            result = new Bitmap(maxSolidX - minSolidX + 1, (maxSolidY - minSolidY + 1) * primaryAnim.Frames);
+
+            for (int i = 0; i < primaryAnim.Frames; i++)
+            {
+                result.DrawOn(oldResult.Crop(new Rectangle(
+                    minSolidX,
+                    minSolidY + (i * oldResult.Height / primaryAnim.Frames),
+                    maxSolidX - minSolidX + 1,
+                    maxSolidY - minSolidY + 1
+                    )),
+                    new Point(0, i * (result.Height / primaryAnim.Frames)));
+            }
+
             return result;
         }
 
