@@ -267,6 +267,7 @@ namespace NLEditor
             Rectangle triggerRect = new Rectangle(0, 0, 1, 1);
             C.Resize resizeMode = C.Resize.None;
             bool isDeprecated = false;
+            bool? cropOverride = null;
 
             int[] nineSliceSizes = new int[4]; // Not appropriate to use a Rectangle yet. File contains the width/height of the slice,
                                                // not a rectangle of the center; and we don't know the width of the object yet. Order
@@ -339,7 +340,10 @@ namespace NLEditor
                         case "DEPRECATED":
                             isDeprecated = true;
                             break;
-
+                        case "EDITOR_CROP":
+                            if (bool.TryParse(line.Text, out bool localCrop))
+                                cropOverride = localCrop;
+                            break;
                         case "WINDOW":
                             objType = C.OBJ.HATCH;
                             break;
@@ -553,9 +557,15 @@ namespace NLEditor
                 parser?.DisposeStreamReader();
             }
 
+            bool disableCrop;
+            if (cropOverride.HasValue)
+                disableCrop = !cropOverride.Value;
+            else
+                disableCrop = (resizeMode != C.Resize.None) || ((triggerRect.Width == primaryAnim.Width) && (triggerRect.Height == primaryAnim.Height));
+
             Bitmap newBitmap = CreateCompositeImage(filePath, animData, primaryAnim,
               out int marginLeft, out int marginTop, out int marginRight, out int marginBottom,
-              resizeMode != C.Resize.None);
+              disableCrop);
 
             // Convert the nine-slice sizes to a nine-slice center rectangle
             Rectangle? nineSliceRect;
