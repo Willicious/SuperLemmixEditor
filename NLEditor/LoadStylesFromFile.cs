@@ -554,7 +554,8 @@ namespace NLEditor
             }
 
             Bitmap newBitmap = CreateCompositeImage(filePath, animData, primaryAnim,
-              out int marginLeft, out int marginTop, out int marginRight, out int marginBottom);
+              out int marginLeft, out int marginTop, out int marginRight, out int marginBottom,
+              resizeMode != C.Resize.None);
 
             // Convert the nine-slice sizes to a nine-slice center rectangle
             Rectangle? nineSliceRect;
@@ -577,7 +578,7 @@ namespace NLEditor
         }
 
         public static Bitmap CreateCompositeImage(string filePath, List<LoadStyleAnimData> anims, LoadStyleAnimData primaryAnim,
-          out int marginLeft, out int marginTop, out int marginRight, out int marginBottom)
+          out int marginLeft, out int marginTop, out int marginRight, out int marginBottom, bool forceOriginalSize = false)
         {
             int minX = 0;
             int minY = 0;
@@ -657,38 +658,54 @@ namespace NLEditor
                 }
             }
 
-            int minSolidX = result.Width - 1;
-            int minSolidY = result.Height - 1;
-            int maxSolidX = 0;
-            int maxSolidY = 0;
+            int minSolidX;
+            int minSolidY;
+            int maxSolidX;
+            int maxSolidY;
 
-            for (int y = 0; y < result.Height / primaryAnim.Frames; y++)
-                for (int x = 0; x < result.Width; x++)
-                    for (int f = 0; f < primaryAnim.Frames; f++)
-                        if (result.GetPixel(x, y + (f * result.Height / primaryAnim.Frames)).A > 0)
-                        {
-                            minSolidX = Math.Min(minSolidX, x);
-                            minSolidY = Math.Min(minSolidY, y);
-                            maxSolidX = Math.Max(maxSolidX, x);
-                            maxSolidY = Math.Max(maxSolidY, y);
-                        }
-
-            while (maxSolidX - minSolidX < 7)
+            if (forceOriginalSize)
             {
-                maxSolidX++;
-                minSolidX--;
+                minSolidX = primaryAnim.OffsetX;
+                minSolidY = primaryAnim.OffsetY;
+                maxSolidX = minSolidX + primaryAnim.Width - 1;
+                maxSolidY = minSolidY + primaryAnim.Height - 1;
             }
-
-            while (maxSolidY - minSolidY < 7)
+            else
             {
-                maxSolidY++;
-                minSolidY--;
-            }
+                minSolidX = result.Width - 1;
+                minSolidY = result.Height - 1;
+                maxSolidX = 0;
+                maxSolidY = 0;
 
-            minSolidX = Math.Max(minSolidX, 0);
-            minSolidY = Math.Max(minSolidY, 0);
-            maxSolidX = Math.Min(maxSolidX, result.Width - 1);
-            maxSolidY = Math.Min(maxSolidY, (result.Height / primaryAnim.Frames) - 1);
+                for (int y = 0; y < result.Height / primaryAnim.Frames; y++)
+                    for (int x = 0; x < result.Width; x++)
+                        for (int f = 0; f < primaryAnim.Frames; f++)
+                            if (result.GetPixel(x, y + (f * result.Height / primaryAnim.Frames)).A > 0)
+                            {
+                                minSolidX = Math.Min(minSolidX, x);
+                                minSolidY = Math.Min(minSolidY, y);
+                                maxSolidX = Math.Max(maxSolidX, x);
+                                maxSolidY = Math.Max(maxSolidY, y);
+                            }
+
+
+                while (maxSolidX - minSolidX < 7)
+                {
+                    maxSolidX++;
+                    minSolidX--;
+                }
+
+                while (maxSolidY - minSolidY < 7)
+                {
+                    maxSolidY++;
+                    minSolidY--;
+                }
+
+                minSolidX = Math.Max(minSolidX, 0);
+                minSolidY = Math.Max(minSolidY, 0);
+                maxSolidX = Math.Min(maxSolidX, result.Width - 1);
+                maxSolidY = Math.Min(maxSolidY, (result.Height / primaryAnim.Frames) - 1);
+            }
 
             marginLeft -= minSolidX;
             marginTop -= minSolidY;
