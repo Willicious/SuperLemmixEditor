@@ -620,6 +620,11 @@ namespace NLEditor
                     for (int n = 0; n < anim.Frames; n++)
                         anim.Image.DrawOn(eraseAnim.Image.Crop(new Rectangle(0, (n % 2) * 24, 24, 24)), new Point(0, n * 24), C.CustDrawMode.Erase);
                 }
+                else if (anim.Name?.ToUpperInvariant() == "*BLANK")
+                {
+                    anim.Image = new Bitmap(1, 1);
+                    anim.Frames = 1;
+                }
                 else if (anim.Image == null)
                 {
                     anim.Image = Image(filePath + (string.IsNullOrEmpty(anim.Name) ? "" : "_" + anim.Name));
