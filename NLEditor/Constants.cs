@@ -155,7 +155,7 @@ namespace NLEditor
             SkillWalker, SkillShimmier, SkillClimber, SkillSwimmer, SkillFloater, SkillGlider,
             SkillDisarmer, SkillBomber, SkillStoner, SkillBlocker,
             SkillBuilder, SkillPlatformer, SkillStacker,
-            SkillBasher, SkillMiner, SkillDigger, SkillFencer, SkillCloner,
+            SkillBasher, SkillFencer, SkillMiner, SkillDigger, SkillCloner,
             SkillEachLimit, UseOnlySkill
         }
         public static Array TalismanReqArray => Enum.GetValues(typeof(C.TalismanReq));
@@ -167,7 +167,7 @@ namespace NLEditor
             "Walker", "Shimmier", "Climber", "Swimmer", "Floater", "Glider",
             "Disarmer", "Bomber", "Stoner", "Blocker",
             "Builder", "Platformer", "Stacker",
-            "Basher", "Miner", "Digger", "Fencer", "Cloner"
+            "Basher", "Fencer", "Miner", "Digger", "Cloner"
         };
 
         public static readonly Dictionary<TalismanReq, string> TalismanReqText = new Dictionary<TalismanReq, string>()
@@ -189,9 +189,9 @@ namespace NLEditor
             { TalismanReq.SkillPlatformer, "Limit Platformers" },
             { TalismanReq.SkillStacker, "Limit Stackers" },
             { TalismanReq.SkillBasher, "Limit Bashers" },
+            { TalismanReq.SkillFencer, "Limit Fencers" },
             { TalismanReq.SkillMiner, "Limit Miners" },
             { TalismanReq.SkillDigger, "Limit Diggers" },
-            { TalismanReq.SkillFencer, "Limit Fencers" },
             { TalismanReq.SkillCloner, "Limit Cloners" },
             { TalismanReq.SkillEachLimit, "Limit All Skills" },
             { TalismanReq.UseOnlySkill, "Using only the Skill" }

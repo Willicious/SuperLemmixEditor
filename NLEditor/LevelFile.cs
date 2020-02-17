@@ -924,7 +924,7 @@ namespace NLEditor
             {
                 if (requirement == C.TalismanReq.UseOnlySkill)
                 {
-                    textFile.WriteLine("   " + C.TalismanKeys[requirement] + " " + ((C.Skill)talisman.Requirements[requirement]).ToString());
+                    textFile.WriteLine("   " + C.TalismanKeys[requirement] + " " + C.TalismanSkills[talisman.Requirements[requirement]]);
                 }
                 else
                 {
