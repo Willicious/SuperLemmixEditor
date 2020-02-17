@@ -505,6 +505,12 @@ namespace NLEditor
                                     case "NINE_SLICE_BOTTOM":
                                         nineSliceSizes[3] = line.Value;
                                         break;
+                                    case "WIDTH":
+                                        primaryAnim.Width = line.Value;
+                                        break;
+                                    case "HEIGHT":
+                                        primaryAnim.Height = line.Value;
+                                        break;
                                 }
                             }
                             break;
@@ -538,6 +544,12 @@ namespace NLEditor
                                         break;
                                     case "HIDE":
                                         newAnim.Hidden = true;
+                                        break;
+                                    case "WIDTH":
+                                        newAnim.Width = line.Value;
+                                        break;
+                                    case "HEIGHT":
+                                        newAnim.Height = line.Value;
                                         break;
                                 }
                             }
@@ -622,8 +634,9 @@ namespace NLEditor
                 }
                 else if (anim.Name?.ToUpperInvariant() == "*BLANK")
                 {
-                    anim.Image = new Bitmap(1, 1);
-                    anim.Frames = 1;
+                    anim.Frames = Math.Max(anim.Frames, 1);
+                    anim.Image = new Bitmap(anim.Width, anim.Height * anim.Frames);
+                    anim.HorizontalStrip = false;
                 }
                 else if (anim.Image == null)
                 {
