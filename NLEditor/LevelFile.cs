@@ -530,7 +530,12 @@ namespace NLEditor
                                 C.TalismanReq requirement = C.TalismanKeys.First(pair => pair.Value.Equals(line.Key)).Key;
                                 if (requirement == C.TalismanReq.UseOnlySkill)
                                 {
-                                    talisman.Requirements[requirement] = (int)(Utility.ParseEnum<C.Skill>(line.Text));
+                                    for (int i = 0; i < C.TalismanSkills.Count; i++)
+                                        if (line.Text.ToUpperInvariant() == C.TalismanSkills[i].ToUpperInvariant())
+                                        {
+                                            talisman.Requirements[requirement] = i;
+                                            break;
+                                        }
                                 }
                                 else
                                 {
