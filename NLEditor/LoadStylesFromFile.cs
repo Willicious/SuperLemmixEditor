@@ -635,6 +635,8 @@ namespace NLEditor
                 else if (anim.Name?.ToUpperInvariant() == "*BLANK")
                 {
                     anim.Frames = Math.Max(anim.Frames, 1);
+                    anim.Width = Math.Max(anim.Width, 1);
+                    anim.Height = Math.Max(anim.Height, 1);
                     anim.Image = new Bitmap(anim.Width, anim.Height * anim.Frames);
                     anim.HorizontalStrip = false;
                 }
