@@ -74,6 +74,10 @@
             this.pic_Level = new System.Windows.Forms.PictureBox();
             this.tabLvlProperties = new System.Windows.Forms.TabControl();
             this.tabGlobalInfo = new System.Windows.Forms.TabPage();
+            this.lbStartY = new System.Windows.Forms.Label();
+            this.lbStartX = new System.Windows.Forms.Label();
+            this.lbSizeH = new System.Windows.Forms.Label();
+            this.lbSizeW = new System.Windows.Forms.Label();
             this.combo_Background = new System.Windows.Forms.ComboBox();
             this.lbl_Global_Background = new System.Windows.Forms.Label();
             this.check_Lvl_InfTime = new System.Windows.Forms.CheckBox();
@@ -202,10 +206,6 @@
             this.but_PieceRight = new NLEditor.RepeatButton();
             this.but_PieceLeft = new NLEditor.RepeatButton();
             this.tabLvlMisc = new System.Windows.Forms.TabControl();
-            this.lbSizeW = new System.Windows.Forms.Label();
-            this.lbSizeH = new System.Windows.Forms.Label();
-            this.lbStartY = new System.Windows.Forms.Label();
-            this.lbStartX = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -716,6 +716,42 @@
             this.tabGlobalInfo.TabIndex = 0;
             this.tabGlobalInfo.Text = "Globals";
             this.tabGlobalInfo.UseVisualStyleBackColor = true;
+            // 
+            // lbStartY
+            // 
+            this.lbStartY.AutoSize = true;
+            this.lbStartY.Location = new System.Drawing.Point(107, 138);
+            this.lbStartY.Name = "lbStartY";
+            this.lbStartY.Size = new System.Drawing.Size(14, 13);
+            this.lbStartY.TabIndex = 30;
+            this.lbStartY.Text = "Y";
+            // 
+            // lbStartX
+            // 
+            this.lbStartX.AutoSize = true;
+            this.lbStartX.Location = new System.Drawing.Point(43, 138);
+            this.lbStartX.Name = "lbStartX";
+            this.lbStartX.Size = new System.Drawing.Size(14, 13);
+            this.lbStartX.TabIndex = 29;
+            this.lbStartX.Text = "X";
+            // 
+            // lbSizeH
+            // 
+            this.lbSizeH.AutoSize = true;
+            this.lbSizeH.Location = new System.Drawing.Point(106, 112);
+            this.lbSizeH.Name = "lbSizeH";
+            this.lbSizeH.Size = new System.Drawing.Size(15, 13);
+            this.lbSizeH.TabIndex = 28;
+            this.lbSizeH.Text = "H";
+            // 
+            // lbSizeW
+            // 
+            this.lbSizeW.AutoSize = true;
+            this.lbSizeW.Location = new System.Drawing.Point(39, 112);
+            this.lbSizeW.Name = "lbSizeW";
+            this.lbSizeW.Size = new System.Drawing.Size(18, 13);
+            this.lbSizeW.TabIndex = 27;
+            this.lbSizeW.Text = "W";
             // 
             // combo_Background
             // 
@@ -2269,42 +2305,6 @@
             this.tabLvlMisc.TabIndex = 43;
             this.tabLvlMisc.TabStop = false;
             this.tabLvlMisc.Visible = false;
-            // 
-            // lbSizeW
-            // 
-            this.lbSizeW.AutoSize = true;
-            this.lbSizeW.Location = new System.Drawing.Point(39, 115);
-            this.lbSizeW.Name = "lbSizeW";
-            this.lbSizeW.Size = new System.Drawing.Size(18, 13);
-            this.lbSizeW.TabIndex = 27;
-            this.lbSizeW.Text = "W";
-            // 
-            // lbSizeH
-            // 
-            this.lbSizeH.AutoSize = true;
-            this.lbSizeH.Location = new System.Drawing.Point(106, 115);
-            this.lbSizeH.Name = "lbSizeH";
-            this.lbSizeH.Size = new System.Drawing.Size(15, 13);
-            this.lbSizeH.TabIndex = 28;
-            this.lbSizeH.Text = "H";
-            // 
-            // lbStartY
-            // 
-            this.lbStartY.AutoSize = true;
-            this.lbStartY.Location = new System.Drawing.Point(107, 140);
-            this.lbStartY.Name = "lbStartY";
-            this.lbStartY.Size = new System.Drawing.Size(14, 13);
-            this.lbStartY.TabIndex = 30;
-            this.lbStartY.Text = "Y";
-            // 
-            // lbStartX
-            // 
-            this.lbStartX.AutoSize = true;
-            this.lbStartX.Location = new System.Drawing.Point(43, 140);
-            this.lbStartX.Name = "lbStartX";
-            this.lbStartX.Size = new System.Drawing.Size(14, 13);
-            this.lbStartX.TabIndex = 29;
-            this.lbStartX.Text = "X";
             // 
             // NLEditForm
             // 
