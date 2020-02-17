@@ -902,9 +902,9 @@ namespace NLEditor
             {
                 DuplicateSelectedPieces();
             }
-            else if (e.KeyCode.In(Keys.Add, Keys.Subtract))
+            else if (e.KeyCode.In(Keys.Add, Keys.OemMinus, Keys.Oemplus, Keys.Subtract))
             {
-                curRenderer.ChangeZoom(e.KeyCode == Keys.Add ? 1 : -1, false);
+                curRenderer.ChangeZoom(e.KeyCode.In(Keys.Add, Keys.Oemplus) ? 1 : -1, false);
                 RepositionPicLevel();
                 pic_Level.SetImage(curRenderer.GetScreenImage());
             }
