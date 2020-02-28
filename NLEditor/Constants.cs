@@ -204,6 +204,7 @@ namespace NLEditor
     {
       { TalismanReq.SaveReq, "SAVE_REQUIREMENT" }, { TalismanReq.TimeLimit, "TIME_LIMIT" },
       { TalismanReq.SkillTotal, "SKILL_LIMIT" }, { TalismanReq.SkillWalker, "WALKER_LIMIT" },
+      { TalismanReq.SkillShimmier, "SHIMMIER_LIMIT" },
       { TalismanReq.SkillClimber, "CLIMBER_LIMIT"}, { TalismanReq.SkillSwimmer, "SWIMMER_LIMIT"},
       { TalismanReq.SkillFloater, "FLOATER_LIMIT" }, { TalismanReq.SkillGlider, "GLIDER_LIMIT" },
       { TalismanReq.SkillDisarmer, "DISARMER_LIMIT" }, { TalismanReq.SkillBomber, "BOMBER_LIMIT" },
