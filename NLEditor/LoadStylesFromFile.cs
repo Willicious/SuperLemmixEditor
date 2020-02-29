@@ -517,6 +517,9 @@ namespace NLEditor
 
                         case "ANIMATION":
                             LoadStyleAnimData newAnim = new LoadStyleAnimData();
+
+                            bool editorHide = false;
+
                             foreach (var fileLine in fileLineList)
                             {
                                 switch (fileLine.Key)
@@ -551,10 +554,14 @@ namespace NLEditor
                                     case "HEIGHT":
                                         newAnim.Height = line.Value;
                                         break;
+                                    case "EDITOR_HIDE":
+                                        editorHide = true;
+                                        break;
                                 }
                             }
 
-                            animData.Add(newAnim);
+                            if (!editorHide)
+                                animData.Add(newAnim);
                             break;
                     }
                 }
@@ -695,8 +702,8 @@ namespace NLEditor
 
             if (forceOriginalSize)
             {
-                minSolidX = primaryAnim.OffsetX;
-                minSolidY = primaryAnim.OffsetY;
+                minSolidX = -minX + primaryAnim.OffsetX;
+                minSolidY = -minY + primaryAnim.OffsetY;
                 maxSolidX = minSolidX + primaryAnim.Width - 1;
                 maxSolidY = minSolidY + primaryAnim.Height - 1;
             }
