@@ -288,7 +288,7 @@ namespace NLEditor
         /// </summary>
         private void MoveControlsOnFormResize()
         {
-            scrollPicLevelHoriz.Top = this.Height - 144;
+            scrollPicLevelHoriz.Top = this.Height - 167;
             scrollPicLevelVert.Left = this.Width - 29;
 
             RepositionPicLevel();
@@ -322,7 +322,7 @@ namespace NLEditor
 
             pic_Level.Left = 188 + (curSettings.UseLvlPropertiesTabs ? 0 : offsetWidth);
 
-            Size newPicLevelSize = new Size(this.Width - 200, this.Height - 155);
+            Size newPicLevelSize = new Size(this.Width - 200, this.Height - 178);
 
             if (!curSettings.UseLvlPropertiesTabs)
             {
