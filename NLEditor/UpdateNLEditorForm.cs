@@ -49,6 +49,9 @@ namespace NLEditor
                 case C.SelectPieceType.Terrain:
                     pieceKeys = pieceCurStyle?.TerrainKeys;
                     break;
+                case C.SelectPieceType.Backgrounds:
+                    pieceKeys = pieceCurStyle?.BackgroundKeys;
+                    break;
                 default:
                     throw new ArgumentException();
             }
@@ -314,6 +317,7 @@ namespace NLEditor
             combo_PieceStyle.Top = this.Height - 149;
             but_PieceTerr.Top = this.Height - 149;
             but_PieceObj.Top = this.Height - 149;
+            but_PieceBackground.Top = this.Height - 149;
 
             but_PieceLeft.Top = this.Height - 122;
             but_PieceRight.Top = this.Height - 122;
@@ -496,15 +500,6 @@ namespace NLEditor
             this.Controls.Add(picPiece);
 
             return picPiece;
-        }
-
-        /// <summary>
-        /// Updates the possible background images depending on the currently selected main style.
-        /// </summary>
-        private void UpdateBackgroundComboItems()
-        {
-            combo_Background.Items.Clear();
-            combo_Background.Items.AddRange(Backgrounds.GetDisplayNames(CurLevel.MainStyle).ToArray());
         }
 
         /// <summary>

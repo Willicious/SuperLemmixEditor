@@ -105,8 +105,6 @@ namespace NLEditor
             }
             LoadPiecesIntoPictureBox();
 
-            UpdateBackgroundComboItems();
-
             dragNewPieceTimer = new Timer();
             dragNewPieceTimer.Tick += new EventHandler((object sender, EventArgs e) => UpdateNewPiecePicBox());
 
@@ -402,7 +400,6 @@ namespace NLEditor
                 return;
 
             CurLevel.MainStyle = newStyle;
-            UpdateBackgroundComboItems();
             UpdateBackgroundImage();
             LoadPiecesIntoPictureBox();
             pic_Level.SetImage(curRenderer.CreateLevelImage());
@@ -452,14 +449,6 @@ namespace NLEditor
         {
             CurLevel.StartPosY = (int)num_Lvl_StartY.Value;
             pic_Level.SetImage(curRenderer.GetScreenImage());
-        }
-
-
-        private void combo_Background_TextChanged(object sender, EventArgs e)
-        {
-            CurLevel.Background = Backgrounds.Find(this.combo_Background.Text);
-            UpdateBackgroundImage();
-            pic_Level.SetImage(curRenderer.CombineLayers());
         }
 
 
@@ -749,19 +738,25 @@ namespace NLEditor
 
         private void picPieces_MouseDown(object sender, MouseEventArgs e)
         {
-            int picIndex = picPieceList.FindIndex(pic => pic.Equals(sender));
-            Debug.Assert(picIndex != -1, "PicBox not found in picPieceList.");
+            if (pieceDoDisplayKind != C.SelectPieceType.Backgrounds)
+            {
+                int picIndex = picPieceList.FindIndex(pic => pic.Equals(sender));
+                Debug.Assert(picIndex != -1, "PicBox not found in picPieceList.");
 
-            dragNewPieceKey = GetPieceKeyFromIndex(picIndex);
+                dragNewPieceKey = GetPieceKeyFromIndex(picIndex);
 
-            pic_DragNewPiece.Width = ImageLibrary.GetWidth(dragNewPieceKey);
-            pic_DragNewPiece.Height = ImageLibrary.GetHeight(dragNewPieceKey);
-            pic_DragNewPiece.Image = ImageLibrary.GetImage(dragNewPieceKey);
+                if (dragNewPieceKey != "")
+                {
+                    pic_DragNewPiece.Width = ImageLibrary.GetWidth(dragNewPieceKey);
+                    pic_DragNewPiece.Height = ImageLibrary.GetHeight(dragNewPieceKey);
+                    pic_DragNewPiece.Image = ImageLibrary.GetImage(dragNewPieceKey);
 
-            dragNewPieceTimer.Interval = 200;
-            dragNewPieceTimer.Enabled = true;
+                    dragNewPieceTimer.Interval = 200;
+                    dragNewPieceTimer.Enabled = true;
 
-            curRenderer.SetDraggingVars(new Point(0, 0), C.DragActions.DragNewPiece);
+                    curRenderer.SetDraggingVars(new Point(0, 0), C.DragActions.DragNewPiece);
+                }
+            }
         }
 
         /* -----------------------------------------------------------
@@ -1387,6 +1382,13 @@ namespace NLEditor
             {
                 textForm.ShowDialog(this);
             }
+        }
+
+        private void but_ClearBackground_Click(object sender, EventArgs e)
+        {
+            CurLevel.Background = null;
+            UpdateBackgroundImage();
+            pic_Level.SetImage(curRenderer.CombineLayers());
         }
     }
 }

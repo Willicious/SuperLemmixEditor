@@ -29,6 +29,7 @@ namespace NLEditor
 
         List<string> terrainKeys;
         List<string> objectKeys;
+        List<string> backgroundKeys;
 
         public string NameInDirectory { get; private set; }
         public string NameInEditor { get; set; }
@@ -42,6 +43,7 @@ namespace NLEditor
                 return terrainKeys;
             }
         }
+        
         public List<string> ObjectKeys
         {
             get
@@ -51,6 +53,17 @@ namespace NLEditor
                 return objectKeys;
             }
         }
+
+        public List<string> BackgroundKeys
+        {
+            get
+            {
+                if (backgroundKeys == null)
+                    LoadTerrainAndObjects();
+                return backgroundKeys;
+            }
+        }
+
 
         /// <summary>
         /// Checks for equality of the style's FileName.
@@ -69,6 +82,7 @@ namespace NLEditor
         {
             SearchDirectoryForTerrain();
             SearchDirectoryForObjects();
+            SearchDirectoryForBackgrounds();
 
             RemoveDuplicatedObjects();
             SortObjectNamesByObjectType();
@@ -88,6 +102,24 @@ namespace NLEditor
                 return C.NLColors[(colorType == C.StyleColor.BACKGROUND) ? C.NLColor.BackDefault : C.NLColor.OWWDefault];
         }
 
+        /// <summary>
+        /// Writes all pieces in AppPath/StyleName/terrain to the list of TerrainNames.
+        /// </summary>
+        private void SearchDirectoryForBackgrounds()
+        {
+            string directoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "backgrounds";
+
+            if (Directory.Exists(directoryPath))
+            {
+                backgroundKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                                       .Select(file => ImageLibrary.CreatePieceKey(file))
+                                       .ToList();
+            }
+            else // use empty list
+            {
+                backgroundKeys = new List<string>();
+            }
+        }
 
         /// <summary>
         /// Writes all pieces in AppPath/StyleName/terrain to the list of TerrainNames.

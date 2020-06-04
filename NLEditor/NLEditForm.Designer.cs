@@ -78,8 +78,6 @@
             this.lbStartX = new System.Windows.Forms.Label();
             this.lbSizeH = new System.Windows.Forms.Label();
             this.lbSizeW = new System.Windows.Forms.Label();
-            this.combo_Background = new System.Windows.Forms.ComboBox();
-            this.lbl_Global_Background = new System.Windows.Forms.Label();
             this.check_Lvl_InfTime = new System.Windows.Forms.CheckBox();
             this.combo_Music = new System.Windows.Forms.ComboBox();
             this.lbl_Global_TimeLimit = new System.Windows.Forms.Label();
@@ -167,6 +165,8 @@
             this.pic_DragNewPiece = new System.Windows.Forms.PictureBox();
             this.toolTipButton = new System.Windows.Forms.ToolTip(this.components);
             this.tabLvlMisc = new System.Windows.Forms.TabControl();
+            this.but_PieceObj = new System.Windows.Forms.Button();
+            this.but_PieceBackground = new System.Windows.Forms.Button();
             this.txt_Focus = new NLEditor.FocusTextBox();
             this.but_PieceRight = new NLEditor.RepeatButton();
             this.but_PieceLeft = new NLEditor.RepeatButton();
@@ -209,7 +209,7 @@
             this.num_Ski_Blocker = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Floater = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Climber = new NLEditor.NumUpDownOverwrite();
-            this.but_PieceObj = new System.Windows.Forms.Button();
+            this.but_ClearBackground = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -683,12 +683,11 @@
             // 
             // tabGlobalInfo
             // 
+            this.tabGlobalInfo.Controls.Add(this.but_ClearBackground);
             this.tabGlobalInfo.Controls.Add(this.lbStartY);
             this.tabGlobalInfo.Controls.Add(this.lbStartX);
             this.tabGlobalInfo.Controls.Add(this.lbSizeH);
             this.tabGlobalInfo.Controls.Add(this.lbSizeW);
-            this.tabGlobalInfo.Controls.Add(this.combo_Background);
-            this.tabGlobalInfo.Controls.Add(this.lbl_Global_Background);
             this.tabGlobalInfo.Controls.Add(this.check_Lvl_InfTime);
             this.tabGlobalInfo.Controls.Add(this.combo_Music);
             this.tabGlobalInfo.Controls.Add(this.num_Lvl_TimeSec);
@@ -757,27 +756,6 @@
             this.lbSizeW.Size = new System.Drawing.Size(18, 13);
             this.lbSizeW.TabIndex = 27;
             this.lbSizeW.Text = "W";
-            // 
-            // combo_Background
-            // 
-            this.combo_Background.FormattingEnabled = true;
-            this.combo_Background.Items.AddRange(new object[] {
-            "--none--"});
-            this.combo_Background.Location = new System.Drawing.Point(70, 312);
-            this.combo_Background.Name = "combo_Background";
-            this.combo_Background.Size = new System.Drawing.Size(98, 21);
-            this.combo_Background.TabIndex = 26;
-            this.combo_Background.Text = "--none--";
-            this.combo_Background.TextChanged += new System.EventHandler(this.combo_Background_TextChanged);
-            this.combo_Background.Leave += new System.EventHandler(this.textbox_Leave);
-            // 
-            // lbl_Global_Background
-            // 
-            this.lbl_Global_Background.Location = new System.Drawing.Point(6, 315);
-            this.lbl_Global_Background.Name = "lbl_Global_Background";
-            this.lbl_Global_Background.Size = new System.Drawing.Size(86, 15);
-            this.lbl_Global_Background.TabIndex = 25;
-            this.lbl_Global_Background.Text = "Background";
             // 
             // check_Lvl_InfTime
             // 
@@ -1693,6 +1671,26 @@
             this.tabLvlMisc.TabStop = false;
             this.tabLvlMisc.Visible = false;
             // 
+            // but_PieceObj
+            // 
+            this.but_PieceObj.Location = new System.Drawing.Point(188, 493);
+            this.but_PieceObj.Name = "but_PieceObj";
+            this.but_PieceObj.Size = new System.Drawing.Size(79, 21);
+            this.but_PieceObj.TabIndex = 44;
+            this.but_PieceObj.Text = "Get Objects";
+            this.but_PieceObj.UseVisualStyleBackColor = true;
+            this.but_PieceObj.Click += new System.EventHandler(this.but_PieceObj_Click);
+            // 
+            // but_PieceBackground
+            // 
+            this.but_PieceBackground.Location = new System.Drawing.Point(269, 493);
+            this.but_PieceBackground.Name = "but_PieceBackground";
+            this.but_PieceBackground.Size = new System.Drawing.Size(103, 21);
+            this.but_PieceBackground.TabIndex = 45;
+            this.but_PieceBackground.Text = "Get Backgrounds";
+            this.but_PieceBackground.UseVisualStyleBackColor = true;
+            this.but_PieceBackground.Click += new System.EventHandler(this.but_PieceBackground_Click);
+            // 
             // txt_Focus
             // 
             this.txt_Focus.Location = new System.Drawing.Point(-100, 1);
@@ -2341,21 +2339,22 @@
             this.num_Ski_Climber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             this.num_Ski_Climber.Leave += new System.EventHandler(this.textbox_Leave);
             // 
-            // but_PieceObj
+            // but_ClearBackground
             // 
-            this.but_PieceObj.Location = new System.Drawing.Point(188, 492);
-            this.but_PieceObj.Name = "but_PieceObj";
-            this.but_PieceObj.Size = new System.Drawing.Size(79, 21);
-            this.but_PieceObj.TabIndex = 44;
-            this.but_PieceObj.Text = "Get Objects";
-            this.but_PieceObj.UseVisualStyleBackColor = true;
-            this.but_PieceObj.Click += new System.EventHandler(this.but_PieceObj_Click);
+            this.but_ClearBackground.Location = new System.Drawing.Point(9, 312);
+            this.but_ClearBackground.Name = "but_ClearBackground";
+            this.but_ClearBackground.Size = new System.Drawing.Size(159, 23);
+            this.but_ClearBackground.TabIndex = 31;
+            this.but_ClearBackground.Text = "Clear Background";
+            this.but_ClearBackground.UseVisualStyleBackColor = true;
+            this.but_ClearBackground.Click += new System.EventHandler(this.but_ClearBackground_Click);
             // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 609);
+            this.Controls.Add(this.but_PieceBackground);
             this.Controls.Add(this.but_PieceObj);
             this.Controls.Add(this.tabLvlMisc);
             this.Controls.Add(this.pic_DragNewPiece);
@@ -2584,8 +2583,6 @@
         private NLEditor.NumUpDownOverwrite num_Resize_Width;
         private System.Windows.Forms.Label lbl_Resize_Width;
         private System.Windows.Forms.Button but_PairTeleporter;
-        private System.Windows.Forms.ComboBox combo_Background;
-        private System.Windows.Forms.Label lbl_Global_Background;
         private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTipPieces;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
@@ -2629,6 +2626,8 @@
         private NumUpDownOverwrite num_Ski_Jumper;
         private System.Windows.Forms.CheckBox check_Piece_Jumper;
         private System.Windows.Forms.Button but_PieceObj;
+        private System.Windows.Forms.Button but_PieceBackground;
+        private System.Windows.Forms.Button but_ClearBackground;
     }
 }
 

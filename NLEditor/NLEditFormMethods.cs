@@ -123,7 +123,6 @@ namespace NLEditor
             CurLevel.TimeLimit = decimal.ToInt32(num_Lvl_TimeMin.Value) * 60
                                     + decimal.ToInt32(num_Lvl_TimeSec.Value);
             CurLevel.IsNoTimeLimit = check_Lvl_InfTime.Checked;
-            CurLevel.Background = Backgrounds.Find(combo_Background.Text);
 
             foreach (C.Skill skill in numericsSkillSet.Keys)
             {
@@ -168,7 +167,6 @@ namespace NLEditor
             num_Lvl_TimeMin.Value = CurLevel.TimeLimit / 60;
             num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;
             check_Lvl_InfTime.Checked = CurLevel.IsNoTimeLimit;
-            combo_Background.Text = CurLevel.Background?.Name ?? "--none--";
 
             foreach (C.Skill skill in numericsSkillSet.Keys)
             {
@@ -470,6 +468,7 @@ namespace NLEditor
             {
                 case C.SelectPieceType.Objects: pieceNameList = pieceCurStyle?.ObjectKeys; break;
                 case C.SelectPieceType.Terrain: pieceNameList = pieceCurStyle?.TerrainKeys; break;
+                case C.SelectPieceType.Backgrounds: pieceNameList = pieceCurStyle?.BackgroundKeys; break;
                 default: throw new ArgumentException();
             }
 
@@ -529,6 +528,9 @@ namespace NLEditor
                 case C.SelectPieceType.Terrain:
                     pieceList = pieceCurStyle?.TerrainKeys;
                     break;
+                case C.SelectPieceType.Backgrounds:
+                    pieceList = pieceCurStyle?.BackgroundKeys;
+                    break;
                 default:
                     throw new ArgumentException();
             }
@@ -555,7 +557,21 @@ namespace NLEditor
         private void AddNewPieceToLevel(int picPieceIndex)
         {
             string pieceKey = GetPieceKeyFromIndex(picPieceIndex);
-            AddNewPieceToLevel(pieceKey, curRenderer.GetCenterPoint());
+
+            if (pieceKey != "")
+                switch (pieceDoDisplayKind)
+                {
+                    case C.SelectPieceType.Terrain:
+                    case C.SelectPieceType.Objects:
+                        AddNewPieceToLevel(pieceKey, curRenderer.GetCenterPoint());
+                        break;
+                    case C.SelectPieceType.Backgrounds:
+                        string[] splitKey = pieceKey.Split('/', '\\');
+                        CurLevel.Background = Backgrounds.Find(splitKey[2], pieceCurStyle);
+                        UpdateBackgroundImage();
+                        pic_Level.SetImage(curRenderer.CombineLayers());
+                        break;
+                }
         }
 
         /// <summary>
