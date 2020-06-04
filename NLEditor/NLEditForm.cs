@@ -94,7 +94,7 @@ namespace NLEditor
                 toolTipButton.Active = false;
 
             pieceStartIndex = 0;
-            pieceDoDisplayObject = false;
+            pieceDoDisplayKind = C.SelectPieceType.Terrain;
             try
             {
                 pieceCurStyle = ValidateStyleName(combo_PieceStyle.SelectedItem.ToString());
@@ -134,7 +134,7 @@ namespace NLEditor
         public List<PictureBox> picPieceList { get; private set; }
         Style pieceCurStyle;
         int pieceStartIndex;
-        bool pieceDoDisplayObject;
+        C.SelectPieceType pieceDoDisplayKind;
 
         string dragNewPieceKey;
         Timer dragNewPieceTimer;
@@ -692,9 +692,27 @@ namespace NLEditor
             }
         }
 
-        private void but_PieceTerrObj_Click(object sender, EventArgs e)
+        private void but_PieceTerr_Click(object sender, EventArgs e)
         {
-            ChangeObjTerrPieceDisplay();
+            ChangeObjTerrPieceDisplay(C.SelectPieceType.Terrain);
+            RemoveFocus();
+        }
+
+        private void but_PieceObj_Click(object sender, EventArgs e)
+        {
+            ChangeObjTerrPieceDisplay(C.SelectPieceType.Objects);
+            RemoveFocus();
+        }
+
+        private void but_PieceBackground_Click(object sender, EventArgs e)
+        {
+            ChangeObjTerrPieceDisplay(C.SelectPieceType.Backgrounds);
+            RemoveFocus();
+        }
+
+        private void but_PieceSketch_Click(object sender, EventArgs e)
+        {
+            ChangeObjTerrPieceDisplay(C.SelectPieceType.Sketches);
             RemoveFocus();
         }
 
@@ -874,7 +892,7 @@ namespace NLEditor
             }
             else if (e.KeyCode == Keys.Space)
             {
-                ChangeObjTerrPieceDisplay();
+                ChangeObjTerrPieceDisplay(pieceDoDisplayKind == C.SelectPieceType.Terrain ? C.SelectPieceType.Objects : C.SelectPieceType.Terrain);
             }
             else if (e.KeyCode == Keys.Delete)
             {
@@ -1273,11 +1291,11 @@ namespace NLEditor
             Point mousePicBoxPos = pic_Level.PointToClient(mouseScreenPos);
             Point mouseLevelPos = curRenderer.GetMousePosInLevel(mousePicBoxPos);
 
-            List<string> pieceList = pieceDoDisplayObject ? pieceCurStyle?.ObjectKeys : pieceCurStyle?.TerrainKeys;
+            List<string> pieceList = pieceDoDisplayKind ? pieceCurStyle?.ObjectKeys : pieceCurStyle?.TerrainKeys;
             if (pieceList == null || pieceList.Count == 0) return;
             int startIndex = (pieceStartIndex - 1 + picPieceList.Count / 2) % pieceList.Count;
 
-            var selectForm = new FormPieceSelection(this, pieceCurStyle, pieceDoDisplayObject, startIndex, mouseLevelPos, CurLevel.MainStyle);
+            var selectForm = new FormPieceSelection(this, pieceCurStyle, pieceDoDisplayKind, startIndex, mouseLevelPos, CurLevel.MainStyle);
 
             int formStartPosX;
             if (mouseScreenPos.X + selectForm.Width < SystemInformation.VirtualScreen.Width - 12)

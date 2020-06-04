@@ -70,7 +70,7 @@
             this.picPiece5 = new System.Windows.Forms.PictureBox();
             this.picPiece6 = new System.Windows.Forms.PictureBox();
             this.picPiece7 = new System.Windows.Forms.PictureBox();
-            this.but_PieceTerrObj = new System.Windows.Forms.Button();
+            this.but_PieceTerr = new System.Windows.Forms.Button();
             this.pic_Level = new System.Windows.Forms.PictureBox();
             this.tabLvlProperties = new System.Windows.Forms.TabControl();
             this.tabGlobalInfo = new System.Windows.Forms.TabPage();
@@ -209,6 +209,7 @@
             this.num_Ski_Blocker = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Floater = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Climber = new NLEditor.NumUpDownOverwrite();
+            this.but_PieceObj = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -641,15 +642,15 @@
             this.picPiece7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
             this.picPiece7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
             // 
-            // but_PieceTerrObj
+            // but_PieceTerr
             // 
-            this.but_PieceTerrObj.Location = new System.Drawing.Point(107, 493);
-            this.but_PieceTerrObj.Name = "but_PieceTerrObj";
-            this.but_PieceTerrObj.Size = new System.Drawing.Size(79, 21);
-            this.but_PieceTerrObj.TabIndex = 35;
-            this.but_PieceTerrObj.Text = "Get Objects";
-            this.but_PieceTerrObj.UseVisualStyleBackColor = true;
-            this.but_PieceTerrObj.Click += new System.EventHandler(this.but_PieceTerrObj_Click);
+            this.but_PieceTerr.Location = new System.Drawing.Point(107, 493);
+            this.but_PieceTerr.Name = "but_PieceTerr";
+            this.but_PieceTerr.Size = new System.Drawing.Size(79, 21);
+            this.but_PieceTerr.TabIndex = 35;
+            this.but_PieceTerr.Text = "Get Terrain";
+            this.but_PieceTerr.UseVisualStyleBackColor = true;
+            this.but_PieceTerr.Click += new System.EventHandler(this.but_PieceTerr_Click);
             // 
             // pic_Level
             // 
@@ -2340,11 +2341,22 @@
             this.num_Ski_Climber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             this.num_Ski_Climber.Leave += new System.EventHandler(this.textbox_Leave);
             // 
+            // but_PieceObj
+            // 
+            this.but_PieceObj.Location = new System.Drawing.Point(188, 492);
+            this.but_PieceObj.Name = "but_PieceObj";
+            this.but_PieceObj.Size = new System.Drawing.Size(79, 21);
+            this.but_PieceObj.TabIndex = 44;
+            this.but_PieceObj.Text = "Get Objects";
+            this.but_PieceObj.UseVisualStyleBackColor = true;
+            this.but_PieceObj.Click += new System.EventHandler(this.but_PieceObj_Click);
+            // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 609);
+            this.Controls.Add(this.but_PieceObj);
             this.Controls.Add(this.tabLvlMisc);
             this.Controls.Add(this.pic_DragNewPiece);
             this.Controls.Add(this.scrollPicLevelVert);
@@ -2353,7 +2365,7 @@
             this.Controls.Add(this.tabLvlPieces);
             this.Controls.Add(this.txt_Focus);
             this.Controls.Add(this.pic_Level);
-            this.Controls.Add(this.but_PieceTerrObj);
+            this.Controls.Add(this.but_PieceTerr);
             this.Controls.Add(this.picPiece7);
             this.Controls.Add(this.picPiece6);
             this.Controls.Add(this.picPiece5);
@@ -2532,7 +2544,7 @@
         private System.Windows.Forms.PictureBox picPiece5;
         private System.Windows.Forms.PictureBox picPiece6;
         private System.Windows.Forms.PictureBox picPiece7;
-        private System.Windows.Forms.Button but_PieceTerrObj;
+        private System.Windows.Forms.Button but_PieceTerr;
         private System.Windows.Forms.CheckBox check_Lvl_InfTime;
         private System.Windows.Forms.PictureBox pic_Level;
         private System.Windows.Forms.TabControl tabLvlProperties;
@@ -2616,6 +2628,7 @@
         private System.Windows.Forms.Label lbl_Skill_Jumper;
         private NumUpDownOverwrite num_Ski_Jumper;
         private System.Windows.Forms.CheckBox check_Piece_Jumper;
+        private System.Windows.Forms.Button but_PieceObj;
     }
 }
 

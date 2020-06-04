@@ -390,14 +390,15 @@ namespace NLEditor
         /// <summary>
         /// Switches between displaying objects and terrain for newly added pieces.
         /// </summary>
-        private void ChangeObjTerrPieceDisplay()
+        private void ChangeObjTerrPieceDisplay(C.SelectPieceType newKind)
         {
-            pieceDoDisplayObject = !pieceDoDisplayObject;
+            if (newKind != pieceDoDisplayKind)
+            {
+                pieceDoDisplayKind = newKind;
 
-            pieceStartIndex = 0;
-            LoadPiecesIntoPictureBox();
-
-            but_PieceTerrObj.Text = pieceDoDisplayObject ? "Get Terrain" : "Get Objects";
+                pieceStartIndex = 0;
+                LoadPiecesIntoPictureBox();
+            }
         }
 
         /// <summary>
@@ -463,7 +464,15 @@ namespace NLEditor
         /// <param name="movement"></param>
         private void MoveTerrPieceSelection(int movement)
         {
-            List<string> pieceNameList = pieceDoDisplayObject ? pieceCurStyle?.ObjectKeys : pieceCurStyle?.TerrainKeys;
+            List<string> pieceNameList; 
+            
+            switch (pieceDoDisplayKind)
+            {
+                case C.SelectPieceType.Objects: pieceNameList = pieceCurStyle?.ObjectKeys; break;
+                case C.SelectPieceType.Terrain: pieceNameList = pieceCurStyle?.TerrainKeys; break;
+                default: throw new ArgumentException();
+            }
+
             if (pieceNameList == null || pieceNameList.Count == 0)
                 return;
 
@@ -510,7 +519,20 @@ namespace NLEditor
         /// <returns></returns>
         private string GetPieceKeyFromIndex(int picPieceIndex)
         {
-            List<string> pieceList = pieceDoDisplayObject ? pieceCurStyle?.ObjectKeys : pieceCurStyle?.TerrainKeys;
+            List<string> pieceList;
+
+            switch (pieceDoDisplayKind)
+            {
+                case C.SelectPieceType.Objects:
+                    pieceList = pieceCurStyle?.ObjectKeys;
+                    break;
+                case C.SelectPieceType.Terrain:
+                    pieceList = pieceCurStyle?.TerrainKeys;
+                    break;
+                default:
+                    throw new ArgumentException();
+            }
+
             if (pieceList == null || pieceList.Count == 0)
                 return String.Empty;
 

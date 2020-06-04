@@ -35,6 +35,11 @@ namespace NLEditor
 
         public static ScreenSize ScreenSize;
 
+        public enum SelectPieceType
+        {
+            Terrain, Objects, Backgrounds, Sketches
+        }
+
         public enum DisplayType
         {
             Terrain, Objects, Trigger, ScreenStart, Background, ClearPhysics, Deprecated

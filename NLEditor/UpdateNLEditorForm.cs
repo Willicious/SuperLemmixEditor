@@ -39,7 +39,20 @@ namespace NLEditor
             }
 
             // Get correct list of piece names
-            var pieceKeys = pieceDoDisplayObject ? pieceCurStyle.ObjectKeys : pieceCurStyle.TerrainKeys;
+            List<string> pieceKeys;
+
+            switch (pieceDoDisplayKind)
+            {
+                case C.SelectPieceType.Objects:
+                    pieceKeys = pieceCurStyle?.ObjectKeys;
+                    break;
+                case C.SelectPieceType.Terrain:
+                    pieceKeys = pieceCurStyle?.TerrainKeys;
+                    break;
+                default:
+                    throw new ArgumentException();
+            }
+
             if (pieceKeys == null || pieceKeys.Count == 0)
             {
                 ClearPiecesPictureBox();
@@ -299,7 +312,8 @@ namespace NLEditor
             }
 
             combo_PieceStyle.Top = this.Height - 149;
-            but_PieceTerrObj.Top = this.Height - 149;
+            but_PieceTerr.Top = this.Height - 149;
+            but_PieceObj.Top = this.Height - 149;
 
             but_PieceLeft.Top = this.Height - 122;
             but_PieceRight.Top = this.Height - 122;
