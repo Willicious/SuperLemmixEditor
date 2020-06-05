@@ -600,7 +600,7 @@ namespace NLEditor
                         break;
                     case C.SelectPieceType.Backgrounds:
                         string[] splitKey = pieceKey.Split('/', '\\');
-                        CurLevel.Background = Backgrounds.Find(splitKey[2], pieceCurStyle);
+                        CurLevel.Background = new Background(pieceCurStyle, splitKey[2]);
                         UpdateBackgroundImage();
                         pic_Level.SetImage(curRenderer.CombineLayers());
                         break;
