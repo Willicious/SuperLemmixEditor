@@ -887,7 +887,26 @@ namespace NLEditor
             }
             else if (e.KeyCode == Keys.Space)
             {
-                ChangeObjTerrPieceDisplay(pieceDoDisplayKind == C.SelectPieceType.Terrain ? C.SelectPieceType.Objects : C.SelectPieceType.Terrain);
+                C.SelectPieceType newKind;
+                switch (pieceDoDisplayKind)
+                {
+                    case C.SelectPieceType.Terrain:
+                        newKind = C.SelectPieceType.Objects;
+                        break;
+                    case C.SelectPieceType.Objects:
+                        newKind = C.SelectPieceType.Backgrounds;
+                        break;
+                    case C.SelectPieceType.Backgrounds:
+                        newKind = C.SelectPieceType.Sketches;
+                        break;
+                    case C.SelectPieceType.Sketches:
+                        newKind = C.SelectPieceType.Terrain;
+                        break;
+                    default:
+                        throw new ArgumentException();
+                }
+
+                ChangeObjTerrPieceDisplay(newKind);
             }
             else if (e.KeyCode == Keys.Delete)
             {

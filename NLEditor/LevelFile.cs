@@ -748,7 +748,7 @@ namespace NLEditor
 
             textFile.WriteLine("#        Terrain pieces         ");
             textFile.WriteLine("# ----------------------------- ");
-            curLevel.TerrainList.ForEach(ter => WriteTerrain(textFile, ter));
+            curLevel.TerrainList.FindAll(ter => !ter.IsSketch).ForEach(ter => WriteTerrain(textFile, ter, false));
             textFile.WriteLine(" ");
 
             if (curLevel.GadgetList.Exists(gad => gad.ObjType == C.OBJ.LEMMING))
@@ -758,6 +758,14 @@ namespace NLEditor
                 curLevel.GadgetList.FindAll(gad => gad.ObjType == C.OBJ.LEMMING)
                                    .ForEach(lem => WriteObject(textFile, lem));
 
+                textFile.WriteLine(" ");
+            }
+
+            if (curLevel.TerrainList.Exists(ter => ter.IsSketch))
+            {
+                textFile.WriteLine("#           Sketches            ");
+                textFile.WriteLine("# ----------------------------- ");
+                curLevel.TerrainList.FindAll(ter => ter.IsSketch).ForEach(ske => WriteTerrain(textFile, ske, true));
                 textFile.WriteLine(" ");
             }
 
@@ -879,18 +887,25 @@ namespace NLEditor
         /// </summary>
         /// <param name="textFile"></param>
         /// <param name="terrain"></param>
-        static private void WriteTerrain(TextWriter textFile, TerrainPiece terrain)
+        static private void WriteTerrain(TextWriter textFile, TerrainPiece terrain, bool writingSketch)
         {
-            textFile.WriteLine(" $TERRAIN");
-            textFile.WriteLine("   STYLE " + terrain.Style);
+            if (!writingSketch)
+            {
+                textFile.WriteLine(" $TERRAIN");
+                textFile.WriteLine("   STYLE " + terrain.Style);
+            }
+            else
+            {
+                textFile.WriteLine(" $SKETCH");
+            }
             textFile.WriteLine("   PIECE " + terrain.Name);
             textFile.WriteLine("   X " + terrain.PosX.ToString());
             textFile.WriteLine("   Y " + terrain.PosY.ToString());
-            if (terrain.IsNoOverwrite)
+            if (terrain.IsNoOverwrite && !writingSketch)
             {
                 textFile.WriteLine("   NO_OVERWRITE");
             }
-            if (terrain.IsErase)
+            if (terrain.IsErase && !writingSketch)
             {
                 textFile.WriteLine("   ERASE");
             }
@@ -906,7 +921,7 @@ namespace NLEditor
             {
                 textFile.WriteLine("   FLIP_HORIZONTAL");
             }
-            if (terrain.IsOneWay)
+            if (terrain.IsOneWay && !writingSketch)
             {
                 textFile.WriteLine("   ONE_WAY");
             }

@@ -20,8 +20,6 @@ namespace NLEditor
             NameInDirectory = styleName;
             NameInEditor = styleName; // may be overwritten later when forming the StyleList
 
-            SearchDirectoryForBackgrounds(backgroundList);
-
             colorDict = LoadStylesFromFile.StyleColors(NameInDirectory);
         }
 
@@ -30,6 +28,7 @@ namespace NLEditor
         List<string> terrainKeys;
         List<string> objectKeys;
         List<string> backgroundKeys;
+        static List<string> sketchKeys;
 
         public string NameInDirectory { get; private set; }
         public string NameInEditor { get; set; }
@@ -61,6 +60,16 @@ namespace NLEditor
                 if (backgroundKeys == null)
                     LoadTerrainAndObjects();
                 return backgroundKeys;
+            }
+        }
+
+        public static List<string> SketchKeys
+        {
+            get
+            {
+                if (sketchKeys == null)
+                    SearchDirectoryForSketches();
+                return sketchKeys;
             }
         }
 
@@ -103,7 +112,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Writes all pieces in AppPath/StyleName/terrain to the list of TerrainNames.
+        /// Writes all pieces in AppPath/StyleName/backgrounds to the list of BackgroundNames.
         /// </summary>
         private void SearchDirectoryForBackgrounds()
         {
@@ -186,18 +195,22 @@ namespace NLEditor
         /// <summary>
         /// Writes all pieces in AppPath/StyleName/backgrounds to the list of BackgroundNames.
         /// </summary>
-        private void SearchDirectoryForBackgrounds(BackgroundList backgroundList)
+        private static void SearchDirectoryForSketches()
         {
-            string directoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "backgrounds";
+            string directoryPath = C.AppPath + "sketches";
 
             if (Directory.Exists(directoryPath))
             {
-                Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                         .Select(file => Path.GetFileNameWithoutExtension(file))
-                         .ToList()
-                         .ForEach(name => backgroundList.Add(this, name));
+                sketchKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                                       .Select(file => ImageLibrary.CreateSketchKey(file))
+                                       .ToList();
+            }
+            else // use empty list
+            {
+                sketchKeys = new List<string>();
             }
         }
+
 
         /// <summary>
         /// Removes all default objects, that are already present in the actual style.

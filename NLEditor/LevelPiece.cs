@@ -17,8 +17,19 @@ namespace NLEditor
         {
             this.Key = key;
 
-            this.Name = System.IO.Path.GetFileName(key);
-            this.Style = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(key));
+            if (this.Key.Substring(0, 8) == "*sketch:")
+            {
+                this.Name = this.Key.Substring(8);
+                this.Style = "*sketch";
+                this.IsSketch = true;
+            }
+            else
+            {
+                this.Name = System.IO.Path.GetFileName(key);
+                this.Style = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(key));
+                this.IsSketch = false;
+            }
+
             this.PosX = pos.X;
             this.PosY = pos.Y;
 
@@ -26,8 +37,11 @@ namespace NLEditor
             this.IsInvert = isInvert;
             this.IsSelected = true;
 
-            System.Diagnostics.Debug.Assert(ImageLibrary.CreatePieceKey(Style, Name, isObj) == Key, "Style and name of level piece incompatible with key.");
+            if (!IsSketch)
+                System.Diagnostics.Debug.Assert(ImageLibrary.CreatePieceKey(Style, Name, isObj) == Key, "Style and name of level piece incompatible with key.");
         }
+
+        public bool IsSketch { get; private set; }
 
         public int PosX { get; set; }
         public int PosY { get; set; }

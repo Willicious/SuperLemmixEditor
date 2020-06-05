@@ -52,6 +52,9 @@ namespace NLEditor
                 case C.SelectPieceType.Backgrounds:
                     pieceKeys = pieceCurStyle?.BackgroundKeys;
                     break;
+                case C.SelectPieceType.Sketches:
+                    pieceKeys = Style.SketchKeys;
+                    break;
                 default:
                     throw new ArgumentException();
             }
@@ -170,20 +173,20 @@ namespace NLEditor
             but_MoveBackOne.Enabled = (selectionList.Count > 0);
             but_MoveFrontOne.Enabled = (selectionList.Count > 0);
 
-            check_Pieces_NoOv.Enabled = (selectionList.Count > 0);
+            check_Pieces_NoOv.Enabled = selectionList.Exists(p => !(p is TerrainPiece) || !(p as TerrainPiece).IsSketch);
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_NoOv.CheckedChanged -= check_Pieces_NoOv_CheckedChanged;
             check_Pieces_NoOv.Checked = selectionList.Exists(p => (p is GadgetPiece && (p as GadgetPiece).IsNoOverwrite)
                                                                || (p is TerrainPiece && (p as TerrainPiece).IsNoOverwrite));
             check_Pieces_NoOv.CheckedChanged += check_Pieces_NoOv_CheckedChanged;
 
-            check_Pieces_Erase.Enabled = selectionList.Exists(p => p is TerrainPiece);
+            check_Pieces_Erase.Enabled = selectionList.Exists(p => (p is TerrainPiece tp) && (!tp.IsSketch));
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_Erase.CheckedChanged -= check_Pieces_Erase_CheckedChanged;
             check_Pieces_Erase.Checked = selectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsErase);
             check_Pieces_Erase.CheckedChanged += check_Pieces_Erase_CheckedChanged;
 
-            check_Pieces_OneWay.Enabled = selectionList.Exists(p => p is TerrainPiece && !(p as TerrainPiece).IsSteel);
+            check_Pieces_OneWay.Enabled = selectionList.Exists(p => (p is TerrainPiece tp) && !tp.IsSteel && !tp.IsSketch);
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_OneWay.CheckedChanged -= check_Pieces_OneWay_CheckedChanged;
             check_Pieces_OneWay.Checked = selectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsOneWay);

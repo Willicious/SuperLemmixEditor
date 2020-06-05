@@ -473,7 +473,7 @@ namespace NLEditor
         /// <param name="doAdd"></param>
         public void SetNoOverwrite(bool doAdd)
         {
-            TerrainList.FindAll(ter => ter.IsSelected)
+            TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSketch)
                        .ForEach(ter => { ter.IsNoOverwrite = doAdd; if (doAdd) ter.IsErase = false; });
             GadgetList.FindAll(gad => gad.IsSelected)
                       .ForEach(gad => { gad.IsNoOverwrite = doAdd; if (doAdd) gad.IsOnlyOnTerrain = false; });
@@ -485,7 +485,7 @@ namespace NLEditor
         /// <param name="doAdd"></param>
         public void SetErase(bool doAdd)
         {
-            TerrainList.FindAll(ter => ter.IsSelected)
+            TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSketch)
                        .ForEach(ter => { ter.IsErase = doAdd; if (doAdd) ter.IsNoOverwrite = false; });
         }
 
@@ -505,7 +505,7 @@ namespace NLEditor
         /// <param name="doAdd"></param>
         public void SetOneWay(bool doAdd)
         {
-            TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSteel)
+            TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSteel && !ter.IsSketch)
                        .ForEach(ter => ter.IsOneWay = doAdd);
         }
 

@@ -238,17 +238,24 @@ namespace NLEditor
         /// <returns></returns>
         public static BaseImageInfo ImageInfo(string imageName)
         {
-            string imagePath = C.AppPathPieces + imageName;
-
-            if (File.Exists(imagePath + ".nxmo"))
+            if (imageName.Substring(0, 8) == "*sketch:")
             {
-                // create a new object piece
-                return CreateNewObjectInfo(imagePath);
+                return CreateNewTerrainInfo(C.AppPath + "sketches" + C.DirSep + imageName.Substring(8));
             }
             else
             {
-                // create a new terrain piece
-                return CreateNewTerrainInfo(imagePath); // This can handle the NXMT file not existing.
+                string imagePath = C.AppPathPieces + imageName;
+
+                if (File.Exists(imagePath + ".nxmo"))
+                {
+                    // create a new object piece
+                    return CreateNewObjectInfo(imagePath);
+                }
+                else
+                {
+                    // create a new terrain piece
+                    return CreateNewTerrainInfo(imagePath); // This can handle the NXMT file not existing.
+                }
             }
         }
 

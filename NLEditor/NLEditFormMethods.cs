@@ -469,6 +469,7 @@ namespace NLEditor
                 case C.SelectPieceType.Objects: pieceNameList = pieceCurStyle?.ObjectKeys; break;
                 case C.SelectPieceType.Terrain: pieceNameList = pieceCurStyle?.TerrainKeys; break;
                 case C.SelectPieceType.Backgrounds: pieceNameList = pieceCurStyle?.BackgroundKeys; break;
+                case C.SelectPieceType.Sketches: pieceNameList = Style.SketchKeys; break;
                 default: throw new ArgumentException();
             }
 
@@ -531,6 +532,9 @@ namespace NLEditor
                 case C.SelectPieceType.Backgrounds:
                     pieceList = pieceCurStyle?.BackgroundKeys;
                     break;
+                case C.SelectPieceType.Sketches:
+                    pieceList = Style.SketchKeys;
+                    break;
                 default:
                     throw new ArgumentException();
             }
@@ -563,6 +567,7 @@ namespace NLEditor
                 {
                     case C.SelectPieceType.Terrain:
                     case C.SelectPieceType.Objects:
+                    case C.SelectPieceType.Sketches:
                         AddNewPieceToLevel(pieceKey, curRenderer.GetCenterPoint());
                         break;
                     case C.SelectPieceType.Backgrounds:
