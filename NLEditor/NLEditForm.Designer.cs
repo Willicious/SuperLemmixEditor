@@ -74,6 +74,9 @@
             this.pic_Level = new System.Windows.Forms.PictureBox();
             this.tabLvlProperties = new System.Windows.Forms.TabControl();
             this.tabGlobalInfo = new System.Windows.Forms.TabPage();
+            this.but_RandomID = new System.Windows.Forms.Button();
+            this.txt_LevelID = new System.Windows.Forms.TextBox();
+            this.lbl_Global_ID = new System.Windows.Forms.Label();
             this.but_ClearBackground = new System.Windows.Forms.Button();
             this.lbStartY = new System.Windows.Forms.Label();
             this.lbStartX = new System.Windows.Forms.Label();
@@ -210,9 +213,7 @@
             this.but_PieceObj = new System.Windows.Forms.Button();
             this.but_PieceBackground = new System.Windows.Forms.Button();
             this.txt_Focus = new NLEditor.FocusTextBox();
-            this.txt_LevelID = new System.Windows.Forms.TextBox();
-            this.lbl_Global_ID = new System.Windows.Forms.Label();
-            this.but_RandomID = new System.Windows.Forms.Button();
+            this.but_PieceSketches = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -726,6 +727,33 @@
             this.tabGlobalInfo.TabIndex = 0;
             this.tabGlobalInfo.Text = "Globals";
             this.tabGlobalInfo.UseVisualStyleBackColor = true;
+            // 
+            // but_RandomID
+            // 
+            this.but_RandomID.Location = new System.Drawing.Point(9, 365);
+            this.but_RandomID.Name = "but_RandomID";
+            this.but_RandomID.Size = new System.Drawing.Size(159, 23);
+            this.but_RandomID.TabIndex = 34;
+            this.but_RandomID.Text = "Random ID";
+            this.but_RandomID.UseVisualStyleBackColor = true;
+            this.but_RandomID.Click += new System.EventHandler(this.but_RandomID_Click);
+            // 
+            // txt_LevelID
+            // 
+            this.txt_LevelID.Location = new System.Drawing.Point(45, 341);
+            this.txt_LevelID.MaxLength = 40;
+            this.txt_LevelID.Name = "txt_LevelID";
+            this.txt_LevelID.Size = new System.Drawing.Size(123, 20);
+            this.txt_LevelID.TabIndex = 33;
+            this.txt_LevelID.Leave += new System.EventHandler(this.textbox_Leave);
+            // 
+            // lbl_Global_ID
+            // 
+            this.lbl_Global_ID.Location = new System.Drawing.Point(6, 346);
+            this.lbl_Global_ID.Name = "lbl_Global_ID";
+            this.lbl_Global_ID.Size = new System.Drawing.Size(46, 15);
+            this.lbl_Global_ID.TabIndex = 32;
+            this.lbl_Global_ID.Text = "ID";
             // 
             // but_ClearBackground
             // 
@@ -2355,38 +2383,22 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
-            // txt_LevelID
+            // but_PieceSketches
             // 
-            this.txt_LevelID.Location = new System.Drawing.Point(45, 341);
-            this.txt_LevelID.MaxLength = 40;
-            this.txt_LevelID.Name = "txt_LevelID";
-            this.txt_LevelID.Size = new System.Drawing.Size(123, 20);
-            this.txt_LevelID.TabIndex = 33;
-            this.txt_LevelID.Leave += new System.EventHandler(this.textbox_Leave);
-            // 
-            // lbl_Global_ID
-            // 
-            this.lbl_Global_ID.Location = new System.Drawing.Point(6, 346);
-            this.lbl_Global_ID.Name = "lbl_Global_ID";
-            this.lbl_Global_ID.Size = new System.Drawing.Size(46, 15);
-            this.lbl_Global_ID.TabIndex = 32;
-            this.lbl_Global_ID.Text = "ID";
-            // 
-            // but_RandomID
-            // 
-            this.but_RandomID.Location = new System.Drawing.Point(9, 365);
-            this.but_RandomID.Name = "but_RandomID";
-            this.but_RandomID.Size = new System.Drawing.Size(159, 23);
-            this.but_RandomID.TabIndex = 34;
-            this.but_RandomID.Text = "Random ID";
-            this.but_RandomID.UseVisualStyleBackColor = true;
-            this.but_RandomID.Click += new System.EventHandler(this.but_RandomID_Click);
+            this.but_PieceSketches.Location = new System.Drawing.Point(374, 493);
+            this.but_PieceSketches.Name = "but_PieceSketches";
+            this.but_PieceSketches.Size = new System.Drawing.Size(82, 21);
+            this.but_PieceSketches.TabIndex = 46;
+            this.but_PieceSketches.Text = "Get Sketches";
+            this.but_PieceSketches.UseVisualStyleBackColor = true;
+            this.but_PieceSketches.Click += new System.EventHandler(this.but_PieceSketch_Click);
             // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 609);
+            this.Controls.Add(this.but_PieceSketches);
             this.Controls.Add(this.but_PieceBackground);
             this.Controls.Add(this.but_PieceObj);
             this.Controls.Add(this.tabLvlMisc);
@@ -2664,6 +2676,7 @@
         private System.Windows.Forms.TextBox txt_LevelID;
         private System.Windows.Forms.Label lbl_Global_ID;
         private System.Windows.Forms.Button but_RandomID;
+        private System.Windows.Forms.Button but_PieceSketches;
     }
 }
 
