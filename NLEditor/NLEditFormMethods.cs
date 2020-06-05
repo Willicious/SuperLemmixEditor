@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Globalization;
 
 namespace NLEditor
 {
@@ -124,6 +125,26 @@ namespace NLEditor
                                     + decimal.ToInt32(num_Lvl_TimeSec.Value);
             CurLevel.IsNoTimeLimit = check_Lvl_InfTime.Checked;
 
+            string idText = txt_LevelID.Text;
+            if (idText.Length < 16)
+                idText = idText.PadLeft(16);
+            if (idText.Length > 16)
+                idText = idText.Substring(16);
+
+            if (ulong.TryParse(idText, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out ulong newID))
+            {
+                if (newID >= 0x8000000000000000)
+                    newID -= 0x8000000000000000;
+
+                if (newID < 0x0000000100000000)
+                    newID += 0x0000000100000000;
+
+                CurLevel.LevelID = newID;
+            }
+
+            if (txt_LevelID.Text != CurLevel.LevelID.ToString("X16"))
+                txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
+
             foreach (C.Skill skill in numericsSkillSet.Keys)
             {
                 CurLevel.SkillSet[skill] = decimal.ToInt32(numericsSkillSet[skill].Value);
@@ -167,6 +188,8 @@ namespace NLEditor
             num_Lvl_TimeMin.Value = CurLevel.TimeLimit / 60;
             num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;
             check_Lvl_InfTime.Checked = CurLevel.IsNoTimeLimit;
+
+            txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
 
             foreach (C.Skill skill in numericsSkillSet.Keys)
             {

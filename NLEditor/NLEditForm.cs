@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Text;
 
 namespace NLEditor
 {
@@ -1408,6 +1409,13 @@ namespace NLEditor
             CurLevel.Background = null;
             UpdateBackgroundImage();
             pic_Level.SetImage(curRenderer.CombineLayers());
+        }
+
+        private void but_RandomID_Click(object sender, EventArgs e)
+        {
+            CurLevel.LevelID = (ulong)Utility.Random().Next() +
+                               ((ulong)Utility.Random().Next(0x00000001, 0x7FFFFFFF) << 32);
+            txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
         }
     }
 }

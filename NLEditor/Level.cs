@@ -22,9 +22,9 @@ namespace NLEditor
             this.MusicFile = "";
             this.Background = null;
 
-            // Create a random 64bit hex number in string format 
-            this.LevelID = 'x' + ((uint)Utility.Random().Next()).ToString("X")
-                               + ((uint)Utility.Random().Next()).ToString("X");
+            // Create a random 64bit hex number
+            this.LevelID = (ulong)Utility.Random().Next() +
+                           ((ulong)Utility.Random().Next(0x00000001, 0x7FFFFFFF) << 32); 
 
             this.Width = 320;
             this.Height = 160;
@@ -58,7 +58,7 @@ namespace NLEditor
         public Style MainStyle { get; set; }
         public string MusicFile { get; set; }
 
-        public string LevelID { get; set; }
+        public ulong LevelID { get; set; }
         public string FilePathToSave { get; set; }
 
         public int Width { get; set; }
@@ -100,7 +100,7 @@ namespace NLEditor
             newLevel.Title = string.Copy(this.Title);
             newLevel.Author = string.Copy(this.Author);
             newLevel.MusicFile = string.Copy(this.MusicFile);
-            newLevel.LevelID = string.Copy(this.LevelID);
+            newLevel.LevelID = this.LevelID;
             newLevel.FilePathToSave = this.FilePathToSave; // shallow copy is fine here
             newLevel.Background = this.Background; // shallow copy is fine here
 
