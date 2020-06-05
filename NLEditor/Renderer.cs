@@ -532,7 +532,9 @@ namespace NLEditor
         /// <returns></returns>
         private C.CustDrawMode GetDrawModeForTerrain(TerrainPiece terrPiece)
         {
-            if (terrPiece.IsErase)
+            if (terrPiece.IsSketch)
+                return C.CustDrawMode.Default;
+            else if (terrPiece.IsErase)
                 return C.CustDrawMode.Erase;
             else if (terrPiece.IsNoOverwrite)
             {
