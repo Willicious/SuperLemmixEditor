@@ -171,6 +171,15 @@ namespace NLEditor
                 return false;
             }
 
+            foreach (C.Skill skill in C.SkillArray)
+            {
+                if (this.SkillSet.ContainsKey(skill) != otherLevel.SkillSet.ContainsKey(skill))
+                    return false;
+
+                if (this.SkillSet[skill] != otherLevel.SkillSet[skill])
+                    return false;
+            }
+
             for (int i = 0; i < this.TerrainList.Count; i++)
             {
                 if (!this.TerrainList[i].Equals(otherLevel.TerrainList[i]))
