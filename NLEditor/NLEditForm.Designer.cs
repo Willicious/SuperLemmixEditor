@@ -212,8 +212,8 @@
             this.tabLvlMisc = new System.Windows.Forms.TabControl();
             this.but_PieceObj = new System.Windows.Forms.Button();
             this.but_PieceBackground = new System.Windows.Forms.Button();
-            this.txt_Focus = new NLEditor.FocusTextBox();
             this.but_PieceSketches = new System.Windows.Forms.Button();
+            this.txt_Focus = new NLEditor.FocusTextBox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -1573,6 +1573,7 @@
             0});
             this.num_PickupSkillCount.Visible = false;
             this.num_PickupSkillCount.ValueChanged += new System.EventHandler(this.num_PickupSkillCount_ValueChanged);
+            this.num_PickupSkillCount.KeyUp += new System.Windows.Forms.KeyEventHandler(this.num_PickupSkillCount_KeyUp);
             // 
             // num_LemmingLimit
             // 
@@ -1588,6 +1589,7 @@
             this.num_LemmingLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_LemmingLimit.Visible = false;
             this.num_LemmingLimit.ValueChanged += new System.EventHandler(this.num_LemmingLimit_ValueChanged);
+            this.num_LemmingLimit.KeyUp += new System.Windows.Forms.KeyEventHandler(this.num_LemmingLimit_KeyPress);
             // 
             // num_Resize_Height
             // 
@@ -2374,15 +2376,6 @@
             this.but_PieceBackground.UseVisualStyleBackColor = true;
             this.but_PieceBackground.Click += new System.EventHandler(this.but_PieceBackground_Click);
             // 
-            // txt_Focus
-            // 
-            this.txt_Focus.Location = new System.Drawing.Point(-100, 1);
-            this.txt_Focus.Name = "txt_Focus";
-            this.txt_Focus.Size = new System.Drawing.Size(40, 20);
-            this.txt_Focus.TabIndex = 37;
-            this.txt_Focus.TabStop = false;
-            this.txt_Focus.Text = "asdf";
-            // 
             // but_PieceSketches
             // 
             this.but_PieceSketches.Location = new System.Drawing.Point(374, 493);
@@ -2392,6 +2385,15 @@
             this.but_PieceSketches.Text = "Get Sketches";
             this.but_PieceSketches.UseVisualStyleBackColor = true;
             this.but_PieceSketches.Click += new System.EventHandler(this.but_PieceSketch_Click);
+            // 
+            // txt_Focus
+            // 
+            this.txt_Focus.Location = new System.Drawing.Point(-100, 1);
+            this.txt_Focus.Name = "txt_Focus";
+            this.txt_Focus.Size = new System.Drawing.Size(40, 20);
+            this.txt_Focus.TabIndex = 37;
+            this.txt_Focus.TabStop = false;
+            this.txt_Focus.Text = "asdf";
             // 
             // NLEditForm
             // 

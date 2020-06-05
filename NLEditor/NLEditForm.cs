@@ -1425,5 +1425,15 @@ namespace NLEditor
                                ((ulong)Utility.Random().Next(0x00000001, 0x7FFFFFFF) << 32);
             txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
         }
+
+        private void num_LemmingLimit_KeyPress(object sender, KeyEventArgs e)
+        {
+            num_LemmingLimit_ValueChanged(sender, null);
+        }
+
+        private void num_PickupSkillCount_KeyUp(object sender, KeyEventArgs e)
+        {
+            num_PickupSkillCount_ValueChanged(sender, null);
+        }
     }
 }
