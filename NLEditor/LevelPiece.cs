@@ -369,7 +369,7 @@ namespace NLEditor
         {
             int val_l = Val_L;
             return new GadgetPiece(Key, Pos, Rotation, IsInvert, IsNoOverwrite, IsOnlyOnTerrain,
-                                   val_l, SkillFlags, SpecWidth, SpecHeight, BackgroundSpeed, BackgroundAngle);
+                                   val_l, SkillFlags, SpecWidth, SpecHeight, BackgroundSpeed, BackgroundAngle, LemmingCap);
         }
 
 
@@ -388,7 +388,8 @@ namespace NLEditor
                 && this.SpecWidth == piece.SpecWidth
                 && this.SpecHeight == piece.SpecHeight
                 && this.BackgroundAngle == piece.BackgroundAngle
-                && this.BackgroundSpeed == piece.BackgroundSpeed;
+                && this.BackgroundSpeed == piece.BackgroundSpeed
+                && this.LemmingCap == piece.LemmingCap;
         }
 
         /// <summary>
