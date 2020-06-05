@@ -107,7 +107,7 @@ namespace NLEditor
         /// <summary>
         /// Takes the global level data input on the form and stores it in the current level.
         /// </summary>
-        private void ReadLevelInfoFromForm()
+        private void ReadLevelInfoFromForm(bool allowWriteBack)
         {
             CurLevel.Author = txt_LevelAuthor.Text;
             CurLevel.Title = txt_LevelTitle.Text;
@@ -142,7 +142,7 @@ namespace NLEditor
                 CurLevel.LevelID = newID;
             }
 
-            if (txt_LevelID.Text != CurLevel.LevelID.ToString("X16"))
+            if (allowWriteBack && txt_LevelID.Text != CurLevel.LevelID.ToString("X16"))
                 txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
 
             foreach (C.Skill skill in numericsSkillSet.Keys)
@@ -321,7 +321,7 @@ namespace NLEditor
         private void SaveInNewFileLevel(bool isPlaytest = false)
         {
             // get most up-to-date global info
-            ReadLevelInfoFromForm();
+            ReadLevelInfoFromForm(true);
 
             LevelFile.SaveLevel(CurLevel, levelDirectory);
             SaveChangesToOldLevelList();
@@ -342,7 +342,7 @@ namespace NLEditor
             else
             {
                 // get most up-to-date global info
-                ReadLevelInfoFromForm();
+                ReadLevelInfoFromForm(true);
 
                 LevelFile.SaveLevelToFile(CurLevel.FilePathToSave, CurLevel);
                 SaveChangesToOldLevelList();
@@ -356,7 +356,9 @@ namespace NLEditor
         /// </summary>
         private void PlaytestLevel()
         {
+            ReadLevelInfoFromForm(true);
             SaveChangesToOldLevelList();
+
             // Save the level as TempTestLevel.nxlv.
             string origFilePath = CurLevel.FilePathToSave;
             CurLevel.FilePathToSave = C.AppPathTempLevel;
@@ -391,7 +393,7 @@ namespace NLEditor
         /// </summary>
         private void ValidateLevel()
         {
-            ReadLevelInfoFromForm();
+            ReadLevelInfoFromForm(true);
             var validator = new LevelValidator(CurLevel);
             validator.Validate();
         }
@@ -583,6 +585,9 @@ namespace NLEditor
         /// <param name="picPieceIndex"></param>
         private void AddNewPieceToLevel(int picPieceIndex)
         {
+            ReadLevelInfoFromForm(true);
+            SaveChangesToOldLevelList();
+
             string pieceKey = GetPieceKeyFromIndex(picPieceIndex);
 
             if (pieceKey != "")

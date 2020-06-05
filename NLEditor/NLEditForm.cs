@@ -226,7 +226,13 @@ namespace NLEditor
 
         private void textbox_Leave(object sender, EventArgs e)
         {
-            ReadLevelInfoFromForm();
+            ReadLevelInfoFromForm(true);
+            SaveChangesToOldLevelList();
+        }
+
+        private void textbox_Modify(object sender, EventArgs e)
+        {
+            ReadLevelInfoFromForm(false);
             SaveChangesToOldLevelList();
         }
 
@@ -1136,6 +1142,9 @@ namespace NLEditor
         {
             mutexMouseDown.WaitOne();
 
+            ReadLevelInfoFromForm(true);
+            SaveChangesToOldLevelList();
+
             isMouseWheelActive = false;
             mouseButtonPressed = e.Button;
             stopWatchMouse.Restart();
@@ -1349,7 +1358,6 @@ namespace NLEditor
 
             if ((talIndex >= 0) && (talIndex < CurLevel.Talismans.Count-1))
             {
-                ReadLevelInfoFromForm();
                 Talisman tal = CurLevel.Talismans[talIndex];
                 CurLevel.Talismans.Remove(tal);
                 CurLevel.Talismans.Insert(talIndex + 1, tal);
