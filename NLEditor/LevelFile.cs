@@ -190,7 +190,10 @@ namespace NLEditor
                         case "TERRAIN":
                             newLevel.TerrainList.Add(ReadTerrainFromLines(fileLines));
                             break;
-
+                        case "SKETCH":
+                            // BUG: Order-sensitivity with $TERRAIN tags
+                            newLevel.TerrainList.Add(ReadSketchFromLines(fileLines));
+                            break;
                         case "PRETEXT":
                             var pretexts = fileLines.ConvertAll(lin => lin.Text);
                             pretexts.RemoveAt(0);
@@ -459,6 +462,67 @@ namespace NLEditor
                 newTerrain.IsErase = false;
             if (newTerrain.IsSteel)
                 newTerrain.IsOneWay = false;
+
+            if (doRotate)
+                newTerrain.RotateInRect(newTerrain.ImageRectangle);
+            if (doFlip)
+                newTerrain.FlipInRect(newTerrain.ImageRectangle);
+            if (doInvert)
+                newTerrain.InvertInRect(newTerrain.ImageRectangle);
+            //Reposition terrain piece to be sure...
+            newTerrain.PosX = pos.X;
+            newTerrain.PosY = pos.Y;
+
+            newTerrain.IsSelected = false;
+
+            return newTerrain;
+        }
+
+        /// <summary>
+        /// Creates a terrain piece from a block of file lines.
+        /// </summary>
+        /// <param name="fileLineList"></param>
+        /// <returns></returns>
+        static private TerrainPiece ReadSketchFromLines(List<FileLine> fileLineList)
+        {
+            // First read in all infos
+            string pieceName = "";
+            int posX = 0;
+            int posY = 0;
+
+            bool doRotate = false;
+            bool doInvert = false;
+            bool doFlip = false;
+
+            foreach (FileLine line in fileLineList)
+            {
+                switch (line.Key)
+                {
+                    case "PIECE":
+                        pieceName = line.Text;
+                        break;
+                    case "X":
+                        posX = line.Value;
+                        break;
+                    case "Y":
+                        posY = line.Value;
+                        break;
+                    case "ROTATE":
+                        doRotate = true;
+                        break;
+                    case "FLIP_HORIZONTAL":
+                        doFlip = true;
+                        break;
+                    case "FLIP_VERTICAL":
+                        doInvert = true;
+                        break;
+                }
+            }
+
+            // ... then create the correct Terrain piece
+            string key = "*sketch:" + pieceName;
+            Point pos = new Point(posX, posY);
+            TerrainPiece newTerrain = new TerrainPiece(key, pos, 0, false, false, false, false);
 
             if (doRotate)
                 newTerrain.RotateInRect(newTerrain.ImageRectangle);
