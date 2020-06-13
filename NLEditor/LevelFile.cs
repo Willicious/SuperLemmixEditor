@@ -551,14 +551,11 @@ namespace NLEditor
         static private Background ReadBackgroundFromLines(string text, List<Style> styles, BackgroundList backgrounds)
         {
             string[] bgInfo = text.Split(':');
-            if (bgInfo.Length == 1) // only the background's name
-            {
-                return backgrounds.Find(bgInfo[0]);
-            }
-            else if (bgInfo.Length == 2) // background's style and name
+            if (bgInfo.Length == 2) // background's style and name
             {
                 Style bgStyle = styles.Find(sty => sty.NameInDirectory.Equals(bgInfo[0].Trim()));
-                return backgrounds.Find(bgInfo[1], bgStyle);
+
+                return new Background(bgStyle, bgInfo[1]);
             }
             else
                 return null;
