@@ -811,7 +811,7 @@ namespace NLEditor
 
             textFile.WriteLine("#        Terrain pieces         ");
             textFile.WriteLine("# ----------------------------- ");
-            curLevel.TerrainList.FindAll(ter => !ter.IsSketch).ForEach(ter => WriteTerrain(textFile, ter, false));
+            curLevel.TerrainList.FindAll(ter => !ter.IsSketch).ForEach(ter => WriteTerrain(textFile, ter, curLevel.TerrainList.IndexOf(ter), false));
             textFile.WriteLine(" ");
 
             if (curLevel.GadgetList.Exists(gad => gad.ObjType == C.OBJ.LEMMING))
@@ -828,7 +828,7 @@ namespace NLEditor
             {
                 textFile.WriteLine("#           Sketches            ");
                 textFile.WriteLine("# ----------------------------- ");
-                curLevel.TerrainList.FindAll(ter => ter.IsSketch).ForEach(ske => WriteTerrain(textFile, ske, true));
+                curLevel.TerrainList.FindAll(ter => ter.IsSketch).ForEach(ske => WriteTerrain(textFile, ske, curLevel.TerrainList.IndexOf(ske), true));
                 textFile.WriteLine(" ");
             }
 
@@ -950,7 +950,7 @@ namespace NLEditor
         /// </summary>
         /// <param name="textFile"></param>
         /// <param name="terrain"></param>
-        static private void WriteTerrain(TextWriter textFile, TerrainPiece terrain, bool writingSketch)
+        static private void WriteTerrain(TextWriter textFile, TerrainPiece terrain, int index, bool writingSketch)
         {
             if (!writingSketch)
             {
@@ -960,6 +960,7 @@ namespace NLEditor
             else
             {
                 textFile.WriteLine(" $SKETCH");
+                textFile.WriteLine("   INDEX " + index.ToString());
             }
             textFile.WriteLine("   PIECE " + terrain.Name);
             textFile.WriteLine("   X " + terrain.PosX.ToString());
