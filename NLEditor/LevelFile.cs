@@ -76,156 +76,73 @@ namespace NLEditor
             return newLevel;
         }
 
-        /// <summary>
-        /// Creates level from a .nxlv file.
-        /// <para> Null if file cannot be opened. </para>
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <param name="styleList"></param>
-        /// <returns></returns>
         static private Level LoadLevelFromFile(string filePath, List<Style> styleList, BackgroundList backgrounds)
         {
             Level newLevel = new Level();
+            NLTextDataNode file = NLTextParser.LoadFile(filePath);
 
-            FileParser parser = null;
-            try
+            newLevel.Title = file["TITLE"].Value;
+            newLevel.Author = file["AUTHOR"].Value;
+            newLevel.LevelID = file["ID"].ValueUInt64;
+
+            newLevel.MainStyle = styleList.Find(sty => sty.NameInDirectory == file["THEME"].Value);
+            newLevel.Background = ParseBackground(file["BACKGROUND"].Value, styleList, backgrounds);
+            newLevel.MusicFile = file["MUSIC"].Value;
+
+            newLevel.Width = file["WIDTH"].ValueInt;
+            newLevel.Height = file["HEIGHT"].ValueInt;
+            newLevel.StartPos = new Point(file["START_X"].ValueInt, file["START_Y"].ValueInt);
+
+            newLevel.NumLems = file["LEMMINGS"].ValueInt;
+            newLevel.SaveReq = file["SAVE_REQUIREMENT"].ValueInt;
+
+            if (file.HasChildWithKey("TIME_LIMIT"))
             {
-                parser = new FileParser(filePath);
-            }
-            catch (Exception Ex)
-            {
-                Utility.LogException(Ex);
-                MessageBox.Show(Ex.Message, "File corrupt");
-                parser?.DisposeStreamReader();
-                return newLevel;
-            }
-
-            List<int> hatchOrder = null;
-            try
-            {
-                List<FileLine> fileLines;
-                while ((fileLines = parser.GetNextLines()) != null)
-                {
-                    System.Diagnostics.Debug.Assert(fileLines.Count > 0, "FileParser returned empty list.");
-
-                    FileLine line = fileLines[0];
-                    switch (line.Key)
-                    {
-                        case "TITLE":
-                            newLevel.Title = line.Text;
-                            break;
-                        case "AUTHOR":
-                            newLevel.Author = line.Text;
-                            break;
-                        case "ID":
-                            {
-                                string idString = (line.Text.StartsWith("x")) ? line.Text.Substring(1) : line.Text;
-                                // double ID for old lvl files
-                                if (idString.Length == 9)
-                                    idString += idString.Substring(1);
-                                // Make sure this is a 64bit hex number
-                                if (idString.Length < 16)
-                                    idString.PadRight(16, '0');
-                                else if (idString.Length > 16)
-                                    idString.Substring(0, 16);
-
-                                newLevel.LevelID = ulong.Parse(idString, NumberStyles.HexNumber);
-                                break;
-                            }
-                        case "MUSIC":
-                            newLevel.MusicFile = line.Text;
-                            break;
-                        case "WIDTH":
-                            newLevel.Width = line.Value;
-                            break;
-                        case "HEIGHT":
-                            newLevel.Height = line.Value;
-                            break;
-                        case "START_X":
-                            newLevel.StartPosX = line.Value;
-                            break;
-                        case "START_Y":
-                            newLevel.StartPosY = line.Value;
-                            break;
-                        case "THEME":
-                            newLevel.MainStyle = styleList.Find(sty => sty.NameInDirectory == line.Text);
-                            break;
-                        case "LEMMINGS":
-                            newLevel.NumLems = line.Value;
-                            break;
-                        case "SAVE_REQUIREMENT":
-                            newLevel.SaveReq = line.Value;
-                            break;
-                        case "REQUIREMENT":
-                            newLevel.SaveReq = line.Value;
-                            break; // Deprecated
-                        case "TIME_LIMIT":
-                            newLevel.TimeLimit = line.Value;
-                            newLevel.IsNoTimeLimit = false;
-                            break;
-                        case "MAX_SPAWN_INTERVAL":
-                            newLevel.SpawnRate = 103 - line.Value;
-                            break;
-                        case "SPAWN_INTERVAL_LOCKED":
-                            newLevel.IsSpawnRateFix = true;
-                            break;
-                        case "RELEASE_RATE":
-                            newLevel.SpawnRate = 50 + line.Value / 2;
-                            break; // Deprecated
-                        case "RELEASE_RATE_LOCKED":
-                            newLevel.IsSpawnRateFix = true;
-                            break; // Deprecated
-                        case "BACKGROUND":
-                            newLevel.Background = ReadBackgroundFromLines(line.Text, styleList, backgrounds);
-                            break;
-
-                        case "SKILLSET":
-                            ReadSkillSetFromLines(fileLines, newLevel);
-                            newLevel.SkillSet[C.Skill.Zombie] = 0;
-                            newLevel.SkillSet[C.Skill.Neutral] = 0;
-                            break;
-                        case "OBJECT": // Deprecated - but the other key words here are NOT deprecated!
-                        case "GADGET":
-                        case "LEMMING":
-                            newLevel.GadgetList.Add(ReadGadgetFromLines(fileLines));
-                            break;
-                        case "TERRAIN":
-                            newLevel.TerrainList.Add(ReadTerrainFromLines(fileLines));
-                            break;
-                        case "SKETCH":
-                            // BUG: Order-sensitivity with $TERRAIN tags
-                            newLevel.TerrainList.Add(ReadSketchFromLines(fileLines));
-                            break;
-                        case "PRETEXT":
-                            var pretexts = fileLines.ConvertAll(lin => lin.Text);
-                            pretexts.RemoveAt(0);
-                            newLevel.PreviewText = pretexts;
-                            break;
-                        case "POSTTEXT":
-                            var posttexts = fileLines.ConvertAll(lin => lin.Text);
-                            posttexts.RemoveAt(0);
-                            newLevel.PostviewText = posttexts;
-                            break;
-
-                        case "TALISMAN":
-                            newLevel.Talismans.Add(ReadTalismanFromLines(fileLines));
-                            break;
-                    }
-                }
-            }
-            catch (Exception Ex)
-            {
-                Utility.LogException(Ex);
-                MessageBox.Show(Ex.Message, "File corrupt");
-            }
-            finally
-            {
-                parser?.DisposeStreamReader();
+                newLevel.TimeLimit = file["TIME_LIMIT"].ValueInt;
+                newLevel.IsNoTimeLimit = false;
             }
 
-            ApplyWindowOrder(hatchOrder, newLevel);
+            newLevel.SpawnRate = 103 - file["MAX_SPAWN_INTERVAL"].ValueInt;
+            newLevel.IsSpawnRateFix = file.HasChildWithKey("SPAWN_INTERVAL_LOCKED");
+
+            LoadSkillset(newLevel, file["SKILLSET"]);
+
+            foreach (var node in file.Children.FindAll(child => child.Key == "GADGET"))
+                LoadGadget(newLevel, node);
+
+            foreach (var node in file.Children.FindAll(child => child.Key == "TERRAIN"))
+                LoadTerrain(newLevel, node);
+
+            foreach (var node in file.Children.FindAll(child => child.Key == "LEMMING"))
+                LoadLemming(newLevel, node);
+
+            foreach (var node in file.Children.FindAll(child => child.Key == "SKETCH"))
+                LoadSketch(newLevel, node);
+
+            foreach (var node in file.Children.FindAll(child => child.Key == "TALISMAN"))
+                LoadTalisman(newLevel, node);
+
+            foreach (var line in file["PRETEXT"].Children.FindAll(child => child.Key == "LINE"))
+                newLevel.PreviewText.Add(line.Value);
+
+            foreach (var line in file["POSTTEXT"].Children.FindAll(child => child.Key == "LINE"))
+                newLevel.PostviewText.Add(line.Value);
+
             SanitizeInput(newLevel);
             return newLevel;
+        }
+
+        private static Background ParseBackground(string identifier, List<Style> styleList BackgroundList backgrounds)
+        {
+            string[] bgInfo = identifier.Split(':');
+            if (bgInfo.Length == 2) // background's style and name
+            {
+                Style bgStyle = styleList.Find(sty => sty.NameInDirectory.Equals(bgInfo[0]));
+
+                return new Background(bgStyle, bgInfo[1]);
+            }
+            else
+                return null;
         }
 
         /// <summary>
@@ -541,25 +458,7 @@ namespace NLEditor
             return newTerrain;
         }
 
-        /// <summary>
-        /// Determines the background from the string in the level file.
-        /// </summary>
-        /// <param name="fileLineList"></param>
-        /// <param name="styles"></param>
-        /// <param name="backgrounds"></param>
-        /// <returns></returns>
-        static private Background ReadBackgroundFromLines(string text, List<Style> styles, BackgroundList backgrounds)
-        {
-            string[] bgInfo = text.Split(':');
-            if (bgInfo.Length == 2) // background's style and name
-            {
-                Style bgStyle = styles.Find(sty => sty.NameInDirectory.Equals(bgInfo[0].Trim()));
-
-                return new Background(bgStyle, bgInfo[1]);
-            }
-            else
-                return null;
-        }
+        
 
         /// <summary>
         /// Reads the talisman info from a group of file lines.
@@ -613,22 +512,7 @@ namespace NLEditor
             return talisman;
         }
 
-
-        /// <summary>
-        /// Applies a custom hatch order to the level. The correctly ordered hatches are appended at the beginning of the GadgetList.
-        /// </summary>
-        /// <param name="hatchOrderIndexes"></param>
-        /// <param name="newLevel"></param>
-        static private void ApplyWindowOrder(List<int> hatchOrderIndexes, Level newLevel)
-        {
-            if (hatchOrderIndexes == null)
-                return;
-            var hatchOrder = hatchOrderIndexes.FindAll(ind => ind >= 0 && ind < newLevel.GadgetList.Count)
-                                              .ConvertAll(ind => (GadgetPiece)newLevel.GadgetList[ind].Clone());
-            hatchOrder.RemoveAll(hat => hat.ObjType != C.OBJ.HATCH);
-            newLevel.GadgetList.RemoveAll(obj => obj.ObjType == C.OBJ.HATCH);
-            newLevel.GadgetList.InsertRange(0, hatchOrder);
-        }
+        */
 
         /// <summary>
         /// Ensures that all level parameters are within sensible limits.
