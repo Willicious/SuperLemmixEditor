@@ -65,7 +65,20 @@ namespace NLEditor
         public int Height { get; set; }
         public Rectangle Size => new Rectangle(0, 0, Width, Height);
 
-        public Point StartPos => new Point(StartPosX, StartPosY);
+        public Point StartPos
+        {
+            get
+            {
+                return new Point(StartPosX, StartPosY);
+            }
+
+            set
+            {
+                StartPosX = value.X;
+                StartPosY = value.Y;
+            }
+        }
+
         public int StartPosX { get; set; }
         public int StartPosY { get; set; }
 

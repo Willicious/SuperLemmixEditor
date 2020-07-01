@@ -104,7 +104,7 @@ namespace NLEditor
                 _Value = value ?? "";
             }
         }
-        
+
         public string ValueTrimUpper { get => Value.Trim().ToUpperInvariant(); }
 
         public int ValueInt
@@ -157,7 +157,27 @@ namespace NLEditor
             _Value = value.ToString("X" + digits.ToString());
         }
 
-        public NLTextDataNode this[string key] => Children.FirstOrDefault(child => child.Key == key.Trim().ToUpperInvariant());
+        public bool HasChildWithKey(string key)
+        {
+            return Children.Count(child => child.Key == key.Trim().ToUpperInvariant()) > 0;
+        }
+
+        public NLTextDataNode this[string key]
+        {
+            get
+            {
+                NLTextDataNode result = Children.LastOrDefault(child => child.Key == key.Trim().ToUpperInvariant());
+
+                if (result == null)
+                {
+                    result = new NLTextDataNode();
+                    result.Key = key;
+                    AddChild(result);
+                }
+
+                return result;
+            }
+        }
 
         public IEnumerator<NLTextDataNode> GetEnumerator()
         {
