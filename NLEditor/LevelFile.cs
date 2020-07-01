@@ -154,118 +154,26 @@ namespace NLEditor
             }
         }
 
-        /*
-
-        /// <summary>
-        /// Reads the skill set from the skill section.
-        /// </summary>
-        /// <param name="fileLines"></param>
-        /// <param name="newLevel"></param>
-        static private void ReadSkillSetFromLines(List<FileLine> fileLines, Level newLevel)
-        {
-            foreach (C.Skill skill in C.SkillArray)
-            {
-                FileLine line = fileLines.Find(lin => lin.Key == SkillString(skill));
-                if (line != null)
-                {
-                    newLevel.SkillSet[skill] = (line.Text == "INFINITE") ? 100 : line.Value;
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Creates a gadget from a block of file lines.
-        /// </summary>
-        /// <param name="fileLineList"></param>
-        /// <returns></returns>
-        static private GadgetPiece ReadGadgetFromLines(List<FileLine> fileLineList)
+        private static void LoadGadget(Level level, NLTextDataNode node)
         {
             // First read in all infos
-            string styleName = "default"; // default value, because they are not set for preplaced lemmings 
-            string gadgetName = "lemming"; // default value, because they are not set for preplaced lemmings 
-            int posX = 0;
-            int posY = 0;
-            bool isNoOverwrite = false;
-            bool isOnlyOnTerrain = false;
-            int specWidth = -1;
-            int specHeight = -1;
+            string styleName = node["STYLE"].Value;
+            string gadgetName = node["PIECE"].Value;
+            int posX = node["X"].ValueInt;
+            int posY = node["Y"].ValueInt;
+            bool isNoOverwrite = node.HasChildWithKey("NO_OVERWRITE");
+            bool isOnlyOnTerrain = node.HasChildWithKey("ONLY_ON_TERRAIN");
+            int specWidth = node.HasChildWithKey("WIDTH") ? node["WIDTH"].ValueInt : -1;
+            int specHeight = node.HasChildWithKey("HEIGHT") ? node["HEIGHT"].ValueInt : -1;
 
-            bool doRotate = false;
-            bool doInvert = false;
-            bool doFlip = false;
-            int val_L = 0;
-            int bgSpeed = 0;
-            int bgAngle = 0;
-            int lemmingCap = 0;
+            bool doRotate = node.HasChildWithKey("ROTATE");
+            bool doInvert = node.HasChildWithKey("FLIP_VERTICAL");
+            bool doFlip = node.HasChildWithKey("FLIP_HORIZONTAL");
+            int val_L = node.HasChildWithKey("PAIRING") ? node["PAIRING"].ValueInt : node["SKILL_COUNT"].ValueInt;
+            int bgSpeed = node["SPEED"].ValueInt;
+            int bgAngle = node["ANGLE"].ValueInt;
+            int lemmingCap = node["LEMMINGS"].ValueInt;
             HashSet<C.Skill> skillFlags = new HashSet<C.Skill>();
-
-            foreach (FileLine line in fileLineList)
-            {
-                switch (line.Key)
-                {
-                    case "COLLECTION":
-                        styleName = line.Text;
-                        break; // Deprecated
-                    case "STYLE":
-                        styleName = line.Text;
-                        break;
-                    case "PIECE":
-                        gadgetName = line.Text;
-                        break;
-                    case "X":
-                        posX = line.Value;
-                        break;
-                    case "Y":
-                        posY = line.Value;
-                        break;
-                    case "WIDTH":
-                        specWidth = line.Value;
-                        break;
-                    case "HEIGHT":
-                        specHeight = line.Value;
-                        break;
-                    case "NO_OVERWRITE":
-                        isNoOverwrite = true;
-                        break;
-                    case "ONLY_ON_TERRAIN":
-                        isOnlyOnTerrain = true;
-                        break;
-                    case "ROTATE":
-                        doRotate = true;
-                        break;
-                    case "FLIP_HORIZONTAL":
-                        doFlip = true;
-                        break;
-                    case "FLIP_VERTICAL":
-                        doInvert = true;
-                        break;
-                    case "DIRECTION":
-                        doFlip = line.Text.ToUpper().StartsWith("L");
-                        break; // Deprecated
-                    case "FLIP_LEMMING":
-                        doFlip = true;
-                        break; // Deprecated
-                    case "PAIRING":
-                        val_L = line.Value;
-                        break;
-                    case "SKILL_COUNT":
-                        val_L = line.Value;
-                        break;
-                    case "SKILLCOUNT":
-                        val_L = line.Value;
-                        break; // Deprecated
-                    case "SPEED":
-                        bgSpeed = line.Value;
-                        break;
-                    case "ANGLE":
-                        bgAngle = line.Value;
-                        break;
-                    case "LEMMINGS":
-                        lemmingCap = line.Value;
-                        break;
-                }
-            }
 
             if (doRotate)
             {
@@ -283,11 +191,8 @@ namespace NLEditor
             // Read in skill information
             foreach (C.Skill skill in C.SkillArray)
             {
-                if (fileLineList.Exists(line => line.Key == SkillString(skill)
-                                    || (line.Key == "SKILL" && line.Text == SkillString(skill))))
-                {
+                if (node.HasChildWithKey(SkillString(skill)))
                     newGadget.SetSkillFlag(skill, true);
-                }
             }
 
             // Ensure that pickup skills add at least one skill
@@ -306,81 +211,68 @@ namespace NLEditor
                 newGadget.FlipInRect(newGadget.ImageRectangle);
             if (doInvert)
                 newGadget.InvertInRect(newGadget.ImageRectangle);
+
             //Reposition gadget to be sure...
             newGadget.PosX = editorPos.X;
             newGadget.PosY = editorPos.Y;
-            // and offset preplaced lemmings, because the level file saves the position of the trigger area
-            if (newGadget.ObjType == C.OBJ.LEMMING)
-            {
-                newGadget.PosX -= C.LEM_OFFSET_X;
-                newGadget.PosY -= C.LEM_OFFSET_Y;
-            }
 
             newGadget.IsSelected = false;
 
-            return newGadget;
+            level.GadgetList.Add(newGadget);
         }
 
-        /// <summary>
-        /// Creates a terrain piece from a block of file lines.
-        /// </summary>
-        /// <param name="fileLineList"></param>
-        /// <returns></returns>
-        static private TerrainPiece ReadTerrainFromLines(List<FileLine> fileLineList)
+        private static void LoadLemming(Level level, NLTextDataNode node)
+        {
+            // First read in all infos 
+            int posX = node["X"].ValueInt;
+            int posY = node["Y"].ValueInt;
+            bool doFlip = node.HasChildWithKey("FLIP_HORIZONTAL");
+            HashSet<C.Skill> skillFlags = new HashSet<C.Skill>();
+
+            // ... then create the correct Gadget piece
+            string key = ImageLibrary.CreatePieceKey("default", "lemming", true);
+            Point levelFilePos = new Point(posX, posY);
+            Point editorPos = ImageLibrary.LevelFileToEditorCoordinates(key, levelFilePos, false, doFlip, false);
+            GadgetPiece newLemming = new GadgetPiece(key, editorPos, 0, false, false, false, 0, skillFlags, -1, -1, 0, 0, 0);
+
+            // Read in skill information
+            foreach (C.Skill skill in C.SkillArray)
+            {
+                if (node.HasChildWithKey(SkillString(skill)))
+                    newLemming.SetSkillFlag(skill, true);
+            }
+
+            if (doFlip)
+                newLemming.FlipInRect(newLemming.ImageRectangle);
+
+            //Reposition gadget to be sure...
+            newLemming.PosX = editorPos.X;
+            newLemming.PosY = editorPos.Y;
+
+            // and offset preplaced lemmings, because the level file saves the position of the trigger area
+            newLemming.PosX -= C.LEM_OFFSET_X;
+            newLemming.PosY -= C.LEM_OFFSET_Y;
+
+            newLemming.IsSelected = false;
+
+            level.GadgetList.Add(newLemming);
+        }
+
+        private static void LoadTerrain(Level level, NLTextDataNode node)
         {
             // First read in all infos
-            string styleName = "";
-            string pieceName = "";
-            int posX = 0;
-            int posY = 0;
+            string styleName = node["STYLE"].Value;
+            string pieceName = node["PIECE"].Value;
+            int posX = node["X"].ValueInt;
+            int posY = node["Y"].ValueInt;
 
-            bool isNoOverwrite = false;
-            bool isErase = false;
-            bool isOneWay = false;
+            bool isNoOverwrite = node.HasChildWithKey("NO_OVERWRITE");
+            bool isErase = node.HasChildWithKey("ERASE");
+            bool isOneWay = node.HasChildWithKey("ONE_WAY");
 
-            bool doRotate = false;
-            bool doInvert = false;
-            bool doFlip = false;
-
-            foreach (FileLine line in fileLineList)
-            {
-                switch (line.Key)
-                {
-                    case "COLLECTION":
-                        styleName = line.Text;
-                        break; // Deprecated
-                    case "STYLE":
-                        styleName = line.Text;
-                        break;
-                    case "PIECE":
-                        pieceName = line.Text;
-                        break;
-                    case "X":
-                        posX = line.Value;
-                        break;
-                    case "Y":
-                        posY = line.Value;
-                        break;
-                    case "NO_OVERWRITE":
-                        isNoOverwrite = true;
-                        break;
-                    case "ERASE":
-                        isErase = true;
-                        break;
-                    case "ONE_WAY":
-                        isOneWay = true;
-                        break;
-                    case "ROTATE":
-                        doRotate = true;
-                        break;
-                    case "FLIP_HORIZONTAL":
-                        doFlip = true;
-                        break;
-                    case "FLIP_VERTICAL":
-                        doInvert = true;
-                        break;
-                }
-            }
+            bool doRotate = node.HasChildWithKey("ROTATE");
+            bool doInvert = node.HasChildWithKey("FLIP_VERTICAL");
+            bool doFlip = node.HasChildWithKey("FLIP_HORIZONTAL");
 
             // ... then create the correct Terrain piece
             string key = ImageLibrary.CreatePieceKey(styleName, pieceName, false);
@@ -399,131 +291,81 @@ namespace NLEditor
                 newTerrain.FlipInRect(newTerrain.ImageRectangle);
             if (doInvert)
                 newTerrain.InvertInRect(newTerrain.ImageRectangle);
+
             //Reposition terrain piece to be sure...
             newTerrain.PosX = pos.X;
             newTerrain.PosY = pos.Y;
 
             newTerrain.IsSelected = false;
 
-            return newTerrain;
+            level.TerrainList.Add(newTerrain);
         }
 
-        /// <summary>
-        /// Creates a terrain piece from a block of file lines.
-        /// </summary>
-        /// <param name="fileLineList"></param>
-        /// <returns></returns>
-        static private TerrainPiece ReadSketchFromLines(List<FileLine> fileLineList)
+        private static void LoadSketch(Level level, NLTextDataNode node)
         {
             // First read in all infos
-            string pieceName = "";
-            int posX = 0;
-            int posY = 0;
+            string pieceName = node["PIECE"].Value;
+            int posX = node["X"].ValueInt;
+            int posY = node["Y"].ValueInt;
 
-            bool doRotate = false;
-            bool doInvert = false;
-            bool doFlip = false;
+            bool doRotate = node.HasChildWithKey("ROTATE");
+            bool doInvert = node.HasChildWithKey("FLIP_VERTICAL");
+            bool doFlip = node.HasChildWithKey("FLIP_HORIZONTAL");
 
-            foreach (FileLine line in fileLineList)
-            {
-                switch (line.Key)
-                {
-                    case "PIECE":
-                        pieceName = line.Text;
-                        break;
-                    case "X":
-                        posX = line.Value;
-                        break;
-                    case "Y":
-                        posY = line.Value;
-                        break;
-                    case "ROTATE":
-                        doRotate = true;
-                        break;
-                    case "FLIP_HORIZONTAL":
-                        doFlip = true;
-                        break;
-                    case "FLIP_VERTICAL":
-                        doInvert = true;
-                        break;
-                }
-            }
+            int index = node.HasChildWithKey("INDEX") ? node["INDEX"].ValueInt : -1;
 
             // ... then create the correct Terrain piece
             string key = "*sketch:" + pieceName;
             Point pos = new Point(posX, posY);
-            TerrainPiece newTerrain = new TerrainPiece(key, pos, 0, false, false, false, false);
+            TerrainPiece newSketch = new TerrainPiece(key, pos, 0, false, false, false, false);
 
             if (doRotate)
-                newTerrain.RotateInRect(newTerrain.ImageRectangle);
+                newSketch.RotateInRect(newSketch.ImageRectangle);
             if (doFlip)
-                newTerrain.FlipInRect(newTerrain.ImageRectangle);
+                newSketch.FlipInRect(newSketch.ImageRectangle);
             if (doInvert)
-                newTerrain.InvertInRect(newTerrain.ImageRectangle);
+                newSketch.InvertInRect(newSketch.ImageRectangle);
             //Reposition terrain piece to be sure...
-            newTerrain.PosX = pos.X;
-            newTerrain.PosY = pos.Y;
+            newSketch.PosX = pos.X;
+            newSketch.PosY = pos.Y;
 
-            newTerrain.IsSelected = false;
+            newSketch.IsSelected = false;
 
-            return newTerrain;
+            if (index < 0 || index >= level.TerrainList.Count)
+                level.TerrainList.Add(newSketch);
+            else
+                level.TerrainList.Insert(index, newSketch);
         }
 
-        
-
-        /// <summary>
-        /// Reads the talisman info from a group of file lines.
-        /// </summary>
-        /// <param name="fileLineList"></param>
-        /// <returns></returns>
-        static private Talisman ReadTalismanFromLines(List<FileLine> fileLineList)
+        private static void LoadTalisman(Level level, NLTextDataNode node)
         {
             Talisman talisman = new Talisman();
 
-            foreach (FileLine line in fileLineList)
+            talisman.Title = node["TITLE"].Value;
+            talisman.AwardType = Utility.ParseEnum<C.TalismanType>(node["COLOR"].Value);
+            talisman.ID = node["ID"].ValueInt;
+            
+            foreach (KeyValuePair<C.TalismanReq, string> pair in C.TalismanKeys)
             {
-                switch (line.Key)
-                {
-                    case "TITLE":
-                        talisman.Title = line.Text;
-                        break;
-                    case "COLOR":
-                        talisman.AwardType = Utility.ParseEnum<C.TalismanType>(line.Text);
-                        break;
-                    case "ID":
-                        talisman.ID = line.Value;
-                        break;
-                    case "SAVE":
-                        talisman.Requirements[C.TalismanReq.SaveReq] = line.Value;
-                        break;
-                    default:
-                        {
-                            if (C.TalismanKeys.Values.Contains(line.Key))
-                            {
-                                C.TalismanReq requirement = C.TalismanKeys.First(pair => pair.Value.Equals(line.Key)).Key;
-                                if (requirement == C.TalismanReq.UseOnlySkill)
-                                {
-                                    for (int i = 0; i < C.TalismanSkills.Count; i++)
-                                        if (line.Text.ToUpperInvariant() == C.TalismanSkills[i].ToUpperInvariant())
-                                        {
-                                            talisman.Requirements[requirement] = i;
-                                            break;
-                                        }
-                                }
-                                else
-                                {
-                                    talisman.Requirements[requirement] = line.Value;
-                                }
-                            }
-                            break;
-                        }
-                }
+                if (pair.Key == C.TalismanReq.UseOnlySkill)
+                    continue;
+                else
+                    talisman.Requirements[pair.Key] = node[pair.Value].ValueInt;
             }
 
-            return talisman;
-        }
+            if (node.HasChildWithKey(C.TalismanKeys[C.TalismanReq.UseOnlySkill]))
+            {
+                string allowedSkill = node[C.TalismanKeys[C.TalismanReq.UseOnlySkill]].Value;
+                for (int i = 0; i < C.TalismanSkills.Count; i++)
+                    if (allowedSkill.ToUpperInvariant() == C.TalismanSkills[i].ToUpperInvariant())
+                    {
+                        talisman.Requirements[C.TalismanReq.UseOnlySkill] = i;
+                        break;
+                    }
+            }
 
-        */
+            level.Talismans.Add(talisman);
+        }
 
         /// <summary>
         /// Ensures that all level parameters are within sensible limits.
