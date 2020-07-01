@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="Background.cs" />
     <Compile Include="BmpModify.cs" />
+    <Compile Include="NLTextDataNode.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DisplaySettings.cs" />
     <Compile Include="EscExitForm.cs">
