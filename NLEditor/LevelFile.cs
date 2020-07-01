@@ -132,7 +132,7 @@ namespace NLEditor
             return newLevel;
         }
 
-        private static Background ParseBackground(string identifier, List<Style> styleList BackgroundList backgrounds)
+        private static Background ParseBackground(string identifier, List<Style> styleList, BackgroundList backgrounds)
         {
             string[] bgInfo = identifier.Split(':');
             if (bgInfo.Length == 2) // background's style and name
@@ -144,6 +144,17 @@ namespace NLEditor
             else
                 return null;
         }
+
+        private static void LoadSkillset(Level level, NLTextDataNode node)
+        {
+            foreach (C.Skill skill in C.SkillArray)
+            {
+                NLTextDataNode subnode = node[SkillString(skill)];
+                level.SkillSet[skill] = subnode.ValueTrimUpper == "INFINITE" ? 100 : subnode.ValueInt;
+            }
+        }
+
+        /*
 
         /// <summary>
         /// Reads the skill set from the skill section.
