@@ -546,6 +546,26 @@ namespace NLEditor
                                .ForEach(gad => WriteObject(textFile, gad));
             textFile.WriteLine(" ");
 
+            if (curLevel.TerrainList.Exists(ter => ter is GroupPiece))
+            {
+                textFile.WriteLine("#        Terrain groups         ");
+                textFile.WriteLine("# ----------------------------- ");
+
+                List<GroupPiece> groupPieces = curLevel.TerrainList.FindAll(ter => ter is GroupPiece).Cast<GroupPiece>().ToList();
+                List<GroupPiece> uniqueGroupPieces = new List<GroupPiece>();
+
+                while (groupPieces.Count > 0)
+                {
+                    GroupPiece group = groupPieces[0];
+                    groupPieces.RemoveAll(grp => grp.Key == group.Key);
+                    uniqueGroupPieces.Add(group);
+                }
+
+                uniqueGroupPieces.ForEach(grp => WriteGroup(textFile, grp));
+
+                textFile.WriteLine(" ");
+            }
+
             textFile.WriteLine("#        Terrain pieces         ");
             textFile.WriteLine("# ----------------------------- ");
             curLevel.TerrainList.FindAll(ter => !ter.IsSketch).ForEach(ter => WriteTerrain(textFile, ter, curLevel.TerrainList.IndexOf(ter), false));
@@ -682,52 +702,76 @@ namespace NLEditor
             textFile.WriteLine(" ");
         }
 
+        private static void WriteGroup(TextWriter textFile, GroupPiece group)
+        {
+            textFile.WriteLine(" $TERRAINGROUP");
+            textFile.WriteLine("   NAME " + group.Name);
+            textFile.WriteLine("   ");
+
+            foreach (TerrainPiece piece in group.GetConstituents())
+                WriteTerrain(textFile, piece, 1);
+
+            textFile.WriteLine(" $END");
+            textFile.WriteLine(" ");
+        }
+
+        private static void WriteTerrain(TextWriter textFile, TerrainPiece terrain, int extraIndent)
+        {
+            WriteTerrain(textFile, terrain, -1, false, extraIndent);
+        }
+
         /// <summary>
         /// Writes all terrain piece infos in a text file.
         /// </summary>
         /// <param name="textFile"></param>
         /// <param name="terrain"></param>
-        static private void WriteTerrain(TextWriter textFile, TerrainPiece terrain, int index, bool writingSketch)
+        static private void WriteTerrain(TextWriter textFile, TerrainPiece terrain, int index, bool writingSketch, int extraIndent = 0)
         {
+            string prefix = new string(' ', extraIndent * 2);
+
             if (!writingSketch)
             {
-                textFile.WriteLine(" $TERRAIN");
-                textFile.WriteLine("   STYLE " + terrain.Style);
+                textFile.WriteLine(prefix + " $TERRAIN");
+
+                if (terrain is GroupPiece)
+                    textFile.WriteLine(prefix + "   STYLE *group");
+                else
+                    textFile.WriteLine(prefix + "   STYLE " + terrain.Style);
             }
             else
             {
-                textFile.WriteLine(" $SKETCH");
-                textFile.WriteLine("   INDEX " + index.ToString());
+                textFile.WriteLine(prefix + " $SKETCH");
+                textFile.WriteLine(prefix + "   INDEX " + index.ToString());
             }
-            textFile.WriteLine("   PIECE " + terrain.Name);
-            textFile.WriteLine("   X " + terrain.PosX.ToString());
-            textFile.WriteLine("   Y " + terrain.PosY.ToString());
+            textFile.WriteLine(prefix + "   PIECE " + terrain.Name);
+            textFile.WriteLine(prefix + "   X " + terrain.PosX.ToString());
+            textFile.WriteLine(prefix + "   Y " + terrain.PosY.ToString());
             if (terrain.IsNoOverwrite && !writingSketch)
             {
-                textFile.WriteLine("   NO_OVERWRITE");
+                textFile.WriteLine(prefix + "   NO_OVERWRITE");
             }
             if (terrain.IsErase && !writingSketch)
             {
-                textFile.WriteLine("   ERASE");
+                textFile.WriteLine(prefix + "   ERASE");
             }
             if (terrain.IsRotatedInPlayer)
             {
-                textFile.WriteLine("   ROTATE");
+                textFile.WriteLine(prefix + "   ROTATE");
             }
             if (terrain.IsInvertedInPlayer)
             {
-                textFile.WriteLine("   FLIP_VERTICAL");
+                textFile.WriteLine(prefix + "   FLIP_VERTICAL");
             }
             if (terrain.IsFlippedInPlayer)
             {
-                textFile.WriteLine("   FLIP_HORIZONTAL");
+                textFile.WriteLine(prefix + "   FLIP_HORIZONTAL");
             }
             if (terrain.IsOneWay && !writingSketch)
             {
-                textFile.WriteLine("   ONE_WAY");
+                textFile.WriteLine(prefix + "   ONE_WAY");
             }
-            textFile.WriteLine(" $END");
-            textFile.WriteLine(" ");
+            textFile.WriteLine(prefix + " $END");
+            textFile.WriteLine(prefix + " ");
         }
 
         /// <summary>
