@@ -17,17 +17,25 @@ namespace NLEditor
         {
             this.Key = key;
 
-            if (this.Key.Substring(0, 8) == "*sketch:")
+            if (this.Key.Substring(0, 8).ToUpperInvariant() == "*SKETCH:")
             {
                 this.Name = this.Key.Substring(8);
                 this.Style = "*sketch";
                 this.IsSketch = true;
+            }
+            else if (this.Key.Substring(0, 7).ToUpperInvariant() == "*GROUP:")
+            {
+                this.Name = this.Key.Substring(7);
+                this.Style = "default";
+                this.IsSketch = false;
             }
             else
             {
                 this.Name = System.IO.Path.GetFileName(key);
                 this.Style = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(key));
                 this.IsSketch = false;
+
+                System.Diagnostics.Debug.Assert(ImageLibrary.CreatePieceKey(Style, Name, isObj) == Key, "Style and name of level piece incompatible with key.");
             }
 
             this.PosX = pos.X;
@@ -36,9 +44,6 @@ namespace NLEditor
             this.Rotation = rotation;
             this.IsInvert = isInvert;
             this.IsSelected = true;
-
-            if (!IsSketch)
-                System.Diagnostics.Debug.Assert(ImageLibrary.CreatePieceKey(Style, Name, isObj) == Key, "Style and name of level piece incompatible with key.");
         }
 
         public bool IsSketch { get; private set; }
@@ -710,8 +715,8 @@ namespace NLEditor
             terrainPieces = oldGroupPiece.terrainPieces;
         }
 
-        public GroupPiece(List<TerrainPiece> terPieceList)
-            : base(GetKeyFromTerPieceList(terPieceList), GetPrelimPosFromTerPieceList(terPieceList))
+        public GroupPiece(List<TerrainPiece> terPieceList, string groupName = null)
+            : base(groupName != null ? "*group:" + groupName : GetKeyFromTerPieceList(terPieceList), GetPrelimPosFromTerPieceList(terPieceList))
         {
             terrainPieces = terPieceList.ConvertAll(ter => (TerrainPiece)ter.Clone()).ToList();
             terrainPieces.ForEach(ter => { ter.PosX -= this.PosX; ter.PosY -= this.PosY; });

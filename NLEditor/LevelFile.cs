@@ -50,8 +50,6 @@ namespace NLEditor
                     }
                     else
                     {
-
-
                         bool IsConverted = ConvertOldLevelType(filePath);
                         if (IsConverted)
                         {
@@ -110,8 +108,13 @@ namespace NLEditor
             foreach (var node in file.Children.FindAll(child => child.Key == "GADGET"))
                 LoadGadget(newLevel, node);
 
+            List<GroupPiece> groupPieceSamples = new List<GroupPiece>();
+
+            foreach (var node in file.Children.FindAll(child => child.Key == "TERRAINGROUP"))
+                LoadTerrainGroup(groupPieceSamples, node);
+
             foreach (var node in file.Children.FindAll(child => child.Key == "TERRAIN"))
-                LoadTerrain(newLevel, node);
+                LoadTerrain(newLevel, groupPieceSamples, node);
 
             foreach (var node in file.Children.FindAll(child => child.Key == "LEMMING"))
                 LoadLemming(newLevel, node);
@@ -258,13 +261,29 @@ namespace NLEditor
             level.GadgetList.Add(newLemming);
         }
 
-        private static void LoadTerrain(Level level, NLTextDataNode node)
+        private static void LoadTerrainGroup(List<GroupPiece> samples, NLTextDataNode node)
+        {
+            List<TerrainPiece> pieceList = new List<TerrainPiece>();
+
+            foreach (var subnode in node.Children.FindAll(sn => sn.Key == "TERRAIN"))
+                pieceList.Add(LoadTerrainData(samples, subnode));
+
+            samples.Add(new GroupPiece(pieceList, node["NAME"].Value));
+        }
+
+        private static void LoadTerrain(Level level, List<GroupPiece> groupPieceSamples, NLTextDataNode node)
+        {
+            level.TerrainList.Add(LoadTerrainData(groupPieceSamples, node));
+        }
+
+        private static TerrainPiece LoadTerrainData(List<GroupPiece> groupPieceSamples, NLTextDataNode node)
         {
             // First read in all infos
             string styleName = node["STYLE"].Value;
             string pieceName = node["PIECE"].Value;
             int posX = node["X"].ValueInt;
             int posY = node["Y"].ValueInt;
+            Point pos = new Point(posX, posY);
 
             bool isNoOverwrite = node.HasChildWithKey("NO_OVERWRITE");
             bool isErase = node.HasChildWithKey("ERASE");
@@ -274,10 +293,18 @@ namespace NLEditor
             bool doInvert = node.HasChildWithKey("FLIP_VERTICAL");
             bool doFlip = node.HasChildWithKey("FLIP_HORIZONTAL");
 
-            // ... then create the correct Terrain piece
-            string key = ImageLibrary.CreatePieceKey(styleName, pieceName, false);
-            Point pos = new Point(posX, posY);
-            TerrainPiece newTerrain = new TerrainPiece(key, pos, 0, false, isErase, isNoOverwrite, isOneWay);
+            TerrainPiece newTerrain;
+
+            if (styleName.ToUpperInvariant() == "*GROUP")
+            {
+                newTerrain = new GroupPiece(groupPieceSamples.FirstOrDefault(gs => gs.Name == pieceName), pos);
+            }
+            else
+            {
+                // ... then create the correct Terrain piece
+                string key = ImageLibrary.CreatePieceKey(styleName, pieceName, false);
+                newTerrain = new TerrainPiece(key, pos, 0, false, isErase, isNoOverwrite, isOneWay);
+            }
 
             // For compatibility with player: NoOverwrite + Erase pieces work like NoOverWrite
             if (newTerrain.IsNoOverwrite && newTerrain.IsErase)
@@ -298,7 +325,7 @@ namespace NLEditor
 
             newTerrain.IsSelected = false;
 
-            level.TerrainList.Add(newTerrain);
+            return newTerrain;
         }
 
         private static void LoadSketch(Level level, NLTextDataNode node)
