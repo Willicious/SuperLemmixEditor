@@ -349,7 +349,7 @@ namespace NLEditor
             {
                 if (pair.Key == C.TalismanReq.UseOnlySkill)
                     continue;
-                else
+                else if (node.HasChildWithKey(pair.Value))
                     talisman.Requirements[pair.Key] = node[pair.Value].ValueInt;
             }
 
