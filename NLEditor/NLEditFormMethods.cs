@@ -133,13 +133,8 @@ namespace NLEditor
 
             if (ulong.TryParse(idText, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out ulong newID))
             {
-                if (newID >= 0x8000000000000000)
-                    newID -= 0x8000000000000000;
-
-                if (newID < 0x0000000100000000)
-                    newID += 0x0000000100000000;
-
-                CurLevel.LevelID = newID;
+                if (newID != 0)
+                    CurLevel.LevelID = newID;
             }
 
             if (allowWriteBack && txt_LevelID.Text != CurLevel.LevelID.ToString("X16"))

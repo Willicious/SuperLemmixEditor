@@ -24,7 +24,7 @@ namespace NLEditor
 
             // Create a random 64bit hex number
             this.LevelID = (ulong)Utility.Random().Next() +
-                           ((ulong)Utility.Random().Next(0x00000001, 0x7FFFFFFF) << 32); 
+                           ((ulong)Utility.Random().Next() << 32); 
 
             this.Width = 320;
             this.Height = 160;

@@ -1422,7 +1422,7 @@ namespace NLEditor
         private void but_RandomID_Click(object sender, EventArgs e)
         {
             CurLevel.LevelID = (ulong)Utility.Random().Next() +
-                               ((ulong)Utility.Random().Next(0x00000001, 0x7FFFFFFF) << 32);
+                               ((ulong)Utility.Random().Next() << 32);
             txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
         }
 
