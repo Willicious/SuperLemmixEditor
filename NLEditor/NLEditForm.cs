@@ -1371,6 +1371,8 @@ namespace NLEditor
 
             if (tal != null)
                 CurLevel.Talismans.Remove(tal);
+
+            RegenerateTalismanList();
         }
 
         private void btnTalismanAdd_Click(object sender, EventArgs e)
