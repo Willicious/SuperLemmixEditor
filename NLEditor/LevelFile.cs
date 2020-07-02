@@ -585,8 +585,15 @@ namespace NLEditor
                 {
                     GroupPiece group = groupPieces[0];
                     groupPieces.RemoveAll(grp => grp.Key == group.Key);
-                    uniqueGroupPieces.Add(group);
+
+                    if (!uniqueGroupPieces.Exists(grp => grp.Key == group.Key))
+                    {
+                        groupPieces.AddRange(group.GetConstituents().FindAll(ter => ter is GroupPiece).Cast<GroupPiece>());
+                        uniqueGroupPieces.Add(group);
+                    }
                 }
+
+                SortGroupPieces(uniqueGroupPieces);
 
                 uniqueGroupPieces.ForEach(grp => WriteGroup(textFile, grp));
 
@@ -617,6 +624,51 @@ namespace NLEditor
             }
 
             textFile.Close();
+        }
+
+        private static void SortGroupPieces(List<GroupPiece> pieces)
+        {
+            // The normal Sort function doesn't seem to compare every possible pairing, and thus gives an incorrect result.
+
+            int i = 0;
+
+            while (i + 1 < pieces.Count)
+            {
+                var a = pieces[i];
+
+                for (int i2 = i + 1; i2 < pieces.Count; i2++)
+                {
+                    bool aContainsB = false;
+                    bool bContainsA = false;
+                    var b = pieces[i2];
+
+                    foreach (GroupPiece piece in a.GetConstituents().FindAll(pc => pc is GroupPiece))
+                        if (piece.Key == b.Key)
+                        {
+                            aContainsB = true;
+                            break;
+                        }
+
+                    foreach (GroupPiece piece in b.GetConstituents().FindAll(pc => pc is GroupPiece))
+                        if (piece.Key == a.Key)
+                        {
+                            bContainsA = true;
+                            break;
+                        }
+
+                    if (aContainsB && bContainsA)
+                        throw new Exception("Recursive terrain grouping");
+                    else if (aContainsB)
+                    {
+                        pieces.Remove(b);
+                        pieces.Insert(i, b);
+                        i = -1;
+                        break;
+                    }
+                }
+
+                i++;
+            }
         }
 
         /// <summary>
