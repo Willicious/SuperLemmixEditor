@@ -297,7 +297,7 @@ namespace NLEditor
 
             if (styleName.ToUpperInvariant() == "*GROUP")
             {
-                newTerrain = new GroupPiece(groupPieceSamples.FirstOrDefault(gs => gs.Name == pieceName), pos);
+                newTerrain = new GroupPiece(groupPieceSamples.FirstOrDefault(gs => gs.Name == pieceName), pos, 0, false, isErase, isNoOverwrite, isOneWay);
             }
             else
             {
