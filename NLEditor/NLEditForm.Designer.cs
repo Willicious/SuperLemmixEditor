@@ -214,6 +214,7 @@
             this.but_PieceBackground = new System.Windows.Forms.Button();
             this.but_PieceSketches = new System.Windows.Forms.Button();
             this.txt_Focus = new NLEditor.FocusTextBox();
+            this.pasteInPlaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -331,8 +332,9 @@
             this.undoToolStripMenuItem,
             this.redoToolStripMenuItem,
             this.deleteToolStripMenuItem,
-            this.insertToolStripMenuItem,
             this.copyToolStripMenuItem,
+            this.insertToolStripMenuItem,
+            this.pasteInPlaceToolStripMenuItem,
             this.duplicateCToolStripMenuItem,
             this.groupToolStripMenuItem,
             this.ungroupToolStripMenuItem});
@@ -343,56 +345,56 @@
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.undoToolStripMenuItem.Text = "Undo (Ctrl+Z)";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.redoToolStripMenuItem.Text = "Redo (Ctrl+Y)";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.deleteToolStripMenuItem.Text = "Cut (Ctrl+X)";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // insertToolStripMenuItem
             // 
             this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
-            this.insertToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.insertToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.insertToolStripMenuItem.Text = "Paste (Ctrl+V)";
             this.insertToolStripMenuItem.Click += new System.EventHandler(this.insertToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.copyToolStripMenuItem.Text = "Copy (Ctrl+C)";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // duplicateCToolStripMenuItem
             // 
             this.duplicateCToolStripMenuItem.Name = "duplicateCToolStripMenuItem";
-            this.duplicateCToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.duplicateCToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.duplicateCToolStripMenuItem.Text = "Duplicate (C)";
             this.duplicateCToolStripMenuItem.Click += new System.EventHandler(this.duplicateCToolStripMenuItem_Click);
             // 
             // groupToolStripMenuItem
             // 
             this.groupToolStripMenuItem.Name = "groupToolStripMenuItem";
-            this.groupToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.groupToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.groupToolStripMenuItem.Text = "Group (G)";
             this.groupToolStripMenuItem.Click += new System.EventHandler(this.groupToolStripMenuItem_Click);
             // 
             // ungroupToolStripMenuItem
             // 
             this.ungroupToolStripMenuItem.Name = "ungroupToolStripMenuItem";
-            this.ungroupToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.ungroupToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.ungroupToolStripMenuItem.Text = "Ungroup (H)";
             this.ungroupToolStripMenuItem.Click += new System.EventHandler(this.ungroupToolStripMenuItem_Click);
             // 
@@ -2395,6 +2397,13 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
+            // pasteInPlaceToolStripMenuItem
+            // 
+            this.pasteInPlaceToolStripMenuItem.Name = "pasteInPlaceToolStripMenuItem";
+            this.pasteInPlaceToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.pasteInPlaceToolStripMenuItem.Text = "Paste In Place (Ctrl+Shift+V)";
+            this.pasteInPlaceToolStripMenuItem.Click += new System.EventHandler(this.pasteInPlaceToolStripMenuItem_Click);
+            // 
             // NLEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2679,6 +2688,7 @@
         private System.Windows.Forms.Label lbl_Global_ID;
         private System.Windows.Forms.Button but_RandomID;
         private System.Windows.Forms.Button but_PieceSketches;
+        private System.Windows.Forms.ToolStripMenuItem pasteInPlaceToolStripMenuItem;
     }
 }
 

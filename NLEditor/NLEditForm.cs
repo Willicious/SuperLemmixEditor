@@ -933,7 +933,7 @@ namespace NLEditor
             }
             else if (e.Control && e.KeyCode == Keys.V)
             {
-                AddFromClipboard(true);
+                AddFromClipboard(!e.Shift);
             }
             else if (e.Control && e.KeyCode == Keys.C)
             {
@@ -1436,6 +1436,11 @@ namespace NLEditor
         private void num_PickupSkillCount_KeyUp(object sender, KeyEventArgs e)
         {
             num_PickupSkillCount_ValueChanged(sender, null);
+        }
+
+        private void pasteInPlaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddFromClipboard(false);
         }
     }
 }
