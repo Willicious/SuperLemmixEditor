@@ -856,13 +856,38 @@ namespace NLEditor
             }
         }
 
+        private static readonly long InstanceID = DateTime.Now.Ticks;
+
+        [Serializable()]
+        private class ClipboardData
+        {
+            public List<LevelPiece> Pieces;
+            public long InstanceID;
+        }
+
         /// <summary>
         /// Copies all currently selected pieces to the fOldSelectedList.
         /// </summary>
         private void WriteToClipboard()
         {
             List<LevelPiece> clipboardPieces = CurLevel.SelectionList().Select(piece => piece.Clone()).ToList();
-            Utility.SetDataToClipboard(clipboardPieces);
+
+            long localInstanceID = 0;
+
+            foreach (var piece in clipboardPieces)
+                if (piece is GroupPiece)
+                {
+                    localInstanceID = InstanceID;
+                    break;
+                }
+
+            ClipboardData clipboardData = new ClipboardData()
+            {
+                Pieces = clipboardPieces,
+                InstanceID = localInstanceID
+            };
+
+            Utility.SetDataToClipboard(clipboardData);
         }
 
         /// <summary>
@@ -898,10 +923,21 @@ namespace NLEditor
         private void AddFromClipboard(bool doCenterAtCursor)
         {
             CurLevel.UnselectAll();
+
+            ClipboardData clipboardData;
             List<LevelPiece> clipboardPieces = null;
             try
             {
-                clipboardPieces = Utility.GetDataFromClipboard<List<LevelPiece>>();
+                clipboardData = Utility.GetDataFromClipboard<ClipboardData>();
+
+                if (clipboardData.InstanceID != 0 && clipboardData.InstanceID != InstanceID)
+                {
+                    MessageBox.Show("NLEditor currently does not support copy-pasting between different sessions when the copied data includes terrain groups.");
+                    return;
+                }
+
+                clipboardPieces = clipboardData.Pieces;
+
                 if (clipboardPieces == null || clipboardPieces.Count == 0)
                     return;
             }
