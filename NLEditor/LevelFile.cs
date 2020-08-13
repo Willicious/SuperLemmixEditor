@@ -194,7 +194,12 @@ namespace NLEditor
             // Read in skill information
             foreach (C.Skill skill in C.SkillArray)
             {
-                if (node.HasChildWithKey(SkillString(skill)))
+                if (newGadget.ObjType == C.OBJ.PICKUP)
+                {
+                    if (node["SKILL"].ValueTrimUpper == SkillString(skill))
+                        newGadget.SetSkillFlag(skill, true);
+                }
+                else if (node.HasChildWithKey(SkillString(skill)))
                     newGadget.SetSkillFlag(skill, true);
             }
 
