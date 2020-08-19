@@ -762,7 +762,7 @@ namespace NLEditor
 
                 if (gadget.Val_L > 1)
                 {
-                    textFile.WriteLine("   SKILLCOUNT " + gadget.Val_L.ToString());
+                    textFile.WriteLine("   SKILL_COUNT " + gadget.Val_L.ToString());
                 }
             }
 
