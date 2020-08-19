@@ -721,12 +721,22 @@ namespace NLEditor
             terrainPieces = terPieceList.ConvertAll(ter => (TerrainPiece)ter.Clone()).ToList();
             terrainPieces.ForEach(ter => { ter.PosX -= this.PosX; ter.PosY -= this.PosY; });
             bool isSteelGroup = terrainPieces.Exists(ter => ter.IsSteel && !ter.IsErase);
+
             // Create a cropped image of the group
             Bitmap groupImage;
             using (Renderer groupRenderer = new Renderer())
             {
+                bool oldClearPhysics = DisplaySettings.IsDisplayed(C.DisplayType.ClearPhysics);
+                
+                if (oldClearPhysics)
+                    DisplaySettings.ChangeDisplayed(C.DisplayType.ClearPhysics);
+
                 groupImage = groupRenderer.CreateTerrainGroupImage(terrainPieces);
+
+                if (oldClearPhysics)
+                    DisplaySettings.ChangeDisplayed(C.DisplayType.ClearPhysics);
             }
+
             Rectangle cropRect = groupImage.GetCropTransparentRectangle();
             groupImage = groupImage.Crop(cropRect);
             // Adapt positions to cropped rectangle
