@@ -1442,5 +1442,10 @@ namespace NLEditor
         {
             AddFromClipboard(false);
         }
+
+        private void timerAutosave_Tick(object sender, EventArgs e)
+        {
+            MakeAutoSave();
+        }
     }
 }

@@ -41,8 +41,9 @@
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteInPlaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.duplicateCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ungroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -214,7 +215,7 @@
             this.but_PieceBackground = new System.Windows.Forms.Button();
             this.but_PieceSketches = new System.Windows.Forms.Button();
             this.txt_Focus = new NLEditor.FocusTextBox();
-            this.pasteInPlaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timerAutosave = new System.Windows.Forms.Timer(this.components);
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -363,6 +364,13 @@
             this.deleteToolStripMenuItem.Text = "Cut (Ctrl+X)";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.copyToolStripMenuItem.Text = "Copy (Ctrl+C)";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
             // insertToolStripMenuItem
             // 
             this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
@@ -370,12 +378,12 @@
             this.insertToolStripMenuItem.Text = "Paste (Ctrl+V)";
             this.insertToolStripMenuItem.Click += new System.EventHandler(this.insertToolStripMenuItem_Click);
             // 
-            // copyToolStripMenuItem
+            // pasteInPlaceToolStripMenuItem
             // 
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.copyToolStripMenuItem.Text = "Copy (Ctrl+C)";
-            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            this.pasteInPlaceToolStripMenuItem.Name = "pasteInPlaceToolStripMenuItem";
+            this.pasteInPlaceToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.pasteInPlaceToolStripMenuItem.Text = "Paste In Place (Ctrl+Shift+V)";
+            this.pasteInPlaceToolStripMenuItem.Click += new System.EventHandler(this.pasteInPlaceToolStripMenuItem_Click);
             // 
             // duplicateCToolStripMenuItem
             // 
@@ -2397,12 +2405,11 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
-            // pasteInPlaceToolStripMenuItem
+            // timerAutosave
             // 
-            this.pasteInPlaceToolStripMenuItem.Name = "pasteInPlaceToolStripMenuItem";
-            this.pasteInPlaceToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.pasteInPlaceToolStripMenuItem.Text = "Paste In Place (Ctrl+Shift+V)";
-            this.pasteInPlaceToolStripMenuItem.Click += new System.EventHandler(this.pasteInPlaceToolStripMenuItem_Click);
+            this.timerAutosave.Enabled = true;
+            this.timerAutosave.Interval = 60000;
+            this.timerAutosave.Tick += new System.EventHandler(this.timerAutosave_Tick);
             // 
             // NLEditForm
             // 
@@ -2689,6 +2696,7 @@
         private System.Windows.Forms.Button but_RandomID;
         private System.Windows.Forms.Button but_PieceSketches;
         private System.Windows.Forms.ToolStripMenuItem pasteInPlaceToolStripMenuItem;
+        private System.Windows.Forms.Timer timerAutosave;
     }
 }
 

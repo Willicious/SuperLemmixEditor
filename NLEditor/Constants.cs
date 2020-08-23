@@ -18,6 +18,7 @@ namespace NLEditor
         }
 
         public static string AppPath => System.Windows.Forms.Application.StartupPath + DirSep;
+        public static string AppPathAutosave => AppPath + "autosave" + DirSep;
         public static string AppPathPieces => AppPath + "styles" + DirSep;
         public static string AppPathMusic => AppPath + "music" + DirSep;
         public static string AppPathLevels => AppPath + "levels" + DirSep;

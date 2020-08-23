@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 
 namespace NLEditor
 {
@@ -1031,5 +1032,27 @@ namespace NLEditor
             curSettings.SwitchGridUsage();
         }
 
+        private const string INVALID_AUTOSAVE_NAME_CHARS = "<>:\"/\\|?*.";
+
+        private void MakeAutoSave()
+        {
+            try
+            {
+                if (!Directory.Exists(C.AppPathAutosave))
+                    Directory.CreateDirectory(C.AppPathAutosave);
+
+                string filename = DateTime.Now.ToString() + " - " + CurLevel.Title;
+
+                foreach (char c in INVALID_AUTOSAVE_NAME_CHARS)
+                    filename = filename.Replace(c, '_');
+
+                Level tempLevel = CurLevel.Clone();
+                LevelFile.SaveLevelToFile(C.AppPathAutosave + filename + ".nxlv", tempLevel);
+            }
+            catch
+            {
+                // Do nothing. If it fails, it fails.
+            }
+        }
     }
 }
