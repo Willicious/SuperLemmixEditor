@@ -569,7 +569,7 @@ namespace NLEditor
             {
                 actualPicPieceIndex++;
                 if (!DisplaySettings.IsDisplayed(C.DisplayType.Deprecated))
-                    if (ImageLibrary.GetDeprecated(pieceList[(pieceStartIndex + actualPicPieceIndex) % pieceList.Count]))
+                    while (ImageLibrary.GetDeprecated(pieceList[(pieceStartIndex + actualPicPieceIndex) % pieceList.Count]))
                         actualPicPieceIndex++;
             }
 
