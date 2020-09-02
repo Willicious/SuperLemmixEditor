@@ -125,6 +125,8 @@ namespace NLEditor
                 WindowState = FormWindowState.Maximized;
             else
                 ClientSize = curSettings.FormSize;
+
+            SetAutosaveTimer();
         }
 
         Dictionary<C.Skill, CheckBox> checkboxesSkillFlags;
@@ -372,6 +374,7 @@ namespace NLEditor
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             curSettings.OpenSettingsWindow();
+            SetAutosaveTimer();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1445,7 +1448,15 @@ namespace NLEditor
 
         private void timerAutosave_Tick(object sender, EventArgs e)
         {
-            MakeAutoSave();
+            timerAutosave.Stop();
+            try
+            {
+                MakeAutoSave();
+            }
+            finally
+            {
+                timerAutosave.Start();
+            }
         }
     }
 }

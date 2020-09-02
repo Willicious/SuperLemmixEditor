@@ -2407,7 +2407,6 @@
             // 
             // timerAutosave
             // 
-            this.timerAutosave.Enabled = true;
             this.timerAutosave.Interval = 60000;
             this.timerAutosave.Tick += new System.EventHandler(this.timerAutosave_Tick);
             // 

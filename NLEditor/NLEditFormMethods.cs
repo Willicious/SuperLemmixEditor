@@ -1055,5 +1055,16 @@ namespace NLEditor
                 // Do nothing. If it fails, it fails.
             }
         }
+
+        private void SetAutosaveTimer()
+        {
+            if (curSettings.AutosaveFrequency > 0)
+            {
+                timerAutosave.Interval = curSettings.AutosaveFrequency * 60000;
+                timerAutosave.Start();
+            }
+            else
+                timerAutosave.Stop();
+        }
     }
 }
