@@ -248,6 +248,7 @@ namespace NLEditor
             CurLevel = level;
             curRenderer.SetLevel(CurLevel);
             RemoveInvalidLevelPieces();
+            UpdateBackgroundImage();
 
             oldLevelList = new List<Level>();
             oldLevelList.Add(CurLevel.Clone());
