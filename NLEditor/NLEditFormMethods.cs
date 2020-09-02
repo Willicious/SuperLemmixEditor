@@ -1049,10 +1049,29 @@ namespace NLEditor
 
                 Level tempLevel = CurLevel.Clone();
                 LevelFile.SaveLevelToFile(C.AppPathAutosave + filename + ".nxlv", tempLevel);
+
+                ClearOldAutosaves();
             }
             catch
             {
                 // Do nothing. If it fails, it fails.
+            }
+        }
+
+        private void ClearOldAutosaves()
+        {
+            if (curSettings.KeepAutosaveCount > 0)
+            {
+                string[] files = Directory.GetFiles(C.AppPathAutosave, "*.nxlv");
+                if (files.Length > curSettings.KeepAutosaveCount)
+                {
+                    List<KeyValuePair<string, long>> fileTimes = new List<KeyValuePair<string, long>>();
+                    foreach (var file in files)
+                        fileTimes.Add(new KeyValuePair<string, long>(file, File.GetLastWriteTime(file).Ticks));
+                    fileTimes = fileTimes.OrderByDescending(item => item.Value).ToList();
+                    for (int i = curSettings.KeepAutosaveCount; i < fileTimes.Count; i++)
+                        File.Delete(fileTimes[i].Key);
+                }
             }
         }
 
