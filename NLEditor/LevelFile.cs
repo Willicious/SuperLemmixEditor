@@ -83,8 +83,9 @@ namespace NLEditor
             newLevel.Author = file["AUTHOR"].Value;
             newLevel.LevelID = file["ID"].ValueUInt64;
 
-            newLevel.MainStyle = styleList.Find(sty => sty.NameInDirectory == file["THEME"].Value);
-            newLevel.Background = ParseBackground(file["BACKGROUND"].Value, styleList, backgrounds);
+            newLevel.MainStyle = styleList.Find(sty => sty.NameInDirectory == Aliases.Dealias(file["THEME"].Value, AliasKind.Style));
+            newLevel.Background = ParseBackground(Aliases.Dealias(file["BACKGROUND"].Value, AliasKind.Background), styleList, backgrounds);
+
             newLevel.MusicFile = file["MUSIC"].Value;
 
             newLevel.Width = file["WIDTH"].ValueInt;
@@ -162,6 +163,11 @@ namespace NLEditor
             // First read in all infos
             string styleName = node["STYLE"].Value;
             string gadgetName = node["PIECE"].Value;
+
+            string[] dealias = Aliases.Dealias(styleName + ":" + gadgetName, AliasKind.Gadget).Split(':');
+            styleName = dealias[0];
+            gadgetName = dealias[1];
+
             int posX = node["X"].ValueInt;
             int posY = node["Y"].ValueInt;
             bool isNoOverwrite = node.HasChildWithKey("NO_OVERWRITE");
@@ -286,6 +292,14 @@ namespace NLEditor
             // First read in all infos
             string styleName = node["STYLE"].Value;
             string pieceName = node["PIECE"].Value;
+
+            if (styleName.ToUpperInvariant() != "*GROUP")
+            {
+                string[] dealias = Aliases.Dealias(styleName + ":" + pieceName, AliasKind.Terrain).Split(':');
+                styleName = dealias[0];
+                pieceName = dealias[1];
+            }
+
             int posX = node["X"].ValueInt;
             int posY = node["Y"].ValueInt;
             Point pos = new Point(posX, posY);
