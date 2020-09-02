@@ -19,10 +19,16 @@ namespace NLEditor
         public bool UseLvlPropertiesTabs { get; private set; }
         public bool UsePieceSelectionNames { get; private set; }
         public bool UseGridForPieces { get; private set; }
+        public bool Autosave { get; private set; }
+        public bool RemoveOldAutosaves { get; private set; }
         public int NumTooltipBottonDisplay { get; set; }
         public bool UseTooltipBotton => (NumTooltipBottonDisplay > 0);
         private int gridSize;
         public int GridSize { get { return UseGridForPieces ? gridSize : 1; } }
+        private int autosaveFrequency;
+        public int AutosaveFrequency { get { return Autosave ? autosaveFrequency : 0; } }
+        private int keepAutosaveCount;
+        public int KeepAutosaveCount { get { return RemoveOldAutosaves ? keepAutosaveCount : 0; } }
         public bool IsFormMaximized { get; private set; }
         public System.Drawing.Size FormSize { get; private set; }
 
@@ -35,6 +41,10 @@ namespace NLEditor
             UsePieceSelectionNames = true;
             UseGridForPieces = false;
             gridSize = 8;
+            Autosave = true;
+            autosaveFrequency = 5;
+            RemoveOldAutosaves = true;
+            keepAutosaveCount = 15;
             NumTooltipBottonDisplay = 3;
             IsFormMaximized = false;
             FormSize = editorForm.MinimumSize;
@@ -106,10 +116,61 @@ namespace NLEditor
             numGridSize.Enabled = UseGridForPieces;
             numGridSize.ValueChanged += new EventHandler(numGridSize_ValueChanged);
 
+            CheckBox checkAutosave = new CheckBox();
+            checkAutosave.Name = "check_Autosave";
+            checkAutosave.AutoSize = true;
+            checkAutosave.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkAutosave.Checked = Autosave;
+            checkAutosave.Text = "Autosave (minutes):";
+            checkAutosave.Top = 98;
+            checkAutosave.Left = leftPos;
+            checkAutosave.CheckedChanged += new EventHandler(checkAutosave_CheckedChanged);
+
+            NumericUpDown numAutosaveFrequency = new NumericUpDown();
+            numAutosaveFrequency.Name = "num_AutosaveFrequency";
+            numAutosaveFrequency.AutoSize = true;
+            numAutosaveFrequency.TextAlign = HorizontalAlignment.Center;
+            numAutosaveFrequency.Value = autosaveFrequency;
+            numAutosaveFrequency.Minimum = 1;
+            numAutosaveFrequency.Maximum = 60;
+            numAutosaveFrequency.Top = checkAutosave.Top - 2;
+            numAutosaveFrequency.Left = checkAutosave.Right + 50;
+            numAutosaveFrequency.Width = 47;
+            numAutosaveFrequency.Enabled = Autosave;
+            numAutosaveFrequency.ValueChanged += new EventHandler(numAutosaveFrequency_ValueChanged);
+
+            CheckBox checkDeleteAutosaves = new CheckBox();
+            checkDeleteAutosaves.Name = "check_DeleteAutosaves";
+            checkDeleteAutosaves.AutoSize = true;
+            checkDeleteAutosaves.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkDeleteAutosaves.Checked = RemoveOldAutosaves;
+            checkDeleteAutosaves.Enabled = Autosave;
+            checkDeleteAutosaves.Text = "Limit autosaves kept to:";
+            checkDeleteAutosaves.Top = 128;
+            checkDeleteAutosaves.Left = leftPos;
+            checkDeleteAutosaves.CheckedChanged += new EventHandler(checkDeleteAutosaves_CheckedChanged);
+
+            NumericUpDown numAutosavesToKeep = new NumericUpDown();
+            numAutosavesToKeep.Name = "num_AutosavesToKeep";
+            numAutosavesToKeep.AutoSize = true;
+            numAutosavesToKeep.TextAlign = HorizontalAlignment.Center;
+            numAutosavesToKeep.Value = keepAutosaveCount;
+            numAutosavesToKeep.Minimum = 1;
+            numAutosavesToKeep.Maximum = 999;
+            numAutosavesToKeep.Top = checkDeleteAutosaves.Top - 2;
+            numAutosavesToKeep.Left = checkDeleteAutosaves.Right + 50;
+            numAutosavesToKeep.Width = 47;
+            numAutosavesToKeep.Enabled = Autosave && RemoveOldAutosaves;
+            numAutosavesToKeep.ValueChanged += new EventHandler(numAutosavesToKeep_ValueChanged);
+
             settingsForm.Controls.Add(checkUseTabs);
             settingsForm.Controls.Add(checkPieceNames);
             settingsForm.Controls.Add(checkUseGrid);
             settingsForm.Controls.Add(numGridSize);
+            settingsForm.Controls.Add(checkAutosave);
+            settingsForm.Controls.Add(numAutosaveFrequency);
+            settingsForm.Controls.Add(checkDeleteAutosaves);
+            settingsForm.Controls.Add(numAutosavesToKeep);
 
             settingsForm.Show();
         }
@@ -140,6 +201,30 @@ namespace NLEditor
         private void numGridSize_ValueChanged(object sender, EventArgs e)
         {
             gridSize = (int)(sender as NumericUpDown).Value;
+        }
+
+        private void checkAutosave_CheckedChanged(object sender, EventArgs e)
+        {
+            Autosave = ((sender as CheckBox).CheckState == CheckState.Checked);
+            settingsForm.Controls.Find("num_AutoSaveFrequency", false)[0].Enabled = Autosave;
+            settingsForm.Controls.Find("check_DeleteAutosaves", false)[0].Enabled = Autosave;
+            settingsForm.Controls.Find("num_AutosavesToKeep", false)[0].Enabled = Autosave && RemoveOldAutosaves;
+        }
+
+        private void numAutosaveFrequency_ValueChanged(object sender, EventArgs e)
+        {
+            autosaveFrequency = (int)(sender as NumericUpDown).Value;
+        }
+
+        private void checkDeleteAutosaves_CheckedChanged(object sender, EventArgs e)
+        {
+            RemoveOldAutosaves = ((sender as CheckBox).CheckState == CheckState.Checked);
+            settingsForm.Controls.Find("num_AutosavesToKeep", false)[0].Enabled = Autosave && RemoveOldAutosaves;
+        }
+
+        private void numAutosavesToKeep_ValueChanged(object sender, EventArgs e)
+        {
+            keepAutosaveCount = (int)(sender as NumericUpDown).Value;
         }
 
         /// <summary>
@@ -206,6 +291,20 @@ namespace NLEditor
                                     gridSize = line.Value;
                                 break;
                             }
+                        case "AUTOSAVE":
+                            {
+                                Autosave = (line.Value != 0);
+                                if (Autosave)
+                                    autosaveFrequency = line.Value;
+                                break;
+                            }
+                        case "AUTOSAVELIMIT":
+                            {
+                                RemoveOldAutosaves = (line.Value != 0);
+                                if (RemoveOldAutosaves)
+                                    keepAutosaveCount = line.Value;
+                                break;
+                            }
                         case "BUTTON_TOOLTIP":
                             {
                                 NumTooltipBottonDisplay = line.Value;
@@ -260,6 +359,8 @@ namespace NLEditor
                 TextWriter settingsFile = new StreamWriter(C.AppPathSettings, true);
 
                 settingsFile.WriteLine("# NLEditor settings ");
+                settingsFile.WriteLine(" Autosave            " + AutosaveFrequency.ToString());
+                settingsFile.WriteLine(" AutosaveLimit       " + KeepAutosaveCount.ToString());
                 settingsFile.WriteLine(" LvlPropertiesTabs   " + (UseLvlPropertiesTabs ? "True" : "False"));
                 settingsFile.WriteLine(" PieceSelectionNames " + (UsePieceSelectionNames ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
