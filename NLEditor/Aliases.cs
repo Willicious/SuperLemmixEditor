@@ -30,8 +30,6 @@ namespace NLEditor
 
         public static string Dealias(string input, AliasKind kind)
         {
-            string origInput = input; // DEBUG
-
             if (string.IsNullOrEmpty(input))
                 return "";
 
@@ -65,8 +63,6 @@ namespace NLEditor
             if (!LoadedStyles.Contains(style))
             {
                 LoadedStyles.Add(style);
-
-                string bleh = (C.AppPathPieces + style + C.DirSep + "alias.nxmi"); // DEBUG
 
                 if (File.Exists(C.AppPathPieces + style + C.DirSep + "alias.nxmi"))
                 {
