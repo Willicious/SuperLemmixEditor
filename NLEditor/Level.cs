@@ -759,7 +759,7 @@ namespace NLEditor
         /// <returns></returns>
         public bool MayGroupSelection()
         {
-            var selection = TerrainList.FindAll(ter => ter.IsSelected);
+            var selection = TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSketch);
             var selectionVisible = selection.FindAll(ter => !ter.IsErase);
             return selection.Count > 1 && selectionVisible.Count > 0
                 && (selectionVisible.TrueForAll(ter => ter.IsSteel) || selectionVisible.TrueForAll(ter => !ter.IsSteel));
@@ -779,9 +779,9 @@ namespace NLEditor
         /// </summary>
         public void GroupSelection()
         {
-            int insertIndex = TerrainList.FindIndex(ter => ter.IsSelected);
-            var selection = TerrainList.FindAll(ter => ter.IsSelected);
-            TerrainList.RemoveAll(ter => ter.IsSelected);
+            int insertIndex = TerrainList.FindIndex(ter => ter.IsSelected && !ter.IsSketch);
+            var selection = TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSketch);
+            TerrainList.RemoveAll(ter => ter.IsSelected && !ter.IsSketch);
             GroupPiece group = null;
             try
             {
