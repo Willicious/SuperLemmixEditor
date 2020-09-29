@@ -138,6 +138,9 @@ namespace NLEditor
 
         private static Background ParseBackground(string identifier, List<Style> styleList, BackgroundList backgrounds)
         {
+            if (string.IsNullOrEmpty(identifier) || identifier.Trim() == ":")
+                return null;
+
             string[] bgInfo = identifier.Split(':');
             if (bgInfo.Length == 2) // background's style and name
             {
@@ -534,10 +537,12 @@ namespace NLEditor
             textFile.WriteLine(" START_X " + curLevel.StartPosX.ToString());
             textFile.WriteLine(" START_Y " + curLevel.StartPosY.ToString());
             textFile.WriteLine(" THEME " + curLevel.MainStyle?.NameInDirectory);
+
             if (curLevel.Background != null)
             {
-                textFile.WriteLine(" BACKGROUND " + curLevel.Background.Style.NameInDirectory + ":"
-                                                  + curLevel.Background.Name);
+                string bgText = curLevel.Background.Style.NameInDirectory + ":" + curLevel.Background.Name;
+                if (bgText.Trim() != ":")
+                    textFile.WriteLine(" BACKGROUND " + bgText);
             }
             textFile.WriteLine(" ");
 
