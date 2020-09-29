@@ -72,6 +72,9 @@ namespace NLEditor
             NULL
         }
 
+        public static OBJ[] HideTriggerObjects = new OBJ[] { OBJ.TERRAIN, OBJ.STEEL, OBJ.NONE, OBJ.BACKGROUND, OBJ.NULL };
+        public static OBJ[] TriggerPointObjects = new OBJ[] { OBJ.HATCH, OBJ.RECEIVER };
+
         public enum StyleColor
         {
             BACKGROUND, ONE_WAY_WALL, MASK, PICKUP_BORDER, PICKUP_INSIDE

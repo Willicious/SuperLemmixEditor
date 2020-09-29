@@ -625,7 +625,10 @@ namespace NLEditor
         {
             layerImages[C.Layer.Trigger].Clear();
 
-            var triggerRectangles = level.GadgetList.ConvertAll(obj => obj.TriggerRect);
+            var triggerRectangles = level.GadgetList
+                .Where(obj => !C.HideTriggerObjects.Contains(obj.ObjType))
+                .Select(obj => C.TriggerPointObjects.Contains(obj.ObjType) ? new Rectangle(obj.TriggerRect.X, obj.TriggerRect.Y, 1, 1) : obj.TriggerRect)
+                .ToList();
             layerImages[C.Layer.Trigger].DrawOnFilledRectangles(triggerRectangles, C.NLColors[C.NLColor.Trigger]);
         }
 
