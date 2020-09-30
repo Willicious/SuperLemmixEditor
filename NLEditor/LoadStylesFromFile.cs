@@ -501,24 +501,27 @@ namespace NLEditor
                                         primaryAnim.Hidden = true;
                                         break;
                                     case "NINE_SLICE_LEFT":
-                                        nineSliceSizes[0] = line.Value;
+                                        nineSliceSizes[0] = fileLine.Value;
                                         break;
                                     case "NINE_SLICE_TOP":
-                                        nineSliceSizes[1] = line.Value;
+                                        nineSliceSizes[1] = fileLine.Value;
                                         break;
                                     case "NINE_SLICE_RIGHT":
-                                        nineSliceSizes[2] = line.Value;
+                                        nineSliceSizes[2] = fileLine.Value;
                                         break;
                                     case "NINE_SLICE_BOTTOM":
-                                        nineSliceSizes[3] = line.Value;
+                                        nineSliceSizes[3] = fileLine.Value;
                                         break;
                                     case "WIDTH":
-                                        primaryAnim.Width = line.Value;
+                                        primaryAnim.Width = fileLine.Value;
                                         break;
                                     case "HEIGHT":
-                                        primaryAnim.Height = line.Value;
+                                        primaryAnim.Height = fileLine.Value;
                                         break;
                                 }
+
+                                if (objType == C.OBJ.UPDRAFT)
+                                    System.Diagnostics.Debugger.Break();
                             }
                             break;
 
@@ -556,10 +559,10 @@ namespace NLEditor
                                         newAnim.Hidden = true;
                                         break;
                                     case "WIDTH":
-                                        newAnim.Width = line.Value;
+                                        newAnim.Width = fileLine.Value;
                                         break;
                                     case "HEIGHT":
-                                        newAnim.Height = line.Value;
+                                        newAnim.Height = fileLine.Value;
                                         break;
                                     case "EDITOR_HIDE":
                                         editorHide = true;
