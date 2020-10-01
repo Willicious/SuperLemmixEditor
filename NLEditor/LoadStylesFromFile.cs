@@ -519,9 +519,6 @@ namespace NLEditor
                                         primaryAnim.Height = fileLine.Value;
                                         break;
                                 }
-
-                                if (objType == C.OBJ.UPDRAFT)
-                                    System.Diagnostics.Debugger.Break();
                             }
                             break;
 
