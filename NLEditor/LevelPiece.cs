@@ -716,7 +716,7 @@ namespace NLEditor
         }
 
         public GroupPiece(List<TerrainPiece> terPieceList, string groupName = null)
-            : base(groupName != null ? "*group:" + groupName : GetKeyFromTerPieceList(terPieceList), GetPrelimPosFromTerPieceList(terPieceList))
+            : base(groupName != null ? "default\\terrain\\" + groupName : GetKeyFromTerPieceList(terPieceList), GetPrelimPosFromTerPieceList(terPieceList))
         {
             terrainPieces = terPieceList.ConvertAll(ter => (TerrainPiece)ter.Clone()).ToList();
             terrainPieces.ForEach(ter => { ter.PosX -= this.PosX; ter.PosY -= this.PosY; });
