@@ -1463,5 +1463,20 @@ namespace NLEditor
                 timerAutosave.Start();
             }
         }
+
+        private void NLEditForm_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            if (files.Length == 1)
+                LoadNewLevel(files[0]);
+        }
+
+        private void NLEditForm_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Link;
+            else
+                e.Effect = DragDropEffects.None;
+        }
     }
 }

@@ -2413,6 +2413,7 @@
             // 
             // NLEditForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 609);
@@ -2450,6 +2451,8 @@
             this.Activated += new System.EventHandler(this.NLEditForm_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NLEditForm_FormClosing);
             this.Click += new System.EventHandler(this.NLEditForm_Click);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.NLEditForm_DragDrop);
+            this.DragOver += new System.Windows.Forms.DragEventHandler(this.NLEditForm_DragOver);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NLEditForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.NLEditForm_KeyUp);
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.NLEditForm_MouseWheel);
