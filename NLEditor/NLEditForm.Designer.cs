@@ -1946,6 +1946,7 @@
             this.num_Ski_Jumper.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Jumper.TabIndex = 37;
             this.num_Ski_Jumper.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Jumper.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             // 
             // num_Ski_Shimmier
             // 
