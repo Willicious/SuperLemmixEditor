@@ -233,14 +233,20 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Displays a file browser and loads the selected level
+        /// Displays a file browser (if path not specified) and loads the selected level
         /// </summary>
-        private void LoadNewLevel()
+        private void LoadNewLevel(string filename = null)
         {
             if (AskUserWhetherSaveLevel())
                 return;
 
-            Level level = LevelFile.LoadLevel(StyleList, Backgrounds, levelDirectory);
+            Level level;
+
+            if (filename == null)
+                level = LevelFile.LoadLevel(StyleList, Backgrounds, levelDirectory);
+            else
+                level = LevelFile.LoadLevelFromFile(filename, StyleList, Backgrounds);
+            
             if (level == null)
                 return;
 

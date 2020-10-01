@@ -41,24 +41,7 @@ namespace NLEditor
             try
             {
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string filePath = openFileDialog.FileName;
-                    if (Path.GetExtension(filePath).Equals(".nxlv"))
-                    {
-                        newLevel = LoadLevelFromFile(filePath, styleList, backgrounds);
-                        newLevel.FilePathToSave = filePath;
-                    }
-                    else
-                    {
-                        bool IsConverted = ConvertOldLevelType(filePath);
-                        if (IsConverted)
-                        {
-                            newLevel = LoadLevelFromFile(C.AppPathTempLevel, styleList, backgrounds);
-                            newLevel.FilePathToSave = Path.ChangeExtension(filePath, ".nxlv");
-                        }
-                    }
-
-                }
+                    newLevel = LoadLevelFromFile(openFileDialog.FileName, styleList, backgrounds);
             }
             catch (Exception Ex)
             {
@@ -74,7 +57,38 @@ namespace NLEditor
             return newLevel;
         }
 
-        static private Level LoadLevelFromFile(string filePath, List<Style> styleList, BackgroundList backgrounds)
+        static public Level LoadLevelFromFile(string filePath, List<Style> styleList, BackgroundList backgrounds)
+        {
+            Level newLevel = null;
+
+            try
+            {              
+                if (Path.GetExtension(filePath).Equals(".nxlv"))
+                {
+                    newLevel = DoLoadLevelFromFile(filePath, styleList, backgrounds);
+                    newLevel.FilePathToSave = filePath;
+                }
+                else
+                {
+                    bool IsConverted = ConvertOldLevelType(filePath);
+                    if (IsConverted)
+                    {
+                        newLevel = DoLoadLevelFromFile(C.AppPathTempLevel, styleList, backgrounds);
+                        newLevel.FilePathToSave = Path.ChangeExtension(filePath, ".nxlv");
+                    }
+                }
+            }
+            catch (Exception Ex)
+            {
+                Utility.LogException(Ex);
+                MessageBox.Show("Error while loading the level." + C.NewLine + Ex.Message, "Level load error");
+                return newLevel;
+            }
+
+            return newLevel;
+        }
+
+        static private Level DoLoadLevelFromFile(string filePath, List<Style> styleList, BackgroundList backgrounds)
         {
             Level newLevel = new Level();
             NLTextDataNode file = NLTextParser.LoadFile(filePath);

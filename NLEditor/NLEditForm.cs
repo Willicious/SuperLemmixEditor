@@ -127,6 +127,11 @@ namespace NLEditor
                 ClientSize = curSettings.FormSize;
 
             SetAutosaveTimer();
+
+            var args = Environment.GetCommandLineArgs();
+
+            if (args.Length >= 2)
+                LoadNewLevel(args[1]);
         }
 
         Dictionary<C.Skill, CheckBox> checkboxesSkillFlags;
