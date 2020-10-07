@@ -357,12 +357,12 @@ namespace NLEditor
 
         private void groupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //GroupSelectedPieces();
+            GroupSelectedPieces();
         }
 
         private void ungroupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //UngroupSelectedPieces();
+            UngroupSelectedPieces();
         }
 
         private void playLevelToolStripMenuItem_Click(object sender, EventArgs e)
