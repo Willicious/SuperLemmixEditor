@@ -24,6 +24,8 @@ namespace NLEditor
             ApplyOptionLvlPropertiesTabs();
             // UsePieceSelectionNames is automatically updated when calling LoadPiecesIntoPictureBox(), so this doesn't need to be done here.
             pic_Level.Image = curRenderer.CombineLayers();
+
+            snapToGridToolStripMenuItem.Checked = curSettings.UseGridForPieces;
         }
 
         /// <summary>
@@ -1085,6 +1087,7 @@ namespace NLEditor
         private void SwitchGridUsage()
         {
             curSettings.SwitchGridUsage();
+            snapToGridToolStripMenuItem.Checked = curSettings.UseGridForPieces;
         }
 
         private const string INVALID_AUTOSAVE_NAME_CHARS = "<>:\"/\\|?*.";

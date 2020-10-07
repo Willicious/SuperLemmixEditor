@@ -320,6 +320,11 @@ namespace NLEditor
             pic_Level.SetImage(curRenderer.CombineLayers());
         }
 
+        private void snapToGridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SwitchGridUsage();
+        }
+
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UndoLastChange();
