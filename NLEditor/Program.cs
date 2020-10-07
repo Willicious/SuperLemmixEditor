@@ -6,9 +6,6 @@
  * see: https://creativecommons.org/licenses/by-nc/4.0/legalcode                 
  *----------------------------------------------------------------*/
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace NLEditor

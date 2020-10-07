@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.Text;
 
 namespace NLEditor
 {
@@ -1364,7 +1363,7 @@ namespace NLEditor
         {
             int talIndex = lbTalismans.SelectedIndex;
 
-            if ((talIndex >= 0) && (talIndex < CurLevel.Talismans.Count-1))
+            if ((talIndex >= 0) && (talIndex < CurLevel.Talismans.Count - 1))
             {
                 Talisman tal = CurLevel.Talismans[talIndex];
                 CurLevel.Talismans.Remove(tal);

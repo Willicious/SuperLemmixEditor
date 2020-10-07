@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 
 namespace NLEditor
 {
@@ -727,7 +727,7 @@ namespace NLEditor
             using (Renderer groupRenderer = new Renderer())
             {
                 bool oldClearPhysics = DisplaySettings.IsDisplayed(C.DisplayType.ClearPhysics);
-                
+
                 if (oldClearPhysics)
                     DisplaySettings.ChangeDisplayed(C.DisplayType.ClearPhysics);
 

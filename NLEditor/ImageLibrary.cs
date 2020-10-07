@@ -97,7 +97,7 @@ namespace NLEditor
         {
             List<Bitmap> imageFrames = new List<Bitmap>();
 
-                int newWidth = newBitmap.Width;
+            int newWidth = newBitmap.Width;
             int newHeight = newBitmap.Height;
             numFrames = Math.Max(numFrames, 1);
 

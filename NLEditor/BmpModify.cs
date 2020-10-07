@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace NLEditor
 {
@@ -354,10 +354,10 @@ namespace NLEditor
 
                 Parallel.For(0, drawRect.Height, y =>
                 {
-            // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-            byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
-            // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-            byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
+                    // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                    byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
+                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                    byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
 
                     for (int x = 0; x < drawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
                     {
@@ -406,10 +406,10 @@ namespace NLEditor
                 // Copy the pixels
                 Parallel.For(0, drawRect.Height, y =>
                 {
-            // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-            byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
-            // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-            byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
+                    // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                    byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
+                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                    byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
 
                     for (int x = 0; x < drawRect.Width; x++)
                     {
@@ -465,11 +465,11 @@ namespace NLEditor
 
                 Parallel.For(0, drawRect.Height, y =>
                 {
-            // We start CurOrigLine and CurMaskLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-            byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
+                    // We start CurOrigLine and CurMaskLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                    byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
                     byte* curMaskLine = ptrMaskFirstPixel + ((y + drawRect.Top) * maskBmpData.Stride) + drawRect.Left * BytesPerPixel;
-            // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-            byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
+                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                    byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
 
                     for (int x = 0; x < drawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
                     {
@@ -530,11 +530,11 @@ namespace NLEditor
 
                 Parallel.For(0, drawRect.Height, y =>
                 {
-            // We start CurOrigLine and CurMaskLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-            byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
+                    // We start CurOrigLine and CurMaskLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                    byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
                     byte* curMaskLine = ptrMaskFirstPixel + ((y + drawRect.Top) * maskBmpData.Stride) + drawRect.Left * BytesPerPixel;
-            // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-            byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
+                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                    byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
 
                     for (int x = 0; x < drawRect.Width; x++)
                     {
@@ -597,10 +597,10 @@ namespace NLEditor
 
                 Parallel.For(0, drawRect.Height, y =>
                 {
-            // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-            byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
-            // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-            byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
+                    // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                    byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
+                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                    byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
 
                     for (int x = 0; x < drawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
                     {
@@ -644,8 +644,8 @@ namespace NLEditor
                 // Copy the pixels
                 Parallel.For(0, origBmpRect.Height, y =>
                 {
-            // We start curOrigLine and curNewLine at pixel (0, y)
-            byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
+                    // We start curOrigLine and curNewLine at pixel (0, y)
+                    byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
                     byte* curNewLine = ptrNewFirstPixel + y * newBmpData.Stride;
 
                     for (int x = 0; x < origBmpRect.Width; x++)
@@ -694,8 +694,8 @@ namespace NLEditor
                 // Copy the pixels
                 Parallel.For(0, origBmpRect.Height, y =>
                 {
-            // We start curOrigLine and curNewLine at pixel (0, y)
-            byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
+                    // We start curOrigLine and curNewLine at pixel (0, y)
+                    byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
                     byte* curNewLine = ptrNewFirstPixel + y * newBmpData.Stride;
 
                     for (int x = 0; x < origBmpRect.Width; x++)

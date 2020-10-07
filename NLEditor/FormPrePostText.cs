@@ -23,10 +23,10 @@ namespace NLEditor
         private void SetControlData()
         {
             this.Text = "Edit " + (isPreText ? "preview" : "postview") + " text";
-            lblPTextTitle.Text = "Edit " + (isPreText ? "preview" : "postview") 
+            lblPTextTitle.Text = "Edit " + (isPreText ? "preview" : "postview")
                                + " text for level " + curLevel.Title;
-            txtPrePostText.Text = isPreText ? string.Join(C.NewLine, curLevel.PreviewText) 
-                                            : string.Join(C.NewLine, curLevel.PostviewText); 
+            txtPrePostText.Text = isPreText ? string.Join(C.NewLine, curLevel.PreviewText)
+                                            : string.Join(C.NewLine, curLevel.PostviewText);
         }
 
         private void butPTextOK_Click(object sender, EventArgs e)
@@ -45,8 +45,10 @@ namespace NLEditor
         {
             if (doSaveOnClosing)
             {
-                if (isPreText) curLevel.PreviewText = txtPrePostText.Text.SplitAtNewLine();
-                else curLevel.PostviewText = txtPrePostText.Text.SplitAtNewLine();
+                if (isPreText)
+                    curLevel.PreviewText = txtPrePostText.Text.SplitAtNewLine();
+                else
+                    curLevel.PostviewText = txtPrePostText.Text.SplitAtNewLine();
             }
         }
 

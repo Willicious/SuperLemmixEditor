@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace NLEditor
 {
@@ -73,12 +68,23 @@ namespace NLEditor
                         AliasKind kind;
                         switch (entry.Key)
                         {
-                            case "GADGET": kind = AliasKind.Gadget; break;
-                            case "TERRAIN": kind = AliasKind.Terrain; break;
-                            case "BACKGROUND": kind = AliasKind.Background; break;
-                            case "LEMMINGS": kind = AliasKind.Lemmings; break;
-                            case "STYLE": kind = AliasKind.Style; break;
-                            default: continue;
+                            case "GADGET":
+                                kind = AliasKind.Gadget;
+                                break;
+                            case "TERRAIN":
+                                kind = AliasKind.Terrain;
+                                break;
+                            case "BACKGROUND":
+                                kind = AliasKind.Background;
+                                break;
+                            case "LEMMINGS":
+                                kind = AliasKind.Lemmings;
+                                break;
+                            case "STYLE":
+                                kind = AliasKind.Style;
+                                break;
+                            default:
+                                continue;
                         }
 
                         Entries.Add(new Alias()

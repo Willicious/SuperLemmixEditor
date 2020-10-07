@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
-using System.Globalization;
 
 namespace NLEditor
 {
@@ -62,7 +61,7 @@ namespace NLEditor
             Level newLevel = null;
 
             try
-            {              
+            {
                 if (Path.GetExtension(filePath).Equals(".nxlv"))
                 {
                     newLevel = DoLoadLevelFromFile(filePath, styleList, backgrounds);
@@ -407,7 +406,7 @@ namespace NLEditor
             talisman.Title = node["TITLE"].Value;
             talisman.AwardType = Utility.ParseEnum<C.TalismanType>(node["COLOR"].Value);
             talisman.ID = node["ID"].ValueInt;
-            
+
             foreach (KeyValuePair<C.TalismanReq, string> pair in C.TalismanKeys)
             {
                 if (pair.Key == C.TalismanReq.UseOnlySkill)

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace NLEditor
 {
@@ -246,7 +246,7 @@ namespace NLEditor
                 level = LevelFile.LoadLevel(StyleList, Backgrounds, levelDirectory);
             else
                 level = LevelFile.LoadLevelFromFile(filename, StyleList, Backgrounds);
-            
+
             if (level == null)
                 return;
 
@@ -490,15 +490,24 @@ namespace NLEditor
         /// <param name="movement"></param>
         private void MoveTerrPieceSelection(int movement)
         {
-            List<string> pieceNameList; 
-            
+            List<string> pieceNameList;
+
             switch (pieceDoDisplayKind)
             {
-                case C.SelectPieceType.Objects: pieceNameList = pieceCurStyle?.ObjectKeys; break;
-                case C.SelectPieceType.Terrain: pieceNameList = pieceCurStyle?.TerrainKeys; break;
-                case C.SelectPieceType.Backgrounds: pieceNameList = pieceCurStyle?.BackgroundKeys; break;
-                case C.SelectPieceType.Sketches: pieceNameList = Style.SketchKeys; break;
-                default: throw new ArgumentException();
+                case C.SelectPieceType.Objects:
+                    pieceNameList = pieceCurStyle?.ObjectKeys;
+                    break;
+                case C.SelectPieceType.Terrain:
+                    pieceNameList = pieceCurStyle?.TerrainKeys;
+                    break;
+                case C.SelectPieceType.Backgrounds:
+                    pieceNameList = pieceCurStyle?.BackgroundKeys;
+                    break;
+                case C.SelectPieceType.Sketches:
+                    pieceNameList = Style.SketchKeys;
+                    break;
+                default:
+                    throw new ArgumentException();
             }
 
             if (pieceNameList == null || pieceNameList.Count == 0)
