@@ -105,7 +105,7 @@ namespace NLEditor
 
         public enum DragActions
         {
-            Null, SelectArea, DragPieces, DragNewPiece, MoveEditorPos, MoveStartPos
+            Null, SelectArea, MaybeDragPieces, DragPieces, DragNewPiece, MoveEditorPos, MoveStartPos
         }
 
         public enum Resize { None, Vert, Horiz, Both }

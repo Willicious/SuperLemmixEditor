@@ -90,7 +90,7 @@ namespace NLEditor
         /// <returns></returns>
         public static int RoundToMultiple(this int x, int step)
         {
-            return ((x + step / 2) / step) * step;
+            return (((x + step / 2) / step) - (x < 0 ? 1 : 0)) * step;
         }
 
         /// <summary>

@@ -233,6 +233,12 @@ namespace NLEditor
             EnsureScreenPosInLevel();
         }
 
+        public void ConfirmDrag()
+        {
+            if (MouseDragAction == C.DragActions.MaybeDragPieces)
+                MouseDragAction = C.DragActions.DragPieces;
+        }
+
         /// <summary>
         /// Sets the start position of the mouse and the screen position respectively the selection position.
         /// </summary>
@@ -251,6 +257,7 @@ namespace NLEditor
                 case C.DragActions.MoveEditorPos:
                     LevelStartPos = ScreenPos;
                     break;
+                case C.DragActions.MaybeDragPieces:
                 case C.DragActions.DragPieces:
                     LevelStartPos = level.SelectionRectangle().Location;
                     break;

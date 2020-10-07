@@ -1196,7 +1196,7 @@ namespace NLEditor
                 curRenderer.MouseCurPos = e.Location;
                 LevelSelectSinglePiece();
                 pic_Level.SetImage(curRenderer.GetScreenImage());
-                dragAction = C.DragActions.DragPieces;
+                dragAction = C.DragActions.MaybeDragPieces;
             }
             else
             {
@@ -1229,6 +1229,13 @@ namespace NLEditor
                         curRenderer.UpdateScreenPos();
                         UpdateScrollBarValues();
                         pic_Level.SetImage(curRenderer.GetScreenImage());
+                        break;
+                    }
+                case C.DragActions.MaybeDragPieces:
+                    {
+                        curRenderer.ConfirmDrag();
+                        DragSelectedPieces();
+                        pic_Level.SetImage(curRenderer.CreateLevelImage());
                         break;
                     }
                 case C.DragActions.DragPieces:
