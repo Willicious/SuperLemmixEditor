@@ -220,7 +220,7 @@ namespace NLEditor
             // Get new renderer with the standard display options
             if (curRenderer != null)
                 curRenderer.Dispose();
-            curRenderer = new Renderer(CurLevel, pic_Level);
+            curRenderer = new Renderer(CurLevel, pic_Level, curSettings);
 
             oldLevelList = new List<Level>();
             oldLevelList.Add(CurLevel.Clone());
@@ -1088,6 +1088,7 @@ namespace NLEditor
         {
             curSettings.SwitchGridUsage();
             snapToGridToolStripMenuItem.Checked = curSettings.UseGridForPieces;
+            pic_Level.SetImage(curRenderer.GetScreenImage());
         }
 
         private const string INVALID_AUTOSAVE_NAME_CHARS = "<>:\"/\\|?*.";

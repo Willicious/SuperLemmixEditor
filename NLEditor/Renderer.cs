@@ -31,8 +31,10 @@ namespace NLEditor
         /// </summary>
         /// <param name="level"></param>
         /// <param name="pic_Level"></param>
-        public Renderer(Level level, PictureBox pic_Level)
+        public Renderer(Level level, PictureBox pic_Level, Settings settings)
         {
+            curSettings = settings;
+
             this.ScreenPosX = 0;
             this.ScreenPosY = 0;
             this.ZoomFactor = 0;
@@ -48,12 +50,14 @@ namespace NLEditor
         Dictionary<C.Layer, Bitmap> layerImages;
         Bitmap baseLevelImage;
         Level level;
+        Settings curSettings;
         bool IsClearPhysics => DisplaySettings.IsDisplayed(C.DisplayType.ClearPhysics);
         bool IsTerrainLayer => DisplaySettings.IsDisplayed(C.DisplayType.Terrain);
         bool IsObjectLayer => DisplaySettings.IsDisplayed(C.DisplayType.Objects);
         bool IsTriggerLayer => DisplaySettings.IsDisplayed(C.DisplayType.Trigger);
         bool IsScreenStart => DisplaySettings.IsDisplayed(C.DisplayType.ScreenStart);
         bool IsBackgroundLayer => DisplaySettings.IsDisplayed(C.DisplayType.Background);
+        bool IsGridEnabled => curSettings.UseGridForPieces;
 
         PictureBox levelPicBox;
         int picBoxWidth => levelPicBox.Size.Width - 4;
@@ -207,9 +211,8 @@ namespace NLEditor
             Point levelPos = new Point(levelPosX, levelPosY);
             fullBmp.DrawOn(screenBmp, levelPos);
 
-            // Add selection coordinates it applicable
-            if (level.SelectionList()?.Count > 0)
-                AddSelectionCoordinates(ref fullBmp);
+            // Add selection coordinates and/or grid status applicable
+            AddCornerText(ref fullBmp);
 
             // Dispose the single screen bitmap
             croppedBmp.Dispose();
@@ -731,14 +734,20 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Adds the selection coordinates at the bottom right of the level image.
+        /// Adds the selection coordinates and/or grid status at the bottom right of the level image.
         /// </summary>
         /// <param name="levelBmp"></param>
         /// <returns></returns>
-        private void AddSelectionCoordinates(ref Bitmap fullBmp)
+        private void AddCornerText(ref Bitmap fullBmp)
         {
-            Rectangle selectRect = level.SelectionRectangle();
-            string text = selectRect.X.ToString() + "/" + selectRect.Y.ToString();
+            string text = (IsGridEnabled ? "(G) " : "");
+
+            if (level.SelectionList()?.Count > 0)
+            {
+                Rectangle selectRect = level.SelectionRectangle();
+                text = text + selectRect.X.ToString() + "/" + selectRect.Y.ToString();
+            }
+
             Point textPos = new Point(picBoxWidth + 7, picBoxHeight + 3);
 
             fullBmp.WriteText(text, textPos, C.NLColors[C.NLColor.Text], 10, ContentAlignment.BottomRight);
