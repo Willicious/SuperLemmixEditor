@@ -216,6 +216,7 @@
             this.but_PieceSketches = new System.Windows.Forms.Button();
             this.txt_Focus = new NLEditor.FocusTextBox();
             this.timerAutosave = new System.Windows.Forms.Timer(this.components);
+            this.lbl_Global_LemmingTypes = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -697,6 +698,7 @@
             // 
             // tabGlobalInfo
             // 
+            this.tabGlobalInfo.Controls.Add(this.lbl_Global_LemmingTypes);
             this.tabGlobalInfo.Controls.Add(this.but_RandomID);
             this.tabGlobalInfo.Controls.Add(this.txt_LevelID);
             this.tabGlobalInfo.Controls.Add(this.lbl_Global_ID);
@@ -740,7 +742,7 @@
             // 
             // but_RandomID
             // 
-            this.but_RandomID.Location = new System.Drawing.Point(9, 365);
+            this.but_RandomID.Location = new System.Drawing.Point(9, 384);
             this.but_RandomID.Name = "but_RandomID";
             this.but_RandomID.Size = new System.Drawing.Size(159, 23);
             this.but_RandomID.TabIndex = 34;
@@ -750,7 +752,7 @@
             // 
             // txt_LevelID
             // 
-            this.txt_LevelID.Location = new System.Drawing.Point(45, 341);
+            this.txt_LevelID.Location = new System.Drawing.Point(45, 360);
             this.txt_LevelID.MaxLength = 40;
             this.txt_LevelID.Name = "txt_LevelID";
             this.txt_LevelID.Size = new System.Drawing.Size(123, 20);
@@ -759,7 +761,7 @@
             // 
             // lbl_Global_ID
             // 
-            this.lbl_Global_ID.Location = new System.Drawing.Point(6, 346);
+            this.lbl_Global_ID.Location = new System.Drawing.Point(6, 365);
             this.lbl_Global_ID.Name = "lbl_Global_ID";
             this.lbl_Global_ID.Size = new System.Drawing.Size(46, 15);
             this.lbl_Global_ID.TabIndex = 32;
@@ -767,7 +769,7 @@
             // 
             // but_ClearBackground
             // 
-            this.but_ClearBackground.Location = new System.Drawing.Point(9, 312);
+            this.but_ClearBackground.Location = new System.Drawing.Point(9, 331);
             this.but_ClearBackground.Name = "but_ClearBackground";
             this.but_ClearBackground.Size = new System.Drawing.Size(159, 23);
             this.but_ClearBackground.TabIndex = 31;
@@ -817,7 +819,7 @@
             this.check_Lvl_InfTime.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.check_Lvl_InfTime.Checked = true;
             this.check_Lvl_InfTime.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.check_Lvl_InfTime.Location = new System.Drawing.Point(59, 289);
+            this.check_Lvl_InfTime.Location = new System.Drawing.Point(59, 308);
             this.check_Lvl_InfTime.Name = "check_Lvl_InfTime";
             this.check_Lvl_InfTime.Size = new System.Drawing.Size(83, 17);
             this.check_Lvl_InfTime.TabIndex = 24;
@@ -836,7 +838,7 @@
             // 
             // num_Lvl_TimeSec
             // 
-            this.num_Lvl_TimeSec.Location = new System.Drawing.Point(121, 263);
+            this.num_Lvl_TimeSec.Location = new System.Drawing.Point(121, 282);
             this.num_Lvl_TimeSec.Maximum = new decimal(new int[] {
             59,
             0,
@@ -850,7 +852,7 @@
             // 
             // num_Lvl_TimeMin
             // 
-            this.num_Lvl_TimeMin.Location = new System.Drawing.Point(70, 263);
+            this.num_Lvl_TimeMin.Location = new System.Drawing.Point(70, 282);
             this.num_Lvl_TimeMin.Maximum = new decimal(new int[] {
             99,
             0,
@@ -864,7 +866,7 @@
             // 
             // lbl_Global_TimeLimit
             // 
-            this.lbl_Global_TimeLimit.Location = new System.Drawing.Point(6, 265);
+            this.lbl_Global_TimeLimit.Location = new System.Drawing.Point(6, 284);
             this.lbl_Global_TimeLimit.Name = "lbl_Global_TimeLimit";
             this.lbl_Global_TimeLimit.Size = new System.Drawing.Size(56, 15);
             this.lbl_Global_TimeLimit.TabIndex = 21;
@@ -874,7 +876,7 @@
             // 
             this.check_Lvl_LockSR.AutoSize = true;
             this.check_Lvl_LockSR.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Lvl_LockSR.Location = new System.Drawing.Point(24, 240);
+            this.check_Lvl_LockSR.Location = new System.Drawing.Point(24, 259);
             this.check_Lvl_LockSR.Name = "check_Lvl_LockSR";
             this.check_Lvl_LockSR.Size = new System.Drawing.Size(112, 17);
             this.check_Lvl_LockSR.TabIndex = 20;
@@ -884,7 +886,7 @@
             // 
             // num_Lvl_SR
             // 
-            this.num_Lvl_SR.Location = new System.Drawing.Point(95, 214);
+            this.num_Lvl_SR.Location = new System.Drawing.Point(95, 233);
             this.num_Lvl_SR.Maximum = new decimal(new int[] {
             99,
             0,
@@ -908,7 +910,7 @@
             // 
             // lbl_Global_SR
             // 
-            this.lbl_Global_SR.Location = new System.Drawing.Point(6, 216);
+            this.lbl_Global_SR.Location = new System.Drawing.Point(6, 235);
             this.lbl_Global_SR.Name = "lbl_Global_SR";
             this.lbl_Global_SR.Size = new System.Drawing.Size(81, 15);
             this.lbl_Global_SR.TabIndex = 18;
@@ -916,7 +918,7 @@
             // 
             // num_Lvl_Rescue
             // 
-            this.num_Lvl_Rescue.Location = new System.Drawing.Point(95, 188);
+            this.num_Lvl_Rescue.Location = new System.Drawing.Point(95, 207);
             this.num_Lvl_Rescue.Maximum = new decimal(new int[] {
             500,
             0,
@@ -940,7 +942,7 @@
             // 
             // lbl_Global_Rescue
             // 
-            this.lbl_Global_Rescue.Location = new System.Drawing.Point(6, 190);
+            this.lbl_Global_Rescue.Location = new System.Drawing.Point(6, 209);
             this.lbl_Global_Rescue.Name = "lbl_Global_Rescue";
             this.lbl_Global_Rescue.Size = new System.Drawing.Size(56, 15);
             this.lbl_Global_Rescue.TabIndex = 16;
@@ -2411,6 +2413,16 @@
             this.timerAutosave.Interval = 60000;
             this.timerAutosave.Tick += new System.EventHandler(this.timerAutosave_Tick);
             // 
+            // lbl_Global_LemmingTypes
+            // 
+            this.lbl_Global_LemmingTypes.AutoSize = true;
+            this.lbl_Global_LemmingTypes.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Global_LemmingTypes.Location = new System.Drawing.Point(21, 186);
+            this.lbl_Global_LemmingTypes.Name = "lbl_Global_LemmingTypes";
+            this.lbl_Global_LemmingTypes.Size = new System.Drawing.Size(127, 12);
+            this.lbl_Global_LemmingTypes.TabIndex = 35;
+            this.lbl_Global_LemmingTypes.Text = "0 Normal, 0 Zombie, 0 Neutral";
+            // 
             // NLEditForm
             // 
             this.AllowDrop = true;
@@ -2700,6 +2712,7 @@
         private System.Windows.Forms.Button but_PieceSketches;
         private System.Windows.Forms.ToolStripMenuItem pasteInPlaceToolStripMenuItem;
         private System.Windows.Forms.Timer timerAutosave;
+        private System.Windows.Forms.Label lbl_Global_LemmingTypes;
     }
 }
 

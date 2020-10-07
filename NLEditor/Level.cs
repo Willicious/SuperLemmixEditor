@@ -848,5 +848,59 @@ namespace NLEditor
                 talisman.ID = i;
             }
         }
+
+        public void GetLemmingTypeCounts(out int normalCount, out int zombieCount, out int neutralCount)
+        {
+            var hatches = GadgetList.Where(gad => gad.ObjType == C.OBJ.HATCH).ToList();
+            var hatchRemain = new int[hatches.Count];
+
+            int preplacedLemmingCount = GadgetList.Where(gad => gad.ObjType == C.OBJ.LEMMING).Count();
+            int fixedLemmingCount = preplacedLemmingCount;
+
+            zombieCount = GadgetList.Where(gad => gad.ObjType == C.OBJ.LEMMING && gad.IsZombie).Count();
+            neutralCount = GadgetList.Where(gad => gad.ObjType == C.OBJ.LEMMING && gad.IsNeutral).Count();
+            normalCount = preplacedLemmingCount - zombieCount - neutralCount;
+
+            for (int i = 0; i < hatches.Count; i++)
+            {
+                hatchRemain[i] = hatches[i].LemmingCap > 0 ? hatches[i].LemmingCap : -1;
+                fixedLemmingCount += hatches[i].LemmingCap;
+            }
+
+            int totalLemmingCount;
+
+            if (GadgetList.FirstOrDefault(gad => gad.ObjType == C.OBJ.HATCH && gad.LemmingCap == 0) == null)
+                totalLemmingCount = fixedLemmingCount;
+            else
+                totalLemmingCount = Math.Max(NumLems, fixedLemmingCount);
+
+            int n = -1;
+            for (int i = 0; i < totalLemmingCount - preplacedLemmingCount; i++)
+            {
+                int startN = n;
+
+                do
+                {
+                    n++;
+                    if (n == hatches.Count)
+                        n = 0;
+
+                    if (n == startN && hatchRemain[n] == 0)
+                        throw new Exception("Infinite loop in GetLemmingTypeCounts.");
+                } while (hatchRemain[n] == 0);
+
+                var hatch = hatches[n];
+
+                if (hatch.IsZombie)
+                    zombieCount++;
+                else if (hatch.IsNeutral)
+                    neutralCount++;
+                else
+                    normalCount++;
+
+                if (hatchRemain[n] > 0)
+                    hatchRemain[n]--;
+            }
+        }
     }
 }

@@ -834,6 +834,21 @@ namespace NLEditor
             oldLevelList = oldLevelList.GetRange(0, curOldLevelIndex + 1);
             oldLevelList.Add(CurLevel.Clone());
             curOldLevelIndex = oldLevelList.Count - 1;
+
+            UpdateSpecialLemmingCounter(); // KLUDGE: Could put this somewhere better.
+        }
+
+        private void UpdateSpecialLemmingCounter()
+        {
+            CurLevel.GetLemmingTypeCounts(out int normalCount, out int zombieCount, out int neutralCount);
+            string newText =
+                normalCount.ToString() + " Normal";
+            if (zombieCount > 0)
+                newText += ", " + zombieCount.ToString() + " Zombie";
+            if (neutralCount > 0)
+                newText += ", " + neutralCount.ToString() + " Neutral";
+
+            lbl_Global_LemmingTypes.Text = newText;
         }
 
         /// <summary>
