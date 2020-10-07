@@ -26,6 +26,8 @@ namespace NLEditor
             pic_Level.Image = curRenderer.CombineLayers();
 
             snapToGridToolStripMenuItem.Checked = curSettings.UseGridForPieces;
+
+            NLEditForm_Resize(this, null);
         }
 
         /// <summary>

@@ -626,6 +626,24 @@ namespace NLEditor
             pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 
+        private void cb_Background_Direction_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int newDir = cb_Background_Direction.SelectedIndex * 45 / 2;
+            CurLevel.SelectionList()
+                .FindAll(item => item.ObjType == C.OBJ.BACKGROUND)
+                .ForEach(obj => (obj as GadgetPiece).BackgroundAngle = newDir);
+            SaveChangesToOldLevelList();
+        }
+
+        private void num_Background_Speed_ValueChanged(object sender, EventArgs e)
+        {
+            int newSpeed = (int)num_Background_Speed.Value;
+            CurLevel.SelectionList()
+                .FindAll(item => item.ObjType == C.OBJ.BACKGROUND)
+                .ForEach(obj => (obj as GadgetPiece).BackgroundSpeed = newSpeed);
+            SaveChangesToOldLevelList();
+        }
+
         private void but_PairTeleporter_Click(object sender, EventArgs e)
         {
             PairTeleporters();

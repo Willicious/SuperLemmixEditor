@@ -240,6 +240,28 @@ namespace NLEditor
                 num_Resize_Height.Visible = false;
             }
 
+            if (selectionList.Count > 0 && selectionList.All(item => item.ObjType == C.OBJ.BACKGROUND))
+            {
+                var gadget = selectionList[0] as GadgetPiece;
+                int dirIndex = gadget.BackgroundAngle * 2 / 45;
+                int speed = gadget.BackgroundSpeed;
+
+                lbl_Background_Direction.Visible = true;
+                lbl_Background_Speed.Visible = true;
+                cb_Background_Direction.Visible = true;
+                num_Background_Speed.Visible = true;
+
+                cb_Background_Direction.SelectedIndex = dirIndex;
+                num_Background_Speed.Value = speed;
+            }
+            else
+            {
+                lbl_Background_Direction.Visible = false;
+                lbl_Background_Speed.Visible = false;
+                cb_Background_Direction.Visible = false;
+                num_Background_Speed.Visible = false;
+            }
+
             if (selectionList.Count == 1 && selectionList[0] is GadgetPiece)
             {
                 GadgetPiece gadget = (GadgetPiece)selectionList[0];
