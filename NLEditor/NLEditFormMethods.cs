@@ -235,6 +235,8 @@ namespace NLEditor
             UpdateFlagsForPieceActions();
             RepositionPicLevel();
             pic_Level.Image = curRenderer.CreateLevelImage();
+
+            UpdateSpecialLemmingCounter();
         }
 
         /// <summary>
@@ -272,6 +274,8 @@ namespace NLEditor
             pic_Level.Image = curRenderer.CreateLevelImage();
 
             combo_PieceStyle.Text = CurLevel.MainStyle?.NameInEditor;
+
+            UpdateSpecialLemmingCounter();
         }
 
         /// <summary>
