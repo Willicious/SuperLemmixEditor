@@ -858,7 +858,7 @@ namespace NLEditor
             int fixedLemmingCount = preplacedLemmingCount;
 
             zombieCount = GadgetList.Where(gad => gad.ObjType == C.OBJ.LEMMING && gad.IsZombie).Count();
-            neutralCount = GadgetList.Where(gad => gad.ObjType == C.OBJ.LEMMING && gad.IsNeutral).Count();
+            neutralCount = GadgetList.Where(gad => gad.ObjType == C.OBJ.LEMMING && gad.IsNeutral && !gad.IsZombie).Count();
             normalCount = preplacedLemmingCount - zombieCount - neutralCount;
 
             for (int i = 0; i < hatches.Count; i++)
