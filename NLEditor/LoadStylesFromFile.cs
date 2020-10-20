@@ -302,9 +302,6 @@ namespace NLEditor
                     FileLine line = fileLineList[0];
                     switch (line.Key)
                     {
-                        case "FRAMES":
-                            primaryAnim.Frames = line.Value;
-                            break;
                         case "TRIGGER_X":
                             triggerRect.X = line.Value;
                             break;
@@ -317,12 +314,6 @@ namespace NLEditor
                         case "TRIGGER_HEIGHT":
                             triggerRect.Height = line.Value;
                             break;
-                        case "HORIZONTAL_STRIP":
-                            primaryAnim.HorizontalStrip = true;
-                            break;
-                        case "INITIAL_FRAME":
-                            primaryAnim.Frame = line.Value;
-                            break;
                         case "RESIZE_VERTICAL":
                             resizeMode = resizeMode.In(C.Resize.Horiz, C.Resize.Both) ? C.Resize.Both : C.Resize.Vert;
                             break;
@@ -332,81 +323,12 @@ namespace NLEditor
                         case "RESIZE_BOTH":
                             resizeMode = C.Resize.Both;
                             break;
-                        case "NINE_SLICE_LEFT":
-                            nineSliceSizes[0] = line.Value;
-                            break;
-                        case "NINE_SLICE_TOP":
-                            nineSliceSizes[1] = line.Value;
-                            break;
-                        case "NINE_SLICE_RIGHT":
-                            nineSliceSizes[2] = line.Value;
-                            break;
-                        case "NINE_SLICE_BOTTOM":
-                            nineSliceSizes[3] = line.Value;
-                            break;
                         case "DEPRECATED":
                             isDeprecated = true;
                             break;
                         case "EDITOR_CROP":
                             if (bool.TryParse(line.Text, out bool localCrop))
                                 cropOverride = localCrop;
-                            break;
-                        case "WINDOW":
-                            objType = C.OBJ.HATCH;
-                            break;
-                        case "EXIT":
-                            objType = C.OBJ.EXIT;
-                            break;
-                        case "TRAP":
-                            objType = C.OBJ.TRAP;
-                            break;
-                        case "SINGLE_USE_TRAP":
-                            objType = C.OBJ.TRAPONCE;
-                            break;
-                        case "WATER":
-                            objType = C.OBJ.WATER;
-                            break;
-                        case "FIRE":
-                            objType = C.OBJ.FIRE;
-                            break;
-                        case "ONE_WAY_RIGHT":
-                        case "ONE_WAY_LEFT":
-                        case "ONE_WAY_DOWN":
-                        case "ONE_WAY_UP":
-                            objType = C.OBJ.ONE_WAY_WALL;
-                            break;
-                        case "BUTTON":
-                            objType = C.OBJ.BUTTON;
-                            break;
-                        case "LOCKED_EXIT":
-                            objType = C.OBJ.EXIT_LOCKED;
-                            break;
-                        case "PICKUP_SKILL":
-                            objType = C.OBJ.PICKUP;
-                            break;
-                        case "TELEPORTER":
-                            objType = C.OBJ.TELEPORTER;
-                            break;
-                        case "RECEIVER":
-                            objType = C.OBJ.RECEIVER;
-                            break;
-                        case "SPLITTER":
-                            objType = C.OBJ.SPLITTER;
-                            break;
-                        case "UPDRAFT":
-                            objType = C.OBJ.UPDRAFT;
-                            break;
-                        case "ANTISPLATPAD":
-                        case "SPLATPAD":
-                            objType = C.OBJ.SPLAT;
-                            break;
-                        case "FORCE_RIGHT":
-                        case "FORCE_LEFT":
-                            objType = C.OBJ.FORCE_FIELD;
-                            break;
-                        case "BACKGROUND":
-                        case "MOVING_BACKGROUND":
-                            objType = C.OBJ.BACKGROUND;
                             break;
 
                         case "EFFECT":
