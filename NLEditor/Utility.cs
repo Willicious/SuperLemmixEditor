@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -90,7 +91,22 @@ namespace NLEditor
         /// <returns></returns>
         public static int RoundToMultiple(this int x, int step)
         {
-            return (((x + step / 2) / step) - (x < 0 ? 1 : 0)) * step;
+            if (x == 0)
+                return 0;
+
+            int extra;
+
+            if (x > 0)
+                extra = x % step;
+            else
+                extra = (step - (Math.Abs(x) % step)) % step;
+
+            x -= extra;
+
+            if (extra >= step / 2.0)
+                x += step;
+
+            return x;
         }
 
         /// <summary>
