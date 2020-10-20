@@ -27,7 +27,8 @@ namespace NLEditor
 
             snapToGridToolStripMenuItem.Checked = curSettings.UseGridForPieces;
 
-            NLEditForm_Resize(this, null);
+            MoveControlsOnFormResize();
+            ResetLevelImage();
         }
 
         /// <summary>

@@ -215,9 +215,14 @@ namespace NLEditor
                 return;
 
             MoveControlsOnFormResize();
+            ResetLevelImage();
+            curSettings.SetFormSize();
+        }
+
+        private void ResetLevelImage()
+        {
             curRenderer.EnsureScreenPosInLevel();
             pic_Level.SetImage(curRenderer.CreateLevelImage());
-            curSettings.SetFormSize();
         }
 
         private void NLEditForm_Activated(object sender, EventArgs e)
