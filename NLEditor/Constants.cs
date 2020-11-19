@@ -124,11 +124,12 @@ namespace NLEditor
         {
             Neutral = -1, Zombie = 0,
             Walker = 1, Jumper = 3, Shimmier = 5,
-            Climber = 7, Swimmer = 9, Floater = 11, Glider = 13, Disarmer = 15,
-            Bomber = 17, Stoner = 19, Blocker = 21,
-            Platformer = 23, Builder = 25, Stacker = 27,
-            Basher = 29, Fencer = 31, Miner = 33, Digger = 35,
-            Cloner = 37
+            Slider = 7, Climber = 9, Swimmer = 11, Floater = 13, Glider = 15, Disarmer = 17,
+            Bomber = 19, Stoner = 21, Blocker = 23,
+            Platformer = 25, Builder = 27, Stacker = 29,
+            Spearer = 31, Grenader = 33, Laserer = 35,
+            Basher = 37, Fencer = 39, Miner = 41, Digger = 43,
+            Cloner = 45
         };
         public static Array SkillArray => Enum.GetValues(typeof(C.Skill));
 
@@ -161,9 +162,10 @@ namespace NLEditor
         public enum TalismanReq
         {
             SaveReq, TimeLimit, SkillTotal,
-            SkillWalker, SkillJumper, SkillShimmier, SkillClimber, SkillSwimmer, SkillFloater, SkillGlider,
+            SkillWalker, SkillJumper, SkillShimmier, SkillSlider, SkillClimber, SkillSwimmer, SkillFloater, SkillGlider,
             SkillDisarmer, SkillBomber, SkillStoner, SkillBlocker,
             SkillBuilder, SkillPlatformer, SkillStacker,
+            SkillSpearer, SkillGrenader, SkillLaserer,
             SkillBasher, SkillFencer, SkillMiner, SkillDigger, SkillCloner,
             SkillEachLimit, UseOnlySkill
         }
@@ -173,9 +175,10 @@ namespace NLEditor
 
         public static readonly List<string> TalismanSkills = new List<string>()
         {
-            "Walker", "Jumper", "Shimmier", "Climber", "Swimmer", "Floater", "Glider",
+            "Walker", "Jumper", "Shimmier", "Slider", "Climber", "Swimmer", "Floater", "Glider",
             "Disarmer", "Bomber", "Stoner", "Blocker",
             "Builder", "Platformer", "Stacker",
+            "Spearer", "Grenader", "Laserer",
             "Basher", "Fencer", "Miner", "Digger", "Cloner"
         };
 
@@ -187,6 +190,7 @@ namespace NLEditor
             { TalismanReq.SkillWalker, "Limit Walkers" },
             { TalismanReq.SkillJumper, "Limit Jumpers" },
             { TalismanReq.SkillShimmier, "Limit Shimmiers" },
+            { TalismanReq.SkillSlider, "Limit Sliders" },
             { TalismanReq.SkillClimber, "Limit Climbers" },
             { TalismanReq.SkillSwimmer, "Limit Swimmers" },
             { TalismanReq.SkillFloater, "Limit Floaters" },
@@ -198,6 +202,9 @@ namespace NLEditor
             { TalismanReq.SkillBuilder, "Limit Builders" },
             { TalismanReq.SkillPlatformer, "Limit Platformers" },
             { TalismanReq.SkillStacker, "Limit Stackers" },
+            { TalismanReq.SkillSpearer, "Limit Spearers" },
+            { TalismanReq.SkillGrenader, "Limit Grenaders" },
+            { TalismanReq.SkillLaserer, "Limit Laserers" },
             { TalismanReq.SkillBasher, "Limit Bashers" },
             { TalismanReq.SkillFencer, "Limit Fencers" },
             { TalismanReq.SkillMiner, "Limit Miners" },
@@ -215,12 +222,17 @@ namespace NLEditor
       { TalismanReq.SaveReq, "SAVE_REQUIREMENT" }, { TalismanReq.TimeLimit, "TIME_LIMIT" },
       { TalismanReq.SkillTotal, "SKILL_LIMIT" }, { TalismanReq.SkillWalker, "WALKER_LIMIT" },
       { TalismanReq.SkillJumper, "JUMPER_LIMIT" }, { TalismanReq.SkillShimmier, "SHIMMIER_LIMIT" },
+      { TalismanReq.SkillSlider, "SLIDER_LIMIT" },
       { TalismanReq.SkillClimber, "CLIMBER_LIMIT"}, { TalismanReq.SkillSwimmer, "SWIMMER_LIMIT"},
       { TalismanReq.SkillFloater, "FLOATER_LIMIT" }, { TalismanReq.SkillGlider, "GLIDER_LIMIT" },
       { TalismanReq.SkillDisarmer, "DISARMER_LIMIT" }, { TalismanReq.SkillBomber, "BOMBER_LIMIT" },
       { TalismanReq.SkillStoner, "STONER_LIMIT" }, { TalismanReq.SkillBlocker, "BLOCKER_LIMIT"},
       { TalismanReq.SkillBuilder, "BUILDER_LIMIT" }, { TalismanReq.SkillPlatformer, "PLATFORMER_LIMIT" },
-      { TalismanReq.SkillStacker, "STACKER_LIMIT" }, { TalismanReq.SkillBasher, "BASHER_LIMIT" },
+      { TalismanReq.SkillStacker, "STACKER_LIMIT" },
+      { TalismanReq.SkillSpearer, "SPEARER_LIMIT" },
+      { TalismanReq.SkillGrenader, "GRENADER_LIMIT" },
+      { TalismanReq.SkillLaserer, "LASERER_LIMIT" },
+      { TalismanReq.SkillBasher, "BASHER_LIMIT" },
       { TalismanReq.SkillMiner, "MINER_LIMIT" }, { TalismanReq.SkillDigger, "DIGGER_LIMIT" },
       { TalismanReq.SkillFencer, "FENCER_LIMIT" }, { TalismanReq.SkillCloner, "CLONER_LIMIT" },
       { TalismanReq.SkillEachLimit, "SKILL_EACH_LIMIT" }, { TalismanReq.UseOnlySkill, "USE_ONLY_SKILL" }
@@ -397,7 +409,7 @@ namespace NLEditor
 
         public static readonly List<string> VersionList = new List<string>
     {
-      "Version " + Version,
+      "EXPERIMENTAL Version " + Version,
       "   by Stephan Neupert (Nepster), updates by Namida Verasche (namida)",
       "",
       "Thanks to...",
