@@ -28,27 +28,33 @@ namespace NLEditor
             if (string.IsNullOrEmpty(input))
                 return "";
 
-            LoadStyleAliases(input.Split(':')[0]);
-
-            foreach (var thisAlias in Entries.Where(ent => ent.Kind == AliasKind.Style))
+            string lastInput;
+            do
             {
-                if (thisAlias.From == input.Split(':')[0])
+                lastInput = input;
+
+                LoadStyleAliases(input.Split(':')[0]);
+
+                foreach (var thisAlias in Entries.Where(ent => ent.Kind == AliasKind.Style))
                 {
-                    string[] splitInput = input.Split(':');
+                    if (thisAlias.From == input.Split(':')[0])
+                    {
+                        string[] splitInput = input.Split(':');
 
-                    if (splitInput.Length == 1)
-                        input = thisAlias.To;
-                    else
-                        input = thisAlias.To + ":" + splitInput[1];
+                        if (splitInput.Length == 1)
+                            input = thisAlias.To;
+                        else
+                            input = thisAlias.To + ":" + splitInput[1];
+                    }
                 }
-            }
 
-            if (kind != AliasKind.Style)
-            {
-                foreach (var thisAlias in Entries.Where(ent => ent.Kind == kind))
-                    if (thisAlias.From == input)
-                        input = thisAlias.To;
-            }
+                if (kind != AliasKind.Style)
+                {
+                    foreach (var thisAlias in Entries.Where(ent => ent.Kind == kind))
+                        if (thisAlias.From == input)
+                            input = thisAlias.To;
+                }
+            } while (input != lastInput);
 
             return input;
         }
@@ -87,12 +93,20 @@ namespace NLEditor
                                 continue;
                         }
 
-                        Entries.Add(new Alias()
+                        Alias newAlias = new Alias()
                         {
                             From = entry["FROM"].Value,
                             To = entry["TO"].Value,
                             Kind = kind
-                        });
+                        };
+
+                        if (newAlias.From[0] == ':')
+                            newAlias.From = style + newAlias.From;
+
+                        if (newAlias.To[0] == ':')
+                            newAlias.To = style + newAlias.To;
+
+                        Entries.Add(newAlias);
                     }
                 }
             }
