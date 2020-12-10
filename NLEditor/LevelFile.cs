@@ -95,6 +95,7 @@ namespace NLEditor
             newLevel.Title = file["TITLE"].Value;
             newLevel.Author = file["AUTHOR"].Value;
             newLevel.LevelID = file["ID"].ValueUInt64;
+            newLevel.LevelVersion = file["VERSION"].ValueUInt64;
 
             newLevel.MainStyle = styleList.Find(sty => sty.NameInDirectory == Aliases.Dealias(file["THEME"].Value, AliasKind.Style));
             newLevel.Background = ParseBackground(Aliases.Dealias(file["BACKGROUND"].Value, AliasKind.Background), styleList, backgrounds);
@@ -541,6 +542,7 @@ namespace NLEditor
                 textFile.WriteLine(" MUSIC " + Path.ChangeExtension(curLevel.MusicFile, null));
             }
             textFile.WriteLine(" ID x" + curLevel.LevelID.ToString("X16"));
+            textFile.WriteLine(" VERSION x" + curLevel.LevelVersion.ToString("X16"));
             textFile.WriteLine(" ");
 
             textFile.WriteLine("#       Level dimensions        ");

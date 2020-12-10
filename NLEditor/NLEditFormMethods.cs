@@ -197,6 +197,8 @@ namespace NLEditor
                 numericsSkillSet[skill].Value = CurLevel.SkillSet[skill];
             }
 
+            lbl_Global_Version.Text = "Version: " + CurLevel.LevelVersion.ToString("X16");
+
             RegenerateTalismanList();
         }
 
@@ -340,6 +342,8 @@ namespace NLEditor
             levelDirectory = System.IO.Path.GetDirectoryName(CurLevel.FilePathToSave);
             if (!isPlaytest)
                 lastSavedLevel = CurLevel.Clone();
+
+            WriteLevelInfoToForm();
         }
 
         /// <summary>
@@ -360,6 +364,8 @@ namespace NLEditor
                 SaveChangesToOldLevelList();
                 if (!isPlaytest)
                     lastSavedLevel = CurLevel.Clone();
+
+                WriteLevelInfoToForm();
             }
         }
 
