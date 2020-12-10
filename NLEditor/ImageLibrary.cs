@@ -14,9 +14,10 @@ namespace NLEditor
         /// </summary>
         /// <param name="newImage"></param>
         /// <param name="isSteel"></param>
-        public BaseImageInfo(Bitmap newImage, bool isSteel = false, bool isDeprecated = false)
-            : this(newImage, isSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, new Rectangle(0, 0, 0, 0), C.Resize.None,
-                0, 0, 0, 0, isDeprecated)
+        public BaseImageInfo(Bitmap newImage, bool isSteel = false, C.Resize resizeMode = C.Resize.None,
+            int leftMargin = 0, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0, bool isDeprecated = false)
+            : this(newImage, isSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, new Rectangle(0, 0, 0, 0), resizeMode,
+               leftMargin, topMargin, rightMargin, bottomMargin, isDeprecated)
         {
             // nothing more
         }

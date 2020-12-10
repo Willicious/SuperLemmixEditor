@@ -706,6 +706,11 @@ namespace NLEditor
         {
             bool IsSteel = false;
             bool isDeprecated = false;
+            C.Resize Resize = C.Resize.None;
+            int nineSliceLeft = 0;
+            int nineSliceTop = 0;
+            int nineSliceRight = 0;
+            int nineSliceBottom = 0;
 
             if (File.Exists(filePath + ".nxmt"))
             {
@@ -724,6 +729,27 @@ namespace NLEditor
                         {
                             case "STEEL":
                                 IsSteel = true;
+                                break;
+                            case "RESIZE_HORIZONTAL":
+                                Resize = (Resize == C.Resize.None || Resize == C.Resize.Horiz) ? C.Resize.Horiz : C.Resize.Both;
+                                break;
+                            case "RESIZE_VERTICAL":
+                                Resize = (Resize == C.Resize.None || Resize == C.Resize.Vert) ? C.Resize.Vert : C.Resize.Both;
+                                break;
+                            case "RESIZE_BOTH":
+                                Resize = C.Resize.Both;
+                                break;
+                            case "NINE_SLICE_LEFT":
+                                nineSliceLeft = line.Value;
+                                break;
+                            case "NINE_SLICE_TOP":
+                                nineSliceTop = line.Value;
+                                break;
+                            case "NINE_SLICE_RIGHT":
+                                nineSliceRight = line.Value;
+                                break;
+                            case "NINE_SLICE_BOTTOM":
+                                nineSliceBottom = line.Value;
                                 break;
                             case "DEPRECATED":
                                 isDeprecated = true;
@@ -744,7 +770,7 @@ namespace NLEditor
 
             Bitmap newBitmap = Image(filePath);
 
-            return new BaseImageInfo(newBitmap, IsSteel, isDeprecated);
+            return new BaseImageInfo(newBitmap, IsSteel, Resize, nineSliceLeft, nineSliceTop, nineSliceRight, nineSliceBottom, isDeprecated);
         }
     }
 }
