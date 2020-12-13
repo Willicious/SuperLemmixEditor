@@ -15,8 +15,17 @@ namespace NLEditor
             IsErase = false;
             IsNoOverwrite = false;
             IsOneWay = true;
-            SpecWidth = base.Width;
-            SpecHeight = base.Height;
+
+            if (this is GroupPiece)
+            {
+                SpecWidth = 0;
+                SpecHeight = 0;
+            }
+            else
+            {
+                SpecWidth = base.Width;
+                SpecHeight = base.Height;
+            }
         }
 
         public TerrainPiece(string key, Point pos, int rotation, bool isInvert, bool isErase, bool isNoOv, bool isOneWay, int specWidth, int specHeight)

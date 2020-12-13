@@ -332,6 +332,12 @@ namespace NLEditor
             int specWidth = node["WIDTH"].ValueInt;
             int specHeight = node["HEIGHT"].ValueInt;
 
+            if (doRotate)
+            {
+                // Swap width and height, to swap it again once the gadget is rotated
+                Utility.Swap(ref specWidth, ref specHeight);
+            }
+
             TerrainPiece newTerrain;
 
             if (styleName.ToUpperInvariant() == "*GROUP")
