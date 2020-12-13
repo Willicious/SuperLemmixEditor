@@ -18,8 +18,8 @@ namespace NLEditor
             IsOnlyOnTerrain = (ObjType == C.OBJ.ONE_WAY_WALL);
             Val_L = 0;
             SkillFlags = new HashSet<C.Skill>();
-            SpecWidth = base.Width;
-            SpecHeight = base.Height;
+            SpecWidth = Utility.EvaluateResizable(0, DefaultWidth, base.Width, MayResizeHoriz());
+            SpecHeight = Utility.EvaluateResizable(0, DefaultHeight, base.Height, MayResizeVert());
         }
 
         public GadgetPiece(string key, Point pos, int rotation, bool isInvert, bool isNoOverwrite,

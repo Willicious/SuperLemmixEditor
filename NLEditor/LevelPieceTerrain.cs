@@ -23,8 +23,8 @@ namespace NLEditor
             }
             else
             {
-                SpecWidth = base.Width;
-                SpecHeight = base.Height;
+                SpecWidth = Utility.EvaluateResizable(0, DefaultWidth, base.Width, MayResizeHoriz());
+                SpecHeight = Utility.EvaluateResizable(0, DefaultHeight, base.Height, MayResizeVert());
             }
         }
 
@@ -34,8 +34,8 @@ namespace NLEditor
             IsErase = isErase;
             IsNoOverwrite = isNoOv;
             IsOneWay = isOneWay;
-            SpecWidth = (specWidth >= 0) ? specWidth : base.Width;
-            SpecHeight = (specHeight >= 0) ? specHeight : base.Height;
+            SpecWidth = Utility.EvaluateResizable(specWidth, DefaultWidth, base.Width, MayResizeHoriz());
+            SpecHeight = Utility.EvaluateResizable(specHeight, DefaultHeight, base.Height, MayResizeVert());
         }
 
         public bool IsErase { get; set; }
