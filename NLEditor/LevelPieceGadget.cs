@@ -184,8 +184,8 @@ namespace NLEditor
             }
         }
 
-        public override int Width => (ResizeMode == C.Resize.None) ? base.Width : SpecWidth;
-        public override int Height => (ResizeMode == C.Resize.None) ? base.Height : SpecHeight;
+        public override int Width => (ResizeMode == C.Resize.None || ResizeMode == C.Resize.Vert) ? base.Width : SpecWidth;
+        public override int Height => (ResizeMode == C.Resize.None || ResizeMode == C.Resize.Horiz) ? base.Height : SpecHeight;
 
         /// <summary>
         /// Returns the correct frame to load the image.

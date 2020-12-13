@@ -19,7 +19,7 @@ namespace NLEditor
         }
 
         public GroupPiece(GroupPiece oldGroupPiece, Point pos, int rotation, bool isInvert, bool isErase, bool isNoOverwrite, bool isOneWay)
-            : base(oldGroupPiece.Key, pos, rotation, isInvert, isErase, isNoOverwrite, isOneWay)
+            : base(oldGroupPiece.Key, pos, rotation, isInvert, isErase, isNoOverwrite, isOneWay, 0, 0)
         {
             terrainPieces = oldGroupPiece.terrainPieces;
         }
