@@ -51,6 +51,8 @@ namespace NLEditor
 
         public virtual int Width => (Rotation % 2 == 0) ? ImageLibrary.GetWidth(Key) : ImageLibrary.GetHeight(Key);
         public virtual int Height => (Rotation % 2 == 0) ? ImageLibrary.GetHeight(Key) : ImageLibrary.GetWidth(Key);
+        public virtual int DefaultWidth => (Rotation % 2 == 0) ? ImageLibrary.GetDefaultWidth(Key) : ImageLibrary.GetDefaultHeight(Key);
+        public virtual int DefaultHeight => (Rotation % 2 == 0) ? ImageLibrary.GetDefaultHeight(Key) : ImageLibrary.GetDefaultWidth(Key);
         public string Style { get; private set; }
         public string Name { get; private set; }
         public string Key { get; private set; }

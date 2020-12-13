@@ -763,11 +763,11 @@ namespace NLEditor
 
             if (gadget.MayResizeHoriz())
             {
-                textFile.WriteLine("   WIDTH " + gadget.SpecWidth.ToString());
+                textFile.WriteLine("   WIDTH " + gadget.Width.ToString());
             }
             if (gadget.MayResizeVert())
             {
-                textFile.WriteLine("   HEIGHT " + gadget.SpecHeight.ToString());
+                textFile.WriteLine("   HEIGHT " + gadget.Height.ToString());
             }
             if (gadget.IsNoOverwrite)
             {
@@ -899,11 +899,11 @@ namespace NLEditor
             }
             if (terrain.MayResizeHoriz() && !writingSketch)
             {
-                textFile.WriteLine(prefix + "   WIDTH " + terrain.SpecWidth.ToString());
+                textFile.WriteLine(prefix + "   WIDTH " + terrain.Width.ToString());
             }
             if (terrain.MayResizeVert() && !writingSketch)
             {
-                textFile.WriteLine(prefix + "   HEIGHT " + terrain.SpecHeight.ToString());
+                textFile.WriteLine(prefix + "   HEIGHT " + terrain.Height.ToString());
             }
             textFile.WriteLine(prefix + " $END");
             textFile.WriteLine(prefix + " ");

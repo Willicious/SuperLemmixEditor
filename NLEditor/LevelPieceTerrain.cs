@@ -43,8 +43,8 @@ namespace NLEditor
         public bool IsOneWay { get; set; }
         public bool IsSteel => ObjType == C.OBJ.STEEL;
 
-        public override int Width => (ResizeMode == C.Resize.None || ResizeMode == C.Resize.Vert) ? base.Width : SpecWidth;
-        public override int Height => (ResizeMode == C.Resize.None || ResizeMode == C.Resize.Horiz) ? base.Height : SpecHeight;
+        public override int Width => Utility.EvaluateResizable(SpecWidth, DefaultWidth, base.Width, MayResizeHoriz());
+        public override int Height => Utility.EvaluateResizable(SpecHeight, DefaultHeight, base.Height, MayResizeVert());
 
         public override LevelPiece Clone()
         {
@@ -110,7 +110,7 @@ namespace NLEditor
                 {
                     return image;
                 }
-                else if (SpecWidth < 1 || SpecHeight < 1)
+                else if (Width < 1 || Height < 1)
                 {
                     return new Bitmap(1, 1); // should never happen
                 }

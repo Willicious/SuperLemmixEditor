@@ -32,8 +32,8 @@ namespace NLEditor
             IsOnlyOnTerrain = isOnlyOnTerrain;
             Val_L = valL;
             SkillFlags = new HashSet<C.Skill>(skillFlags);
-            SpecWidth = (specWidth > 0) ? specWidth : base.Width;
-            SpecHeight = (specHeight > 0) ? specHeight : base.Height;
+            SpecWidth = Utility.EvaluateResizable(specWidth, DefaultWidth, base.Width, MayResizeHoriz());
+            SpecHeight = Utility.EvaluateResizable(specHeight, DefaultHeight, base.Height, MayResizeVert());
             BackgroundAngle = bgAngle;
             BackgroundSpeed = bgSpeed;
             LemmingCap = lemmingCap;
@@ -89,16 +89,16 @@ namespace NLEditor
                 if (IsRotatedInPlayer)
                 {
                     if (ResizeMode.In(C.Resize.Both, C.Resize.Vert))
-                        trigRect.Height += SpecWidth - ImageLibrary.GetHeight(Key);
+                        trigRect.Height += Height - ImageLibrary.GetWidth(Key);
                     if (ResizeMode.In(C.Resize.Both, C.Resize.Horiz))
-                        trigRect.Width += SpecHeight - ImageLibrary.GetWidth(Key);
+                        trigRect.Width += Width - ImageLibrary.GetHeight(Key);
                 }
                 else
                 {
                     if (ResizeMode.In(C.Resize.Both, C.Resize.Horiz))
-                        trigRect.Width += SpecWidth - ImageLibrary.GetWidth(Key);
+                        trigRect.Width += Width - ImageLibrary.GetWidth(Key);
                     if (ResizeMode.In(C.Resize.Both, C.Resize.Vert))
-                        trigRect.Height += SpecHeight - ImageLibrary.GetHeight(Key);
+                        trigRect.Height += Height - ImageLibrary.GetHeight(Key);
                 }
 
                 if (ObjType != C.OBJ.ONE_WAY_WALL)
@@ -163,7 +163,7 @@ namespace NLEditor
                 {
                     return image;
                 }
-                else if (SpecWidth < 1 || SpecHeight < 1)
+                else if (Width < 1 || Height < 1)
                 {
                     return new Bitmap(1, 1); // should never happen
                 }
@@ -182,8 +182,8 @@ namespace NLEditor
             }
         }
 
-        public override int Width => (ResizeMode == C.Resize.None || ResizeMode == C.Resize.Vert) ? base.Width : SpecWidth;
-        public override int Height => (ResizeMode == C.Resize.None || ResizeMode == C.Resize.Horiz) ? base.Height : SpecHeight;
+        public override int Width => Utility.EvaluateResizable(SpecWidth, DefaultWidth, base.Width, MayResizeHoriz());
+        public override int Height => Utility.EvaluateResizable(SpecHeight, DefaultHeight, base.Height, MayResizeVert());
 
         /// <summary>
         /// Returns the correct frame to load the image.

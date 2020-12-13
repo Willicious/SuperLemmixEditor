@@ -212,10 +212,10 @@ namespace NLEditor
 
             if (selectionList.Count > 0)
             {
-                int specWidth = selectionList[0].SpecWidth;
-                int specHeight = selectionList[0].SpecHeight;
-                bool mayResizeHoriz = selectionList.All(item => item.MayResizeHoriz() && item.SpecWidth == specWidth);
-                bool mayResizeVert = selectionList.All(item => item.MayResizeVert() && item.SpecHeight == specHeight);
+                int specWidth = selectionList[0].Width;
+                int specHeight = selectionList[0].Height;
+                bool mayResizeHoriz = selectionList.All(item => item.MayResizeHoriz() && item.Width == specWidth);
+                bool mayResizeVert = selectionList.All(item => item.MayResizeVert() && item.Height == specHeight);
 
                 lbl_Resize_Width.Visible = mayResizeHoriz;
                 num_Resize_Width.Visible = mayResizeHoriz;
