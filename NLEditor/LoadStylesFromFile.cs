@@ -770,7 +770,9 @@ namespace NLEditor
 
             Bitmap newBitmap = Image(filePath);
 
-            return new BaseImageInfo(newBitmap, IsSteel, Resize, nineSliceLeft, nineSliceTop, nineSliceRight, nineSliceBottom, isDeprecated);
+            Rectangle nineSliceRect = new Rectangle(nineSliceLeft, nineSliceTop, newBitmap.Width - nineSliceLeft - nineSliceRight, newBitmap.Height - nineSliceTop - nineSliceBottom);
+
+            return new BaseImageInfo(newBitmap, IsSteel, Resize, isDeprecated, nineSliceRect);
         }
     }
 }

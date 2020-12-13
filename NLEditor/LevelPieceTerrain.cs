@@ -90,6 +90,35 @@ namespace NLEditor
                 SpecHeight = oldSpecWidth;
             }
         }
+
+        public override Bitmap Image
+        {
+            get
+            {
+                Bitmap image = base.Image;
+
+                if (ResizeMode == C.Resize.None)
+                {
+                    return image;
+                }
+                else if (SpecWidth < 1 || SpecHeight < 1)
+                {
+                    return new Bitmap(1, 1); // should never happen
+                }
+                else
+                {
+                    Rectangle? nineSliceArea = ImageLibrary.GetNineSliceArea(Key, GetRotateFlipType());
+                    if (nineSliceArea == null)
+                    {
+                        return image.PaveArea(new Rectangle(0, 0, Width, Height));
+                    }
+                    else
+                    {
+                        return image.NineSliceArea(new Rectangle(0, 0, Width, Height), nineSliceArea.Value);
+                    }
+                }
+            }
+        }
     }
 
 }
