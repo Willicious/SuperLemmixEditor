@@ -617,8 +617,7 @@ namespace NLEditor
         {
             int newWidth = (int)num_Resize_Width.Value;
             CurLevel.SelectionList()
-                    .FindAll(item => item is GadgetPiece)
-                    .ForEach(obj => (obj as GadgetPiece).SpecWidth = newWidth);
+                    .ForEach(obj => obj.SpecWidth = newWidth);
             pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 
@@ -626,8 +625,7 @@ namespace NLEditor
         {
             int newHeight = (int)num_Resize_Height.Value;
             CurLevel.SelectionList()
-                    .FindAll(item => item is GadgetPiece)
-                    .ForEach(obj => (obj as GadgetPiece).SpecHeight = newHeight);
+                    .ForEach(obj => obj.SpecHeight = newHeight);
             pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 

@@ -45,8 +45,6 @@ namespace NLEditor
         public HashSet<C.Skill> SkillFlags { get; private set; }
         public bool IsZombie => SkillFlags.Contains(C.Skill.Zombie);
         public bool IsNeutral => SkillFlags.Contains(C.Skill.Neutral);
-        public int SpecWidth { get; set; }
-        public int SpecHeight { get; set; }
         public int BackgroundAngle { get; set; }
         public int BackgroundSpeed { get; set; }
         public int LemmingCap { get; set; }

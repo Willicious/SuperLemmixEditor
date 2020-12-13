@@ -55,6 +55,9 @@ namespace NLEditor
         public string Name { get; private set; }
         public string Key { get; private set; }
 
+        public int SpecWidth { get; set; }
+        public int SpecHeight { get; set; }
+
         // RULE: FIRST ROTATE CLOCKWISE - THEN INVERT
         protected int Rotation { get; private set; }
         protected bool IsInvert { get; private set; }

@@ -29,9 +29,6 @@ namespace NLEditor
             SpecHeight = (specHeight >= 0) ? specHeight : base.Height;
         }
 
-        public int SpecWidth { get; set; }
-        public int SpecHeight { get; set; }
-
         public bool IsErase { get; set; }
         public bool IsNoOverwrite { get; set; }
         public bool IsOneWay { get; set; }
@@ -81,6 +78,18 @@ namespace NLEditor
             return false;
         }
 
+        public override void RotateInRect(Rectangle borderRect)
+        {
+            base.RotateInRect(borderRect);
+
+            if (MayRotate())
+            {
+                // Swap special height and special width;
+                int oldSpecWidth = SpecWidth;
+                SpecWidth = SpecHeight;
+                SpecHeight = oldSpecWidth;
+            }
+        }
     }
 
 }
