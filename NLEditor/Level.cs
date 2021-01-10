@@ -25,6 +25,7 @@ namespace NLEditor
             // Create a random 64bit hex number
             this.LevelID = (ulong)Utility.Random().Next() +
                            ((ulong)Utility.Random().Next() << 32);
+            this.LevelVersion = 0;
 
             this.Width = 320;
             this.Height = 160;
@@ -59,6 +60,7 @@ namespace NLEditor
         public string MusicFile { get; set; }
 
         public ulong LevelID { get; set; }
+        public ulong LevelVersion { get; set; }
         public string FilePathToSave { get; set; }
 
         public int Width { get; set; }
@@ -114,6 +116,7 @@ namespace NLEditor
             newLevel.Author = string.Copy(this.Author);
             newLevel.MusicFile = string.Copy(this.MusicFile);
             newLevel.LevelID = this.LevelID;
+            newLevel.LevelVersion = this.LevelVersion;
             newLevel.FilePathToSave = this.FilePathToSave; // shallow copy is fine here
             newLevel.Background = this.Background; // shallow copy is fine here
 
@@ -163,6 +166,7 @@ namespace NLEditor
                      (this.MainStyle != null && this.MainStyle.NameInDirectory.Equals(otherLevel.MainStyle?.NameInDirectory)))
                 || !this.MusicFile.Equals(otherLevel.MusicFile)
                 || !this.LevelID.Equals(otherLevel.LevelID)
+                // specifically do not compare LevelVersion
                 || !((this.Background == null && otherLevel.Background == null) ||
                      (this.Background != null && this.Background.Equals(otherLevel.Background)))
                 || this.Width != otherLevel.Width
@@ -836,6 +840,7 @@ namespace NLEditor
         public void PrepareForSave()
         {
             ValidateTalismanIDs();
+            LevelVersion++;
         }
 
         public void ValidateTalismanIDs()
