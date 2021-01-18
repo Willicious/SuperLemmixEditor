@@ -210,25 +210,25 @@ namespace NLEditor
                 checkboxesSkillFlags[skill].CheckedChanged += check_Piece_Skill_CheckedChanged;
             }
 
-            if (selectionList.Count > 0 && selectionList.All(item => item is GadgetPiece))
+            if (selectionList.Count > 0)
             {
-                int specWidth = (selectionList[0] as GadgetPiece).SpecWidth;
-                int specHeight = (selectionList[0] as GadgetPiece).SpecHeight;
-                bool mayResizeHoriz = selectionList.All(item => item.MayResizeHoriz() && (item as GadgetPiece).SpecWidth == specWidth);
-                bool mayResizeVert = selectionList.All(item => item.MayResizeVert() && (item as GadgetPiece).SpecHeight == specHeight);
+                int specWidth = selectionList[0].Width;
+                int specHeight = selectionList[0].Height;
+                bool mayResizeHoriz = selectionList.All(item => item.MayResizeHoriz() && item.Width == specWidth);
+                bool mayResizeVert = selectionList.All(item => item.MayResizeVert() && item.Height == specHeight);
 
                 lbl_Resize_Width.Visible = mayResizeHoriz;
                 num_Resize_Width.Visible = mayResizeHoriz;
                 if (mayResizeHoriz)
                 {
-                    num_Resize_Width.Maximum = CurLevel.Width + specWidth;
+                    num_Resize_Width.Maximum = CurLevel.Width + 320;
                     num_Resize_Width.Value = Math.Min(Math.Max(specWidth, num_Resize_Width.Minimum), num_Resize_Width.Maximum);
                 }
                 lbl_Resize_Height.Visible = mayResizeVert;
                 num_Resize_Height.Visible = mayResizeVert;
                 if (mayResizeVert)
                 {
-                    num_Resize_Height.Maximum = CurLevel.Height + specHeight;
+                    num_Resize_Height.Maximum = CurLevel.Height + 160;
                     num_Resize_Height.Value = Math.Min(Math.Max(specHeight, num_Resize_Height.Minimum), num_Resize_Height.Maximum);
                 }
             }

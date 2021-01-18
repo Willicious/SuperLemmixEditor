@@ -88,6 +88,10 @@
     <Compile Include="Aliases.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="BmpModify.cs" />
+    <Compile Include="LevelPieceBase.cs" />
+    <Compile Include="LevelPieceGadget.cs" />
+    <Compile Include="LevelPieceTerrain.cs" />
+    <Compile Include="LevelPieceTerrainGroup.cs" />
     <Compile Include="NLTextDataNode.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DisplaySettings.cs" />
@@ -119,7 +123,6 @@
     <Compile Include="ImageLibrary.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelFile.cs" />
-    <Compile Include="LevelPiece.cs" />
     <Compile Include="LoadStyleAnimData.cs" />
     <Compile Include="LoadStylesFromFile.cs" />
     <Compile Include="NLEditForm.cs">

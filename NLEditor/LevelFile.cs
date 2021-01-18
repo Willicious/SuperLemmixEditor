@@ -329,6 +329,15 @@ namespace NLEditor
             bool doInvert = node.HasChildWithKey("FLIP_VERTICAL");
             bool doFlip = node.HasChildWithKey("FLIP_HORIZONTAL");
 
+            int specWidth = node["WIDTH"].ValueInt;
+            int specHeight = node["HEIGHT"].ValueInt;
+
+            if (doRotate)
+            {
+                // Swap width and height, to swap it again once the gadget is rotated
+                Utility.Swap(ref specWidth, ref specHeight);
+            }
+
             TerrainPiece newTerrain;
 
             if (styleName.ToUpperInvariant() == "*GROUP")
@@ -339,7 +348,7 @@ namespace NLEditor
             {
                 // ... then create the correct Terrain piece
                 string key = ImageLibrary.CreatePieceKey(styleName, pieceName, false);
-                newTerrain = new TerrainPiece(key, pos, 0, false, isErase, isNoOverwrite, isOneWay);
+                newTerrain = new TerrainPiece(key, pos, 0, false, isErase, isNoOverwrite, isOneWay, specWidth, specHeight);
             }
 
             // For compatibility with player: NoOverwrite + Erase pieces work like NoOverWrite
@@ -380,7 +389,7 @@ namespace NLEditor
             // ... then create the correct Terrain piece
             string key = "*sketch:" + pieceName;
             Point pos = new Point(posX, posY);
-            TerrainPiece newSketch = new TerrainPiece(key, pos, 0, false, false, false, false);
+            TerrainPiece newSketch = new TerrainPiece(key, pos, 0, false, false, false, false, 0, 0);
 
             if (doRotate)
                 newSketch.RotateInRect(newSketch.ImageRectangle);
@@ -754,11 +763,11 @@ namespace NLEditor
 
             if (gadget.MayResizeHoriz())
             {
-                textFile.WriteLine("   WIDTH " + gadget.SpecWidth.ToString());
+                textFile.WriteLine("   WIDTH " + gadget.Width.ToString());
             }
             if (gadget.MayResizeVert())
             {
-                textFile.WriteLine("   HEIGHT " + gadget.SpecHeight.ToString());
+                textFile.WriteLine("   HEIGHT " + gadget.Height.ToString());
             }
             if (gadget.IsNoOverwrite)
             {
@@ -887,6 +896,14 @@ namespace NLEditor
             if (terrain.IsOneWay && !writingSketch)
             {
                 textFile.WriteLine(prefix + "   ONE_WAY");
+            }
+            if (terrain.MayResizeHoriz() && !writingSketch)
+            {
+                textFile.WriteLine(prefix + "   WIDTH " + terrain.Width.ToString());
+            }
+            if (terrain.MayResizeVert() && !writingSketch)
+            {
+                textFile.WriteLine(prefix + "   HEIGHT " + terrain.Height.ToString());
             }
             textFile.WriteLine(prefix + " $END");
             textFile.WriteLine(prefix + " ");
