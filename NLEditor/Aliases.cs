@@ -6,6 +6,15 @@ namespace NLEditor
 {
     enum AliasKind { Style, Gadget, Terrain, Background, Lemmings }
 
+    struct Alias
+    {
+        public AliasKind Kind;
+        public string From;
+        public string To;
+        public int Width;
+        public int Height;
+    }
+
     static class Aliases
     {
         static Aliases()
@@ -13,20 +22,22 @@ namespace NLEditor
             LoadStyleAliases("default");
         }
 
-        private struct Alias
-        {
-            public AliasKind Kind;
-            public string From;
-            public string To;
-        }
-
         private static readonly List<string> LoadedStyles = new List<string>();
         private static readonly List<Alias> Entries = new List<Alias>();
 
-        public static string Dealias(string input, AliasKind kind)
+        public static Alias Dealias(string input, AliasKind kind)
         {
+            Alias result = new Alias()
+            {
+                Kind = kind, // doesn't really matter
+                From = input, // same
+                To = input,
+                Width = 0,
+                Height = 0
+            };
+
             if (string.IsNullOrEmpty(input))
-                return "";
+                return result;
 
             string lastInput;
             do
@@ -45,6 +56,9 @@ namespace NLEditor
                             input = thisAlias.To;
                         else
                             input = thisAlias.To + ":" + splitInput[1];
+
+                        result.To = input;
+                        // There won't be width / height info here. Or at least, shouldn't be.
                     }
                 }
 
@@ -52,11 +66,17 @@ namespace NLEditor
                 {
                     foreach (var thisAlias in Entries.Where(ent => ent.Kind == kind))
                         if (thisAlias.From == input)
+                        {
                             input = thisAlias.To;
+
+                            result.To = input;
+                            if (result.Width == 0) result.Width = thisAlias.Width;
+                            if (result.Height == 0) result.Height = thisAlias.Height;
+                        }
                 }
             } while (input != lastInput);
 
-            return input;
+            return result;
         }
 
         public static void LoadStyleAliases(string style)
@@ -97,6 +117,8 @@ namespace NLEditor
                         {
                             From = entry["FROM"].Value,
                             To = entry["TO"].Value,
+                            Width = entry["WIDTH"].ValueInt,
+                            Height = entry["HEIGHT"].ValueInt,
                             Kind = kind
                         };
 
