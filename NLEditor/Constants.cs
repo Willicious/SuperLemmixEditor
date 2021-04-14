@@ -127,9 +127,9 @@ namespace NLEditor
             Slider = 7, Climber = 9, Swimmer = 11, Floater = 13, Glider = 15, Disarmer = 17,
             Bomber = 19, Stoner = 21, Blocker = 23,
             Platformer = 25, Builder = 27, Stacker = 29,
-            Spearer = 31, Grenader = 33, Laserer = 35,
-            Basher = 37, Fencer = 39, Miner = 41, Digger = 43,
-            Cloner = 45
+            Laserer = 31,
+            Basher = 33, Fencer = 35, Miner = 37, Digger = 39,
+            Cloner = 41
         };
         public static Array SkillArray => Enum.GetValues(typeof(C.Skill));
 
@@ -165,7 +165,7 @@ namespace NLEditor
             SkillWalker, SkillJumper, SkillShimmier, SkillSlider, SkillClimber, SkillSwimmer, SkillFloater, SkillGlider,
             SkillDisarmer, SkillBomber, SkillStoner, SkillBlocker,
             SkillBuilder, SkillPlatformer, SkillStacker,
-            SkillSpearer, SkillGrenader, SkillLaserer,
+            SkillLaserer,
             SkillBasher, SkillFencer, SkillMiner, SkillDigger, SkillCloner,
             SkillEachLimit, UseOnlySkill
         }
@@ -178,7 +178,7 @@ namespace NLEditor
             "Walker", "Jumper", "Shimmier", "Slider", "Climber", "Swimmer", "Floater", "Glider",
             "Disarmer", "Bomber", "Stoner", "Blocker",
             "Builder", "Platformer", "Stacker",
-            "Spearer", "Grenader", "Laserer",
+            "Laserer",
             "Basher", "Fencer", "Miner", "Digger", "Cloner"
         };
 
@@ -202,8 +202,6 @@ namespace NLEditor
             { TalismanReq.SkillBuilder, "Limit Builders" },
             { TalismanReq.SkillPlatformer, "Limit Platformers" },
             { TalismanReq.SkillStacker, "Limit Stackers" },
-            { TalismanReq.SkillSpearer, "Limit Spearers" },
-            { TalismanReq.SkillGrenader, "Limit Grenaders" },
             { TalismanReq.SkillLaserer, "Limit Laserers" },
             { TalismanReq.SkillBasher, "Limit Bashers" },
             { TalismanReq.SkillFencer, "Limit Fencers" },
@@ -229,8 +227,6 @@ namespace NLEditor
       { TalismanReq.SkillStoner, "STONER_LIMIT" }, { TalismanReq.SkillBlocker, "BLOCKER_LIMIT"},
       { TalismanReq.SkillBuilder, "BUILDER_LIMIT" }, { TalismanReq.SkillPlatformer, "PLATFORMER_LIMIT" },
       { TalismanReq.SkillStacker, "STACKER_LIMIT" },
-      { TalismanReq.SkillSpearer, "SPEARER_LIMIT" },
-      { TalismanReq.SkillGrenader, "GRENADER_LIMIT" },
       { TalismanReq.SkillLaserer, "LASERER_LIMIT" },
       { TalismanReq.SkillBasher, "BASHER_LIMIT" },
       { TalismanReq.SkillMiner, "MINER_LIMIT" }, { TalismanReq.SkillDigger, "DIGGER_LIMIT" },
