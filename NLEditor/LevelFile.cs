@@ -31,7 +31,7 @@ namespace NLEditor
                 openFileDialog.InitialDirectory = Directory.Exists(C.AppPathLevels) ? C.AppPathLevels : C.AppPath;
             }
             openFileDialog.Multiselect = false;
-            openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv|Old level files (*.lvl, *.ini, *.lev)|*.lvl;*.ini;*.lev";
+            openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
             openFileDialog.RestoreDirectory = true;
             openFileDialog.CheckFileExists = true;
 
@@ -62,20 +62,8 @@ namespace NLEditor
 
             try
             {
-                if (Path.GetExtension(filePath).Equals(".nxlv"))
-                {
-                    newLevel = DoLoadLevelFromFile(filePath, styleList, backgrounds);
-                    newLevel.FilePathToSave = filePath;
-                }
-                else
-                {
-                    bool IsConverted = ConvertOldLevelType(filePath);
-                    if (IsConverted)
-                    {
-                        newLevel = DoLoadLevelFromFile(C.AppPathTempLevel, styleList, backgrounds);
-                        newLevel.FilePathToSave = Path.ChangeExtension(filePath, ".nxlv");
-                    }
-                }
+                newLevel = DoLoadLevelFromFile(filePath, styleList, backgrounds);
+                newLevel.FilePathToSave = filePath;
             }
             catch (Exception Ex)
             {
@@ -972,17 +960,7 @@ namespace NLEditor
 
         /// <summary>
         /// Converts an old .lvl level file to the current .nxlv type.
-        /// <para> This calls either NeoLemmix.exe or the NLConverter.exe written in Delphi. </para>
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        static bool ConvertOldLevelType(string filePath)
-        {
-            return ConvertWithNeoLemmix(filePath);
-        }
-
-        /// <summary>
-        /// Converts an old .lvl level file to the current .nxlv type.
+        /// Not currently used, but the code remains here because it may be useful for an auto-cleanse feature in the future.
         /// <para> This calls NeoLemmix.exe written in Delphi. </para>
         /// </summary>
         /// <param name="filePath"></param>
