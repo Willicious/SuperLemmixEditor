@@ -31,7 +31,7 @@ namespace NLEditor
                 openFileDialog.InitialDirectory = Directory.Exists(C.AppPathLevels) ? C.AppPathLevels : C.AppPath;
             }
             openFileDialog.Multiselect = false;
-            openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv|Old level files (*.lvl, *.ini, *.lev)|*.lvl;*.ini;*.lev";
+            openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
             openFileDialog.RestoreDirectory = true;
             openFileDialog.CheckFileExists = true;
 
@@ -62,20 +62,8 @@ namespace NLEditor
 
             try
             {
-                if (Path.GetExtension(filePath).Equals(".nxlv"))
-                {
-                    newLevel = DoLoadLevelFromFile(filePath, styleList, backgrounds);
-                    newLevel.FilePathToSave = filePath;
-                }
-                else
-                {
-                    bool IsConverted = ConvertOldLevelType(filePath);
-                    if (IsConverted)
-                    {
-                        newLevel = DoLoadLevelFromFile(C.AppPathTempLevel, styleList, backgrounds);
-                        newLevel.FilePathToSave = Path.ChangeExtension(filePath, ".nxlv");
-                    }
-                }
+                newLevel = DoLoadLevelFromFile(filePath, styleList, backgrounds);
+                newLevel.FilePathToSave = filePath;
             }
             catch (Exception Ex)
             {
@@ -97,8 +85,8 @@ namespace NLEditor
             newLevel.LevelID = file["ID"].ValueUInt64;
             newLevel.LevelVersion = file["VERSION"].ValueUInt64;
 
-            newLevel.MainStyle = styleList.Find(sty => sty.NameInDirectory == Aliases.Dealias(file["THEME"].Value, AliasKind.Style));
-            newLevel.Background = ParseBackground(Aliases.Dealias(file["BACKGROUND"].Value, AliasKind.Background), styleList, backgrounds);
+            newLevel.MainStyle = styleList.Find(sty => sty.NameInDirectory == Aliases.Dealias(file["THEME"].Value, AliasKind.Style).To);
+            newLevel.Background = ParseBackground(Aliases.Dealias(file["BACKGROUND"].Value, AliasKind.Background).To, styleList, backgrounds);
 
             newLevel.MusicFile = file["MUSIC"].Value;
 
@@ -181,9 +169,10 @@ namespace NLEditor
             string styleName = node["STYLE"].Value;
             string gadgetName = node["PIECE"].Value;
 
-            string[] dealias = Aliases.Dealias(styleName + ":" + gadgetName, AliasKind.Gadget).Split(':');
-            styleName = dealias[0];
-            gadgetName = dealias[1];
+            Alias gadgetAlias = Aliases.Dealias(styleName + ":" + gadgetName, AliasKind.Gadget);
+            string[] dealiasName = gadgetAlias.To.Split(':');
+            styleName = dealiasName[0];
+            gadgetName = dealiasName[1];
 
             int posX = node["X"].ValueInt;
             int posY = node["Y"].ValueInt;
@@ -191,6 +180,9 @@ namespace NLEditor
             bool isOnlyOnTerrain = node.HasChildWithKey("ONLY_ON_TERRAIN");
             int specWidth = node.HasChildWithKey("WIDTH") ? node["WIDTH"].ValueInt : -1;
             int specHeight = node.HasChildWithKey("HEIGHT") ? node["HEIGHT"].ValueInt : -1;
+
+            if (specWidth <= 0 && gadgetAlias.Width > 0) specWidth = gadgetAlias.Width;
+            if (specHeight <= 0 && gadgetAlias.Height > 0) specHeight = gadgetAlias.Height;
 
             bool doRotate = node.HasChildWithKey("ROTATE");
             bool doInvert = node.HasChildWithKey("FLIP_VERTICAL");
@@ -310,12 +302,15 @@ namespace NLEditor
             string styleName = node["STYLE"].Value;
             string pieceName = node["PIECE"].Value;
 
+            Alias? pieceAlias = null;
+
             if (styleName.ToUpperInvariant() != "*GROUP")
             {
-                string[] dealias = Aliases.Dealias(styleName + ":" + pieceName, AliasKind.Terrain).Split(':');
-                styleName = dealias[0];
-                pieceName = dealias[1];
-            }
+                pieceAlias = Aliases.Dealias(styleName + ":" + pieceName, AliasKind.Terrain);
+                string[] dealiasName = pieceAlias.Value.To.Split(':');
+                styleName = dealiasName[0];
+                pieceName = dealiasName[1];
+            };
 
             int posX = node["X"].ValueInt;
             int posY = node["Y"].ValueInt;
@@ -329,6 +324,22 @@ namespace NLEditor
             bool doInvert = node.HasChildWithKey("FLIP_VERTICAL");
             bool doFlip = node.HasChildWithKey("FLIP_HORIZONTAL");
 
+            int specWidth = node["WIDTH"].ValueInt;
+            int specHeight = node["HEIGHT"].ValueInt;
+
+            if (pieceAlias.HasValue)
+            {
+                Alias alias = pieceAlias.Value;
+                if (specWidth <= 0 && alias.Width > 0) specWidth = alias.Width;
+                if (specHeight <= 0 && alias.Height > 0) specHeight = alias.Height;
+            }
+
+            if (doRotate)
+            {
+                // Swap width and height, to swap it again once the gadget is rotated
+                Utility.Swap(ref specWidth, ref specHeight);
+            }
+
             TerrainPiece newTerrain;
 
             if (styleName.ToUpperInvariant() == "*GROUP")
@@ -339,7 +350,7 @@ namespace NLEditor
             {
                 // ... then create the correct Terrain piece
                 string key = ImageLibrary.CreatePieceKey(styleName, pieceName, false);
-                newTerrain = new TerrainPiece(key, pos, 0, false, isErase, isNoOverwrite, isOneWay);
+                newTerrain = new TerrainPiece(key, pos, 0, false, isErase, isNoOverwrite, isOneWay, specWidth, specHeight);
             }
 
             // For compatibility with player: NoOverwrite + Erase pieces work like NoOverWrite
@@ -380,7 +391,7 @@ namespace NLEditor
             // ... then create the correct Terrain piece
             string key = "*sketch:" + pieceName;
             Point pos = new Point(posX, posY);
-            TerrainPiece newSketch = new TerrainPiece(key, pos, 0, false, false, false, false);
+            TerrainPiece newSketch = new TerrainPiece(key, pos, 0, false, false, false, false, 0, 0);
 
             if (doRotate)
                 newSketch.RotateInRect(newSketch.ImageRectangle);
@@ -588,7 +599,7 @@ namespace NLEditor
             textFile.WriteLine(" $END ");
             textFile.WriteLine(" ");
 
-            if (curLevel.PreviewText?.Count > 0)
+            if (GetTextNeedsSaving(curLevel.PreviewText))
             {
                 textFile.WriteLine(" $PRETEXT ");
                 curLevel.PreviewText.ForEach(lin => textFile.WriteLine("   LINE " + lin));
@@ -596,7 +607,7 @@ namespace NLEditor
                 textFile.WriteLine(" ");
             }
 
-            if (curLevel.PostviewText?.Count > 0)
+            if (GetTextNeedsSaving(curLevel.PostviewText))
             {
                 textFile.WriteLine(" $POSTTEXT ");
                 curLevel.PostviewText.ForEach(lin => textFile.WriteLine("   LINE " + lin));
@@ -663,6 +674,18 @@ namespace NLEditor
             }
 
             textFile.Close();
+        }
+
+        private static bool GetTextNeedsSaving(List<string> text)
+        {
+            if (text == null)
+                return false;
+
+            foreach (var line in text)
+                if (!String.IsNullOrWhiteSpace(line))
+                    return true;
+
+            return false;
         }
 
         private static void SortGroupPieces(List<GroupPiece> pieces)
@@ -754,11 +777,11 @@ namespace NLEditor
 
             if (gadget.MayResizeHoriz())
             {
-                textFile.WriteLine("   WIDTH " + gadget.SpecWidth.ToString());
+                textFile.WriteLine("   WIDTH " + gadget.Width.ToString());
             }
             if (gadget.MayResizeVert())
             {
-                textFile.WriteLine("   HEIGHT " + gadget.SpecHeight.ToString());
+                textFile.WriteLine("   HEIGHT " + gadget.Height.ToString());
             }
             if (gadget.IsNoOverwrite)
             {
@@ -888,6 +911,14 @@ namespace NLEditor
             {
                 textFile.WriteLine(prefix + "   ONE_WAY");
             }
+            if (terrain.MayResizeHoriz() && !writingSketch)
+            {
+                textFile.WriteLine(prefix + "   WIDTH " + terrain.Width.ToString());
+            }
+            if (terrain.MayResizeVert() && !writingSketch)
+            {
+                textFile.WriteLine(prefix + "   HEIGHT " + terrain.Height.ToString());
+            }
             textFile.WriteLine(prefix + " $END");
             textFile.WriteLine(prefix + " ");
         }
@@ -941,17 +972,7 @@ namespace NLEditor
 
         /// <summary>
         /// Converts an old .lvl level file to the current .nxlv type.
-        /// <para> This calls either NeoLemmix.exe or the NLConverter.exe written in Delphi. </para>
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        static bool ConvertOldLevelType(string filePath)
-        {
-            return ConvertWithNeoLemmix(filePath);
-        }
-
-        /// <summary>
-        /// Converts an old .lvl level file to the current .nxlv type.
+        /// Not currently used, but the code remains here because it may be useful for an auto-cleanse feature in the future.
         /// <para> This calls NeoLemmix.exe written in Delphi. </para>
         /// </summary>
         /// <param name="filePath"></param>

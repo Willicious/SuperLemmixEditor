@@ -272,6 +272,27 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Calculates the actual size (in one dimension) of an object or terrain piece based on specified, default, image size.
+        /// </summary>
+        /// <param name="spec"></param>
+        /// <param name="def"></param>
+        /// <param name="img"></param>
+        /// <param name="resizable"></param>
+        /// <returns></returns>
+        public static int EvaluateResizable(int spec, int def, int img, bool resizable)
+        {
+            if (resizable)
+            {
+                if (spec > 0)
+                    return spec;
+                if (def > 0)
+                    return def;
+            }
+
+            return img;
+        }
+
+        /// <summary>
         /// Returns the global instance of the random number generator.
         /// </summary>
         /// <returns></returns>

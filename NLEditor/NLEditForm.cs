@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -83,7 +84,7 @@ namespace NLEditor
             CreateStyleList();
             if (StyleList.Count > 0)
             {
-                this.combo_MainStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.NameInEditor).ToArray());
+                this.combo_MainStyle.Items.AddRange(StyleList.Where(sty => File.Exists(C.AppPathThemeInfo(sty.NameInDirectory))).Select(sty => sty.NameInEditor).ToArray());
                 this.combo_MainStyle.SelectedIndex = 0;
 
                 this.combo_PieceStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.NameInEditor).ToArray());
@@ -621,8 +622,7 @@ namespace NLEditor
         {
             int newWidth = (int)num_Resize_Width.Value;
             CurLevel.SelectionList()
-                    .FindAll(item => item is GadgetPiece)
-                    .ForEach(obj => (obj as GadgetPiece).SpecWidth = newWidth);
+                    .ForEach(obj => obj.SpecWidth = newWidth);
             pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 
@@ -630,8 +630,7 @@ namespace NLEditor
         {
             int newHeight = (int)num_Resize_Height.Value;
             CurLevel.SelectionList()
-                    .FindAll(item => item is GadgetPiece)
-                    .ForEach(obj => (obj as GadgetPiece).SpecHeight = newHeight);
+                    .ForEach(obj => obj.SpecHeight = newHeight);
             pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 

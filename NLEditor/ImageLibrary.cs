@@ -14,9 +14,10 @@ namespace NLEditor
         /// </summary>
         /// <param name="newImage"></param>
         /// <param name="isSteel"></param>
-        public BaseImageInfo(Bitmap newImage, bool isSteel = false, bool isDeprecated = false)
-            : this(newImage, isSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, new Rectangle(0, 0, 0, 0), C.Resize.None,
-                0, 0, 0, 0, isDeprecated)
+        public BaseImageInfo(Bitmap newImage, bool isSteel = false, C.Resize resizeMode = C.Resize.None,
+            bool isDeprecated = false, Rectangle? nineSlicingArea = null, int defaultWidth = 0, int defaultHeight = 0)
+            : this(newImage, isSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, new Rectangle(0, 0, 0, 0), resizeMode,
+               0, 0, 0, 0, isDeprecated, nineSlicingArea, defaultWidth, defaultHeight)
         {
             // nothing more
         }
@@ -31,12 +32,14 @@ namespace NLEditor
         /// <param name="triggerRect"></param>
         public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, Rectangle triggerRect,
           C.Resize resizeMode, int leftMargin = 0, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0,
-          bool isDeprecated = false, Rectangle? nineSlicingArea = null)
+          bool isDeprecated = false, Rectangle? nineSlicingArea = null, int defaultWidth = 0, int defaultHeight = 0)
         {
             this.images = new Dictionary<RotateFlipType, List<Bitmap>>();
             this.images[RotateFlipType.RotateNoneFlipNone] = SeparateFrames(newImage, numFrames, true);
             this.Width = this.baseImages[0].Width;
             this.Height = this.baseImages[0].Height;
+            this.DefaultWidth = defaultWidth;
+            this.DefaultHeight = defaultHeight;
             this.ObjectType = objType;
             this.TriggerRect = triggerRect;
             this.ResizeMode = resizeMode;
@@ -79,6 +82,8 @@ namespace NLEditor
         }
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public int DefaultWidth { get; private set; }
+        public int DefaultHeight { get; private set; }
         public C.OBJ ObjectType { get; private set; }
         public Rectangle TriggerRect { get; private set; }
         public C.Resize ResizeMode { get; private set; }
@@ -323,6 +328,40 @@ namespace NLEditor
             }
 
             return imageDict[imageKey].Height;
+        }
+
+        /// <summary>
+        /// Returns the default width of the piece corresponding to the key, or -1 if image cannot be found. 
+        /// </summary>
+        /// <param name="imageKey"></param>
+        /// <returns></returns>
+        public static int GetDefaultWidth(string imageKey)
+        {
+            if (!imageDict.ContainsKey(imageKey))
+            {
+                bool success = AddNewImage(imageKey);
+                if (!success)
+                    return 0;
+            }
+
+            return imageDict[imageKey].DefaultWidth;
+        }
+
+        /// <summary>
+        /// Returns the default height of the piece corresponding to the key, or -1 if image cannot be found. 
+        /// </summary>
+        /// <param name="imageKey"></param>
+        /// <returns></returns>
+        public static int GetDefaultHeight(string imageKey)
+        {
+            if (!imageDict.ContainsKey(imageKey))
+            {
+                bool success = AddNewImage(imageKey);
+                if (!success)
+                    return 0;
+            }
+
+            return imageDict[imageKey].DefaultHeight;
         }
 
         /// <summary>

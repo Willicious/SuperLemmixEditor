@@ -981,7 +981,7 @@ namespace NLEditor
 
             Rectangle origRightArea = new Rectangle(origBmp.Width - rightCut, topCut, rightCut, vertMiddle);
             Rectangle newRightArea = new Rectangle(0, 0, rightCut, newVertMiddle);
-            Bitmap newRight = origBmp.Crop(origRightArea).PaveArea(newLeftArea);
+            Bitmap newRight = origBmp.Crop(origRightArea).PaveArea(newRightArea);
 
             Bitmap topLeftCorner = origBmp.Crop(new Rectangle(0, 0, leftCut, topCut));
             Bitmap topRightCorner = origBmp.Crop(new Rectangle(origBmp.Width - rightCut, 0, rightCut, topCut));

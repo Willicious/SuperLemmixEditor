@@ -275,6 +275,8 @@ namespace NLEditor
             C.Resize resizeMode = C.Resize.None;
             bool isDeprecated = false;
             bool? cropOverride = null;
+            int defaultWidth = 0;
+            int defaultHeight = 0;
 
             int[] nineSliceSizes = new int[4]; // Not appropriate to use a Rectangle yet. File contains the width/height of the slice,
                                                // not a rectangle of the center; and we don't know the width of the object yet. Order
@@ -322,6 +324,12 @@ namespace NLEditor
                             break;
                         case "RESIZE_BOTH":
                             resizeMode = C.Resize.Both;
+                            break;
+                        case "DEFAULT_WIDTH":
+                            defaultWidth = line.Value;
+                            break;
+                        case "DEFAULT_HEIGHT":
+                            defaultHeight = line.Value;
                             break;
                         case "DEPRECATED":
                             isDeprecated = true;
@@ -532,7 +540,7 @@ namespace NLEditor
             triggerRect.Offset(marginLeft, marginTop);
 
             return new BaseImageInfo(newBitmap, objType, primaryAnim.Frames, triggerRect, resizeMode,
-              marginLeft, marginTop, marginRight, marginBottom, isDeprecated, nineSliceRect);
+              marginLeft, marginTop, marginRight, marginBottom, isDeprecated, nineSliceRect, defaultWidth, defaultHeight);
         }
 
         public static Bitmap CreateCompositeImage(string filePath, List<LoadStyleAnimData> anims, LoadStyleAnimData primaryAnim,
@@ -706,6 +714,13 @@ namespace NLEditor
         {
             bool IsSteel = false;
             bool isDeprecated = false;
+            C.Resize Resize = C.Resize.None;
+            int defaultWidth = 0;
+            int defaultHeight = 0;
+            int nineSliceLeft = 0;
+            int nineSliceTop = 0;
+            int nineSliceRight = 0;
+            int nineSliceBottom = 0;
 
             if (File.Exists(filePath + ".nxmt"))
             {
@@ -724,6 +739,33 @@ namespace NLEditor
                         {
                             case "STEEL":
                                 IsSteel = true;
+                                break;
+                            case "RESIZE_HORIZONTAL":
+                                Resize = (Resize == C.Resize.None || Resize == C.Resize.Horiz) ? C.Resize.Horiz : C.Resize.Both;
+                                break;
+                            case "RESIZE_VERTICAL":
+                                Resize = (Resize == C.Resize.None || Resize == C.Resize.Vert) ? C.Resize.Vert : C.Resize.Both;
+                                break;
+                            case "RESIZE_BOTH":
+                                Resize = C.Resize.Both;
+                                break;
+                            case "DEFAULT_WIDTH":
+                                defaultWidth = line.Value;
+                                break;
+                            case "DEFAULT_HEIGHT":
+                                defaultHeight = line.Value;
+                                break;
+                            case "NINE_SLICE_LEFT":
+                                nineSliceLeft = line.Value;
+                                break;
+                            case "NINE_SLICE_TOP":
+                                nineSliceTop = line.Value;
+                                break;
+                            case "NINE_SLICE_RIGHT":
+                                nineSliceRight = line.Value;
+                                break;
+                            case "NINE_SLICE_BOTTOM":
+                                nineSliceBottom = line.Value;
                                 break;
                             case "DEPRECATED":
                                 isDeprecated = true;
@@ -744,7 +786,9 @@ namespace NLEditor
 
             Bitmap newBitmap = Image(filePath);
 
-            return new BaseImageInfo(newBitmap, IsSteel, isDeprecated);
+            Rectangle nineSliceRect = new Rectangle(nineSliceLeft, nineSliceTop, newBitmap.Width - nineSliceLeft - nineSliceRight, newBitmap.Height - nineSliceTop - nineSliceBottom);
+
+            return new BaseImageInfo(newBitmap, IsSteel, Resize, isDeprecated, nineSliceRect, defaultWidth, defaultHeight);
         }
     }
 }
