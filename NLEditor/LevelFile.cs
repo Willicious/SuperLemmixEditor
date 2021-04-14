@@ -599,7 +599,7 @@ namespace NLEditor
             textFile.WriteLine(" $END ");
             textFile.WriteLine(" ");
 
-            if (curLevel.PreviewText?.Count > 0)
+            if (GetTextNeedsSaving(curLevel.PreviewText))
             {
                 textFile.WriteLine(" $PRETEXT ");
                 curLevel.PreviewText.ForEach(lin => textFile.WriteLine("   LINE " + lin));
@@ -607,7 +607,7 @@ namespace NLEditor
                 textFile.WriteLine(" ");
             }
 
-            if (curLevel.PostviewText?.Count > 0)
+            if (GetTextNeedsSaving(curLevel.PostviewText))
             {
                 textFile.WriteLine(" $POSTTEXT ");
                 curLevel.PostviewText.ForEach(lin => textFile.WriteLine("   LINE " + lin));
@@ -674,6 +674,18 @@ namespace NLEditor
             }
 
             textFile.Close();
+        }
+
+        private static bool GetTextNeedsSaving(List<string> text)
+        {
+            if (text == null)
+                return false;
+
+            foreach (var line in text)
+                if (!String.IsNullOrWhiteSpace(line))
+                    return true;
+
+            return false;
         }
 
         private static void SortGroupPieces(List<GroupPiece> pieces)
