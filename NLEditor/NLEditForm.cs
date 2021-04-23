@@ -1032,7 +1032,7 @@ namespace NLEditor
                 }
 
                 // Move screen start position, if 'P' is pressed in addition.
-                if (isPPressed)
+                if (isPPressed && !CurLevel.AutoStartPos)
                 {
                     // ensure displaying the screen start
                     DisplaySettings.SetDisplayed(C.DisplayType.ScreenStart, true);
@@ -1200,7 +1200,7 @@ namespace NLEditor
             {
                 dragAction = C.DragActions.SelectArea;
             }
-            else if (isPPressed) // for moving the screen start
+            else if (isPPressed && !CurLevel.AutoStartPos) // for moving the screen start
             {
                 // Only drag screen position, if it lies within the screen start rectangle
                 if (curRenderer.ScreenStartRectangle().Contains(mousePos))
@@ -1512,6 +1512,12 @@ namespace NLEditor
                 e.Effect = DragDropEffects.Link;
             else
                 e.Effect = DragDropEffects.None;
+        }
+
+        private void chk_Lvl_AutoStart_Leave(object sender, EventArgs e)
+        {
+            textbox_Leave(sender, e);
+            pic_Level.SetImage(curRenderer.GetScreenImage());
         }
     }
 }

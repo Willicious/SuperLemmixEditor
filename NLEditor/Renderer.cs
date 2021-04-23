@@ -707,6 +707,9 @@ namespace NLEditor
         /// <returns></returns>
         private void AddScreenStartRectangle(ref Bitmap levelBmp)
         {
+            if (level.AutoStartPos)
+                return;
+
             Rectangle screenStartRect = GetPicRectFromLevelRect(ScreenStartRectangle());
 
             Point screenCenterPos = GetPicPointFromLevelPoint(level.StartPos);

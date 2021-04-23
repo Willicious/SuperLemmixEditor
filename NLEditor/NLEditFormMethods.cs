@@ -121,6 +121,7 @@ namespace NLEditor
             CurLevel.MainStyle = ValidateStyleName(combo_MainStyle.Text);
             CurLevel.Width = decimal.ToInt32(num_Lvl_SizeX.Value);
             CurLevel.Height = decimal.ToInt32(num_Lvl_SizeY.Value);
+            CurLevel.AutoStartPos = chk_Lvl_AutoStart.Checked;
             CurLevel.StartPosX = decimal.ToInt32(num_Lvl_StartX.Value);
             CurLevel.StartPosY = decimal.ToInt32(num_Lvl_StartY.Value);
             CurLevel.NumLems = decimal.ToInt32(num_Lvl_Lems.Value);
@@ -175,6 +176,10 @@ namespace NLEditor
             num_Lvl_StartY.Maximum = CurLevel.Height - 1;
             num_Lvl_StartX.Value = CurLevel.StartPosX;
             num_Lvl_StartY.Value = CurLevel.StartPosY;
+
+            chk_Lvl_AutoStart.CheckedChanged -= chk_Lvl_AutoStart_Leave;
+            chk_Lvl_AutoStart.Checked = CurLevel.AutoStartPos;
+            chk_Lvl_AutoStart.CheckedChanged += chk_Lvl_AutoStart_Leave;
 
             num_Lvl_SizeX.ValueChanged += num_Lvl_SizeX_ValueChanged;
             num_Lvl_SizeY.ValueChanged += num_Lvl_SizeY_ValueChanged;
