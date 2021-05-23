@@ -405,7 +405,7 @@ namespace NLEditor
 
         public static readonly List<string> VersionList = new List<string>
     {
-      "EXPERIMENTAL Version " + Version,
+      "Version " + Version,
       "   by Stephan Neupert (Nepster), updates by Namida Verasche (namida)",
       "",
       "Thanks to...",
