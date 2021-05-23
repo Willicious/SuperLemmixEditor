@@ -153,61 +153,65 @@ namespace NLEditor
             }
         }
 
+        private bool _IsWritingToForm;
+
         /// <summary>
         /// Takes the global level settings and displays them in the correct form fields.
         /// </summary>
         private void WriteLevelInfoToForm()
         {
-            txt_LevelAuthor.Text = CurLevel.Author;
-            txt_LevelTitle.Text = CurLevel.Title;
-            combo_Music.Text = CurLevel.MusicFile;
-            combo_MainStyle.Text = (CurLevel.MainStyle != null) ? CurLevel.MainStyle.NameInEditor : "";
-
-            // Set size and start position, but without calling the Value_Changed methods,
-            // because they automatically call validation of the start position resp. render the level again.
-            num_Lvl_SizeX.ValueChanged -= num_Lvl_SizeX_ValueChanged;
-            num_Lvl_SizeY.ValueChanged -= num_Lvl_SizeY_ValueChanged;
-            num_Lvl_StartX.ValueChanged -= num_Lvl_StartX_ValueChanged;
-            num_Lvl_StartY.ValueChanged -= num_Lvl_StartY_ValueChanged;
-
-            num_Lvl_SizeX.Value = CurLevel.Width;
-            num_Lvl_SizeY.Value = CurLevel.Height;
-            num_Lvl_StartX.Maximum = CurLevel.Width - 1;
-            num_Lvl_StartY.Maximum = CurLevel.Height - 1;
-            num_Lvl_StartX.Value = CurLevel.StartPosX;
-            num_Lvl_StartY.Value = CurLevel.StartPosY;
-
-            chk_Lvl_AutoStart.CheckedChanged -= chk_Lvl_AutoStart_Leave;
-            chk_Lvl_AutoStart.Checked = CurLevel.AutoStartPos;
-            chk_Lvl_AutoStart.CheckedChanged += chk_Lvl_AutoStart_Leave;
-
-            num_Lvl_SizeX.ValueChanged += num_Lvl_SizeX_ValueChanged;
-            num_Lvl_SizeY.ValueChanged += num_Lvl_SizeY_ValueChanged;
-            num_Lvl_StartX.ValueChanged += num_Lvl_StartX_ValueChanged;
-            num_Lvl_StartY.ValueChanged += num_Lvl_StartY_ValueChanged;
-
-            // Add the rest of the values
-            num_Lvl_Lems.Value = CurLevel.NumLems;
-            num_Lvl_Rescue.Value = CurLevel.SaveReq;
-            num_Lvl_SR.Value = CurLevel.SpawnRate;
-            check_Lvl_LockSR.Checked = CurLevel.IsSpawnRateFix;
-            num_Lvl_TimeMin.Value = CurLevel.TimeLimit / 60;
-            num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;
-
-            check_Lvl_InfTime.CheckedChanged -= textbox_Leave;
-            check_Lvl_InfTime.Checked = CurLevel.IsNoTimeLimit;
-            check_Lvl_InfTime.CheckedChanged += textbox_Leave;
-
-            txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
-
-            foreach (C.Skill skill in numericsSkillSet.Keys)
+            _IsWritingToForm = true;
+            try
             {
-                numericsSkillSet[skill].Value = CurLevel.SkillSet[skill];
+                txt_LevelAuthor.Text = CurLevel.Author;
+                txt_LevelTitle.Text = CurLevel.Title;
+                combo_Music.Text = CurLevel.MusicFile;
+                combo_MainStyle.Text = (CurLevel.MainStyle != null) ? CurLevel.MainStyle.NameInEditor : "";
+
+                // Set size and start position, but without calling the Value_Changed methods,
+                // because they automatically call validation of the start position resp. render the level again.
+                num_Lvl_SizeX.ValueChanged -= num_Lvl_SizeX_ValueChanged;
+                num_Lvl_SizeY.ValueChanged -= num_Lvl_SizeY_ValueChanged;
+                num_Lvl_StartX.ValueChanged -= num_Lvl_StartX_ValueChanged;
+                num_Lvl_StartY.ValueChanged -= num_Lvl_StartY_ValueChanged;
+
+                num_Lvl_SizeX.Value = CurLevel.Width;
+                num_Lvl_SizeY.Value = CurLevel.Height;
+                num_Lvl_StartX.Maximum = CurLevel.Width - 1;
+                num_Lvl_StartY.Maximum = CurLevel.Height - 1;
+                num_Lvl_StartX.Value = CurLevel.StartPosX;
+                num_Lvl_StartY.Value = CurLevel.StartPosY;
+                chk_Lvl_AutoStart.Checked = CurLevel.AutoStartPos;
+
+                num_Lvl_SizeX.ValueChanged += num_Lvl_SizeX_ValueChanged;
+                num_Lvl_SizeY.ValueChanged += num_Lvl_SizeY_ValueChanged;
+                num_Lvl_StartX.ValueChanged += num_Lvl_StartX_ValueChanged;
+                num_Lvl_StartY.ValueChanged += num_Lvl_StartY_ValueChanged;
+
+                // Add the rest of the values
+                num_Lvl_Lems.Value = CurLevel.NumLems;
+                num_Lvl_Rescue.Value = CurLevel.SaveReq;
+                num_Lvl_SR.Value = CurLevel.SpawnRate;
+                check_Lvl_LockSR.Checked = CurLevel.IsSpawnRateFix;
+                num_Lvl_TimeMin.Value = CurLevel.TimeLimit / 60;
+                num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;
+                check_Lvl_InfTime.Checked = CurLevel.IsNoTimeLimit;
+
+                txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
+
+                foreach (C.Skill skill in numericsSkillSet.Keys)
+                {
+                    numericsSkillSet[skill].Value = CurLevel.SkillSet[skill];
+                }
+
+                lbl_Global_Version.Text = "Version: " + CurLevel.LevelVersion.ToString("X16");
+
+                RegenerateTalismanList();
             }
-
-            lbl_Global_Version.Text = "Version: " + CurLevel.LevelVersion.ToString("X16");
-
-            RegenerateTalismanList();
+            finally
+            {
+                _IsWritingToForm = false;
+            }
         }
 
         private void RegenerateTalismanList()

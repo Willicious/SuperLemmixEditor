@@ -240,6 +240,7 @@ namespace NLEditor
 
         private void textbox_Leave(object sender, EventArgs e)
         {
+            if (_IsWritingToForm) return;
             ReadLevelInfoFromForm(true);
             SaveChangesToOldLevelList();
         }
@@ -1516,6 +1517,7 @@ namespace NLEditor
 
         private void chk_Lvl_AutoStart_Leave(object sender, EventArgs e)
         {
+            if (_IsWritingToForm) return;
             textbox_Leave(sender, e);
             pic_Level.SetImage(curRenderer.GetScreenImage());
         }
