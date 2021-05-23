@@ -45,7 +45,8 @@ namespace NLEditor
                     { C.Skill.Stoner, check_Piece_Stoner }, { C.Skill.Platformer, check_Piece_Platformer },
                     { C.Skill.Stacker, check_Piece_Stacker }, { C.Skill.Cloner, check_Piece_Cloner },
                     { C.Skill.Fencer, check_Piece_Fencer },  { C.Skill.Shimmier, check_Piece_Shimmier },
-                    { C.Skill.Jumper, check_Piece_Jumper },
+                    { C.Skill.Jumper, check_Piece_Jumper }, { C.Skill.Slider, check_Piece_Slider },
+                    { C.Skill.Laserer, check_Piece_Laserer },
                     { C.Skill.Zombie, check_Piece_Zombie }, { C.Skill.Neutral, check_Piece_Neutral }
                 };
 
@@ -60,7 +61,8 @@ namespace NLEditor
                     { C.Skill.Stoner, num_Ski_Stoner }, { C.Skill.Platformer, num_Ski_Platformer },
                     { C.Skill.Stacker, num_Ski_Stacker }, { C.Skill.Cloner, num_Ski_Cloner },
                     { C.Skill.Fencer, num_Ski_Fencer }, { C.Skill.Shimmier, num_Ski_Shimmier },
-                    { C.Skill.Jumper, num_Ski_Jumper }
+                    { C.Skill.Jumper, num_Ski_Jumper }, { C.Skill.Slider, num_Ski_Slider },
+                    { C.Skill.Laserer, num_Ski_Laserer },
                 };
 
             var displayTabItems = new Dictionary<C.DisplayType, ToolStripMenuItem>()
@@ -1030,7 +1032,7 @@ namespace NLEditor
                 }
 
                 // Move screen start position, if 'P' is pressed in addition.
-                if (isPPressed)
+                if (isPPressed && !CurLevel.AutoStartPos)
                 {
                     // ensure displaying the screen start
                     DisplaySettings.SetDisplayed(C.DisplayType.ScreenStart, true);
@@ -1198,7 +1200,7 @@ namespace NLEditor
             {
                 dragAction = C.DragActions.SelectArea;
             }
-            else if (isPPressed) // for moving the screen start
+            else if (isPPressed && !CurLevel.AutoStartPos) // for moving the screen start
             {
                 // Only drag screen position, if it lies within the screen start rectangle
                 if (curRenderer.ScreenStartRectangle().Contains(mousePos))
@@ -1510,6 +1512,12 @@ namespace NLEditor
                 e.Effect = DragDropEffects.Link;
             else
                 e.Effect = DragDropEffects.None;
+        }
+
+        private void chk_Lvl_AutoStart_Leave(object sender, EventArgs e)
+        {
+            textbox_Leave(sender, e);
+            pic_Level.SetImage(curRenderer.GetScreenImage());
         }
     }
 }

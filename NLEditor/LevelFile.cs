@@ -92,7 +92,14 @@ namespace NLEditor
 
             newLevel.Width = file["WIDTH"].ValueInt;
             newLevel.Height = file["HEIGHT"].ValueInt;
-            newLevel.StartPos = new Point(file["START_X"].ValueInt, file["START_Y"].ValueInt);
+
+            if (file.HasChildWithKey("START_X") && file.HasChildWithKey("START_Y"))
+            {
+                newLevel.StartPos = new Point(file["START_X"].ValueInt, file["START_Y"].ValueInt);
+                newLevel.AutoStartPos = false;
+            }
+            else
+                newLevel.AutoStartPos = true;
 
             newLevel.NumLems = file["LEMMINGS"].ValueInt;
             newLevel.SaveReq = file["SAVE_REQUIREMENT"].ValueInt;
@@ -560,8 +567,11 @@ namespace NLEditor
             textFile.WriteLine("# ----------------------------- ");
             textFile.WriteLine(" WIDTH " + curLevel.Width.ToString());
             textFile.WriteLine(" HEIGHT " + curLevel.Height.ToString());
-            textFile.WriteLine(" START_X " + curLevel.StartPosX.ToString());
-            textFile.WriteLine(" START_Y " + curLevel.StartPosY.ToString());
+            if (!curLevel.AutoStartPos)
+            {
+                textFile.WriteLine(" START_X " + curLevel.StartPosX.ToString());
+                textFile.WriteLine(" START_Y " + curLevel.StartPosY.ToString());
+            }
             textFile.WriteLine(" THEME " + curLevel.MainStyle?.NameInDirectory);
 
             if (curLevel.Background != null)

@@ -31,6 +31,7 @@ namespace NLEditor
             this.Height = 160;
             this.StartPosX = 160;
             this.StartPosY = 80;
+            this.AutoStartPos = true;
 
             this.TerrainList = new List<TerrainPiece>();
             this.GadgetList = new List<GadgetPiece>();
@@ -83,6 +84,7 @@ namespace NLEditor
 
         public int StartPosX { get; set; }
         public int StartPosY { get; set; }
+        public bool AutoStartPos { get; set; }
 
         public List<TerrainPiece> TerrainList { get; set; }
         public List<GadgetPiece> GadgetList { get; set; }
@@ -124,6 +126,7 @@ namespace NLEditor
             newLevel.Height = this.Height;
             newLevel.StartPosX = this.StartPosX;
             newLevel.StartPosY = this.StartPosY;
+            newLevel.AutoStartPos = this.AutoStartPos;
 
             newLevel.TerrainList = new List<TerrainPiece>(this.TerrainList.Select(ter => (TerrainPiece)ter.Clone()));
             newLevel.GadgetList = new List<GadgetPiece>(this.GadgetList.Select(gad => (GadgetPiece)gad.Clone()));
@@ -173,6 +176,7 @@ namespace NLEditor
                 || this.Height != otherLevel.Height
                 || this.StartPosX != otherLevel.StartPosX
                 || this.StartPosY != otherLevel.StartPosY
+                || this.AutoStartPos != otherLevel.AutoStartPos
                 || this.TerrainList.Count != otherLevel.TerrainList.Count
                 || this.GadgetList.Count != otherLevel.GadgetList.Count
                 || this.NumLems != otherLevel.NumLems
