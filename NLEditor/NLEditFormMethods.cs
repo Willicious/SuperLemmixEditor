@@ -193,7 +193,10 @@ namespace NLEditor
             check_Lvl_LockSR.Checked = CurLevel.IsSpawnRateFix;
             num_Lvl_TimeMin.Value = CurLevel.TimeLimit / 60;
             num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;
+
+            check_Lvl_InfTime.CheckedChanged -= textbox_Leave;
             check_Lvl_InfTime.Checked = CurLevel.IsNoTimeLimit;
+            check_Lvl_InfTime.CheckedChanged += textbox_Leave;
 
             txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
 
