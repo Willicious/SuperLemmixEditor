@@ -14,8 +14,8 @@ namespace NLEditor
         public GadgetPiece(string key, Point pos)
             : base(key, true, pos)
         {
-            IsNoOverwrite = !ObjType.In(C.OBJ.ONE_WAY_WALL, C.OBJ.LEMMING);
-            IsOnlyOnTerrain = (ObjType == C.OBJ.ONE_WAY_WALL);
+            IsNoOverwrite = !ObjType.In(C.OBJ.ONE_WAY_WALL, C.OBJ.PAINT, C.OBJ.LEMMING);
+            IsOnlyOnTerrain = (ObjType.In(C.OBJ.ONE_WAY_WALL, C.OBJ.PAINT));
             Val_L = 0;
             SkillFlags = new HashSet<C.Skill>();
             SpecWidth = Utility.EvaluateResizable(0, DefaultWidth, base.Width, MayResizeHoriz());

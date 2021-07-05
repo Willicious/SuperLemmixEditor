@@ -64,7 +64,7 @@ namespace NLEditor
         {
             TERRAIN = -1, STEEL = -2,
             HATCH = 0, EXIT = 1, TRAP = 4, TRAPONCE = 5, WATER = 6, FIRE = 7,
-            ONE_WAY_WALL = 10,
+            ONE_WAY_WALL = 10, PAINT = 11,
             LEMMING = 15, PICKUP = 16, TELEPORTER = 17, RECEIVER = 18,
             EXIT_LOCKED = 20, BUTTON = 21,
             UPDRAFT = 22, SPLAT = 24, FORCE_FIELD = 25, SPLITTER = 27,
@@ -72,7 +72,7 @@ namespace NLEditor
             NULL
         }
 
-        public static OBJ[] HideTriggerObjects = new OBJ[] { OBJ.TERRAIN, OBJ.STEEL, OBJ.NONE, OBJ.BACKGROUND, OBJ.NULL };
+        public static OBJ[] HideTriggerObjects = new OBJ[] { OBJ.TERRAIN, OBJ.STEEL, OBJ.NONE, OBJ.BACKGROUND, OBJ.NULL, OBJ.PAINT };
         public static OBJ[] TriggerPointObjects = new OBJ[] { OBJ.HATCH, OBJ.RECEIVER };
 
         public enum StyleColor
@@ -95,7 +95,7 @@ namespace NLEditor
         public static readonly Dictionary<OBJ, string> TooltipList = new Dictionary<OBJ, string>
     {
       {OBJ.TERRAIN, "Terrain"}, {OBJ.STEEL, "Steel"}, {OBJ.NONE, "No effect"},
-      {OBJ.EXIT, "Exit"}, {OBJ.FORCE_FIELD, "Turning field"}, {OBJ.ONE_WAY_WALL, "One-way-wall"},
+      {OBJ.EXIT, "Exit"}, {OBJ.FORCE_FIELD, "Turning field"}, {OBJ.ONE_WAY_WALL, "One-way-wall"}, {OBJ.PAINT, "Paint"},
       {OBJ.TRAP, "Triggered trap"}, {OBJ.WATER, "Water"}, {OBJ.FIRE, "Fire"},
       {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Preplaced lemming"},
       {OBJ.PICKUP, "Pick-up skill"}, {OBJ.EXIT_LOCKED, "Locked exit"}, {OBJ.BUTTON, "Button"},

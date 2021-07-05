@@ -472,7 +472,7 @@ namespace NLEditor
                 layerImages[C.Layer.ObjBack].DrawOn(gadget.Image, gadget.Pos);
             }
 
-            var backGadgets = level.GadgetList.FindAll(obj => obj.IsNoOverwrite && !obj.ObjType.In(C.OBJ.BACKGROUND, C.OBJ.ONE_WAY_WALL));
+            var backGadgets = level.GadgetList.FindAll(obj => obj.IsNoOverwrite && !obj.ObjType.In(C.OBJ.BACKGROUND, C.OBJ.ONE_WAY_WALL, C.OBJ.PAINT));
             backGadgets.Reverse();
             foreach (GadgetPiece gadget in backGadgets)
             {
@@ -599,17 +599,17 @@ namespace NLEditor
             layerImages[C.Layer.ObjTop].Clear();
 
             var onlyOnTerrainGadgetList = level.GadgetList.FindAll(gad =>
-                    gad.IsOnlyOnTerrain && gad.ObjType != C.OBJ.ONE_WAY_WALL);
+                    gad.IsOnlyOnTerrain && !gad.ObjType.In(C.OBJ.ONE_WAY_WALL, C.OBJ.PAINT));
             foreach (GadgetPiece gadget in onlyOnTerrainGadgetList)
             {
                 layerImages[C.Layer.ObjTop].DrawOn(gadget.Image, layerImages[C.Layer.Terrain], gadget.Pos, C.CustDrawMode.OnlyAtMask);
             }
 
-            var owwGadgetList = level.GadgetList.FindAll(gad => gad.ObjType == C.OBJ.ONE_WAY_WALL);
+            var owwGadgetList = level.GadgetList.FindAll(gad => gad.ObjType.In(C.OBJ.ONE_WAY_WALL, C.OBJ.PAINT));
             foreach (GadgetPiece gadget in owwGadgetList)
             {
                 Bitmap gadgetImage;
-                if (gadget.Style != "default")
+                if ((gadget.Style != "default") || (gadget.ObjType == C.OBJ.PAINT))
                 {
                     gadgetImage = gadget.Image;
                 }
@@ -621,7 +621,7 @@ namespace NLEditor
             }
 
             var normalGadgetList = level.GadgetList.FindAll(gad =>
-                    !gad.IsNoOverwrite && !gad.IsOnlyOnTerrain && !gad.ObjType.In(C.OBJ.ONE_WAY_WALL, C.OBJ.BACKGROUND));
+                    !gad.IsNoOverwrite && !gad.IsOnlyOnTerrain && !gad.ObjType.In(C.OBJ.ONE_WAY_WALL, C.OBJ.BACKGROUND, C.OBJ.PAINT));
             foreach (GadgetPiece gadget in normalGadgetList)
             {
                 layerImages[C.Layer.ObjTop].DrawOn(gadget.Image, gadget.Pos);

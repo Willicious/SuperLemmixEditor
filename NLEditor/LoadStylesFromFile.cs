@@ -366,6 +366,9 @@ namespace NLEditor
                                 case "ONEWAYUP":
                                     objType = C.OBJ.ONE_WAY_WALL;
                                     break;
+                                case "PAINT":
+                                    objType = C.OBJ.PAINT;
+                                    break;
                                 case "UNLOCKBUTTON":
                                     objType = C.OBJ.BUTTON;
                                     break;
