@@ -116,7 +116,10 @@
             this.check_Piece_Zombie = new System.Windows.Forms.CheckBox();
             this.check_Piece_Digger = new System.Windows.Forms.CheckBox();
             this.check_Piece_Fencer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Spearer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Grenader = new System.Windows.Forms.CheckBox();
             this.check_Piece_Laserer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Timebomber = new System.Windows.Forms.CheckBox();
             this.check_Piece_Builder = new System.Windows.Forms.CheckBox();
             this.check_Piece_Blocker = new System.Windows.Forms.CheckBox();
             this.check_Piece_Bomber = new System.Windows.Forms.CheckBox();
@@ -132,7 +135,7 @@
             this.check_Piece_Basher = new System.Windows.Forms.CheckBox();
             this.check_Piece_Stacker = new System.Windows.Forms.CheckBox();
             this.check_Piece_Platformer = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Stoner = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Freezer = new System.Windows.Forms.CheckBox();
             this.check_Piece_Disarmer = new System.Windows.Forms.CheckBox();
             this.check_Piece_Floater = new System.Windows.Forms.CheckBox();
             this.check_Piece_Climber = new System.Windows.Forms.CheckBox();
@@ -163,7 +166,10 @@
             this.but_InvertPieces = new NLEditor.RepeatButton();
             this.but_RotatePieces = new NLEditor.RepeatButton();
             this.tabSkills = new System.Windows.Forms.TabPage();
+            this.lbl_Skill_Spearer = new System.Windows.Forms.Label();
+            this.lbl_Skill_Grenader = new System.Windows.Forms.Label();
             this.lbl_Skill_Laserer = new System.Windows.Forms.Label();
+            this.lbl_Skill_Timebomber = new System.Windows.Forms.Label();
             this.lbl_Skill_Slider = new System.Windows.Forms.Label();
             this.lbl_Skill_Jumper = new System.Windows.Forms.Label();
             this.lbl_Skill_Shimmier = new System.Windows.Forms.Label();
@@ -171,7 +177,7 @@
             this.lbl_Skill_Cloner = new System.Windows.Forms.Label();
             this.lbl_Skill_Stacker = new System.Windows.Forms.Label();
             this.lbl_Skill_Platformer = new System.Windows.Forms.Label();
-            this.lbl_Skill_Stoner = new System.Windows.Forms.Label();
+            this.lbl_Skill_Freezer = new System.Windows.Forms.Label();
             this.lbl_Skill_Disarmer = new System.Windows.Forms.Label();
             this.lbl_Skill_Glider = new System.Windows.Forms.Label();
             this.lbl_Skill_Swimmer = new System.Windows.Forms.Label();
@@ -184,7 +190,10 @@
             this.lbl_Skill_Blocker = new System.Windows.Forms.Label();
             this.lbl_Skill_Floater = new System.Windows.Forms.Label();
             this.lbl_Skill_Climber = new System.Windows.Forms.Label();
+            this.num_Ski_Spearer = new NLEditor.NumUpDownOverwrite();
+            this.num_Ski_Grenader = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Laserer = new NLEditor.NumUpDownOverwrite();
+            this.num_Ski_Timebomber = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Slider = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Jumper = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Shimmier = new NLEditor.NumUpDownOverwrite();
@@ -192,7 +201,7 @@
             this.num_Ski_Cloner = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Stacker = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Platformer = new NLEditor.NumUpDownOverwrite();
-            this.num_Ski_Stoner = new NLEditor.NumUpDownOverwrite();
+            this.num_Ski_Freezer = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Disarmer = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Glider = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Swimmer = new NLEditor.NumUpDownOverwrite();
@@ -258,7 +267,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).BeginInit();
             this.tabSkills.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Spearer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Grenader)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Laserer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Timebomber)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Slider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Jumper)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Shimmier)).BeginInit();
@@ -266,7 +278,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Cloner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stacker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Platformer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stoner)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Freezer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Disarmer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Glider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Swimmer)).BeginInit();
@@ -1230,7 +1242,10 @@
             this.tabPieces.Controls.Add(this.check_Piece_Zombie);
             this.tabPieces.Controls.Add(this.check_Piece_Digger);
             this.tabPieces.Controls.Add(this.check_Piece_Fencer);
+            this.tabPieces.Controls.Add(this.check_Piece_Spearer);
+            this.tabPieces.Controls.Add(this.check_Piece_Grenader);
             this.tabPieces.Controls.Add(this.check_Piece_Laserer);
+            this.tabPieces.Controls.Add(this.check_Piece_Timebomber);
             this.tabPieces.Controls.Add(this.check_Piece_Builder);
             this.tabPieces.Controls.Add(this.check_Piece_Blocker);
             this.tabPieces.Controls.Add(this.check_Piece_Bomber);
@@ -1246,7 +1261,7 @@
             this.tabPieces.Controls.Add(this.check_Piece_Basher);
             this.tabPieces.Controls.Add(this.check_Piece_Stacker);
             this.tabPieces.Controls.Add(this.check_Piece_Platformer);
-            this.tabPieces.Controls.Add(this.check_Piece_Stoner);
+            this.tabPieces.Controls.Add(this.check_Piece_Freezer);
             this.tabPieces.Controls.Add(this.check_Piece_Disarmer);
             this.tabPieces.Controls.Add(this.check_Piece_Floater);
             this.tabPieces.Controls.Add(this.check_Piece_Climber);
@@ -1316,6 +1331,26 @@
             this.check_Piece_Fencer.Text = "Fencer";
             this.check_Piece_Fencer.UseVisualStyleBackColor = true;
             this.check_Piece_Fencer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            //
+            // check_Piece_Spearer
+            // 
+            this.check_Piece_Spearer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Spearer.Location = new System.Drawing.Point(88, 282);
+            this.check_Piece_Spearer.Name = "check_Piece_Spearer";
+            this.check_Piece_Spearer.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Spearer.TabIndex = 42;
+            this.check_Piece_Spearer.Text = "Spearer";
+            this.check_Piece_Spearer.UseVisualStyleBackColor = true;
+            // 
+            // check_Piece_Grenader
+            // 
+            this.check_Piece_Grenader.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Grenader.Location = new System.Drawing.Point(88, 283);
+            this.check_Piece_Grenader.Name = "check_Piece_Grenader";
+            this.check_Piece_Grenader.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Grenader.TabIndex = 42;
+            this.check_Piece_Grenader.Text = "Grenader";
+            this.check_Piece_Grenader.UseVisualStyleBackColor = true;
             // 
             // check_Piece_Laserer
             // 
@@ -1326,6 +1361,16 @@
             this.check_Piece_Laserer.TabIndex = 42;
             this.check_Piece_Laserer.Text = "Laserer";
             this.check_Piece_Laserer.UseVisualStyleBackColor = true;
+            // 
+            // check_Piece_Timebomber
+            // 
+            this.check_Piece_Timebomber.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Timebomber.Location = new System.Drawing.Point(88, 288);
+            this.check_Piece_Timebomber.Name = "check_Piece_Timebomber";
+            this.check_Piece_Timebomber.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Timebomber.TabIndex = 42;
+            this.check_Piece_Timebomber.Text = "Timebomber";
+            this.check_Piece_Timebomber.UseVisualStyleBackColor = true;
             // 
             // check_Piece_Builder
             // 
@@ -1504,16 +1549,16 @@
             this.check_Piece_Platformer.UseVisualStyleBackColor = true;
             this.check_Piece_Platformer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
-            // check_Piece_Stoner
+            // check_Piece_Freezer
             // 
-            this.check_Piece_Stoner.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Piece_Stoner.Location = new System.Drawing.Point(8, 255);
-            this.check_Piece_Stoner.Name = "check_Piece_Stoner";
-            this.check_Piece_Stoner.Size = new System.Drawing.Size(76, 17);
-            this.check_Piece_Stoner.TabIndex = 26;
-            this.check_Piece_Stoner.Text = "Stoner";
-            this.check_Piece_Stoner.UseVisualStyleBackColor = true;
-            this.check_Piece_Stoner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            this.check_Piece_Freezer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_Piece_Freezer.Location = new System.Drawing.Point(8, 255);
+            this.check_Piece_Freezer.Name = "check_Piece_Freezer";
+            this.check_Piece_Freezer.Size = new System.Drawing.Size(76, 17);
+            this.check_Piece_Freezer.TabIndex = 26;
+            this.check_Piece_Freezer.Text = "Freezer";
+            this.check_Piece_Freezer.UseVisualStyleBackColor = true;
+            this.check_Piece_Freezer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Disarmer
             // 
@@ -1893,7 +1938,10 @@
             // 
             // tabSkills
             // 
+            this.tabSkills.Controls.Add(this.lbl_Skill_Timebomber);
             this.tabSkills.Controls.Add(this.lbl_Skill_Laserer);
+            this.tabSkills.Controls.Add(this.lbl_Skill_Grenader);
+            this.tabSkills.Controls.Add(this.lbl_Skill_Spearer);
             this.tabSkills.Controls.Add(this.lbl_Skill_Slider);
             this.tabSkills.Controls.Add(this.lbl_Skill_Jumper);
             this.tabSkills.Controls.Add(this.lbl_Skill_Shimmier);
@@ -1901,7 +1949,7 @@
             this.tabSkills.Controls.Add(this.lbl_Skill_Cloner);
             this.tabSkills.Controls.Add(this.lbl_Skill_Stacker);
             this.tabSkills.Controls.Add(this.lbl_Skill_Platformer);
-            this.tabSkills.Controls.Add(this.lbl_Skill_Stoner);
+            this.tabSkills.Controls.Add(this.lbl_Skill_Freezer);
             this.tabSkills.Controls.Add(this.lbl_Skill_Disarmer);
             this.tabSkills.Controls.Add(this.lbl_Skill_Glider);
             this.tabSkills.Controls.Add(this.lbl_Skill_Swimmer);
@@ -1914,7 +1962,10 @@
             this.tabSkills.Controls.Add(this.lbl_Skill_Blocker);
             this.tabSkills.Controls.Add(this.lbl_Skill_Floater);
             this.tabSkills.Controls.Add(this.lbl_Skill_Climber);
+            this.tabSkills.Controls.Add(this.num_Ski_Timebomber);
             this.tabSkills.Controls.Add(this.num_Ski_Laserer);
+            this.tabSkills.Controls.Add(this.num_Ski_Grenader);
+            this.tabSkills.Controls.Add(this.num_Ski_Spearer);
             this.tabSkills.Controls.Add(this.num_Ski_Slider);
             this.tabSkills.Controls.Add(this.num_Ski_Jumper);
             this.tabSkills.Controls.Add(this.num_Ski_Shimmier);
@@ -1922,7 +1973,7 @@
             this.tabSkills.Controls.Add(this.num_Ski_Cloner);
             this.tabSkills.Controls.Add(this.num_Ski_Stacker);
             this.tabSkills.Controls.Add(this.num_Ski_Platformer);
-            this.tabSkills.Controls.Add(this.num_Ski_Stoner);
+            this.tabSkills.Controls.Add(this.num_Ski_Freezer);
             this.tabSkills.Controls.Add(this.num_Ski_Disarmer);
             this.tabSkills.Controls.Add(this.num_Ski_Glider);
             this.tabSkills.Controls.Add(this.num_Ski_Swimmer);
@@ -1942,6 +1993,22 @@
             this.tabSkills.Text = "Skills";
             this.tabSkills.UseVisualStyleBackColor = true;
             // 
+            // lbl_Skill_Spearer
+            // 
+            this.lbl_Skill_Spearer.Location = new System.Drawing.Point(8, 326);
+            this.lbl_Skill_Spearer.Name = "lbl_Skill_Spearer";
+            this.lbl_Skill_Spearer.Size = new System.Drawing.Size(70, 15);
+            this.lbl_Skill_Spearer.TabIndex = 40;
+            this.lbl_Skill_Spearer.Text = "Spearer";
+            // 
+            // lbl_Skill_Grenader
+            // 
+            this.lbl_Skill_Grenader.Location = new System.Drawing.Point(8, 324);
+            this.lbl_Skill_Grenader.Name = "lbl_Skill_Grenader";
+            this.lbl_Skill_Grenader.Size = new System.Drawing.Size(70, 15);
+            this.lbl_Skill_Grenader.TabIndex = 40;
+            this.lbl_Skill_Grenader.Text = "Grenader";
+            // 
             // lbl_Skill_Laserer
             // 
             this.lbl_Skill_Laserer.Location = new System.Drawing.Point(8, 322);
@@ -1949,6 +2016,14 @@
             this.lbl_Skill_Laserer.Size = new System.Drawing.Size(70, 15);
             this.lbl_Skill_Laserer.TabIndex = 40;
             this.lbl_Skill_Laserer.Text = "Laserer";
+            // 
+            // lbl_Skill_Timebomber
+            // 
+            this.lbl_Skill_Timebomber.Location = new System.Drawing.Point(8, 320);
+            this.lbl_Skill_Timebomber.Name = "lbl_Skill_Timebomber";
+            this.lbl_Skill_Timebomber.Size = new System.Drawing.Size(70, 15);
+            this.lbl_Skill_Timebomber.TabIndex = 40;
+            this.lbl_Skill_Timebomber.Text = "Timebomber";
             // 
             // lbl_Skill_Slider
             // 
@@ -2006,13 +2081,13 @@
             this.lbl_Skill_Platformer.TabIndex = 13;
             this.lbl_Skill_Platformer.Text = "Platformer";
             // 
-            // lbl_Skill_Stoner
+            // lbl_Skill_Freezer
             // 
-            this.lbl_Skill_Stoner.Location = new System.Drawing.Point(8, 217);
-            this.lbl_Skill_Stoner.Name = "lbl_Skill_Stoner";
-            this.lbl_Skill_Stoner.Size = new System.Drawing.Size(70, 15);
-            this.lbl_Skill_Stoner.TabIndex = 12;
-            this.lbl_Skill_Stoner.Text = "Stoner";
+            this.lbl_Skill_Freezer.Location = new System.Drawing.Point(8, 217);
+            this.lbl_Skill_Freezer.Name = "lbl_Skill_Freezer";
+            this.lbl_Skill_Freezer.Size = new System.Drawing.Size(70, 15);
+            this.lbl_Skill_Freezer.TabIndex = 12;
+            this.lbl_Skill_Freezer.Text = "Freezer";
             // 
             // lbl_Skill_Disarmer
             // 
@@ -2110,14 +2185,41 @@
             this.lbl_Skill_Climber.TabIndex = 0;
             this.lbl_Skill_Climber.Text = "Climber";
             // 
+            // num_Ski_Spearer
+            // 
+            this.num_Ski_Spearer.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.num_Ski_Spearer.Location = new System.Drawing.Point(84, 326);
+            this.num_Ski_Spearer.Name = "num_Ski_Spearer";
+            this.num_Ski_Spearer.Size = new System.Drawing.Size(52, 20);
+            this.num_Ski_Spearer.TabIndex = 41;
+            this.num_Ski_Spearer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // num_Ski_Grenader
+            // 
+            this.num_Ski_Grenader.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.num_Ski_Grenader.Location = new System.Drawing.Point(84, 324);
+            this.num_Ski_Grenader.Name = "num_Ski_Grenader";
+            this.num_Ski_Grenader.Size = new System.Drawing.Size(52, 20);
+            this.num_Ski_Grenader.TabIndex = 41;
+            this.num_Ski_Grenader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // num_Ski_Laserer
             // 
             this.num_Ski_Laserer.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Laserer.Location = new System.Drawing.Point(84, 320);
+            this.num_Ski_Laserer.Location = new System.Drawing.Point(84, 322);
             this.num_Ski_Laserer.Name = "num_Ski_Laserer";
             this.num_Ski_Laserer.Size = new System.Drawing.Size(52, 20);
             this.num_Ski_Laserer.TabIndex = 41;
             this.num_Ski_Laserer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // num_Ski_Timebomber
+            // 
+            this.num_Ski_Timebomber.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.num_Ski_Timebomber.Location = new System.Drawing.Point(84, 320);
+            this.num_Ski_Timebomber.Name = "num_Ski_Timebomber";
+            this.num_Ski_Timebomber.Size = new System.Drawing.Size(52, 20);
+            this.num_Ski_Timebomber.TabIndex = 41;
+            this.num_Ski_Timebomber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // num_Ski_Slider
             // 
@@ -2196,17 +2298,17 @@
             this.num_Ski_Platformer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             this.num_Ski_Platformer.Leave += new System.EventHandler(this.textbox_Leave);
             // 
-            // num_Ski_Stoner
+            // num_Ski_Freezer
             // 
-            this.num_Ski_Stoner.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Stoner.Location = new System.Drawing.Point(84, 215);
-            this.num_Ski_Stoner.Name = "num_Ski_Stoner";
-            this.num_Ski_Stoner.Size = new System.Drawing.Size(52, 20);
-            this.num_Ski_Stoner.TabIndex = 29;
-            this.num_Ski_Stoner.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.num_Ski_Stoner.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
-            this.num_Ski_Stoner.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
-            this.num_Ski_Stoner.Leave += new System.EventHandler(this.textbox_Leave);
+            this.num_Ski_Freezer.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.num_Ski_Freezer.Location = new System.Drawing.Point(84, 215);
+            this.num_Ski_Freezer.Name = "num_Ski_Freezer";
+            this.num_Ski_Freezer.Size = new System.Drawing.Size(52, 20);
+            this.num_Ski_Freezer.TabIndex = 29;
+            this.num_Ski_Freezer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Freezer.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Freezer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
+            this.num_Ski_Freezer.Leave += new System.EventHandler(this.textbox_Leave);
             // 
             // num_Ski_Disarmer
             // 
@@ -2676,7 +2778,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).EndInit();
             this.tabSkills.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Timebomber)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Laserer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Grenader)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Spearer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Slider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Jumper)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Shimmier)).EndInit();
@@ -2684,7 +2789,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Cloner)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stacker)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Platformer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stoner)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Freezer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Disarmer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Glider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Swimmer)).EndInit();
@@ -2738,7 +2843,7 @@
         private System.Windows.Forms.Label lbl_Skill_Cloner;
         private System.Windows.Forms.Label lbl_Skill_Stacker;
         private System.Windows.Forms.Label lbl_Skill_Platformer;
-        private System.Windows.Forms.Label lbl_Skill_Stoner;
+        private System.Windows.Forms.Label lbl_Skill_Freezer;
         private System.Windows.Forms.Label lbl_Skill_Disarmer;
         private System.Windows.Forms.Label lbl_Skill_Glider;
         private System.Windows.Forms.Label lbl_Skill_Swimmer;
@@ -2754,7 +2859,7 @@
         private NLEditor.NumUpDownOverwrite num_Ski_Cloner;
         private NLEditor.NumUpDownOverwrite num_Ski_Stacker;
         private NLEditor.NumUpDownOverwrite num_Ski_Platformer;
-        private NLEditor.NumUpDownOverwrite num_Ski_Stoner;
+        private NLEditor.NumUpDownOverwrite num_Ski_Freezer;
         private NLEditor.NumUpDownOverwrite num_Ski_Disarmer;
         private NLEditor.NumUpDownOverwrite num_Ski_Glider;
         private NLEditor.NumUpDownOverwrite num_Ski_Swimmer;
@@ -2817,7 +2922,7 @@
         private System.Windows.Forms.CheckBox check_Piece_Cloner;
         private System.Windows.Forms.CheckBox check_Piece_Stacker;
         private System.Windows.Forms.CheckBox check_Piece_Platformer;
-        private System.Windows.Forms.CheckBox check_Piece_Stoner;
+        private System.Windows.Forms.CheckBox check_Piece_Freezer;
         private System.Windows.Forms.CheckBox check_Piece_Disarmer;
         private System.Windows.Forms.CheckBox check_Piece_Glider;
         private System.Windows.Forms.CheckBox check_Piece_Swimmer;
@@ -2900,10 +3005,19 @@
         private System.Windows.Forms.ComboBox cb_Background_Direction;
         private System.Windows.Forms.Label lbl_Background_Direction;
         private System.Windows.Forms.Label lbl_Global_Version;
-        private System.Windows.Forms.CheckBox check_Piece_Slider;
+        private System.Windows.Forms.CheckBox check_Piece_Spearer;
+        private System.Windows.Forms.Label lbl_Skill_Spearer;
+        private NumUpDownOverwrite num_Ski_Spearer;
+        private System.Windows.Forms.CheckBox check_Piece_Grenader;
+        private System.Windows.Forms.Label lbl_Skill_Grenader;
+        private NumUpDownOverwrite num_Ski_Grenader;
         private System.Windows.Forms.CheckBox check_Piece_Laserer;
         private System.Windows.Forms.Label lbl_Skill_Laserer;
         private NumUpDownOverwrite num_Ski_Laserer;
+        private System.Windows.Forms.CheckBox check_Piece_Timebomber;
+        private System.Windows.Forms.Label lbl_Skill_Timebomber;
+        private NumUpDownOverwrite num_Ski_Timebomber;
+        private System.Windows.Forms.CheckBox check_Piece_Slider;
         private System.Windows.Forms.Label lbl_Skill_Slider;
         private NumUpDownOverwrite num_Ski_Slider;
         private System.Windows.Forms.CheckBox chk_Lvl_AutoStart;

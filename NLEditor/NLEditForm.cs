@@ -42,11 +42,12 @@ namespace NLEditor
                     { C.Skill.Miner, check_Piece_Miner }, { C.Skill.Digger, check_Piece_Digger },
                     { C.Skill.Walker, check_Piece_Walker }, { C.Skill.Swimmer, check_Piece_Swimmer },
                     { C.Skill.Glider, check_Piece_Glider }, { C.Skill.Disarmer, check_Piece_Disarmer },
-                    { C.Skill.Stoner, check_Piece_Stoner }, { C.Skill.Platformer, check_Piece_Platformer },
+                    { C.Skill.Freezer, check_Piece_Freezer }, { C.Skill.Platformer, check_Piece_Platformer },
                     { C.Skill.Stacker, check_Piece_Stacker }, { C.Skill.Cloner, check_Piece_Cloner },
                     { C.Skill.Fencer, check_Piece_Fencer },  { C.Skill.Shimmier, check_Piece_Shimmier },
                     { C.Skill.Jumper, check_Piece_Jumper }, { C.Skill.Slider, check_Piece_Slider },
-                    { C.Skill.Laserer, check_Piece_Laserer },
+                    { C.Skill.Laserer, check_Piece_Laserer }, { C.Skill.Spearer, check_Piece_Spearer },
+                    { C.Skill.Grenader, check_Piece_Grenader }, { C.Skill.Timebomber, check_Piece_Timebomber },
                     { C.Skill.Zombie, check_Piece_Zombie }, { C.Skill.Neutral, check_Piece_Neutral }
                 };
 
@@ -58,11 +59,12 @@ namespace NLEditor
                     { C.Skill.Miner, num_Ski_Miner }, { C.Skill.Digger, num_Ski_Digger },
                     { C.Skill.Walker, num_Ski_Walker }, { C.Skill.Swimmer, num_Ski_Swimmer },
                     { C.Skill.Glider, num_Ski_Glider }, { C.Skill.Disarmer, num_Ski_Disarmer },
-                    { C.Skill.Stoner, num_Ski_Stoner }, { C.Skill.Platformer, num_Ski_Platformer },
+                    { C.Skill.Freezer, num_Ski_Freezer }, { C.Skill.Platformer, num_Ski_Platformer },
                     { C.Skill.Stacker, num_Ski_Stacker }, { C.Skill.Cloner, num_Ski_Cloner },
                     { C.Skill.Fencer, num_Ski_Fencer }, { C.Skill.Shimmier, num_Ski_Shimmier },
                     { C.Skill.Jumper, num_Ski_Jumper }, { C.Skill.Slider, num_Ski_Slider },
-                    { C.Skill.Laserer, num_Ski_Laserer },
+                    { C.Skill.Laserer, num_Ski_Laserer }, { C.Skill.Spearer, num_Ski_Spearer },
+                    { C.Skill.Grenader, num_Ski_Grenader }, { C.Skill.Timebomber, num_Ski_Timebomber },
                 };
 
             var displayTabItems = new Dictionary<C.DisplayType, ToolStripMenuItem>()
