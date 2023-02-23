@@ -329,7 +329,7 @@ namespace NLEditor
         /// </summary>
         private void MoveControlsOnFormResize()
         {
-            scrollPicLevelHoriz.Top = this.Height - 167;
+            scrollPicLevelHoriz.Top = this.Height - 182;
             scrollPicLevelVert.Left = this.Width - 29;
 
             RepositionPicLevel();
@@ -343,6 +343,7 @@ namespace NLEditor
             but_PieceTerr.Top = this.Height - 149;
             but_PieceObj.Top = this.Height - 149;
             but_PieceBackground.Top = this.Height - 149;
+            but_ClearBackground.Top = this.Height - 149;
             but_PieceSketches.Top = this.Height - 149;
 
             but_PieceLeft.Top = this.Height - 122;
@@ -364,9 +365,9 @@ namespace NLEditor
         {
             int offsetWidth = tabLvlPieces.Width + tabLvlSkills.Width + tabLvlMisc.Width;
 
-            pic_Level.Left = 188 + (curSettings.UseLvlPropertiesTabs ? 0 : offsetWidth);
+            pic_Level.Left = 264 + (curSettings.UseLvlPropertiesTabs ? 0 : offsetWidth);
 
-            Size newPicLevelSize = new Size(this.Width - 200, this.Height - 178);
+            Size newPicLevelSize = new Size(this.Width - 276, this.Height - 178);
 
             if (!curSettings.UseLvlPropertiesTabs)
             {
@@ -424,8 +425,8 @@ namespace NLEditor
                 int maxValue = CurLevel.Width + Renderer.AllowedGrayBorder - displayedLevelRect.Width + 1;
                 scrollPicLevelHoriz.Minimum = -Renderer.AllowedGrayBorder;
                 scrollPicLevelHoriz.Maximum = maxValue;
-                scrollPicLevelHoriz.SmallChange = 1;
-                scrollPicLevelHoriz.LargeChange = 2;
+                scrollPicLevelHoriz.SmallChange = 8;
+                scrollPicLevelHoriz.LargeChange = 16;
                 scrollPicLevelHoriz.Value = Math.Max(Math.Min(displayedLevelRect.Left, maxValue - 1), -Renderer.AllowedGrayBorder);
             }
             scrollPicLevelHoriz.Enabled = displayScrollHoriz;
@@ -438,21 +439,21 @@ namespace NLEditor
                 int maxValue = CurLevel.Height + Renderer.AllowedGrayBorder - displayedLevelRect.Height + 1;
                 scrollPicLevelVert.Minimum = -Renderer.AllowedGrayBorder;
                 scrollPicLevelVert.Maximum = maxValue;
-                scrollPicLevelVert.SmallChange = 1;
-                scrollPicLevelVert.LargeChange = 2;
+                scrollPicLevelVert.SmallChange = 4;
+                scrollPicLevelVert.LargeChange = 8;
                 scrollPicLevelVert.Value = Math.Max(Math.Min(displayedLevelRect.Top, maxValue - 1), -Renderer.AllowedGrayBorder);
             }
             scrollPicLevelVert.Enabled = displayScrollVert;
             scrollPicLevelVert.Visible = displayScrollVert;
 
             // finally resize scrollbars correctly
-            scrollPicLevelHoriz.Width = newPicBoxSize.Width - 2;
+            scrollPicLevelHoriz.Width = newPicBoxSize.Width - 24;
             scrollPicLevelVert.Height = newPicBoxSize.Height - 2;
 
             if (!curSettings.UseLvlPropertiesTabs)
-                scrollPicLevelHoriz.Left = 188 + tabLvlPieces.Width + tabLvlSkills.Width + tabLvlMisc.Width;
+                scrollPicLevelHoriz.Left = 264 + tabLvlPieces.Width + tabLvlSkills.Width + tabLvlMisc.Width;
             else
-                scrollPicLevelHoriz.Left = 188;
+                scrollPicLevelHoriz.Left = 264;
 
             scrollPicLevelVert.Left = scrollPicLevelVert.Parent.ClientRectangle.Width - scrollPicLevelVert.Width;
 
