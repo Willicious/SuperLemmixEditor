@@ -5,7 +5,7 @@ using System.IO;
 namespace NLEditor
 {
     /// <summary>
-    /// This class reads the NeoLemmix player's settings
+    /// This class reads the SuperLemmix player's settings
     /// and determines how much of the level gets displayed
     /// </summary>
     class ScreenSize
@@ -49,7 +49,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Reads the NeoLemmix player settings.
+        /// Reads the SuperLemmix player settings.
         /// </summary>
         private void ReadPlayerSettings()
         {

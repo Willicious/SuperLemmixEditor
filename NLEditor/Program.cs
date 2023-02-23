@@ -1,6 +1,6 @@
 ﻿
 /*----------------------------------------------------------------
- *                  NeoLemmix Editor
+ *                  SuperLemmix Editor
  *   All parts of the source code are licensed under
  *                    CC BY-NC 4.0
  * see: https://creativecommons.org/licenses/by-nc/4.0/legalcode                 

@@ -2134,6 +2134,7 @@
             this.num_Ski_Timebomber.Size = new System.Drawing.Size(42, 20);
             this.num_Ski_Timebomber.TabIndex = 41;
             this.num_Ski_Timebomber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Timebomber.Enabled = false; //this code can be removed when the Timebomber exists in SuperLemmix
             // 
             // num_Ski_Laserer
             // 
@@ -2691,7 +2692,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.MinimumSize = new System.Drawing.Size(806, 454);
             this.Name = "NLEditForm";
-            this.Text = "  NeoLemmix Editor";
+            this.Text = "  SuperLemmix Editor";
             this.Activated += new System.EventHandler(this.NLEditForm_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NLEditForm_FormClosing);
             this.Click += new System.EventHandler(this.NLEditForm_Click);

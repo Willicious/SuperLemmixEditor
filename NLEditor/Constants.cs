@@ -26,8 +26,8 @@ namespace NLEditor
         public static string AppPathThemeInfo(string styleName) => AppPathPieces + styleName + C.DirSep + "theme.nxtm";
         public static string AppPathSettings => AppPath + "NLEditorSettings.ini";
         public static string AppPathPlayerSettings => AppPath + "settings" + DirSep + "settings.ini";
-        public static string AppPathPlayerSettingsOld => AppPath + "NeoLemmix147Settings.ini";
-        public static string AppPathNeoLemmix => AppPath + "NeoLemmix.exe";
+        public static string AppPathPlayerSettingsOld => AppPath + "SuperLemmix147Settings.ini";
+        public static string AppPathSuperLemmix => AppPath + "SuperLemmix.exe";
 
         public static char DirSep => System.IO.Path.DirectorySeparatorChar;
         public static string NewLine => Environment.NewLine;
@@ -58,7 +58,7 @@ namespace NLEditor
         public enum DIR { N, E, S, W }
 
         /// <summary>
-        /// Warning: The values of the object types here do NOT correspond to the numbers used in NeoLemmix! 
+        /// Warning: The values of the object types here do NOT correspond to the numbers used in SuperLemmix! 
         /// </summary>
         public enum OBJ
         {
@@ -349,7 +349,7 @@ namespace NLEditor
             "Toggle grid usage.",
             "Display a window to change global options.",
             "Display this hotkey help window.",
-            "Playtest the level in the NeoLemmix player."
+            "Playtest the level in the SuperLemmix player."
         }
       },
       { HotkeyTabs.Level, new List<string>
@@ -409,11 +409,12 @@ namespace NLEditor
         public static readonly List<string> VersionList = new List<string>
     {
       "Version " + Version,
-      "   by Stephan Neupert (Nepster), updates by Namida Verasche (namida)",
+      "   by Stephan Neupert (Nepster), updates by Namida Verasche (namida) & William James",
       "",
       "Thanks to...",
       "  DMA for creating the original Lemmings games.",
       "  Namida Verasche for the NeoLemmix player.",
+      "  William James for the SuperLemmix player.",
       "  The LemmingsForums at http://www.lemmingsforums.net.",
       "",
       "This application and all its source code is licensed under",

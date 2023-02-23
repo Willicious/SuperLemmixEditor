@@ -31,7 +31,7 @@ namespace NLEditor
                 openFileDialog.InitialDirectory = Directory.Exists(C.AppPathLevels) ? C.AppPathLevels : C.AppPath;
             }
             openFileDialog.Multiselect = false;
-            openFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
+            openFileDialog.Filter = "SuperLemmix level files (*.nxlv)|*.nxlv";
             openFileDialog.RestoreDirectory = true;
             openFileDialog.CheckFileExists = true;
 
@@ -492,7 +492,7 @@ namespace NLEditor
                 saveFileDialog.InitialDirectory = Directory.Exists(C.AppPathLevels) ? C.AppPathLevels : C.AppPath;
             }
             saveFileDialog.OverwritePrompt = true;
-            saveFileDialog.Filter = "NeoLemmix level files (*.nxlv)|*.nxlv";
+            saveFileDialog.Filter = "SuperLemmix level files (*.nxlv)|*.nxlv";
             saveFileDialog.RestoreDirectory = true;
 
             try
@@ -547,7 +547,7 @@ namespace NLEditor
             TextWriter textFile = new StreamWriter(filePath, true);
 
             textFile.WriteLine("# ----------------------------- ");
-            textFile.WriteLine("#        NeoLemmix Level        ");
+            textFile.WriteLine("#        SuperLemmix Level        ");
             textFile.WriteLine("#   Created with NLEditor " + C.Version);
             textFile.WriteLine("# ----------------------------- ");
             textFile.WriteLine(" ");
@@ -983,17 +983,17 @@ namespace NLEditor
         /// <summary>
         /// Converts an old .lvl level file to the current .nxlv type.
         /// Not currently used, but the code remains here because it may be useful for an auto-cleanse feature in the future.
-        /// <para> This calls NeoLemmix.exe written in Delphi. </para>
+        /// <para> This calls SuperLemmix.exe written in Delphi. </para>
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        static bool ConvertWithNeoLemmix(string filePath)
+        static bool ConvertWithSuperLemmix(string filePath)
         {
-            if (!File.Exists(C.AppPathNeoLemmix))
+            if (!File.Exists(C.AppPathSuperLemmix))
                 return false;
 
-            // Compare version number of the NeoLemmix.exe file
-            var versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(C.AppPathNeoLemmix);
+            // Compare version number of the SuperLemmix.exe file
+            var versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(C.AppPathSuperLemmix);
             string[] fileVersion = versionInfo.FileVersion.Split('.');
             try
             {
@@ -1009,7 +1009,7 @@ namespace NLEditor
                 Utility.DeleteFile(C.AppPathTempLevel);
 
                 var converterStartInfo = new System.Diagnostics.ProcessStartInfo();
-                converterStartInfo.FileName = C.AppPathNeoLemmix;
+                converterStartInfo.FileName = C.AppPathSuperLemmix;
                 converterStartInfo.Arguments = "convert \"" + filePath + "\" \"" + C.AppPathTempLevel + "\"";
 
                 var converterProcess = System.Diagnostics.Process.Start(converterStartInfo);

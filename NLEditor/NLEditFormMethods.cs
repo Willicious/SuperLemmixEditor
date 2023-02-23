@@ -382,7 +382,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Saves the level as TempTestLevel.nxlv and loads this level in the NeoLemmix player.
+        /// Saves the level as TempTestLevel.nxlv and loads this level in the SuperLemmix player.
         /// </summary>
         private void PlaytestLevel()
         {
@@ -395,17 +395,17 @@ namespace NLEditor
             SaveLevel(true);
             CurLevel.FilePathToSave = origFilePath;
 
-            if (!System.IO.File.Exists(C.AppPathNeoLemmix))
+            if (!System.IO.File.Exists(C.AppPathSuperLemmix))
             {
-                MessageBox.Show("Error: Player NeoLemmix.exe not found in editor directory.", "File not found");
+                MessageBox.Show("Error: Player SuperLemmix.exe not found in editor directory.", "File not found");
             }
             else
             {
                 try
                 {
-                    // Start the NeoLemmix player.
+                    // Start the SuperLemmix player.
                     var playerStartInfo = new System.Diagnostics.ProcessStartInfo();
-                    playerStartInfo.FileName = C.AppPathNeoLemmix;
+                    playerStartInfo.FileName = C.AppPathSuperLemmix;
                     playerStartInfo.Arguments = "test " + "\"" + C.AppPathTempLevel + "\"";
 
                     System.Diagnostics.Process.Start(playerStartInfo);
@@ -413,7 +413,7 @@ namespace NLEditor
                 catch (Exception Ex)
                 {
                     Utility.LogException(Ex);
-                    MessageBox.Show("Error: Starting NeoLemmix.exe failed or was aborted.", "Application start failed");
+                    MessageBox.Show("Error: Starting SuperLemmix.exe failed or was aborted.", "Application start failed");
                 }
             }
         }
