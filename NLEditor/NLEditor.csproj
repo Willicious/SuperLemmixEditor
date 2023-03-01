@@ -51,7 +51,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Icon_Editor_V2.ico</ApplicationIcon>
+    <ApplicationIcon>Editor_Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>37CE8CFD2B7D309E411C858161956CE3841A59AC</ManifestCertificateThumbprint>
@@ -192,7 +192,7 @@
     <None Include="Resources\Lemming.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icon_Editor_V2.ico" />
+    <Content Include="Editor_Icon.ico" />
     <None Include="Resources\PickupAnim.png" />
     <None Include="Resources\NLLevelConverter.exe" />
   </ItemGroup>
