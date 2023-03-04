@@ -154,15 +154,19 @@
     <Compile Include="ValidateLevel.cs" />
     <EmbeddedResource Include="FormPieceSelection.resx">
       <DependentUpon>FormPieceSelection.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPrePostText.resx">
       <DependentUpon>FormPrePostText.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTalisman.resx">
       <DependentUpon>FormTalisman.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NLEditForm.resx">
       <DependentUpon>NLEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

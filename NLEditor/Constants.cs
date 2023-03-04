@@ -409,17 +409,16 @@ namespace NLEditor
         public static readonly List<string> VersionList = new List<string>
     {
       "Version " + Version,
-      "   by Stephan Neupert (Nepster)," +
-      "   updates by Namida Verasche (namida) & William James",
+      "  by Stephan Neupert (Nepster)",
+      "  Namida Verasche (namida) & William James (WillLem)",
       "",
-      "Thanks to...",
-      "  DMA for creating the original Lemmings games.",
+      "Thanks to DMA for creating the original Lemmings games.",
       "  Namida Verasche for the NeoLemmix player.",
       "  William James for the SuperLemmix player.",
       "  The LemmingsForums at http://www.lemmingsforums.net.",
       "",
       "This application and all its source code is licensed under",
-      "   CC BY-NC 4.0."
+      "   CC BY-NC 4.0.",
     };
 
 
