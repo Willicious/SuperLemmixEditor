@@ -2253,7 +2253,6 @@
             // num_Ski_Timebomber
             // 
             this.num_Ski_Timebomber.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Timebomber.Enabled = false;
             this.num_Ski_Timebomber.Location = new System.Drawing.Point(114, 343);
             this.num_Ski_Timebomber.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Timebomber.Name = "num_Ski_Timebomber";
