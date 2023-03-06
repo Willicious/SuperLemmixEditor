@@ -161,7 +161,7 @@ namespace NLEditor
         public enum TalismanType { Bronze, Silver, Gold }
         public enum TalismanReq
         {
-            SaveReq, TimeLimit, SkillTotal,
+            SaveReq, TimeLimit, SkillTotal, KillZombies,
             SkillWalker, SkillJumper, SkillShimmier, SkillSlider, SkillClimber, SkillSwimmer, SkillFloater, SkillGlider,
             SkillDisarmer, SkillTimebomber, SkillBomber, SkillFreezer, SkillBlocker,
             SkillBuilder, SkillPlatformer, SkillStacker,
@@ -212,10 +212,11 @@ namespace NLEditor
             { TalismanReq.SkillDigger, "Limit Diggers" },
             { TalismanReq.SkillCloner, "Limit Cloners" },
             { TalismanReq.SkillEachLimit, "Limit All Skills" },
-            { TalismanReq.UseOnlySkill, "Using only the Skill" }
-            //{ TalismanReq.OnlyOneWorker, "One Worker Lem" },
-            //{ TalismanReq.RRMin, "RR Minimum" },
-            //{ TalismanReq.RRMax, "RR Maximum" }
+            { TalismanReq.UseOnlySkill, "Using only the Skill" },
+            { TalismanReq.KillZombies, "Kill All Zombies" }
+            //{ TalismanReq.OnlyOneWorker, "One Worker Lem" }, //bookmark
+            //{ TalismanReq.RRMin, "RR Minimum" }, //bookmark
+            //{ TalismanReq.RRMax, "RR Maximum" }  //bookmark
         };
 
         public static readonly Dictionary<TalismanReq, string> TalismanKeys = new Dictionary<TalismanReq, string>()
@@ -231,10 +232,10 @@ namespace NLEditor
       { TalismanReq.SkillBuilder, "BUILDER_LIMIT" }, { TalismanReq.SkillPlatformer, "PLATFORMER_LIMIT" },
       { TalismanReq.SkillStacker, "STACKER_LIMIT" }, { TalismanReq.SkillSpearer, "SPEARER_LIMIT" },
       { TalismanReq.SkillGrenader, "GRENADER_LIMIT" }, { TalismanReq.SkillLaserer, "LASERER_LIMIT" },
-      { TalismanReq.SkillBasher, "BASHER_LIMIT" },
-      { TalismanReq.SkillMiner, "MINER_LIMIT" }, { TalismanReq.SkillDigger, "DIGGER_LIMIT" },
-      { TalismanReq.SkillFencer, "FENCER_LIMIT" }, { TalismanReq.SkillCloner, "CLONER_LIMIT" },
-      { TalismanReq.SkillEachLimit, "SKILL_EACH_LIMIT" }, { TalismanReq.UseOnlySkill, "USE_ONLY_SKILL" }
+      { TalismanReq.SkillBasher, "BASHER_LIMIT" }, { TalismanReq.SkillMiner, "MINER_LIMIT" },
+      { TalismanReq.SkillDigger, "DIGGER_LIMIT" }, { TalismanReq.SkillFencer, "FENCER_LIMIT" },
+      { TalismanReq.SkillCloner, "CLONER_LIMIT" }, { TalismanReq.SkillEachLimit, "SKILL_EACH_LIMIT" },
+      { TalismanReq.UseOnlySkill, "USE_ONLY_SKILL" }, { TalismanReq.KillZombies, "KILL_ZOMBIES" }
     };
 
         public static readonly string[] MusicExtensions = new List<string>()
