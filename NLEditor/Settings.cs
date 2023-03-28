@@ -70,7 +70,7 @@ namespace NLEditor
             settingsForm.MaximizeBox = false;
             settingsForm.ShowInTaskbar = false;
             settingsForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            settingsForm.Text = "NLEditor - Settings";
+            settingsForm.Text = "SLXEditor - Settings";
             settingsForm.FormClosing += new FormClosingEventHandler(settingsForm_FormClosing);
 
             CheckBox checkUseTabs = new CheckBox();
@@ -252,7 +252,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Reads the users editor settings from NLEditorSettings.ini.
+        /// Reads the users editor settings from SLXEditorSettings.ini.
         /// </summary>
         public void ReadSettingsFromFile()
         {
@@ -348,7 +348,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Saves the user's current editor settings to NLEditorSettings.ini. 
+        /// Saves the user's current editor settings to SLXEditorSettings.ini. 
         /// </summary>
         public void WriteSettingsToFile()
         {
@@ -358,7 +358,7 @@ namespace NLEditor
 
                 TextWriter settingsFile = new StreamWriter(C.AppPathSettings, true);
 
-                settingsFile.WriteLine("# NLEditor settings ");
+                settingsFile.WriteLine("# SLXEditor settings ");
                 settingsFile.WriteLine(" Autosave            " + AutosaveFrequency.ToString());
                 settingsFile.WriteLine(" AutosaveLimit       " + KeepAutosaveCount.ToString());
                 settingsFile.WriteLine(" LvlPropertiesTabs   " + (UseLvlPropertiesTabs ? "True" : "False"));

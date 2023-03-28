@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLEditor", "NLEditor\NLEditor.csproj", "{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SLXEditor", "NLEditor\SLXEditor.csproj", "{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ACA06B70-7126-41EB-B6AD-B02065C3CDF3}
 	EndGlobalSection
 EndGlobal

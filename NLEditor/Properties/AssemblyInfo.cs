@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NLEditor")]
+[assembly: AssemblyTitle("SLXEditor")]
 [assembly: AssemblyDescription("An editor for SuperLemmix.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Stephan Neupert, Namida Verasche & William James")]
-[assembly: AssemblyProduct("NLEditor")]
+[assembly: AssemblyProduct("SLXEditor")]
 [assembly: AssemblyCopyright("CC BY-NC 4.0 (2017-2020)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.0.0")]
-[assembly: AssemblyFileVersion("1.1.0.0")]
+[assembly: AssemblyVersion("1.3.0.0")]
+[assembly: AssemblyFileVersion("1.3.0.0")]

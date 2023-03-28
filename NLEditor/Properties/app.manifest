@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="NLEditor.exe" version="0.6.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="SLXEditor.exe" version="0.6.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <description asmv2:iconFile="Editor_Icon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="NLEditor" version="1.31.0.0" language="neutral" processorArchitecture="msil" />
-    <commandLine file="NLEditor.exe" parameters="" />
+    <assemblyIdentity name="SLXEditor" version="1.31.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="SLXEditor.exe" parameters="" />
   </entryPoint>
   <trustInfo>
     <security>
@@ -55,8 +55,8 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="NLEditor.exe" size="462336">
-      <assemblyIdentity name="NLEditor" version="1.31.0.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SLXEditor.exe" size="462336">
+      <assemblyIdentity name="SLXEditor" version="1.31.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
@@ -75,7 +75,7 @@
       <dsig:DigestValue>jkTx/TyGOOSFBkrVawPm/lM7h0B6H0uDPUuLPbJUmbE=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="NLEditor.exe.config" size="186">
+  <file name="SLXEditor.exe.config" size="186">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />

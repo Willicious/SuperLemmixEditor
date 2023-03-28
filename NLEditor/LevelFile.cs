@@ -548,7 +548,7 @@ namespace NLEditor
 
             textFile.WriteLine("# ----------------------------- ");
             textFile.WriteLine("#        SuperLemmix Level        ");
-            textFile.WriteLine("#   Created with NLEditor " + C.Version);
+            textFile.WriteLine("#   Created with SLXEditor " + C.Version);
             textFile.WriteLine("# ----------------------------- ");
             textFile.WriteLine(" ");
             textFile.WriteLine("#        Level info             ");

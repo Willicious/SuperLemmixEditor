@@ -584,7 +584,7 @@ namespace NLEditor
             hotkeyForm.MaximizeBox = false;
             hotkeyForm.ShowInTaskbar = false;
             hotkeyForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            hotkeyForm.Text = "NLEditor - Hotkeys";
+            hotkeyForm.Text = "SLXEditor - Hotkeys";
 
             TabControl hotkeyTabs = new TabControl();
             hotkeyTabs.Location = new Point(0, 0);
@@ -634,7 +634,7 @@ namespace NLEditor
             versionForm.MaximizeBox = false;
             versionForm.ShowInTaskbar = false;
             versionForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            versionForm.Text = "NLEditor - About";
+            versionForm.Text = "SLXEditor - About";
 
             versionForm.Show();
 

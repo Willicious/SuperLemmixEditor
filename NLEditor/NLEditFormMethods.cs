@@ -16,7 +16,7 @@ namespace NLEditor
          * -------------------------------------------------------- */
 
         /// <summary>
-        /// Reads the user's settings from the file NLEditorSettings.ini and applies these options.
+        /// Reads the user's settings from the file SLXEditorSettings.ini and applies these options.
         /// </summary>
         private void InitializeSettings()
         {
