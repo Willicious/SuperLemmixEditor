@@ -422,7 +422,7 @@ namespace NLEditor
             // Set scrollPicLevelHoriz
             if (displayScrollHoriz)
             {
-                int maxValue = CurLevel.Width + Renderer.AllowedGrayBorder - displayedLevelRect.Width + 1;
+                int maxValue = CurLevel.Width + (Renderer.AllowedGrayBorder + 20) - displayedLevelRect.Width + 1;
                 scrollPicLevelHoriz.Minimum = -Renderer.AllowedGrayBorder;
                 scrollPicLevelHoriz.Maximum = maxValue;
                 scrollPicLevelHoriz.SmallChange = 8;
@@ -436,7 +436,7 @@ namespace NLEditor
             // Set scrollPicLevelVert
             if (displayScrollVert)
             {
-                int maxValue = CurLevel.Height + Renderer.AllowedGrayBorder - displayedLevelRect.Height + 1;
+                int maxValue = CurLevel.Height + (Renderer.AllowedGrayBorder + 10) - displayedLevelRect.Height + 1;
                 scrollPicLevelVert.Minimum = -Renderer.AllowedGrayBorder;
                 scrollPicLevelVert.Maximum = maxValue;
                 scrollPicLevelVert.SmallChange = 4;
