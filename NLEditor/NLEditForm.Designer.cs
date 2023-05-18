@@ -793,8 +793,8 @@
             // 
             this.chk_Lvl_AutoStart.AutoSize = true;
             this.chk_Lvl_AutoStart.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chk_Lvl_AutoStart.Checked = true;
-            this.chk_Lvl_AutoStart.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_Lvl_AutoStart.Checked = false;
+            this.chk_Lvl_AutoStart.CheckState = System.Windows.Forms.CheckState.Unchecked;
             this.chk_Lvl_AutoStart.Location = new System.Drawing.Point(111, 215);
             this.chk_Lvl_AutoStart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chk_Lvl_AutoStart.Name = "chk_Lvl_AutoStart";
