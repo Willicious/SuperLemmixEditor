@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace NLEditor
@@ -172,6 +173,8 @@ namespace NLEditor
         bool isAltPressed = false;
         bool isPPressed = false;
         bool isMouseWheelActive = false;
+
+        private int customMove;
 
         private static System.Threading.Mutex mutexMouseDown = new System.Threading.Mutex();
         private static System.Threading.Mutex mutexMouseUp = new System.Threading.Mutex();
@@ -1048,6 +1051,10 @@ namespace NLEditor
                     // If the grid is used, pressing Ctrl allows moving the pieces by only 1 pixel.
                     int numPixels = e.Control ? (gridSize == 1 ? 8 : 1) : gridSize;
                     MoveLevelPieces(direction, numPixels);
+
+                    customMove = (int)num_CustomMoveValue.Value;
+                    int altMove = e.Alt ? (gridSize == 1 ? customMove : 1) : gridSize;
+                    MoveLevelPieces(direction, altMove);
                 }
                 // ...or the screen position otherwise
                 else
@@ -1522,6 +1529,11 @@ namespace NLEditor
             if (_IsWritingToForm) return;
             textbox_Leave(sender, e);
             pic_Level.SetImage(curRenderer.GetScreenImage());
+        }
+
+        private void num_CustomMoveValue_ValueChanged(object sender, EventArgs e)
+        {
+           customMove = (int)num_CustomMoveValue.Value;
         }
     }
 }
