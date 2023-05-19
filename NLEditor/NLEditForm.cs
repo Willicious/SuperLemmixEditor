@@ -1224,6 +1224,16 @@ namespace NLEditor
             {
                 dragAction = C.DragActions.DragPieces;
             }
+            else if (hasSelectedPieceAtPos && isAltPressed && isCtrlPressed && !isShiftPressed)
+            {
+                dragAction = C.DragActions.HoriztonalDrag;
+                Cursor = Cursors.SizeWE;
+            }
+            else if (hasSelectedPieceAtPos && !isAltPressed && isCtrlPressed && isShiftPressed)
+            {
+                dragAction = C.DragActions.VerticalDrag;
+                Cursor = Cursors.SizeNS;
+            }
             else if (hasPieceAtPos && !isCtrlPressed && !isShiftPressed)
             {
                 // select piece (possibly with priority invert) and drag it
@@ -1278,6 +1288,18 @@ namespace NLEditor
                         pic_Level.SetImage(curRenderer.CreateLevelImage());
                         break;
                     }
+                case C.DragActions.HoriztonalDrag:
+                    {
+                        XDragSelectedPieces();
+                        pic_Level.SetImage(curRenderer.CreateLevelImage());
+                        break;
+                    }
+                case C.DragActions.VerticalDrag:
+                    {
+                        YDragSelectedPieces();
+                        pic_Level.SetImage(curRenderer.CreateLevelImage());
+                        break;
+                    }
                 case C.DragActions.MoveStartPos:
                     {
                         Point newCenter = curRenderer.GetNewPosFromDragging();
@@ -1321,6 +1343,20 @@ namespace NLEditor
                 case C.DragActions.DragPieces:
                     {
                         DragSelectedPieces();
+                        SaveChangesToOldLevelList();
+                        break;
+                    }
+                case C.DragActions.HoriztonalDrag:
+                    {
+                        Cursor = Cursors.Default;
+                        XDragSelectedPieces();
+                        SaveChangesToOldLevelList();
+                        break;
+                    }
+                case C.DragActions.VerticalDrag:
+                    {
+                        Cursor = Cursors.Default;
+                        YDragSelectedPieces();
                         SaveChangesToOldLevelList();
                         break;
                     }

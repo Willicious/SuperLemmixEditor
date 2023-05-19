@@ -745,6 +745,22 @@ namespace NLEditor
             Point targetPos = curRenderer.GetNewPosFromDragging();
             CurLevel.MovePieces(targetPos, gridSize);
         }
+        /// <summary>
+        /// Drags all selected pieces along the X-axis only and displays the result.
+        /// </summary>
+        private void XDragSelectedPieces()
+        {
+            Point targetPos = curRenderer.GetNewPosFromXDragging();
+            CurLevel.MovePieces(targetPos, gridSize);
+        }
+        /// <summary>
+        /// Drags all selected pieces along the Y-axis only and displays the result.
+        /// </summary>
+        private void YDragSelectedPieces()
+        {
+            Point targetPos = curRenderer.GetNewPosFromYDragging();
+            CurLevel.MovePieces(targetPos, gridSize);
+        }
 
         /// <summary>
         /// Rotates all selected pieces in the level and displays the result.

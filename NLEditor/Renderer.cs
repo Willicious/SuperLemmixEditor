@@ -261,6 +261,12 @@ namespace NLEditor
                 case C.DragActions.DragPieces:
                     LevelStartPos = level.SelectionRectangle().Location;
                     break;
+                case C.DragActions.HoriztonalDrag:
+                    LevelStartPos = level.SelectionRectangle().Location;
+                    break;
+                case C.DragActions.VerticalDrag:
+                    LevelStartPos = level.SelectionRectangle().Location;
+                    break;
                 case C.DragActions.MoveStartPos:
                     LevelStartPos = level.StartPos;
                     break;
@@ -993,6 +999,46 @@ namespace NLEditor
             System.Diagnostics.Debug.Assert(LevelStartPos != null, "Position for dragging called while reference position is null.");
 
             int DeltaX = ApplyUnZoom(((Point)MouseCurPos).X - ((Point)MouseStartPos).X);
+            int DeltaY = ApplyUnZoom(((Point)MouseCurPos).Y - ((Point)MouseStartPos).Y);
+
+            // Screen positions moves away from dragging direction, everything else in the draggin direction.
+            if (MouseDragAction == C.DragActions.MoveEditorPos)
+            {
+                DeltaX *= -1;
+                DeltaY *= -1;
+            }
+
+            return new Point(((Point)LevelStartPos).X + DeltaX, ((Point)LevelStartPos).Y + DeltaY);
+        }
+
+        /// <summary>
+        /// As above, but Y-axis only
+        /// </summary>
+        public Point GetNewPosFromXDragging()
+        {
+            System.Diagnostics.Debug.Assert(LevelStartPos != null, "Position for dragging called while reference position is null.");
+
+            int DeltaX = ApplyUnZoom(((Point)MouseCurPos).X - ((Point)MouseStartPos).X);
+            int DeltaY = 0;
+
+            // Screen positions moves away from dragging direction, everything else in the draggin direction.
+            if (MouseDragAction == C.DragActions.MoveEditorPos)
+            {
+                DeltaX *= -1;
+                DeltaY *= -1;
+            }
+
+            return new Point(((Point)LevelStartPos).X + DeltaX, ((Point)LevelStartPos).Y + DeltaY);
+        }
+
+        /// <summary>
+        /// As above, but Y-axis only
+        /// </summary>
+        public Point GetNewPosFromYDragging()
+        {
+            System.Diagnostics.Debug.Assert(LevelStartPos != null, "Position for dragging called while reference position is null.");
+
+            int DeltaX = 0;
             int DeltaY = ApplyUnZoom(((Point)MouseCurPos).Y - ((Point)MouseStartPos).Y);
 
             // Screen positions moves away from dragging direction, everything else in the draggin direction.

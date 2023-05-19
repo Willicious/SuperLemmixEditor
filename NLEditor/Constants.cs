@@ -105,7 +105,9 @@ namespace NLEditor
 
         public enum DragActions
         {
-            Null, SelectArea, MaybeDragPieces, DragPieces, DragNewPiece, MoveEditorPos, MoveStartPos
+            Null, SelectArea, MaybeDragPieces,
+            DragPieces, HoriztonalDrag, VerticalDrag,
+            DragNewPiece, MoveEditorPos, MoveStartPos
         }
 
         public enum Resize { None, Vert, Horiz, Both }
@@ -312,6 +314,8 @@ namespace NLEditor
           "Up/Down/Right/Left",
           "Ctrl + Up/Down/Right/Left",
           "Alt + Up/Down/Right/Left",
+          "Ctrl + Shift + Mouse",
+          "Ctrl + Alt + Mouse",
           "R",
           "E",
           "W",
@@ -361,7 +365,7 @@ namespace NLEditor
           "Select a single piece or all pieces in an area.",
           "Drag current editor position.",
           "Removes all pieces at cursor location from selection .",
-          "Add/Remove a single pieces to current selection.",
+          "Add/Remove a single piece to current selection.",
           "Invert priority of piece selection.",
           "Drag the start position.",
           "Change zoom.",
@@ -388,8 +392,10 @@ namespace NLEditor
           "Delete selected pieces.",
           "",
           "Move selected pieces.",
-          "Move selected pieces 8 pixels.",
-          "Move selected pieces a custom amount (set in Pieces tab).",
+          "Move selected pieces by 8 pixels.",
+          "Move selected pieces by Custom Move amount (in Pieces tab).",
+          "Move selected pieces horizontally (X-axis only).",
+          "Move selected pieces vertically (Y-axis only).",
           "Rotate selected pieces.",
           "Flip selected pieces.",
           "Invert selected pieces.",
