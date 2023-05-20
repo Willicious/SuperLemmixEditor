@@ -360,6 +360,12 @@ namespace NLEditor
                                 case "FIRE":
                                     objType = C.OBJ.FIRE;
                                     break;
+                                case "BLASTICINE":
+                                    objType = C.OBJ.BLASTICINE;
+                                    break;
+                                case "VINEWATER":
+                                    objType = C.OBJ.VINEWATER;
+                                    break;
                                 case "ONEWAYRIGHT":
                                 case "ONEWAYLEFT":
                                 case "ONEWAYDOWN":
