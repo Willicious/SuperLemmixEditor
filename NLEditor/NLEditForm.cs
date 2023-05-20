@@ -1047,14 +1047,28 @@ namespace NLEditor
                 // ...or selected pieces if they exist 
                 else if (CurLevel.SelectionList().Count > 0)
                 {
-                    // If no grid is used, Ctrl switches between 1 and 8 pixels.
-                    // If the grid is used, pressing Ctrl allows moving the pieces by only 1 pixel.
-                    int numPixels = e.Control ? (gridSize == 1 ? 8 : 1) : gridSize;
-                    MoveLevelPieces(direction, numPixels);
-
+                    //sets the default move value to 1 pixel
+                    int numPixels = 1;
                     customMove = (int)num_CustomMoveValue.Value;
-                    int altMove = e.Alt ? (gridSize == 1 ? customMove : 1) : gridSize;
-                    MoveLevelPieces(direction, altMove);
+
+                    //if grid is active, the value is 8 pixels
+                    if (gridSize > 1 && !e.Control && !e.Alt)
+                    {
+                        numPixels = gridSize;
+                    }
+                    //pressing Ctrl switches value from 1 to 8 is grid isn't active
+                    //and from 8 to 1 if grid is active
+                    else if (e.Control)
+                    {
+                        numPixels = (gridSize == 1) ? 8 : 1;
+                    }
+                    //pressing Alt always applies the user's custom move value
+                    else if (e.Alt)
+                    {
+                        numPixels = customMove;
+                    }
+
+                    MoveLevelPieces(direction, numPixels);
                 }
                 // ...or the screen position otherwise
                 else
