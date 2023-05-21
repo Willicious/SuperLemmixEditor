@@ -163,6 +163,7 @@ namespace NLEditor
         string levelDirectory; // for starting directory for saving/loading
 
         int gridSize => curSettings.GridSize;
+        int customMove => curSettings.CustomMove;
 
         Stopwatch stopWatchKey;
         Stopwatch stopWatchMouse;
@@ -173,8 +174,6 @@ namespace NLEditor
         bool isAltPressed = false;
         bool isPPressed = false;
         bool isMouseWheelActive = false;
-
-        private int customMove;
 
         private static System.Threading.Mutex mutexMouseDown = new System.Threading.Mutex();
         private static System.Threading.Mutex mutexMouseUp = new System.Threading.Mutex();
@@ -1049,7 +1048,6 @@ namespace NLEditor
                 {
                     //sets the default move value to 1 pixel
                     int numPixels = 1;
-                    customMove = (int)num_CustomMoveValue.Value;
 
                     //if grid is active, the value is 8 pixels
                     if (gridSize > 1 && !e.Control && !e.Alt)
@@ -1579,11 +1577,6 @@ namespace NLEditor
             if (_IsWritingToForm) return;
             textbox_Leave(sender, e);
             pic_Level.SetImage(curRenderer.GetScreenImage());
-        }
-
-        private void num_CustomMoveValue_ValueChanged(object sender, EventArgs e)
-        {
-           customMove = (int)num_CustomMoveValue.Value;
         }
     }
 }

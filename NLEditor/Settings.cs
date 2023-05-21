@@ -25,6 +25,8 @@ namespace NLEditor
         public bool UseTooltipBotton => (NumTooltipBottonDisplay > 0);
         private int gridSize;
         public int GridSize { get { return UseGridForPieces ? gridSize : 1; } }
+        public int customMove;
+        public int CustomMove { get { return customMove; } }
         private int autosaveFrequency;
         public int AutosaveFrequency { get { return Autosave ? autosaveFrequency : 0; } }
         private int keepAutosaveCount;
@@ -41,10 +43,11 @@ namespace NLEditor
             UsePieceSelectionNames = true;
             UseGridForPieces = false;
             gridSize = 8;
+            customMove = 64;
             Autosave = true;
             autosaveFrequency = 5;
             RemoveOldAutosaves = true;
-            keepAutosaveCount = 15;
+            keepAutosaveCount = 10;
             NumTooltipBottonDisplay = 3;
             IsFormMaximized = false;
             FormSize = editorForm.MinimumSize;
@@ -63,7 +66,8 @@ namespace NLEditor
         /// </summary>
         public void OpenSettingsWindow()
         {
-            int leftPos = 30;
+            int columnLeft = 30;
+            int columnRight = 228;
 
             settingsForm = new EscExitForm();
             settingsForm.ClientSize = new System.Drawing.Size(310, 160);
@@ -80,38 +84,47 @@ namespace NLEditor
             checkUseTabs.Checked = UseLvlPropertiesTabs;
             checkUseTabs.Text = "Use tabs to display level properties";
             checkUseTabs.Top = 8;
-            checkUseTabs.Left = leftPos;
+            checkUseTabs.Left = columnLeft;
+            checkUseTabs.Visible = false; //this option can go altogether eventually
             checkUseTabs.CheckedChanged += new EventHandler(checkUseTabs_CheckedChanged);
 
-            CheckBox checkPieceNames = new CheckBox();
-            checkPieceNames.Name = "check_PieceNames";
-            checkPieceNames.AutoSize = true;
-            checkPieceNames.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            checkPieceNames.Checked = UsePieceSelectionNames;
-            checkPieceNames.Text = "Display piece names";
-            checkPieceNames.Top = 38;
-            checkPieceNames.Left = leftPos;
-            checkPieceNames.CheckedChanged += new EventHandler(checkPieceNames_CheckedChanged);
+            Label lblCustomMove = new Label();
+            lblCustomMove.Text = "Custom move amount (Alt + Arrows):";
+            lblCustomMove.AutoSize = true;
+            lblCustomMove.Top = 8;
+            lblCustomMove.Left = columnLeft;
+
+            NumericUpDown numCustomMove = new NumericUpDown();
+            numCustomMove.Name = "num_CustomMove";
+            numCustomMove.AutoSize = true;
+            numCustomMove.TextAlign = HorizontalAlignment.Center;
+            numCustomMove.Minimum = 2;
+            numCustomMove.Maximum = 2400;
+            numCustomMove.Value = customMove;
+            numCustomMove.Top = lblCustomMove.Top - 2;
+            numCustomMove.Left = columnRight;
+            numCustomMove.Width = 47;
+            numCustomMove.ValueChanged += new EventHandler(numCustomMove_ValueChanged);
 
             CheckBox checkUseGrid = new CheckBox();
             checkUseGrid.Name = "check_UseGrid";
             checkUseGrid.AutoSize = true;
             checkUseGrid.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             checkUseGrid.Checked = UseGridForPieces;
-            checkUseGrid.Text = "Use grid for pieces of size:";
-            checkUseGrid.Top = 68;
-            checkUseGrid.Left = leftPos;
+            checkUseGrid.Text = "Snap-to-Grid amount:";
+            checkUseGrid.Top = 38;
+            checkUseGrid.Left = columnLeft;
             checkUseGrid.CheckedChanged += new EventHandler(checkUseGrid_CheckedChanged);
 
             NumericUpDown numGridSize = new NumericUpDown();
             numGridSize.Name = "num_GridSize";
             numGridSize.AutoSize = true;
             numGridSize.TextAlign = HorizontalAlignment.Center;
-            numGridSize.Value = gridSize;
             numGridSize.Minimum = 1;
-            numGridSize.Maximum = 32;
+            numGridSize.Maximum = 128;
+            numGridSize.Value = gridSize;
             numGridSize.Top = checkUseGrid.Top - 2;
-            numGridSize.Left = checkUseGrid.Right + 50;
+            numGridSize.Left = columnRight;
             numGridSize.Width = 47;
             numGridSize.Enabled = UseGridForPieces;
             numGridSize.ValueChanged += new EventHandler(numGridSize_ValueChanged);
@@ -122,8 +135,8 @@ namespace NLEditor
             checkAutosave.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             checkAutosave.Checked = Autosave;
             checkAutosave.Text = "Autosave (minutes):";
-            checkAutosave.Top = 98;
-            checkAutosave.Left = leftPos;
+            checkAutosave.Top = 68;
+            checkAutosave.Left = columnLeft;
             checkAutosave.CheckedChanged += new EventHandler(checkAutosave_CheckedChanged);
 
             NumericUpDown numAutosaveFrequency = new NumericUpDown();
@@ -134,7 +147,7 @@ namespace NLEditor
             numAutosaveFrequency.Minimum = 1;
             numAutosaveFrequency.Maximum = 60;
             numAutosaveFrequency.Top = checkAutosave.Top - 2;
-            numAutosaveFrequency.Left = checkAutosave.Right + 50;
+            numAutosaveFrequency.Left = columnRight;
             numAutosaveFrequency.Width = 47;
             numAutosaveFrequency.Enabled = Autosave;
             numAutosaveFrequency.ValueChanged += new EventHandler(numAutosaveFrequency_ValueChanged);
@@ -146,8 +159,8 @@ namespace NLEditor
             checkDeleteAutosaves.Checked = RemoveOldAutosaves;
             checkDeleteAutosaves.Enabled = Autosave;
             checkDeleteAutosaves.Text = "Limit autosaves kept to:";
-            checkDeleteAutosaves.Top = 128;
-            checkDeleteAutosaves.Left = leftPos;
+            checkDeleteAutosaves.Top = 98;
+            checkDeleteAutosaves.Left = columnLeft;
             checkDeleteAutosaves.CheckedChanged += new EventHandler(checkDeleteAutosaves_CheckedChanged);
 
             NumericUpDown numAutosavesToKeep = new NumericUpDown();
@@ -158,15 +171,27 @@ namespace NLEditor
             numAutosavesToKeep.Minimum = 1;
             numAutosavesToKeep.Maximum = 999;
             numAutosavesToKeep.Top = checkDeleteAutosaves.Top - 2;
-            numAutosavesToKeep.Left = checkDeleteAutosaves.Right + 50;
+            numAutosavesToKeep.Left = columnRight;
             numAutosavesToKeep.Width = 47;
             numAutosavesToKeep.Enabled = Autosave && RemoveOldAutosaves;
             numAutosavesToKeep.ValueChanged += new EventHandler(numAutosavesToKeep_ValueChanged);
+
+            CheckBox checkPieceNames = new CheckBox();
+            checkPieceNames.Name = "check_PieceNames";
+            checkPieceNames.AutoSize = true;
+            checkPieceNames.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkPieceNames.Checked = UsePieceSelectionNames;
+            checkPieceNames.Text = "Display piece names";
+            checkPieceNames.Top = 128;
+            checkPieceNames.Left = columnLeft;
+            checkPieceNames.CheckedChanged += new EventHandler(checkPieceNames_CheckedChanged);
 
             settingsForm.Controls.Add(checkUseTabs);
             settingsForm.Controls.Add(checkPieceNames);
             settingsForm.Controls.Add(checkUseGrid);
             settingsForm.Controls.Add(numGridSize);
+            settingsForm.Controls.Add(lblCustomMove);
+            settingsForm.Controls.Add(numCustomMove);
             settingsForm.Controls.Add(checkAutosave);
             settingsForm.Controls.Add(numAutosaveFrequency);
             settingsForm.Controls.Add(checkDeleteAutosaves);
@@ -201,6 +226,11 @@ namespace NLEditor
         private void numGridSize_ValueChanged(object sender, EventArgs e)
         {
             gridSize = (int)(sender as NumericUpDown).Value;
+        }
+
+        private void numCustomMove_ValueChanged(object sender, EventArgs e)
+        {
+            customMove = (int)(sender as NumericUpDown).Value;
         }
 
         private void checkAutosave_CheckedChanged(object sender, EventArgs e)
@@ -291,6 +321,11 @@ namespace NLEditor
                                     gridSize = line.Value;
                                 break;
                             }
+                        case "CUSTOMMOVE":
+                            {
+                                customMove = line.Value;
+                                break;
+                            }
                         case "AUTOSAVE":
                             {
                                 Autosave = (line.Value != 0);
@@ -364,6 +399,7 @@ namespace NLEditor
                 settingsFile.WriteLine(" LvlPropertiesTabs   " + (UseLvlPropertiesTabs ? "True" : "False"));
                 settingsFile.WriteLine(" PieceSelectionNames " + (UsePieceSelectionNames ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
+                settingsFile.WriteLine(" CustomMove          " + CustomMove.ToString());
                 settingsFile.WriteLine(" Button_Tooltip      " + NumTooltipBottonDisplay.ToString());
                 settingsFile.WriteLine("");
                 settingsFile.WriteLine(" Form_Maximized      " + (IsFormMaximized ? "True" : "False"));
