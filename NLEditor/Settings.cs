@@ -369,6 +369,15 @@ namespace NLEditor
                                 FormSize = new System.Drawing.Size(FormSize.Width, line.Value);
                                 break;
                             }
+                        case "AUTOSTART":
+                            {
+                                bool autoStartEnabled;
+                                if (bool.TryParse(line.Text.Trim(), out autoStartEnabled))
+                                {
+                                    editorForm.chk_Lvl_AutoStart.Checked = autoStartEnabled;
+                                }
+                                break;
+                            }
                     }
                 }
 
@@ -405,6 +414,7 @@ namespace NLEditor
                 settingsFile.WriteLine(" Form_Maximized      " + (IsFormMaximized ? "True" : "False"));
                 settingsFile.WriteLine(" Form_Width          " + FormSize.Width.ToString());
                 settingsFile.WriteLine(" Form_Height         " + FormSize.Height.ToString());
+                settingsFile.WriteLine(" Autostart           " + editorForm.chk_Lvl_AutoStart.Checked.ToString());
                 settingsFile.WriteLine("");
 
                 var displayTypes = new List<C.DisplayType>()

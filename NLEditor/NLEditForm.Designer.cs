@@ -3189,7 +3189,6 @@
         private System.Windows.Forms.CheckBox check_Piece_Slider;
         private System.Windows.Forms.Label lbl_Skill_Slider;
         private NumUpDownOverwrite num_Ski_Slider;
-        private System.Windows.Forms.CheckBox chk_Lvl_AutoStart;
         private System.Windows.Forms.ToolStripMenuItem snapToGridToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem playLevelToolStripMenuItem;
@@ -3197,6 +3196,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem showHotkeysDialogToolStripMenuItem;
+        public System.Windows.Forms.CheckBox chk_Lvl_AutoStart;
     }
 }
 
