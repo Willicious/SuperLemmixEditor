@@ -422,14 +422,19 @@ namespace NLEditor
 
         public static readonly List<string> VersionList = new List<string>
     {
-      "Version " + Version,
-      "  by Stephan Neupert (Nepster)",
-      "  Namida Verasche (namida) & William James (WillLem)",
+      "SuperLemmix Editor Version " + Version,
+    };
+        public static readonly List<string> AboutList = new List<string>
+
+    { "", 
+      "  by William James (WillLem)",
       "",
-      "Thanks to DMA for creating the original Lemmings games.",
-      "  Namida Verasche for the NeoLemmix player.",
-      "  William James for the SuperLemmix player.",
-      "  The LemmingsForums at http://www.lemmingsforums.net.",
+      "Based on the original NeoLemmix Editor by",
+      "  Namida Verasche (namida) & Stephan Neupert (Nepster)",
+      "",
+      "Thanks to",
+      "  DMA Design for creating the original Lemmings games.",
+      "  The Lemmings Community at http://www.lemmingsforums.net.",
       "",
       "This application and all its source code is licensed under",
       "   CC BY-NC 4.0.",

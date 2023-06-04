@@ -621,9 +621,10 @@ namespace NLEditor
         private void DisplayVersionForm()
         {
             Form versionForm = new EscExitForm();
-            versionForm.ClientSize = new Size(390, 160);
+            versionForm.ClientSize = new Size(420, 220);
             versionForm.MaximizeBox = false;
             versionForm.ShowInTaskbar = false;
+            versionForm.StartPosition = FormStartPosition.CenterScreen;
             versionForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             versionForm.Text = "SLXEditor - About";
 
@@ -631,80 +632,18 @@ namespace NLEditor
 
             using (Graphics hotkeyGraphics = versionForm.CreateGraphics())
             using (SolidBrush brush = new SolidBrush(Color.Black))
-            using (Font font = new Font("Microsoft Sans Serif", 8))
+            using (Font boldfont = new Font("Microsoft Sans Serif", 10, FontStyle.Bold))
+            using (Font font = new Font("Microsoft Sans Serif", 10))
             {
                 for (int i = 0; i < C.VersionList.Count; i++)
                 {
-                    hotkeyGraphics.DrawString(C.VersionList[i], font, brush, 6, 6 + 13 * i);
+                    hotkeyGraphics.DrawString(C.VersionList[i], boldfont, brush, 8, 8 + 16 * i);
+                }
+                for (int i = 0; i < C.AboutList.Count; i++)
+                { 
+                    hotkeyGraphics.DrawString(C.AboutList[i], font, brush, 8, 8 + 16 * i);
                 }
             }
-        }
-
-        /// <summary>
-        /// Applies the option UseLvlPropertiesTabs to the editor.
-        /// </summary>
-        public void ApplyOptionLvlPropertiesTabs()
-        {
-            var tabWithPieces = (TabControl)tabPieces.Parent;
-            var tabWithSkills = (TabControl)tabSkills.Parent;
-            var tabWithMisc = (TabControl)tabMisc.Parent;
-
-            if (curSettings.UseLvlPropertiesTabs)
-            {
-                if (tabPieces.Parent == tabLvlPieces)
-                {
-                    tabLvlPieces.Enabled = false;
-                    tabLvlPieces.Visible = false;
-                    tabLvlPieces.TabPages.Remove(tabPieces);
-                    tabLvlProperties.TabPages.Add(tabPieces);
-                }
-
-                if (tabSkills.Parent == tabLvlSkills)
-                {
-                    tabLvlSkills.Enabled = false;
-                    tabLvlSkills.Visible = false;
-                    tabLvlSkills.TabPages.Remove(tabSkills);
-                    tabLvlProperties.TabPages.Add(tabSkills);
-                }
-
-                if (tabMisc.Parent == tabLvlMisc)
-                {
-                    tabLvlMisc.Enabled = false;
-                    tabLvlMisc.Visible = false;
-                    tabLvlMisc.TabPages.Remove(tabMisc);
-                    tabLvlProperties.TabPages.Add(tabMisc);
-                }
-            }
-            else
-            {
-                if (tabWithPieces == tabLvlProperties)
-                {
-                    tabLvlPieces.Enabled = true;
-                    tabLvlPieces.Visible = true;
-                    tabLvlProperties.TabPages.Remove(tabPieces);
-                    tabLvlPieces.TabPages.Add(tabPieces);
-                }
-
-                if (tabWithSkills == tabLvlProperties)
-                {
-                    tabLvlSkills.Enabled = true;
-                    tabLvlSkills.Visible = true;
-                    tabLvlProperties.TabPages.Remove(tabSkills);
-                    tabLvlSkills.TabPages.Add(tabSkills);
-                }
-
-                if (tabWithMisc == tabLvlProperties)
-                {
-                    tabLvlMisc.Enabled = true;
-                    tabLvlMisc.Visible = true;
-                    tabLvlProperties.TabPages.Remove(tabMisc);
-                    tabLvlMisc.TabPages.Add(tabMisc);
-                }
-            }
-
-            RepositionPicLevel();
-            curRenderer.EnsureScreenPosInLevel();
-            pic_Level.Image = curRenderer.CreateLevelImage();
         }
     }
 }
