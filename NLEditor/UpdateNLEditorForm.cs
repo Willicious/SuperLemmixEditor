@@ -439,10 +439,15 @@ namespace NLEditor
             scrollPicLevelVert.Visible = displayScrollVert;
 
             // finally resize scrollbars correctly
-            scrollPicLevelHoriz.Width = newPicBoxSize.Width - 24;
-            scrollPicLevelVert.Height = newPicBoxSize.Height - 2;
+            if (scrollPicLevelHoriz.Enabled)
+                scrollPicLevelVert.Height = newPicBoxSize.Height + 2;
+            else 
+                scrollPicLevelVert.Height = newPicBoxSize.Height - 2;
 
+            if (scrollPicLevelVert.Enabled)
+                scrollPicLevelHoriz.Width = newPicBoxSize.Width - 25;
             else
+                scrollPicLevelHoriz.Width = newPicBoxSize.Width - 4;
                 scrollPicLevelHoriz.Left = 264;
 
             scrollPicLevelVert.Left = scrollPicLevelVert.Parent.ClientRectangle.Width - scrollPicLevelVert.Width;
