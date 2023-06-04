@@ -581,6 +581,7 @@ namespace NLEditor
         {
             Form hotkeyForm = new EscExitForm();
             hotkeyForm.ClientSize = new Size(450, 420);
+            hotkeyForm.StartPosition = FormStartPosition.CenterScreen;
             hotkeyForm.MaximizeBox = false;
             hotkeyForm.ShowInTaskbar = false;
             hotkeyForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;

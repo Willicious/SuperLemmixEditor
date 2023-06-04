@@ -1179,22 +1179,36 @@ namespace NLEditor
                 MoveTerrPieceSelection(movement > 0 ? 1 : -1);
             }
             else
-            {
-                if (!isMouseWheelActive)
+            { 
+                if (isCtrlPressed)
                 {
-                    isMouseWheelActive = true;
-                    Point mousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
-                    curRenderer.SetZoomMousePos(mousePosRelPicLevel);
+                    movement *= 4; 
+                    scrollPicLevelHoriz_Scroll(sender, new ScrollEventArgs(ScrollEventType.ThumbPosition, curRenderer.ScreenPosX, curRenderer.ScreenPosX + movement, ScrollOrientation.HorizontalScroll));
                 }
-                curRenderer.ChangeZoom(movement > 0 ? 1 : -1, true);
-            }
+                else if (isAltPressed)
+                {
+                    movement *= 4;
+                    scrollPicLevelVert_Scroll(sender, new ScrollEventArgs(ScrollEventType.ThumbPosition, curRenderer.ScreenPosY, curRenderer.ScreenPosY + movement, ScrollOrientation.VerticalScroll));
+                }
+                else
+                {
+                    if (!isMouseWheelActive)
+                    {
+                        isMouseWheelActive = true;
+                        Point mousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
+                        curRenderer.SetZoomMousePos(mousePosRelPicLevel);
+                    }
+                    curRenderer.ChangeZoom(movement > 0 ? 1 : -1, true);
+                }
 
-            // Update level image
-            RepositionPicLevel();
-            pic_Level.SetImage(curRenderer.GetScreenImage());
+                // Update level image
+                RepositionPicLevel();
+                pic_Level.SetImage(curRenderer.GetScreenImage());
+            }
 
             mutexMouseWheel.ReleaseMutex();
         }
+
 
         private void pic_Level_MouseDown(object sender, MouseEventArgs e)
         {
