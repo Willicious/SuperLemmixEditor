@@ -363,17 +363,9 @@ namespace NLEditor
         /// </summary>
         private void RepositionPicLevel()
         {
-            int offsetWidth = tabLvlPieces.Width + tabLvlSkills.Width + tabLvlMisc.Width;
-
-            pic_Level.Left = 264 + (curSettings.UseLvlPropertiesTabs ? 0 : offsetWidth);
+            pic_Level.Left = 264;
 
             Size newPicLevelSize = new Size(this.Width - 276, this.Height - 178);
-
-            if (!curSettings.UseLvlPropertiesTabs)
-            {
-                newPicLevelSize.Width -= offsetWidth;
-                scrollPicLevelVert.Left += offsetWidth; // Width is set correctly in CheckEnableLevelScrollbars().
-            }
 
             // Check for scroll bars. This method resizes pic_Level accordingly (if necessary).
             newPicLevelSize = CheckEnableLevelScrollbars(newPicLevelSize);
@@ -450,8 +442,6 @@ namespace NLEditor
             scrollPicLevelHoriz.Width = newPicBoxSize.Width - 24;
             scrollPicLevelVert.Height = newPicBoxSize.Height - 2;
 
-            if (!curSettings.UseLvlPropertiesTabs)
-                scrollPicLevelHoriz.Left = 264 + tabLvlPieces.Width + tabLvlSkills.Width + tabLvlMisc.Width;
             else
                 scrollPicLevelHoriz.Left = 264;
 

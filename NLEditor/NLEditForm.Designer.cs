@@ -226,15 +226,12 @@
             this.lbTalismans = new System.Windows.Forms.ListBox();
             this.but_ClearBackground = new System.Windows.Forms.Button();
             this.toolTipPieces = new System.Windows.Forms.ToolTip(this.components);
-            this.tabLvlPieces = new System.Windows.Forms.TabControl();
-            this.tabLvlSkills = new System.Windows.Forms.TabControl();
             this.scrollPicLevelHoriz = new System.Windows.Forms.HScrollBar();
             this.scrollPicLevelVert = new System.Windows.Forms.VScrollBar();
             this.pic_DragNewPiece = new System.Windows.Forms.PictureBox();
             this.toolTipButton = new System.Windows.Forms.ToolTip(this.components);
             this.but_PieceRight = new NLEditor.RepeatButton();
             this.but_PieceLeft = new NLEditor.RepeatButton();
-            this.tabLvlMisc = new System.Windows.Forms.TabControl();
             this.but_PieceObj = new System.Windows.Forms.Button();
             this.but_PieceBackground = new System.Windows.Forms.Button();
             this.but_PieceSketches = new System.Windows.Forms.Button();
@@ -591,7 +588,7 @@
             this.snapToGridToolStripMenuItem.Name = "snapToGridToolStripMenuItem";
             this.snapToGridToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.snapToGridToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(245, 34);
+            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(290, 34);
             this.snapToGridToolStripMenuItem.Text = "Snap to Grid";
             this.snapToGridToolStripMenuItem.Click += new System.EventHandler(this.snapToGridToolStripMenuItem_Click);
             // 
@@ -600,7 +597,7 @@
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.settingsToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(245, 34);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(290, 34);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
@@ -609,19 +606,21 @@
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
             this.hotkeysToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.hotkeysToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(245, 34);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(290, 34);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(242, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(287, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(245, 34);
+            this.aboutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.F12)));
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(290, 34);
             this.aboutToolStripMenuItem.Text = "About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -2723,39 +2722,13 @@
             this.but_ClearBackground.UseVisualStyleBackColor = true;
             this.but_ClearBackground.Click += new System.EventHandler(this.but_ClearBackground_Click);
             // 
-            // tabLvlPieces
-            // 
-            this.tabLvlPieces.Enabled = false;
-            this.tabLvlPieces.Location = new System.Drawing.Point(434, 42);
-            this.tabLvlPieces.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabLvlPieces.Name = "tabLvlPieces";
-            this.tabLvlPieces.SelectedIndex = 0;
-            this.tabLvlPieces.Size = new System.Drawing.Size(198, 714);
-            this.tabLvlPieces.TabIndex = 38;
-            this.tabLvlPieces.TabStop = false;
-            this.tabLvlPieces.Visible = false;
-            this.tabLvlPieces.Click += new System.EventHandler(this.tabLvlProperties_Click);
-            // 
-            // tabLvlSkills
-            // 
-            this.tabLvlSkills.Enabled = false;
-            this.tabLvlSkills.Location = new System.Drawing.Point(628, 42);
-            this.tabLvlSkills.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabLvlSkills.Name = "tabLvlSkills";
-            this.tabLvlSkills.SelectedIndex = 0;
-            this.tabLvlSkills.Size = new System.Drawing.Size(202, 714);
-            this.tabLvlSkills.TabIndex = 39;
-            this.tabLvlSkills.TabStop = false;
-            this.tabLvlSkills.Visible = false;
-            this.tabLvlSkills.Click += new System.EventHandler(this.tabLvlProperties_Click);
-            // 
             // scrollPicLevelHoriz
             // 
             this.scrollPicLevelHoriz.LargeChange = 2;
             this.scrollPicLevelHoriz.Location = new System.Drawing.Point(282, 686);
             this.scrollPicLevelHoriz.Maximum = 1;
             this.scrollPicLevelHoriz.Name = "scrollPicLevelHoriz";
-            this.scrollPicLevelHoriz.Size = new System.Drawing.Size(897, 32);
+            this.scrollPicLevelHoriz.Size = new System.Drawing.Size(900, 32);
             this.scrollPicLevelHoriz.TabIndex = 40;
             this.scrollPicLevelHoriz.Visible = false;
             this.scrollPicLevelHoriz.Scroll += new System.Windows.Forms.ScrollEventHandler(this.scrollPicLevelHoriz_Scroll);
@@ -2816,18 +2789,6 @@
             this.but_PieceLeft.Click += new System.EventHandler(this.but_PieceLeft_Click);
             this.but_PieceLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseUp);
             // 
-            // tabLvlMisc
-            // 
-            this.tabLvlMisc.Enabled = false;
-            this.tabLvlMisc.Location = new System.Drawing.Point(831, 42);
-            this.tabLvlMisc.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabLvlMisc.Name = "tabLvlMisc";
-            this.tabLvlMisc.SelectedIndex = 0;
-            this.tabLvlMisc.Size = new System.Drawing.Size(214, 714);
-            this.tabLvlMisc.TabIndex = 43;
-            this.tabLvlMisc.TabStop = false;
-            this.tabLvlMisc.Visible = false;
-            // 
             // but_PieceObj
             // 
             this.but_PieceObj.Location = new System.Drawing.Point(586, 792);
@@ -2883,16 +2844,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1185, 921);
             this.Controls.Add(this.tabLvlProperties);
-            this.Controls.Add(this.tabLvlPieces);
             this.Controls.Add(this.but_PieceSketches);
             this.Controls.Add(this.but_PieceBackground);
             this.Controls.Add(this.but_PieceObj);
-            this.Controls.Add(this.tabLvlMisc);
             this.Controls.Add(this.but_ClearBackground);
             this.Controls.Add(this.pic_DragNewPiece);
             this.Controls.Add(this.scrollPicLevelVert);
             this.Controls.Add(this.scrollPicLevelHoriz);
-            this.Controls.Add(this.tabLvlSkills);
             this.Controls.Add(this.txt_Focus);
             this.Controls.Add(this.pic_Level);
             this.Controls.Add(this.but_PieceTerr);
@@ -3120,8 +3078,6 @@
         private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTipPieces;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabLvlPieces;
-        private System.Windows.Forms.TabControl tabLvlSkills;
         private System.Windows.Forms.HScrollBar scrollPicLevelHoriz;
         private System.Windows.Forms.VScrollBar scrollPicLevelVert;
         private System.Windows.Forms.CheckBox check_Piece_Fencer;
@@ -3151,7 +3107,6 @@
         private System.Windows.Forms.Button btnTalismanAdd;
         private System.Windows.Forms.Button btnEditPostview;
         private System.Windows.Forms.Button btnEditPreview;
-        private System.Windows.Forms.TabControl tabLvlMisc;
         private System.Windows.Forms.Label lbStartY;
         private System.Windows.Forms.Label lbStartX;
         private System.Windows.Forms.Label lbSizeH;

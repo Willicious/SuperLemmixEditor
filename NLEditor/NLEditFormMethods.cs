@@ -21,7 +21,6 @@ namespace NLEditor
         private void InitializeSettings()
         {
             curSettings.ReadSettingsFromFile();
-            ApplyOptionLvlPropertiesTabs();
             // UsePieceSelectionNames is automatically updated when calling LoadPiecesIntoPictureBox(), so this doesn't need to be done here.
             pic_Level.Image = curRenderer.CombineLayers();
 

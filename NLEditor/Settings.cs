@@ -15,8 +15,6 @@ namespace NLEditor
 
         NLEditForm editorForm;
         Form settingsForm;
-
-        public bool UseLvlPropertiesTabs { get; private set; }
         public bool UsePieceSelectionNames { get; private set; }
         public bool UseGridForPieces { get; private set; }
         public bool Autosave { get; private set; }
@@ -39,7 +37,6 @@ namespace NLEditor
         /// </summary>
         public void SetDefault()
         {
-            UseLvlPropertiesTabs = true;
             UsePieceSelectionNames = true;
             UseGridForPieces = false;
             gridSize = 8;
@@ -76,17 +73,6 @@ namespace NLEditor
             settingsForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             settingsForm.Text = "SLXEditor - Settings";
             settingsForm.FormClosing += new FormClosingEventHandler(settingsForm_FormClosing);
-
-            CheckBox checkUseTabs = new CheckBox();
-            checkUseTabs.Name = "check_UseTabs";
-            checkUseTabs.AutoSize = true;
-            checkUseTabs.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            checkUseTabs.Checked = UseLvlPropertiesTabs;
-            checkUseTabs.Text = "Use tabs to display level properties";
-            checkUseTabs.Top = 8;
-            checkUseTabs.Left = columnLeft;
-            checkUseTabs.Visible = false; //this option can go altogether eventually
-            checkUseTabs.CheckedChanged += new EventHandler(checkUseTabs_CheckedChanged);
 
             Label lblCustomMove = new Label();
             lblCustomMove.Text = "Custom move amount (Alt + Arrows):";
@@ -186,7 +172,6 @@ namespace NLEditor
             checkPieceNames.Left = columnLeft;
             checkPieceNames.CheckedChanged += new EventHandler(checkPieceNames_CheckedChanged);
 
-            settingsForm.Controls.Add(checkUseTabs);
             settingsForm.Controls.Add(checkPieceNames);
             settingsForm.Controls.Add(checkUseGrid);
             settingsForm.Controls.Add(numGridSize);
@@ -203,12 +188,6 @@ namespace NLEditor
         private void settingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             WriteSettingsToFile();
-        }
-
-        private void checkUseTabs_CheckedChanged(object sender, EventArgs e)
-        {
-            UseLvlPropertiesTabs = ((sender as CheckBox).CheckState == CheckState.Checked);
-            editorForm.ApplyOptionLvlPropertiesTabs();
         }
 
         private void checkPieceNames_CheckedChanged(object sender, EventArgs e)
@@ -304,11 +283,6 @@ namespace NLEditor
                     FileLine line = fileLines?[0];
                     switch (line?.Key)
                     {
-                        case "LVLPROPERTIESTABS":
-                            {
-                                UseLvlPropertiesTabs = (line.Text.Trim().ToUpper() == "TRUE");
-                                break;
-                            }
                         case "PIECESELECTIONNAMES":
                             {
                                 UsePieceSelectionNames = (line.Text.Trim().ToUpper() == "TRUE");
@@ -405,7 +379,6 @@ namespace NLEditor
                 settingsFile.WriteLine("# SLXEditor settings ");
                 settingsFile.WriteLine(" Autosave            " + AutosaveFrequency.ToString());
                 settingsFile.WriteLine(" AutosaveLimit       " + KeepAutosaveCount.ToString());
-                settingsFile.WriteLine(" LvlPropertiesTabs   " + (UseLvlPropertiesTabs ? "True" : "False"));
                 settingsFile.WriteLine(" PieceSelectionNames " + (UsePieceSelectionNames ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
                 settingsFile.WriteLine(" CustomMove          " + CustomMove.ToString());
