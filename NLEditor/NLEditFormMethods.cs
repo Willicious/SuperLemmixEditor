@@ -676,7 +676,7 @@ namespace NLEditor
 
             if (mouseButtonPressed == MouseButtons.Left)
             {
-                if (isCtrlPressed)
+                if (isCtrlPressed || isShiftPressed)
                 {
                     // Add or remove a single piece, depending on whether there is a selected piece at the mouse position 
                     bool doAdd = !CurLevel.HasSelectionAtPos(levelPos);
