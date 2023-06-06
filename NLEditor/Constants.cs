@@ -164,7 +164,7 @@ namespace NLEditor
         public enum TalismanType { Bronze, Silver, Gold }
         public enum TalismanReq
         {
-            SaveReq, TimeLimit, SkillTotal, KillZombies,
+            SaveReq, TimeLimit, KillZombies, ClassicMode, NoPause, SkillTotal,
             SkillWalker, SkillJumper, SkillShimmier, SkillSlider, SkillClimber, SkillSwimmer, SkillFloater, SkillGlider,
             SkillDisarmer, SkillTimebomber, SkillBomber, SkillFreezer, SkillBlocker,
             SkillBuilder, SkillPlatformer, SkillStacker,
@@ -216,7 +216,9 @@ namespace NLEditor
             { TalismanReq.SkillCloner, "Limit Cloners" },
             { TalismanReq.SkillEachLimit, "Limit All Skills" },
             { TalismanReq.UseOnlySkill, "Using only the Skill" },
-            { TalismanReq.KillZombies, "Kill All Zombies" }
+            { TalismanReq.KillZombies, "Kill All Zombies" },
+            { TalismanReq.ClassicMode, "Play in Classic Mode" },
+            { TalismanReq.NoPause, "Play Without Pressing Pause" }
             //{ TalismanReq.OnlyOneWorker, "One Worker Lem" }, //bookmark
             //{ TalismanReq.RRMin, "RR Minimum" }, //bookmark
             //{ TalismanReq.RRMax, "RR Maximum" }  //bookmark
@@ -238,7 +240,8 @@ namespace NLEditor
       { TalismanReq.SkillBasher, "BASHER_LIMIT" }, { TalismanReq.SkillMiner, "MINER_LIMIT" },
       { TalismanReq.SkillDigger, "DIGGER_LIMIT" }, { TalismanReq.SkillFencer, "FENCER_LIMIT" },
       { TalismanReq.SkillCloner, "CLONER_LIMIT" }, { TalismanReq.SkillEachLimit, "SKILL_EACH_LIMIT" },
-      { TalismanReq.UseOnlySkill, "USE_ONLY_SKILL" }, { TalismanReq.KillZombies, "KILL_ZOMBIES" }
+      { TalismanReq.UseOnlySkill, "USE_ONLY_SKILL" }, { TalismanReq.KillZombies, "KILL_ZOMBIES" },
+      { TalismanReq.ClassicMode, "CLASSIC_MODE" }, { TalismanReq.NoPause, "NO_PAUSE" }
     };
 
         public static readonly string[] MusicExtensions = new List<string>()

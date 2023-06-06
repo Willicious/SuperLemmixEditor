@@ -191,6 +191,8 @@ namespace NLEditor
             // Set visibility
             numReqValue1.Visible = (requirement != C.TalismanReq.UseOnlySkill);
             numReqValue1.Visible = (requirement != C.TalismanReq.KillZombies);
+            numReqValue1.Visible = (requirement != C.TalismanReq.ClassicMode);
+            numReqValue1.Visible = (requirement != C.TalismanReq.NoPause);
             numReqValue2.Visible = (requirement == C.TalismanReq.TimeLimit);
             cmbRequirementSkill.Visible = (requirement == C.TalismanReq.UseOnlySkill);
 

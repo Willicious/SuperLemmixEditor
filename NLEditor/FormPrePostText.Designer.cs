@@ -38,17 +38,19 @@
             // txtPrePostText
             // 
             this.txtPrePostText.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPrePostText.Location = new System.Drawing.Point(6, 33);
+            this.txtPrePostText.Location = new System.Drawing.Point(9, 51);
+            this.txtPrePostText.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtPrePostText.Multiline = true;
             this.txtPrePostText.Name = "txtPrePostText";
-            this.txtPrePostText.Size = new System.Drawing.Size(289, 144);
+            this.txtPrePostText.Size = new System.Drawing.Size(432, 219);
             this.txtPrePostText.TabIndex = 0;
             // 
             // butPTextOK
             // 
-            this.butPTextOK.Location = new System.Drawing.Point(6, 192);
+            this.butPTextOK.Location = new System.Drawing.Point(9, 295);
+            this.butPTextOK.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.butPTextOK.Name = "butPTextOK";
-            this.butPTextOK.Size = new System.Drawing.Size(139, 30);
+            this.butPTextOK.Size = new System.Drawing.Size(208, 46);
             this.butPTextOK.TabIndex = 1;
             this.butPTextOK.Text = "OK";
             this.butPTextOK.UseVisualStyleBackColor = true;
@@ -56,9 +58,10 @@
             // 
             // butPTextCancel
             // 
-            this.butPTextCancel.Location = new System.Drawing.Point(157, 192);
+            this.butPTextCancel.Location = new System.Drawing.Point(236, 295);
+            this.butPTextCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.butPTextCancel.Name = "butPTextCancel";
-            this.butPTextCancel.Size = new System.Drawing.Size(138, 30);
+            this.butPTextCancel.Size = new System.Drawing.Size(207, 46);
             this.butPTextCancel.TabIndex = 2;
             this.butPTextCancel.Text = "Cancel";
             this.butPTextCancel.UseVisualStyleBackColor = true;
@@ -66,28 +69,31 @@
             // 
             // lblPTextTitle
             // 
-            this.lblPTextTitle.Location = new System.Drawing.Point(3, 9);
+            this.lblPTextTitle.Location = new System.Drawing.Point(4, 14);
+            this.lblPTextTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPTextTitle.Name = "lblPTextTitle";
-            this.lblPTextTitle.Size = new System.Drawing.Size(292, 15);
+            this.lblPTextTitle.Size = new System.Drawing.Size(438, 23);
             this.lblPTextTitle.TabIndex = 3;
             this.lblPTextTitle.Text = "Edit";
             this.lblPTextTitle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // FormPrePostTest
+            // FormPrePostText
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(299, 234);
+            this.ClientSize = new System.Drawing.Size(448, 360);
             this.Controls.Add(this.lblPTextTitle);
             this.Controls.Add(this.butPTextCancel);
             this.Controls.Add(this.butPTextOK);
             this.Controls.Add(this.txtPrePostText);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormPrePostTest";
+            this.Name = "FormPrePostText";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormPrePostTest";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPrePostTest_FormClosing);
             this.Leave += new System.EventHandler(this.FormPrePostTest_Leave);
