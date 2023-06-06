@@ -575,7 +575,7 @@ namespace NLEditor
         private void DisplayHotkeyForm()
         {
             Form hotkeyForm = new EscExitForm();
-            hotkeyForm.ClientSize = new Size(450, 420);
+            hotkeyForm.ClientSize = new Size(600, 520);
             hotkeyForm.StartPosition = FormStartPosition.CenterScreen;
             hotkeyForm.MaximizeBox = false;
             hotkeyForm.ShowInTaskbar = false;
@@ -600,11 +600,15 @@ namespace NLEditor
             {
                 // Create labels
                 Label lblKeys = new Label();
+                lblKeys.Font = new Font("Microsoft Sans MS", 9, FontStyle.Bold);
+                lblKeys.ForeColor = Color.Gray;
                 lblKeys.Location = new Point(0, 4);
-                lblKeys.Size = new Size(150, hotkeyTabs.Height - 4);
+                lblKeys.Size = new Size(220, hotkeyTabs.Height - 4);
                 lblKeys.Text = string.Join(C.NewLine, C.HotkeyDict[tab]);
+                lblKeys.TextAlign = ContentAlignment.TopRight;
                 Label lblDescription = new Label();
-                lblDescription.Location = new Point(150, 4);
+                lblDescription.Location = new Point(220, 4);
+                lblDescription.Font = new Font("Microsoft Sans MS", 9);
                 lblDescription.Size = new Size(hotkeyTabs.Width - 154, hotkeyTabs.Height - 4);
                 lblDescription.Text = string.Join(C.NewLine, C.DescriptionDict[tab]);
 
