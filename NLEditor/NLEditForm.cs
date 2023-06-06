@@ -1252,7 +1252,7 @@ namespace NLEditor
             }
             else if (hasSelectedPieceAtPos && isAltPressed && isCtrlPressed && !isShiftPressed)
             {
-                dragAction = C.DragActions.HoriztonalDrag;
+                dragAction = C.DragActions.HorizontalDrag;
                 Cursor = Cursors.SizeWE;
             }
             else if (hasSelectedPieceAtPos && !isAltPressed && isCtrlPressed && isShiftPressed)
@@ -1314,7 +1314,7 @@ namespace NLEditor
                         pic_Level.SetImage(curRenderer.CreateLevelImage());
                         break;
                     }
-                case C.DragActions.HoriztonalDrag:
+                case C.DragActions.HorizontalDrag:
                     {
                         XDragSelectedPieces();
                         pic_Level.SetImage(curRenderer.CreateLevelImage());
@@ -1372,7 +1372,7 @@ namespace NLEditor
                         SaveChangesToOldLevelList();
                         break;
                     }
-                case C.DragActions.HoriztonalDrag:
+                case C.DragActions.HorizontalDrag:
                     {
                         Cursor = Cursors.Default;
                         XDragSelectedPieces();

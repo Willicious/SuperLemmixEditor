@@ -237,6 +237,7 @@ namespace NLEditor
             validatorForm = new Form();
             validatorForm.Width = 500;
             validatorForm.Height = 300;
+            validatorForm.StartPosition = FormStartPosition.CenterScreen;
             validatorForm.MaximizeBox = false;
             validatorForm.ShowInTaskbar = false;
             validatorForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;

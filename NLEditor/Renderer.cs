@@ -261,7 +261,7 @@ namespace NLEditor
                 case C.DragActions.DragPieces:
                     LevelStartPos = level.SelectionRectangle().Location;
                     break;
-                case C.DragActions.HoriztonalDrag:
+                case C.DragActions.HorizontalDrag:
                     LevelStartPos = level.SelectionRectangle().Location;
                     break;
                 case C.DragActions.VerticalDrag:
