@@ -1227,7 +1227,7 @@ namespace NLEditor
                                   && CurLevel.HasPieceAtPos(mousePos);
 
             C.DragActions dragAction = C.DragActions.Null;
-            if (e.Button == MouseButtons.Right) // for scrolling
+            if (e.Button == MouseButtons.Right && !isAltPressed && !isCtrlPressed && !isShiftPressed) // for scrolling
             {
                 dragAction = C.DragActions.MoveEditorPos;
                 Cursor = Cursors.SizeAll;
