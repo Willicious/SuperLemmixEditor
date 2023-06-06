@@ -1182,10 +1182,10 @@ namespace NLEditor
             { 
                 if (isCtrlPressed)
                 {
-                    movement *= 4; 
+                    movement *= 4;
                     scrollPicLevelHoriz_Scroll(sender, new ScrollEventArgs(ScrollEventType.ThumbPosition, curRenderer.ScreenPosX, curRenderer.ScreenPosX + movement, ScrollOrientation.HorizontalScroll));
                 }
-                else if (isAltPressed)
+                else if (isShiftPressed || isAltPressed)
                 {
                     movement *= 4;
                     scrollPicLevelVert_Scroll(sender, new ScrollEventArgs(ScrollEventType.ThumbPosition, curRenderer.ScreenPosY, curRenderer.ScreenPosY + movement, ScrollOrientation.VerticalScroll));
