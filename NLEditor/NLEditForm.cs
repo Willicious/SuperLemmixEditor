@@ -1250,12 +1250,19 @@ namespace NLEditor
             {
                 dragAction = C.DragActions.DragPieces;
             }
-            else if (hasSelectedPieceAtPos && isAltPressed && isCtrlPressed && !isShiftPressed)
+            else if ((e.Button == MouseButtons.Right && hasSelectedPieceAtPos
+                && !isAltPressed && isCtrlPressed && !isShiftPressed) ||
+                    (e.Button == MouseButtons.Left && hasSelectedPieceAtPos
+                && (isAltPressed && !isShiftPressed && isCtrlPressed)))
+
             {
                 dragAction = C.DragActions.HorizontalDrag;
                 Cursor = Cursors.SizeWE;
             }
-            else if (hasSelectedPieceAtPos && !isAltPressed && isCtrlPressed && isShiftPressed)
+            else if ((e.Button == MouseButtons.Right && hasSelectedPieceAtPos 
+                && (isAltPressed || isShiftPressed) && !isCtrlPressed) ||
+                    (e.Button == MouseButtons.Left && hasSelectedPieceAtPos
+                && (!isAltPressed && isShiftPressed && isCtrlPressed)))
             {
                 dragAction = C.DragActions.VerticalDrag;
                 Cursor = Cursors.SizeNS;
