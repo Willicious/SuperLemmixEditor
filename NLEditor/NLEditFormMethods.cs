@@ -127,9 +127,11 @@ namespace NLEditor
             CurLevel.SaveReq = decimal.ToInt32(num_Lvl_Rescue.Value);
             CurLevel.SpawnRate = decimal.ToInt32(num_Lvl_SR.Value);
             CurLevel.IsSpawnRateFix = check_Lvl_LockSR.Checked;
+            CurLevel.IsSuperlemming = check_Lvl_Superlemming.Checked;
             CurLevel.TimeLimit = decimal.ToInt32(num_Lvl_TimeMin.Value) * 60
                                     + decimal.ToInt32(num_Lvl_TimeSec.Value);
             CurLevel.IsNoTimeLimit = check_Lvl_InfTime.Checked;
+            CurLevel.IsSuperlemming = check_Lvl_Superlemming.Checked;
 
             string idText = txt_LevelID.Text;
             if (idText.Length < 16)
@@ -195,6 +197,7 @@ namespace NLEditor
                 num_Lvl_TimeMin.Value = CurLevel.TimeLimit / 60;
                 num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;
                 check_Lvl_InfTime.Checked = CurLevel.IsNoTimeLimit;
+                check_Lvl_Superlemming.Checked = CurLevel.IsSuperlemming;
 
                 txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
 

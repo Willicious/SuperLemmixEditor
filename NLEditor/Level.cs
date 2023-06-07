@@ -42,6 +42,7 @@ namespace NLEditor
             this.IsSpawnRateFix = false;
             this.TimeLimit = 0;
             this.IsNoTimeLimit = true;
+            this.IsSuperlemming = false;
 
             this.SkillSet = new Dictionary<C.Skill, int>();
             foreach (C.Skill skill in C.SkillArray)
@@ -97,6 +98,7 @@ namespace NLEditor
         public bool IsSpawnRateFix { get; set; }
         public int TimeLimit { get; set; }
         public bool IsNoTimeLimit { get; set; }
+        public bool IsSuperlemming { get; set; }
 
         public Dictionary<C.Skill, int> SkillSet { get; set; }
 
@@ -140,6 +142,7 @@ namespace NLEditor
             newLevel.IsSpawnRateFix = this.IsSpawnRateFix;
             newLevel.TimeLimit = this.TimeLimit;
             newLevel.IsNoTimeLimit = this.IsNoTimeLimit;
+            newLevel.IsSuperlemming = this.IsSuperlemming;
 
             newLevel.SkillSet = new Dictionary<C.Skill, int>();
             foreach (C.Skill skill in C.SkillArray)
@@ -182,6 +185,7 @@ namespace NLEditor
                 || this.SaveReq != otherLevel.SaveReq
                 || this.SpawnRate != otherLevel.SpawnRate
                 || this.IsSpawnRateFix != otherLevel.IsSpawnRateFix
+                || this.IsSuperlemming != otherLevel.IsSuperlemming
                 || this.IsNoTimeLimit != otherLevel.IsNoTimeLimit
                 || (this.TimeLimit != otherLevel.TimeLimit && !this.IsNoTimeLimit)
                 || this.Talismans.Count != otherLevel.Talismans.Count
