@@ -62,7 +62,7 @@
             // 
             this.cmbRequirementTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbRequirementTypes.FormattingEnabled = true;
-            this.cmbRequirementTypes.Location = new System.Drawing.Point(22, 351);
+            this.cmbRequirementTypes.Location = new System.Drawing.Point(22, 349);
             this.cmbRequirementTypes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbRequirementTypes.Name = "cmbRequirementTypes";
             this.cmbRequirementTypes.Size = new System.Drawing.Size(249, 28);

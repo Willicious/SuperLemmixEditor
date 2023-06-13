@@ -189,10 +189,10 @@ namespace NLEditor
             C.TalismanReq requirement = C.TalismanReqText.First(pair => pair.Value.Equals(cmbRequirementTypes.Text)).Key;
 
             // Set visibility
-            numReqValue1.Visible = (requirement != C.TalismanReq.UseOnlySkill);
-            numReqValue1.Visible = (requirement != C.TalismanReq.KillZombies);
-            numReqValue1.Visible = (requirement != C.TalismanReq.ClassicMode);
-            numReqValue1.Visible = (requirement != C.TalismanReq.NoPause);
+            numReqValue1.Visible = (requirement != C.TalismanReq.UseOnlySkill &&
+                                    requirement != C.TalismanReq.KillZombies  &&
+                                    requirement != C.TalismanReq.ClassicMode  &&
+                                    requirement != C.TalismanReq.NoPause);
             numReqValue2.Visible = (requirement == C.TalismanReq.TimeLimit);
             cmbRequirementSkill.Visible = (requirement == C.TalismanReq.UseOnlySkill);
 
