@@ -366,6 +366,9 @@ namespace NLEditor
                                 case "VINEWATER":
                                     objType = C.OBJ.VINEWATER;
                                     break;
+                                case "POISON":
+                                    objType = C.OBJ.POISON;
+                                    break;
                                 case "ONEWAYRIGHT":
                                 case "ONEWAYLEFT":
                                 case "ONEWAYDOWN":

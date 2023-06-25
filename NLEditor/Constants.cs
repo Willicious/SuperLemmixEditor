@@ -68,7 +68,7 @@ namespace NLEditor
             LEMMING = 15, PICKUP = 16, TELEPORTER = 17, RECEIVER = 18,
             EXIT_LOCKED = 20, BUTTON = 21,
             UPDRAFT = 22, SPLAT = 24, FORCE_FIELD = 25, SPLITTER = 27,
-            NONE = 50, BACKGROUND = 52, BLASTICINE = 53, VINEWATER = 54, //bookmark
+            NONE = 50, BACKGROUND = 52, BLASTICINE = 53, VINEWATER = 54, POISON = 55,
             NULL
         }
 
@@ -97,7 +97,7 @@ namespace NLEditor
       {OBJ.TERRAIN, "Terrain"}, {OBJ.STEEL, "Steel"}, {OBJ.NONE, "No effect"},
       {OBJ.EXIT, "Exit"}, {OBJ.FORCE_FIELD, "Turning field"}, {OBJ.ONE_WAY_WALL, "One-way-wall"}, {OBJ.PAINT, "Paint"},
       {OBJ.TRAP, "Triggered trap"}, {OBJ.WATER, "Water"}, {OBJ.FIRE, "Fire"},
-      {OBJ.BLASTICINE, "Blasticine"}, {OBJ.VINEWATER, "Vinewater"},
+      {OBJ.BLASTICINE, "Blasticine"}, {OBJ.VINEWATER, "Vinewater"}, {OBJ.POISON, "Poison"},
       {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Preplaced lemming"},
       {OBJ.PICKUP, "Pick-up skill"}, {OBJ.EXIT_LOCKED, "Locked exit"}, {OBJ.BUTTON, "Button"},
       {OBJ.UPDRAFT, "Updraft"}, {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
