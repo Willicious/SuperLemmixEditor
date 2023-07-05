@@ -369,6 +369,12 @@ namespace NLEditor
                                 case "POISON":
                                     objType = C.OBJ.POISON;
                                     break;
+                                case "RADIATION":
+                                    objType = C.OBJ.RADIATION;
+                                    break;
+                                case "SLOWFREEZE":
+                                    objType = C.OBJ.SLOWFREEZE;
+                                    break;
                                 case "ONEWAYRIGHT":
                                 case "ONEWAYLEFT":
                                 case "ONEWAYDOWN":
