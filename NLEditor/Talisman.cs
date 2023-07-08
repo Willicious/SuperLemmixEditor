@@ -58,6 +58,12 @@ namespace NLEditor
             {
                 return C.TalismanReqText[requirement] + ": " + C.TalismanSkills[Requirements[requirement]];
             }
+            else if (requirement == C.TalismanReq.KillZombies ||
+                     requirement == C.TalismanReq.ClassicMode ||
+                     requirement == C.TalismanReq.NoPause)
+            {
+                return C.TalismanReqText[requirement];
+            }
             else
             {
                 return C.TalismanReqText[requirement] + ": " + Requirements[requirement].ToString();
