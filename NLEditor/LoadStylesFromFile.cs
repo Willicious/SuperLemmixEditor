@@ -576,7 +576,7 @@ namespace NLEditor
                 if (anim.Name?.ToUpperInvariant() == "*PICKUP")
                 {
                     anim.Image = Properties.Resources.PickupAnim;
-                    anim.Frames = 48;
+                    anim.Frames = 50;
 
                     Bitmap eraseImage;
                     var eraseAnim = localAnims.FirstOrDefault(item => item.Name == "skill_mask");
