@@ -67,6 +67,7 @@ namespace NLEditor
             int columnRight = 228;
 
             settingsForm = new EscExitForm();
+            settingsForm.StartPosition = FormStartPosition.CenterScreen;
             settingsForm.ClientSize = new System.Drawing.Size(310, 160);
             settingsForm.MaximizeBox = false;
             settingsForm.ShowInTaskbar = false;
