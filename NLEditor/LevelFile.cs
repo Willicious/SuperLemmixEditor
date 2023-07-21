@@ -199,6 +199,7 @@ namespace NLEditor
             int bgSpeed = node["SPEED"].ValueInt;
             int bgAngle = node["ANGLE"].ValueInt;
             int lemmingCap = node["LEMMINGS"].ValueInt;
+            int countdownLength = node["COUNTDOWN"].ValueInt;
             HashSet<C.Skill> skillFlags = new HashSet<C.Skill>();
 
             if (doRotate)
@@ -212,7 +213,7 @@ namespace NLEditor
             Point levelFilePos = new Point(posX, posY);
             Point editorPos = ImageLibrary.LevelFileToEditorCoordinates(key, levelFilePos, doRotate, doFlip, doInvert);
             GadgetPiece newGadget = new GadgetPiece(key, editorPos, 0, false, isNoOverwrite, isOnlyOnTerrain,
-              val_L, skillFlags, specWidth, specHeight, bgSpeed, bgAngle, lemmingCap);
+              val_L, skillFlags, specWidth, specHeight, bgSpeed, bgAngle, lemmingCap, countdownLength);
 
             // Read in skill information
             foreach (C.Skill skill in C.SkillArray)
@@ -230,6 +231,12 @@ namespace NLEditor
             if (newGadget.ObjType == C.OBJ.PICKUP && newGadget.Val_L < 1)
             {
                 newGadget.SetPickupSkillCount(1);
+            }
+
+            // Ensure radiation and slowfreeze countdown is set to 10 if no value is available
+            if (newGadget.ObjType.In(C.OBJ.RADIATION, C.OBJ.SLOWFREEZE) && newGadget.CountdownLength < 1)
+            {
+                newGadget.SetCountdownLength(10);
             }
 
             // For compatibility with player: NoOverwrite + OnlyOnTerrain gadgets work like OnlyOnTerrain 
@@ -841,6 +848,11 @@ namespace NLEditor
             if (gadget.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
             {
                 textFile.WriteLine("   PAIRING " + gadget.Val_L.ToString());
+            }
+
+            if (gadget.ObjType.In(C.OBJ.RADIATION, C.OBJ.SLOWFREEZE) && gadget.CountdownLength > 0)
+            {
+                textFile.WriteLine("   COUNTDOWN " + gadget.CountdownLength.ToString());
             }
 
             if (gadget.ObjType.In(C.OBJ.BACKGROUND))

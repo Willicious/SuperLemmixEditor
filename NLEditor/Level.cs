@@ -732,6 +732,14 @@ namespace NLEditor
             pickup.SetPickupSkillCount(value);
         }
 
+        public void SetCountdownLength(int value)
+        {
+            GadgetPiece gadget = (GadgetPiece)SelectionList().First();
+            System.Diagnostics.Debug.Assert(gadget != null && new[] { C.OBJ.RADIATION, C.OBJ.SLOWFREEZE }.Contains(gadget.ObjType), "Set countdown length, but first selected piece is not able to have this value!");
+
+            gadget.SetCountdownLength(value);
+        }
+
         public void SetLemmingLimit(int value)
         {
             GadgetPiece gadget = (GadgetPiece)SelectionList().First();

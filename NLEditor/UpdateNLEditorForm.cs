@@ -277,6 +277,18 @@ namespace NLEditor
                     num_PickupSkillCount.Visible = false;
                 }
 
+                if (new[] { C.OBJ.RADIATION, C.OBJ.SLOWFREEZE }.Contains(gadget.ObjType))
+                {
+                    lbl_SR_Countdown.Visible = true;
+                    num_SR_Countdown.Value = Math.Min(Math.Max(gadget.CountdownLength, num_SR_Countdown.Minimum), num_SR_Countdown.Maximum);
+                    num_SR_Countdown.Visible = true;
+                }
+                else
+                {
+                    lbl_SR_Countdown.Visible = false;
+                    num_SR_Countdown.Visible = false;
+                }
+
                 if (new[] { C.OBJ.EXIT, C.OBJ.EXIT_LOCKED, C.OBJ.HATCH }.Contains(gadget.ObjType))
                 {
                     lbl_LemmingLimit.Visible = true;
@@ -295,6 +307,8 @@ namespace NLEditor
                 num_PickupSkillCount.Visible = false;
                 lbl_LemmingLimit.Visible = false;
                 num_LemmingLimit.Visible = false;
+                lbl_SR_Countdown.Visible = false;
+                num_SR_Countdown.Visible = false;
             }
 
             if (selectionList.Count == 2

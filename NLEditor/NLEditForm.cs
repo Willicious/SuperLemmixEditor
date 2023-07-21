@@ -657,6 +657,13 @@ namespace NLEditor
             SaveChangesToOldLevelList();
         }
 
+        private void num_SR_Countdown_ValueChanged(object sender, EventArgs e)
+        {
+            int countdownLength = (int)num_SR_Countdown.Value;
+            CurLevel.SetCountdownLength(countdownLength);
+            pic_Level.SetImage(curRenderer.CreateLevelImage());
+        }
+
         private void but_PairTeleporter_Click(object sender, EventArgs e)
         {
             PairTeleporters();
@@ -1600,6 +1607,11 @@ namespace NLEditor
             if (_IsWritingToForm) return;
             textbox_Leave(sender, e);
             pic_Level.SetImage(curRenderer.GetScreenImage());
+        }
+
+        private void num_SR_Countdown_KeyUp(object sender, KeyEventArgs e)
+        {
+            num_SR_Countdown_ValueChanged(sender, null);
         }
     }
 }

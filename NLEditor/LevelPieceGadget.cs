@@ -20,12 +20,14 @@ namespace NLEditor
             SkillFlags = new HashSet<C.Skill>();
             SpecWidth = Utility.EvaluateResizable(0, DefaultWidth, base.Width, MayResizeHoriz());
             SpecHeight = Utility.EvaluateResizable(0, DefaultHeight, base.Height, MayResizeVert());
+            CountdownLength = 10;
         }
 
         public GadgetPiece(string key, Point pos, int rotation, bool isInvert, bool isNoOverwrite,
                            bool isOnlyOnTerrain, int valL, HashSet<C.Skill> skillFlags,
                            int specWidth = -1, int specHeight = -1,
-                           int bgSpeed = 0, int bgAngle = 0, int lemmingCap = 0)
+                           int bgSpeed = 0, int bgAngle = 0, int lemmingCap = 0,
+                           int countdownLength = 10)
             : base(key, true, pos, rotation, isInvert)
         {
             IsNoOverwrite = isNoOverwrite;
@@ -37,6 +39,7 @@ namespace NLEditor
             BackgroundAngle = bgAngle;
             BackgroundSpeed = bgSpeed;
             LemmingCap = lemmingCap;
+            CountdownLength = countdownLength;
         }
 
         public bool IsNoOverwrite { get; set; }
@@ -48,12 +51,14 @@ namespace NLEditor
         public int BackgroundAngle { get; set; }
         public int BackgroundSpeed { get; set; }
         public int LemmingCap { get; set; }
+        public int CountdownLength { get; set; }
 
         public override LevelPiece Clone()
         {
             int val_l = Val_L;
             return new GadgetPiece(Key, Pos, Rotation, IsInvert, IsNoOverwrite, IsOnlyOnTerrain,
-                                   val_l, SkillFlags, SpecWidth, SpecHeight, BackgroundSpeed, BackgroundAngle, LemmingCap);
+                                   val_l, SkillFlags, SpecWidth, SpecHeight, BackgroundSpeed, BackgroundAngle,
+                                   LemmingCap, CountdownLength);
         }
 
 
@@ -73,7 +78,8 @@ namespace NLEditor
                 && this.SpecHeight == piece.SpecHeight
                 && this.BackgroundAngle == piece.BackgroundAngle
                 && this.BackgroundSpeed == piece.BackgroundSpeed
-                && this.LemmingCap == piece.LemmingCap;
+                && this.LemmingCap == piece.LemmingCap
+                && this.CountdownLength == piece.CountdownLength;
         }
 
         /// <summary>
@@ -359,6 +365,12 @@ namespace NLEditor
         {
             System.Diagnostics.Debug.Assert(new[] { C.OBJ.EXIT, C.OBJ.EXIT_LOCKED, C.OBJ.HATCH }.Contains(ObjType), "Lemming limit set for incompatible object.");
             LemmingCap = newValue;
+        }
+
+        public void SetCountdownLength(int newValue)
+        {
+            System.Diagnostics.Debug.Assert(new[] { C.OBJ.RADIATION, C.OBJ.SLOWFREEZE }.Contains(ObjType), "Countdown length set for incompatible object.");
+            CountdownLength = newValue;
         }
 
         /// <summary>

@@ -113,6 +113,8 @@
             this.txt_LevelTitle = new System.Windows.Forms.TextBox();
             this.lbl_Global_Title = new System.Windows.Forms.Label();
             this.tabPieces = new System.Windows.Forms.TabPage();
+            this.lbl_SR_Countdown = new System.Windows.Forms.Label();
+            this.num_SR_Countdown = new NLEditor.NumUpDownOverwrite();
             this.but_PairTeleporter = new System.Windows.Forms.Button();
             this.check_Piece_Zombie = new System.Windows.Forms.CheckBox();
             this.check_Piece_Digger = new System.Windows.Forms.CheckBox();
@@ -263,6 +265,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeX)).BeginInit();
             this.tabPieces.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_SR_Countdown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Background_Speed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_PickupSkillCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_LemmingLimit)).BeginInit();
@@ -1312,6 +1315,8 @@
             // 
             // tabPieces
             // 
+            this.tabPieces.Controls.Add(this.lbl_SR_Countdown);
+            this.tabPieces.Controls.Add(this.num_SR_Countdown);
             this.tabPieces.Controls.Add(this.but_PairTeleporter);
             this.tabPieces.Controls.Add(this.check_Piece_Zombie);
             this.tabPieces.Controls.Add(this.check_Piece_Digger);
@@ -1374,9 +1379,46 @@
             this.tabPieces.Text = "Pieces";
             this.tabPieces.UseVisualStyleBackColor = true;
             // 
+            // lbl_SR_Countdown
+            // 
+            this.lbl_SR_Countdown.Location = new System.Drawing.Point(92, 569);
+            this.lbl_SR_Countdown.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbl_SR_Countdown.Name = "lbl_SR_Countdown";
+            this.lbl_SR_Countdown.Size = new System.Drawing.Size(91, 23);
+            this.lbl_SR_Countdown.TabIndex = 53;
+            this.lbl_SR_Countdown.Text = "Countdown";
+            this.lbl_SR_Countdown.Visible = false;
+            // 
+            // num_SR_Countdown
+            // 
+            this.num_SR_Countdown.Location = new System.Drawing.Point(186, 567);
+            this.num_SR_Countdown.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.num_SR_Countdown.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.num_SR_Countdown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_SR_Countdown.Name = "num_SR_Countdown";
+            this.num_SR_Countdown.Size = new System.Drawing.Size(70, 26);
+            this.num_SR_Countdown.TabIndex = 52;
+            this.num_SR_Countdown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_SR_Countdown.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.num_SR_Countdown.Visible = false;
+            this.num_SR_Countdown.ValueChanged += new System.EventHandler(this.num_SR_Countdown_ValueChanged);
+            this.num_SR_Countdown.KeyUp += new System.Windows.Forms.KeyEventHandler(this.num_SR_Countdown_KeyUp);
+            // 
             // but_PairTeleporter
             // 
-            this.but_PairTeleporter.Location = new System.Drawing.Point(106, 575);
+            this.but_PairTeleporter.Location = new System.Drawing.Point(106, 579);
             this.but_PairTeleporter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_PairTeleporter.Name = "but_PairTeleporter";
             this.but_PairTeleporter.Size = new System.Drawing.Size(150, 34);
@@ -1388,7 +1430,7 @@
             // 
             // check_Piece_Zombie
             // 
-            this.check_Piece_Zombie.Location = new System.Drawing.Point(205, 263);
+            this.check_Piece_Zombie.Location = new System.Drawing.Point(205, 271);
             this.check_Piece_Zombie.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Zombie.Name = "check_Piece_Zombie";
             this.check_Piece_Zombie.Size = new System.Drawing.Size(99, 26);
@@ -1399,7 +1441,7 @@
             // 
             // check_Piece_Digger
             // 
-            this.check_Piece_Digger.Location = new System.Drawing.Point(255, 486);
+            this.check_Piece_Digger.Location = new System.Drawing.Point(255, 491);
             this.check_Piece_Digger.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Digger.Name = "check_Piece_Digger";
             this.check_Piece_Digger.Size = new System.Drawing.Size(120, 26);
@@ -1410,7 +1452,7 @@
             // 
             // check_Piece_Fencer
             // 
-            this.check_Piece_Fencer.Location = new System.Drawing.Point(12, 486);
+            this.check_Piece_Fencer.Location = new System.Drawing.Point(12, 491);
             this.check_Piece_Fencer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Fencer.Name = "check_Piece_Fencer";
             this.check_Piece_Fencer.Size = new System.Drawing.Size(110, 26);
@@ -1421,7 +1463,7 @@
             // 
             // check_Piece_Spearer
             // 
-            this.check_Piece_Spearer.Location = new System.Drawing.Point(255, 432);
+            this.check_Piece_Spearer.Location = new System.Drawing.Point(255, 437);
             this.check_Piece_Spearer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Spearer.Name = "check_Piece_Spearer";
             this.check_Piece_Spearer.Size = new System.Drawing.Size(120, 26);
@@ -1431,7 +1473,7 @@
             // 
             // check_Piece_Grenader
             // 
-            this.check_Piece_Grenader.Location = new System.Drawing.Point(12, 458);
+            this.check_Piece_Grenader.Location = new System.Drawing.Point(12, 463);
             this.check_Piece_Grenader.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Grenader.Name = "check_Piece_Grenader";
             this.check_Piece_Grenader.Size = new System.Drawing.Size(110, 26);
@@ -1441,7 +1483,7 @@
             // 
             // check_Piece_Laserer
             // 
-            this.check_Piece_Laserer.Location = new System.Drawing.Point(125, 458);
+            this.check_Piece_Laserer.Location = new System.Drawing.Point(125, 463);
             this.check_Piece_Laserer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Laserer.Name = "check_Piece_Laserer";
             this.check_Piece_Laserer.Size = new System.Drawing.Size(130, 26);
@@ -1451,7 +1493,7 @@
             // 
             // check_Piece_Timebomber
             // 
-            this.check_Piece_Timebomber.Location = new System.Drawing.Point(125, 377);
+            this.check_Piece_Timebomber.Location = new System.Drawing.Point(125, 382);
             this.check_Piece_Timebomber.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Timebomber.Name = "check_Piece_Timebomber";
             this.check_Piece_Timebomber.Size = new System.Drawing.Size(130, 26);
@@ -1461,7 +1503,7 @@
             // 
             // check_Piece_Builder
             // 
-            this.check_Piece_Builder.Location = new System.Drawing.Point(12, 432);
+            this.check_Piece_Builder.Location = new System.Drawing.Point(12, 437);
             this.check_Piece_Builder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Builder.Name = "check_Piece_Builder";
             this.check_Piece_Builder.Size = new System.Drawing.Size(110, 26);
@@ -1472,7 +1514,7 @@
             // 
             // check_Piece_Blocker
             // 
-            this.check_Piece_Blocker.Location = new System.Drawing.Point(125, 405);
+            this.check_Piece_Blocker.Location = new System.Drawing.Point(125, 410);
             this.check_Piece_Blocker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Blocker.Name = "check_Piece_Blocker";
             this.check_Piece_Blocker.Size = new System.Drawing.Size(130, 26);
@@ -1483,7 +1525,7 @@
             // 
             // check_Piece_Bomber
             // 
-            this.check_Piece_Bomber.Location = new System.Drawing.Point(255, 377);
+            this.check_Piece_Bomber.Location = new System.Drawing.Point(255, 382);
             this.check_Piece_Bomber.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Bomber.Name = "check_Piece_Bomber";
             this.check_Piece_Bomber.Size = new System.Drawing.Size(120, 26);
@@ -1494,7 +1536,7 @@
             // 
             // check_Piece_Glider
             // 
-            this.check_Piece_Glider.Location = new System.Drawing.Point(255, 350);
+            this.check_Piece_Glider.Location = new System.Drawing.Point(255, 355);
             this.check_Piece_Glider.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Glider.Name = "check_Piece_Glider";
             this.check_Piece_Glider.Size = new System.Drawing.Size(120, 26);
@@ -1505,7 +1547,7 @@
             // 
             // check_Piece_Ballooner
             // 
-            this.check_Piece_Ballooner.Location = new System.Drawing.Point(12, 322);
+            this.check_Piece_Ballooner.Location = new System.Drawing.Point(12, 327);
             this.check_Piece_Ballooner.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Ballooner.Name = "check_Piece_Ballooner";
             this.check_Piece_Ballooner.Size = new System.Drawing.Size(110, 26);
@@ -1516,7 +1558,7 @@
             // 
             // check_Piece_Swimmer
             // 
-            this.check_Piece_Swimmer.Location = new System.Drawing.Point(12, 350);
+            this.check_Piece_Swimmer.Location = new System.Drawing.Point(12, 355);
             this.check_Piece_Swimmer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Swimmer.Name = "check_Piece_Swimmer";
             this.check_Piece_Swimmer.Size = new System.Drawing.Size(110, 26);
@@ -1527,7 +1569,7 @@
             // 
             // check_Piece_Slider
             // 
-            this.check_Piece_Slider.Location = new System.Drawing.Point(125, 322);
+            this.check_Piece_Slider.Location = new System.Drawing.Point(125, 327);
             this.check_Piece_Slider.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Slider.Name = "check_Piece_Slider";
             this.check_Piece_Slider.Size = new System.Drawing.Size(130, 26);
@@ -1555,7 +1597,7 @@
             "W",
             "W-NW",
             "N-NW"});
-            this.cb_Background_Direction.Location = new System.Drawing.Point(171, 542);
+            this.cb_Background_Direction.Location = new System.Drawing.Point(171, 547);
             this.cb_Background_Direction.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cb_Background_Direction.Name = "cb_Background_Direction";
             this.cb_Background_Direction.Size = new System.Drawing.Size(97, 28);
@@ -1565,7 +1607,7 @@
             // 
             // lbl_Background_Direction
             // 
-            this.lbl_Background_Direction.Location = new System.Drawing.Point(100, 544);
+            this.lbl_Background_Direction.Location = new System.Drawing.Point(100, 549);
             this.lbl_Background_Direction.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Background_Direction.Name = "lbl_Background_Direction";
             this.lbl_Background_Direction.Size = new System.Drawing.Size(80, 26);
@@ -1575,7 +1617,7 @@
             // 
             // lbl_Background_Speed
             // 
-            this.lbl_Background_Speed.Location = new System.Drawing.Point(96, 684);
+            this.lbl_Background_Speed.Location = new System.Drawing.Point(96, 688);
             this.lbl_Background_Speed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Background_Speed.Name = "lbl_Background_Speed";
             this.lbl_Background_Speed.Size = new System.Drawing.Size(69, 23);
@@ -1585,7 +1627,7 @@
             // 
             // check_Piece_Neutral
             // 
-            this.check_Piece_Neutral.Location = new System.Drawing.Point(70, 263);
+            this.check_Piece_Neutral.Location = new System.Drawing.Point(70, 271);
             this.check_Piece_Neutral.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Neutral.Name = "check_Piece_Neutral";
             this.check_Piece_Neutral.Size = new System.Drawing.Size(104, 26);
@@ -1596,7 +1638,7 @@
             // 
             // check_Piece_Cloner
             // 
-            this.check_Piece_Cloner.Location = new System.Drawing.Point(125, 513);
+            this.check_Piece_Cloner.Location = new System.Drawing.Point(125, 518);
             this.check_Piece_Cloner.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Cloner.Name = "check_Piece_Cloner";
             this.check_Piece_Cloner.Size = new System.Drawing.Size(130, 26);
@@ -1607,7 +1649,7 @@
             // 
             // check_Piece_Miner
             // 
-            this.check_Piece_Miner.Location = new System.Drawing.Point(125, 486);
+            this.check_Piece_Miner.Location = new System.Drawing.Point(125, 491);
             this.check_Piece_Miner.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Miner.Name = "check_Piece_Miner";
             this.check_Piece_Miner.Size = new System.Drawing.Size(130, 26);
@@ -1618,7 +1660,7 @@
             // 
             // check_Piece_Basher
             // 
-            this.check_Piece_Basher.Location = new System.Drawing.Point(255, 458);
+            this.check_Piece_Basher.Location = new System.Drawing.Point(255, 463);
             this.check_Piece_Basher.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Basher.Name = "check_Piece_Basher";
             this.check_Piece_Basher.Size = new System.Drawing.Size(120, 26);
@@ -1629,7 +1671,7 @@
             // 
             // check_Piece_Stacker
             // 
-            this.check_Piece_Stacker.Location = new System.Drawing.Point(125, 432);
+            this.check_Piece_Stacker.Location = new System.Drawing.Point(125, 437);
             this.check_Piece_Stacker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Stacker.Name = "check_Piece_Stacker";
             this.check_Piece_Stacker.Size = new System.Drawing.Size(130, 26);
@@ -1641,7 +1683,7 @@
             // check_Piece_Platformer
             // 
             this.check_Piece_Platformer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.check_Piece_Platformer.Location = new System.Drawing.Point(255, 405);
+            this.check_Piece_Platformer.Location = new System.Drawing.Point(255, 410);
             this.check_Piece_Platformer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Platformer.Name = "check_Piece_Platformer";
             this.check_Piece_Platformer.Size = new System.Drawing.Size(120, 26);
@@ -1652,7 +1694,7 @@
             // 
             // check_Piece_Freezer
             // 
-            this.check_Piece_Freezer.Location = new System.Drawing.Point(12, 405);
+            this.check_Piece_Freezer.Location = new System.Drawing.Point(12, 410);
             this.check_Piece_Freezer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Freezer.Name = "check_Piece_Freezer";
             this.check_Piece_Freezer.Size = new System.Drawing.Size(110, 26);
@@ -1663,7 +1705,7 @@
             // 
             // check_Piece_Disarmer
             // 
-            this.check_Piece_Disarmer.Location = new System.Drawing.Point(12, 377);
+            this.check_Piece_Disarmer.Location = new System.Drawing.Point(12, 382);
             this.check_Piece_Disarmer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Disarmer.Name = "check_Piece_Disarmer";
             this.check_Piece_Disarmer.Size = new System.Drawing.Size(110, 26);
@@ -1674,7 +1716,7 @@
             // 
             // check_Piece_Floater
             // 
-            this.check_Piece_Floater.Location = new System.Drawing.Point(125, 350);
+            this.check_Piece_Floater.Location = new System.Drawing.Point(125, 355);
             this.check_Piece_Floater.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Floater.Name = "check_Piece_Floater";
             this.check_Piece_Floater.Size = new System.Drawing.Size(130, 26);
@@ -1685,7 +1727,7 @@
             // 
             // check_Piece_Climber
             // 
-            this.check_Piece_Climber.Location = new System.Drawing.Point(255, 322);
+            this.check_Piece_Climber.Location = new System.Drawing.Point(255, 327);
             this.check_Piece_Climber.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Climber.Name = "check_Piece_Climber";
             this.check_Piece_Climber.Size = new System.Drawing.Size(120, 26);
@@ -1696,7 +1738,7 @@
             // 
             // check_Piece_Shimmier
             // 
-            this.check_Piece_Shimmier.Location = new System.Drawing.Point(255, 295);
+            this.check_Piece_Shimmier.Location = new System.Drawing.Point(255, 300);
             this.check_Piece_Shimmier.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Shimmier.Name = "check_Piece_Shimmier";
             this.check_Piece_Shimmier.Size = new System.Drawing.Size(120, 26);
@@ -1707,7 +1749,7 @@
             // 
             // check_Piece_Walker
             // 
-            this.check_Piece_Walker.Location = new System.Drawing.Point(12, 295);
+            this.check_Piece_Walker.Location = new System.Drawing.Point(12, 300);
             this.check_Piece_Walker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Walker.Name = "check_Piece_Walker";
             this.check_Piece_Walker.Size = new System.Drawing.Size(110, 26);
@@ -1718,7 +1760,7 @@
             // 
             // check_Piece_Jumper
             // 
-            this.check_Piece_Jumper.Location = new System.Drawing.Point(125, 295);
+            this.check_Piece_Jumper.Location = new System.Drawing.Point(125, 300);
             this.check_Piece_Jumper.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Jumper.Name = "check_Piece_Jumper";
             this.check_Piece_Jumper.Size = new System.Drawing.Size(130, 26);
@@ -1728,10 +1770,10 @@
             // 
             // but_UngroupSelection
             // 
-            this.but_UngroupSelection.Location = new System.Drawing.Point(192, 90);
+            this.but_UngroupSelection.Location = new System.Drawing.Point(185, 103);
             this.but_UngroupSelection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_UngroupSelection.Name = "but_UngroupSelection";
-            this.but_UngroupSelection.Size = new System.Drawing.Size(188, 35);
+            this.but_UngroupSelection.Size = new System.Drawing.Size(189, 38);
             this.but_UngroupSelection.TabIndex = 8;
             this.but_UngroupSelection.Text = "Ungroup";
             this.but_UngroupSelection.UseVisualStyleBackColor = true;
@@ -1739,10 +1781,10 @@
             // 
             // but_GroupSelection
             // 
-            this.but_GroupSelection.Location = new System.Drawing.Point(4, 90);
+            this.but_GroupSelection.Location = new System.Drawing.Point(13, 103);
             this.but_GroupSelection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_GroupSelection.Name = "but_GroupSelection";
-            this.but_GroupSelection.Size = new System.Drawing.Size(184, 35);
+            this.but_GroupSelection.Size = new System.Drawing.Size(167, 38);
             this.but_GroupSelection.TabIndex = 7;
             this.but_GroupSelection.Text = "Group";
             this.but_GroupSelection.UseVisualStyleBackColor = true;
@@ -1750,7 +1792,7 @@
             // 
             // lbl_Resize_Height
             // 
-            this.lbl_Resize_Height.Location = new System.Drawing.Point(96, 651);
+            this.lbl_Resize_Height.Location = new System.Drawing.Point(96, 655);
             this.lbl_Resize_Height.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Resize_Height.Name = "lbl_Resize_Height";
             this.lbl_Resize_Height.Size = new System.Drawing.Size(69, 23);
@@ -1760,7 +1802,7 @@
             // 
             // lbl_Resize_Width
             // 
-            this.lbl_Resize_Width.Location = new System.Drawing.Point(96, 619);
+            this.lbl_Resize_Width.Location = new System.Drawing.Point(96, 623);
             this.lbl_Resize_Width.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Resize_Width.Name = "lbl_Resize_Width";
             this.lbl_Resize_Width.Size = new System.Drawing.Size(69, 23);
@@ -1770,7 +1812,7 @@
             // 
             // check_Pieces_OneWay
             // 
-            this.check_Pieces_OneWay.Location = new System.Drawing.Point(205, 162);
+            this.check_Pieces_OneWay.Location = new System.Drawing.Point(205, 172);
             this.check_Pieces_OneWay.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Pieces_OneWay.Name = "check_Pieces_OneWay";
             this.check_Pieces_OneWay.Size = new System.Drawing.Size(154, 26);
@@ -1781,7 +1823,7 @@
             // 
             // check_Pieces_OnlyOnTerrain
             // 
-            this.check_Pieces_OnlyOnTerrain.Location = new System.Drawing.Point(205, 135);
+            this.check_Pieces_OnlyOnTerrain.Location = new System.Drawing.Point(205, 145);
             this.check_Pieces_OnlyOnTerrain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Pieces_OnlyOnTerrain.Name = "check_Pieces_OnlyOnTerrain";
             this.check_Pieces_OnlyOnTerrain.Size = new System.Drawing.Size(154, 26);
@@ -1792,7 +1834,7 @@
             // 
             // check_Pieces_NoOv
             // 
-            this.check_Pieces_NoOv.Location = new System.Drawing.Point(17, 162);
+            this.check_Pieces_NoOv.Location = new System.Drawing.Point(17, 172);
             this.check_Pieces_NoOv.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Pieces_NoOv.Name = "check_Pieces_NoOv";
             this.check_Pieces_NoOv.Size = new System.Drawing.Size(154, 26);
@@ -1803,7 +1845,7 @@
             // 
             // check_Pieces_Erase
             // 
-            this.check_Pieces_Erase.Location = new System.Drawing.Point(17, 135);
+            this.check_Pieces_Erase.Location = new System.Drawing.Point(17, 145);
             this.check_Pieces_Erase.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Pieces_Erase.Name = "check_Pieces_Erase";
             this.check_Pieces_Erase.Size = new System.Drawing.Size(154, 26);
@@ -1814,7 +1856,7 @@
             // 
             // lbl_LemmingLimit
             // 
-            this.lbl_LemmingLimit.Location = new System.Drawing.Point(106, 199);
+            this.lbl_LemmingLimit.Location = new System.Drawing.Point(106, 209);
             this.lbl_LemmingLimit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_LemmingLimit.Name = "lbl_LemmingLimit";
             this.lbl_LemmingLimit.Size = new System.Drawing.Size(82, 23);
@@ -1824,7 +1866,7 @@
             // 
             // lbl_PickupSkillCount
             // 
-            this.lbl_PickupSkillCount.Location = new System.Drawing.Point(98, 229);
+            this.lbl_PickupSkillCount.Location = new System.Drawing.Point(98, 239);
             this.lbl_PickupSkillCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_PickupSkillCount.Name = "lbl_PickupSkillCount";
             this.lbl_PickupSkillCount.Size = new System.Drawing.Size(90, 23);
@@ -1839,7 +1881,7 @@
             0,
             0,
             0});
-            this.num_Background_Speed.Location = new System.Drawing.Point(186, 682);
+            this.num_Background_Speed.Location = new System.Drawing.Point(186, 686);
             this.num_Background_Speed.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Background_Speed.Maximum = new decimal(new int[] {
             999,
@@ -1855,7 +1897,7 @@
             // 
             // num_PickupSkillCount
             // 
-            this.num_PickupSkillCount.Location = new System.Drawing.Point(188, 227);
+            this.num_PickupSkillCount.Location = new System.Drawing.Point(188, 237);
             this.num_PickupSkillCount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_PickupSkillCount.Maximum = new decimal(new int[] {
             99,
@@ -1882,7 +1924,7 @@
             // 
             // num_LemmingLimit
             // 
-            this.num_LemmingLimit.Location = new System.Drawing.Point(188, 197);
+            this.num_LemmingLimit.Location = new System.Drawing.Point(188, 207);
             this.num_LemmingLimit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_LemmingLimit.Maximum = new decimal(new int[] {
             999,
@@ -1904,7 +1946,7 @@
             0,
             0,
             0});
-            this.num_Resize_Height.Location = new System.Drawing.Point(186, 648);
+            this.num_Resize_Height.Location = new System.Drawing.Point(186, 652);
             this.num_Resize_Height.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Resize_Height.Maximum = new decimal(new int[] {
             160,
@@ -1935,7 +1977,7 @@
             0,
             0,
             0});
-            this.num_Resize_Width.Location = new System.Drawing.Point(186, 615);
+            this.num_Resize_Width.Location = new System.Drawing.Point(186, 619);
             this.num_Resize_Width.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Resize_Width.Maximum = new decimal(new int[] {
             320,
@@ -1961,11 +2003,11 @@
             // 
             // but_MoveBackOne
             // 
-            this.but_MoveBackOne.Location = new System.Drawing.Point(192, 48);
+            this.but_MoveBackOne.Location = new System.Drawing.Point(185, 47);
             this.but_MoveBackOne.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_MoveBackOne.Name = "but_MoveBackOne";
             this.but_MoveBackOne.NoPaddingText = "Draw Sooner";
-            this.but_MoveBackOne.Size = new System.Drawing.Size(103, 38);
+            this.but_MoveBackOne.Size = new System.Drawing.Size(100, 50);
             this.but_MoveBackOne.TabIndex = 5;
             this.but_MoveBackOne.UseVisualStyleBackColor = true;
             this.but_MoveBackOne.Click += new System.EventHandler(this.but_MoveBackOne_Click);
@@ -1973,11 +2015,11 @@
             // 
             // but_MoveFrontOne
             // 
-            this.but_MoveFrontOne.Location = new System.Drawing.Point(95, 48);
+            this.but_MoveFrontOne.Location = new System.Drawing.Point(96, 47);
             this.but_MoveFrontOne.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_MoveFrontOne.Name = "but_MoveFrontOne";
             this.but_MoveFrontOne.NoPaddingText = "Draw Later";
-            this.but_MoveFrontOne.Size = new System.Drawing.Size(93, 38);
+            this.but_MoveFrontOne.Size = new System.Drawing.Size(84, 50);
             this.but_MoveFrontOne.TabIndex = 4;
             this.but_MoveFrontOne.UseVisualStyleBackColor = true;
             this.but_MoveFrontOne.Click += new System.EventHandler(this.but_MoveFrontOne_Click);
@@ -1985,33 +2027,34 @@
             // 
             // but_MoveBack
             // 
-            this.but_MoveBack.Location = new System.Drawing.Point(298, 48);
+            this.but_MoveBack.Location = new System.Drawing.Point(294, 47);
             this.but_MoveBack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_MoveBack.Name = "but_MoveBack";
             this.but_MoveBack.NoPaddingText = "Draw First";
-            this.but_MoveBack.Size = new System.Drawing.Size(82, 38);
+            this.but_MoveBack.Size = new System.Drawing.Size(80, 50);
             this.but_MoveBack.TabIndex = 6;
             this.but_MoveBack.UseVisualStyleBackColor = true;
             this.but_MoveBack.Click += new System.EventHandler(this.but_MoveBack_Click);
             // 
             // but_MoveFront
             // 
-            this.but_MoveFront.Location = new System.Drawing.Point(4, 48);
+            this.but_MoveFront.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.but_MoveFront.Location = new System.Drawing.Point(13, 47);
             this.but_MoveFront.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_MoveFront.Name = "but_MoveFront";
             this.but_MoveFront.NoPaddingText = "Draw Last";
-            this.but_MoveFront.Size = new System.Drawing.Size(83, 38);
+            this.but_MoveFront.Size = new System.Drawing.Size(79, 50);
             this.but_MoveFront.TabIndex = 3;
             this.but_MoveFront.UseVisualStyleBackColor = true;
             this.but_MoveFront.Click += new System.EventHandler(this.but_MoveFront_Click);
             // 
             // but_FlipPieces
             // 
-            this.but_FlipPieces.Location = new System.Drawing.Point(255, 9);
+            this.but_FlipPieces.Location = new System.Drawing.Point(257, 5);
             this.but_FlipPieces.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_FlipPieces.Name = "but_FlipPieces";
             this.but_FlipPieces.NoPaddingText = null;
-            this.but_FlipPieces.Size = new System.Drawing.Size(125, 35);
+            this.but_FlipPieces.Size = new System.Drawing.Size(117, 39);
             this.but_FlipPieces.TabIndex = 2;
             this.but_FlipPieces.Text = "Flip";
             this.but_FlipPieces.UseVisualStyleBackColor = true;
@@ -2020,11 +2063,11 @@
             // 
             // but_InvertPieces
             // 
-            this.but_InvertPieces.Location = new System.Drawing.Point(129, 9);
+            this.but_InvertPieces.Location = new System.Drawing.Point(129, 5);
             this.but_InvertPieces.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_InvertPieces.Name = "but_InvertPieces";
             this.but_InvertPieces.NoPaddingText = null;
-            this.but_InvertPieces.Size = new System.Drawing.Size(120, 35);
+            this.but_InvertPieces.Size = new System.Drawing.Size(120, 39);
             this.but_InvertPieces.TabIndex = 1;
             this.but_InvertPieces.Text = "Invert";
             this.but_InvertPieces.UseVisualStyleBackColor = true;
@@ -2033,11 +2076,11 @@
             // 
             // but_RotatePieces
             // 
-            this.but_RotatePieces.Location = new System.Drawing.Point(4, 9);
+            this.but_RotatePieces.Location = new System.Drawing.Point(12, 5);
             this.but_RotatePieces.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_RotatePieces.Name = "but_RotatePieces";
             this.but_RotatePieces.NoPaddingText = null;
-            this.but_RotatePieces.Size = new System.Drawing.Size(120, 35);
+            this.but_RotatePieces.Size = new System.Drawing.Size(110, 39);
             this.but_RotatePieces.TabIndex = 0;
             this.but_RotatePieces.Text = "Rotate";
             this.but_RotatePieces.UseVisualStyleBackColor = true;
@@ -2958,6 +3001,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeX)).EndInit();
             this.tabPieces.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.num_SR_Countdown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Background_Speed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_PickupSkillCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_LemmingLimit)).EndInit();
@@ -3210,6 +3254,8 @@
         private System.Windows.Forms.ToolStripMenuItem showHotkeysDialogToolStripMenuItem;
         public System.Windows.Forms.CheckBox chk_Lvl_AutoStart;
         private System.Windows.Forms.CheckBox check_Lvl_Superlemming;
+        private NumUpDownOverwrite num_SR_Countdown;
+        private System.Windows.Forms.Label lbl_SR_Countdown;
     }
 }
 
