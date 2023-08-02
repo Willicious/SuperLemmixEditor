@@ -132,10 +132,10 @@ namespace NLEditor
             Slider = 9, Climber = 11, Swimmer = 13,
             Floater = 15, Glider = 17,
             Disarmer = 19, Timebomber = 21, Bomber = 23, Freezer = 25, Blocker = 27,
-            Platformer = 29, Builder = 31, Stacker = 33,
-            Spearer = 35, Grenader = 37, Laserer = 39,
-            Basher = 41, Fencer = 43, Miner = 45, Digger = 47,
-            Cloner = 49
+            Ladderer = 29, Platformer = 31, Builder = 33, Stacker = 35,
+            Spearer = 37, Grenader = 39, Laserer = 41,
+            Basher = 43, Fencer = 45, Miner = 47, Digger = 49,
+            Cloner = 51
         };
         public static Array SkillArray => Enum.GetValues(typeof(C.Skill));
 
@@ -171,7 +171,7 @@ namespace NLEditor
             SkillWalker, SkillJumper, SkillShimmier, SkillBallooner,
             SkillSlider, SkillClimber, SkillSwimmer, SkillFloater, SkillGlider,
             SkillDisarmer, SkillTimebomber, SkillBomber, SkillFreezer, SkillBlocker,
-            SkillBuilder, SkillPlatformer, SkillStacker,
+            SkillLadderer, SkillPlatformer, SkillBuilder, SkillStacker,
             SkillSpearer, SkillGrenader, SkillLaserer,
             SkillBasher, SkillFencer, SkillMiner, SkillDigger, SkillCloner,
             SkillEachLimit, UseOnlySkill
@@ -185,7 +185,7 @@ namespace NLEditor
             "Walker", "Jumper", "Shimmier", "Ballooner",
             "Slider", "Climber", "Swimmer", "Floater", "Glider", 
             "Disarmer", "Timebomber", "Bomber", "Freezer", "Blocker",
-            "Builder", "Platformer", "Stacker",
+            "Ladderer", "Platformer", "Builder", "Stacker",
             "Spearer", "Grenader", "Laserer",
             "Basher", "Fencer", "Miner", "Digger", "Cloner"
         };
@@ -209,8 +209,9 @@ namespace NLEditor
             { TalismanReq.SkillBomber, "Limit Bombers" },
             { TalismanReq.SkillFreezer, "Limit Freezers" },
             { TalismanReq.SkillBlocker, "Limit Blockers" },
-            { TalismanReq.SkillBuilder, "Limit Builders" },
+            { TalismanReq.SkillLadderer, "Limit Ladderers" },
             { TalismanReq.SkillPlatformer, "Limit Platformers" },
+            { TalismanReq.SkillBuilder, "Limit Builders" },
             { TalismanReq.SkillStacker, "Limit Stackers" },
             { TalismanReq.SkillSpearer, "Limit Spearers" },
             { TalismanReq.SkillGrenader, "Limit Grenaders" },
@@ -238,13 +239,13 @@ namespace NLEditor
       { TalismanReq.SkillBallooner, "BALLOONER_LIMIT" },
       { TalismanReq.SkillSlider, "SLIDER_LIMIT" }, { TalismanReq.SkillClimber, "CLIMBER_LIMIT"},
       { TalismanReq.SkillSwimmer, "SWIMMER_LIMIT"}, { TalismanReq.SkillFloater, "FLOATER_LIMIT" },
-      { TalismanReq.SkillGlider, "GLIDER_LIMIT" },
-      { TalismanReq.SkillDisarmer, "DISARMER_LIMIT" },
+      { TalismanReq.SkillGlider, "GLIDER_LIMIT" }, { TalismanReq.SkillDisarmer, "DISARMER_LIMIT" },
       { TalismanReq.SkillTimebomber, "TIMEBOMBER_LIMIT" }, { TalismanReq.SkillBomber, "BOMBER_LIMIT" },
       { TalismanReq.SkillFreezer, "FREEZER_LIMIT"}, { TalismanReq.SkillBlocker, "BLOCKER_LIMIT"},
-      { TalismanReq.SkillBuilder, "BUILDER_LIMIT" }, { TalismanReq.SkillPlatformer, "PLATFORMER_LIMIT" },
-      { TalismanReq.SkillStacker, "STACKER_LIMIT" }, { TalismanReq.SkillSpearer, "SPEARER_LIMIT" },
-      { TalismanReq.SkillGrenader, "GRENADER_LIMIT" }, { TalismanReq.SkillLaserer, "LASERER_LIMIT" },
+      { TalismanReq.SkillLadderer, "LADDERER_LIMIT" }, { TalismanReq.SkillPlatformer, "PLATFORMER_LIMIT" },
+      { TalismanReq.SkillBuilder, "BUILDER_LIMIT" }, { TalismanReq.SkillStacker, "STACKER_LIMIT" },
+      { TalismanReq.SkillSpearer, "SPEARER_LIMIT" }, { TalismanReq.SkillGrenader, "GRENADER_LIMIT" },
+      { TalismanReq.SkillLaserer, "LASERER_LIMIT" },
       { TalismanReq.SkillBasher, "BASHER_LIMIT" }, { TalismanReq.SkillMiner, "MINER_LIMIT" },
       { TalismanReq.SkillDigger, "DIGGER_LIMIT" }, { TalismanReq.SkillFencer, "FENCER_LIMIT" },
       { TalismanReq.SkillCloner, "CLONER_LIMIT" }, { TalismanReq.SkillEachLimit, "SKILL_EACH_LIMIT" },
