@@ -252,8 +252,9 @@ namespace NLEditor
                 case C.OBJ.LEMMING:
                     {
                         return skill.In(C.Skill.Slider, C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
-                                        C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Zombie,
-                                        C.Skill.Blocker, C.Skill.Shimmier, C.Skill.Neutral);
+                                        C.Skill.Disarmer, C.Skill.Swimmer, 
+                                        C.Skill.Ballooner, C.Skill.Blocker, C.Skill.Shimmier,
+                                        C.Skill.Zombie, C.Skill.Neutral);
                     }
                 case C.OBJ.PICKUP:
                     {
