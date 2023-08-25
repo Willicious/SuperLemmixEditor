@@ -86,7 +86,7 @@ namespace NLEditor
             numCustomMove.AutoSize = true;
             numCustomMove.TextAlign = HorizontalAlignment.Center;
             numCustomMove.Minimum = 2;
-            numCustomMove.Maximum = 2400;
+            numCustomMove.Maximum = 3200;
             numCustomMove.Value = customMove;
             numCustomMove.Top = lblCustomMove.Top - 2;
             numCustomMove.Left = columnRight;
