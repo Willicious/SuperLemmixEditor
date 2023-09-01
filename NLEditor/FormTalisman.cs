@@ -134,8 +134,20 @@ namespace NLEditor
         /// <param name="e"></param>
         private void butTalismanSave_Click(object sender, EventArgs e)
         {
-            SaveTalisman();
+            if (talisman.Requirements.Count == 0)
+            {
+                // Alert user that the talisman has no requirement
+                if (MessageBox.Show("Warning: this talisman has no requirements", "Talisman Warning", MessageBoxButtons.OK, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    SaveTalisman();
+                }
+            }
+            else
+            {
+                SaveTalisman();
+            }
         }
+
 
         /// <summary>
         /// // Exit talisman creation form without saving
@@ -255,7 +267,6 @@ namespace NLEditor
                     SaveTalisman();
                 }
             }
-
             //(this.Owner as FormMain).WriteTalismanInfo();
         }
     }
