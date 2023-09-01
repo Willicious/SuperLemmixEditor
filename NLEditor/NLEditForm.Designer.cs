@@ -1198,7 +1198,7 @@
             this.num_Lvl_SizeY.Location = new System.Drawing.Point(196, 190);
             this.num_Lvl_SizeY.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Lvl_SizeY.Maximum = new decimal(new int[] {
-            640,
+            1600,
             0,
             0,
             0});
