@@ -113,37 +113,37 @@
             this.txt_LevelTitle = new System.Windows.Forms.TextBox();
             this.lbl_Global_Title = new System.Windows.Forms.Label();
             this.tabPieces = new System.Windows.Forms.TabPage();
+            this.check_Piece_Digger = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Spearer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Ballooner = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Swimmer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Basher = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Platformer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Freezer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Disarmer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Bomber = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Laserer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Glider = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Miner = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Stacker = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Ladderer = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Climber = new System.Windows.Forms.CheckBox();
+            this.check_Piece_Shimmier = new System.Windows.Forms.CheckBox();
             this.lbl_SR_Countdown = new System.Windows.Forms.Label();
             this.but_PairTeleporter = new System.Windows.Forms.Button();
             this.check_Piece_Zombie = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Digger = new System.Windows.Forms.CheckBox();
             this.check_Piece_Fencer = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Spearer = new System.Windows.Forms.CheckBox();
             this.check_Piece_Grenader = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Laserer = new System.Windows.Forms.CheckBox();
             this.check_Piece_Timebomber = new System.Windows.Forms.CheckBox();
             this.check_Piece_Builder = new System.Windows.Forms.CheckBox();
             this.check_Piece_Blocker = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Bomber = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Glider = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Ballooner = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Swimmer = new System.Windows.Forms.CheckBox();
             this.check_Piece_Slider = new System.Windows.Forms.CheckBox();
             this.cb_Background_Direction = new System.Windows.Forms.ComboBox();
             this.lbl_Background_Direction = new System.Windows.Forms.Label();
             this.lbl_Background_Speed = new System.Windows.Forms.Label();
             this.check_Piece_Neutral = new System.Windows.Forms.CheckBox();
             this.check_Piece_Cloner = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Miner = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Basher = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Stacker = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Ladderer = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Platformer = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Freezer = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Disarmer = new System.Windows.Forms.CheckBox();
             this.check_Piece_Floater = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Climber = new System.Windows.Forms.CheckBox();
-            this.check_Piece_Shimmier = new System.Windows.Forms.CheckBox();
             this.check_Piece_Walker = new System.Windows.Forms.CheckBox();
             this.check_Piece_Jumper = new System.Windows.Forms.CheckBox();
             this.but_UngroupSelection = new System.Windows.Forms.Button();
@@ -1384,6 +1384,182 @@
             this.tabPieces.Text = "Pieces";
             this.tabPieces.UseVisualStyleBackColor = true;
             // 
+            // check_Piece_Digger
+            // 
+            this.check_Piece_Digger.Location = new System.Drawing.Point(259, 491);
+            this.check_Piece_Digger.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Digger.Name = "check_Piece_Digger";
+            this.check_Piece_Digger.Size = new System.Drawing.Size(120, 26);
+            this.check_Piece_Digger.TabIndex = 39;
+            this.check_Piece_Digger.Text = "Digger";
+            this.check_Piece_Digger.UseVisualStyleBackColor = true;
+            this.check_Piece_Digger.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Spearer
+            // 
+            this.check_Piece_Spearer.Location = new System.Drawing.Point(259, 437);
+            this.check_Piece_Spearer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Spearer.Name = "check_Piece_Spearer";
+            this.check_Piece_Spearer.Size = new System.Drawing.Size(120, 26);
+            this.check_Piece_Spearer.TabIndex = 33;
+            this.check_Piece_Spearer.Text = "Spearer";
+            this.check_Piece_Spearer.UseVisualStyleBackColor = true;
+            // 
+            // check_Piece_Ballooner
+            // 
+            this.check_Piece_Ballooner.Location = new System.Drawing.Point(259, 300);
+            this.check_Piece_Ballooner.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Ballooner.Name = "check_Piece_Ballooner";
+            this.check_Piece_Ballooner.Size = new System.Drawing.Size(110, 26);
+            this.check_Piece_Ballooner.TabIndex = 24;
+            this.check_Piece_Ballooner.Text = "Ballooner";
+            this.check_Piece_Ballooner.UseVisualStyleBackColor = true;
+            this.check_Piece_Ballooner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Swimmer
+            // 
+            this.check_Piece_Swimmer.Location = new System.Drawing.Point(259, 327);
+            this.check_Piece_Swimmer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Swimmer.Name = "check_Piece_Swimmer";
+            this.check_Piece_Swimmer.Size = new System.Drawing.Size(110, 26);
+            this.check_Piece_Swimmer.TabIndex = 22;
+            this.check_Piece_Swimmer.Text = "Swimmer";
+            this.check_Piece_Swimmer.UseVisualStyleBackColor = true;
+            this.check_Piece_Swimmer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Basher
+            // 
+            this.check_Piece_Basher.Location = new System.Drawing.Point(259, 463);
+            this.check_Piece_Basher.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Basher.Name = "check_Piece_Basher";
+            this.check_Piece_Basher.Size = new System.Drawing.Size(120, 26);
+            this.check_Piece_Basher.TabIndex = 36;
+            this.check_Piece_Basher.Text = "Basher";
+            this.check_Piece_Basher.UseVisualStyleBackColor = true;
+            this.check_Piece_Basher.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Platformer
+            // 
+            this.check_Piece_Platformer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.check_Piece_Platformer.Location = new System.Drawing.Point(259, 410);
+            this.check_Piece_Platformer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Platformer.Name = "check_Piece_Platformer";
+            this.check_Piece_Platformer.Size = new System.Drawing.Size(120, 26);
+            this.check_Piece_Platformer.TabIndex = 30;
+            this.check_Piece_Platformer.Text = "Platformer";
+            this.check_Piece_Platformer.UseVisualStyleBackColor = true;
+            this.check_Piece_Platformer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Freezer
+            // 
+            this.check_Piece_Freezer.Location = new System.Drawing.Point(259, 382);
+            this.check_Piece_Freezer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Freezer.Name = "check_Piece_Freezer";
+            this.check_Piece_Freezer.Size = new System.Drawing.Size(110, 26);
+            this.check_Piece_Freezer.TabIndex = 28;
+            this.check_Piece_Freezer.Text = "Freezer";
+            this.check_Piece_Freezer.UseVisualStyleBackColor = true;
+            this.check_Piece_Freezer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Disarmer
+            // 
+            this.check_Piece_Disarmer.Location = new System.Drawing.Point(259, 355);
+            this.check_Piece_Disarmer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Disarmer.Name = "check_Piece_Disarmer";
+            this.check_Piece_Disarmer.Size = new System.Drawing.Size(110, 26);
+            this.check_Piece_Disarmer.TabIndex = 25;
+            this.check_Piece_Disarmer.Text = "Disarmer";
+            this.check_Piece_Disarmer.UseVisualStyleBackColor = true;
+            this.check_Piece_Disarmer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Bomber
+            // 
+            this.check_Piece_Bomber.Location = new System.Drawing.Point(138, 382);
+            this.check_Piece_Bomber.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Bomber.Name = "check_Piece_Bomber";
+            this.check_Piece_Bomber.Size = new System.Drawing.Size(110, 26);
+            this.check_Piece_Bomber.TabIndex = 27;
+            this.check_Piece_Bomber.Text = "Bomber";
+            this.check_Piece_Bomber.UseVisualStyleBackColor = true;
+            this.check_Piece_Bomber.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Laserer
+            // 
+            this.check_Piece_Laserer.Location = new System.Drawing.Point(138, 463);
+            this.check_Piece_Laserer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Laserer.Name = "check_Piece_Laserer";
+            this.check_Piece_Laserer.Size = new System.Drawing.Size(110, 26);
+            this.check_Piece_Laserer.TabIndex = 35;
+            this.check_Piece_Laserer.Text = "Laserer";
+            this.check_Piece_Laserer.UseVisualStyleBackColor = true;
+            // 
+            // check_Piece_Glider
+            // 
+            this.check_Piece_Glider.Location = new System.Drawing.Point(138, 355);
+            this.check_Piece_Glider.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Glider.Name = "check_Piece_Glider";
+            this.check_Piece_Glider.Size = new System.Drawing.Size(110, 26);
+            this.check_Piece_Glider.TabIndex = 24;
+            this.check_Piece_Glider.Text = "Glider";
+            this.check_Piece_Glider.UseVisualStyleBackColor = true;
+            this.check_Piece_Glider.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Miner
+            // 
+            this.check_Piece_Miner.Location = new System.Drawing.Point(138, 491);
+            this.check_Piece_Miner.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Miner.Name = "check_Piece_Miner";
+            this.check_Piece_Miner.Size = new System.Drawing.Size(110, 26);
+            this.check_Piece_Miner.TabIndex = 38;
+            this.check_Piece_Miner.Text = "Miner";
+            this.check_Piece_Miner.UseVisualStyleBackColor = true;
+            this.check_Piece_Miner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Stacker
+            // 
+            this.check_Piece_Stacker.Location = new System.Drawing.Point(138, 437);
+            this.check_Piece_Stacker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Stacker.Name = "check_Piece_Stacker";
+            this.check_Piece_Stacker.Size = new System.Drawing.Size(110, 26);
+            this.check_Piece_Stacker.TabIndex = 32;
+            this.check_Piece_Stacker.Text = "Stacker";
+            this.check_Piece_Stacker.UseVisualStyleBackColor = true;
+            this.check_Piece_Stacker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Ladderer
+            // 
+            this.check_Piece_Ladderer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.check_Piece_Ladderer.Location = new System.Drawing.Point(138, 410);
+            this.check_Piece_Ladderer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Ladderer.Name = "check_Piece_Ladderer";
+            this.check_Piece_Ladderer.Size = new System.Drawing.Size(110, 26);
+            this.check_Piece_Ladderer.TabIndex = 30;
+            this.check_Piece_Ladderer.Text = "Ladderer";
+            this.check_Piece_Ladderer.UseVisualStyleBackColor = true;
+            this.check_Piece_Ladderer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Climber
+            // 
+            this.check_Piece_Climber.Location = new System.Drawing.Point(138, 327);
+            this.check_Piece_Climber.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Climber.Name = "check_Piece_Climber";
+            this.check_Piece_Climber.Size = new System.Drawing.Size(110, 26);
+            this.check_Piece_Climber.TabIndex = 21;
+            this.check_Piece_Climber.Text = "Climber";
+            this.check_Piece_Climber.UseVisualStyleBackColor = true;
+            this.check_Piece_Climber.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
+            // check_Piece_Shimmier
+            // 
+            this.check_Piece_Shimmier.Location = new System.Drawing.Point(138, 300);
+            this.check_Piece_Shimmier.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.check_Piece_Shimmier.Name = "check_Piece_Shimmier";
+            this.check_Piece_Shimmier.Size = new System.Drawing.Size(110, 26);
+            this.check_Piece_Shimmier.TabIndex = 19;
+            this.check_Piece_Shimmier.Text = "Shimmier";
+            this.check_Piece_Shimmier.UseVisualStyleBackColor = true;
+            this.check_Piece_Shimmier.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
+            // 
             // lbl_SR_Countdown
             // 
             this.lbl_SR_Countdown.Location = new System.Drawing.Point(92, 569);
@@ -1417,17 +1593,6 @@
             this.check_Piece_Zombie.UseVisualStyleBackColor = true;
             this.check_Piece_Zombie.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
-            // check_Piece_Digger
-            // 
-            this.check_Piece_Digger.Location = new System.Drawing.Point(259, 491);
-            this.check_Piece_Digger.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Digger.Name = "check_Piece_Digger";
-            this.check_Piece_Digger.Size = new System.Drawing.Size(120, 26);
-            this.check_Piece_Digger.TabIndex = 39;
-            this.check_Piece_Digger.Text = "Digger";
-            this.check_Piece_Digger.UseVisualStyleBackColor = true;
-            this.check_Piece_Digger.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
             // check_Piece_Fencer
             // 
             this.check_Piece_Fencer.Location = new System.Drawing.Point(12, 491);
@@ -1439,16 +1604,6 @@
             this.check_Piece_Fencer.UseVisualStyleBackColor = true;
             this.check_Piece_Fencer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
-            // check_Piece_Spearer
-            // 
-            this.check_Piece_Spearer.Location = new System.Drawing.Point(259, 437);
-            this.check_Piece_Spearer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Spearer.Name = "check_Piece_Spearer";
-            this.check_Piece_Spearer.Size = new System.Drawing.Size(120, 26);
-            this.check_Piece_Spearer.TabIndex = 33;
-            this.check_Piece_Spearer.Text = "Spearer";
-            this.check_Piece_Spearer.UseVisualStyleBackColor = true;
-            // 
             // check_Piece_Grenader
             // 
             this.check_Piece_Grenader.Location = new System.Drawing.Point(12, 463);
@@ -1458,16 +1613,6 @@
             this.check_Piece_Grenader.TabIndex = 34;
             this.check_Piece_Grenader.Text = "Grenader";
             this.check_Piece_Grenader.UseVisualStyleBackColor = true;
-            // 
-            // check_Piece_Laserer
-            // 
-            this.check_Piece_Laserer.Location = new System.Drawing.Point(138, 463);
-            this.check_Piece_Laserer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Laserer.Name = "check_Piece_Laserer";
-            this.check_Piece_Laserer.Size = new System.Drawing.Size(110, 26);
-            this.check_Piece_Laserer.TabIndex = 35;
-            this.check_Piece_Laserer.Text = "Laserer";
-            this.check_Piece_Laserer.UseVisualStyleBackColor = true;
             // 
             // check_Piece_Timebomber
             // 
@@ -1500,50 +1645,6 @@
             this.check_Piece_Blocker.Text = "Blocker";
             this.check_Piece_Blocker.UseVisualStyleBackColor = true;
             this.check_Piece_Blocker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Bomber
-            // 
-            this.check_Piece_Bomber.Location = new System.Drawing.Point(138, 382);
-            this.check_Piece_Bomber.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Bomber.Name = "check_Piece_Bomber";
-            this.check_Piece_Bomber.Size = new System.Drawing.Size(110, 26);
-            this.check_Piece_Bomber.TabIndex = 27;
-            this.check_Piece_Bomber.Text = "Bomber";
-            this.check_Piece_Bomber.UseVisualStyleBackColor = true;
-            this.check_Piece_Bomber.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Glider
-            // 
-            this.check_Piece_Glider.Location = new System.Drawing.Point(138, 355);
-            this.check_Piece_Glider.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Glider.Name = "check_Piece_Glider";
-            this.check_Piece_Glider.Size = new System.Drawing.Size(110, 26);
-            this.check_Piece_Glider.TabIndex = 24;
-            this.check_Piece_Glider.Text = "Glider";
-            this.check_Piece_Glider.UseVisualStyleBackColor = true;
-            this.check_Piece_Glider.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Ballooner
-            // 
-            this.check_Piece_Ballooner.Location = new System.Drawing.Point(259, 300);
-            this.check_Piece_Ballooner.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Ballooner.Name = "check_Piece_Ballooner";
-            this.check_Piece_Ballooner.Size = new System.Drawing.Size(110, 26);
-            this.check_Piece_Ballooner.TabIndex = 24;
-            this.check_Piece_Ballooner.Text = "Ballooner";
-            this.check_Piece_Ballooner.UseVisualStyleBackColor = true;
-            this.check_Piece_Ballooner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Swimmer
-            // 
-            this.check_Piece_Swimmer.Location = new System.Drawing.Point(259, 327);
-            this.check_Piece_Swimmer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Swimmer.Name = "check_Piece_Swimmer";
-            this.check_Piece_Swimmer.Size = new System.Drawing.Size(110, 26);
-            this.check_Piece_Swimmer.TabIndex = 22;
-            this.check_Piece_Swimmer.Text = "Swimmer";
-            this.check_Piece_Swimmer.UseVisualStyleBackColor = true;
-            this.check_Piece_Swimmer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Slider
             // 
@@ -1625,85 +1726,6 @@
             this.check_Piece_Cloner.UseVisualStyleBackColor = true;
             this.check_Piece_Cloner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
-            // check_Piece_Miner
-            // 
-            this.check_Piece_Miner.Location = new System.Drawing.Point(138, 491);
-            this.check_Piece_Miner.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Miner.Name = "check_Piece_Miner";
-            this.check_Piece_Miner.Size = new System.Drawing.Size(110, 26);
-            this.check_Piece_Miner.TabIndex = 38;
-            this.check_Piece_Miner.Text = "Miner";
-            this.check_Piece_Miner.UseVisualStyleBackColor = true;
-            this.check_Piece_Miner.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Basher
-            // 
-            this.check_Piece_Basher.Location = new System.Drawing.Point(259, 463);
-            this.check_Piece_Basher.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Basher.Name = "check_Piece_Basher";
-            this.check_Piece_Basher.Size = new System.Drawing.Size(120, 26);
-            this.check_Piece_Basher.TabIndex = 36;
-            this.check_Piece_Basher.Text = "Basher";
-            this.check_Piece_Basher.UseVisualStyleBackColor = true;
-            this.check_Piece_Basher.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Stacker
-            // 
-            this.check_Piece_Stacker.Location = new System.Drawing.Point(138, 437);
-            this.check_Piece_Stacker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Stacker.Name = "check_Piece_Stacker";
-            this.check_Piece_Stacker.Size = new System.Drawing.Size(110, 26);
-            this.check_Piece_Stacker.TabIndex = 32;
-            this.check_Piece_Stacker.Text = "Stacker";
-            this.check_Piece_Stacker.UseVisualStyleBackColor = true;
-            this.check_Piece_Stacker.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Ladderer
-            // 
-            this.check_Piece_Ladderer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.check_Piece_Ladderer.Location = new System.Drawing.Point(138, 410);
-            this.check_Piece_Ladderer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Ladderer.Name = "check_Piece_Ladderer";
-            this.check_Piece_Ladderer.Size = new System.Drawing.Size(110, 26);
-            this.check_Piece_Ladderer.TabIndex = 30;
-            this.check_Piece_Ladderer.Text = "Ladderer";
-            this.check_Piece_Ladderer.UseVisualStyleBackColor = true;
-            this.check_Piece_Ladderer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Platformer
-            // 
-            this.check_Piece_Platformer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.check_Piece_Platformer.Location = new System.Drawing.Point(259, 410);
-            this.check_Piece_Platformer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Platformer.Name = "check_Piece_Platformer";
-            this.check_Piece_Platformer.Size = new System.Drawing.Size(120, 26);
-            this.check_Piece_Platformer.TabIndex = 30;
-            this.check_Piece_Platformer.Text = "Platformer";
-            this.check_Piece_Platformer.UseVisualStyleBackColor = true;
-            this.check_Piece_Platformer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Freezer
-            // 
-            this.check_Piece_Freezer.Location = new System.Drawing.Point(259, 382);
-            this.check_Piece_Freezer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Freezer.Name = "check_Piece_Freezer";
-            this.check_Piece_Freezer.Size = new System.Drawing.Size(110, 26);
-            this.check_Piece_Freezer.TabIndex = 28;
-            this.check_Piece_Freezer.Text = "Freezer";
-            this.check_Piece_Freezer.UseVisualStyleBackColor = true;
-            this.check_Piece_Freezer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Disarmer
-            // 
-            this.check_Piece_Disarmer.Location = new System.Drawing.Point(259, 355);
-            this.check_Piece_Disarmer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Disarmer.Name = "check_Piece_Disarmer";
-            this.check_Piece_Disarmer.Size = new System.Drawing.Size(110, 26);
-            this.check_Piece_Disarmer.TabIndex = 25;
-            this.check_Piece_Disarmer.Text = "Disarmer";
-            this.check_Piece_Disarmer.UseVisualStyleBackColor = true;
-            this.check_Piece_Disarmer.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
             // check_Piece_Floater
             // 
             this.check_Piece_Floater.Location = new System.Drawing.Point(12, 355);
@@ -1714,28 +1736,6 @@
             this.check_Piece_Floater.Text = "Floater";
             this.check_Piece_Floater.UseVisualStyleBackColor = true;
             this.check_Piece_Floater.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Climber
-            // 
-            this.check_Piece_Climber.Location = new System.Drawing.Point(138, 327);
-            this.check_Piece_Climber.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Climber.Name = "check_Piece_Climber";
-            this.check_Piece_Climber.Size = new System.Drawing.Size(110, 26);
-            this.check_Piece_Climber.TabIndex = 21;
-            this.check_Piece_Climber.Text = "Climber";
-            this.check_Piece_Climber.UseVisualStyleBackColor = true;
-            this.check_Piece_Climber.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
-            // 
-            // check_Piece_Shimmier
-            // 
-            this.check_Piece_Shimmier.Location = new System.Drawing.Point(138, 300);
-            this.check_Piece_Shimmier.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.check_Piece_Shimmier.Name = "check_Piece_Shimmier";
-            this.check_Piece_Shimmier.Size = new System.Drawing.Size(110, 26);
-            this.check_Piece_Shimmier.TabIndex = 19;
-            this.check_Piece_Shimmier.Text = "Shimmier";
-            this.check_Piece_Shimmier.UseVisualStyleBackColor = true;
-            this.check_Piece_Shimmier.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Piece_Walker
             // 
@@ -2407,37 +2407,37 @@
             this.num_Ski_Timebomber.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Timebomber.Name = "num_Ski_Timebomber";
             this.num_Ski_Timebomber.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Timebomber.TabIndex = 10;
+            this.num_Ski_Timebomber.TabIndex = 11;
             this.num_Ski_Timebomber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // num_Ski_Laserer
             // 
             this.num_Ski_Laserer.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Laserer.Location = new System.Drawing.Point(310, 263);
+            this.num_Ski_Laserer.Location = new System.Drawing.Point(308, 263);
             this.num_Ski_Laserer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Laserer.Name = "num_Ski_Laserer";
             this.num_Ski_Laserer.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Laserer.TabIndex = 19;
+            this.num_Ski_Laserer.TabIndex = 21;
             this.num_Ski_Laserer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // num_Ski_Grenader
             // 
             this.num_Ski_Grenader.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Grenader.Location = new System.Drawing.Point(310, 228);
+            this.num_Ski_Grenader.Location = new System.Drawing.Point(308, 228);
             this.num_Ski_Grenader.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Grenader.Name = "num_Ski_Grenader";
             this.num_Ski_Grenader.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Grenader.TabIndex = 18;
+            this.num_Ski_Grenader.TabIndex = 20;
             this.num_Ski_Grenader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // num_Ski_Spearer
             // 
             this.num_Ski_Spearer.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Spearer.Location = new System.Drawing.Point(310, 193);
+            this.num_Ski_Spearer.Location = new System.Drawing.Point(308, 193);
             this.num_Ski_Spearer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Spearer.Name = "num_Ski_Spearer";
             this.num_Ski_Spearer.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Spearer.TabIndex = 17;
+            this.num_Ski_Spearer.TabIndex = 19;
             this.num_Ski_Spearer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // num_Ski_Slider
@@ -2447,7 +2447,7 @@
             this.num_Ski_Slider.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Slider.Name = "num_Ski_Slider";
             this.num_Ski_Slider.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Slider.TabIndex = 4;
+            this.num_Ski_Slider.TabIndex = 5;
             this.num_Ski_Slider.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // num_Ski_Jumper
@@ -2475,11 +2475,11 @@
             // num_Ski_Fencer
             // 
             this.num_Ski_Fencer.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Fencer.Location = new System.Drawing.Point(310, 333);
+            this.num_Ski_Fencer.Location = new System.Drawing.Point(308, 333);
             this.num_Ski_Fencer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Fencer.Name = "num_Ski_Fencer";
             this.num_Ski_Fencer.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Fencer.TabIndex = 21;
+            this.num_Ski_Fencer.TabIndex = 23;
             this.num_Ski_Fencer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Fencer.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Fencer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2488,11 +2488,11 @@
             // num_Ski_Cloner
             // 
             this.num_Ski_Cloner.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Cloner.Location = new System.Drawing.Point(310, 438);
+            this.num_Ski_Cloner.Location = new System.Drawing.Point(308, 438);
             this.num_Ski_Cloner.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Cloner.Name = "num_Ski_Cloner";
             this.num_Ski_Cloner.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Cloner.TabIndex = 24;
+            this.num_Ski_Cloner.TabIndex = 26;
             this.num_Ski_Cloner.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Cloner.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Cloner.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2501,11 +2501,11 @@
             // num_Ski_Stacker
             // 
             this.num_Ski_Stacker.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Stacker.Location = new System.Drawing.Point(310, 158);
+            this.num_Ski_Stacker.Location = new System.Drawing.Point(308, 158);
             this.num_Ski_Stacker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Stacker.Name = "num_Ski_Stacker";
             this.num_Ski_Stacker.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Stacker.TabIndex = 16;
+            this.num_Ski_Stacker.TabIndex = 18;
             this.num_Ski_Stacker.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Stacker.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Stacker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2518,7 +2518,7 @@
             this.num_Ski_Ladderer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Ladderer.Name = "num_Ski_Ladderer";
             this.num_Ski_Ladderer.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Ladderer.TabIndex = 14;
+            this.num_Ski_Ladderer.TabIndex = 15;
             this.num_Ski_Ladderer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Ladderer.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Ladderer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2531,7 +2531,7 @@
             this.num_Ski_Platformer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Platformer.Name = "num_Ski_Platformer";
             this.num_Ski_Platformer.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Platformer.TabIndex = 14;
+            this.num_Ski_Platformer.TabIndex = 16;
             this.num_Ski_Platformer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Platformer.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Platformer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2544,7 +2544,7 @@
             this.num_Ski_Freezer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Freezer.Name = "num_Ski_Freezer";
             this.num_Ski_Freezer.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Freezer.TabIndex = 12;
+            this.num_Ski_Freezer.TabIndex = 13;
             this.num_Ski_Freezer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Freezer.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Freezer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2557,7 +2557,7 @@
             this.num_Ski_Disarmer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Disarmer.Name = "num_Ski_Disarmer";
             this.num_Ski_Disarmer.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Disarmer.TabIndex = 9;
+            this.num_Ski_Disarmer.TabIndex = 10;
             this.num_Ski_Disarmer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Disarmer.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Disarmer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2570,7 +2570,7 @@
             this.num_Ski_Glider.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Glider.Name = "num_Ski_Glider";
             this.num_Ski_Glider.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Glider.TabIndex = 8;
+            this.num_Ski_Glider.TabIndex = 9;
             this.num_Ski_Glider.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Glider.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Glider.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2579,11 +2579,11 @@
             // num_Ski_Ballooner
             // 
             this.num_Ski_Ballooner.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Ballooner.Location = new System.Drawing.Point(114, 125);
+            this.num_Ski_Ballooner.Location = new System.Drawing.Point(114, 123);
             this.num_Ski_Ballooner.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Ballooner.Name = "num_Ski_Ballooner";
             this.num_Ski_Ballooner.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Ballooner.TabIndex = 8;
+            this.num_Ski_Ballooner.TabIndex = 4;
             this.num_Ski_Ballooner.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Ballooner.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Ballooner.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2596,7 +2596,7 @@
             this.num_Ski_Swimmer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Swimmer.Name = "num_Ski_Swimmer";
             this.num_Ski_Swimmer.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Swimmer.TabIndex = 6;
+            this.num_Ski_Swimmer.TabIndex = 7;
             this.num_Ski_Swimmer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Swimmer.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Swimmer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2618,11 +2618,11 @@
             // num_Ski_Digger
             // 
             this.num_Ski_Digger.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Digger.Location = new System.Drawing.Point(310, 403);
+            this.num_Ski_Digger.Location = new System.Drawing.Point(308, 403);
             this.num_Ski_Digger.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Digger.Name = "num_Ski_Digger";
             this.num_Ski_Digger.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Digger.TabIndex = 23;
+            this.num_Ski_Digger.TabIndex = 25;
             this.num_Ski_Digger.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Digger.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Digger.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2631,11 +2631,11 @@
             // num_Ski_Miner
             // 
             this.num_Ski_Miner.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Miner.Location = new System.Drawing.Point(310, 368);
+            this.num_Ski_Miner.Location = new System.Drawing.Point(308, 368);
             this.num_Ski_Miner.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Miner.Name = "num_Ski_Miner";
             this.num_Ski_Miner.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Miner.TabIndex = 22;
+            this.num_Ski_Miner.TabIndex = 24;
             this.num_Ski_Miner.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Miner.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Miner.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2644,11 +2644,11 @@
             // num_Ski_Basher
             // 
             this.num_Ski_Basher.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Basher.Location = new System.Drawing.Point(310, 298);
+            this.num_Ski_Basher.Location = new System.Drawing.Point(308, 298);
             this.num_Ski_Basher.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Basher.Name = "num_Ski_Basher";
             this.num_Ski_Basher.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Basher.TabIndex = 20;
+            this.num_Ski_Basher.TabIndex = 22;
             this.num_Ski_Basher.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Basher.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Basher.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2657,11 +2657,11 @@
             // num_Ski_Builder
             // 
             this.num_Ski_Builder.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Builder.Location = new System.Drawing.Point(310, 123);
+            this.num_Ski_Builder.Location = new System.Drawing.Point(308, 123);
             this.num_Ski_Builder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Builder.Name = "num_Ski_Builder";
             this.num_Ski_Builder.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Builder.TabIndex = 15;
+            this.num_Ski_Builder.TabIndex = 17;
             this.num_Ski_Builder.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Builder.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Builder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2674,7 +2674,7 @@
             this.num_Ski_Bomber.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Bomber.Name = "num_Ski_Bomber";
             this.num_Ski_Bomber.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Bomber.TabIndex = 11;
+            this.num_Ski_Bomber.TabIndex = 12;
             this.num_Ski_Bomber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Bomber.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Bomber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2687,7 +2687,7 @@
             this.num_Ski_Blocker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Blocker.Name = "num_Ski_Blocker";
             this.num_Ski_Blocker.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Blocker.TabIndex = 13;
+            this.num_Ski_Blocker.TabIndex = 14;
             this.num_Ski_Blocker.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Blocker.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Blocker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2700,7 +2700,7 @@
             this.num_Ski_Floater.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Floater.Name = "num_Ski_Floater";
             this.num_Ski_Floater.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Floater.TabIndex = 7;
+            this.num_Ski_Floater.TabIndex = 8;
             this.num_Ski_Floater.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Floater.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Floater.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
@@ -2713,7 +2713,7 @@
             this.num_Ski_Climber.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Ski_Climber.Name = "num_Ski_Climber";
             this.num_Ski_Climber.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Climber.TabIndex = 5;
+            this.num_Ski_Climber.TabIndex = 6;
             this.num_Ski_Climber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Climber.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
             this.num_Ski_Climber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
