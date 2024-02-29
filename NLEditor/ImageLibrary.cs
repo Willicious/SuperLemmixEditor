@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace NLEditor
 {
@@ -484,10 +485,9 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                System.Windows.Forms.MessageBox.Show("Warning: Could not read .nxmo or .nxmt file at " + imageKey + C.NewLine + Ex.Message, "File corrupt");
-
                 return false;
             }
+
         }
 
         /// <summary>
@@ -509,10 +509,9 @@ namespace NLEditor
             catch (Exception Ex)
             {
                 Utility.LogException(Ex);
-                System.Windows.Forms.MessageBox.Show("Warning: Could not read .nxmo or .nxmt file at " + imageKey + C.NewLine + Ex.Message, "File corrupt");
-
                 imageDict[imageKey] = new BaseImageInfo(new Bitmap(1, 1));
             }
+
         }
 
 
