@@ -276,7 +276,11 @@ namespace NLEditor
             levelDirectory = System.IO.Path.GetDirectoryName(level.FilePathToSave);
             CurLevel = level;
             curRenderer.SetLevel(CurLevel);
-            RemoveInvalidLevelPieces();
+            HandleInvalidLevelPieces();
+
+            if (cancelLevelLoading)
+                return;
+
             UpdateBackgroundImage();
 
             oldLevelList = new List<Level>();
@@ -294,12 +298,16 @@ namespace NLEditor
             UpdateSpecialLemmingCounter();
         }
 
+        private bool cancelLevelLoading; // Checks whether level loading should be cancelled
+
         /// <summary>
         /// Removes all pieces for which no image in the corresponding style exists.
         /// <para> A warning is displayed if pieces are removed. </para>
         /// </summary>
-        private void RemoveInvalidLevelPieces()
+        private void HandleInvalidLevelPieces()
         {
+            cancelLevelLoading = false;
+
             if (CurLevel == null)
                 return;
 
@@ -314,11 +322,81 @@ namespace NLEditor
 
             if (missingImageNames.Count > 0)
             {
-                string message = "Warning: The following pieces are unknown: " + C.NewLine;
-                message += string.Join(C.NewLine + " ", missingImageNames);
-                MessageBox.Show(message, "Unknown level pieces");
+                string message = "Oh no! The following pieces cannot be found in the styles folder:" + C.NewLine + C.NewLine;
+                message += string.Join(C.NewLine + "", missingImageNames);
+                message += C.NewLine + C.NewLine + "This list has been added to MissingStylePieces.txt for easy reference";
+                message += C.NewLine + C.NewLine + "Would you like to open the level anyway?";
+
+                // Write missing pieces to a text file
+                WriteMissingPiecesToFile(missingImageNames);
+
+                DialogResult result = MessageBox.Show(message, "Unknown level pieces", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+
+                if (result == DialogResult.No)
+                    cancelLevelLoading = true;
+
+                else if (result == DialogResult.Yes)
+                {
+                    // Append "_MissingPieces" to the file name
+                    string originalFilePath = CurLevel.FilePathToSave;
+                    string directory = Path.GetDirectoryName(originalFilePath);
+                    string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(originalFilePath);
+                    string fileExtension = Path.GetExtension(originalFilePath);
+                    string newFileName = $"{fileNameWithoutExtension}_MissingPieces{fileExtension}";
+
+                    DialogResult sureResult = MessageBox.Show("Are you sure? Opening anyway will delete the missing pieces from the level file." + C.NewLine + C.NewLine +
+                                                              "The level will be renamed to" + C.NewLine + C.NewLine +
+                                                              newFileName + C.NewLine + C.NewLine +
+                                                              "to prevent overwriting the original.", "Confirm Open Anyway", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (sureResult == DialogResult.No)
+                        cancelLevelLoading = true;
+                    
+                    else if (result == DialogResult.Yes)
+                    {
+                        // Update CurLevel.FilePathToSave with the new file path
+                        string newFilePath = Path.Combine(directory, newFileName);
+                        CurLevel.FilePathToSave = newFilePath;
+                    }
+                }
             }
         }
+
+
+
+        private void WriteMissingPiecesToFile(HashSet<string> missingPieces)
+        {
+            try
+            {
+                // Specify file path in the root directory
+                string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MissingStylePieces.txt");
+
+                // Check if the file already exists
+                if (File.Exists(filePath))
+                {
+                    // Read existing content of the file
+                    string[] existingLines = File.ReadAllLines(filePath);
+
+                    // Append missing pieces that are not already in the file
+                    IEnumerable<string> newMissingPieces = missingPieces.Except(existingLines);
+                    if (newMissingPieces.Any())
+                    {
+                        File.AppendAllLines(filePath, newMissingPieces);
+                    }
+                }
+                else
+                {
+                    // Write missing pieces to a new file
+                    File.WriteAllLines(filePath, missingPieces);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception, if any
+                Console.WriteLine("Error writing missing pieces to file: " + ex.Message);
+            }
+        }
+
 
         /// <summary>
         /// If the levle changed, displays a message box and asks whether to save the current level.  
