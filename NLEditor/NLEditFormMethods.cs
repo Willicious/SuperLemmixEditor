@@ -273,14 +273,13 @@ namespace NLEditor
             if (level == null)
                 return;
 
-            levelDirectory = System.IO.Path.GetDirectoryName(level.FilePathToSave);
-            CurLevel = level;
-            curRenderer.SetLevel(CurLevel);
-            HandleInvalidLevelPieces();
-
-            if (cancelLevelLoading)
+            if (!ValidateLevelPieces(level))
                 return;
 
+            levelDirectory = System.IO.Path.GetDirectoryName(level.FilePathToSave);
+            
+            CurLevel = level;
+            curRenderer.SetLevel(CurLevel);
             UpdateBackgroundImage();
 
             oldLevelList = new List<Level>();
@@ -298,27 +297,20 @@ namespace NLEditor
             UpdateSpecialLemmingCounter();
         }
 
-        private bool cancelLevelLoading; // Checks whether level loading should be cancelled
-
         /// <summary>
-        /// Removes all pieces for which no image in the corresponding style exists.
+        /// Checks for & removes all pieces for which no image in the corresponding style exists.
         /// <para> A warning is displayed if pieces are removed. </para>
         /// </summary>
-        private void HandleInvalidLevelPieces()
+        private bool ValidateLevelPieces(Level level)
         {
-            cancelLevelLoading = false;
-
-            if (CurLevel == null)
-                return;
+            if (level == null)
+                return false;
 
             HashSet<string> missingImageNames = new HashSet<string>();
-            CurLevel.TerrainList.FindAll(ter => !ter.ExistsImage())
-                                .ForEach(ter => missingImageNames.Add(ter.Name + " in style " + ter.Style));
-            CurLevel.GadgetList.FindAll(gad => !gad.ExistsImage())
-                               .ForEach(gad => missingImageNames.Add(gad.Name + " in style " + gad.Style));
-
-            CurLevel.TerrainList.RemoveAll(ter => !ter.ExistsImage());
-            CurLevel.GadgetList.RemoveAll(gad => !gad.ExistsImage());
+            level.TerrainList.FindAll(ter => !ter.ExistsImage())
+                              .ForEach(ter => missingImageNames.Add(ter.Name + " in style " + ter.Style));
+            level.GadgetList.FindAll(gad => !gad.ExistsImage())
+                             .ForEach(gad => missingImageNames.Add(gad.Name + " in style " + gad.Style));
 
             if (missingImageNames.Count > 0)
             {
@@ -333,12 +325,12 @@ namespace NLEditor
                 DialogResult result = MessageBox.Show(message, "Unknown level pieces", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
 
                 if (result == DialogResult.No)
-                    cancelLevelLoading = true;
+                    return false;
 
                 else if (result == DialogResult.Yes)
                 {
                     // Append "_MissingPieces" to the file name
-                    string originalFilePath = CurLevel.FilePathToSave;
+                    string originalFilePath = level.FilePathToSave;
                     string directory = Path.GetDirectoryName(originalFilePath);
                     string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(originalFilePath);
                     string fileExtension = Path.GetExtension(originalFilePath);
@@ -350,18 +342,24 @@ namespace NLEditor
                                                               "to prevent overwriting the original.", "Confirm Open Anyway", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                     if (sureResult == DialogResult.No)
-                        cancelLevelLoading = true;
-                    
+                        return false;
+
                     else if (result == DialogResult.Yes)
                     {
-                        // Update CurLevel.FilePathToSave with the new file path
+                        // Delete missing pieces
+                        level.TerrainList.RemoveAll(ter => !ter.ExistsImage());
+                        level.GadgetList.RemoveAll(gad => !gad.ExistsImage());
+
+                        // Update save path & name of level
                         string newFilePath = Path.Combine(directory, newFileName);
-                        CurLevel.FilePathToSave = newFilePath;
+                        level.FilePathToSave = newFilePath;
                     }
                 }
             }
-        }
 
+            // Return true if no missing images were found
+            return true;
+        }
 
 
         private void WriteMissingPiecesToFile(HashSet<string> missingPieces)
