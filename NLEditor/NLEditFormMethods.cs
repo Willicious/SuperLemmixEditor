@@ -337,7 +337,7 @@ namespace NLEditor
                     string newFileName = $"{fileNameWithoutExtension}_MissingPieces{fileExtension}";
 
                     DialogResult sureResult = MessageBox.Show("Are you sure? Opening anyway will delete the missing pieces from the level file." + C.NewLine + C.NewLine +
-                                                              "The level will be renamed to" + C.NewLine + C.NewLine +
+                                                              "If saved, the level will be renamed to" + C.NewLine + C.NewLine +
                                                               newFileName + C.NewLine + C.NewLine +
                                                               "to prevent overwriting the original.", "Confirm Open Anyway", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -397,7 +397,7 @@ namespace NLEditor
 
 
         /// <summary>
-        /// If the levle changed, displays a message box and asks whether to save the current level.  
+        /// If the level changed, displays a message box and asks whether to save the current level.  
         /// </summary>
         private bool AskUserWhetherSaveLevel()
         {
