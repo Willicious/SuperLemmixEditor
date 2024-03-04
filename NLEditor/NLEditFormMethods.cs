@@ -273,13 +273,11 @@ namespace NLEditor
             if (level == null)
                 return;
 
-            if (!ValidateLevelPieces(level))
-                return;
-
             levelDirectory = System.IO.Path.GetDirectoryName(level.FilePathToSave);
             
             CurLevel = level;
             curRenderer.SetLevel(CurLevel);
+            ValidateLevelPieces();
             UpdateBackgroundImage();
 
             oldLevelList = new List<Level>();
@@ -298,67 +296,65 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Stores the names of the missing pieces for the current level
+        /// </summary>
+        private HashSet<string> missingPieces = new HashSet<string>();
+
+        /// <summary>
         /// Checks for & removes all pieces for which no image in the corresponding style exists.
         /// <para> A warning is displayed if pieces are removed. </para>
         /// </summary>
-        private bool ValidateLevelPieces(Level level)
+        private void ValidateLevelPieces()
         {
-            if (level == null)
-                return false;
+            if (CurLevel == null)
+                return;
 
-            HashSet<string> missingImageNames = new HashSet<string>();
-            level.TerrainList.FindAll(ter => !ter.ExistsImage())
-                              .ForEach(ter => missingImageNames.Add(ter.Name + " in style " + ter.Style));
-            level.GadgetList.FindAll(gad => !gad.ExistsImage())
-                             .ForEach(gad => missingImageNames.Add(gad.Name + " in style " + gad.Style));
+            // Initialise missingPieces list
+            missingPieces.Clear();
 
-            if (missingImageNames.Count > 0)
+            // Initialise status strip
+            statusStrip1.Visible = false;
+
+            CurLevel.TerrainList.FindAll(ter => !ter.ExistsImage())
+                              .ForEach(ter => missingPieces.Add(ter.Name + " in style " + ter.Style));
+            CurLevel.GadgetList.FindAll(gad => !gad.ExistsImage())
+                             .ForEach(gad => missingPieces.Add(gad.Name + " in style " + gad.Style));
+
+            if (missingPieces.Count > 0)
             {
-                string message = "Oh no! The following pieces cannot be found in the styles folder:" + C.NewLine + C.NewLine;
-                message += string.Join(C.NewLine + "", missingImageNames);
-                message += C.NewLine + C.NewLine + "This list has been added to MissingStylePieces.txt for easy reference";
-                message += C.NewLine + C.NewLine + "Would you like to open the level anyway?";
+                // Append "_MissingPieces" to the file name
+                string originalFilePath = CurLevel.FilePathToSave;
+                string directory = Path.GetDirectoryName(originalFilePath);
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(originalFilePath);
+                string fileExtension = Path.GetExtension(originalFilePath);
+                string newFileName = $"{fileNameWithoutExtension}_MissingPieces{fileExtension}";
 
-                // Write missing pieces to a text file
-                WriteMissingPiecesToFile(missingImageNames);
-
-                DialogResult result = MessageBox.Show(message, "Unknown level pieces", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-
-                if (result == DialogResult.No)
-                    return false;
-
-                else if (result == DialogResult.Yes)
+                // Check for unique file name
+                int count = 1;
+                string newFilePath = Path.Combine(directory, newFileName);
+                while (File.Exists(newFilePath))
                 {
-                    // Append "_MissingPieces" to the file name
-                    string originalFilePath = level.FilePathToSave;
-                    string directory = Path.GetDirectoryName(originalFilePath);
-                    string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(originalFilePath);
-                    string fileExtension = Path.GetExtension(originalFilePath);
-                    string newFileName = $"{fileNameWithoutExtension}_MissingPieces{fileExtension}";
-
-                    DialogResult sureResult = MessageBox.Show("Are you sure? Opening anyway will delete the missing pieces from the level file." + C.NewLine + C.NewLine +
-                                                              "If saved, the level will be renamed to" + C.NewLine + C.NewLine +
-                                                              newFileName + C.NewLine + C.NewLine +
-                                                              "to prevent overwriting the original.", "Confirm Open Anyway", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                    if (sureResult == DialogResult.No)
-                        return false;
-
-                    else if (result == DialogResult.Yes)
-                    {
-                        // Delete missing pieces
-                        level.TerrainList.RemoveAll(ter => !ter.ExistsImage());
-                        level.GadgetList.RemoveAll(gad => !gad.ExistsImage());
-
-                        // Update save path & name of level
-                        string newFilePath = Path.Combine(directory, newFileName);
-                        level.FilePathToSave = newFilePath;
-                    }
+                    newFileName = $"{fileNameWithoutExtension}_MissingPieces ({count}){fileExtension}";
+                    newFilePath = Path.Combine(directory, newFileName);
+                    count++;
                 }
+
+                // Update the file path
+                CurLevel.FilePathToSave = newFilePath;
+
+                // Delete missing pieces
+                CurLevel.TerrainList.RemoveAll(ter => !ter.ExistsImage());
+                CurLevel.GadgetList.RemoveAll(gad => !gad.ExistsImage());
+
+                // Update status strip
+                statusStrip1.Visible = true;
+                toolStripStatusLabel1.Text = "This level contains missing pieces (click to show).";
+                toolStripStatusLabel2.Text = "If saved, a new copy called " + newFileName +
+                                             " will be created to prevent overwriting the original.";
             }
 
             // Return true if no missing images were found
-            return true;
+            return;
         }
 
 
