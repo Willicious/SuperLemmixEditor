@@ -1613,5 +1613,35 @@ namespace NLEditor
         {
             num_SR_Countdown_ValueChanged(sender, null);
         }
+
+        private void oKToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            statusStrip1.Visible = false;
+        }
+
+        private void showMissingPiecesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowMissingPiecesDialog();
+        }
+
+        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+            ShowMissingPiecesDialog();
+        }
+
+        private void showMissingPiecesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ShowMissingPiecesDialog();
+        }
+
+        private void toolStripLabel1_MouseEnter(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Hand;
+        }
+
+        private void toolStripLabel1_MouseLeave(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Default;
+        }
     }
 }
