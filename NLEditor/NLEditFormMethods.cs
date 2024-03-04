@@ -362,36 +362,17 @@ namespace NLEditor
         }
 
 
-        private void WriteMissingPiecesToFile(HashSet<string> missingPieces)
+        private void ShowMissingPiecesDialog()
         {
-            try
+            if (missingPieces.Count > 0)
             {
-                // Specify file path in the root directory
-                string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MissingStylePieces.txt");
-
-                // Check if the file already exists
-                if (File.Exists(filePath))
-                {
-                    // Read existing content of the file
-                    string[] existingLines = File.ReadAllLines(filePath);
-
-                    // Append missing pieces that are not already in the file
-                    IEnumerable<string> newMissingPieces = missingPieces.Except(existingLines);
-                    if (newMissingPieces.Any())
-                    {
-                        File.AppendAllLines(filePath, newMissingPieces);
-                    }
-                }
-                else
-                {
-                    // Write missing pieces to a new file
-                    File.WriteAllLines(filePath, missingPieces);
-                }
+                MessageBox.Show("Missing Style Pieces:" + Environment.NewLine + Environment.NewLine +
+                                 string.Join(Environment.NewLine, missingPieces), "Missing Pieces",
+                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            catch (Exception ex)
+            else
             {
-                // Handle exception, if any
-                Console.WriteLine("Error writing missing pieces to file: " + ex.Message);
+                MessageBox.Show("No missing pieces found.", "Missing Pieces", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
