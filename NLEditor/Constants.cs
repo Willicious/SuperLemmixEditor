@@ -70,7 +70,7 @@ namespace NLEditor
             UPDRAFT = 22, SPLAT = 24, FORCE_FIELD = 25, SPLITTER = 27,
             RADIATION = 28, SLOWFREEZE = 29,
             NONE = 50, BACKGROUND = 52, BLASTICINE = 53, VINEWATER = 54, POISON = 55,
-            NULL
+            COLLECTIBLE = 60, NULL
         }
 
         public static OBJ[] HideTriggerObjects = new OBJ[] { OBJ.TERRAIN, OBJ.STEEL, OBJ.NONE, OBJ.BACKGROUND, OBJ.NULL, OBJ.PAINT };
@@ -102,7 +102,8 @@ namespace NLEditor
       {OBJ.RADIATION, "Radiation"}, {OBJ.SLOWFREEZE, "Slowfreeze"},
       {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Preplaced lemming"},
       {OBJ.PICKUP, "Pick-up skill"}, {OBJ.EXIT_LOCKED, "Locked exit"}, {OBJ.BUTTON, "Button"},
-      {OBJ.UPDRAFT, "Updraft"}, {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
+      {OBJ.COLLECTIBLE, "Collectible"}, {OBJ.UPDRAFT, "Updraft"},
+      {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
       {OBJ.SPLAT, "Splat wire"}, {OBJ.BACKGROUND, "Decoration"}, {OBJ.TRAPONCE, "Single-use trap"}
     };
 
