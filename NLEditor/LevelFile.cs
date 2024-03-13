@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Windows.Forms;
 
 namespace NLEditor
@@ -426,6 +427,12 @@ namespace NLEditor
                 level.TerrainList.Insert(index, newSketch);
         }
 
+        // Counts the number of collectibles in the level
+        static int CountCollectibles(Level curLevel)
+        {
+            return curLevel.GadgetList.Count(gad => gad.ObjType == C.OBJ.COLLECTIBLE);
+        }
+
         private static void LoadTalisman(Level level, NLTextDataNode node)
         {
             Talisman talisman = new Talisman();
@@ -602,6 +609,11 @@ namespace NLEditor
             if (curLevel.IsSpawnRateFix)
             {
                 textFile.WriteLine(" SPAWN_INTERVAL_LOCKED");
+            }
+            int collectiblesCount = CountCollectibles(curLevel);
+            if (collectiblesCount > 0)
+            {
+                textFile.WriteLine(" COLLECTIBLES " + collectiblesCount);
             }
             if (curLevel.IsSuperlemming)
             {
