@@ -207,7 +207,7 @@ namespace NLEditor
                 }
                 return 0;
             }
-            else if (ObjType.In(C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.TRAPONCE))
+            else if (ObjType.In(C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.COLLECTIBLE, C.OBJ.TRAPONCE))
             {
                 return 1;
             }
