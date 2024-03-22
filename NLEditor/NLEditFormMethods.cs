@@ -132,6 +132,7 @@ namespace NLEditor
                                     + decimal.ToInt32(num_Lvl_TimeSec.Value);
             CurLevel.IsNoTimeLimit = check_Lvl_InfTime.Checked;
             CurLevel.IsInvincibility = check_Lvl_Invincibility.Checked;
+           
 
             string idText = txt_LevelID.Text;
             if (idText.Length < 16)

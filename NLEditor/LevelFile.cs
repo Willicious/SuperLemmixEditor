@@ -620,7 +620,7 @@ namespace NLEditor
             {
                 textFile.WriteLine(" SUPERLEMMING");
             }
-            if (curLevel.IsInvincibility)
+            if (curLevel.IsInvincibility && (collectiblesCount > 0))
             {
                 textFile.WriteLine(" INVINCIBILITY");
             }

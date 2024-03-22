@@ -43,7 +43,7 @@ namespace NLEditor
             this.TimeLimit = 0;
             this.IsNoTimeLimit = true;
             this.IsSuperlemming = false;
-            this.IsInvincibility = false;
+            this.IsInvincibility = true;
 
             this.SkillSet = new Dictionary<C.Skill, int>();
             foreach (C.Skill skill in C.SkillArray)

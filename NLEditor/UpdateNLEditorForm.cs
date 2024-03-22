@@ -334,7 +334,14 @@ namespace NLEditor
             {
                 but_PairTeleporter.Visible = false;
             }
-
+            if (selectionList.Exists(p => p.ObjType == C.OBJ.COLLECTIBLE))
+            {
+                check_Lvl_Invincibility.Visible = true;
+            }
+            else
+            {
+                check_Lvl_Invincibility.Visible = false;
+            }
         }
 
 
