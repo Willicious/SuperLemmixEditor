@@ -131,7 +131,7 @@ namespace NLEditor
             CurLevel.TimeLimit = decimal.ToInt32(num_Lvl_TimeMin.Value) * 60
                                     + decimal.ToInt32(num_Lvl_TimeSec.Value);
             CurLevel.IsNoTimeLimit = check_Lvl_InfTime.Checked;
-            CurLevel.IsSuperlemming = check_Lvl_Superlemming.Checked;
+            CurLevel.IsInvincibility = check_Lvl_Invincibility.Checked;
 
             string idText = txt_LevelID.Text;
             if (idText.Length < 16)
@@ -198,6 +198,7 @@ namespace NLEditor
                 num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;
                 check_Lvl_InfTime.Checked = CurLevel.IsNoTimeLimit;
                 check_Lvl_Superlemming.Checked = CurLevel.IsSuperlemming;
+                check_Lvl_Invincibility.Checked = CurLevel.IsInvincibility;
 
                 txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
 

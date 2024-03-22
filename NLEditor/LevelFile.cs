@@ -114,6 +114,7 @@ namespace NLEditor
             newLevel.SpawnRate = 103 - file["MAX_SPAWN_INTERVAL"].ValueInt;
             newLevel.IsSpawnRateFix = file.HasChildWithKey("SPAWN_INTERVAL_LOCKED");
             newLevel.IsSuperlemming = file.HasChildWithKey("SUPERLEMMING");
+            newLevel.IsInvincibility = file.HasChildWithKey("INVINCIBILITY");
 
             LoadSkillset(newLevel, file["SKILLSET"]);
 
@@ -618,6 +619,10 @@ namespace NLEditor
             if (curLevel.IsSuperlemming)
             {
                 textFile.WriteLine(" SUPERLEMMING");
+            }
+            if (curLevel.IsInvincibility)
+            {
+                textFile.WriteLine(" INVINCIBILITY");
             }
             textFile.WriteLine(" ");
 
