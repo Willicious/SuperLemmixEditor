@@ -63,14 +63,16 @@ namespace NLEditor
         public enum OBJ
         {
             TERRAIN = -1, STEEL = -2,
-            HATCH = 0, EXIT = 1, TRAP = 4, TRAPONCE = 5, WATER = 6, FIRE = 7,
-            ONE_WAY_WALL = 10, PAINT = 11,
-            LEMMING = 15, PICKUP = 16, TELEPORTER = 17, RECEIVER = 18,
-            EXIT_LOCKED = 20, BUTTON = 21,
-            UPDRAFT = 22, SPLAT = 24, FORCE_FIELD = 25, SPLITTER = 27,
-            RADIATION = 28, SLOWFREEZE = 29,
-            NONE = 50, BACKGROUND = 52, BLASTICINE = 53, VINEWATER = 54, POISON = 55,
-            COLLECTIBLE = 60, NULL
+            LEMMING = 0, HATCH = 1, EXIT = 2, EXIT_LOCKED = 3,
+            TRAP = 4, TRAPONCE = 5, FIRE = 6,
+            WATER = 7, BLASTICINE = 8, VINEWATER = 9, POISON = 10, LAVA = 11,
+            ONE_WAY_WALL = 12, FORCE_FIELD = 13,
+            PICKUP = 14, BUTTON = 15, COLLECTIBLE = 16,
+            TELEPORTER = 17, RECEIVER = 18,
+            UPDRAFT = 19, SPLAT = 20, SPLITTER = 21,
+            RADIATION = 22, SLOWFREEZE = 23,
+            BACKGROUND = 24, PAINT = 25,
+            NONE = 100, NULL
         }
 
         public static OBJ[] HideTriggerObjects = new OBJ[] { OBJ.TERRAIN, OBJ.STEEL, OBJ.NONE, OBJ.BACKGROUND, OBJ.NULL, OBJ.PAINT };
@@ -98,7 +100,7 @@ namespace NLEditor
       {OBJ.TERRAIN, "Terrain"}, {OBJ.STEEL, "Steel"}, {OBJ.NONE, "No effect"},
       {OBJ.EXIT, "Exit"}, {OBJ.FORCE_FIELD, "Turning field"}, {OBJ.ONE_WAY_WALL, "One-way-wall"}, {OBJ.PAINT, "Paint"},
       {OBJ.TRAP, "Triggered trap"}, {OBJ.WATER, "Water"}, {OBJ.FIRE, "Fire"},
-      {OBJ.BLASTICINE, "Blasticine"}, {OBJ.VINEWATER, "Vinewater"}, {OBJ.POISON, "Poison"},
+      {OBJ.BLASTICINE, "Blasticine"}, {OBJ.VINEWATER, "Vinewater"}, {OBJ.POISON, "Poison"}, {OBJ.LAVA, "Lava"},
       {OBJ.RADIATION, "Radiation"}, {OBJ.SLOWFREEZE, "Slowfreeze"},
       {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Preplaced lemming"},
       {OBJ.PICKUP, "Pick-up skill"}, {OBJ.EXIT_LOCKED, "Locked exit"}, {OBJ.BUTTON, "Button"},

@@ -369,6 +369,9 @@ namespace NLEditor
                                 case "POISON":
                                     objType = C.OBJ.POISON;
                                     break;
+                                case "LAVA":
+                                    objType = C.OBJ.LAVA;
+                                    break;
                                 case "RADIATION":
                                     objType = C.OBJ.RADIATION;
                                     break;
