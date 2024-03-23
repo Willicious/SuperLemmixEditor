@@ -1706,7 +1706,7 @@
             "W",
             "W-NW",
             "N-NW"});
-            this.cb_Background_Direction.Location = new System.Drawing.Point(171, 547);
+            this.cb_Background_Direction.Location = new System.Drawing.Point(186, 603);
             this.cb_Background_Direction.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cb_Background_Direction.Name = "cb_Background_Direction";
             this.cb_Background_Direction.Size = new System.Drawing.Size(97, 28);
@@ -1716,7 +1716,7 @@
             // 
             // lbl_Background_Direction
             // 
-            this.lbl_Background_Direction.Location = new System.Drawing.Point(100, 549);
+            this.lbl_Background_Direction.Location = new System.Drawing.Point(94, 606);
             this.lbl_Background_Direction.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Background_Direction.Name = "lbl_Background_Direction";
             this.lbl_Background_Direction.Size = new System.Drawing.Size(80, 26);
@@ -1726,7 +1726,7 @@
             // 
             // lbl_Background_Speed
             // 
-            this.lbl_Background_Speed.Location = new System.Drawing.Point(96, 688);
+            this.lbl_Background_Speed.Location = new System.Drawing.Point(102, 655);
             this.lbl_Background_Speed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Background_Speed.Name = "lbl_Background_Speed";
             this.lbl_Background_Speed.Size = new System.Drawing.Size(69, 23);
@@ -1928,7 +1928,7 @@
             0,
             0,
             0});
-            this.num_Background_Speed.Location = new System.Drawing.Point(186, 686);
+            this.num_Background_Speed.Location = new System.Drawing.Point(185, 653);
             this.num_Background_Speed.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Background_Speed.Maximum = new decimal(new int[] {
             999,
