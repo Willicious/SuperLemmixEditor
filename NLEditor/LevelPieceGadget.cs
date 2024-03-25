@@ -26,7 +26,7 @@ namespace NLEditor
         public GadgetPiece(string key, Point pos, int rotation, bool isInvert, bool isNoOverwrite,
                            bool isOnlyOnTerrain, int valL, HashSet<C.Skill> skillFlags,
                            int specWidth = -1, int specHeight = -1,
-                           int bgSpeed = 0, int bgAngle = 0, int lemmingCap = 0,
+                           int dnSpeed = 0, int dnAngle = 0, int lemmingCap = 0,
                            int countdownLength = 10)
             : base(key, true, pos, rotation, isInvert)
         {
@@ -36,8 +36,8 @@ namespace NLEditor
             SkillFlags = new HashSet<C.Skill>(skillFlags);
             SpecWidth = Utility.EvaluateResizable(specWidth, DefaultWidth, base.Width, MayResizeHoriz());
             SpecHeight = Utility.EvaluateResizable(specHeight, DefaultHeight, base.Height, MayResizeVert());
-            BackgroundAngle = bgAngle;
-            BackgroundSpeed = bgSpeed;
+            DecorationAngle = dnAngle;
+            DecorationSpeed = dnSpeed;
             LemmingCap = lemmingCap;
             CountdownLength = countdownLength;
         }
@@ -48,8 +48,8 @@ namespace NLEditor
         public HashSet<C.Skill> SkillFlags { get; private set; }
         public bool IsZombie => SkillFlags.Contains(C.Skill.Zombie);
         public bool IsNeutral => SkillFlags.Contains(C.Skill.Neutral);
-        public int BackgroundAngle { get; set; }
-        public int BackgroundSpeed { get; set; }
+        public int DecorationAngle { get; set; }
+        public int DecorationSpeed { get; set; }
         public int LemmingCap { get; set; }
         public int CountdownLength { get; set; }
 
@@ -57,7 +57,7 @@ namespace NLEditor
         {
             int val_l = Val_L;
             return new GadgetPiece(Key, Pos, Rotation, IsInvert, IsNoOverwrite, IsOnlyOnTerrain,
-                                   val_l, SkillFlags, SpecWidth, SpecHeight, BackgroundSpeed, BackgroundAngle,
+                                   val_l, SkillFlags, SpecWidth, SpecHeight, DecorationSpeed, DecorationAngle,
                                    LemmingCap, CountdownLength);
         }
 
@@ -76,8 +76,8 @@ namespace NLEditor
                 && this.SkillFlags.SetEquals(piece.SkillFlags)
                 && this.SpecWidth == piece.SpecWidth
                 && this.SpecHeight == piece.SpecHeight
-                && this.BackgroundAngle == piece.BackgroundAngle
-                && this.BackgroundSpeed == piece.BackgroundSpeed
+                && this.DecorationAngle == piece.DecorationAngle
+                && this.DecorationSpeed == piece.DecorationSpeed
                 && this.LemmingCap == piece.LemmingCap
                 && this.CountdownLength == piece.CountdownLength;
         }
@@ -219,24 +219,16 @@ namespace NLEditor
         public override bool MayRotate()
         {
             return !(ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING, C.OBJ.PICKUP));
-            //return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL,
-            //                  C.OBJ.FIRE, C.OBJ.WATER, C.OBJ.TRAP, C.OBJ.TRAPONCE);
         }
 
         public override bool MayFlip()
         {
             return !(ObjType.In(C.OBJ.PICKUP));
-            //return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.FIRE, C.OBJ.HATCH, C.OBJ.LEMMING,
-            //                  C.OBJ.NONE, C.OBJ.RECEIVER, C.OBJ.SPLAT, C.OBJ.SPLITTER,
-            //                  C.OBJ.TELEPORTER, C.OBJ.TRAP, C.OBJ.TRAPONCE,
-            //                  C.OBJ.WATER, C.OBJ.ONE_WAY_WALL);
         }
 
         public override bool MayInvert()
         {
             return !(ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING, C.OBJ.PICKUP));
-            //return ObjType.In(C.OBJ.BACKGROUND, C.OBJ.NONE, C.OBJ.ONE_WAY_WALL,
-            //                  C.OBJ.FIRE, C.OBJ.WATER, C.OBJ.TRAP, C.OBJ.TRAPONCE);
         }
 
         public override bool MayReceiveSkill(C.Skill skill)

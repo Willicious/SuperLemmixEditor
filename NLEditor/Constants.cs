@@ -71,11 +71,11 @@ namespace NLEditor
             TELEPORTER = 17, RECEIVER = 18,
             UPDRAFT = 19, SPLAT = 20, SPLITTER = 21,
             RADIATION = 22, SLOWFREEZE = 23,
-            BACKGROUND = 24, PAINT = 25,
+            DECORATION = 24, PAINT = 25,
             NONE = 100, NULL
         }
 
-        public static OBJ[] HideTriggerObjects = new OBJ[] { OBJ.TERRAIN, OBJ.STEEL, OBJ.NONE, OBJ.BACKGROUND, OBJ.NULL, OBJ.PAINT };
+        public static OBJ[] HideTriggerObjects = new OBJ[] { OBJ.TERRAIN, OBJ.STEEL, OBJ.NONE, OBJ.DECORATION, OBJ.NULL, OBJ.PAINT };
         public static OBJ[] TriggerPointObjects = new OBJ[] { OBJ.HATCH, OBJ.RECEIVER };
 
         public enum StyleColor
@@ -106,7 +106,7 @@ namespace NLEditor
       {OBJ.PICKUP, "Pick-up skill"}, {OBJ.EXIT_LOCKED, "Locked exit"}, {OBJ.BUTTON, "Button"},
       {OBJ.COLLECTIBLE, "Collectible"}, {OBJ.UPDRAFT, "Updraft"},
       {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
-      {OBJ.SPLAT, "Splat wire"}, {OBJ.BACKGROUND, "Decoration"}, {OBJ.TRAPONCE, "Single-use trap"}
+      {OBJ.SPLAT, "Splat wire"}, {OBJ.DECORATION, "Decoration"}, {OBJ.TRAPONCE, "Single-use trap"}
     };
 
         public enum DragActions

@@ -218,7 +218,7 @@ namespace NLEditor
         private void RemoveDuplicatedObjects()
         {
             ObjectKeys.RemoveAll(obj => obj.StartsWith("default")
-                                      && !ImageLibrary.GetObjType(obj).In(C.OBJ.NONE, C.OBJ.BACKGROUND)
+                                      && !ImageLibrary.GetObjType(obj).In(C.OBJ.NONE, C.OBJ.DECORATION)
                                       && ObjectKeys.Exists(obj2 => !obj2.StartsWith("default")
                                                               && ImageLibrary.GetObjType(obj) == ImageLibrary.GetObjType(obj2)));
         }

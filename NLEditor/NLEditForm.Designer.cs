@@ -140,9 +140,9 @@
             this.check_Piece_Builder = new System.Windows.Forms.CheckBox();
             this.check_Piece_Blocker = new System.Windows.Forms.CheckBox();
             this.check_Piece_Slider = new System.Windows.Forms.CheckBox();
-            this.cb_Background_Direction = new System.Windows.Forms.ComboBox();
-            this.lbl_Background_Direction = new System.Windows.Forms.Label();
-            this.lbl_Background_Speed = new System.Windows.Forms.Label();
+            this.cb_Decoration_Direction = new System.Windows.Forms.ComboBox();
+            this.lbl_Decoration_Direction = new System.Windows.Forms.Label();
+            this.lbl_Decoration_Speed = new System.Windows.Forms.Label();
             this.check_Piece_Neutral = new System.Windows.Forms.CheckBox();
             this.check_Piece_Cloner = new System.Windows.Forms.CheckBox();
             this.check_Piece_Floater = new System.Windows.Forms.CheckBox();
@@ -159,7 +159,7 @@
             this.lbl_LemmingLimit = new System.Windows.Forms.Label();
             this.lbl_PickupSkillCount = new System.Windows.Forms.Label();
             this.num_SR_Countdown = new NLEditor.NumUpDownOverwrite();
-            this.num_Background_Speed = new NLEditor.NumUpDownOverwrite();
+            this.num_Decoration_Speed = new NLEditor.NumUpDownOverwrite();
             this.num_PickupSkillCount = new NLEditor.NumUpDownOverwrite();
             this.num_LemmingLimit = new NLEditor.NumUpDownOverwrite();
             this.num_Resize_Height = new NLEditor.NumUpDownOverwrite();
@@ -277,7 +277,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeX)).BeginInit();
             this.tabPieces.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_SR_Countdown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Background_Speed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Decoration_Speed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_PickupSkillCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_LemmingLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).BeginInit();
@@ -1363,9 +1363,9 @@
             this.tabPieces.Controls.Add(this.check_Piece_Builder);
             this.tabPieces.Controls.Add(this.check_Piece_Blocker);
             this.tabPieces.Controls.Add(this.check_Piece_Slider);
-            this.tabPieces.Controls.Add(this.cb_Background_Direction);
-            this.tabPieces.Controls.Add(this.lbl_Background_Direction);
-            this.tabPieces.Controls.Add(this.lbl_Background_Speed);
+            this.tabPieces.Controls.Add(this.cb_Decoration_Direction);
+            this.tabPieces.Controls.Add(this.lbl_Decoration_Direction);
+            this.tabPieces.Controls.Add(this.lbl_Decoration_Speed);
             this.tabPieces.Controls.Add(this.check_Piece_Neutral);
             this.tabPieces.Controls.Add(this.check_Piece_Cloner);
             this.tabPieces.Controls.Add(this.check_Piece_Floater);
@@ -1382,7 +1382,7 @@
             this.tabPieces.Controls.Add(this.lbl_LemmingLimit);
             this.tabPieces.Controls.Add(this.lbl_PickupSkillCount);
             this.tabPieces.Controls.Add(this.num_SR_Countdown);
-            this.tabPieces.Controls.Add(this.num_Background_Speed);
+            this.tabPieces.Controls.Add(this.num_Decoration_Speed);
             this.tabPieces.Controls.Add(this.num_PickupSkillCount);
             this.tabPieces.Controls.Add(this.num_LemmingLimit);
             this.tabPieces.Controls.Add(this.num_Resize_Height);
@@ -1686,11 +1686,11 @@
             this.check_Piece_Slider.Text = "Slider";
             this.check_Piece_Slider.UseVisualStyleBackColor = true;
             // 
-            // cb_Background_Direction
+            // cb_Decoration_Direction
             // 
-            this.cb_Background_Direction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_Background_Direction.FormattingEnabled = true;
-            this.cb_Background_Direction.Items.AddRange(new object[] {
+            this.cb_Decoration_Direction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_Decoration_Direction.FormattingEnabled = true;
+            this.cb_Decoration_Direction.Items.AddRange(new object[] {
             "N",
             "N-NE",
             "NE",
@@ -1706,33 +1706,33 @@
             "W",
             "W-NW",
             "N-NW"});
-            this.cb_Background_Direction.Location = new System.Drawing.Point(186, 603);
-            this.cb_Background_Direction.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.cb_Background_Direction.Name = "cb_Background_Direction";
-            this.cb_Background_Direction.Size = new System.Drawing.Size(97, 28);
-            this.cb_Background_Direction.TabIndex = 45;
-            this.cb_Background_Direction.Visible = false;
-            this.cb_Background_Direction.SelectedIndexChanged += new System.EventHandler(this.cb_Background_Direction_SelectedIndexChanged);
+            this.cb_Decoration_Direction.Location = new System.Drawing.Point(186, 591);
+            this.cb_Decoration_Direction.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cb_Decoration_Direction.Name = "cb_Decoration_Direction";
+            this.cb_Decoration_Direction.Size = new System.Drawing.Size(97, 28);
+            this.cb_Decoration_Direction.TabIndex = 45;
+            this.cb_Decoration_Direction.Visible = false;
+            this.cb_Decoration_Direction.SelectedIndexChanged += new System.EventHandler(this.cb_Decoration_Direction_SelectedIndexChanged);
             // 
-            // lbl_Background_Direction
+            // lbl_Decoration_Direction
             // 
-            this.lbl_Background_Direction.Location = new System.Drawing.Point(94, 606);
-            this.lbl_Background_Direction.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lbl_Background_Direction.Name = "lbl_Background_Direction";
-            this.lbl_Background_Direction.Size = new System.Drawing.Size(80, 26);
-            this.lbl_Background_Direction.TabIndex = 44;
-            this.lbl_Background_Direction.Text = "Direction";
-            this.lbl_Background_Direction.Visible = false;
+            this.lbl_Decoration_Direction.Location = new System.Drawing.Point(94, 598);
+            this.lbl_Decoration_Direction.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbl_Decoration_Direction.Name = "lbl_Decoration_Direction";
+            this.lbl_Decoration_Direction.Size = new System.Drawing.Size(77, 26);
+            this.lbl_Decoration_Direction.TabIndex = 44;
+            this.lbl_Decoration_Direction.Text = "Direction";
+            this.lbl_Decoration_Direction.Visible = false;
             // 
-            // lbl_Background_Speed
+            // lbl_Decoration_Speed
             // 
-            this.lbl_Background_Speed.Location = new System.Drawing.Point(102, 655);
-            this.lbl_Background_Speed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lbl_Background_Speed.Name = "lbl_Background_Speed";
-            this.lbl_Background_Speed.Size = new System.Drawing.Size(69, 23);
-            this.lbl_Background_Speed.TabIndex = 46;
-            this.lbl_Background_Speed.Text = "Speed";
-            this.lbl_Background_Speed.Visible = false;
+            this.lbl_Decoration_Speed.Location = new System.Drawing.Point(110, 655);
+            this.lbl_Decoration_Speed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbl_Decoration_Speed.Name = "lbl_Decoration_Speed";
+            this.lbl_Decoration_Speed.Size = new System.Drawing.Size(64, 23);
+            this.lbl_Decoration_Speed.TabIndex = 46;
+            this.lbl_Decoration_Speed.Text = "Speed";
+            this.lbl_Decoration_Speed.Visible = false;
             // 
             // check_Piece_Neutral
             // 
@@ -1921,26 +1921,26 @@
             this.num_SR_Countdown.ValueChanged += new System.EventHandler(this.num_SR_Countdown_ValueChanged);
             this.num_SR_Countdown.KeyUp += new System.Windows.Forms.KeyEventHandler(this.num_SR_Countdown_KeyUp);
             // 
-            // num_Background_Speed
+            // num_Decoration_Speed
             // 
-            this.num_Background_Speed.Increment = new decimal(new int[] {
+            this.num_Decoration_Speed.Increment = new decimal(new int[] {
             8,
             0,
             0,
             0});
-            this.num_Background_Speed.Location = new System.Drawing.Point(185, 653);
-            this.num_Background_Speed.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.num_Background_Speed.Maximum = new decimal(new int[] {
+            this.num_Decoration_Speed.Location = new System.Drawing.Point(185, 653);
+            this.num_Decoration_Speed.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.num_Decoration_Speed.Maximum = new decimal(new int[] {
             999,
             0,
             0,
             0});
-            this.num_Background_Speed.Name = "num_Background_Speed";
-            this.num_Background_Speed.Size = new System.Drawing.Size(70, 26);
-            this.num_Background_Speed.TabIndex = 47;
-            this.num_Background_Speed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.num_Background_Speed.Visible = false;
-            this.num_Background_Speed.ValueChanged += new System.EventHandler(this.num_Background_Speed_ValueChanged);
+            this.num_Decoration_Speed.Name = "num_Decoration_Speed";
+            this.num_Decoration_Speed.Size = new System.Drawing.Size(70, 26);
+            this.num_Decoration_Speed.TabIndex = 47;
+            this.num_Decoration_Speed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Decoration_Speed.Visible = false;
+            this.num_Decoration_Speed.ValueChanged += new System.EventHandler(this.num_Decoration_Speed_ValueChanged);
             // 
             // num_PickupSkillCount
             // 
@@ -3141,7 +3141,7 @@
             this.tabPieces.ResumeLayout(false);
             this.tabPieces.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_SR_Countdown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Background_Speed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Decoration_Speed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_PickupSkillCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_LemmingLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).EndInit();
@@ -3364,10 +3364,10 @@
         private System.Windows.Forms.ToolStripMenuItem pasteInPlaceToolStripMenuItem;
         private System.Windows.Forms.Timer timerAutosave;
         private System.Windows.Forms.Label lbl_Global_LemmingTypes;
-        private System.Windows.Forms.Label lbl_Background_Speed;
-        private NumUpDownOverwrite num_Background_Speed;
-        private System.Windows.Forms.ComboBox cb_Background_Direction;
-        private System.Windows.Forms.Label lbl_Background_Direction;
+        private System.Windows.Forms.Label lbl_Decoration_Speed;
+        private NumUpDownOverwrite num_Decoration_Speed;
+        private System.Windows.Forms.ComboBox cb_Decoration_Direction;
+        private System.Windows.Forms.Label lbl_Decoration_Direction;
         private System.Windows.Forms.Label lbl_Global_Version;
         private System.Windows.Forms.CheckBox check_Piece_Spearer;
         private System.Windows.Forms.Label lbl_Skill_Spearer;

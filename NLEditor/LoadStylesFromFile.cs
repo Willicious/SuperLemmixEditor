@@ -419,8 +419,8 @@ namespace NLEditor
                                 case "FORCELEFT":
                                     objType = C.OBJ.FORCE_FIELD;
                                     break;
-                                case "BACKGROUND":
-                                    objType = C.OBJ.BACKGROUND;
+                                case "DECORATION":
+                                    objType = C.OBJ.DECORATION;
                                     break;
                             }
                             break;

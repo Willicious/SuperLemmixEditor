@@ -198,8 +198,8 @@ namespace NLEditor
             bool doInvert = node.HasChildWithKey("FLIP_VERTICAL");
             bool doFlip = node.HasChildWithKey("FLIP_HORIZONTAL");
             int val_L = node.HasChildWithKey("PAIRING") ? node["PAIRING"].ValueInt : node["SKILL_COUNT"].ValueInt;
-            int bgSpeed = node["SPEED"].ValueInt;
-            int bgAngle = node["ANGLE"].ValueInt;
+            int dnSpeed = node["SPEED"].ValueInt;
+            int dnAngle = node["ANGLE"].ValueInt;
             int lemmingCap = node["LEMMINGS"].ValueInt;
             int countdownLength = node["COUNTDOWN"].ValueInt;
             HashSet<C.Skill> skillFlags = new HashSet<C.Skill>();
@@ -215,7 +215,7 @@ namespace NLEditor
             Point levelFilePos = new Point(posX, posY);
             Point editorPos = ImageLibrary.LevelFileToEditorCoordinates(key, levelFilePos, doRotate, doFlip, doInvert);
             GadgetPiece newGadget = new GadgetPiece(key, editorPos, 0, false, isNoOverwrite, isOnlyOnTerrain,
-              val_L, skillFlags, specWidth, specHeight, bgSpeed, bgAngle, lemmingCap, countdownLength);
+              val_L, skillFlags, specWidth, specHeight, dnSpeed, dnAngle, lemmingCap, countdownLength);
 
             // Read in skill information
             foreach (C.Skill skill in C.SkillArray)
@@ -872,10 +872,10 @@ namespace NLEditor
                 textFile.WriteLine("   COUNTDOWN " + gadget.CountdownLength.ToString());
             }
 
-            if (gadget.ObjType.In(C.OBJ.BACKGROUND))
+            if (gadget.ObjType.In(C.OBJ.DECORATION))
             {
-                textFile.WriteLine("   SPEED " + gadget.BackgroundSpeed.ToString());
-                textFile.WriteLine("   ANGLE " + gadget.BackgroundAngle.ToString());
+                textFile.WriteLine("   SPEED " + gadget.DecorationSpeed.ToString());
+                textFile.WriteLine("   ANGLE " + gadget.DecorationAngle.ToString());
             }
 
             if (gadget.ObjType.In(C.OBJ.EXIT, C.OBJ.EXIT_LOCKED, C.OBJ.HATCH) && gadget.LemmingCap > 0)
