@@ -254,6 +254,7 @@
             this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txt_Focus = new NLEditor.FocusTextBox();
+            this.cleanseLevelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -338,6 +339,7 @@
             this.saveAsToolStripMenuItem,
             this.exitToolStripMenuItem,
             this.toolStripSeparator1,
+            this.cleanseLevelsToolStripMenuItem,
             this.playLevelToolStripMenuItem,
             this.validateLevelToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -3070,6 +3072,13 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
+            // cleanseLevelsToolStripMenuItem
+            // 
+            this.cleanseLevelsToolStripMenuItem.Name = "cleanseLevelsToolStripMenuItem";
+            this.cleanseLevelsToolStripMenuItem.Size = new System.Drawing.Size(300, 34);
+            this.cleanseLevelsToolStripMenuItem.Text = "Cleanse Levels";
+            this.cleanseLevelsToolStripMenuItem.Click += new System.EventHandler(this.cleanseLevelsToolStripMenuItem_Click);
+            // 
             // NLEditForm
             // 
             this.AllowDrop = true;
@@ -3409,6 +3418,7 @@
         private System.Windows.Forms.ToolStripMenuItem showMissingPiecesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showMissingPiecesToolStripMenuItem1;
         private System.Windows.Forms.CheckBox check_Lvl_Invincibility;
+        private System.Windows.Forms.ToolStripMenuItem cleanseLevelsToolStripMenuItem;
     }
 }
 

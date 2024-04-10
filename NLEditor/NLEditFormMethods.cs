@@ -439,9 +439,40 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Saves the level as TempTestLevel.nxlv and loads this level in the SuperLemmix player.
+        /// Opens and saves all .nxlv files in a directory in order to ensure compatibility and update the file
         /// </summary>
-        private void PlaytestLevel()
+        private void CleanseLevels()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(targetFolder))
+                {
+                    MessageBox.Show("Please select a target folder.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Get all .nxlv files in the target folder and its subdirectories
+                string[] files = Directory.GetFiles(targetFolder, "*.nxlv", SearchOption.AllDirectories);
+
+
+                foreach (string file in files)
+                {
+                    LoadNewLevel(file);
+                    SaveLevel(false);
+                }
+
+                MessageBox.Show("All .nxlv files have been cleansed successfully.", "Operation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error cleansing levels: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+    /// <summary>
+    /// Saves the level as TempTestLevel.nxlv and loads this level in the SuperLemmix player.
+    /// </summary>
+    private void PlaytestLevel()
         {
             ReadLevelInfoFromForm(true);
             SaveChangesToOldLevelList();

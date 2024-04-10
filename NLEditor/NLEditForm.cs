@@ -163,6 +163,7 @@ namespace NLEditor
         Level lastSavedLevel;
 
         string levelDirectory; // for starting directory for saving/loading
+        string targetFolder;
 
         int gridSize => curSettings.GridSize;
         int customMove => curSettings.CustomMove;
@@ -182,7 +183,6 @@ namespace NLEditor
         private static System.Threading.Mutex mutexMouseMove = new System.Threading.Mutex();
         private static System.Threading.Mutex mutexMouseWheel = new System.Threading.Mutex();
         private static System.Threading.Mutex mutexKeyDown = new System.Threading.Mutex();
-
 
         private void NLEditForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -1188,7 +1188,7 @@ namespace NLEditor
                 MoveTerrPieceSelection(movement > 0 ? 1 : -1);
             }
             else
-            { 
+            {
                 if (isCtrlPressed)
                 {
                     movement *= 4;
@@ -1268,7 +1268,7 @@ namespace NLEditor
                 dragAction = C.DragActions.HorizontalDrag;
                 Cursor = Cursors.SizeWE;
             }
-            else if ((e.Button == MouseButtons.Right && hasSelectedPieceAtPos 
+            else if ((e.Button == MouseButtons.Right && hasSelectedPieceAtPos
                 && (isAltPressed || isShiftPressed) && !isCtrlPressed) ||
                     (e.Button == MouseButtons.Left && hasSelectedPieceAtPos
                 && (!isAltPressed && isShiftPressed && isCtrlPressed)))
@@ -1642,6 +1642,21 @@ namespace NLEditor
         private void toolStripLabel1_MouseLeave(object sender, EventArgs e)
         {
             Cursor = Cursors.Default;
+        }
+
+        private void cleanseLevelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Show folder browser dialog to select the target folder
+            using (var folderBrowserDialog = new FolderBrowserDialog())
+            {
+                DialogResult result = folderBrowserDialog.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
+                {
+                    targetFolder = folderBrowserDialog.SelectedPath;
+                    CleanseLevels(); // Proceed with cleansing levels
+                }
+            }
         }
     }
 }
