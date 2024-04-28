@@ -47,7 +47,8 @@ namespace NLEditor
         public int Val_L { get; private set; }
         public HashSet<C.Skill> SkillFlags { get; private set; }
         public bool IsZombie => SkillFlags.Contains(C.Skill.Zombie);
-        public bool IsNeutral => SkillFlags.Contains(C.Skill.Neutral);
+        public bool IsRival => SkillFlags.Contains(C.Skill.Rival) && !SkillFlags.Contains(C.Skill.Zombie);
+        public bool IsNeutral => SkillFlags.Contains(C.Skill.Neutral) && !SkillFlags.Contains(C.Skill.Rival);
         public int DecorationAngle { get; set; }
         public int DecorationSpeed { get; set; }
         public int LemmingCap { get; set; }
@@ -238,19 +239,24 @@ namespace NLEditor
                 case C.OBJ.HATCH:
                     {
                         return skill.In(C.Skill.Slider, C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
-                                        C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Zombie,
-                                        C.Skill.Neutral);
+                                        C.Skill.Disarmer, C.Skill.Swimmer,
+                                        C.Skill.Zombie, C.Skill.Rival, C.Skill.Neutral);
                     }
                 case C.OBJ.LEMMING:
                     {
                         return skill.In(C.Skill.Slider, C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
                                         C.Skill.Disarmer, C.Skill.Swimmer, 
                                         C.Skill.Ballooner, C.Skill.Blocker, C.Skill.Shimmier,
-                                        C.Skill.Zombie, C.Skill.Neutral);
+                                        C.Skill.Zombie, C.Skill.Rival, C.Skill.Neutral);
                     }
                 case C.OBJ.PICKUP:
                     {
-                        return !skill.In(C.Skill.Zombie, C.Skill.Neutral);
+                        return !skill.In(C.Skill.Zombie, C.Skill.Rival, C.Skill.Neutral);
+                    }
+                case C.OBJ.EXIT:
+                case C.OBJ.EXIT_LOCKED:
+                    {
+                        return skill.In(C.Skill.Rival);
                     }
                 default:
                     return false;
@@ -298,6 +304,16 @@ namespace NLEditor
                             SkillFlags.Remove(C.Skill.Floater);
                         }
 
+                        if (skill == C.Skill.Rival)
+                        {
+                            SkillFlags.Remove(C.Skill.Zombie);
+                            SkillFlags.Remove(C.Skill.Neutral);
+                        }
+                        else if (skill == C.Skill.Neutral || skill == C.Skill.Zombie)
+                        {
+                            SkillFlags.Remove(C.Skill.Rival);
+                        }
+
                         if (doAdd)
                             SkillFlags.Add(skill);
                         else
@@ -305,6 +321,8 @@ namespace NLEditor
                         break;
                     }
                 case C.OBJ.PICKUP:
+                case C.OBJ.EXIT:
+                case C.OBJ.EXIT_LOCKED:
                     {
                         SkillFlags.Clear();
                         if (doAdd)

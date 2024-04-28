@@ -50,7 +50,8 @@ namespace NLEditor
                     { C.Skill.Jumper, check_Piece_Jumper }, { C.Skill.Slider, check_Piece_Slider },
                     { C.Skill.Laserer, check_Piece_Laserer }, { C.Skill.Spearer, check_Piece_Spearer },
                     { C.Skill.Grenader, check_Piece_Grenader }, { C.Skill.Timebomber, check_Piece_Timebomber },
-                    { C.Skill.Zombie, check_Piece_Zombie }, { C.Skill.Neutral, check_Piece_Neutral }
+                    { C.Skill.Zombie, check_Piece_Zombie }, { C.Skill.Rival, check_Piece_Rival },
+                    { C.Skill.Neutral, check_Piece_Neutral }
                 };
 
             numericsSkillSet = new Dictionary<C.Skill, NumericUpDown>()

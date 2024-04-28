@@ -38,6 +38,7 @@
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.cleanseLevelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.validateLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -114,6 +115,7 @@
             this.txt_LevelTitle = new System.Windows.Forms.TextBox();
             this.lbl_Global_Title = new System.Windows.Forms.Label();
             this.tabPieces = new System.Windows.Forms.TabPage();
+            this.check_Piece_Rival = new System.Windows.Forms.CheckBox();
             this.check_Lvl_Invincibility = new System.Windows.Forms.CheckBox();
             this.check_Piece_Digger = new System.Windows.Forms.CheckBox();
             this.check_Piece_Spearer = new System.Windows.Forms.CheckBox();
@@ -254,7 +256,6 @@
             this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txt_Focus = new NLEditor.FocusTextBox();
-            this.cleanseLevelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -391,6 +392,13 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(297, 6);
+            // 
+            // cleanseLevelsToolStripMenuItem
+            // 
+            this.cleanseLevelsToolStripMenuItem.Name = "cleanseLevelsToolStripMenuItem";
+            this.cleanseLevelsToolStripMenuItem.Size = new System.Drawing.Size(300, 34);
+            this.cleanseLevelsToolStripMenuItem.Text = "Cleanse Levels";
+            this.cleanseLevelsToolStripMenuItem.Click += new System.EventHandler(this.cleanseLevelsToolStripMenuItem_Click);
             // 
             // playLevelToolStripMenuItem
             // 
@@ -820,7 +828,7 @@
             this.tabLvlProperties.Controls.Add(this.tabPieces);
             this.tabLvlProperties.Controls.Add(this.tabSkills);
             this.tabLvlProperties.Controls.Add(this.tabMisc);
-            this.tabLvlProperties.Location = new System.Drawing.Point(0, 42);
+            this.tabLvlProperties.Location = new System.Drawing.Point(0, 29);
             this.tabLvlProperties.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabLvlProperties.Name = "tabLvlProperties";
             this.tabLvlProperties.SelectedIndex = 0;
@@ -900,12 +908,12 @@
             // 
             this.lbl_Global_LemmingTypes.AutoSize = true;
             this.lbl_Global_LemmingTypes.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Global_LemmingTypes.Location = new System.Drawing.Point(99, 345);
+            this.lbl_Global_LemmingTypes.Location = new System.Drawing.Point(87, 345);
             this.lbl_Global_LemmingTypes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Global_LemmingTypes.Name = "lbl_Global_LemmingTypes";
-            this.lbl_Global_LemmingTypes.Size = new System.Drawing.Size(182, 16);
+            this.lbl_Global_LemmingTypes.Size = new System.Drawing.Size(229, 16);
             this.lbl_Global_LemmingTypes.TabIndex = 19;
-            this.lbl_Global_LemmingTypes.Text = "0 Normal, 0 Zombie, 0 Neutral";
+            this.lbl_Global_LemmingTypes.Text = "0 Normal, 0 Zombie, 0 Rival, 0 Neutral";
             // 
             // but_RandomID
             // 
@@ -1339,6 +1347,7 @@
             // 
             // tabPieces
             // 
+            this.tabPieces.Controls.Add(this.check_Piece_Rival);
             this.tabPieces.Controls.Add(this.check_Lvl_Invincibility);
             this.tabPieces.Controls.Add(this.check_Piece_Digger);
             this.tabPieces.Controls.Add(this.check_Piece_Spearer);
@@ -1404,6 +1413,16 @@
             this.tabPieces.TabIndex = 1;
             this.tabPieces.Text = "Pieces";
             this.tabPieces.UseVisualStyleBackColor = true;
+            // 
+            // check_Piece_Rival
+            // 
+            this.check_Piece_Rival.Location = new System.Drawing.Point(259, 261);
+            this.check_Piece_Rival.Name = "check_Piece_Rival";
+            this.check_Piece_Rival.Size = new System.Drawing.Size(104, 24);
+            this.check_Piece_Rival.TabIndex = 55;
+            this.check_Piece_Rival.Text = "Rival";
+            this.check_Piece_Rival.UseVisualStyleBackColor = true;
+            this.check_Piece_Rival.CheckedChanged += new System.EventHandler(this.check_Piece_Skill_CheckedChanged);
             // 
             // check_Lvl_Invincibility
             // 
@@ -1616,7 +1635,7 @@
             // 
             // check_Piece_Zombie
             // 
-            this.check_Piece_Zombie.Location = new System.Drawing.Point(205, 271);
+            this.check_Piece_Zombie.Location = new System.Drawing.Point(138, 260);
             this.check_Piece_Zombie.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Zombie.Name = "check_Piece_Zombie";
             this.check_Piece_Zombie.Size = new System.Drawing.Size(99, 26);
@@ -1738,7 +1757,7 @@
             // 
             // check_Piece_Neutral
             // 
-            this.check_Piece_Neutral.Location = new System.Drawing.Point(70, 271);
+            this.check_Piece_Neutral.Location = new System.Drawing.Point(12, 260);
             this.check_Piece_Neutral.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Piece_Neutral.Name = "check_Piece_Neutral";
             this.check_Piece_Neutral.Size = new System.Drawing.Size(104, 26);
@@ -1888,7 +1907,7 @@
             // 
             // lbl_PickupSkillCount
             // 
-            this.lbl_PickupSkillCount.Location = new System.Drawing.Point(98, 239);
+            this.lbl_PickupSkillCount.Location = new System.Drawing.Point(98, 226);
             this.lbl_PickupSkillCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_PickupSkillCount.Name = "lbl_PickupSkillCount";
             this.lbl_PickupSkillCount.Size = new System.Drawing.Size(90, 23);
@@ -1946,7 +1965,7 @@
             // 
             // num_PickupSkillCount
             // 
-            this.num_PickupSkillCount.Location = new System.Drawing.Point(188, 237);
+            this.num_PickupSkillCount.Location = new System.Drawing.Point(188, 224);
             this.num_PickupSkillCount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_PickupSkillCount.Maximum = new decimal(new int[] {
             99,
@@ -3072,13 +3091,6 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
-            // cleanseLevelsToolStripMenuItem
-            // 
-            this.cleanseLevelsToolStripMenuItem.Name = "cleanseLevelsToolStripMenuItem";
-            this.cleanseLevelsToolStripMenuItem.Size = new System.Drawing.Size(300, 34);
-            this.cleanseLevelsToolStripMenuItem.Text = "Cleanse Levels";
-            this.cleanseLevelsToolStripMenuItem.Click += new System.EventHandler(this.cleanseLevelsToolStripMenuItem_Click);
-            // 
             // NLEditForm
             // 
             this.AllowDrop = true;
@@ -3317,6 +3329,7 @@
         private NLEditor.NoPaddingButton but_MoveBack;
         private NLEditor.NoPaddingButton but_MoveFront;
         private System.Windows.Forms.CheckBox check_Piece_Zombie;
+        private System.Windows.Forms.CheckBox check_Piece_Rival;
         private System.Windows.Forms.CheckBox check_Piece_Neutral;
         private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
         private System.Windows.Forms.Label lbl_Resize_Height;

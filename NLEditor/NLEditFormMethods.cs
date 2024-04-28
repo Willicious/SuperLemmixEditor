@@ -971,11 +971,13 @@ namespace NLEditor
 
         private void UpdateSpecialLemmingCounter()
         {
-            CurLevel.GetLemmingTypeCounts(out int normalCount, out int zombieCount, out int neutralCount);
+            CurLevel.GetLemmingTypeCounts(out int normalCount, out int zombieCount, out int rivalCount, out int neutralCount);
             string newText =
                 normalCount.ToString() + " Normal";
             if (zombieCount > 0)
                 newText += ", " + zombieCount.ToString() + " Zombie";
+            if (rivalCount > 0)
+                newText += ", " + rivalCount.ToString() + " Rival";
             if (neutralCount > 0)
                 newText += ", " + neutralCount.ToString() + " Neutral";
 

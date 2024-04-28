@@ -849,6 +849,13 @@ namespace NLEditor
                     textFile.WriteLine("   " + SkillString(skill) + " ");
                 }
             }
+            else if (gadget.ObjType.In(C.OBJ.EXIT, C.OBJ.EXIT_LOCKED))
+            {
+                if (gadget.SkillFlags.Contains(C.Skill.Rival))
+                {
+                    textFile.WriteLine("   " + SkillString(C.Skill.Rival) + " ");
+                }
+            }
             else if (gadget.ObjType.In(C.OBJ.PICKUP))
             {
                 foreach (C.Skill skill in gadget.SkillFlags)
