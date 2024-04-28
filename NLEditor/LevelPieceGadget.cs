@@ -47,8 +47,11 @@ namespace NLEditor
         public int Val_L { get; private set; }
         public HashSet<C.Skill> SkillFlags { get; private set; }
         public bool IsZombie => SkillFlags.Contains(C.Skill.Zombie);
-        public bool IsRival => SkillFlags.Contains(C.Skill.Rival) && !SkillFlags.Contains(C.Skill.Zombie);
-        public bool IsNeutral => SkillFlags.Contains(C.Skill.Neutral) && !SkillFlags.Contains(C.Skill.Rival);
+        public bool IsRival => SkillFlags.Contains(C.Skill.Rival)
+                           && !SkillFlags.Contains(C.Skill.Zombie);
+        public bool IsNeutral => SkillFlags.Contains(C.Skill.Neutral)
+                             && !SkillFlags.Contains(C.Skill.Zombie)
+                             && !SkillFlags.Contains(C.Skill.Rival);
         public int DecorationAngle { get; set; }
         public int DecorationSpeed { get; set; }
         public int LemmingCap { get; set; }
