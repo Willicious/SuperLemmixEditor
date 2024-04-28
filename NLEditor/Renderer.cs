@@ -306,10 +306,10 @@ namespace NLEditor
         /// Returns the middle point of pic_Level in level coordinates.
         /// </summary>
         /// <returns></returns>
-        public Point GetCenterPoint()
+        public Point GetCenterPoint(int XOffset = 0)
         {
             Size levelBmpSize = GetLevelBmpSize(); // Size without zoom!
-            return new Point(ScreenPosX + levelBmpSize.Width / 2, ScreenPosY + levelBmpSize.Height / 2);
+            return new Point((ScreenPosX + levelBmpSize.Width / 2) + XOffset, ScreenPosY + levelBmpSize.Height / 2);
         }
 
         /// <summary>

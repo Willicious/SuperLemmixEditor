@@ -942,6 +942,31 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Automatically adds the Rival Exit marker.
+        /// </summary>
+        private void AddRivalExitMarker()
+        {
+            GadgetPiece gadget = (GadgetPiece)CurLevel.SelectionList().First();
+
+            if (check_Piece_Rival.Checked && (new[] { C.OBJ.EXIT, C.OBJ.EXIT_LOCKED }.Contains(gadget.ObjType)))
+            {
+                string picRivalMarker;
+                string picNormalMarker;
+
+                picRivalMarker = ImageLibrary.CreatePieceKey("default", "flag_red", true);
+                picNormalMarker = ImageLibrary.CreatePieceKey("default", "flag_blue", true);
+
+                statusStrip1.Visible = true;
+                toolStripStatusLabel1.Visible = false;
+                toolStripStatusLabel2.Text = "Move the markers to the relevant Exits";
+                showMissingPiecesToolStripMenuItem.Visible = false;
+
+                AddNewPieceToLevel(picRivalMarker, curRenderer.GetCenterPoint(10));
+                AddNewPieceToLevel(picNormalMarker, curRenderer.GetCenterPoint(-10));
+            }
+        }
+
+        /// <summary>
         /// Changes the index of all selected pieces and displays the result.
         /// </summary>
         /// <param name="toFront"></param>
