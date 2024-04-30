@@ -620,7 +620,10 @@ namespace NLEditor
             C.Skill skill = checkboxesSkillFlags.First(check => check.Value.Equals((CheckBox)sender)).Key;
             bool isChecked = ((CheckBox)sender).CheckState == CheckState.Checked;
             SetSkillForObjects(skill, isChecked);
-            AddExitMarker();
+            
+            if (sender.Equals(check_Piece_Rival)) 
+                AddExitMarker();
+
             RemoveFocus();
             pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
