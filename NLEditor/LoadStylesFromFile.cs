@@ -277,6 +277,7 @@ namespace NLEditor
             bool? cropOverride = null;
             int defaultWidth = 0;
             int defaultHeight = 0;
+            int markerX = 0, markerY = 0;
 
             int[] nineSliceSizes = new int[4]; // Not appropriate to use a Rectangle yet. File contains the width/height of the slice,
                                                // not a rectangle of the center; and we don't know the width of the object yet. Order
@@ -330,6 +331,12 @@ namespace NLEditor
                             break;
                         case "DEFAULT_HEIGHT":
                             defaultHeight = line.Value;
+                            break;
+                        case "MARKER_X":
+                            markerX = line.Value;
+                            break;
+                        case "MARKER_Y":
+                            markerY = line.Value;
                             break;
                         case "DEPRECATED":
                             isDeprecated = true;
@@ -564,7 +571,8 @@ namespace NLEditor
             triggerRect.Offset(marginLeft, marginTop);
 
             return new BaseImageInfo(newBitmap, objType, primaryAnim.Frames, triggerRect, resizeMode,
-              marginLeft, marginTop, marginRight, marginBottom, isDeprecated, nineSliceRect, defaultWidth, defaultHeight);
+              marginLeft, marginTop, marginRight, marginBottom, isDeprecated, nineSliceRect,
+              defaultWidth, defaultHeight, markerX, markerY);
         }
 
         public static Bitmap CreateCompositeImage(string filePath, List<LoadStyleAnimData> anims, LoadStyleAnimData primaryAnim,

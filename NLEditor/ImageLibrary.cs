@@ -33,7 +33,8 @@ namespace NLEditor
         /// <param name="triggerRect"></param>
         public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, Rectangle triggerRect,
           C.Resize resizeMode, int leftMargin = 0, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0,
-          bool isDeprecated = false, Rectangle? nineSlicingArea = null, int defaultWidth = 0, int defaultHeight = 0)
+          bool isDeprecated = false, Rectangle? nineSlicingArea = null, int defaultWidth = 0, int defaultHeight = 0,
+            int markerX = 0, int markerY = 0)
         {
             this.images = new Dictionary<RotateFlipType, List<Bitmap>>();
             this.images[RotateFlipType.RotateNoneFlipNone] = SeparateFrames(newImage, numFrames, true);
@@ -41,6 +42,8 @@ namespace NLEditor
             this.Height = this.baseImages[0].Height;
             this.DefaultWidth = defaultWidth;
             this.DefaultHeight = defaultHeight;
+            this.MarkerX = markerX;
+            this.MarkerY = markerY;
             this.ObjectType = objType;
             this.TriggerRect = triggerRect;
             this.ResizeMode = resizeMode;
@@ -85,6 +88,8 @@ namespace NLEditor
         public int Height { get; private set; }
         public int DefaultWidth { get; private set; }
         public int DefaultHeight { get; private set; }
+        public int MarkerX { get; private set; }
+        public int MarkerY { get; private set; }
         public C.OBJ ObjectType { get; private set; }
         public Rectangle TriggerRect { get; private set; }
         public C.Resize ResizeMode { get; private set; }
@@ -363,6 +368,40 @@ namespace NLEditor
             }
 
             return imageDict[imageKey].DefaultHeight;
+        }
+
+        /// <summary>
+        /// Returns the Exit Marker X-pos corresponding to the key, or -1 if image cannot be found. 
+        /// </summary>
+        /// <param name="imageKey"></param>
+        /// <returns></returns>
+        public static int GetMarkerX(string imageKey)
+        {
+            if (!imageDict.ContainsKey(imageKey))
+            {
+                bool success = AddNewImage(imageKey);
+                if (!success)
+                    return 0;
+            }
+
+            return imageDict[imageKey].MarkerX;
+        }
+
+        /// <summary>
+        /// Returns the Exit Marker Y-pos corresponding to the key, or -1 if image cannot be found. 
+        /// </summary>
+        /// <param name="imageKey"></param>
+        /// <returns></returns>
+        public static int GetMarkerY(string imageKey)
+        {
+            if (!imageDict.ContainsKey(imageKey))
+            {
+                bool success = AddNewImage(imageKey);
+                if (!success)
+                    return 0;
+            }
+
+            return imageDict[imageKey].MarkerY;
         }
 
         /// <summary>

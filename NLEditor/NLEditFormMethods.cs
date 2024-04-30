@@ -941,30 +941,58 @@ namespace NLEditor
             SaveChangesToOldLevelList();
         }
 
-        /// <summary>
-        /// Automatically adds the Rival Exit marker.
-        /// </summary>
-        private void AddRivalExitMarker()
+        private Level GetCurLevel()
         {
-            GadgetPiece gadget = (GadgetPiece)CurLevel.SelectionList().First();
+            return CurLevel;
+        }
 
-            if (check_Piece_Rival.Checked && (new[] { C.OBJ.EXIT, C.OBJ.EXIT_LOCKED }.Contains(gadget.ObjType)))
+        /// <summary>
+        /// Automatically adds the Exit Markers.
+        /// </summary>
+        private void AddExitMarker()
+        {
+            string exitMarkerNormal = ImageLibrary.CreatePieceKey("default", "flag_blue", true);
+            string exitMarkerRival = ImageLibrary.CreatePieceKey("default", "flag_red", true);
+
+            // Store all selected Exits in a list
+            List<LevelPiece> selectedExits = CurLevel.SelectionList().Where(exit => new[] { C.OBJ.EXIT, C.OBJ.EXIT_LOCKED }.Contains(exit.ObjType)).ToList();
+
+            // Remove all existing markers
+            foreach (GadgetPiece marker in CurLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.DECORATION))
             {
-                string picRivalMarker;
-                string picNormalMarker;
+                if (marker.Key == exitMarkerNormal || marker.Key == exitMarkerRival)
+                {
+                    CurLevel.GadgetList.Remove(marker);
+                }
+            }
 
-                picRivalMarker = ImageLibrary.CreatePieceKey("default", "flag_red", true);
-                picNormalMarker = ImageLibrary.CreatePieceKey("default", "flag_blue", true);
+            // Determine if any selected exit should be marked as a Rival exit
+            bool markAsRivalExit = check_Piece_Rival.Checked && selectedExits.Any();
 
-                statusStrip1.Visible = true;
-                toolStripStatusLabel1.Visible = false;
-                toolStripStatusLabel2.Text = "Move the markers to the relevant Exits";
-                showMissingPiecesToolStripMenuItem.Visible = false;
+            // Add markers to all exits based on the determined flag
+            foreach (GadgetPiece exit in CurLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.EXIT || obj.ObjType == C.OBJ.EXIT_LOCKED))
+            {
+                bool alreadyRivalExit = exit.IsRival;
 
-                AddNewPieceToLevel(picRivalMarker, curRenderer.GetCenterPoint(10));
-                AddNewPieceToLevel(picNormalMarker, curRenderer.GetCenterPoint(-10));
+                if (alreadyRivalExit || markAsRivalExit && selectedExits.Contains(exit))
+                {
+                    // Add the Rival marker to selected exits or if any exit should be marked as a Rival exit
+                    int rivalX = ImageLibrary.GetMarkerX(exit.Key);
+                    int rivalY = ImageLibrary.GetMarkerY(exit.Key);
+                    Point exitMarkerRivalPoint = new Point(exit.PosX + rivalX, exit.PosY + rivalY);
+                    AddNewPieceToLevel(exitMarkerRival, exitMarkerRivalPoint);
+                }
+                else
+                {
+                    // Add the Normal marker to unselected exits or if any exit should be marked as a Normal exit
+                    int normalX = ImageLibrary.GetMarkerX(exit.Key);
+                    int normalY = ImageLibrary.GetMarkerY(exit.Key);
+                    Point exitMarkerNormalPoint = new Point(exit.PosX + normalX, exit.PosY + normalY);
+                    AddNewPieceToLevel(exitMarkerNormal, exitMarkerNormalPoint);
+                }
             }
         }
+
 
         /// <summary>
         /// Changes the index of all selected pieces and displays the result.
