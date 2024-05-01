@@ -961,11 +961,11 @@ namespace NLEditor
             // Check for exit markers, return the defaults if none found
             string exitMarkerNormal = File.Exists(styleDirectory + markerNormal + ".png") ?
                 ImageLibrary.CreatePieceKey(curStyle, markerNormal, true) :
-                ImageLibrary.CreatePieceKey("default", markerNormal, true);
+                ImageLibrary.CreatePieceKey("default", "flag_blue", true);
 
             string exitMarkerRival = File.Exists(styleDirectory + markerRival + ".png") ?
                 ImageLibrary.CreatePieceKey(curStyle, markerRival, true) :
-                ImageLibrary.CreatePieceKey("default", markerRival, true);
+                ImageLibrary.CreatePieceKey("default", "flag_red", true);
 
             // Store all selected Exits in a list
             List<LevelPiece> selectedExits = CurLevel.SelectionList().Where(exit => new[] { C.OBJ.EXIT, C.OBJ.EXIT_LOCKED }.Contains(exit.ObjType)).ToList();
