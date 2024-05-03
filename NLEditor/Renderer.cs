@@ -196,7 +196,11 @@ namespace NLEditor
                 AddScreenStartRectangle(ref screenBmp);
             AddSelectedRectangles(ref screenBmp);
             if (ZoomFactor >= 0 && IsObjectLayer)
+            {
+                AddSkillFlags(ref screenBmp);
                 AddHatchOrder(ref screenBmp);
+            }
+                
             AddMouseSelectionArea(ref screenBmp);
 
             // Embed the screen image in a bitmap of the size of the whole picture box.
@@ -743,9 +747,55 @@ namespace NLEditor
 
                 Point levelTextCenterPos = new Point(hatch.PosX + hatch.Width / 2, hatch.PosY);
                 Point screenTextCenterPos = GetPicPointFromLevelPoint(levelTextCenterPos);
-                screenTextCenterPos.Y -= fontSize;
+
+                if (hatch.SkillFlags.Count > 0)
+                    screenTextCenterPos.Y -= fontSize + fontSize;
+                else
+                    screenTextCenterPos.Y -= fontSize;
 
                 levelBmp.WriteText(text, screenTextCenterPos, C.NLColors[C.NLColor.Text], fontSize);
+            }
+        }
+
+        /// <summary>
+        /// Returns the name of the skill as a string, capitalised for display.
+        /// </summary>
+        /// <param name="skill"></param>
+        /// <returns></returns>
+        static string SkillStringForObjects(C.Skill skill)
+        {
+            string skillName = Enum.GetName(typeof(C.Skill), skill);
+            // Convert the skill name to lowercase and then capitalize the first letter
+            return char.ToUpper(skillName[0]) + skillName.Substring(1).ToLower();
+        }
+
+        /// <summary>
+        /// Adds skill flags above gadgets that them.
+        /// </summary>
+        /// <param name="levelBmp">The bitmap representing the level.</param>
+        public void AddSkillFlags(ref Bitmap levelBmp)
+        {
+            var gadgetsWithAssignedSkills = level.GadgetList.Where(gadget => gadget.SkillFlags.Any());
+
+            foreach (var gadget in gadgetsWithAssignedSkills)
+            {
+                string skillFlagText = "";
+
+                foreach (C.Skill skill in gadget.SkillFlags)
+                   skillFlagText += SkillStringForObjects(skill) + " ";
+
+                int fontSize = 6 + 2 * ZoomFactor;
+
+                int MarkerX = ImageLibrary.GetMarkerX(gadget.Key);
+
+                // Adjust the position where the text will be drawn
+                Point levelTextCenterPos = new Point(gadget.PosX + MarkerX, gadget.PosY);
+                Point screenTextCenterPos = GetPicPointFromLevelPoint(levelTextCenterPos);
+                
+                screenTextCenterPos.Y -= fontSize;
+
+                // Write the skill flag text above the gadget
+                levelBmp.WriteText(skillFlagText, screenTextCenterPos, C.NLColors[C.NLColor.Text], fontSize);
             }
         }
 
