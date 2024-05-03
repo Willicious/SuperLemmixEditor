@@ -765,9 +765,19 @@ namespace NLEditor
         static string SkillStringForObjects(C.Skill skill)
         {
             string skillName = Enum.GetName(typeof(C.Skill), skill);
-            // Convert the skill name to lowercase and then capitalize the first letter
-            return char.ToUpper(skillName[0]) + skillName.Substring(1).ToLower();
+
+            if (skill == C.Skill.Rival || skill == C.Skill.Neutral || skill == C.Skill.Zombie)
+            {
+                // Convert the skill name to lowercase and then capitalize the first letter
+                return char.ToUpper(skillName[0]) + skillName.Substring(1).ToLower();
+            }
+            else
+            {
+                // Return only the first two letters
+                return skillName.Substring(0, Math.Min(2, skillName.Length)).ToUpper();
+            }
         }
+
 
         /// <summary>
         /// Adds skill flags above gadgets that them.
