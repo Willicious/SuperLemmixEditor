@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 
 namespace NLEditor
@@ -293,78 +292,12 @@ namespace NLEditor
         public void SelectOnePiece(Point pos, bool isAdded, bool doPriorityInvert)
         {
             LevelPiece selectedPiece = GetOnePiece(pos, isAdded, doPriorityInvert);
-            GadgetPiece selectedExit = selectedPiece as GadgetPiece;
 
             if (selectedPiece != null)
             {
                 selectedPiece.IsSelected = isAdded;
-
-                // Check if the selected piece is an exit
-                if (selectedPiece.ObjType == C.OBJ.EXIT || selectedPiece.ObjType == C.OBJ.EXIT_LOCKED)
-                {
-                    // Add the associated exit marker to the selection
-                    AddExitMarkerToSelection(selectedExit);
-                }
             }
         }
-
-        private void AddExitMarkerToSelection(GadgetPiece exitPiece)
-        {
-            // Find the closest exit marker associated with the exit piece in the gadget list
-            GadgetPiece exitMarker = null;
-            double closestDistance = double.MaxValue;
-
-            foreach (GadgetPiece marker in GadgetList)
-            {
-                if (marker.ObjType == C.OBJ.DECORATION && IsExitMarkerForExit(marker, exitPiece))
-                {
-                    double distance = GetDistance(exitPiece, marker);
-                    if (distance < closestDistance)
-                    {
-                        exitMarker = marker;
-                        closestDistance = distance;
-                    }
-                }
-            }
-
-            // If the closest exit marker is found, add it to the selection list
-            if (exitMarker != null)
-            {
-                exitMarker.IsSelected = true;
-            }
-        }
-
-        private double GetDistance(GadgetPiece piece1, GadgetPiece piece2)
-        {
-            // Calculate the distance between two pieces using Euclidean distance formula
-            double dx = piece1.PosX - piece2.PosX;
-            double dy = piece1.PosY - piece2.PosY;
-            return Math.Sqrt(dx * dx + dy * dy);
-        }
-
-
-        private bool IsExitMarkerForExit(GadgetPiece marker, GadgetPiece exitPiece)
-        {
-            // Determine if the marker is associated with the given exit piece
-            string curStyle = MainStyle.NameInDirectory;
-            string styleDirectory = C.AppPathPieces + curStyle + C.DirSep + "objects" + C.DirSep;
-            string markerNormal = "exit_marker_normal";
-            string markerRival = "exit_marker_rival";
-
-            string exitMarkerNormal = File.Exists(styleDirectory + markerNormal + ".png") ?
-                ImageLibrary.CreatePieceKey(curStyle, markerNormal, true) :
-                ImageLibrary.CreatePieceKey("default", "flag_blue", true);
-
-            string exitMarkerRival = File.Exists(styleDirectory + markerRival + ".png") ?
-                ImageLibrary.CreatePieceKey(curStyle, markerRival, true) :
-                ImageLibrary.CreatePieceKey("default", "flag_red", true);
-
-            return (exitPiece.IsRival && marker.Key == exitMarkerRival) ||
-                   (!exitPiece.IsRival && marker.Key == exitMarkerNormal);
-        }
-
-
-
 
         /// <summary>
         /// Determines the piece to select.

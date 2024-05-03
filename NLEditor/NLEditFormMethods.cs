@@ -5,7 +5,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Xml.Schema;
 
 namespace NLEditor
 {
@@ -946,62 +945,6 @@ namespace NLEditor
         {
             return CurLevel;
         }
-
-        /// <summary>
-        /// Automatically adds the Exit Markers.
-        /// </summary>
-        private void AddExitMarker()
-        {
-            // Get the current level's style directory
-            string curStyle = CurLevel.MainStyle.NameInDirectory;
-            string styleDirectory = C.AppPathPieces + curStyle + C.DirSep + "objects" + C.DirSep;
-            string markerNormal = "exit_marker_normal";
-            string markerRival = "exit_marker_rival";
-
-            // Check for exit markers, return the defaults if none found
-            string exitMarkerNormal = File.Exists(styleDirectory + markerNormal + ".png") ?
-                ImageLibrary.CreatePieceKey(curStyle, markerNormal, true) :
-                ImageLibrary.CreatePieceKey("default", "flag_blue", true);
-
-            string exitMarkerRival = File.Exists(styleDirectory + markerRival + ".png") ?
-                ImageLibrary.CreatePieceKey(curStyle, markerRival, true) :
-                ImageLibrary.CreatePieceKey("default", "flag_red", true);
-
-            // Store all selected Exits in a list
-            List<LevelPiece> selectedExits = CurLevel.SelectionList().Where(exit => new[] { C.OBJ.EXIT, C.OBJ.EXIT_LOCKED }.Contains(exit.ObjType)).ToList();
-
-            // List, then remove, all existing markers
-            List<GadgetPiece> markersToRemove = CurLevel.GadgetList.FindAll(marker => marker.ObjType == C.OBJ.DECORATION &&
-                (marker.Key == exitMarkerNormal || marker.Key == exitMarkerRival));
-
-            foreach (GadgetPiece marker in markersToRemove)
-                CurLevel.GadgetList.Remove(marker);
-
-            // Determine if any selected exit should be marked as a Rival exit
-            bool markAsRivalExit = check_Piece_Rival.Checked && selectedExits.Any();
-
-            // Add markers to all exits based on the specified co-ordinates
-            foreach (GadgetPiece exit in CurLevel.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.EXIT || obj.ObjType == C.OBJ.EXIT_LOCKED))
-            {
-                bool alreadyRivalExit = exit.IsRival;
-                int MarkerX = ImageLibrary.GetMarkerX(exit.Key);
-                int MarkerY = ImageLibrary.GetMarkerY(exit.Key);
-
-                if (alreadyRivalExit || (markAsRivalExit && selectedExits.Contains(exit)))
-                {
-                    // Add the Rival marker to selected exits or if any exit should be marked as a Rival exit
-                    Point exitMarkerRivalPoint = new Point(exit.PosX + MarkerX, exit.PosY + MarkerY);
-                    AddNewPieceToLevel(exitMarkerRival, exitMarkerRivalPoint);
-                }
-                else
-                {
-                    // Add the Normal marker to unselected exits or if any exit should be marked as a Normal exit
-                    Point exitMarkerNormalPoint = new Point(exit.PosX + MarkerX, exit.PosY + MarkerY);
-                    AddNewPieceToLevel(exitMarkerNormal, exitMarkerNormalPoint);
-                }
-            }
-        }
-
 
         /// <summary>
         /// Changes the index of all selected pieces and displays the result.
