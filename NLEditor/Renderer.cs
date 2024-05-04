@@ -195,11 +195,11 @@ namespace NLEditor
             if (IsScreenStart)
                 AddScreenStartRectangle(ref screenBmp);
             AddSelectedRectangles(ref screenBmp);
+            
             if (ZoomFactor >= 0 && IsObjectLayer)
-            {
-                AddSkillFlags(ref screenBmp);
                 AddHatchOrder(ref screenBmp);
-            }
+            if (ZoomFactor >= 1 && IsObjectLayer)
+                AddSkillIcons(ref screenBmp);
                 
             AddMouseSelectionArea(ref screenBmp);
 
@@ -748,64 +748,85 @@ namespace NLEditor
                 Point levelTextCenterPos = new Point(hatch.PosX + hatch.Width / 2, hatch.PosY);
                 Point screenTextCenterPos = GetPicPointFromLevelPoint(levelTextCenterPos);
 
-                if (hatch.SkillFlags.Count > 0)
-                    screenTextCenterPos.Y -= fontSize + fontSize;
-                else
-                    screenTextCenterPos.Y -= fontSize;
+                screenTextCenterPos.Y -= fontSize;
 
                 levelBmp.WriteText(text, screenTextCenterPos, C.NLColors[C.NLColor.Text], fontSize);
             }
         }
 
         /// <summary>
-        /// Returns the name of the skill as a string, capitalised for display.
+        /// Draws skill icon above pre-assigned Gadgets
         /// </summary>
-        /// <param name="skill"></param>
+        /// <param name="levelBmp"></param>
         /// <returns></returns>
-        static string SkillStringForObjects(C.Skill skill)
-        {
-            string skillName = Enum.GetName(typeof(C.Skill), skill);
-
-            if (skill == C.Skill.Rival || skill == C.Skill.Neutral || skill == C.Skill.Zombie)
-            {
-                // Convert the skill name to lowercase and then capitalize the first letter
-                return char.ToUpper(skillName[0]) + skillName.Substring(1).ToLower();
-            }
-            else
-            {
-                // Return only the first two letters
-                return skillName.Substring(0, Math.Min(2, skillName.Length)).ToUpper();
-            }
-        }
-
-
-        /// <summary>
-        /// Adds skill flags above gadgets that them.
-        /// </summary>
-        /// <param name="levelBmp">The bitmap representing the level.</param>
-        public void AddSkillFlags(ref Bitmap levelBmp)
+        public void AddSkillIcons(ref Bitmap levelBmp)
         {
             var gadgetsWithAssignedSkills = level.GadgetList.Where(gadget => gadget.SkillFlags.Any());
+            Bitmap skillHelpersImage = Properties.Resources.SkillHelpers;
+
+            int frameSize = 16;
+            int iconSpacing = frameSize - (frameSize / 2);
 
             foreach (var gadget in gadgetsWithAssignedSkills)
             {
-                string skillFlagText = "";
+                int numIcons = gadget.SkillFlags.Count();
+                int totalWidth = numIcons * frameSize / 2;
+                int startX = gadget.PosX + gadget.Width / 2 - totalWidth / 2;
 
                 foreach (C.Skill skill in gadget.SkillFlags)
-                   skillFlagText += SkillStringForObjects(skill) + " ";
+                { 
+                    int frameIndex = GetFrameIndexForSkill(skill);
+                    int yOffset = (gadget.ObjType != C.OBJ.HATCH) ? frameSize : iconSpacing;
 
-                int fontSize = 6 + 2 * ZoomFactor;
+                    int iconX = startX;
+                    int iconY = gadget.PosY - yOffset;
 
-                int MarkerX = ImageLibrary.GetMarkerX(gadget.Key);
+                    DrawSkillIconFrame(levelBmp, skillHelpersImage, frameIndex, new Point(iconX, iconY));
 
-                // Adjust the position where the text will be drawn
-                Point levelTextCenterPos = new Point(gadget.PosX + MarkerX, gadget.PosY);
-                Point screenTextCenterPos = GetPicPointFromLevelPoint(levelTextCenterPos);
-                
-                screenTextCenterPos.Y -= fontSize;
+                    startX += iconSpacing;
+                }
+            }
+        }
 
-                // Write the skill flag text above the gadget
-                levelBmp.WriteText(skillFlagText, screenTextCenterPos, C.NLColors[C.NLColor.Text], fontSize);
+        /// </summary>
+        /// // Determines the frame index based on the assigned skill flag
+        /// </summary>
+        private int GetFrameIndexForSkill(C.Skill skill)
+        {
+            switch (skill)
+            {
+                case C.Skill.Rival: return 0;
+                case C.Skill.Neutral: return 1;
+                case C.Skill.Zombie: return 2;
+                case C.Skill.Shimmier: return 3;
+                case C.Skill.Ballooner: return 4;
+                case C.Skill.Slider: return 5;
+                case C.Skill.Climber: return 6;
+                case C.Skill.Swimmer: return 7;
+                case C.Skill.Floater: return 8;
+                case C.Skill.Glider: return 9;
+                case C.Skill.Disarmer: return 10;
+                case C.Skill.Blocker: return 11;
+
+                default: return -1; // Handle unknown skills
+            }
+        }
+
+        /// </summary>
+        /// // Draws the correct icon based on the frame index
+        /// </summary>
+        private void DrawSkillIconFrame(Bitmap targetBitmap, Bitmap sourceImage, int frameIndex, Point position)
+        {
+            int frameSize = 16;
+            Rectangle sourceRect = new Rectangle(0, frameIndex * frameSize, frameSize, frameSize);
+            Point screenAlignmentPos = GetPicPointFromLevelPoint(position);
+            int outputFrameSize = ZoomFactor == 0 ? frameSize : frameSize * (ZoomFactor + 1) / 2;
+
+            screenAlignmentPos.Y += outputFrameSize;
+
+            using (Graphics g = Graphics.FromImage(targetBitmap))
+            {
+                g.DrawImage(sourceImage, new Rectangle(screenAlignmentPos, new Size(outputFrameSize, outputFrameSize)), sourceRect, GraphicsUnit.Pixel);
             }
         }
 
