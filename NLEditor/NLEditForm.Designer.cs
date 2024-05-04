@@ -3057,9 +3057,9 @@
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showMissingPiecesToolStripMenuItem,
             this.oKToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = global::NLEditor.Properties.Resources.Lemming;
+            this.toolStripDropDownButton1.Image = global::NLEditor.Properties.Resources.LemButton;
             this.toolStripDropDownButton1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripDropDownButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripDropDownButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.SizeToFit;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(34, 29);
