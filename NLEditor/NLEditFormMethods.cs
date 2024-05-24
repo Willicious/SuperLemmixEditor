@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NLEditor
@@ -297,9 +298,7 @@ namespace NLEditor
             UpdateSpecialLemmingCounter();
         }
 
-        /// <summary>
-        /// Stores the names of the missing pieces for the current level
-        /// </summary>
+        // Store the names of the missing pieces for the current level
         private HashSet<string> missingPieces = new HashSet<string>();
 
         /// <summary>
@@ -353,6 +352,9 @@ namespace NLEditor
                 toolStripStatusLabel1.Text = "This level contains missing pieces (click to show).";
                 toolStripStatusLabel2.Text = "If saved, a new copy called " + newFileName +
                                              " will be created to prevent overwriting the original.";
+
+                // Store the filename of the level with missing pieces
+                levelsWithMissingPieces.Add(originalFilePath);
             }
 
             // Return true if no missing images were found
@@ -438,34 +440,62 @@ namespace NLEditor
             }
         }
 
+        // Store filenames of levels with missing pieces
+        List<string> levelsWithMissingPieces = new List<string>();
+
         /// <summary>
         /// Opens and saves all .nxlv files in a directory in order to ensure compatibility and update the file
         /// </summary>
-        private void CleanseLevels()
+        private async void CleanseLevels()
         {
-            try
+            if (string.IsNullOrEmpty(targetFolder))
             {
-                if (string.IsNullOrEmpty(targetFolder))
-                {
-                    MessageBox.Show("Please select a target folder.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                MessageBox.Show("Please select a target folder.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                // Get all .nxlv files in the target folder and its subdirectories
-                string[] files = Directory.GetFiles(targetFolder, "*.nxlv", SearchOption.AllDirectories);
+            // Initialise list
+            levelsWithMissingPieces.Clear();
 
+            // Get all .nxlv files in the target folder and its subdirectories
+            string[] files = Directory.GetFiles(targetFolder, "*.nxlv", SearchOption.AllDirectories);
+
+            // Show progress bar
+            using (FormProgress progressForm = new FormProgress())
+            {
+                progressForm.ProgressBar.Maximum = files.Length;
+                progressForm.Show();
 
                 foreach (string file in files)
                 {
                     LoadNewLevel(file);
                     SaveLevel(false);
+
+                    // Update the progress bar
+                    int progressPercentage = (Array.IndexOf(files, file) + 1) * 100 / files.Length;
+                    progressForm.UpdateProgress(progressPercentage, $"Processing file {Array.IndexOf(files, file) + 1} of {files.Length}: {Path.GetFileName(file)}");
+
+                    // Give a short delay to allow status to update
+                    await Task.Delay(10);
                 }
 
-                MessageBox.Show("All .nxlv files have been cleansed successfully.", "Operation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error cleansing levels: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                progressForm.Close();
+
+                // Re-initialize the Editor
+                CreateNewLevelAndRenderer();
+                statusStrip1.Visible = false;
+
+                // Display completion message
+                string completionMessage = "All .nxlv files have been cleansed successfully.";
+                
+                if (levelsWithMissingPieces.Count > 0)
+                {
+                    completionMessage += "\n\nLevels with missing pieces:\n\n";
+                    completionMessage += string.Join("\n", levelsWithMissingPieces.Select(Path.GetFileName));
+                    completionMessage += "\n\nThese levels have been saved with '_MissingPieces' appended to the filename.";
+
+                }
+                MessageBox.Show(completionMessage, "Cleanse Levels Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
