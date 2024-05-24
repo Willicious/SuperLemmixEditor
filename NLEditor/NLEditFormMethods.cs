@@ -314,7 +314,7 @@ namespace NLEditor
             missingPieces.Clear();
 
             // Initialise status strip
-            statusStrip1.Visible = false;
+            statusBar.Visible = false;
 
             CurLevel.TerrainList.FindAll(ter => !ter.ExistsImage())
                               .ForEach(ter => missingPieces.Add(ter.Name + " in style " + ter.Style));
@@ -348,9 +348,9 @@ namespace NLEditor
                 CurLevel.GadgetList.RemoveAll(gad => !gad.ExistsImage());
 
                 // Update status strip
-                statusStrip1.Visible = true;
-                toolStripStatusLabel1.Text = "This level contains missing pieces (click to show).";
-                toolStripStatusLabel2.Text = "If saved, a new copy called " + newFileName +
+                statusBar.Visible = true;
+                statusBarLabel1.Text = "This level contains missing pieces (click to show).";
+                statusBarLabel2.Text = "If saved, a new copy called " + newFileName +
                                              " will be created to prevent overwriting the original.";
 
                 // Store the filename of the level with missing pieces
@@ -483,7 +483,7 @@ namespace NLEditor
 
                 // Re-initialize the Editor
                 CreateNewLevelAndRenderer();
-                statusStrip1.Visible = false;
+                statusBar.Visible = false;
 
                 // Display completion message
                 string completionMessage = "All .nxlv files have been cleansed successfully.";

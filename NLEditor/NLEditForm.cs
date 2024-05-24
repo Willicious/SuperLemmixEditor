@@ -1617,7 +1617,7 @@ namespace NLEditor
 
         private void oKToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            statusStrip1.Visible = false;
+            statusBar.Visible = false;
         }
 
         private void showMissingPiecesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1625,7 +1625,7 @@ namespace NLEditor
             ShowMissingPiecesDialog();
         }
 
-        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        private void statusBarLabel1_Click(object sender, EventArgs e)
         {
             ShowMissingPiecesDialog();
         }

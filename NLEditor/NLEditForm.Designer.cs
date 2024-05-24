@@ -249,10 +249,10 @@
             this.but_PieceBackground = new System.Windows.Forms.Button();
             this.but_PieceSketches = new System.Windows.Forms.Button();
             this.timerAutosave = new System.Windows.Forms.Timer(this.components);
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.statusBar = new System.Windows.Forms.StatusStrip();
+            this.statusBarLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusBarLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusBarButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txt_Focus = new NLEditor.FocusTextBox();
@@ -313,7 +313,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).BeginInit();
             this.tabMisc.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).BeginInit();
-            this.statusStrip1.SuspendLayout();
+            this.statusBar.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -3015,55 +3015,55 @@
             this.timerAutosave.Interval = 60000;
             this.timerAutosave.Tick += new System.EventHandler(this.timerAutosave_Tick);
             // 
-            // statusStrip1
+            // statusBar
             // 
-            this.statusStrip1.AutoSize = false;
-            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2,
-            this.toolStripDropDownButton1});
-            this.statusStrip1.Location = new System.Drawing.Point(396, 8);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(2000, 32);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
-            this.statusStrip1.Visible = false;
+            this.statusBar.AutoSize = false;
+            this.statusBar.Dock = System.Windows.Forms.DockStyle.None;
+            this.statusBar.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusBarLabel1,
+            this.statusBarLabel2,
+            this.statusBarButton1});
+            this.statusBar.Location = new System.Drawing.Point(396, 8);
+            this.statusBar.Name = "statusBar";
+            this.statusBar.Size = new System.Drawing.Size(2000, 32);
+            this.statusBar.TabIndex = 0;
+            this.statusBar.Text = "statusBar";
+            this.statusBar.Visible = false;
             // 
-            // toolStripStatusLabel1
+            // statusBarLabel1
             // 
-            this.toolStripStatusLabel1.BackColor = System.Drawing.SystemColors.Info;
-            this.toolStripStatusLabel1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.Red;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(194, 25);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
-            this.toolStripStatusLabel1.MouseEnter += new System.EventHandler(this.toolStripLabel1_MouseEnter);
-            this.toolStripStatusLabel1.MouseLeave += new System.EventHandler(this.toolStripLabel1_MouseLeave);
+            this.statusBarLabel1.BackColor = System.Drawing.SystemColors.Info;
+            this.statusBarLabel1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.statusBarLabel1.ForeColor = System.Drawing.Color.Red;
+            this.statusBarLabel1.Name = "statusBarLabel1";
+            this.statusBarLabel1.Size = new System.Drawing.Size(194, 25);
+            this.statusBarLabel1.Text = "statusBarLabel1";
+            this.statusBarLabel1.Click += new System.EventHandler(this.statusBarLabel1_Click);
+            this.statusBarLabel1.MouseEnter += new System.EventHandler(this.toolStripLabel1_MouseEnter);
+            this.statusBarLabel1.MouseLeave += new System.EventHandler(this.toolStripLabel1_MouseLeave);
             // 
-            // toolStripStatusLabel2
+            // statusBarLabel2
             // 
-            this.toolStripStatusLabel2.BackColor = System.Drawing.SystemColors.Info;
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(179, 25);
-            this.toolStripStatusLabel2.Text = "toolStripStatusLabel2";
+            this.statusBarLabel2.BackColor = System.Drawing.SystemColors.Info;
+            this.statusBarLabel2.Name = "statusBarLabel2";
+            this.statusBarLabel2.Size = new System.Drawing.Size(179, 25);
+            this.statusBarLabel2.Text = "statusBarLabel2";
             // 
-            // toolStripDropDownButton1
+            // statusBarButton1
             // 
-            this.toolStripDropDownButton1.AutoSize = false;
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusBarButton1.AutoSize = false;
+            this.statusBarButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.statusBarButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showMissingPiecesToolStripMenuItem,
             this.oKToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = global::NLEditor.Properties.Resources.LemButton;
-            this.toolStripDropDownButton1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripDropDownButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.SizeToFit;
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(34, 29);
-            this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
+            this.statusBarButton1.Image = global::NLEditor.Properties.Resources.LemButton;
+            this.statusBarButton1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.statusBarButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.SizeToFit;
+            this.statusBarButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.statusBarButton1.Name = "statusBarButton1";
+            this.statusBarButton1.Size = new System.Drawing.Size(34, 29);
+            this.statusBarButton1.Text = "statusBarButton1";
             // 
             // showMissingPiecesToolStripMenuItem
             // 
@@ -3097,7 +3097,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1185, 921);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.statusBar);
             this.Controls.Add(this.tabLvlProperties);
             this.Controls.Add(this.but_PieceSketches);
             this.Controls.Add(this.but_PieceBackground);
@@ -3197,8 +3197,8 @@
             this.tabMisc.ResumeLayout(false);
             this.tabMisc.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.statusBar.ResumeLayout(false);
+            this.statusBar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3423,10 +3423,10 @@
         private System.Windows.Forms.CheckBox check_Lvl_Superlemming;
         private NumUpDownOverwrite num_SR_Countdown;
         private System.Windows.Forms.Label lbl_SR_Countdown;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.StatusStrip statusBar;
+        private System.Windows.Forms.ToolStripStatusLabel statusBarLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel statusBarLabel2;
+        private System.Windows.Forms.ToolStripDropDownButton statusBarButton1;
         private System.Windows.Forms.ToolStripMenuItem oKToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showMissingPiecesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showMissingPiecesToolStripMenuItem1;
