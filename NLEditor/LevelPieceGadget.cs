@@ -131,17 +131,6 @@ namespace NLEditor
                     {
                         trigRect.Y = ImageRectangle.Height - trigRect.Bottom;
                     }
-
-                    // Offset due to inverting and rotating
-                    if (IsInvertedInPlayer && !IsRotatedInPlayer)
-                    {
-                        trigRect.Y += 10;
-                    }
-                    else if (IsRotatedInPlayer)
-                    {
-                        trigRect.X += IsFlippedInPlayer ? -4 : 4;
-                        trigRect.Y += 5;
-                    }
                 }
 
                 // Shift to position relative to level
