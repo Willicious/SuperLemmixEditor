@@ -5,6 +5,18 @@
     {
       "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\levelpiecegadget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\levelpiecegadget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\nleditform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\nleditform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\nleditform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\nleditform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\nleditform.resx||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\nleditform.resx||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +26,47 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NLEditForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditForm.Designer.cs",
+              "RelativeDocumentMoniker": "NLEditor\\NLEditForm.Designer.cs",
+              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditForm.Designer.cs",
+              "RelativeToolTip": "NLEditor\\NLEditForm.Designer.cs",
+              "ViewState": "AQIAAMYLAAAAAAAAAAAgwMsLAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T18:21:58.445Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "NLEditForm.resx",
+              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditForm.resx",
+              "RelativeDocumentMoniker": "NLEditor\\NLEditForm.resx",
+              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditForm.resx",
+              "RelativeToolTip": "NLEditor\\NLEditForm.resx",
+              "ViewState": "AQIAAHcAAAAAAAAAAAAtwIMAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
+              "WhenOpened": "2024-06-08T18:21:41.919Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "NLEditForm.cs",
+              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditForm.cs",
+              "RelativeDocumentMoniker": "NLEditor\\NLEditForm.cs",
+              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditForm.cs",
+              "RelativeToolTip": "NLEditor\\NLEditForm.cs",
+              "ViewState": "AQIAAHYGAAAAAAAAAAAAAHwGAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T18:21:31.52Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -24,7 +75,7 @@
               "RelativeDocumentMoniker": "NLEditor\\LevelPieceGadget.cs",
               "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\LevelPieceGadget.cs",
               "RelativeToolTip": "NLEditor\\LevelPieceGadget.cs",
-              "ViewState": "AQIAAIAAAAAAAAAAAADwv4QAAAAVAAAA",
+              "ViewState": "AQIAAFsAAAAAAAAAAADwv3gAAABaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-07T11:59:54.762Z",
               "EditorCaption": ""

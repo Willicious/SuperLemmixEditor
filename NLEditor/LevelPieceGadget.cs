@@ -97,21 +97,28 @@ namespace NLEditor
 
                 // Adjust to resizing
                 if (IsRotatedInPlayer)
-                {
-                    if (ResizeMode.In(C.Resize.Both, C.Resize.Vert))
-                        trigRect.Height += Height - ImageLibrary.GetWidth(Key);
-                    if (ResizeMode.In(C.Resize.Both, C.Resize.Horiz))
-                        trigRect.Width += Width - ImageLibrary.GetHeight(Key);
+                {   
+                    // When both resized and rotated:
+                    // To get the new height value, we add the new "width" increment, and subtract the original object height (which is now the width!)
+                    if (ResizeMode == C.Resize.Both || ResizeMode == C.Resize.Vert)
+                        trigRect.Height += Width - ImageLibrary.GetHeight(Key);
+
+                    // Vice versa to get the new width value
+                    if (ResizeMode == C.Resize.Both || ResizeMode == C.Resize.Horiz)
+                        trigRect.Width += Height - ImageLibrary.GetWidth(Key);
                 }
                 else
-                {
+                {   // When resized but not rotated:
+                    // To get the new width value, we add the new "width" increment, and subtract the original object width
                     if (ResizeMode.In(C.Resize.Both, C.Resize.Horiz))
                         trigRect.Width += Width - ImageLibrary.GetWidth(Key);
+
+                    // Vice versa to get the new height value
                     if (ResizeMode.In(C.Resize.Both, C.Resize.Vert))
                         trigRect.Height += Height - ImageLibrary.GetHeight(Key);
                 }
 
-                if (ObjType != C.OBJ.ONE_WAY_WALL)
+                if (ObjType != C.OBJ.ONE_WAY_WALL) // For all objects except one-way-walls
                 {
                     // Rotate the trigger area correctly
                     if (IsRotatedInPlayer)
