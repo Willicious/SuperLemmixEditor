@@ -198,9 +198,10 @@ namespace NLEditor
             AddSelectedRectangles(ref screenBmp);
             
             if (ZoomFactor >= 0 && IsObjectLayer)
+            {
                 AddHatchOrder(ref screenBmp);
-            if (ZoomFactor >= 1 && IsObjectLayer)
                 AddSkillIcons(ref screenBmp);
+            }
                 
             AddMouseSelectionArea(ref screenBmp);
 
@@ -821,7 +822,7 @@ namespace NLEditor
             int frameSize = 16;
             Rectangle sourceRect = new Rectangle(0, frameIndex * frameSize, frameSize, frameSize);
             Point screenAlignmentPos = GetPicPointFromLevelPoint(position);
-            int outputFrameSize = ZoomFactor == 0 ? frameSize : frameSize * (ZoomFactor + 1) / 2;
+            int outputFrameSize = frameSize * (ZoomFactor + 1) / 2;
 
             screenAlignmentPos.Y += outputFrameSize;
 
