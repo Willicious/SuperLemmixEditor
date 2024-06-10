@@ -1659,5 +1659,27 @@ namespace NLEditor
                 }
             }
         }
+
+        private void saveAsImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Handle the file naming format
+            string baseFileName = string.IsNullOrEmpty(CurLevel.Title) ? "Level" : CurLevel.Title;
+            string fileName = baseFileName + ".png";
+
+            int count = 0;
+            while (File.Exists(fileName))
+            {
+                count++;
+                fileName = $"{baseFileName} ({count}).png";
+            }
+
+            // Get the full level image and save it to a .png file
+            Bitmap fullLevelImage = curRenderer.GetFullLevelImage();
+            fullLevelImage.Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
+
+            // Confirm save with a popup message
+            string savedFilePath = Path.GetFullPath(fileName);
+            MessageBox.Show($"Image saved as {savedFilePath}", "Save Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

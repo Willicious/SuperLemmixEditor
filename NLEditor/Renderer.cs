@@ -124,6 +124,16 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Get the full un-cropped un-zoomed level image
+        /// </summary>
+        /// <returns></returns>
+        public Bitmap GetFullLevelImage()
+        {
+            return baseLevelImage;
+        }
+
+
+        /// <summary>
         /// Combine the layers to the (correctly zoomed) level image
         /// </summary>
         private void CreateLevelImageFromLayers(string dragNewPieceKey = null)

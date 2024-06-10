@@ -36,6 +36,7 @@
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.cleanseLevelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -338,6 +339,7 @@
             this.loadToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
+            this.saveAsImageToolStripMenuItem,
             this.exitToolStripMenuItem,
             this.toolStripSeparator1,
             this.cleanseLevelsToolStripMenuItem,
@@ -351,7 +353,7 @@
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(300, 34);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(326, 34);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -359,7 +361,7 @@
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(300, 34);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(326, 34);
             this.loadToolStripMenuItem.Text = "Open";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
@@ -367,7 +369,7 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(300, 34);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(326, 34);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -376,27 +378,36 @@
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(300, 34);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(326, 34);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            // 
+            // saveAsImageToolStripMenuItem
+            // 
+            this.saveAsImageToolStripMenuItem.Name = "saveAsImageToolStripMenuItem";
+            this.saveAsImageToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.S)));
+            this.saveAsImageToolStripMenuItem.Size = new System.Drawing.Size(326, 34);
+            this.saveAsImageToolStripMenuItem.Text = "Save As Image";
+            this.saveAsImageToolStripMenuItem.Click += new System.EventHandler(this.saveAsImageToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(300, 34);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(326, 34);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(297, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(323, 6);
             // 
             // cleanseLevelsToolStripMenuItem
             // 
             this.cleanseLevelsToolStripMenuItem.Name = "cleanseLevelsToolStripMenuItem";
-            this.cleanseLevelsToolStripMenuItem.Size = new System.Drawing.Size(300, 34);
+            this.cleanseLevelsToolStripMenuItem.Size = new System.Drawing.Size(326, 34);
             this.cleanseLevelsToolStripMenuItem.Text = "Cleanse Levels";
             this.cleanseLevelsToolStripMenuItem.Click += new System.EventHandler(this.cleanseLevelsToolStripMenuItem_Click);
             // 
@@ -404,7 +415,7 @@
             // 
             this.playLevelToolStripMenuItem.Name = "playLevelToolStripMenuItem";
             this.playLevelToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12;
-            this.playLevelToolStripMenuItem.Size = new System.Drawing.Size(300, 34);
+            this.playLevelToolStripMenuItem.Size = new System.Drawing.Size(326, 34);
             this.playLevelToolStripMenuItem.Text = "Play Level";
             this.playLevelToolStripMenuItem.Click += new System.EventHandler(this.playLevelToolStripMenuItem_Click);
             // 
@@ -412,7 +423,7 @@
             // 
             this.validateLevelToolStripMenuItem.Name = "validateLevelToolStripMenuItem";
             this.validateLevelToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F12)));
-            this.validateLevelToolStripMenuItem.Size = new System.Drawing.Size(300, 34);
+            this.validateLevelToolStripMenuItem.Size = new System.Drawing.Size(326, 34);
             this.validateLevelToolStripMenuItem.Text = "Validate Level";
             this.validateLevelToolStripMenuItem.Click += new System.EventHandler(this.validateLevelToolStripMenuItem_Click);
             // 
@@ -3037,7 +3048,7 @@
             this.statusBarLabel1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.statusBarLabel1.ForeColor = System.Drawing.Color.Red;
             this.statusBarLabel1.Name = "statusBarLabel1";
-            this.statusBarLabel1.Size = new System.Drawing.Size(194, 25);
+            this.statusBarLabel1.Size = new System.Drawing.Size(147, 25);
             this.statusBarLabel1.Text = "statusBarLabel1";
             this.statusBarLabel1.Click += new System.EventHandler(this.statusBarLabel1_Click);
             this.statusBarLabel1.MouseEnter += new System.EventHandler(this.toolStripLabel1_MouseEnter);
@@ -3047,7 +3058,7 @@
             // 
             this.statusBarLabel2.BackColor = System.Drawing.SystemColors.Info;
             this.statusBarLabel2.Name = "statusBarLabel2";
-            this.statusBarLabel2.Size = new System.Drawing.Size(179, 25);
+            this.statusBarLabel2.Size = new System.Drawing.Size(135, 25);
             this.statusBarLabel2.Text = "statusBarLabel2";
             // 
             // statusBarButton1
@@ -3059,7 +3070,6 @@
             this.oKToolStripMenuItem});
             this.statusBarButton1.Image = global::NLEditor.Properties.Resources.LemButton;
             this.statusBarButton1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.statusBarButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.SizeToFit;
             this.statusBarButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.statusBarButton1.Name = "statusBarButton1";
             this.statusBarButton1.Size = new System.Drawing.Size(34, 29);
@@ -3432,6 +3442,7 @@
         private System.Windows.Forms.ToolStripMenuItem showMissingPiecesToolStripMenuItem1;
         private System.Windows.Forms.CheckBox check_Lvl_Invincibility;
         private System.Windows.Forms.ToolStripMenuItem cleanseLevelsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsImageToolStripMenuItem;
     }
 }
 
