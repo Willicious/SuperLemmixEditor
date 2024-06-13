@@ -1127,11 +1127,11 @@ namespace NLEditor
             {
                 MovePieceIndex(true, false);
             }
-            else if (e.KeyCode == Keys.PageUp)
+            else if (e.KeyCode == Keys.PageUp || e.KeyCode == Keys.OemPeriod)
             {
                 MovePieceIndex(true, true);
             }
-            else if (e.KeyCode == Keys.PageDown)
+            else if (e.KeyCode == Keys.PageDown || e.KeyCode == Keys.Oemcomma)
             {
                 MovePieceIndex(false, true);
             }
