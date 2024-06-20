@@ -1681,5 +1681,53 @@ namespace NLEditor
             string savedFilePath = Path.GetFullPath(fileName);
             MessageBox.Show($"Image saved as {savedFilePath}", "Save Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void btnRandomSkillset_Click(object sender, EventArgs e)
+        {
+            SetAllSkillsToZero(); // Zero the skillset first
+            Random random = new Random();
+
+            int minValue = (int)num_RandomMinLimit.Value;
+            int maxValue = (int)num_RandomMaxLimit.Value;
+
+            // List and shuffle the numeric controls on tabSkills (excluding the randomizer limits)
+            List<NumericUpDown> numericUpDowns = tabSkills.Controls.OfType<NumericUpDown>()
+                .Where(n => n != num_RandomMinLimit && n != num_RandomMaxLimit)
+                .ToList();
+            numericUpDowns = numericUpDowns.OrderBy(x => random.Next()).ToList();
+
+            // Select up to 14 skills and populate them with a number between minValue and maxValue
+            List<NumericUpDown> selectedControls = numericUpDowns.Take(14).ToList();
+            foreach (var numBox in selectedControls)
+            {
+                numBox.Value = random.Next(minValue, maxValue + 1); // maxValue + 1 because Random.Next is exclusive on the upper bound
+            }
+        }
+
+        private void btnAllSkillsToZero_Click(object sender, EventArgs e)
+        {
+            SetAllSkillsToZero();
+        }
+
+        private void SetAllSkillsToZero()
+        {
+            foreach (Control ctrl in tabSkills.Controls)
+            {
+                if (ctrl is NumericUpDown numBox && numBox != num_RandomMinLimit 
+                                                 && numBox != num_RandomMaxLimit)
+                {
+                    numBox.Value = 0;
+                }
+            }
+        }
+
+
+        private void num_RandomLimit_ValueChanged(object sender, EventArgs e)
+        {
+            if (num_RandomMinLimit.Value > num_RandomMaxLimit.Value)
+            {
+                num_RandomMaxLimit.Value = num_RandomMinLimit.Value + 1;
+            }
+        }
     }
 }

@@ -175,6 +175,12 @@
             this.but_InvertPieces = new NLEditor.RepeatButton();
             this.but_RotatePieces = new NLEditor.RepeatButton();
             this.tabSkills = new System.Windows.Forms.TabPage();
+            this.num_RandomMaxLimit = new NLEditor.NumUpDownOverwrite();
+            this.num_RandomMinLimit = new NLEditor.NumUpDownOverwrite();
+            this.lblRandomMaxLimit = new System.Windows.Forms.Label();
+            this.lblRandomMinLimit = new System.Windows.Forms.Label();
+            this.btnAllSkillsToZero = new System.Windows.Forms.Button();
+            this.btnRandomSkillset = new System.Windows.Forms.Button();
             this.lbl_Skill_Timebomber = new System.Windows.Forms.Label();
             this.lbl_Skill_Laserer = new System.Windows.Forms.Label();
             this.lbl_Skill_Grenader = new System.Windows.Forms.Label();
@@ -286,6 +292,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).BeginInit();
             this.tabSkills.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_RandomMaxLimit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_RandomMinLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Timebomber)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Laserer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Grenader)).BeginInit();
@@ -2168,6 +2176,12 @@
             // 
             // tabSkills
             // 
+            this.tabSkills.Controls.Add(this.num_RandomMaxLimit);
+            this.tabSkills.Controls.Add(this.num_RandomMinLimit);
+            this.tabSkills.Controls.Add(this.lblRandomMaxLimit);
+            this.tabSkills.Controls.Add(this.lblRandomMinLimit);
+            this.tabSkills.Controls.Add(this.btnAllSkillsToZero);
+            this.tabSkills.Controls.Add(this.btnRandomSkillset);
             this.tabSkills.Controls.Add(this.lbl_Skill_Timebomber);
             this.tabSkills.Controls.Add(this.lbl_Skill_Laserer);
             this.tabSkills.Controls.Add(this.lbl_Skill_Grenader);
@@ -2227,6 +2241,91 @@
             this.tabSkills.TabIndex = 2;
             this.tabSkills.Text = "Skills";
             this.tabSkills.UseVisualStyleBackColor = true;
+            // 
+            // num_RandomMaxLimit
+            // 
+            this.num_RandomMaxLimit.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.num_RandomMaxLimit.Location = new System.Drawing.Point(254, 552);
+            this.num_RandomMaxLimit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.num_RandomMaxLimit.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.num_RandomMaxLimit.Name = "num_RandomMaxLimit";
+            this.num_RandomMaxLimit.Size = new System.Drawing.Size(64, 26);
+            this.num_RandomMaxLimit.TabIndex = 46;
+            this.num_RandomMaxLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_RandomMaxLimit.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.num_RandomMaxLimit.ValueChanged += new System.EventHandler(this.num_RandomLimit_ValueChanged);
+            // 
+            // num_RandomMinLimit
+            // 
+            this.num_RandomMinLimit.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.num_RandomMinLimit.Location = new System.Drawing.Point(132, 552);
+            this.num_RandomMinLimit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.num_RandomMinLimit.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.num_RandomMinLimit.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_RandomMinLimit.Name = "num_RandomMinLimit";
+            this.num_RandomMinLimit.Size = new System.Drawing.Size(64, 26);
+            this.num_RandomMinLimit.TabIndex = 45;
+            this.num_RandomMinLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_RandomMinLimit.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_RandomMinLimit.ValueChanged += new System.EventHandler(this.num_RandomLimit_ValueChanged);
+            // 
+            // lblRandomMaxLimit
+            // 
+            this.lblRandomMaxLimit.Location = new System.Drawing.Point(214, 554);
+            this.lblRandomMaxLimit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblRandomMaxLimit.Name = "lblRandomMaxLimit";
+            this.lblRandomMaxLimit.Size = new System.Drawing.Size(32, 26);
+            this.lblRandomMaxLimit.TabIndex = 44;
+            this.lblRandomMaxLimit.Text = "To";
+            // 
+            // lblRandomMinLimit
+            // 
+            this.lblRandomMinLimit.Location = new System.Drawing.Point(75, 554);
+            this.lblRandomMinLimit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblRandomMinLimit.Name = "lblRandomMinLimit";
+            this.lblRandomMinLimit.Size = new System.Drawing.Size(49, 26);
+            this.lblRandomMinLimit.TabIndex = 43;
+            this.lblRandomMinLimit.Text = "From";
+            // 
+            // btnAllSkillsToZero
+            // 
+            this.btnAllSkillsToZero.Location = new System.Drawing.Point(101, 617);
+            this.btnAllSkillsToZero.Name = "btnAllSkillsToZero";
+            this.btnAllSkillsToZero.Size = new System.Drawing.Size(192, 50);
+            this.btnAllSkillsToZero.TabIndex = 42;
+            this.btnAllSkillsToZero.Text = "Set All Skills To Zero";
+            this.btnAllSkillsToZero.UseVisualStyleBackColor = true;
+            this.btnAllSkillsToZero.Click += new System.EventHandler(this.btnAllSkillsToZero_Click);
+            // 
+            // btnRandomSkillset
+            // 
+            this.btnRandomSkillset.Location = new System.Drawing.Point(101, 496);
+            this.btnRandomSkillset.Name = "btnRandomSkillset";
+            this.btnRandomSkillset.Size = new System.Drawing.Size(192, 50);
+            this.btnRandomSkillset.TabIndex = 41;
+            this.btnRandomSkillset.Text = "Random Skillset";
+            this.btnRandomSkillset.UseVisualStyleBackColor = true;
+            this.btnRandomSkillset.Click += new System.EventHandler(this.btnRandomSkillset_Click);
             // 
             // lbl_Skill_Timebomber
             // 
@@ -3178,6 +3277,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).EndInit();
             this.tabSkills.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.num_RandomMaxLimit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_RandomMinLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Timebomber)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Laserer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Grenader)).EndInit();
@@ -3443,6 +3544,12 @@
         private System.Windows.Forms.CheckBox check_Lvl_Invincibility;
         private System.Windows.Forms.ToolStripMenuItem cleanseLevelsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsImageToolStripMenuItem;
+        private System.Windows.Forms.Button btnAllSkillsToZero;
+        private System.Windows.Forms.Button btnRandomSkillset;
+        private NumUpDownOverwrite num_RandomMaxLimit;
+        private NumUpDownOverwrite num_RandomMinLimit;
+        private System.Windows.Forms.Label lblRandomMaxLimit;
+        private System.Windows.Forms.Label lblRandomMinLimit;
     }
 }
 
