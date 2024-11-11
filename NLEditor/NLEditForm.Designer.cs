@@ -1120,7 +1120,7 @@
             this.num_Lvl_Rescue.Location = new System.Drawing.Point(212, 377);
             this.num_Lvl_Rescue.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Lvl_Rescue.Maximum = new decimal(new int[] {
-            1000,
+            999,
             0,
             0,
             0});
@@ -1154,7 +1154,7 @@
             this.num_Lvl_Lems.Location = new System.Drawing.Point(212, 314);
             this.num_Lvl_Lems.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Lvl_Lems.Maximum = new decimal(new int[] {
-            1000,
+            999,
             0,
             0,
             0});

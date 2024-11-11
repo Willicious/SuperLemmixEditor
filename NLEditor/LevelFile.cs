@@ -477,8 +477,8 @@ namespace NLEditor
             newLevel.StartPosX = Math.Max(Math.Min(newLevel.StartPosX, newLevel.Width - 1), 0);
             newLevel.StartPosY = Math.Max(Math.Min(newLevel.StartPosY, newLevel.Height - 1), 0);
             // Global level properties
-            newLevel.NumLems = Math.Max(Math.Min(newLevel.NumLems, 1000), 1);
-            newLevel.SaveReq = Math.Max(Math.Min(newLevel.SaveReq, 1000), 1);
+            newLevel.NumLems = Math.Max(Math.Min(newLevel.NumLems, 999), 1);
+            newLevel.SaveReq = Math.Max(Math.Min(newLevel.SaveReq, 999), 1);
             newLevel.SpawnRate = Math.Max(Math.Min(newLevel.SpawnRate, 99), 1);
             newLevel.TimeLimit = Math.Max(Math.Min(newLevel.TimeLimit, 5999), 0);
             // Skill numbers
