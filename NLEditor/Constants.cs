@@ -13,7 +13,15 @@ namespace NLEditor
             get
             {
                 var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                return version.Major.ToString() + "." + version.Minor.ToString();
+
+                if (version.Build > 0)
+                {
+                    return version.Major.ToString() + "." + version.Minor.ToString() + "." + version.Build.ToString();
+                }
+                else
+                {
+                    return version.Major.ToString() + "." + version.Minor.ToString();
+                }
             }
         }
 
