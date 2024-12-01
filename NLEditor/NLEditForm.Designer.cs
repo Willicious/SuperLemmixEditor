@@ -3236,7 +3236,9 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimumSize = new System.Drawing.Size(1195, 659);
             this.Name = "NLEditForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "  SuperLemmix Editor";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Activated += new System.EventHandler(this.NLEditForm_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NLEditForm_FormClosing);
             this.Click += new System.EventHandler(this.NLEditForm_Click);
