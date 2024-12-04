@@ -122,7 +122,7 @@
             // 
             this.txtTalismanTitle.Location = new System.Drawing.Point(70, 46);
             this.txtTalismanTitle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtTalismanTitle.MaxLength = 38;
+            this.txtTalismanTitle.MaxLength = 85;
             this.txtTalismanTitle.Name = "txtTalismanTitle";
             this.txtTalismanTitle.Size = new System.Drawing.Size(372, 26);
             this.txtTalismanTitle.TabIndex = 8;

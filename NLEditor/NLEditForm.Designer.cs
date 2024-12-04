@@ -1330,7 +1330,7 @@
             // 
             this.txt_LevelAuthor.Location = new System.Drawing.Point(68, 49);
             this.txt_LevelAuthor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txt_LevelAuthor.MaxLength = 32;
+            this.txt_LevelAuthor.MaxLength = 60;
             this.txt_LevelAuthor.Name = "txt_LevelAuthor";
             this.txt_LevelAuthor.Size = new System.Drawing.Size(301, 26);
             this.txt_LevelAuthor.TabIndex = 3;
@@ -1349,7 +1349,7 @@
             // 
             this.txt_LevelTitle.Location = new System.Drawing.Point(68, 9);
             this.txt_LevelTitle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txt_LevelTitle.MaxLength = 40;
+            this.txt_LevelTitle.MaxLength = 62;
             this.txt_LevelTitle.Name = "txt_LevelTitle";
             this.txt_LevelTitle.Size = new System.Drawing.Size(301, 26);
             this.txt_LevelTitle.TabIndex = 1;
