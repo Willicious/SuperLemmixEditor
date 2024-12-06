@@ -778,7 +778,7 @@ namespace NLEditor
         /// <param name="curLevel"></param>
         /// <param name="skillNum"></param>
         /// <returns></returns>
-        static private bool IsSkillRequired(Level curLevel, C.Skill skill)
+        static public bool IsSkillRequired(Level curLevel, C.Skill skill)
         {
             return (curLevel.SkillSet[skill] > 0)
                 || (curLevel.GadgetList.Exists(gad => gad.ObjType == C.OBJ.PICKUP && gad.SkillFlags.Contains(skill)));

@@ -263,6 +263,7 @@
             this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txt_Focus = new NLEditor.FocusTextBox();
+            this.randomSkillsetPanel = new System.Windows.Forms.Panel();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -2234,6 +2235,8 @@
             this.tabSkills.Controls.Add(this.num_Ski_Blocker);
             this.tabSkills.Controls.Add(this.num_Ski_Floater);
             this.tabSkills.Controls.Add(this.num_Ski_Climber);
+            this.tabSkills.Controls.Add(this.randomSkillsetPanel);
+            this.tabSkills.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tabSkills.Location = new System.Drawing.Point(4, 29);
             this.tabSkills.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabSkills.Name = "tabSkills";
@@ -2316,16 +2319,18 @@
             this.btnAllSkillsToZero.Text = "Set All Skills To Zero";
             this.btnAllSkillsToZero.UseVisualStyleBackColor = true;
             this.btnAllSkillsToZero.Click += new System.EventHandler(this.btnAllSkillsToZero_Click);
+            this.btnAllSkillsToZero.MouseLeave += new System.EventHandler(this.textbox_Leave);
             // 
             // btnRandomSkillset
             // 
-            this.btnRandomSkillset.Location = new System.Drawing.Point(101, 496);
+            this.btnRandomSkillset.Location = new System.Drawing.Point(101, 492);
             this.btnRandomSkillset.Name = "btnRandomSkillset";
             this.btnRandomSkillset.Size = new System.Drawing.Size(192, 50);
             this.btnRandomSkillset.TabIndex = 41;
             this.btnRandomSkillset.Text = "Random Skillset";
             this.btnRandomSkillset.UseVisualStyleBackColor = true;
             this.btnRandomSkillset.Click += new System.EventHandler(this.btnRandomSkillset_Click);
+            this.btnRandomSkillset.MouseLeave += new System.EventHandler(this.textbox_Leave);
             // 
             // lbl_Skill_Timebomber
             // 
@@ -2570,6 +2575,9 @@
             this.num_Ski_Timebomber.Size = new System.Drawing.Size(64, 26);
             this.num_Ski_Timebomber.TabIndex = 11;
             this.num_Ski_Timebomber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Timebomber.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Timebomber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
+            this.num_Ski_Timebomber.Leave += new System.EventHandler(this.textbox_Leave);
             // 
             // num_Ski_Laserer
             // 
@@ -2580,6 +2588,9 @@
             this.num_Ski_Laserer.Size = new System.Drawing.Size(64, 26);
             this.num_Ski_Laserer.TabIndex = 21;
             this.num_Ski_Laserer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Laserer.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Laserer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
+            this.num_Ski_Laserer.Leave += new System.EventHandler(this.textbox_Leave);
             // 
             // num_Ski_Grenader
             // 
@@ -2590,6 +2601,9 @@
             this.num_Ski_Grenader.Size = new System.Drawing.Size(64, 26);
             this.num_Ski_Grenader.TabIndex = 20;
             this.num_Ski_Grenader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Grenader.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Grenader.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
+            this.num_Ski_Grenader.Leave += new System.EventHandler(this.textbox_Leave);
             // 
             // num_Ski_Spearer
             // 
@@ -2600,6 +2614,9 @@
             this.num_Ski_Spearer.Size = new System.Drawing.Size(64, 26);
             this.num_Ski_Spearer.TabIndex = 19;
             this.num_Ski_Spearer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Spearer.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Spearer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
+            this.num_Ski_Spearer.Leave += new System.EventHandler(this.textbox_Leave);
             // 
             // num_Ski_Slider
             // 
@@ -2610,6 +2627,9 @@
             this.num_Ski_Slider.Size = new System.Drawing.Size(64, 26);
             this.num_Ski_Slider.TabIndex = 5;
             this.num_Ski_Slider.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Slider.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Slider.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
+            this.num_Ski_Slider.Leave += new System.EventHandler(this.textbox_Leave);
             // 
             // num_Ski_Jumper
             // 
@@ -2621,6 +2641,8 @@
             this.num_Ski_Jumper.TabIndex = 2;
             this.num_Ski_Jumper.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Jumper.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Jumper.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
+            this.num_Ski_Jumper.Leave += new System.EventHandler(this.textbox_Leave);
             // 
             // num_Ski_Shimmier
             // 
@@ -2632,6 +2654,8 @@
             this.num_Ski_Shimmier.TabIndex = 3;
             this.num_Ski_Shimmier.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Shimmier.ValueChanged += new System.EventHandler(this.num_Skill_ValueChanged);
+            this.num_Ski_Shimmier.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
+            this.num_Ski_Shimmier.Leave += new System.EventHandler(this.textbox_Leave);
             // 
             // num_Ski_Fencer
             // 
@@ -3200,6 +3224,15 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
+            // randomSkillsetPanel
+            // 
+            this.randomSkillsetPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.randomSkillsetPanel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.randomSkillsetPanel.Location = new System.Drawing.Point(50, 518);
+            this.randomSkillsetPanel.Name = "randomSkillsetPanel";
+            this.randomSkillsetPanel.Size = new System.Drawing.Size(291, 82);
+            this.randomSkillsetPanel.TabIndex = 47;
+            // 
             // NLEditForm
             // 
             this.AllowDrop = true;
@@ -3552,6 +3585,7 @@
         private NumUpDownOverwrite num_RandomMinLimit;
         private System.Windows.Forms.Label lblRandomMaxLimit;
         private System.Windows.Forms.Label lblRandomMinLimit;
+        private System.Windows.Forms.Panel randomSkillsetPanel;
     }
 }
 

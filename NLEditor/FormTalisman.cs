@@ -42,16 +42,83 @@ namespace NLEditor
 
             WriteRequirementList();
 
-            foreach (C.TalismanReq requirement in C.TalismanReqArray)
+            // Filter TalismanReqArray to include only skills present in skillset
+            var filteredRequirements = C.TalismanReqArray.Cast<C.TalismanReq>()
+                .Where(req => IsSkillRequirementRelevant(level, req))
+                .ToList();
+
+            // Check if the skillset is empty
+            bool hasIndividualSkills = filteredRequirements.Any(req => req >= C.TalismanReq.SkillWalker && req <= C.TalismanReq.SkillCloner);
+
+            // Filter out skill-related talismans if the skillset is empty
+            if (!hasIndividualSkills)
+            {
+                filteredRequirements.Remove(C.TalismanReq.SkillTotal);
+                filteredRequirements.Remove(C.TalismanReq.SkillEachLimit);
+                filteredRequirements.Remove(C.TalismanReq.UseOnlySkill);
+            }
+
+            foreach (C.TalismanReq requirement in filteredRequirements)
             {
                 cmbRequirementTypes.Items.Add(C.TalismanReqText[requirement]);
             }
-            cmbRequirementTypes.Text = cmbRequirementTypes.Items[0].ToString();
 
+            if (cmbRequirementTypes.Items.Count > 0)
+            {
+                cmbRequirementTypes.Text = cmbRequirementTypes.Items[0].ToString();
+            }
+
+            cmbRequirementSkill.Items.Clear(); // Clear any existing items
             foreach (string skill in C.TalismanSkills)
             {
-                cmbRequirementSkill.Items.Add(skill);
+                // Use skill string directly with IsSkillRequired
+                if (LevelFile.IsSkillRequired(level, (C.Skill)Enum.Parse(typeof(C.Skill), skill)))
+                {
+                    cmbRequirementSkill.Items.Add(skill);
+                }
             }
+        }
+
+        private bool IsSkillRequirementRelevant(Level level, C.TalismanReq requirement)
+        {
+            // Map TalismanReq to corresponding skills where applicable
+            var skillMapping = new Dictionary<C.TalismanReq, C.Skill>
+            {
+                { C.TalismanReq.SkillWalker, C.Skill.Walker },
+                { C.TalismanReq.SkillJumper, C.Skill.Jumper },
+                { C.TalismanReq.SkillShimmier, C.Skill.Shimmier },
+                { C.TalismanReq.SkillBallooner, C.Skill.Ballooner },
+                { C.TalismanReq.SkillSlider, C.Skill.Slider },
+                { C.TalismanReq.SkillClimber, C.Skill.Climber },
+                { C.TalismanReq.SkillSwimmer, C.Skill.Swimmer },
+                { C.TalismanReq.SkillFloater, C.Skill.Floater },
+                { C.TalismanReq.SkillGlider, C.Skill.Glider },
+                { C.TalismanReq.SkillDisarmer, C.Skill.Disarmer },
+                { C.TalismanReq.SkillTimebomber, C.Skill.Timebomber },
+                { C.TalismanReq.SkillBomber, C.Skill.Bomber },
+                { C.TalismanReq.SkillFreezer, C.Skill.Freezer },
+                { C.TalismanReq.SkillBlocker, C.Skill.Blocker },
+                { C.TalismanReq.SkillLadderer, C.Skill.Ladderer },
+                { C.TalismanReq.SkillPlatformer, C.Skill.Platformer },
+                { C.TalismanReq.SkillBuilder, C.Skill.Builder },
+                { C.TalismanReq.SkillStacker, C.Skill.Stacker },
+                { C.TalismanReq.SkillSpearer, C.Skill.Spearer },
+                { C.TalismanReq.SkillGrenader, C.Skill.Grenader },
+                { C.TalismanReq.SkillLaserer, C.Skill.Laserer },
+                { C.TalismanReq.SkillBasher, C.Skill.Basher },
+                { C.TalismanReq.SkillFencer, C.Skill.Fencer },
+                { C.TalismanReq.SkillMiner, C.Skill.Miner },
+                { C.TalismanReq.SkillDigger, C.Skill.Digger },
+                { C.TalismanReq.SkillCloner, C.Skill.Cloner }
+            };
+
+            if (skillMapping.ContainsKey(requirement))
+            {
+                return LevelFile.IsSkillRequired(level, skillMapping[requirement]);
+            }
+
+            // Return true for non-skill-related requirements
+            return true;
         }
 
         bool isNewTalisman;
@@ -206,6 +273,12 @@ namespace NLEditor
                                     requirement != C.TalismanReq.ClassicMode  &&
                                     requirement != C.TalismanReq.NoPause);
             numReqValue2.Visible = (requirement == C.TalismanReq.TimeLimit);
+
+            if (numReqValue2.Visible)
+                numReqValue1.Width = numReqValue2.Width;
+            else
+                numReqValue1.Width = cmbRequirementSkill.Width;      
+
             cmbRequirementSkill.Visible = (requirement == C.TalismanReq.UseOnlySkill);
 
             // Set maximums
