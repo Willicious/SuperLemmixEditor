@@ -238,24 +238,31 @@ namespace NLEditor
                 case C.OBJ.HATCH:
                     {
                         return skill.In(C.Skill.Slider, C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
-                                        C.Skill.Disarmer, C.Skill.Swimmer,
-                                        C.Skill.Zombie, C.Skill.Rival, C.Skill.Neutral);
+                                        C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Zombie, C.Skill.Neutral)
+
+                            || skill.In(C.Skill.Rival) && !NLEditForm.isNeoLemmixOnly;
                     }
                 case C.OBJ.LEMMING:
                     {
                         return skill.In(C.Skill.Slider, C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
-                                        C.Skill.Disarmer, C.Skill.Swimmer, 
-                                        C.Skill.Ballooner, C.Skill.Blocker, C.Skill.Shimmier,
-                                        C.Skill.Zombie, C.Skill.Rival, C.Skill.Neutral);
+                                        C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Blocker,
+                                        C.Skill.Shimmier, C.Skill.Zombie, C.Skill.Neutral)
+
+                            || skill.In(C.Skill.Ballooner, C.Skill.Rival) && !NLEditForm.isNeoLemmixOnly;
                     }
                 case C.OBJ.PICKUP:
                     {
-                        return !skill.In(C.Skill.Zombie, C.Skill.Rival, C.Skill.Neutral);
+                        return !skill.In(C.Skill.Zombie, C.Skill.Rival, C.Skill.Neutral)
+
+                           && (!skill.In(C.Skill.Ballooner, C.Skill.Freezer, C.Skill.Grenader,
+                                         C.Skill.Spearer, C.Skill.Timebomber, C.Skill.Ladderer)
+                                      || !NLEditForm.isNeoLemmixOnly);
                     }
+
                 case C.OBJ.EXIT:
                 case C.OBJ.EXIT_LOCKED:
                     {
-                        return skill.In(C.Skill.Rival);
+                        return skill == C.Skill.Rival && !NLEditForm.isNeoLemmixOnly;
                     }
                 default:
                     return false;

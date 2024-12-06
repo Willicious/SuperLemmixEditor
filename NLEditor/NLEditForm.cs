@@ -14,12 +14,16 @@ namespace NLEditor
     /// </summary>
     partial class NLEditForm : Form
     {
+        public static bool isNeoLemmixOnly { get; private set; }
+
         /// <summary>
         /// Initializes all important components and load an empty level.
         /// </summary>
         public NLEditForm()
         {
+            DetectLemmixVersions();
             InitializeComponent();
+            SetLemmixVersionFeatures();
             RemoveFocus();
             SetRepeatButtonIntervals();
             SetMusicList();
@@ -140,6 +144,41 @@ namespace NLEditor
 
             if (args.Length >= 2)
                 LoadNewLevel(args[1]);
+        }
+
+        /// <summary>
+        /// Checks for presence of Neo/SuperLemmix.exe in Editor's base folder
+        /// </summary>
+        private void DetectLemmixVersions()
+        {
+            string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
+
+            bool isNeoLemmixDetected = File.Exists(Path.Combine(baseFolder, "NeoLemmix.exe"));
+            bool isSuperLemmixDetected = File.Exists(Path.Combine(baseFolder, "SuperLemmix.exe"));
+
+            isNeoLemmixOnly = isNeoLemmixDetected && !isSuperLemmixDetected;
+        }
+
+        private void SetLemmixVersionFeatures()
+        {
+            if (isNeoLemmixOnly)
+            {
+                lbl_Skill_Ballooner.Enabled = false;
+                lbl_Skill_Timebomber.Enabled = false;
+                lbl_Skill_Freezer.Enabled = false;
+                lbl_Skill_Ladderer.Enabled = false;
+                lbl_Skill_Spearer.Enabled = false;
+                lbl_Skill_Grenader.Enabled = false;
+
+                num_Ski_Ballooner.Enabled = false;
+                num_Ski_Timebomber.Enabled = false;
+                num_Ski_Freezer.Enabled = false;
+                num_Ski_Ladderer.Enabled = false;
+                num_Ski_Spearer.Enabled = false;
+                num_Ski_Grenader.Enabled = false;
+
+                check_Lvl_Superlemming.Enabled = false;
+            }
         }
 
         Dictionary<C.Skill, CheckBox> checkboxesSkillFlags;
@@ -1690,9 +1729,9 @@ namespace NLEditor
             int minValue = (int)num_RandomMinLimit.Value;
             int maxValue = (int)num_RandomMaxLimit.Value;
 
-            // List and shuffle the numeric controls on tabSkills (excluding the randomizer limits)
+            // List and shuffle the numeric controls on tabSkills (excluding the randomizer limits and disabled controls)
             List<NumericUpDown> numericUpDowns = tabSkills.Controls.OfType<NumericUpDown>()
-                .Where(n => n != num_RandomMinLimit && n != num_RandomMaxLimit)
+                .Where(n => n != num_RandomMinLimit && n != num_RandomMaxLimit && n.Enabled)
                 .ToList();
             numericUpDowns = numericUpDowns.OrderBy(x => random.Next()).ToList();
 

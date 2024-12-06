@@ -204,6 +204,7 @@ namespace NLEditor
             foreach (C.Skill skill in checkboxesSkillFlags.Keys)
             {
                 checkboxesSkillFlags[skill].Enabled = selectionList.Exists(p => p.MayReceiveSkill(skill));
+
                 // Set check-mark correctly, without firing the CheckedChanged event
                 checkboxesSkillFlags[skill].CheckedChanged -= check_Piece_Skill_CheckedChanged;
                 checkboxesSkillFlags[skill].Checked = selectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).SkillFlags.Contains(skill));

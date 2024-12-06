@@ -233,6 +233,7 @@
             this.num_Ski_Blocker = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Floater = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Climber = new NLEditor.NumUpDownOverwrite();
+            this.randomSkillsetPanel = new System.Windows.Forms.Panel();
             this.tabMisc = new System.Windows.Forms.TabPage();
             this.check_Lvl_Superlemming = new System.Windows.Forms.CheckBox();
             this.btnEditPostview = new System.Windows.Forms.Button();
@@ -263,7 +264,6 @@
             this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txt_Focus = new NLEditor.FocusTextBox();
-            this.randomSkillsetPanel = new System.Windows.Forms.Panel();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -2904,6 +2904,15 @@
             this.num_Ski_Climber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_Skill_KeyDown);
             this.num_Ski_Climber.Leave += new System.EventHandler(this.textbox_Leave);
             // 
+            // randomSkillsetPanel
+            // 
+            this.randomSkillsetPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.randomSkillsetPanel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.randomSkillsetPanel.Location = new System.Drawing.Point(50, 518);
+            this.randomSkillsetPanel.Name = "randomSkillsetPanel";
+            this.randomSkillsetPanel.Size = new System.Drawing.Size(291, 82);
+            this.randomSkillsetPanel.TabIndex = 47;
+            // 
             // tabMisc
             // 
             this.tabMisc.Controls.Add(this.check_Lvl_Superlemming);
@@ -3223,15 +3232,6 @@
             this.txt_Focus.TabIndex = 37;
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
-            // 
-            // randomSkillsetPanel
-            // 
-            this.randomSkillsetPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.randomSkillsetPanel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.randomSkillsetPanel.Location = new System.Drawing.Point(50, 518);
-            this.randomSkillsetPanel.Name = "randomSkillsetPanel";
-            this.randomSkillsetPanel.Size = new System.Drawing.Size(291, 82);
-            this.randomSkillsetPanel.TabIndex = 47;
             // 
             // NLEditForm
             // 
