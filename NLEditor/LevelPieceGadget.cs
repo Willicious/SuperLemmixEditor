@@ -256,7 +256,9 @@ namespace NLEditor
 
                            && (!skill.In(C.Skill.Ballooner, C.Skill.Freezer, C.Skill.Grenader,
                                          C.Skill.Spearer, C.Skill.Timebomber, C.Skill.Ladderer)
-                                      || !NLEditForm.isNeoLemmixOnly);
+                                      || !NLEditForm.isNeoLemmixOnly)
+
+                           && (!skill.In(C.Skill.Stoner) || NLEditForm.isNeoLemmixOnly);
                     }
 
                 case C.OBJ.EXIT:

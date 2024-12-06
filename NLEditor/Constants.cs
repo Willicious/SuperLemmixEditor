@@ -148,11 +148,12 @@ namespace NLEditor
             Walker = 1, Jumper = 3, Shimmier = 5, Ballooner = 7,
             Slider = 9, Climber = 11, Swimmer = 13,
             Floater = 15, Glider = 17, Disarmer = 19,
-            Timebomber = 21, Bomber = 23, Freezer = 25, Blocker = 27,
-            Ladderer = 29, Platformer = 31, Builder = 33, Stacker = 35,
-            Spearer = 37, Grenader = 39, Laserer = 41,
-            Basher = 43, Fencer = 45, Miner = 47, Digger = 49,
-            Cloner = 51
+            Timebomber = 21, Bomber = 23, Freezer = 25, Stoner = 27,
+            Blocker = 29,
+            Ladderer = 31, Platformer = 33, Builder = 35, Stacker = 37,
+            Spearer = 39, Grenader = 41, Laserer = 43,
+            Basher = 45, Fencer = 47, Miner = 49, Digger = 51,
+            Cloner = 53
         };
         public static Array SkillArray => Enum.GetValues(typeof(C.Skill));
 
@@ -187,7 +188,8 @@ namespace NLEditor
             SaveReq, TimeLimit, KillZombies, ClassicMode, NoPause, SkillTotal,
             SkillWalker, SkillJumper, SkillShimmier, SkillBallooner,
             SkillSlider, SkillClimber, SkillSwimmer, SkillFloater, SkillGlider,
-            SkillDisarmer, SkillTimebomber, SkillBomber, SkillFreezer, SkillBlocker,
+            SkillDisarmer, SkillTimebomber, SkillBomber, SkillFreezer, SkillStoner,
+            SkillBlocker,
             SkillLadderer, SkillPlatformer, SkillBuilder, SkillStacker,
             SkillSpearer, SkillGrenader, SkillLaserer,
             SkillBasher, SkillFencer, SkillMiner, SkillDigger, SkillCloner,
@@ -201,7 +203,8 @@ namespace NLEditor
         {
             "Walker", "Jumper", "Shimmier", "Ballooner",
             "Slider", "Climber", "Swimmer", "Floater", "Glider", 
-            "Disarmer", "Timebomber", "Bomber", "Freezer", "Blocker",
+            "Disarmer", "Timebomber", "Bomber", "Freezer", "Stoner",
+            "Blocker",
             "Ladderer", "Platformer", "Builder", "Stacker",
             "Spearer", "Grenader", "Laserer",
             "Basher", "Fencer", "Miner", "Digger", "Cloner"
@@ -225,6 +228,7 @@ namespace NLEditor
             { TalismanReq.SkillTimebomber, "Limit Timebombers" },
             { TalismanReq.SkillBomber, "Limit Bombers" },
             { TalismanReq.SkillFreezer, "Limit Freezers" },
+            { TalismanReq.SkillStoner, "Limit Stoners" },
             { TalismanReq.SkillBlocker, "Limit Blockers" },
             { TalismanReq.SkillLadderer, "Limit Ladderers" },
             { TalismanReq.SkillPlatformer, "Limit Platformers" },
@@ -258,7 +262,8 @@ namespace NLEditor
       { TalismanReq.SkillSwimmer, "SWIMMER_LIMIT"}, { TalismanReq.SkillFloater, "FLOATER_LIMIT" },
       { TalismanReq.SkillGlider, "GLIDER_LIMIT" }, { TalismanReq.SkillDisarmer, "DISARMER_LIMIT" },
       { TalismanReq.SkillTimebomber, "TIMEBOMBER_LIMIT" }, { TalismanReq.SkillBomber, "BOMBER_LIMIT" },
-      { TalismanReq.SkillFreezer, "FREEZER_LIMIT"}, { TalismanReq.SkillBlocker, "BLOCKER_LIMIT"},
+      { TalismanReq.SkillFreezer, "FREEZER_LIMIT"}, { TalismanReq.SkillStoner, "STONER_LIMIT"},
+      { TalismanReq.SkillBlocker, "BLOCKER_LIMIT"},
       { TalismanReq.SkillLadderer, "LADDERER_LIMIT" }, { TalismanReq.SkillPlatformer, "PLATFORMER_LIMIT" },
       { TalismanReq.SkillBuilder, "BUILDER_LIMIT" }, { TalismanReq.SkillStacker, "STACKER_LIMIT" },
       { TalismanReq.SkillSpearer, "SPEARER_LIMIT" }, { TalismanReq.SkillGrenader, "GRENADER_LIMIT" },

@@ -116,6 +116,7 @@
             this.txt_LevelTitle = new System.Windows.Forms.TextBox();
             this.lbl_Global_Title = new System.Windows.Forms.Label();
             this.tabPieces = new System.Windows.Forms.TabPage();
+            this.check_Piece_Stoner = new System.Windows.Forms.CheckBox();
             this.check_Piece_Rival = new System.Windows.Forms.CheckBox();
             this.check_Lvl_Invincibility = new System.Windows.Forms.CheckBox();
             this.check_Piece_Digger = new System.Windows.Forms.CheckBox();
@@ -264,6 +265,8 @@
             this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txt_Focus = new NLEditor.FocusTextBox();
+            this.lbl_Skill_Stoner = new System.Windows.Forms.Label();
+            this.num_Ski_Stoner = new NLEditor.NumUpDownOverwrite();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -324,6 +327,7 @@
             this.tabMisc.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).BeginInit();
             this.statusBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stoner)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -1425,6 +1429,7 @@
             this.tabPieces.Controls.Add(this.but_FlipPieces);
             this.tabPieces.Controls.Add(this.but_InvertPieces);
             this.tabPieces.Controls.Add(this.but_RotatePieces);
+            this.tabPieces.Controls.Add(this.check_Piece_Stoner);
             this.tabPieces.Location = new System.Drawing.Point(4, 29);
             this.tabPieces.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPieces.Name = "tabPieces";
@@ -1433,6 +1438,18 @@
             this.tabPieces.TabIndex = 1;
             this.tabPieces.Text = "Pieces";
             this.tabPieces.UseVisualStyleBackColor = true;
+            // 
+            // check_Piece_Stoner
+            // 
+            this.check_Piece_Stoner.AutoSize = true;
+            this.check_Piece_Stoner.Enabled = false;
+            this.check_Piece_Stoner.Location = new System.Drawing.Point(259, 383);
+            this.check_Piece_Stoner.Name = "check_Piece_Stoner";
+            this.check_Piece_Stoner.Size = new System.Drawing.Size(83, 24);
+            this.check_Piece_Stoner.TabIndex = 56;
+            this.check_Piece_Stoner.Text = "Stoner";
+            this.check_Piece_Stoner.UseVisualStyleBackColor = true;
+            this.check_Piece_Stoner.Visible = false;
             // 
             // check_Piece_Rival
             // 
@@ -2236,6 +2253,8 @@
             this.tabSkills.Controls.Add(this.num_Ski_Floater);
             this.tabSkills.Controls.Add(this.num_Ski_Climber);
             this.tabSkills.Controls.Add(this.randomSkillsetPanel);
+            this.tabSkills.Controls.Add(this.lbl_Skill_Stoner);
+            this.tabSkills.Controls.Add(this.num_Ski_Stoner);
             this.tabSkills.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tabSkills.Location = new System.Drawing.Point(4, 29);
             this.tabSkills.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -3233,6 +3252,28 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
+            // lbl_Skill_Stoner
+            // 
+            this.lbl_Skill_Stoner.AutoSize = true;
+            this.lbl_Skill_Stoner.Enabled = false;
+            this.lbl_Skill_Stoner.Location = new System.Drawing.Point(16, 440);
+            this.lbl_Skill_Stoner.Name = "lbl_Skill_Stoner";
+            this.lbl_Skill_Stoner.Size = new System.Drawing.Size(57, 20);
+            this.lbl_Skill_Stoner.TabIndex = 48;
+            this.lbl_Skill_Stoner.Text = "Stoner";
+            this.lbl_Skill_Stoner.Visible = false;
+            // 
+            // num_Ski_Stoner
+            // 
+            this.num_Ski_Stoner.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.num_Ski_Stoner.Enabled = false;
+            this.num_Ski_Stoner.Location = new System.Drawing.Point(114, 438);
+            this.num_Ski_Stoner.Name = "num_Ski_Stoner";
+            this.num_Ski_Stoner.Size = new System.Drawing.Size(64, 26);
+            this.num_Ski_Stoner.TabIndex = 49;
+            this.num_Ski_Stoner.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Stoner.Visible = false;
+            // 
             // NLEditForm
             // 
             this.AllowDrop = true;
@@ -3312,6 +3353,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).EndInit();
             this.tabSkills.ResumeLayout(false);
+            this.tabSkills.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_RandomMaxLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_RandomMinLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Timebomber)).EndInit();
@@ -3345,6 +3387,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).EndInit();
             this.statusBar.ResumeLayout(false);
             this.statusBar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stoner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3586,6 +3629,9 @@
         private System.Windows.Forms.Label lblRandomMaxLimit;
         private System.Windows.Forms.Label lblRandomMinLimit;
         private System.Windows.Forms.Panel randomSkillsetPanel;
+        private System.Windows.Forms.CheckBox check_Piece_Stoner;
+        private System.Windows.Forms.Label lbl_Skill_Stoner;
+        private NumUpDownOverwrite num_Ski_Stoner;
     }
 }
 

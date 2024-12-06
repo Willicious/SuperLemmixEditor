@@ -97,6 +97,7 @@ namespace NLEditor
                 { C.TalismanReq.SkillTimebomber, C.Skill.Timebomber },
                 { C.TalismanReq.SkillBomber, C.Skill.Bomber },
                 { C.TalismanReq.SkillFreezer, C.Skill.Freezer },
+                { C.TalismanReq.SkillStoner, C.Skill.Stoner },
                 { C.TalismanReq.SkillBlocker, C.Skill.Blocker },
                 { C.TalismanReq.SkillLadderer, C.Skill.Ladderer },
                 { C.TalismanReq.SkillPlatformer, C.Skill.Platformer },

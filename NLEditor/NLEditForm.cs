@@ -48,6 +48,7 @@ namespace NLEditor
                     { C.Skill.Walker, check_Piece_Walker }, { C.Skill.Swimmer, check_Piece_Swimmer },
                     { C.Skill.Glider, check_Piece_Glider }, { C.Skill.Ballooner, check_Piece_Ballooner },
                     { C.Skill.Disarmer, check_Piece_Disarmer },{ C.Skill.Freezer, check_Piece_Freezer },
+                    { C.Skill.Stoner, check_Piece_Stoner },
                     { C.Skill.Ladderer, check_Piece_Ladderer }, { C.Skill.Platformer, check_Piece_Platformer },
                     { C.Skill.Stacker, check_Piece_Stacker }, { C.Skill.Cloner, check_Piece_Cloner },
                     { C.Skill.Fencer, check_Piece_Fencer },  { C.Skill.Shimmier, check_Piece_Shimmier },
@@ -67,6 +68,7 @@ namespace NLEditor
                     { C.Skill.Walker, num_Ski_Walker }, { C.Skill.Swimmer, num_Ski_Swimmer },
                     { C.Skill.Glider, num_Ski_Glider }, { C.Skill.Ballooner, num_Ski_Ballooner },
                     { C.Skill.Disarmer, num_Ski_Disarmer }, { C.Skill.Freezer, num_Ski_Freezer },
+                    { C.Skill.Stoner, num_Ski_Stoner },
                     { C.Skill.Ladderer, num_Ski_Ladderer }, { C.Skill.Platformer, num_Ski_Platformer },
                     { C.Skill.Stacker, num_Ski_Stacker }, { C.Skill.Cloner, num_Ski_Cloner },
                     { C.Skill.Fencer, num_Ski_Fencer }, { C.Skill.Shimmier, num_Ski_Shimmier },
@@ -163,16 +165,29 @@ namespace NLEditor
         {
             if (isNeoLemmixOnly)
             {
+                lbl_Skill_Stoner.Enabled = true;
+                lbl_Skill_Stoner.Visible = true;
+                lbl_Skill_Freezer.Enabled = false;
+                lbl_Skill_Freezer.Visible = false;
+
+                num_Ski_Stoner.Visible = true;
+                num_Ski_Stoner.Enabled = true;
+                num_Ski_Freezer.Enabled = false;
+                num_Ski_Freezer.Visible = false;
+
+                check_Piece_Stoner.Visible = true;
+                check_Piece_Stoner.Enabled = true;
+                check_Piece_Freezer.Enabled = false;
+                check_Piece_Freezer.Visible = false;
+
                 lbl_Skill_Ballooner.Enabled = false;
                 lbl_Skill_Timebomber.Enabled = false;
-                lbl_Skill_Freezer.Enabled = false;
                 lbl_Skill_Ladderer.Enabled = false;
                 lbl_Skill_Spearer.Enabled = false;
                 lbl_Skill_Grenader.Enabled = false;
 
                 num_Ski_Ballooner.Enabled = false;
                 num_Ski_Timebomber.Enabled = false;
-                num_Ski_Freezer.Enabled = false;
                 num_Ski_Ladderer.Enabled = false;
                 num_Ski_Spearer.Enabled = false;
                 num_Ski_Grenader.Enabled = false;
