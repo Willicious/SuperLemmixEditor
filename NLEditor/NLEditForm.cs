@@ -1260,6 +1260,8 @@ namespace NLEditor
                     {
                         isMouseWheelActive = true;
                         Point mousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
+
+                        isMouseWheelActive = false; // Reset mouse position between zooms
                         curRenderer.SetZoomMousePos(mousePosRelPicLevel);
                     }
                     curRenderer.ChangeZoom(movement > 0 ? 1 : -1, true);
