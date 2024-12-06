@@ -231,7 +231,6 @@ namespace NLEditor
         bool isCtrlPressed = false;
         bool isAltPressed = false;
         bool isPPressed = false;
-        bool isMouseWheelActive = false;
 
         private static System.Threading.Mutex mutexMouseDown = new System.Threading.Mutex();
         private static System.Threading.Mutex mutexMouseUp = new System.Threading.Mutex();
@@ -894,7 +893,6 @@ namespace NLEditor
                     isPPressed = true;
                     break;
             }
-            isMouseWheelActive = false;
 
             if (stopWatchKey.ElapsedMilliseconds < 50)
                 return;
@@ -1237,7 +1235,7 @@ namespace NLEditor
 
             int movement = e.Delta / SystemInformation.MouseWheelScrollDelta;
 
-            // Move piece selection when being in the bottom part, otherwise zoom the level.
+            // Browse left and right if cursor is the piece browser, otherwise zoom the level
             if (picPieceList[0].PointToClient(this.PointToScreen(e.Location)).Y > -5)
             {
                 MoveTerrPieceSelection(movement > 0 ? 1 : -1);
@@ -1256,17 +1254,10 @@ namespace NLEditor
                 }
                 else
                 {
-                    if (!isMouseWheelActive)
-                    {
-                        isMouseWheelActive = true;
-                        Point mousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
-
-                        isMouseWheelActive = false; // Reset mouse position between zooms
-                        curRenderer.SetZoomMousePos(mousePosRelPicLevel);
-                    }
+                    Point mousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
+                    curRenderer.SetZoomMousePos(mousePosRelPicLevel);
                     curRenderer.ChangeZoom(movement > 0 ? 1 : -1, true);
                 }
-
                 // Update level image
                 RepositionPicLevel();
                 pic_Level.SetImage(curRenderer.GetScreenImage());
@@ -1283,7 +1274,6 @@ namespace NLEditor
             ReadLevelInfoFromForm(true);
             SaveChangesToOldLevelList();
 
-            isMouseWheelActive = false;
             mouseButtonPressed = e.Button;
             stopWatchMouse.Restart();
 
