@@ -15,6 +15,7 @@ namespace NLEditor
 
         NLEditForm editorForm;
         Form settingsForm;
+        public bool NeoLemmixModeActive { get; private set; }
         public bool UsePieceSelectionNames { get; private set; }
         public bool UseGridForPieces { get; private set; }
         public bool Autosave { get; private set; }
@@ -37,6 +38,7 @@ namespace NLEditor
         /// </summary>
         public void SetDefault()
         {
+            NeoLemmixModeActive = false;
             UsePieceSelectionNames = true;
             UseGridForPieces = false;
             gridSize = 8;
@@ -68,7 +70,7 @@ namespace NLEditor
 
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
-            settingsForm.ClientSize = new System.Drawing.Size(310, 160);
+            settingsForm.ClientSize = new System.Drawing.Size(310, 190);
             settingsForm.MaximizeBox = false;
             settingsForm.ShowInTaskbar = false;
             settingsForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
@@ -173,6 +175,17 @@ namespace NLEditor
             checkPieceNames.Left = columnLeft;
             checkPieceNames.CheckedChanged += new EventHandler(checkPieceNames_CheckedChanged);
 
+            CheckBox checkNeoLemmixMode = new CheckBox();
+            checkNeoLemmixMode.Name = "check_NeoLemmixMode";
+            checkNeoLemmixMode.AutoSize = true;
+            checkNeoLemmixMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkNeoLemmixMode.Checked = NeoLemmixModeActive;
+            checkNeoLemmixMode.Text = "NeoLemmix Mode";
+            checkNeoLemmixMode.Top = 158;
+            checkNeoLemmixMode.Left = columnLeft;
+            checkNeoLemmixMode.CheckedChanged += new EventHandler(checkNeoLemmixMode_CheckedChanged);
+
+            settingsForm.Controls.Add(checkNeoLemmixMode);
             settingsForm.Controls.Add(checkPieceNames);
             settingsForm.Controls.Add(checkUseGrid);
             settingsForm.Controls.Add(numGridSize);
@@ -189,6 +202,12 @@ namespace NLEditor
         private void settingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             WriteSettingsToFile();
+        }
+
+        private void checkNeoLemmixMode_CheckedChanged(object sender, EventArgs e)
+        {
+            NeoLemmixModeActive = ((sender as CheckBox).CheckState == CheckState.Checked);
+            editorForm.ShowMustRestartMessage();
         }
 
         private void checkPieceNames_CheckedChanged(object sender, EventArgs e)
@@ -284,6 +303,11 @@ namespace NLEditor
                     FileLine line = fileLines?[0];
                     switch (line?.Key)
                     {
+                        case "NEOLEMMIXMODEACTIVE":
+                            {
+                                NeoLemmixModeActive = (line.Text.Trim().ToUpper() == "TRUE");
+                                break;
+                            }
                         case "PIECESELECTIONNAMES":
                             {
                                 UsePieceSelectionNames = (line.Text.Trim().ToUpper() == "TRUE");
@@ -380,6 +404,7 @@ namespace NLEditor
                 settingsFile.WriteLine("# SLXEditor settings ");
                 settingsFile.WriteLine(" Autosave            " + AutosaveFrequency.ToString());
                 settingsFile.WriteLine(" AutosaveLimit       " + KeepAutosaveCount.ToString());
+                settingsFile.WriteLine(" NeoLemmixModeActive " + (NeoLemmixModeActive ? "True" : "False"));
                 settingsFile.WriteLine(" PieceSelectionNames " + (UsePieceSelectionNames ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
                 settingsFile.WriteLine(" CustomMove          " + CustomMove.ToString());

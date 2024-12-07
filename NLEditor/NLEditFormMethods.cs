@@ -376,6 +376,56 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Checks for presence of Neo/SuperLemmix.exe in Editor's base folder
+        /// </summary>
+        private void DetectLemmixVersions()
+        {
+            string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
+
+            bool isNeoLemmixDetected = File.Exists(Path.Combine(baseFolder, "NeoLemmix.exe"));
+            bool isSuperLemmixDetected = File.Exists(Path.Combine(baseFolder, "SuperLemmix.exe"));
+
+            isNeoLemmixOnly = (isNeoLemmixDetected && !isSuperLemmixDetected) || curSettings.NeoLemmixModeActive;
+        }
+
+        /// <summary>
+        /// Sets non-updating controls according to Lemmix version/user preferences
+        /// </summary>
+        private void SetLemmixVersionFeatures()
+        {
+            if (isNeoLemmixOnly)
+            {
+                lbl_Skill_Stoner.Enabled = true;
+                lbl_Skill_Stoner.Visible = true;
+                lbl_Skill_Freezer.Enabled = false;
+                lbl_Skill_Freezer.Visible = false;
+
+                num_Ski_Stoner.Visible = true;
+                num_Ski_Stoner.Enabled = true;
+                num_Ski_Freezer.Enabled = false;
+                num_Ski_Freezer.Visible = false;
+
+                check_Piece_Stoner.Visible = true;
+                check_Piece_Freezer.Enabled = false;
+                check_Piece_Freezer.Visible = false;
+
+                lbl_Skill_Ballooner.Enabled = false;
+                lbl_Skill_Timebomber.Enabled = false;
+                lbl_Skill_Ladderer.Enabled = false;
+                lbl_Skill_Spearer.Enabled = false;
+                lbl_Skill_Grenader.Enabled = false;
+
+                num_Ski_Ballooner.Enabled = false;
+                num_Ski_Timebomber.Enabled = false;
+                num_Ski_Ladderer.Enabled = false;
+                num_Ski_Spearer.Enabled = false;
+                num_Ski_Grenader.Enabled = false;
+
+                check_Lvl_Superlemming.Enabled = false;
+            }
+        }
+
 
         /// <summary>
         /// If the level changed, displays a message box and asks whether to save the current level.  

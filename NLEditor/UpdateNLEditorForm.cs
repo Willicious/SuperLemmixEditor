@@ -11,6 +11,21 @@ namespace NLEditor
     /// </summary>
     partial class NLEditForm
     {
+        public void ShowMustRestartMessage()
+        {
+            string modeString;
+
+            if (curSettings.NeoLemmixModeActive)
+                modeString = "NeoLemmix Mode";
+            else
+                modeString = "SuperLemmix Mode";
+            
+            statusBar.Visible = true;
+            statusBarLabel1.Text = "";
+            statusBarLabel2.Text = "SuperLemmix Editor must be restarted for " + modeString + " to take effect. " +
+                                   "Please save your work and restart the Editor";
+            statusBarButton1.Visible = false;
+        }
         /// <summary>
         /// Initializes the intervals for all repeat buttons.
         /// </summary>
