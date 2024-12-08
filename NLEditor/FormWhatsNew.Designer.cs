@@ -76,11 +76,12 @@ namespace NLEditor
             this.check_ShowWhatsNew.AutoSize = true;
             this.check_ShowWhatsNew.Checked = true;
             this.check_ShowWhatsNew.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_ShowWhatsNew.ForeColor = System.Drawing.SystemColors.WindowText;
             this.check_ShowWhatsNew.Location = new System.Drawing.Point(509, 579);
             this.check_ShowWhatsNew.Name = "check_ShowWhatsNew";
-            this.check_ShowWhatsNew.Size = new System.Drawing.Size(272, 24);
+            this.check_ShowWhatsNew.Size = new System.Drawing.Size(287, 24);
             this.check_ShowWhatsNew.TabIndex = 4;
-            this.check_ShowWhatsNew.Text = "Show What's New screen at startup";
+            this.check_ShowWhatsNew.Text = "Show What\'s New screen at startup";
             this.check_ShowWhatsNew.UseVisualStyleBackColor = true;
             this.check_ShowWhatsNew.CheckedChanged += new System.EventHandler(this.Check_ShowWhatsNew_CheckedChanged);
             // 
@@ -105,10 +106,12 @@ namespace NLEditor
             // 
             // richTextBox_WhatsNew
             // 
-            this.richTextBox_WhatsNew.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.richTextBox_WhatsNew.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.richTextBox_WhatsNew.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox_WhatsNew.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.richTextBox_WhatsNew.Location = new System.Drawing.Point(195, 85);
             this.richTextBox_WhatsNew.Name = "richTextBox_WhatsNew";
-            this.richTextBox_WhatsNew.Size = new System.Drawing.Size(909, 163);
+            this.richTextBox_WhatsNew.Size = new System.Drawing.Size(909, 478);
             this.richTextBox_WhatsNew.TabIndex = 9;
             this.richTextBox_WhatsNew.Text = "What\'s new...";
             // 
@@ -116,6 +119,7 @@ namespace NLEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(1227, 615);
             this.Controls.Add(this.richTextBox_WhatsNew);
             this.Controls.Add(this.richTextBox_PreviousUpdates);
