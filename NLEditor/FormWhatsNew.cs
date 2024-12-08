@@ -71,9 +71,14 @@ namespace NLEditor
             richTextBox.AppendText(" - Title, Author and Talisman Title character limits increased to SLX Player UI limits\n");
 
             WriteBoldText(richTextBox, "• Plus");
-            richTextBox.AppendText(" - This ");
+            richTextBox.AppendText(" - Added support for ");
+            WriteBoldText(richTextBox, "Max Skill Types");
+            richTextBox.AppendText(" talisman\n");
+
+            WriteBoldText(richTextBox, "• Plus");
+            richTextBox.AppendText(" - Added this ");
             WriteBoldText(richTextBox, "What's New");
-            richTextBox.AppendText(" screen added!");
+            richTextBox.AppendText(" screen!");
         }
 
         /// <summary>

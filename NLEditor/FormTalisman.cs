@@ -54,6 +54,7 @@ namespace NLEditor
             if (!hasIndividualSkills)
             {
                 filteredRequirements.Remove(C.TalismanReq.SkillTotal);
+                filteredRequirements.Remove(C.TalismanReq.SkillTypes);
                 filteredRequirements.Remove(C.TalismanReq.SkillEachLimit);
                 filteredRequirements.Remove(C.TalismanReq.UseOnlySkill);
             }
@@ -286,7 +287,7 @@ namespace NLEditor
             switch (requirement)
             {
                 case C.TalismanReq.SaveReq:
-                    numReqValue1.Maximum = 200;
+                    numReqValue1.Maximum = 999;
                     break;
                 case C.TalismanReq.TimeLimit:
                     {
@@ -295,7 +296,10 @@ namespace NLEditor
                         break;
                     }
                 case C.TalismanReq.SkillTotal:
-                    numReqValue1.Maximum = 200;
+                    numReqValue1.Maximum = 999;
+                    break;
+                case C.TalismanReq.SkillTypes:
+                    numReqValue1.Maximum = 10;
                     break;
                 default:
                     numReqValue1.Maximum = 99;

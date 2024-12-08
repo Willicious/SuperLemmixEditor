@@ -185,7 +185,8 @@ namespace NLEditor
         public enum TalismanType { Bronze, Silver, Gold }
         public enum TalismanReq
         {
-            SaveReq, TimeLimit, KillZombies, ClassicMode, NoPause, SkillTotal,
+            SaveReq, TimeLimit, KillZombies, ClassicMode, NoPause,
+            SkillTotal, SkillTypes, SkillEachLimit,
             SkillWalker, SkillJumper, SkillShimmier, SkillBallooner,
             SkillSlider, SkillClimber, SkillSwimmer, SkillFloater, SkillGlider,
             SkillDisarmer, SkillTimebomber, SkillBomber, SkillFreezer, SkillStoner,
@@ -193,7 +194,7 @@ namespace NLEditor
             SkillLadderer, SkillPlatformer, SkillBuilder, SkillStacker,
             SkillSpearer, SkillGrenader, SkillLaserer,
             SkillBasher, SkillFencer, SkillMiner, SkillDigger, SkillCloner,
-            SkillEachLimit, UseOnlySkill
+            UseOnlySkill
         }
         public static Array TalismanReqArray => Enum.GetValues(typeof(C.TalismanReq));
 
@@ -215,6 +216,7 @@ namespace NLEditor
             { TalismanReq.SaveReq, "Save Requirement" },
             { TalismanReq.TimeLimit, "Time Limit" },
             { TalismanReq.SkillTotal, "Limit Total Skills" },
+            { TalismanReq.SkillTypes, "Limit Skill Types" },
             { TalismanReq.SkillWalker, "Limit Walkers" },
             { TalismanReq.SkillJumper, "Limit Jumpers" },
             { TalismanReq.SkillShimmier, "Limit Shimmiers" },
@@ -255,7 +257,8 @@ namespace NLEditor
         public static readonly Dictionary<TalismanReq, string> TalismanKeys = new Dictionary<TalismanReq, string>()
     {
       { TalismanReq.SaveReq, "SAVE_REQUIREMENT" }, { TalismanReq.TimeLimit, "TIME_LIMIT" },
-      { TalismanReq.SkillTotal, "SKILL_LIMIT" }, { TalismanReq.SkillWalker, "WALKER_LIMIT" },
+      { TalismanReq.SkillTotal, "SKILL_LIMIT" }, { TalismanReq.SkillTypes, "SKILL_TYPE_LIMIT" },
+      { TalismanReq.SkillWalker, "WALKER_LIMIT" },
       { TalismanReq.SkillJumper, "JUMPER_LIMIT" }, { TalismanReq.SkillShimmier, "SHIMMIER_LIMIT" },
       { TalismanReq.SkillBallooner, "BALLOONER_LIMIT" },
       { TalismanReq.SkillSlider, "SLIDER_LIMIT" }, { TalismanReq.SkillClimber, "CLIMBER_LIMIT"},
