@@ -117,29 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="LemButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LemButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Lemming" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Lemming.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SkillHelpers" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SkillHelpers.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LemBlocker" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LemBlocker.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PickupAnim" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PickupAnim.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="NLLevelConverter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\NLLevelConverter.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="IntroFloater" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\IntroFloater.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IntroClimber" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\IntroClimber.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
 </root>

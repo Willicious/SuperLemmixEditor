@@ -69,6 +69,7 @@
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.welcomeScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.combo_PieceStyle = new System.Windows.Forms.ComboBox();
             this.picPiece0 = new System.Windows.Forms.PictureBox();
             this.picPiece1 = new System.Windows.Forms.PictureBox();
@@ -116,7 +117,6 @@
             this.txt_LevelTitle = new System.Windows.Forms.TextBox();
             this.lbl_Global_Title = new System.Windows.Forms.Label();
             this.tabPieces = new System.Windows.Forms.TabPage();
-            this.check_Piece_Stoner = new System.Windows.Forms.CheckBox();
             this.check_Piece_Rival = new System.Windows.Forms.CheckBox();
             this.check_Lvl_Invincibility = new System.Windows.Forms.CheckBox();
             this.check_Piece_Digger = new System.Windows.Forms.CheckBox();
@@ -175,6 +175,7 @@
             this.but_FlipPieces = new NLEditor.RepeatButton();
             this.but_InvertPieces = new NLEditor.RepeatButton();
             this.but_RotatePieces = new NLEditor.RepeatButton();
+            this.check_Piece_Stoner = new System.Windows.Forms.CheckBox();
             this.tabSkills = new System.Windows.Forms.TabPage();
             this.num_RandomMaxLimit = new NLEditor.NumUpDownOverwrite();
             this.num_RandomMinLimit = new NLEditor.NumUpDownOverwrite();
@@ -235,6 +236,8 @@
             this.num_Ski_Floater = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Climber = new NLEditor.NumUpDownOverwrite();
             this.randomSkillsetPanel = new System.Windows.Forms.Panel();
+            this.lbl_Skill_Stoner = new System.Windows.Forms.Label();
+            this.num_Ski_Stoner = new NLEditor.NumUpDownOverwrite();
             this.tabMisc = new System.Windows.Forms.TabPage();
             this.check_Lvl_Superlemming = new System.Windows.Forms.CheckBox();
             this.btnEditPostview = new System.Windows.Forms.Button();
@@ -265,8 +268,6 @@
             this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txt_Focus = new NLEditor.FocusTextBox();
-            this.lbl_Skill_Stoner = new System.Windows.Forms.Label();
-            this.num_Ski_Stoner = new NLEditor.NumUpDownOverwrite();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -324,10 +325,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Blocker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stoner)).BeginInit();
             this.tabMisc.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).BeginInit();
             this.statusBar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stoner)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -634,7 +635,8 @@
             this.settingsToolStripMenuItem,
             this.hotkeysToolStripMenuItem,
             this.toolStripSeparator2,
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.welcomeScreenToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(92, 29);
             this.helpToolStripMenuItem.Text = "Options";
@@ -643,7 +645,7 @@
             // 
             this.showMissingPiecesToolStripMenuItem1.Name = "showMissingPiecesToolStripMenuItem1";
             this.showMissingPiecesToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.showMissingPiecesToolStripMenuItem1.Size = new System.Drawing.Size(308, 34);
+            this.showMissingPiecesToolStripMenuItem1.Size = new System.Drawing.Size(358, 34);
             this.showMissingPiecesToolStripMenuItem1.Text = "Show Missing Pieces";
             this.showMissingPiecesToolStripMenuItem1.Click += new System.EventHandler(this.showMissingPiecesToolStripMenuItem1_Click);
             // 
@@ -652,7 +654,7 @@
             this.snapToGridToolStripMenuItem.Name = "snapToGridToolStripMenuItem";
             this.snapToGridToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.snapToGridToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(308, 34);
+            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(358, 34);
             this.snapToGridToolStripMenuItem.Text = "Snap to Grid";
             this.snapToGridToolStripMenuItem.Click += new System.EventHandler(this.snapToGridToolStripMenuItem_Click);
             // 
@@ -661,7 +663,7 @@
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.settingsToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(308, 34);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(358, 34);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
@@ -670,23 +672,31 @@
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
             this.hotkeysToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.hotkeysToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(308, 34);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(358, 34);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(305, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(355, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.F12)));
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(308, 34);
+            this.aboutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F11)));
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(358, 34);
             this.aboutToolStripMenuItem.Text = "About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // welcomeScreenToolStripMenuItem
+            // 
+            this.welcomeScreenToolStripMenuItem.Name = "welcomeScreenToolStripMenuItem";
+            this.welcomeScreenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.F11)));
+            this.welcomeScreenToolStripMenuItem.Size = new System.Drawing.Size(358, 34);
+            this.welcomeScreenToolStripMenuItem.Text = "Welcome Screen";
+            this.welcomeScreenToolStripMenuItem.Click += new System.EventHandler(this.welcomeScreenToolStripMenuItem_Click);
             // 
             // combo_PieceStyle
             // 
@@ -1439,18 +1449,6 @@
             this.tabPieces.Text = "Pieces";
             this.tabPieces.UseVisualStyleBackColor = true;
             // 
-            // check_Piece_Stoner
-            // 
-            this.check_Piece_Stoner.AutoSize = true;
-            this.check_Piece_Stoner.Enabled = false;
-            this.check_Piece_Stoner.Location = new System.Drawing.Point(259, 383);
-            this.check_Piece_Stoner.Name = "check_Piece_Stoner";
-            this.check_Piece_Stoner.Size = new System.Drawing.Size(83, 24);
-            this.check_Piece_Stoner.TabIndex = 56;
-            this.check_Piece_Stoner.Text = "Stoner";
-            this.check_Piece_Stoner.UseVisualStyleBackColor = true;
-            this.check_Piece_Stoner.Visible = false;
-            // 
             // check_Piece_Rival
             // 
             this.check_Piece_Rival.Location = new System.Drawing.Point(259, 261);
@@ -2192,6 +2190,18 @@
             this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
             this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
             // 
+            // check_Piece_Stoner
+            // 
+            this.check_Piece_Stoner.AutoSize = true;
+            this.check_Piece_Stoner.Enabled = false;
+            this.check_Piece_Stoner.Location = new System.Drawing.Point(259, 383);
+            this.check_Piece_Stoner.Name = "check_Piece_Stoner";
+            this.check_Piece_Stoner.Size = new System.Drawing.Size(83, 24);
+            this.check_Piece_Stoner.TabIndex = 56;
+            this.check_Piece_Stoner.Text = "Stoner";
+            this.check_Piece_Stoner.UseVisualStyleBackColor = true;
+            this.check_Piece_Stoner.Visible = false;
+            // 
             // tabSkills
             // 
             this.tabSkills.Controls.Add(this.num_RandomMaxLimit);
@@ -2932,6 +2942,28 @@
             this.randomSkillsetPanel.Size = new System.Drawing.Size(291, 82);
             this.randomSkillsetPanel.TabIndex = 47;
             // 
+            // lbl_Skill_Stoner
+            // 
+            this.lbl_Skill_Stoner.AutoSize = true;
+            this.lbl_Skill_Stoner.Enabled = false;
+            this.lbl_Skill_Stoner.Location = new System.Drawing.Point(16, 440);
+            this.lbl_Skill_Stoner.Name = "lbl_Skill_Stoner";
+            this.lbl_Skill_Stoner.Size = new System.Drawing.Size(57, 20);
+            this.lbl_Skill_Stoner.TabIndex = 48;
+            this.lbl_Skill_Stoner.Text = "Stoner";
+            this.lbl_Skill_Stoner.Visible = false;
+            // 
+            // num_Ski_Stoner
+            // 
+            this.num_Ski_Stoner.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.num_Ski_Stoner.Enabled = false;
+            this.num_Ski_Stoner.Location = new System.Drawing.Point(114, 438);
+            this.num_Ski_Stoner.Name = "num_Ski_Stoner";
+            this.num_Ski_Stoner.Size = new System.Drawing.Size(64, 26);
+            this.num_Ski_Stoner.TabIndex = 49;
+            this.num_Ski_Stoner.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_Ski_Stoner.Visible = false;
+            // 
             // tabMisc
             // 
             this.tabMisc.Controls.Add(this.check_Lvl_Superlemming);
@@ -3252,28 +3284,6 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
-            // lbl_Skill_Stoner
-            // 
-            this.lbl_Skill_Stoner.AutoSize = true;
-            this.lbl_Skill_Stoner.Enabled = false;
-            this.lbl_Skill_Stoner.Location = new System.Drawing.Point(16, 440);
-            this.lbl_Skill_Stoner.Name = "lbl_Skill_Stoner";
-            this.lbl_Skill_Stoner.Size = new System.Drawing.Size(57, 20);
-            this.lbl_Skill_Stoner.TabIndex = 48;
-            this.lbl_Skill_Stoner.Text = "Stoner";
-            this.lbl_Skill_Stoner.Visible = false;
-            // 
-            // num_Ski_Stoner
-            // 
-            this.num_Ski_Stoner.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_Ski_Stoner.Enabled = false;
-            this.num_Ski_Stoner.Location = new System.Drawing.Point(114, 438);
-            this.num_Ski_Stoner.Name = "num_Ski_Stoner";
-            this.num_Ski_Stoner.Size = new System.Drawing.Size(64, 26);
-            this.num_Ski_Stoner.TabIndex = 49;
-            this.num_Ski_Stoner.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.num_Ski_Stoner.Visible = false;
-            // 
             // NLEditForm
             // 
             this.AllowDrop = true;
@@ -3315,6 +3325,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Activated += new System.EventHandler(this.NLEditForm_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NLEditForm_FormClosing);
+            this.Shown += new System.EventHandler(this.NLEditForm_Shown);
             this.Click += new System.EventHandler(this.NLEditForm_Click);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.NLEditForm_DragDrop);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.NLEditForm_DragOver);
@@ -3382,12 +3393,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Blocker)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stoner)).EndInit();
             this.tabMisc.ResumeLayout(false);
             this.tabMisc.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).EndInit();
             this.statusBar.ResumeLayout(false);
             this.statusBar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stoner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3632,6 +3643,7 @@
         private System.Windows.Forms.CheckBox check_Piece_Stoner;
         private System.Windows.Forms.Label lbl_Skill_Stoner;
         private NumUpDownOverwrite num_Ski_Stoner;
+        private System.Windows.Forms.ToolStripMenuItem welcomeScreenToolStripMenuItem;
     }
 }
 

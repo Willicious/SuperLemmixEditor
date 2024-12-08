@@ -1720,12 +1720,30 @@ namespace NLEditor
             }
         }
 
-
         private void num_RandomLimit_ValueChanged(object sender, EventArgs e)
         {
             if (num_RandomMinLimit.Value > num_RandomMaxLimit.Value)
             {
                 num_RandomMaxLimit.Value = num_RandomMinLimit.Value + 1;
+            }
+        }
+
+        private void NLEditForm_Shown(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.ShowWelcomeScreen)
+                ShowWelcomeScreen();
+        }
+
+        private void welcomeScreenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowWelcomeScreen();
+        }
+
+        private void ShowWelcomeScreen()
+        {
+            using (var welcomeForm = new FormWelcomeScreen())
+            {
+                welcomeForm.ShowDialog(this);
             }
         }
     }
