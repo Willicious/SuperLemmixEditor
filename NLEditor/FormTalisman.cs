@@ -206,9 +206,18 @@ namespace NLEditor
             if (talisman.Requirements.Count == 0)
             {
                 // Alert user that the talisman has no requirement
-                if (MessageBox.Show("Warning: this talisman has no requirements", "Talisman Warning", MessageBoxButtons.OK, MessageBoxIcon.Question) == DialogResult.OK)
+                if (MessageBox.Show(
+                        "Warning: this talisman has no requirements. Do you want to save anyway?",
+                        "Talisman Warning",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     SaveTalisman();
+                }
+                else
+                {
+                    // If user clicked No, exit without saving
+                    return;
                 }
             }
             else
@@ -235,12 +244,28 @@ namespace NLEditor
         private void SaveTalisman()
         {
             talisman.Title = txtTalismanTitle.Text;
+
             if (radBronze.Checked)
+            {
                 talisman.AwardType = C.TalismanType.Bronze;
+
+                if(string.IsNullOrEmpty(talisman.Title))
+                    talisman.Title = "Bronze Talisman";
+            }
             else if (radSilver.Checked)
+            {
                 talisman.AwardType = C.TalismanType.Silver;
+
+                if (string.IsNullOrEmpty(talisman.Title))
+                    talisman.Title = "Silver Talisman";
+            }
             else if (radGold.Checked)
+            {
                 talisman.AwardType = C.TalismanType.Gold;
+
+                if (string.IsNullOrEmpty(talisman.Title))
+                    talisman.Title = "Gold Talisman";
+            }
 
             if (isNewTalisman)
             {
@@ -346,6 +371,21 @@ namespace NLEditor
                 }
             }
             //(this.Owner as FormMain).WriteTalismanInfo();
+        }
+
+        private void radBronze_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTalismanTitle.Text = "Bronze Talisman";
+        }
+
+        private void radSilver_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTalismanTitle.Text = "Silver Talisman";
+        }
+
+        private void radGold_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTalismanTitle.Text = "Gold Talisman";
         }
     }
 }

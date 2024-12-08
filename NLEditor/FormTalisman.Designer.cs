@@ -138,6 +138,7 @@
             this.radBronze.TabStop = true;
             this.radBronze.Text = "Bronze";
             this.radBronze.UseVisualStyleBackColor = true;
+            this.radBronze.CheckedChanged += new System.EventHandler(this.radBronze_CheckedChanged);
             // 
             // radSilver
             // 
@@ -150,6 +151,7 @@
             this.radSilver.TabStop = true;
             this.radSilver.Text = "Silver";
             this.radSilver.UseVisualStyleBackColor = true;
+            this.radSilver.CheckedChanged += new System.EventHandler(this.radSilver_CheckedChanged);
             // 
             // radGold
             // 
@@ -162,6 +164,7 @@
             this.radGold.TabStop = true;
             this.radGold.Text = "Gold";
             this.radGold.UseVisualStyleBackColor = true;
+            this.radGold.CheckedChanged += new System.EventHandler(this.radGold_CheckedChanged);
             // 
             // butTalismanSave
             // 

@@ -68,7 +68,7 @@ namespace NLEditor
             richTextBox.AppendText(" - Talisman Creation dialog now shows only the skills that have already been added to the skillset\n");
 
             WriteBoldText(richTextBox, "• Bugfix");
-            richTextBox.AppendText(" - Title, Author and Talisman Title character limits increased to SLX Player UI limits\n");
+            richTextBox.AppendText(" - Talisman Creation dialog now adds a default title if the Title field is empty\n");
 
             WriteBoldText(richTextBox, "• Plus");
             richTextBox.AppendText(" - Added support for ");
