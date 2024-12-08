@@ -26,12 +26,12 @@ namespace NLEditor.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ShowWelcomeScreen {
+        public bool ShowWhatsNew {
             get {
-                return ((bool)(this["ShowWelcomeScreen"]));
+                return ((bool)(this["ShowWhatsNew"]));
             }
             set {
-                this["ShowWelcomeScreen"] = value;
+                this["ShowWhatsNew"] = value;
             }
         }
     }

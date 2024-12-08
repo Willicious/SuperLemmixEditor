@@ -69,7 +69,7 @@
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.welcomeScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.whatsNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.combo_PieceStyle = new System.Windows.Forms.ComboBox();
             this.picPiece0 = new System.Windows.Forms.PictureBox();
             this.picPiece1 = new System.Windows.Forms.PictureBox();
@@ -636,7 +636,7 @@
             this.hotkeysToolStripMenuItem,
             this.toolStripSeparator2,
             this.aboutToolStripMenuItem,
-            this.welcomeScreenToolStripMenuItem});
+            this.whatsNewToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(92, 29);
             this.helpToolStripMenuItem.Text = "Options";
@@ -689,14 +689,14 @@
             this.aboutToolStripMenuItem.Text = "About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // welcomeScreenToolStripMenuItem
+            // whatsNewToolStripMenuItem
             // 
-            this.welcomeScreenToolStripMenuItem.Name = "welcomeScreenToolStripMenuItem";
-            this.welcomeScreenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.whatsNewToolStripMenuItem.Name = "whatsNewToolStripMenuItem";
+            this.whatsNewToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.F11)));
-            this.welcomeScreenToolStripMenuItem.Size = new System.Drawing.Size(358, 34);
-            this.welcomeScreenToolStripMenuItem.Text = "Welcome Screen";
-            this.welcomeScreenToolStripMenuItem.Click += new System.EventHandler(this.welcomeScreenToolStripMenuItem_Click);
+            this.whatsNewToolStripMenuItem.Size = new System.Drawing.Size(358, 34);
+            this.whatsNewToolStripMenuItem.Text = "What's New";
+            this.whatsNewToolStripMenuItem.Click += new System.EventHandler(this.whatsNewToolStripMenuItem_Click);
             // 
             // combo_PieceStyle
             // 
@@ -3643,7 +3643,7 @@
         private System.Windows.Forms.CheckBox check_Piece_Stoner;
         private System.Windows.Forms.Label lbl_Skill_Stoner;
         private NumUpDownOverwrite num_Ski_Stoner;
-        private System.Windows.Forms.ToolStripMenuItem welcomeScreenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem whatsNewToolStripMenuItem;
     }
 }
 

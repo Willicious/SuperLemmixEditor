@@ -2,7 +2,7 @@
 
 namespace NLEditor
 {
-    partial class FormWelcomeScreen
+    partial class FormWhatsNew
     {
         /// <summary>
         /// Required designer variable.
@@ -33,7 +33,7 @@ namespace NLEditor
             this.lblWhatsNew = new System.Windows.Forms.Label();
             this.pictureFloater = new System.Windows.Forms.PictureBox();
             this.pictureClimber = new System.Windows.Forms.PictureBox();
-            this.check_ShowWelcomeScreen = new System.Windows.Forms.CheckBox();
+            this.check_ShowWhatsNew = new System.Windows.Forms.CheckBox();
             this.lblPreviousUpdates = new System.Windows.Forms.Label();
             this.richTextBox_PreviousUpdates = new System.Windows.Forms.RichTextBox();
             this.richTextBox_WhatsNew = new System.Windows.Forms.RichTextBox();
@@ -71,18 +71,18 @@ namespace NLEditor
             this.pictureClimber.TabIndex = 3;
             this.pictureClimber.TabStop = false;
             // 
-            // check_ShowWelcomeScreen
+            // check_ShowWhatsNew
             // 
-            this.check_ShowWelcomeScreen.AutoSize = true;
-            this.check_ShowWelcomeScreen.Checked = true;
-            this.check_ShowWelcomeScreen.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.check_ShowWelcomeScreen.Location = new System.Drawing.Point(509, 579);
-            this.check_ShowWelcomeScreen.Name = "check_ShowWelcomeScreen";
-            this.check_ShowWelcomeScreen.Size = new System.Drawing.Size(272, 24);
-            this.check_ShowWelcomeScreen.TabIndex = 4;
-            this.check_ShowWelcomeScreen.Text = "Show Welcome Screen at startup";
-            this.check_ShowWelcomeScreen.UseVisualStyleBackColor = true;
-            this.check_ShowWelcomeScreen.CheckedChanged += new System.EventHandler(this.Check_ShowWelcomeScreen_CheckedChanged);
+            this.check_ShowWhatsNew.AutoSize = true;
+            this.check_ShowWhatsNew.Checked = true;
+            this.check_ShowWhatsNew.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_ShowWhatsNew.Location = new System.Drawing.Point(509, 579);
+            this.check_ShowWhatsNew.Name = "check_ShowWhatsNew";
+            this.check_ShowWhatsNew.Size = new System.Drawing.Size(272, 24);
+            this.check_ShowWhatsNew.TabIndex = 4;
+            this.check_ShowWhatsNew.Text = "Show What's New screen at startup";
+            this.check_ShowWhatsNew.UseVisualStyleBackColor = true;
+            this.check_ShowWhatsNew.CheckedChanged += new System.EventHandler(this.Check_ShowWhatsNew_CheckedChanged);
             // 
             // lblPreviousUpdates
             // 
@@ -96,6 +96,7 @@ namespace NLEditor
             // 
             // richTextBox_PreviousUpdates
             // 
+            this.richTextBox_PreviousUpdates.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.richTextBox_PreviousUpdates.Location = new System.Drawing.Point(195, 316);
             this.richTextBox_PreviousUpdates.Name = "richTextBox_PreviousUpdates";
             this.richTextBox_PreviousUpdates.Size = new System.Drawing.Size(909, 241);
@@ -104,28 +105,29 @@ namespace NLEditor
             // 
             // richTextBox_WhatsNew
             // 
+            this.richTextBox_WhatsNew.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.richTextBox_WhatsNew.Location = new System.Drawing.Point(195, 85);
             this.richTextBox_WhatsNew.Name = "richTextBox_WhatsNew";
             this.richTextBox_WhatsNew.Size = new System.Drawing.Size(909, 163);
             this.richTextBox_WhatsNew.TabIndex = 9;
             this.richTextBox_WhatsNew.Text = "What\'s new...";
             // 
-            // FormWelcomeScreen
+            // FormWhatsNew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1230, 615);
+            this.ClientSize = new System.Drawing.Size(1227, 615);
             this.Controls.Add(this.richTextBox_WhatsNew);
             this.Controls.Add(this.richTextBox_PreviousUpdates);
             this.Controls.Add(this.lblPreviousUpdates);
-            this.Controls.Add(this.check_ShowWelcomeScreen);
+            this.Controls.Add(this.check_ShowWhatsNew);
             this.Controls.Add(this.pictureClimber);
             this.Controls.Add(this.pictureFloater);
             this.Controls.Add(this.lblWhatsNew);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "FormWelcomeScreen";
+            this.Name = "FormWhatsNew";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Welcome To SuperLemmix Editor";
+            this.Text = "SuperLemmix Editor";
             this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.pictureFloater)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureClimber)).EndInit();
@@ -139,7 +141,7 @@ namespace NLEditor
         private System.Windows.Forms.Label lblWhatsNew;
         private PictureBox pictureFloater;
         private PictureBox pictureClimber;
-        private CheckBox check_ShowWelcomeScreen;
+        private CheckBox check_ShowWhatsNew;
         private Label lblPreviousUpdates;
         private RichTextBox richTextBox_PreviousUpdates;
         private RichTextBox richTextBox_WhatsNew;

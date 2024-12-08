@@ -90,11 +90,11 @@
     <Compile Include="Aliases.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="BmpModify.cs" />
-    <Compile Include="FormWelcomeScreen.cs">
+    <Compile Include="FormWhatsNew.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormWelcomeScreen.Designer.cs">
-      <DependentUpon>FormWelcomeScreen.cs</DependentUpon>
+    <Compile Include="FormWhatsNew.Designer.cs">
+      <DependentUpon>FormWhatsNew.cs</DependentUpon>
     </Compile>
     <Compile Include="LevelPieceBase.cs" />
     <Compile Include="LevelPieceGadget.cs" />
@@ -178,8 +178,8 @@
       <DependentUpon>FormTalisman.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormWelcomeScreen.resx">
-      <DependentUpon>FormWelcomeScreen.cs</DependentUpon>
+    <EmbeddedResource Include="FormWhatsNew.resx">
+      <DependentUpon>FormWhatsNew.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NLEditForm.resx">
       <DependentUpon>NLEditForm.cs</DependentUpon>

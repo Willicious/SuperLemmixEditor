@@ -1730,20 +1730,20 @@ namespace NLEditor
 
         private void NLEditForm_Shown(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.ShowWelcomeScreen)
-                ShowWelcomeScreen();
+            if (Properties.Settings.Default.ShowWhatsNew)
+                ShowWhatsNew();
         }
 
-        private void welcomeScreenToolStripMenuItem_Click(object sender, EventArgs e)
+        private void whatsNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowWelcomeScreen();
+            ShowWhatsNew();
         }
 
-        private void ShowWelcomeScreen()
+        private void ShowWhatsNew()
         {
-            using (var welcomeForm = new FormWelcomeScreen())
+            using (var whatsNewForm = new FormWhatsNew())
             {
-                welcomeForm.ShowDialog(this);
+                whatsNewForm.ShowDialog(this);
             }
         }
     }
