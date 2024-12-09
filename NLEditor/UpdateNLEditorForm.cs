@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using static NLEditor.Settings;
 
 namespace NLEditor
 {
@@ -15,11 +16,13 @@ namespace NLEditor
         {
             string modeString;
 
-            if (curSettings.NeoLemmixModeActive)
+            if (curSettings.CurrentEditorMode == Settings.EditorMode.NeoLemmix)
                 modeString = "NeoLemmix Mode";
-            else
+            else if (curSettings.CurrentEditorMode == Settings.EditorMode.SuperLemmix)
                 modeString = "SuperLemmix Mode";
-            
+            else
+                modeString = "Auto Mode";
+
             statusBar.Visible = true;
             statusBarLabel1.Text = "";
             statusBarLabel2.Text = "SuperLemmix Editor must be restarted for " + modeString + " to take effect. " +

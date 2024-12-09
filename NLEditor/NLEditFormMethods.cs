@@ -386,7 +386,12 @@ namespace NLEditor
             bool isNeoLemmixDetected = File.Exists(Path.Combine(baseFolder, "NeoLemmix.exe"));
             bool isSuperLemmixDetected = File.Exists(Path.Combine(baseFolder, "SuperLemmix.exe"));
 
-            isNeoLemmixOnly = (isNeoLemmixDetected && !isSuperLemmixDetected) || curSettings.NeoLemmixModeActive;
+            var curMode = curSettings.CurrentEditorMode;
+
+            isNeoLemmixOnly =
+               ((curMode == Settings.EditorMode.Auto && isNeoLemmixDetected && !isSuperLemmixDetected)
+              || curMode == Settings.EditorMode.NeoLemmix)
+              && curMode != Settings.EditorMode.SuperLemmix;
         }
 
         /// <summary>

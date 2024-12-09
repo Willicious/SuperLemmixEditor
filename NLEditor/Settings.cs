@@ -15,7 +15,15 @@ namespace NLEditor
 
         NLEditForm editorForm;
         Form settingsForm;
-        public bool NeoLemmixModeActive { get; private set; }
+
+        public enum EditorMode
+        {
+            SuperLemmix,
+            NeoLemmix,
+            Auto
+        }
+
+        public EditorMode CurrentEditorMode { get; private set; }
         public bool UsePieceSelectionNames { get; private set; }
         public bool UseGridForPieces { get; private set; }
         public bool Autosave { get; private set; }
@@ -38,7 +46,7 @@ namespace NLEditor
         /// </summary>
         public void SetDefault()
         {
-            NeoLemmixModeActive = false;
+            CurrentEditorMode = EditorMode.SuperLemmix;
             UsePieceSelectionNames = true;
             UseGridForPieces = false;
             gridSize = 8;
@@ -66,22 +74,45 @@ namespace NLEditor
         public void OpenSettingsWindow()
         {
             int columnLeft = 30;
-            int columnRight = 228;
+            int groupBoxTop = 20;
+            int groupBoxColumnLeft = 16;
+            int groupBoxColumnRight = 208;
 
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
-            settingsForm.ClientSize = new System.Drawing.Size(310, 190);
+            settingsForm.ClientSize = new System.Drawing.Size(340, 380);
             settingsForm.MaximizeBox = false;
             settingsForm.ShowInTaskbar = false;
             settingsForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             settingsForm.Text = "SLXEditor - Settings";
             settingsForm.FormClosing += new FormClosingEventHandler(settingsForm_FormClosing);
 
+            // =========================== Use Piece Names =========================== //
+
+            CheckBox checkPieceNames = new CheckBox();
+            checkPieceNames.Name = "check_PieceNames";
+            checkPieceNames.AutoSize = true;
+            checkPieceNames.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkPieceNames.Checked = UsePieceSelectionNames;
+            checkPieceNames.Text = "Display piece names in piece selection browser";
+            checkPieceNames.Top = 20;
+            checkPieceNames.Left = columnLeft;
+            checkPieceNames.CheckedChanged += new EventHandler(checkPieceNames_CheckedChanged);
+
+            // ========================== Custom Move GroupBox =========================== //
+
+            GroupBox groupCustomMove = new GroupBox();
+            groupCustomMove.Text = "Custom move selected pieces (Alt + Arrows)";
+            groupCustomMove.Top = 60;
+            groupCustomMove.Left = columnLeft;
+            groupCustomMove.Width = 280;
+            groupCustomMove.Height = 50;
+
             Label lblCustomMove = new Label();
-            lblCustomMove.Text = "Custom move amount (Alt + Arrows):";
+            lblCustomMove.Text = "Custom move amount in pixels:";
             lblCustomMove.AutoSize = true;
-            lblCustomMove.Top = 8;
-            lblCustomMove.Left = columnLeft;
+            lblCustomMove.Top = groupBoxTop;
+            lblCustomMove.Left = groupBoxColumnLeft;
 
             NumericUpDown numCustomMove = new NumericUpDown();
             numCustomMove.Name = "num_CustomMove";
@@ -91,18 +122,30 @@ namespace NLEditor
             numCustomMove.Maximum = 3200;
             numCustomMove.Value = customMove;
             numCustomMove.Top = lblCustomMove.Top - 2;
-            numCustomMove.Left = columnRight;
-            numCustomMove.Width = 47;
+            numCustomMove.Left = groupBoxColumnRight;
+            numCustomMove.Width = 48;
             numCustomMove.ValueChanged += new EventHandler(numCustomMove_ValueChanged);
+
+            groupCustomMove.Controls.Add(lblCustomMove);
+            groupCustomMove.Controls.Add(numCustomMove);
+
+            // ========================== Snap-to-Grid GroupBox ========================== //
+
+            GroupBox groupSnapToGrid = new GroupBox();
+            groupSnapToGrid.Text = "Snap Pieces to Grid";
+            groupSnapToGrid.Top = 130;
+            groupSnapToGrid.Left = columnLeft;
+            groupSnapToGrid.Width = 280;
+            groupSnapToGrid.Height = 50;
 
             CheckBox checkUseGrid = new CheckBox();
             checkUseGrid.Name = "check_UseGrid";
             checkUseGrid.AutoSize = true;
             checkUseGrid.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             checkUseGrid.Checked = UseGridForPieces;
-            checkUseGrid.Text = "Snap-to-Grid amount:";
-            checkUseGrid.Top = 38;
-            checkUseGrid.Left = columnLeft;
+            checkUseGrid.Text = "Snap-to-Grid amount in pixels:";
+            checkUseGrid.Top = groupBoxTop;
+            checkUseGrid.Left = groupBoxColumnLeft;
             checkUseGrid.CheckedChanged += new EventHandler(checkUseGrid_CheckedChanged);
 
             NumericUpDown numGridSize = new NumericUpDown();
@@ -113,19 +156,31 @@ namespace NLEditor
             numGridSize.Maximum = 128;
             numGridSize.Value = gridSize;
             numGridSize.Top = checkUseGrid.Top - 2;
-            numGridSize.Left = columnRight;
-            numGridSize.Width = 47;
+            numGridSize.Left = groupBoxColumnRight;
+            numGridSize.Width = 48;
             numGridSize.Enabled = UseGridForPieces;
             numGridSize.ValueChanged += new EventHandler(numGridSize_ValueChanged);
+
+            groupSnapToGrid.Controls.Add(checkUseGrid);
+            groupSnapToGrid.Controls.Add(numGridSize);
+
+            // =========================== Autosave GroupBox =========================== //
+
+            GroupBox groupAutosave = new GroupBox();
+            groupAutosave.Text = "Autosave";
+            groupAutosave.Top = 200;
+            groupAutosave.Left = columnLeft;
+            groupAutosave.Width = 280;
+            groupAutosave.Height = 80;
 
             CheckBox checkAutosave = new CheckBox();
             checkAutosave.Name = "check_Autosave";
             checkAutosave.AutoSize = true;
             checkAutosave.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             checkAutosave.Checked = Autosave;
-            checkAutosave.Text = "Autosave (minutes):";
-            checkAutosave.Top = 68;
-            checkAutosave.Left = columnLeft;
+            checkAutosave.Text = "Autosave level every";
+            checkAutosave.Top = groupBoxTop;
+            checkAutosave.Left = groupBoxColumnLeft;
             checkAutosave.CheckedChanged += new EventHandler(checkAutosave_CheckedChanged);
 
             NumericUpDown numAutosaveFrequency = new NumericUpDown();
@@ -136,10 +191,16 @@ namespace NLEditor
             numAutosaveFrequency.Minimum = 1;
             numAutosaveFrequency.Maximum = 60;
             numAutosaveFrequency.Top = checkAutosave.Top - 2;
-            numAutosaveFrequency.Left = columnRight;
-            numAutosaveFrequency.Width = 47;
+            numAutosaveFrequency.Left = checkAutosave.Right + 24;
+            numAutosaveFrequency.Width = 48;
             numAutosaveFrequency.Enabled = Autosave;
             numAutosaveFrequency.ValueChanged += new EventHandler(numAutosaveFrequency_ValueChanged);
+
+            Label lblMinutes = new Label();
+            lblMinutes.Text = "minutes";
+            lblMinutes.AutoSize = true;
+            lblMinutes.Top = groupBoxTop;
+            lblMinutes.Left = numAutosaveFrequency.Right + 8;
 
             CheckBox checkDeleteAutosaves = new CheckBox();
             checkDeleteAutosaves.Name = "check_DeleteAutosaves";
@@ -147,9 +208,9 @@ namespace NLEditor
             checkDeleteAutosaves.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             checkDeleteAutosaves.Checked = RemoveOldAutosaves;
             checkDeleteAutosaves.Enabled = Autosave;
-            checkDeleteAutosaves.Text = "Limit autosaves kept to:";
-            checkDeleteAutosaves.Top = 98;
-            checkDeleteAutosaves.Left = columnLeft;
+            checkDeleteAutosaves.Text = "Limit autosaves kept to";
+            checkDeleteAutosaves.Top = groupBoxTop + 30;
+            checkDeleteAutosaves.Left = groupBoxColumnLeft;
             checkDeleteAutosaves.CheckedChanged += new EventHandler(checkDeleteAutosaves_CheckedChanged);
 
             NumericUpDown numAutosavesToKeep = new NumericUpDown();
@@ -160,41 +221,67 @@ namespace NLEditor
             numAutosavesToKeep.Minimum = 1;
             numAutosavesToKeep.Maximum = 999;
             numAutosavesToKeep.Top = checkDeleteAutosaves.Top - 2;
-            numAutosavesToKeep.Left = columnRight;
-            numAutosavesToKeep.Width = 47;
+            numAutosavesToKeep.Left = checkDeleteAutosaves.Right + 34;
+            numAutosavesToKeep.Width = 48;
             numAutosavesToKeep.Enabled = Autosave && RemoveOldAutosaves;
             numAutosavesToKeep.ValueChanged += new EventHandler(numAutosavesToKeep_ValueChanged);
 
-            CheckBox checkPieceNames = new CheckBox();
-            checkPieceNames.Name = "check_PieceNames";
-            checkPieceNames.AutoSize = true;
-            checkPieceNames.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            checkPieceNames.Checked = UsePieceSelectionNames;
-            checkPieceNames.Text = "Display piece names";
-            checkPieceNames.Top = 128;
-            checkPieceNames.Left = columnLeft;
-            checkPieceNames.CheckedChanged += new EventHandler(checkPieceNames_CheckedChanged);
+            groupAutosave.Controls.Add(checkAutosave);
+            groupAutosave.Controls.Add(numAutosaveFrequency);
+            groupAutosave.Controls.Add(lblMinutes);
+            groupAutosave.Controls.Add(checkDeleteAutosaves);
+            groupAutosave.Controls.Add(numAutosavesToKeep);
 
-            CheckBox checkNeoLemmixMode = new CheckBox();
-            checkNeoLemmixMode.Name = "check_NeoLemmixMode";
-            checkNeoLemmixMode.AutoSize = true;
-            checkNeoLemmixMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            checkNeoLemmixMode.Checked = NeoLemmixModeActive;
-            checkNeoLemmixMode.Text = "NeoLemmix Mode";
-            checkNeoLemmixMode.Top = 158;
-            checkNeoLemmixMode.Left = columnLeft;
-            checkNeoLemmixMode.CheckedChanged += new EventHandler(checkNeoLemmixMode_CheckedChanged);
+            // ========================== Editor Mode GroupBox =========================== //
 
-            settingsForm.Controls.Add(checkNeoLemmixMode);
+            GroupBox groupEditorMode = new GroupBox();
+            groupEditorMode.Text = "Editor Mode";
+            groupEditorMode.Top = 300;
+            groupEditorMode.Left = columnLeft;
+            groupEditorMode.Width = 280;
+            groupEditorMode.Height = 50;
+
+            RadioButton radSuperLemmixMode = new RadioButton();
+            radSuperLemmixMode.Name = "rad_SuperLemmixMode";
+            radSuperLemmixMode.AutoSize = true;
+            radSuperLemmixMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radSuperLemmixMode.Checked = CurrentEditorMode == EditorMode.SuperLemmix;
+            radSuperLemmixMode.Text = "SuperLemmix";
+            radSuperLemmixMode.Top = groupBoxTop;
+            radSuperLemmixMode.Left = groupBoxColumnLeft;
+            radSuperLemmixMode.CheckedChanged += new EventHandler(RadioMode_CheckedChanged);
+
+            RadioButton radNeoLemmixMode = new RadioButton();
+            radNeoLemmixMode.Name = "rad_NeoLemmixMode";
+            radNeoLemmixMode.AutoSize = true;
+            radNeoLemmixMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radNeoLemmixMode.Checked = CurrentEditorMode == EditorMode.NeoLemmix;
+            radNeoLemmixMode.Text = "NeoLemmix";
+            radNeoLemmixMode.Top = groupBoxTop;
+            radNeoLemmixMode.Left = groupBoxColumnLeft + radSuperLemmixMode.Width;
+            radNeoLemmixMode.CheckedChanged += new EventHandler(RadioMode_CheckedChanged);
+
+            RadioButton radAutoMode = new RadioButton();
+            radAutoMode.Name = "rad_AutoMode";
+            radAutoMode.AutoSize = true;
+            radAutoMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radAutoMode.Checked = CurrentEditorMode == EditorMode.Auto;
+            radAutoMode.Text = "Auto";
+            radAutoMode.Top = groupBoxTop;
+            radAutoMode.Left = groupBoxColumnLeft + radSuperLemmixMode.Width + radNeoLemmixMode.Width;
+            radAutoMode.CheckedChanged += new EventHandler(RadioMode_CheckedChanged);
+
+            groupEditorMode.Controls.Add(radSuperLemmixMode);
+            groupEditorMode.Controls.Add(radNeoLemmixMode);
+            groupEditorMode.Controls.Add(radAutoMode);
+
+            // ========================== Add Controls to Form =========================== //
+
             settingsForm.Controls.Add(checkPieceNames);
-            settingsForm.Controls.Add(checkUseGrid);
-            settingsForm.Controls.Add(numGridSize);
-            settingsForm.Controls.Add(lblCustomMove);
-            settingsForm.Controls.Add(numCustomMove);
-            settingsForm.Controls.Add(checkAutosave);
-            settingsForm.Controls.Add(numAutosaveFrequency);
-            settingsForm.Controls.Add(checkDeleteAutosaves);
-            settingsForm.Controls.Add(numAutosavesToKeep);
+            settingsForm.Controls.Add(groupCustomMove);
+            settingsForm.Controls.Add(groupSnapToGrid);
+            settingsForm.Controls.Add(groupAutosave);
+            settingsForm.Controls.Add(groupEditorMode);
 
             settingsForm.Show();
         }
@@ -204,11 +291,26 @@ namespace NLEditor
             WriteSettingsToFile();
         }
 
-        private void checkNeoLemmixMode_CheckedChanged(object sender, EventArgs e)
+        private void RadioMode_CheckedChanged(object sender, EventArgs e)
         {
-            NeoLemmixModeActive = ((sender as CheckBox).CheckState == CheckState.Checked);
-            editorForm.ShowMustRestartMessage();
+            if (sender is RadioButton rb && rb.Checked)
+            {
+                switch (rb.Name)
+                {
+                    case "rad_NeoLemmixMode":
+                        CurrentEditorMode = EditorMode.NeoLemmix;
+                        break;
+                    case "rad_SuperLemmixMode":
+                        CurrentEditorMode = EditorMode.SuperLemmix;
+                        break;
+                    case "rad_AutoMode":
+                        CurrentEditorMode = EditorMode.Auto;
+                        break;
+                }
+                editorForm.ShowMustRestartMessage();
+            }
         }
+
 
         private void checkPieceNames_CheckedChanged(object sender, EventArgs e)
         {
@@ -254,6 +356,34 @@ namespace NLEditor
         private void numAutosavesToKeep_ValueChanged(object sender, EventArgs e)
         {
             keepAutosaveCount = (int)(sender as NumericUpDown).Value;
+        }
+
+        private void radSuperLemmixMode_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton)?.Checked == true)
+            {
+                CurrentEditorMode = EditorMode.SuperLemmix;
+                editorForm.ShowMustRestartMessage();
+            }
+        }
+
+
+        private void radNeoLemmixMode_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton)?.Checked == true)
+            {
+                CurrentEditorMode = EditorMode.NeoLemmix;
+                editorForm.ShowMustRestartMessage();
+            }
+        }
+
+        private void radAutoMode_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as RadioButton)?.Checked == true)
+            {
+                CurrentEditorMode = EditorMode.Auto;
+                editorForm.ShowMustRestartMessage();
+            }
         }
 
         /// <summary>
@@ -303,9 +433,15 @@ namespace NLEditor
                     FileLine line = fileLines?[0];
                     switch (line?.Key)
                     {
-                        case "NEOLEMMIXMODEACTIVE":
+                        case "EDITORMODE":
                             {
-                                NeoLemmixModeActive = (line.Text.Trim().ToUpper() == "TRUE");
+                                var modeText = line.Text.Trim().ToUpper();
+                                if (modeText == "NEOLEMMIX")
+                                    CurrentEditorMode = EditorMode.NeoLemmix;
+                                else if (modeText == "AUTO")
+                                    CurrentEditorMode = EditorMode.Auto;
+                                else // Default to SuperLemmix Mode
+                                    CurrentEditorMode = EditorMode.SuperLemmix;
                                 break;
                             }
                         case "PIECESELECTIONNAMES":
@@ -404,7 +540,7 @@ namespace NLEditor
                 settingsFile.WriteLine("# SLXEditor settings ");
                 settingsFile.WriteLine(" Autosave            " + AutosaveFrequency.ToString());
                 settingsFile.WriteLine(" AutosaveLimit       " + KeepAutosaveCount.ToString());
-                settingsFile.WriteLine(" NeoLemmixModeActive " + (NeoLemmixModeActive ? "True" : "False"));
+                settingsFile.WriteLine(" EditorMode          " + CurrentEditorMode.ToString().ToUpper());
                 settingsFile.WriteLine(" PieceSelectionNames " + (UsePieceSelectionNames ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
                 settingsFile.WriteLine(" CustomMove          " + CustomMove.ToString());
@@ -437,6 +573,5 @@ namespace NLEditor
                 return;
             }
         }
-
     }
 }
