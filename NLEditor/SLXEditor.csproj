@@ -89,6 +89,13 @@
     <Compile Include="Aliases.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="BmpModify.cs" />
+    <Compile Include="HotkeyConfig.cs" />
+    <Compile Include="FormHotkeys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormHotkeys.Designer.cs">
+      <DependentUpon>FormHotkeys.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormWhatsNew.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +172,9 @@
     </Compile>
     <Compile Include="Utility.cs" />
     <Compile Include="ValidateLevel.cs" />
+    <EmbeddedResource Include="FormHotkeys.resx">
+      <DependentUpon>FormHotkeys.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormPieceSelection.resx">
       <DependentUpon>FormPieceSelection.cs</DependentUpon>
       <SubType>Designer</SubType>

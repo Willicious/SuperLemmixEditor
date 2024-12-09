@@ -399,6 +399,11 @@ namespace NLEditor
 
         private void hotkeysToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            using (FormHotkeys formHotkeys = new FormHotkeys())
+            {
+                formHotkeys.ShowDialog();
+            }
+
             DisplayHotkeyForm();
         }
 
@@ -893,7 +898,8 @@ namespace NLEditor
             {
                 triggerAreasToolStripMenuItem_Click(null, null);
             }
-            else if (e.KeyCode == Keys.F5)
+            else if (e.KeyCode == Keys.F5 //HotkeyConfig.HotkeyToggleScreenStart
+                                          )
             {
                 screenStartToolStripMenuItem_Click(null, null);
             }
