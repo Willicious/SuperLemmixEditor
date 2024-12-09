@@ -96,6 +96,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormPrePostTest";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPrePostTest_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormPrePostText_KeyDown);
             this.Leave += new System.EventHandler(this.FormPrePostTest_Leave);
             this.ResumeLayout(false);
             this.PerformLayout();

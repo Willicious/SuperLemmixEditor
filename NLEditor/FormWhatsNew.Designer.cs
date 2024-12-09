@@ -66,7 +66,7 @@ namespace NLEditor
             this.pictureClimber.Image = global::NLEditor.Properties.Resources.IntroClimber;
             this.pictureClimber.Location = new System.Drawing.Point(1119, 69);
             this.pictureClimber.Name = "pictureClimber";
-            this.pictureClimber.Size = new System.Drawing.Size(89, 179);
+            this.pictureClimber.Size = new System.Drawing.Size(96, 179);
             this.pictureClimber.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureClimber.TabIndex = 3;
             this.pictureClimber.TabStop = false;
@@ -120,7 +120,7 @@ namespace NLEditor
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(1227, 615);
+            this.ClientSize = new System.Drawing.Size(1239, 615);
             this.Controls.Add(this.richTextBox_WhatsNew);
             this.Controls.Add(this.richTextBox_PreviousUpdates);
             this.Controls.Add(this.lblPreviousUpdates);
@@ -133,6 +133,7 @@ namespace NLEditor
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SuperLemmix Editor";
             this.TopMost = true;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormWhatsNew_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureFloater)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureClimber)).EndInit();
             this.ResumeLayout(false);

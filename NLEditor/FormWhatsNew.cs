@@ -15,6 +15,8 @@ namespace NLEditor
     {
         public FormWhatsNew()
         {
+            KeyPreview = true;
+
             Int32 topMargin = 10;
 
             InitializeComponent();
@@ -256,6 +258,14 @@ namespace NLEditor
         {
             var richTextBox = richTextBox_PreviousUpdates;
             richTextBox.Clear();
+        }
+
+        private void FormWhatsNew_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                Close();
+            }
         }
     }
 }

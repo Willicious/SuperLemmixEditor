@@ -242,6 +242,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Talisman Creation";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormTalisman_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormTalisman_KeyDown);
             this.Leave += new System.EventHandler(this.FormTalisman_Leave);
             ((System.ComponentModel.ISupportInitialize)(this.numReqValue1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numReqValue2)).EndInit();

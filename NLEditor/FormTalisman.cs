@@ -9,6 +9,8 @@ namespace NLEditor
     {
         public FormTalisman(Level level)
         {
+            KeyPreview = true;
+
             InitializeComponent();
             isNewTalisman = true;
             curLevel = level;
@@ -127,7 +129,7 @@ namespace NLEditor
         Level curLevel;
         Talisman talisman;
         Talisman oldTalisman;
-        bool isSaved = false;
+        bool askToSave = true;
 
         /// <summary>
         /// Writes the list of requirements
@@ -234,7 +236,7 @@ namespace NLEditor
         /// <param name="e"></param>
         private void butTalismanCancel_Click(object sender, EventArgs e)
         {
-            isSaved = true;
+            askToSave = false;
             Close();
         }
 
@@ -278,7 +280,7 @@ namespace NLEditor
             }
 
             // Exit talisman creation form
-            isSaved = true;
+            askToSave = false;
             Close();
         }
 
@@ -362,7 +364,7 @@ namespace NLEditor
 
         private void FormTalisman_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!isSaved)
+            if (askToSave)
             {
                 // Ask user whether to save the talisman
                 if (MessageBox.Show("Do you want to save the talisman?", "Save talisman?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -386,6 +388,15 @@ namespace NLEditor
         private void radGold_CheckedChanged(object sender, EventArgs e)
         {
             txtTalismanTitle.Text = "Gold Talisman";
+        }
+
+        private void FormTalisman_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                askToSave = false;
+                Close();
+            }
         }
     }
 }

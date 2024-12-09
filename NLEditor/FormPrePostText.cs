@@ -7,6 +7,8 @@ namespace NLEditor
     {
         public FormPrePostText(Level level, bool ispreText)
         {
+            KeyPreview = true;
+
             InitializeComponent();
 
             curLevel = level;
@@ -56,6 +58,15 @@ namespace NLEditor
         {
             doSaveOnClosing = true;
             Close();
+        }
+
+        private void FormPrePostText_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                doSaveOnClosing = false;
+                Close();
+            }
         }
     }
 }
