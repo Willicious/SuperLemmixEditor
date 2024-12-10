@@ -28,87 +28,243 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem80 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem317 = new System.Windows.Forms.ListViewItem(new string[] {
             "Create New Level",
-            "ShouldUpdate"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem81 = new System.Windows.Forms.ListViewItem("Load Level");
-            System.Windows.Forms.ListViewItem listViewItem82 = new System.Windows.Forms.ListViewItem("Save Level");
-            System.Windows.Forms.ListViewItem listViewItem83 = new System.Windows.Forms.ListViewItem("Save Level As...");
-            System.Windows.Forms.ListViewItem listViewItem84 = new System.Windows.Forms.ListViewItem("Playtest Level");
-            System.Windows.Forms.ListViewItem listViewItem85 = new System.Windows.Forms.ListViewItem("Validate Level");
-            System.Windows.Forms.ListViewItem listViewItem86 = new System.Windows.Forms.ListViewItem("Toggle Clear Physics");
-            System.Windows.Forms.ListViewItem listViewItem87 = new System.Windows.Forms.ListViewItem("Toggle Terrain");
-            System.Windows.Forms.ListViewItem listViewItem88 = new System.Windows.Forms.ListViewItem("Toggle Objects");
-            System.Windows.Forms.ListViewItem listViewItem89 = new System.Windows.Forms.ListViewItem("Toggle Trigger Areas");
-            System.Windows.Forms.ListViewItem listViewItem90 = new System.Windows.Forms.ListViewItem("Toggle Screen Start");
-            System.Windows.Forms.ListViewItem listViewItem91 = new System.Windows.Forms.ListViewItem("Toggle Background Image");
-            System.Windows.Forms.ListViewItem listViewItem92 = new System.Windows.Forms.ListViewItem("Toggle Snap-to-Grid");
-            System.Windows.Forms.ListViewItem listViewItem93 = new System.Windows.Forms.ListViewItem("Open Settings");
-            System.Windows.Forms.ListViewItem listViewItem94 = new System.Windows.Forms.ListViewItem("Open Hotkey Configuration");
-            System.Windows.Forms.ListViewItem listViewItem95 = new System.Windows.Forms.ListViewItem("Open About SuperLemmix Editor");
-            System.Windows.Forms.ListViewItem listViewItem96 = new System.Windows.Forms.ListViewItem("Select/drag Pieces");
-            System.Windows.Forms.ListViewItem listViewItem97 = new System.Windows.Forms.ListViewItem("Drag-to-Scroll Level View");
-            System.Windows.Forms.ListViewItem listViewItem98 = new System.Windows.Forms.ListViewItem("Remove all pieces at cursor from selection");
-            System.Windows.Forms.ListViewItem listViewItem99 = new System.Windows.Forms.ListViewItem("Add/remove a single piece to current selection");
-            System.Windows.Forms.ListViewItem listViewItem100 = new System.Windows.Forms.ListViewItem("Select the piece underneath the piece(s) at cursor location");
-            System.Windows.Forms.ListViewItem listViewItem101 = new System.Windows.Forms.ListViewItem("Zoom In");
-            System.Windows.Forms.ListViewItem listViewItem102 = new System.Windows.Forms.ListViewItem("Zoom Out");
-            System.Windows.Forms.ListViewItem listViewItem103 = new System.Windows.Forms.ListViewItem("Scroll Horizontally");
-            System.Windows.Forms.ListViewItem listViewItem104 = new System.Windows.Forms.ListViewItem("Scroll Vertically");
-            System.Windows.Forms.ListViewItem listViewItem105 = new System.Windows.Forms.ListViewItem("Move Screen Start");
-            System.Windows.Forms.ListViewItem listViewItem106 = new System.Windows.Forms.ListViewItem("Piece Browser: Show Previous Item");
-            System.Windows.Forms.ListViewItem listViewItem107 = new System.Windows.Forms.ListViewItem("Piece Browser: Show Next Item");
-            System.Windows.Forms.ListViewItem listViewItem108 = new System.Windows.Forms.ListViewItem("Piece Browser: Show Previous Group");
-            System.Windows.Forms.ListViewItem listViewItem109 = new System.Windows.Forms.ListViewItem("Piece Browser: Show Next Group");
-            System.Windows.Forms.ListViewItem listViewItem110 = new System.Windows.Forms.ListViewItem("Piece Browser: Show Previous Style");
-            System.Windows.Forms.ListViewItem listViewItem111 = new System.Windows.Forms.ListViewItem("Piece Browser: Show Next Style");
-            System.Windows.Forms.ListViewItem listViewItem112 = new System.Windows.Forms.ListViewItem("Piece Browser: Toggle between Terrain/Objects");
-            System.Windows.Forms.ListViewItem listViewItem113 = new System.Windows.Forms.ListViewItem("Piece Browser: Add Piece 1");
-            System.Windows.Forms.ListViewItem listViewItem114 = new System.Windows.Forms.ListViewItem("Piece Browser: Add Piece 2");
-            System.Windows.Forms.ListViewItem listViewItem115 = new System.Windows.Forms.ListViewItem("Piece Browser: Add Piece 3");
-            System.Windows.Forms.ListViewItem listViewItem116 = new System.Windows.Forms.ListViewItem("Piece Browser: Add Piece 4");
-            System.Windows.Forms.ListViewItem listViewItem117 = new System.Windows.Forms.ListViewItem("Piece Browser: Add Piece 5");
-            System.Windows.Forms.ListViewItem listViewItem118 = new System.Windows.Forms.ListViewItem("Piece Browser: Add Piece 6");
-            System.Windows.Forms.ListViewItem listViewItem119 = new System.Windows.Forms.ListViewItem("Piece Browser: Add Piece 7");
-            System.Windows.Forms.ListViewItem listViewItem120 = new System.Windows.Forms.ListViewItem("Piece Browser: Add Piece 8");
-            System.Windows.Forms.ListViewItem listViewItem121 = new System.Windows.Forms.ListViewItem("Piece Browser: Add Piece 9");
-            System.Windows.Forms.ListViewItem listViewItem122 = new System.Windows.Forms.ListViewItem("Piece Browser: Add Piece 10");
-            System.Windows.Forms.ListViewItem listViewItem123 = new System.Windows.Forms.ListViewItem("Piece Browser: Add Piece 11");
-            System.Windows.Forms.ListViewItem listViewItem124 = new System.Windows.Forms.ListViewItem("Piece Browser: Add Piece 12");
-            System.Windows.Forms.ListViewItem listViewItem125 = new System.Windows.Forms.ListViewItem("Piece Browser: Add Piece 13");
-            System.Windows.Forms.ListViewItem listViewItem126 = new System.Windows.Forms.ListViewItem("Undo");
-            System.Windows.Forms.ListViewItem listViewItem127 = new System.Windows.Forms.ListViewItem("Redo");
-            System.Windows.Forms.ListViewItem listViewItem128 = new System.Windows.Forms.ListViewItem("Cut");
-            System.Windows.Forms.ListViewItem listViewItem129 = new System.Windows.Forms.ListViewItem("Copy");
-            System.Windows.Forms.ListViewItem listViewItem130 = new System.Windows.Forms.ListViewItem("Paste");
-            System.Windows.Forms.ListViewItem listViewItem131 = new System.Windows.Forms.ListViewItem("Duplicate-in-Place");
-            System.Windows.Forms.ListViewItem listViewItem132 = new System.Windows.Forms.ListViewItem("Delete");
-            System.Windows.Forms.ListViewItem listViewItem133 = new System.Windows.Forms.ListViewItem("Move Up (1 pixel)");
-            System.Windows.Forms.ListViewItem listViewItem134 = new System.Windows.Forms.ListViewItem("Move Down (1 pixel)");
-            System.Windows.Forms.ListViewItem listViewItem135 = new System.Windows.Forms.ListViewItem("Move Left (1 pixel)");
-            System.Windows.Forms.ListViewItem listViewItem136 = new System.Windows.Forms.ListViewItem("Move Right (1 pixel)");
-            System.Windows.Forms.ListViewItem listViewItem137 = new System.Windows.Forms.ListViewItem("Move Up (8 pixels)");
-            System.Windows.Forms.ListViewItem listViewItem138 = new System.Windows.Forms.ListViewItem("Move Down (8 pixels)");
-            System.Windows.Forms.ListViewItem listViewItem139 = new System.Windows.Forms.ListViewItem("Move Left (8 pixels)");
-            System.Windows.Forms.ListViewItem listViewItem140 = new System.Windows.Forms.ListViewItem("Move Right (8 pixels)");
-            System.Windows.Forms.ListViewItem listViewItem141 = new System.Windows.Forms.ListViewItem("Move (Custom - see Settings)");
-            System.Windows.Forms.ListViewItem listViewItem142 = new System.Windows.Forms.ListViewItem("Drag Horizontally (X-axis only)");
-            System.Windows.Forms.ListViewItem listViewItem143 = new System.Windows.Forms.ListViewItem("DragVertically (Y-axis only)");
-            System.Windows.Forms.ListViewItem listViewItem144 = new System.Windows.Forms.ListViewItem("Rotate");
-            System.Windows.Forms.ListViewItem listViewItem145 = new System.Windows.Forms.ListViewItem("Flip");
-            System.Windows.Forms.ListViewItem listViewItem146 = new System.Windows.Forms.ListViewItem("Invert");
-            System.Windows.Forms.ListViewItem listViewItem147 = new System.Windows.Forms.ListViewItem("Group");
-            System.Windows.Forms.ListViewItem listViewItem148 = new System.Windows.Forms.ListViewItem("Ungroup");
-            System.Windows.Forms.ListViewItem listViewItem149 = new System.Windows.Forms.ListViewItem("Toggle Draw-as-Eraser");
-            System.Windows.Forms.ListViewItem listViewItem150 = new System.Windows.Forms.ListViewItem("Toggle No Overwrite");
-            System.Windows.Forms.ListViewItem listViewItem151 = new System.Windows.Forms.ListViewItem("Toggle Only-on-Terrain");
-            System.Windows.Forms.ListViewItem listViewItem152 = new System.Windows.Forms.ListViewItem("Toggle Allow One-Way-Walls");
-            System.Windows.Forms.ListViewItem listViewItem153 = new System.Windows.Forms.ListViewItem("Draw Last");
-            System.Windows.Forms.ListViewItem listViewItem154 = new System.Windows.Forms.ListViewItem("Draw Later");
-            System.Windows.Forms.ListViewItem listViewItem155 = new System.Windows.Forms.ListViewItem("Draw Sooner");
-            System.Windows.Forms.ListViewItem listViewItem156 = new System.Windows.Forms.ListViewItem("Draw First");
-            System.Windows.Forms.ListViewItem listViewItem157 = new System.Windows.Forms.ListViewItem("Close Secondary Windows");
-            System.Windows.Forms.ListViewItem listViewItem158 = new System.Windows.Forms.ListViewItem("Close Editor");
+            "HotkeyCreateNewLevel"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem318 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Load Level",
+            "HotkeyLoadLevel"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem319 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Save Level",
+            "HotkeySaveLevel"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem320 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Save Level As...",
+            "HotkeySaveLevelAs"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem321 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Playtest Level",
+            "HotkeyPlaytestLevel"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem322 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Validate Level",
+            "HotkeyValidateLevel"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem323 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Toggle Clear Physics",
+            "HotkeyToggleClearPhysics"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem324 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Toggle Terrain",
+            "HotkeyToggleTerrain"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem325 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Toggle Objects",
+            "HotkeyToggleObjects"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem326 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Toggle Trigger Areas",
+            "HotkeyToggleTriggerAreas"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem327 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Toggle Screen Start",
+            "HotkeyToggleScreenStart"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem328 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Toggle Background Image",
+            "HotkeyToggleBackground"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem329 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Toggle Snap-to-Grid",
+            "HotkeySnapToGrid"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem330 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Open Settings",
+            "HotkeyOpenSettings"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem331 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Open Hotkey Configuration",
+            "HotkeyOpenHotkeyConfig"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem332 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Open About SuperLemmix Editor",
+            "HotkeyOpenAboutSLX"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem333 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Select/drag Pieces",
+            "HotkeySelectPieces"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem334 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Drag-to-Scroll Level View",
+            "HotkeyDragToScroll"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem335 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Remove all pieces at cursor from selection",
+            "HotkeyRemovePiecesAtCursor"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem336 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Add/remove a single piece to current selection",
+            "HotkeyAddRemoveSinglePiece"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem337 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Select piece(s) below piece at cursor location",
+            "HotkeySelectPiecesBelow"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem338 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Zoom In",
+            "HotkeyZoomIn"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem339 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Zoom Out",
+            "HotkeyZoomOut"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem340 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Scroll Horizontally",
+            "HotkeyScrollHorizontally"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem341 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Scroll Vertically",
+            "HotkeyScrollVertically"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem342 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Move Screen Start",
+            "HotkeyMoveScreenStart"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem343 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Show Previous Item",
+            "HotkeyShowPreviousItem"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem344 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Show Next Item",
+            "HotkeyShowNextItem"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem345 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Show Previous Group",
+            "HotkeyShowPreviousGroup"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem346 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Show Next Group",
+            "HotkeyShowNextGroup"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem347 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Show Previous Style",
+            "HotkeyShowPreviousStyle"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem348 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Show Next Style",
+            "HotkeyShowNextStyle"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem349 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Switch Browser View",
+            "HotkeySwitchBrowser"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem350 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Add Piece 1",
+            "HotkeyAddPiece1"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem351 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Add Piece 2",
+            "HotkeyAddPiece2"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem352 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Add Piece 3",
+            "HotkeyAddPiece3"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem353 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Add Piece 4",
+            "HotkeyAddPiece4"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem354 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Add Piece 5",
+            "HotkeyAddPiece5"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem355 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Add Piece 6",
+            "HotkeyAddPiece6"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem356 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Add Piece 7",
+            "HotkeyAddPiece7"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem357 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Add Piece 8",
+            "HotkeyAddPiece8"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem358 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Add Piece 9",
+            "HotkeyAddPiece9"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem359 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Add Piece 10",
+            "HotkeyAddPiece10"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem360 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Add Piece 11",
+            "HotkeyAddPiece11"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem361 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Add Piece 12",
+            "HotkeyAddPiece12"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem362 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Piece Browser: Add Piece 13",
+            "HotkeyAddPiece13"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem363 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Undo",
+            "HotkeyUndo"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem364 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Redo",
+            "HotkeyRedo"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem365 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Cut",
+            "HotkeyCut"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem366 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Copy",
+            "HotkeyCopy"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem367 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Paste",
+            "HotkeyPaste"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem368 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Duplicate-in-Place",
+            "HotkeyDuplicate"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem369 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Delete",
+            "HotkeyDelete"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem370 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Move Up (1 pixel)",
+            "HotkeyMoveUp"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem371 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Move Down (1 pixel)",
+            "HotkeyMoveDown"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem372 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Move Left (1 pixel)",
+            "HotkeyMoveLeft"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem373 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Move Right (1 pixel)",
+            "HotkeyMoveRight"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem374 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Move Up (8 pixels)",
+            "HotkeyMove8Up"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem375 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Move Down (8 pixels)",
+            "HotkeyMove8Down"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem376 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Move Left (8 pixels)",
+            "HotkeyMove8Left"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem377 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Move Right (8 pixels)",
+            "HotkeyMove8Right"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem378 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Move (Custom - see Settings)",
+            "HotkeyCustomMove"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem379 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Drag Horizontally (X-axis only)",
+            "HotkeyDragHorizontally"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem380 = new System.Windows.Forms.ListViewItem(new string[] {
+            "DragVertically (Y-axis only)",
+            "HotkeyDragVertically"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem381 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Rotate",
+            "HotkeyRotate"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem382 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Flip",
+            "HotkeyFlip"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem383 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Invert",
+            "HotkeyInvert"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem384 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Group",
+            "HotkeyGroup"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem385 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Ungroup",
+            "HotkeyUngroup"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem386 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Toggle Draw-as-Eraser",
+            "HotkeyErase"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem387 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Toggle No Overwrite",
+            "HotkeyNoOverwrite"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem388 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Toggle Only-on-Terrain",
+            "HotkeyOnlyOnTerrain"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem389 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Toggle Allow One-Way-Walls",
+            "HotkeyAllowOWW"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem390 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Draw Last",
+            "HotkeyDrawLast"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem391 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Draw Later",
+            "HotkeyDrawLater"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem392 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Draw Sooner",
+            "HotkeyDrawSooner"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem393 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Draw First",
+            "HotkeyDrawFirst"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem394 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Close Secondary Windows",
+            "HotkeyCloseWindow"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem395 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Close Editor",
+            "HotkeyCloseEditor"}, -1);
             this.comboBoxChooseKey = new System.Windows.Forms.ComboBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.lblAction = new System.Windows.Forms.Label();
@@ -132,24 +288,28 @@
             this.lblChosenHotkey = new System.Windows.Forms.Label();
             this.checkModShift = new System.Windows.Forms.CheckBox();
             this.checkModAlt = new System.Windows.Forms.CheckBox();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.lblDuplicateAction = new System.Windows.Forms.Label();
+            this.lblDuplicateDetected = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // comboBoxChooseKey
             // 
             this.comboBoxChooseKey.FormattingEnabled = true;
-            this.comboBoxChooseKey.Location = new System.Drawing.Point(862, 190);
+            this.comboBoxChooseKey.Location = new System.Drawing.Point(862, 189);
             this.comboBoxChooseKey.Name = "comboBoxChooseKey";
             this.comboBoxChooseKey.Size = new System.Drawing.Size(237, 28);
             this.comboBoxChooseKey.TabIndex = 0;
             this.comboBoxChooseKey.SelectedIndexChanged += new System.EventHandler(this.comboBoxChooseKey_SelectedIndexChanged);
+            this.comboBoxChooseKey.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBoxChooseKey_KeyDown);
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(721, 693);
+            this.btnSave.Location = new System.Drawing.Point(720, 651);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(189, 54);
+            this.btnSave.Size = new System.Drawing.Size(379, 52);
             this.btnSave.TabIndex = 1;
-            this.btnSave.Text = "Save";
+            this.btnSave.Text = "Save Current Configuration";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -166,17 +326,17 @@
             // lblChooseKey
             // 
             this.lblChooseKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblChooseKey.Location = new System.Drawing.Point(715, 190);
+            this.lblChooseKey.Location = new System.Drawing.Point(715, 189);
             this.lblChooseKey.Name = "lblChooseKey";
-            this.lblChooseKey.Size = new System.Drawing.Size(139, 28);
+            this.lblChooseKey.Size = new System.Drawing.Size(175, 28);
             this.lblChooseKey.TabIndex = 3;
             this.lblChooseKey.Text = "Choose Key:";
             // 
             // btnListen
             // 
-            this.btnListen.Location = new System.Drawing.Point(720, 233);
+            this.btnListen.Location = new System.Drawing.Point(720, 229);
             this.btnListen.Name = "btnListen";
-            this.btnListen.Size = new System.Drawing.Size(379, 54);
+            this.btnListen.Size = new System.Drawing.Size(380, 52);
             this.btnListen.TabIndex = 4;
             this.btnListen.Text = "Listen For Key";
             this.btnListen.UseVisualStyleBackColor = true;
@@ -194,19 +354,20 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(916, 693);
+            this.btnCancel.Enabled = false;
+            this.btnCancel.Location = new System.Drawing.Point(917, 406);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(183, 54);
+            this.btnCancel.Size = new System.Drawing.Size(184, 52);
             this.btnCancel.TabIndex = 6;
-            this.btnCancel.Text = "Cancel";
+            this.btnCancel.Text = "Cancel Editing Key";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnClearAllKeys
             // 
-            this.btnClearAllKeys.Location = new System.Drawing.Point(721, 520);
+            this.btnClearAllKeys.Location = new System.Drawing.Point(721, 548);
             this.btnClearAllKeys.Name = "btnClearAllKeys";
-            this.btnClearAllKeys.Size = new System.Drawing.Size(378, 58);
+            this.btnClearAllKeys.Size = new System.Drawing.Size(182, 52);
             this.btnClearAllKeys.TabIndex = 7;
             this.btnClearAllKeys.Text = "Clear All Keys";
             this.btnClearAllKeys.UseVisualStyleBackColor = true;
@@ -214,9 +375,9 @@
             // 
             // btnResetToDefaultKeys
             // 
-            this.btnResetToDefaultKeys.Location = new System.Drawing.Point(721, 584);
+            this.btnResetToDefaultKeys.Location = new System.Drawing.Point(917, 548);
             this.btnResetToDefaultKeys.Name = "btnResetToDefaultKeys";
-            this.btnResetToDefaultKeys.Size = new System.Drawing.Size(378, 63);
+            this.btnResetToDefaultKeys.Size = new System.Drawing.Size(182, 52);
             this.btnResetToDefaultKeys.TabIndex = 8;
             this.btnResetToDefaultKeys.Text = "Reset to Default Keys";
             this.btnResetToDefaultKeys.UseVisualStyleBackColor = true;
@@ -231,92 +392,94 @@
             this.listViewHotkeys.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.listViewHotkeys.HideSelection = false;
             this.listViewHotkeys.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem80,
-            listViewItem81,
-            listViewItem82,
-            listViewItem83,
-            listViewItem84,
-            listViewItem85,
-            listViewItem86,
-            listViewItem87,
-            listViewItem88,
-            listViewItem89,
-            listViewItem90,
-            listViewItem91,
-            listViewItem92,
-            listViewItem93,
-            listViewItem94,
-            listViewItem95,
-            listViewItem96,
-            listViewItem97,
-            listViewItem98,
-            listViewItem99,
-            listViewItem100,
-            listViewItem101,
-            listViewItem102,
-            listViewItem103,
-            listViewItem104,
-            listViewItem105,
-            listViewItem106,
-            listViewItem107,
-            listViewItem108,
-            listViewItem109,
-            listViewItem110,
-            listViewItem111,
-            listViewItem112,
-            listViewItem113,
-            listViewItem114,
-            listViewItem115,
-            listViewItem116,
-            listViewItem117,
-            listViewItem118,
-            listViewItem119,
-            listViewItem120,
-            listViewItem121,
-            listViewItem122,
-            listViewItem123,
-            listViewItem124,
-            listViewItem125,
-            listViewItem126,
-            listViewItem127,
-            listViewItem128,
-            listViewItem129,
-            listViewItem130,
-            listViewItem131,
-            listViewItem132,
-            listViewItem133,
-            listViewItem134,
-            listViewItem135,
-            listViewItem136,
-            listViewItem137,
-            listViewItem138,
-            listViewItem139,
-            listViewItem140,
-            listViewItem141,
-            listViewItem142,
-            listViewItem143,
-            listViewItem144,
-            listViewItem145,
-            listViewItem146,
-            listViewItem147,
-            listViewItem148,
-            listViewItem149,
-            listViewItem150,
-            listViewItem151,
-            listViewItem152,
-            listViewItem153,
-            listViewItem154,
-            listViewItem155,
-            listViewItem156,
-            listViewItem157,
-            listViewItem158});
+            listViewItem317,
+            listViewItem318,
+            listViewItem319,
+            listViewItem320,
+            listViewItem321,
+            listViewItem322,
+            listViewItem323,
+            listViewItem324,
+            listViewItem325,
+            listViewItem326,
+            listViewItem327,
+            listViewItem328,
+            listViewItem329,
+            listViewItem330,
+            listViewItem331,
+            listViewItem332,
+            listViewItem333,
+            listViewItem334,
+            listViewItem335,
+            listViewItem336,
+            listViewItem337,
+            listViewItem338,
+            listViewItem339,
+            listViewItem340,
+            listViewItem341,
+            listViewItem342,
+            listViewItem343,
+            listViewItem344,
+            listViewItem345,
+            listViewItem346,
+            listViewItem347,
+            listViewItem348,
+            listViewItem349,
+            listViewItem350,
+            listViewItem351,
+            listViewItem352,
+            listViewItem353,
+            listViewItem354,
+            listViewItem355,
+            listViewItem356,
+            listViewItem357,
+            listViewItem358,
+            listViewItem359,
+            listViewItem360,
+            listViewItem361,
+            listViewItem362,
+            listViewItem363,
+            listViewItem364,
+            listViewItem365,
+            listViewItem366,
+            listViewItem367,
+            listViewItem368,
+            listViewItem369,
+            listViewItem370,
+            listViewItem371,
+            listViewItem372,
+            listViewItem373,
+            listViewItem374,
+            listViewItem375,
+            listViewItem376,
+            listViewItem377,
+            listViewItem378,
+            listViewItem379,
+            listViewItem380,
+            listViewItem381,
+            listViewItem382,
+            listViewItem383,
+            listViewItem384,
+            listViewItem385,
+            listViewItem386,
+            listViewItem387,
+            listViewItem388,
+            listViewItem389,
+            listViewItem390,
+            listViewItem391,
+            listViewItem392,
+            listViewItem393,
+            listViewItem394,
+            listViewItem395});
             this.listViewHotkeys.Location = new System.Drawing.Point(25, 49);
+            this.listViewHotkeys.MultiSelect = false;
             this.listViewHotkeys.Name = "listViewHotkeys";
-            this.listViewHotkeys.Size = new System.Drawing.Size(664, 698);
+            this.listViewHotkeys.Size = new System.Drawing.Size(664, 716);
             this.listViewHotkeys.TabIndex = 10;
             this.listViewHotkeys.UseCompatibleStateImageBehavior = false;
             this.listViewHotkeys.View = System.Windows.Forms.View.Details;
             this.listViewHotkeys.SelectedIndexChanged += new System.EventHandler(this.listViewHotkeys_SelectedIndexChanged);
+            this.listViewHotkeys.Click += new System.EventHandler(this.listViewHotkeys_Click);
             // 
             // EditorFunction
             // 
@@ -332,7 +495,7 @@
             // 
             this.lblEditingKey.AutoSize = true;
             this.lblEditingKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEditingKey.Location = new System.Drawing.Point(715, 49);
+            this.lblEditingKey.Location = new System.Drawing.Point(715, 48);
             this.lblEditingKey.Name = "lblEditingKey";
             this.lblEditingKey.Size = new System.Drawing.Size(167, 25);
             this.lblEditingKey.TabIndex = 11;
@@ -342,7 +505,8 @@
             // 
             this.lblActionToBeAssigned.AutoSize = true;
             this.lblActionToBeAssigned.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblActionToBeAssigned.Location = new System.Drawing.Point(716, 87);
+            this.lblActionToBeAssigned.ForeColor = System.Drawing.Color.DarkBlue;
+            this.lblActionToBeAssigned.Location = new System.Drawing.Point(716, 77);
             this.lblActionToBeAssigned.Name = "lblActionToBeAssigned";
             this.lblActionToBeAssigned.Size = new System.Drawing.Size(150, 20);
             this.lblActionToBeAssigned.TabIndex = 12;
@@ -350,9 +514,10 @@
             // 
             // btnAssignChosenKey
             // 
-            this.btnAssignChosenKey.Location = new System.Drawing.Point(720, 413);
+            this.btnAssignChosenKey.Enabled = false;
+            this.btnAssignChosenKey.Location = new System.Drawing.Point(720, 406);
             this.btnAssignChosenKey.Name = "btnAssignChosenKey";
-            this.btnAssignChosenKey.Size = new System.Drawing.Size(379, 58);
+            this.btnAssignChosenKey.Size = new System.Drawing.Size(183, 52);
             this.btnAssignChosenKey.TabIndex = 13;
             this.btnAssignChosenKey.Text = "Assign Chosen Key";
             this.btnAssignChosenKey.UseVisualStyleBackColor = true;
@@ -362,7 +527,7 @@
             // 
             this.lblCurrentKey.AutoSize = true;
             this.lblCurrentKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentKey.Location = new System.Drawing.Point(715, 140);
+            this.lblCurrentKey.Location = new System.Drawing.Point(715, 132);
             this.lblCurrentKey.Name = "lblCurrentKey";
             this.lblCurrentKey.Size = new System.Drawing.Size(135, 25);
             this.lblCurrentKey.TabIndex = 14;
@@ -371,8 +536,9 @@
             // lblChosenKey
             // 
             this.lblChosenKey.AutoSize = true;
+            this.lblChosenKey.Enabled = false;
             this.lblChosenKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblChosenKey.Location = new System.Drawing.Point(716, 374);
+            this.lblChosenKey.Location = new System.Drawing.Point(716, 371);
             this.lblChosenKey.Name = "lblChosenKey";
             this.lblChosenKey.Size = new System.Drawing.Size(138, 25);
             this.lblChosenKey.TabIndex = 15;
@@ -381,19 +547,19 @@
             // checkModCtrl
             // 
             this.checkModCtrl.AutoSize = true;
-            this.checkModCtrl.Location = new System.Drawing.Point(801, 323);
+            this.checkModCtrl.Location = new System.Drawing.Point(801, 316);
             this.checkModCtrl.Name = "checkModCtrl";
             this.checkModCtrl.Size = new System.Drawing.Size(59, 24);
             this.checkModCtrl.TabIndex = 16;
             this.checkModCtrl.Text = "Ctrl";
             this.checkModCtrl.UseVisualStyleBackColor = true;
-            this.checkModCtrl.CheckedChanged += new System.EventHandler(this.checkModCtrl_CheckedChanged);
+            this.checkModCtrl.Click += new System.EventHandler(this.checkModifiers_Click);
             // 
             // lblAddModifier
             // 
             this.lblAddModifier.AutoSize = true;
             this.lblAddModifier.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAddModifier.Location = new System.Drawing.Point(803, 300);
+            this.lblAddModifier.Location = new System.Drawing.Point(803, 293);
             this.lblAddModifier.Name = "lblAddModifier";
             this.lblAddModifier.Size = new System.Drawing.Size(196, 20);
             this.lblAddModifier.TabIndex = 17;
@@ -404,7 +570,7 @@
             this.lblCurrentHotkey.AutoSize = true;
             this.lblCurrentHotkey.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentHotkey.ForeColor = System.Drawing.Color.DarkBlue;
-            this.lblCurrentHotkey.Location = new System.Drawing.Point(856, 134);
+            this.lblCurrentHotkey.Location = new System.Drawing.Point(856, 126);
             this.lblCurrentHotkey.Name = "lblCurrentHotkey";
             this.lblCurrentHotkey.Size = new System.Drawing.Size(74, 32);
             this.lblCurrentHotkey.TabIndex = 18;
@@ -413,9 +579,10 @@
             // lblChosenHotkey
             // 
             this.lblChosenHotkey.AutoSize = true;
+            this.lblChosenHotkey.Enabled = false;
             this.lblChosenHotkey.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblChosenHotkey.ForeColor = System.Drawing.Color.Lime;
-            this.lblChosenHotkey.Location = new System.Drawing.Point(856, 368);
+            this.lblChosenHotkey.ForeColor = System.Drawing.Color.MediumSeaGreen;
+            this.lblChosenHotkey.Location = new System.Drawing.Point(856, 365);
             this.lblChosenHotkey.Name = "lblChosenHotkey";
             this.lblChosenHotkey.Size = new System.Drawing.Size(74, 32);
             this.lblChosenHotkey.TabIndex = 19;
@@ -424,30 +591,68 @@
             // checkModShift
             // 
             this.checkModShift.AutoSize = true;
-            this.checkModShift.Location = new System.Drawing.Point(875, 323);
+            this.checkModShift.Location = new System.Drawing.Point(875, 316);
             this.checkModShift.Name = "checkModShift";
             this.checkModShift.Size = new System.Drawing.Size(68, 24);
             this.checkModShift.TabIndex = 20;
             this.checkModShift.Text = "Shift";
             this.checkModShift.UseVisualStyleBackColor = true;
-            this.checkModShift.CheckedChanged += new System.EventHandler(this.checkModShift_CheckedChanged);
+            this.checkModShift.Click += new System.EventHandler(this.checkModifiers_Click);
             // 
             // checkModAlt
             // 
             this.checkModAlt.AutoSize = true;
-            this.checkModAlt.Location = new System.Drawing.Point(952, 323);
+            this.checkModAlt.Location = new System.Drawing.Point(952, 316);
             this.checkModAlt.Name = "checkModAlt";
             this.checkModAlt.Size = new System.Drawing.Size(54, 24);
             this.checkModAlt.TabIndex = 21;
             this.checkModAlt.Text = "Alt";
             this.checkModAlt.UseVisualStyleBackColor = true;
-            this.checkModAlt.CheckedChanged += new System.EventHandler(this.checkModAlt_CheckedChanged);
+            this.checkModAlt.Click += new System.EventHandler(this.checkModifiers_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Location = new System.Drawing.Point(721, 712);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(378, 52);
+            this.btnClose.TabIndex = 22;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // lblDuplicateAction
+            // 
+            this.lblDuplicateAction.AutoSize = true;
+            this.lblDuplicateAction.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDuplicateAction.Location = new System.Drawing.Point(724, 491);
+            this.lblDuplicateAction.Name = "lblDuplicateAction";
+            this.lblDuplicateAction.Size = new System.Drawing.Size(154, 20);
+            this.lblDuplicateAction.TabIndex = 24;
+            this.lblDuplicateAction.Text = "(No duplicate action)";
+            this.lblDuplicateAction.Visible = false;
+            // 
+            // lblDuplicateDetected
+            // 
+            this.lblDuplicateDetected.AutoSize = true;
+            this.lblDuplicateDetected.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDuplicateDetected.ForeColor = System.Drawing.Color.Red;
+            this.lblDuplicateDetected.Location = new System.Drawing.Point(723, 467);
+            this.lblDuplicateDetected.Name = "lblDuplicateDetected";
+            this.lblDuplicateDetected.Size = new System.Drawing.Size(203, 20);
+            this.lblDuplicateDetected.TabIndex = 23;
+            this.lblDuplicateDetected.Text = "Duplicate Key Detected!";
+            this.lblDuplicateDetected.Visible = false;
             // 
             // FormHotkeys
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1128, 762);
+            this.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.ClientSize = new System.Drawing.Size(1128, 785);
+            this.Controls.Add(this.lblEditingKey);
+            this.Controls.Add(this.lblDuplicateAction);
+            this.Controls.Add(this.lblDuplicateDetected);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.comboBoxChooseKey);
             this.Controls.Add(this.checkModAlt);
             this.Controls.Add(this.checkModShift);
@@ -459,7 +664,6 @@
             this.Controls.Add(this.lblCurrentKey);
             this.Controls.Add(this.btnAssignChosenKey);
             this.Controls.Add(this.lblActionToBeAssigned);
-            this.Controls.Add(this.lblEditingKey);
             this.Controls.Add(this.listViewHotkeys);
             this.Controls.Add(this.btnResetToDefaultKeys);
             this.Controls.Add(this.btnClearAllKeys);
@@ -505,5 +709,8 @@
         private System.Windows.Forms.Label lblChosenHotkey;
         private System.Windows.Forms.CheckBox checkModShift;
         private System.Windows.Forms.CheckBox checkModAlt;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Label lblDuplicateAction;
+        private System.Windows.Forms.Label lblDuplicateDetected;
     }
 }
