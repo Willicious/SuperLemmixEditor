@@ -540,7 +540,7 @@ namespace NLEditor
                 settingsFile.WriteLine("# SLXEditor settings ");
                 settingsFile.WriteLine(" Autosave            " + AutosaveFrequency.ToString());
                 settingsFile.WriteLine(" AutosaveLimit       " + KeepAutosaveCount.ToString());
-                settingsFile.WriteLine(" EditorMode          " + CurrentEditorMode.ToString().ToUpper());
+                settingsFile.WriteLine(" EditorMode          " + CurrentEditorMode.ToString());
                 settingsFile.WriteLine(" PieceSelectionNames " + (UsePieceSelectionNames ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
                 settingsFile.WriteLine(" CustomMove          " + CustomMove.ToString());
