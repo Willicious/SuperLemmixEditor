@@ -608,62 +608,6 @@ namespace NLEditor
             }
         }
 
-
-        /// <summary>
-        /// Displays a list of all hotkeys in a new form window.
-        /// </summary>
-        private void DisplayHotkeyForm()
-        {
-            Form hotkeyForm = new EscExitForm();
-            hotkeyForm.ClientSize = new Size(600, 520);
-            hotkeyForm.StartPosition = FormStartPosition.CenterScreen;
-            hotkeyForm.MaximizeBox = false;
-            hotkeyForm.ShowInTaskbar = false;
-            hotkeyForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            hotkeyForm.Text = "SLXEditor - Hotkeys";
-
-            TabControl hotkeyTabs = new TabControl();
-            hotkeyTabs.Location = new Point(0, 0);
-            hotkeyTabs.SelectedIndex = 0;
-            hotkeyTabs.Size = new Size(hotkeyForm.Width - 6, hotkeyForm.Height - 23);
-            hotkeyTabs.TabIndex = 1;
-            hotkeyTabs.TabStop = false;
-
-            var tabDictionary = new Dictionary<C.HotkeyTabs, TabPage>
-            {
-                { C.HotkeyTabs.General, new TabPage("General") },
-                { C.HotkeyTabs.Level, new TabPage("Level modification") },
-                { C.HotkeyTabs.Pieces, new TabPage("Piece modification") },
-            };
-
-            foreach (C.HotkeyTabs tab in tabDictionary.Keys)
-            {
-                // Create labels
-                Label lblKeys = new Label();
-                lblKeys.Font = new Font("Microsoft Sans MS", 9, FontStyle.Bold);
-                lblKeys.ForeColor = Color.Gray;
-                lblKeys.Location = new Point(0, 4);
-                lblKeys.Size = new Size(220, hotkeyTabs.Height - 4);
-                lblKeys.Text = string.Join(C.NewLine, C.HotkeyDict[tab]);
-                lblKeys.TextAlign = ContentAlignment.TopRight;
-                Label lblDescription = new Label();
-                lblDescription.Location = new Point(220, 4);
-                lblDescription.Font = new Font("Microsoft Sans MS", 9);
-                lblDescription.Size = new Size(hotkeyTabs.Width - 154, hotkeyTabs.Height - 4);
-                lblDescription.Text = string.Join(C.NewLine, C.DescriptionDict[tab]);
-
-                // Add labels to tab
-                tabDictionary[tab].Controls.Add(lblKeys);
-                tabDictionary[tab].Controls.Add(lblDescription);
-
-                // Add TabPage to TabControl
-                hotkeyTabs.Controls.Add(tabDictionary[tab]);
-            }
-
-            hotkeyForm.Controls.Add(hotkeyTabs);
-            hotkeyForm.Show();
-        }
-
         /// <summary>
         /// Displays the "About..." page with attribution and license.
         /// </summary>

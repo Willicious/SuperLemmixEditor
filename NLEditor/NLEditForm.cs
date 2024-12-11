@@ -25,6 +25,7 @@ namespace NLEditor
             RemoveFocus();
             SetRepeatButtonIntervals();
             SetMusicList();
+            SetHotkeys();
 
             C.ScreenSize = new ScreenSize();
             C.ScreenSize.InizializeSettings();
@@ -79,9 +80,9 @@ namespace NLEditor
                 {
                     { C.DisplayType.Background, backgroundToolStripMenuItem },
                     { C.DisplayType.ClearPhysics, clearPhysicsToolStripMenuItem },
-                    { C.DisplayType.Objects, objectRenderingToolStripMenuItem },
+                    { C.DisplayType.Objects, objectToolStripMenuItem },
                     { C.DisplayType.ScreenStart, screenStartToolStripMenuItem },
-                    { C.DisplayType.Terrain, terrainRenderingToolStripMenuItem },
+                    { C.DisplayType.Terrain, terrainToolStripMenuItem },
                     { C.DisplayType.Trigger, triggerAreasToolStripMenuItem },
                     { C.DisplayType.Deprecated, deprecatedPiecesToolStripMenuItem }
                 };
@@ -165,6 +166,8 @@ namespace NLEditor
         public BackgroundList Backgrounds { get; private set; }
         Renderer curRenderer;
         Settings curSettings;
+
+        private Dictionary<Keys, Action> hotkeyActions;
 
         List<Level> oldLevelList;
         int curOldLevelIndex;
@@ -287,7 +290,7 @@ namespace NLEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveInNewFileLevel();
+            SaveLevelAsNewFile();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -300,46 +303,39 @@ namespace NLEditor
             Application.Exit();
         }
 
-        private void deprecatedPiecesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DisplaySettings.ChangeDisplayed(C.DisplayType.Deprecated);
-            LoadPiecesIntoPictureBox();
-        }
-
         private void clearPhysicsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DisplaySettings.ChangeDisplayed(C.DisplayType.ClearPhysics);
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            ToggleClearPhysics();
         }
 
-        private void terrainRenderingToolStripMenuItem_Click(object sender, EventArgs e)
+        private void terrainToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DisplaySettings.ChangeDisplayed(C.DisplayType.Terrain);
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            ToggleTerrain();
         }
 
-        private void objectRenderingToolStripMenuItem_Click(object sender, EventArgs e)
+        private void objectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DisplaySettings.ChangeDisplayed(C.DisplayType.Objects);
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            ToggleObjects();
         }
 
         private void triggerAreasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DisplaySettings.ChangeDisplayed(C.DisplayType.Trigger);
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            ToggleTriggerAreas();
         }
 
         private void screenStartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DisplaySettings.ChangeDisplayed(C.DisplayType.ScreenStart);
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            ToggleScreenStart();
         }
 
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DisplaySettings.ChangeDisplayed(C.DisplayType.Background);
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            ToggleBackground();
+        }
+
+        private void deprecatedPiecesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToggleDeprecatedPieces();
         }
 
         private void snapToGridToolStripMenuItem_Click(object sender, EventArgs e)
@@ -372,7 +368,7 @@ namespace NLEditor
             WriteToClipboard();
         }
 
-        private void duplicateCToolStripMenuItem_Click(object sender, EventArgs e)
+        private void duplicateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DuplicateSelectedPieces();
         }
@@ -404,7 +400,7 @@ namespace NLEditor
                 formHotkeys.ShowDialog();
             }
 
-            //DisplayHotkeyForm();
+            SetHotkeys();
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -834,333 +830,358 @@ namespace NLEditor
 
         private void NLEditForm_KeyDown(object sender, KeyEventArgs e)
         {
-            mutexKeyDown.WaitOne();
-
-            switch (e.KeyCode)
+            //Check if the active control is a text input
+            if (ActiveControl != txt_Focus)
             {
-                case Keys.ShiftKey:
-                    isShiftPressed = true;
-                    break;
-                case Keys.ControlKey:
-                    isCtrlPressed = true;
-                    break;
-                case Keys.Menu:
-                    isAltPressed = true;
-                    break;
-                case Keys.P:
-                    isPPressed = true;
-                    break;
-            }
-
-            if (stopWatchKey.ElapsedMilliseconds < 50)
-                return;
-
-            // The main key-handling routine
-            if (e.Alt && e.KeyCode == Keys.F4)
-            {
-                Application.Exit();
-            }
-            else if (e.KeyCode == Keys.Escape)
-            {
-                // Pass it further to secondary windows
-                e.Handled = false;
+                // If so, ignore the key press and return early
                 return;
             }
-            else if (e.Control && e.KeyCode == Keys.N)
-            {
-                CreateNewLevelAndRenderer();
-            }
-            else if (e.Control && e.KeyCode == Keys.O)
-            {
-                LoadNewLevel();
-            }
-            else if (e.Control && e.Shift && e.KeyCode == Keys.S)
-            {
-                SaveInNewFileLevel();
-            }
-            else if (e.Control && e.KeyCode == Keys.S)
-            {
-                SaveLevel();
-            }
-            else if (e.KeyCode == Keys.F1)
-            {
-                clearPhysicsToolStripMenuItem_Click(null, null);
-            }
-            else if (e.KeyCode == Keys.F2)
-            {
-                terrainRenderingToolStripMenuItem_Click(null, null);
-            }
-            else if (e.KeyCode == Keys.F3)
-            {
-                objectRenderingToolStripMenuItem_Click(null, null);
-            }
-            else if (e.KeyCode == Keys.F4)
-            {
-                triggerAreasToolStripMenuItem_Click(null, null);
-            }
-            else if (e.KeyCode == Keys.F5 //HotkeyConfig.HotkeyToggleScreenStart
-                                          )
-            {
-                screenStartToolStripMenuItem_Click(null, null);
-            }
-            else if (e.KeyCode == Keys.F6)
-            {
-                backgroundToolStripMenuItem_Click(null, null);
-            }
-            else if (e.KeyCode == Keys.F7)
-            {
-                deprecatedPiecesToolStripMenuItem_Click(null, null);
-            }
-            else if (e.KeyCode == Keys.F9)
-            {
-                SwitchGridUsage();
-            }
-            else if (e.KeyCode == Keys.F10)
-            {
-                settingsToolStripMenuItem_Click(null, null);
-            }
-            else if (e.KeyCode == Keys.F11)
-            {
-                DisplayHotkeyForm();
-            }
-            else if (e.KeyCode == Keys.F12)
-            {
-                PlaytestLevel();
-            }
-            else if (e.Shift && e.KeyCode == Keys.Left)
-            {
-                RemoveFocus();
-                MoveTerrPieceSelection(e.Alt ? -picPieceList.Count : -1);
-            }
-            else if (e.Shift && e.KeyCode == Keys.Right)
-            {
-                RemoveFocus();
-                MoveTerrPieceSelection(e.Alt ? picPieceList.Count : 1);
-            }
-            else if (e.Shift && e.KeyCode == Keys.Up)
-            {
-                RemoveFocus();
-                ChangeNewPieceStyleSelection(-1);
-            }
-            else if (e.Shift && e.KeyCode == Keys.Down)
-            {
-                RemoveFocus();
-                ChangeNewPieceStyleSelection(1);
-            }
-            /* --------------------------------------------------------------------
-             * ONLY USE THE FOLLOWING KEYS IF FOCUS IS NOT ON ONE OF THE TEXTBOXES
-             * --------------------------------------------------------------------*/
-            else if (this.ActiveControl != txt_Focus)
-            {
-                return; // and don't restart the StopWatch
-            }
-            else if (e.KeyCode == Keys.Space)
-            {
-                C.SelectPieceType newKind;
-                switch (pieceDoDisplayKind)
-                {
-                    case C.SelectPieceType.Terrain:
-                        newKind = C.SelectPieceType.Objects;
-                        break;
-                    case C.SelectPieceType.Objects:
-                        newKind = C.SelectPieceType.Backgrounds;
-                        break;
-                    case C.SelectPieceType.Backgrounds:
-                        newKind = C.SelectPieceType.Sketches;
-                        break;
-                    case C.SelectPieceType.Sketches:
-                        newKind = C.SelectPieceType.Terrain;
-                        break;
-                    default:
-                        throw new ArgumentException();
-                }
 
-                ChangeObjTerrPieceDisplay(newKind);
-            }
-            else if (e.KeyCode == Keys.Delete)
+            Keys hotkey = e.KeyData; // Includes modifiers like Ctrl, Alt, Shift
+            if (hotkeyActions.TryGetValue(hotkey, out Action action))
             {
-                DeleteSelectedPieces(false);
+                action.Invoke();
+                e.Handled = true; // Prevent further processing if desired
             }
-            else if ((e.Control && e.KeyCode == Keys.Y) || (e.Control && e.Shift && e.KeyCode == Keys.Z))
-            {
-                CancelLastUndo();
-            }
-            else if (e.Control && e.KeyCode == Keys.Z)
-            {
-                UndoLastChange();
-            }
-            else if (e.Control && e.KeyCode == Keys.X)
-            {
-                DeleteSelectedPieces();
-            }
-            else if (e.Control && e.KeyCode == Keys.V)
-            {
-                AddFromClipboard(!e.Shift);
-            }
-            else if (e.Control && e.KeyCode == Keys.C)
-            {
-                WriteToClipboard();
-            }
-            else if (e.KeyCode == Keys.C)
-            {
-                DuplicateSelectedPieces();
-            }
-            else if (e.KeyCode.In(Keys.Add, Keys.OemMinus, Keys.Oemplus, Keys.Subtract))
-            {
-                curRenderer.ChangeZoom(e.KeyCode.In(Keys.Add, Keys.Oemplus) ? 1 : -1, false);
-                RepositionPicLevel();
-                pic_Level.SetImage(curRenderer.GetScreenImage());
-            }
-            else if (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
-            {
-                int keyValue = e.KeyValue - (int)Keys.D0;
-                if (keyValue == 0)
-                    keyValue = 10;
-
-                if (picPieceList.Count >= keyValue)
-                {
-                    AddNewPieceToLevel(keyValue - 1);
-                    UpdateFlagsForPieceActions();
-                }
-            }
-            else if (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
-            {
-                int keyValue = e.KeyValue - (int)Keys.NumPad0;
-                if (keyValue == 0)
-                    keyValue = 10;
-
-                if (picPieceList.Count >= keyValue)
-                {
-                    AddNewPieceToLevel(keyValue - 1);
-                    UpdateFlagsForPieceActions();
-                }
-            }
-            else if (e.KeyCode.In(Keys.Left, Keys.Right, Keys.Up, Keys.Down))
-            {
-                C.DIR direction;
-                switch (e.KeyCode)
-                {
-                    case Keys.Left:
-                        direction = C.DIR.W;
-                        break;
-                    case Keys.Right:
-                        direction = C.DIR.E;
-                        break;
-                    case Keys.Up:
-                        direction = C.DIR.N;
-                        break;
-                    case Keys.Down:
-                        direction = C.DIR.S;
-                        break;
-                    default:
-                        direction = C.DIR.E;
-                        break;
-                }
-
-                // Move screen start position, if 'P' is pressed in addition.
-                if (isPPressed && !CurLevel.AutoStartPos)
-                {
-                    // ensure displaying the screen start
-                    DisplaySettings.SetDisplayed(C.DisplayType.ScreenStart, true);
-                    MoveScreenStartPosition(direction);
-                }
-                // ...or selected pieces if they exist 
-                else if (CurLevel.SelectionList().Count > 0)
-                {
-                    //sets the default move value to 1 pixel
-                    int numPixels = 1;
-
-                    //if grid is active, the value is 8 pixels
-                    if (gridSize > 1 && !e.Control && !e.Alt)
-                    {
-                        numPixels = gridSize;
-                    }
-                    //pressing Ctrl switches value from 1 to 8 is grid isn't active
-                    //and from 8 to 1 if grid is active
-                    else if (e.Control)
-                    {
-                        numPixels = (gridSize == 1) ? 8 : 1;
-                    }
-                    //pressing Alt always applies the user's custom move value
-                    else if (e.Alt)
-                    {
-                        numPixels = customMove;
-                    }
-
-                    MoveLevelPieces(direction, numPixels);
-                }
-                // ...or the screen position otherwise
-                else
-                {
-                    curRenderer.MoveScreenPos(direction, e.Control ? 64 : 8);
-                    pic_Level.SetImage(curRenderer.GetScreenImage());
-                }
-            }
-            else if (e.KeyCode == Keys.R)
-            {
-                RotateLevelPieces();
-            }
-            else if (e.KeyCode == Keys.E)
-            {
-                FlipLevelPieces();
-            }
-            else if (e.KeyCode == Keys.W)
-            {
-                InvertLevelPieces();
-            }
-            else if (e.KeyCode == Keys.A)
-            {
-                check_Pieces_Erase.Checked = !check_Pieces_Erase.Checked;
-            }
-            else if (e.KeyCode == Keys.S)
-            {
-                check_Pieces_NoOv.Checked = !check_Pieces_NoOv.Checked;
-            }
-            else if (e.KeyCode == Keys.D)
-            {
-                check_Pieces_OnlyOnTerrain.Checked = !check_Pieces_OnlyOnTerrain.Checked;
-            }
-            else if (e.KeyCode == Keys.F)
-            {
-                check_Pieces_OneWay.Checked = !check_Pieces_OneWay.Checked;
-            }
-            else if (e.KeyCode == Keys.G)
-            {
-                GroupSelectedPieces();
-            }
-            else if (e.KeyCode == Keys.H)
-            {
-                UngroupSelectedPieces();
-            }
-            else if (e.KeyCode == Keys.Home)
-            {
-                MovePieceIndex(true, false);
-            }
-            else if (e.KeyCode == Keys.PageUp || e.KeyCode == Keys.OemPeriod)
-            {
-                MovePieceIndex(true, true);
-            }
-            else if (e.KeyCode == Keys.PageDown || e.KeyCode == Keys.Oemcomma)
-            {
-                MovePieceIndex(false, true);
-            }
-            else if (e.KeyCode == Keys.End)
-            {
-                MovePieceIndex(false, false);
-            }
-            else if (e.KeyCode == Keys.Enter)
-            {
-                RemoveFocus();
-            }
-            else
-            {
-                return; // and don't restart the StopWatch
-            }
-
-            stopWatchKey.Restart();
-
-            mutexKeyDown.ReleaseMutex();
         }
+
+        //private void NLEditForm_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    mutexKeyDown.WaitOne();
+
+        //    switch (e.KeyCode)
+        //    {
+        //        case Keys.ShiftKey:
+        //            isShiftPressed = true;
+        //            break;
+        //        case Keys.ControlKey:
+        //            isCtrlPressed = true;
+        //            break;
+        //        case Keys.Menu:
+        //            isAltPressed = true;
+        //            break;
+        //        case Keys.P:
+        //            isPPressed = true;
+        //            break;
+        //    }
+
+        //    if (stopWatchKey.ElapsedMilliseconds < 50)
+        //        return;
+
+        //    // The main key-handling routine
+        //    if (e.Alt && e.KeyCode == Keys.F4)
+        //    {
+        //        Application.Exit();
+        //    }
+        //    else if (e.KeyCode == Keys.Escape)
+        //    {
+        //        // Pass it further to secondary windows
+        //        e.Handled = false;
+        //        return;
+        //    }
+        //    else if (e.Control && e.KeyCode == Keys.N)
+        //    {
+        //        CreateNewLevelAndRenderer();
+        //    }
+        //    else if (e.Control && e.KeyCode == Keys.O)
+        //    {
+        //        LoadNewLevel();
+        //    }
+        //    else if (e.Control && e.Shift && e.KeyCode == Keys.S)
+        //    {
+        //        SaveLevelAsNewFile();
+        //    }
+        //    else if (e.Control && e.KeyCode == Keys.S)
+        //    {
+        //        SaveLevel();
+        //    }
+        //    else if (e.Control && e.Alt && e.KeyCode == Keys.S)
+        //    {
+        //        SaveLevelAsImage();
+        //    }
+        //    else if (e.KeyCode == Keys.F1)
+        //    {
+        //        clearPhysicsToolStripMenuItem_Click(null, null);
+        //    }
+        //    else if (e.KeyCode == Keys.F2)
+        //    {
+        //        terrainToolStripMenuItem_Click(null, null);
+        //    }
+        //    else if (e.KeyCode == Keys.F3)
+        //    {
+        //        objectToolStripMenuItem_Click(null, null);
+        //    }
+        //    else if (e.KeyCode == Keys.F4)
+        //    {
+        //        triggerAreasToolStripMenuItem_Click(null, null);
+        //    }
+        //    else if (e.KeyCode == Keys.F5 //HotkeyConfig.HotkeyToggleScreenStart
+        //                                  )
+        //    {
+        //        screenStartToolStripMenuItem_Click(null, null);
+        //    }
+        //    else if (e.KeyCode == Keys.F6)
+        //    {
+        //        backgroundToolStripMenuItem_Click(null, null);
+        //    }
+        //    else if (e.KeyCode == Keys.F7)
+        //    {
+        //        deprecatedPiecesToolStripMenuItem_Click(null, null);
+        //    }
+        //    else if (e.KeyCode == Keys.F9)
+        //    {
+        //        SwitchGridUsage();
+        //    }
+        //    else if (e.KeyCode == Keys.F10)
+        //    {
+        //        settingsToolStripMenuItem_Click(null, null);
+        //    }
+        //    else if (e.KeyCode == Keys.F11)
+        //    {
+        //        hotkeysToolStripMenuItem_Click(null, null);
+        //    }
+        //    else if (e.KeyCode == Keys.F12)
+        //    {
+        //        PlaytestLevel();
+        //    }
+        //    else if (e.Control && e.KeyCode == Keys.F12)
+        //    {
+        //        ValidateLevel();
+        //    }
+        //    else if (e.Shift && e.KeyCode == Keys.Left)
+        //    {
+        //        RemoveFocus();
+        //        MoveTerrPieceSelection(e.Alt ? -picPieceList.Count : -1);
+        //    }
+        //    else if (e.Shift && e.KeyCode == Keys.Right)
+        //    {
+        //        RemoveFocus();
+        //        MoveTerrPieceSelection(e.Alt ? picPieceList.Count : 1);
+        //    }
+        //    else if (e.Shift && e.KeyCode == Keys.Up)
+        //    {
+        //        RemoveFocus();
+        //        ChangeNewPieceStyleSelection(-1);
+        //    }
+        //    else if (e.Shift && e.KeyCode == Keys.Down)
+        //    {
+        //        RemoveFocus();
+        //        ChangeNewPieceStyleSelection(1);
+        //    }
+        //    /* --------------------------------------------------------------------
+        //     * ONLY USE THE FOLLOWING KEYS IF FOCUS IS NOT ON ONE OF THE TEXTBOXES
+        //     * --------------------------------------------------------------------*/
+        //    else if (this.ActiveControl != txt_Focus)
+        //    {
+        //        return; // and don't restart the StopWatch
+        //    }
+        //    else if (e.KeyCode == Keys.Space)
+        //    {
+        //        C.SelectPieceType newKind;
+        //        switch (pieceDoDisplayKind)
+        //        {
+        //            case C.SelectPieceType.Terrain:
+        //                newKind = C.SelectPieceType.Objects;
+        //                break;
+        //            case C.SelectPieceType.Objects:
+        //                newKind = C.SelectPieceType.Backgrounds;
+        //                break;
+        //            case C.SelectPieceType.Backgrounds:
+        //                newKind = C.SelectPieceType.Sketches;
+        //                break;
+        //            case C.SelectPieceType.Sketches:
+        //                newKind = C.SelectPieceType.Terrain;
+        //                break;
+        //            default:
+        //                throw new ArgumentException();
+        //        }
+
+        //        ChangeObjTerrPieceDisplay(newKind);
+        //    }
+        //    else if (e.KeyCode == Keys.Delete)
+        //    {
+        //        DeleteSelectedPieces(false);
+        //    }
+        //    else if ((e.Control && e.KeyCode == Keys.Y) || (e.Control && e.Shift && e.KeyCode == Keys.Z))
+        //    {
+        //        CancelLastUndo();
+        //    }
+        //    else if (e.Control && e.KeyCode == Keys.Z)
+        //    {
+        //        UndoLastChange();
+        //    }
+        //    else if (e.Control && e.KeyCode == Keys.X)
+        //    {
+        //        DeleteSelectedPieces();
+        //    }
+        //    else if (e.Control && e.KeyCode == Keys.V)
+        //    {
+        //        AddFromClipboard(!e.Shift);
+        //    }
+        //    else if (e.Control && e.KeyCode == Keys.C)
+        //    {
+        //        WriteToClipboard();
+        //    }
+        //    else if (e.KeyCode == Keys.C)
+        //    {
+        //        DuplicateSelectedPieces();
+        //    }
+        //    else if (e.KeyCode.In(Keys.Add, Keys.OemMinus, Keys.Oemplus, Keys.Subtract))
+        //    {
+        //        curRenderer.ChangeZoom(e.KeyCode.In(Keys.Add, Keys.Oemplus) ? 1 : -1, false);
+        //        RepositionPicLevel();
+        //        pic_Level.SetImage(curRenderer.GetScreenImage());
+        //    }
+        //    else if (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
+        //    {
+        //        int keyValue = e.KeyValue - (int)Keys.D0;
+        //        if (keyValue == 0)
+        //            keyValue = 10;
+
+        //        if (picPieceList.Count >= keyValue)
+        //        {
+        //            AddNewPieceToLevel(keyValue - 1);
+        //            UpdateFlagsForPieceActions();
+        //        }
+        //    }
+        //    else if (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
+        //    {
+        //        int keyValue = e.KeyValue - (int)Keys.NumPad0;
+        //        if (keyValue == 0)
+        //            keyValue = 10;
+
+        //        if (picPieceList.Count >= keyValue)
+        //        {
+        //            AddNewPieceToLevel(keyValue - 1);
+        //            UpdateFlagsForPieceActions();
+        //        }
+        //    }
+        //    else if (e.KeyCode.In(Keys.Left, Keys.Right, Keys.Up, Keys.Down))
+        //    {
+        //        C.DIR direction;
+        //        switch (e.KeyCode)
+        //        {
+        //            case Keys.Left:
+        //                direction = C.DIR.W;
+        //                break;
+        //            case Keys.Right:
+        //                direction = C.DIR.E;
+        //                break;
+        //            case Keys.Up:
+        //                direction = C.DIR.N;
+        //                break;
+        //            case Keys.Down:
+        //                direction = C.DIR.S;
+        //                break;
+        //            default:
+        //                direction = C.DIR.E;
+        //                break;
+        //        }
+
+        //        // Move screen start position, if 'P' is pressed in addition.
+        //        if (isPPressed && !CurLevel.AutoStartPos)
+        //        {
+        //            // ensure displaying the screen start
+        //            DisplaySettings.SetDisplayed(C.DisplayType.ScreenStart, true);
+        //            MoveScreenStartPosition(direction);
+        //        }
+        //        // ...or selected pieces if they exist 
+        //        else if (CurLevel.SelectionList().Count > 0)
+        //        {
+        //            //sets the default move value to 1 pixel
+        //            int numPixels = 1;
+
+        //            //if grid is active, the value is 8 pixels
+        //            if (gridSize > 1 && !e.Control && !e.Alt)
+        //            {
+        //                numPixels = gridSize;
+        //            }
+        //            //pressing Ctrl switches value from 1 to 8 is grid isn't active
+        //            //and from 8 to 1 if grid is active
+        //            else if (e.Control)
+        //            {
+        //                numPixels = (gridSize == 1) ? 8 : 1;
+        //            }
+        //            //pressing Alt always applies the user's custom move value
+        //            else if (e.Alt)
+        //            {
+        //                numPixels = customMove;
+        //            }
+
+        //            MoveLevelPieces(direction, numPixels);
+        //        }
+        //        // ...or the screen position otherwise
+        //        else
+        //        {
+        //            curRenderer.MoveScreenPos(direction, e.Control ? 64 : 8);
+        //            pic_Level.SetImage(curRenderer.GetScreenImage());
+        //        }
+        //    }
+        //    else if (e.KeyCode == Keys.R)
+        //    {
+        //        RotateLevelPieces();
+        //    }
+        //    else if (e.KeyCode == Keys.E)
+        //    {
+        //        FlipLevelPieces();
+        //    }
+        //    else if (e.KeyCode == Keys.W)
+        //    {
+        //        InvertLevelPieces();
+        //    }
+        //    else if (e.KeyCode == Keys.A)
+        //    {
+        //        check_Pieces_Erase.Checked = !check_Pieces_Erase.Checked;
+        //    }
+        //    else if (e.KeyCode == Keys.S)
+        //    {
+        //        check_Pieces_NoOv.Checked = !check_Pieces_NoOv.Checked;
+        //    }
+        //    else if (e.KeyCode == Keys.D)
+        //    {
+        //        check_Pieces_OnlyOnTerrain.Checked = !check_Pieces_OnlyOnTerrain.Checked;
+        //    }
+        //    else if (e.KeyCode == Keys.F)
+        //    {
+        //        check_Pieces_OneWay.Checked = !check_Pieces_OneWay.Checked;
+        //    }
+        //    else if (e.KeyCode == Keys.G)
+        //    {
+        //        GroupSelectedPieces();
+        //    }
+        //    else if (e.KeyCode == Keys.H)
+        //    {
+        //        UngroupSelectedPieces();
+        //    }
+        //    else if (e.KeyCode == Keys.Home)
+        //    {
+        //        MovePieceIndex(true, false);
+        //    }
+        //    else if (e.KeyCode == Keys.PageUp || e.KeyCode == Keys.OemPeriod)
+        //    {
+        //        MovePieceIndex(true, true);
+        //    }
+        //    else if (e.KeyCode == Keys.PageDown || e.KeyCode == Keys.Oemcomma)
+        //    {
+        //        MovePieceIndex(false, true);
+        //    }
+        //    else if (e.KeyCode == Keys.End)
+        //    {
+        //        MovePieceIndex(false, false);
+        //    }
+        //    else if (e.KeyCode == Keys.Enter)
+        //    {
+        //        RemoveFocus();
+        //    }
+        //    else
+        //    {
+        //        return; // and don't restart the StopWatch
+        //    }
+
+        //    stopWatchKey.Restart();
+
+        //    mutexKeyDown.ReleaseMutex();
+        //}
 
         private void NLEditForm_KeyUp(object sender, KeyEventArgs e)
         {
@@ -1437,43 +1458,6 @@ namespace NLEditor
             mutexMouseUp.ReleaseMutex();
         }
 
-
-        private void pic_Level_DoubleClick(object sender, EventArgs e)
-        {
-            // Removed ability to add pieces by double-clicking.
-            /*
-            if (!(e is MouseEventArgs) || (e as MouseEventArgs).Button != MouseButtons.Left) return;
-
-            curRenderer.DeleteDraggingVars();
-
-            Point mouseScreenPos = MousePosition;
-            Point mousePicBoxPos = pic_Level.PointToClient(mouseScreenPos);
-            Point mouseLevelPos = curRenderer.GetMousePosInLevel(mousePicBoxPos);
-
-            List<string> pieceList = pieceDoDisplayKind ? pieceCurStyle?.ObjectKeys : pieceCurStyle?.TerrainKeys;
-            if (pieceList == null || pieceList.Count == 0) return;
-            int startIndex = (pieceStartIndex - 1 + picPieceList.Count / 2) % pieceList.Count;
-
-            var selectForm = new FormPieceSelection(this, pieceCurStyle, pieceDoDisplayKind, startIndex, mouseLevelPos, CurLevel.MainStyle);
-
-            int formStartPosX;
-            if (mouseScreenPos.X + selectForm.Width < SystemInformation.VirtualScreen.Width - 12)
-            {
-                formStartPosX = mouseScreenPos.X + 4;
-            }
-            else
-            {
-                formStartPosX = mouseScreenPos.X - selectForm.Width - 4;
-            }
-            int formStartPosY = Math.Max(Math.Min(mouseScreenPos.Y - selectForm.Height / 3,
-                                         SystemInformation.VirtualScreen.Height - selectForm.Height - 4), 0);
-
-            selectForm.StartPosition = FormStartPosition.Manual;
-            selectForm.Location = new Point(formStartPosX, formStartPosY);
-            selectForm.Show();
-            */
-        }
-
         private void btnTalismanMoveUp_Click(object sender, EventArgs e)
         {
             int talIndex = lbTalismans.SelectedIndex;
@@ -1650,78 +1634,22 @@ namespace NLEditor
 
         private void cleanseLevelsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Show folder browser dialog to select the target folder
-            using (var folderBrowserDialog = new FolderBrowserDialog())
-            {
-                DialogResult result = folderBrowserDialog.ShowDialog();
-
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
-                {
-                    targetFolder = folderBrowserDialog.SelectedPath;
-                    CleanseLevels(); // Proceed with cleansing levels
-                }
-            }
+            ShowCleanseLevelsDialog();
         }
 
         private void saveAsImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Handle the file naming format
-            string baseFileName = string.IsNullOrEmpty(CurLevel.Title) ? "Level" : CurLevel.Title;
-            string fileName = baseFileName + ".png";
-
-            int count = 0;
-            while (File.Exists(fileName))
-            {
-                count++;
-                fileName = $"{baseFileName} ({count}).png";
-            }
-
-            // Get the full level image and save it to a .png file
-            Bitmap fullLevelImage = curRenderer.GetFullLevelImage();
-            fullLevelImage.Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
-
-            // Confirm save with a popup message
-            string savedFilePath = Path.GetFullPath(fileName);
-            MessageBox.Show($"Image saved as {savedFilePath}", "Save Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            SaveLevelAsImage();
         }
 
         private void btnRandomSkillset_Click(object sender, EventArgs e)
         {
-            SetAllSkillsToZero(); // Zero the skillset first
-            Random random = new Random();
-
-            int minValue = (int)num_RandomMinLimit.Value;
-            int maxValue = (int)num_RandomMaxLimit.Value;
-
-            // List and shuffle the numeric controls on tabSkills (excluding the randomizer limits and disabled controls)
-            List<NumericUpDown> numericUpDowns = tabSkills.Controls.OfType<NumericUpDown>()
-                .Where(n => n != num_RandomMinLimit && n != num_RandomMaxLimit && n.Enabled)
-                .ToList();
-            numericUpDowns = numericUpDowns.OrderBy(x => random.Next()).ToList();
-
-            // Select up to 14 skills and populate them with a number between minValue and maxValue
-            List<NumericUpDown> selectedControls = numericUpDowns.Take(14).ToList();
-            foreach (var numBox in selectedControls)
-            {
-                numBox.Value = random.Next(minValue, maxValue + 1); // maxValue + 1 because Random.Next is exclusive on the upper bound
-            }
+            GenerateRandomSkillset();
         }
 
         private void btnAllSkillsToZero_Click(object sender, EventArgs e)
         {
             SetAllSkillsToZero();
-        }
-
-        private void SetAllSkillsToZero()
-        {
-            foreach (Control ctrl in tabSkills.Controls)
-            {
-                if (ctrl is NumericUpDown numBox && numBox != num_RandomMinLimit 
-                                                 && numBox != num_RandomMaxLimit)
-                {
-                    numBox.Value = 0;
-                }
-            }
         }
 
         private void num_RandomLimit_ValueChanged(object sender, EventArgs e)
@@ -1741,14 +1669,6 @@ namespace NLEditor
         private void whatsNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowWhatsNew();
-        }
-
-        private void ShowWhatsNew()
-        {
-            using (var whatsNewForm = new FormWhatsNew())
-            {
-                whatsNewForm.ShowDialog(this);
-            }
         }
     }
 }

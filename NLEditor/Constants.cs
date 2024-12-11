@@ -4,8 +4,6 @@ using System.Drawing;
 
 namespace NLEditor
 {
-    using THotkeyTexts = Dictionary<C.HotkeyTabs, List<string>>;
-
     static class C // for Constants
     {
         public static string Version
@@ -180,8 +178,6 @@ namespace NLEditor
       { NLColor.SelRectTerrain, Color.Gold }
     };
 
-        public enum HotkeyTabs { General, Level, Pieces }
-
         public enum TalismanType { Bronze, Silver, Gold }
         public enum TalismanReq
         {
@@ -290,181 +286,6 @@ namespace NLEditor
       "orig_11", "orig_12", "orig_13", "orig_14", "orig_15", "orig_16", "orig_17",
       "ohno_01", "ohno_02", "ohno_03", "ohno_04", "ohno_05", "ohno_06",
       "xmas_01", "xmas_02", "xmas_03"
-    };
-
-
-        public static readonly THotkeyTexts HotkeyDict = new THotkeyTexts
-    {
-      { HotkeyTabs.General, new List<string>
-        {
-          "Alt + F4",
-          "Esc",
-          "Ctrl + N",
-          "Ctrl + O",
-          "Ctrl + S",
-          "Ctrl + Alt + S",
-          "",
-          "F1",
-          "F2",
-          "F3",
-          "F4",
-          "F5",
-          "F6",
-          "F9",
-          "F10",
-          "F11",
-          "F12",
-          "Ctrl + F12",
-          "Ctrl + Alt + F12"
-        }
-      },
-      { HotkeyTabs.Level, new List<string>
-        {
-          "Left Mouse Button",
-          "",
-          "",
-          "Right Mouse Button",
-          "Middle Mouse Button",
-          "Ctrl + Left Mouse Button",
-          "Alt + Left Mouse Button",
-          "P + Left Mouse Button",
-          "Numpad +/-",
-          "Mouse Wheel",
-          "Ctrl + Mouse Wheel",
-          "Alt + Mouse Wheel",
-          "Shift + Mouse Wheel",
-          "",
-          "Shift + Right/Left Arrows",
-          "Shift + Alt + Right/Left Arrows",
-          "Shift + Up/Down Arrows",
-          "Space",
-          "1, 2, 3, ..., 9, 0",
-          "",
-          "P + Arrows"
-        }
-      },
-      { HotkeyTabs.Pieces, new List<string>
-        {
-          "Ctrl + Z",
-          "Ctrl + Shift + Z",
-          "Ctrl + Y",
-          "Ctrl + X",
-          "Ctrl + C",
-          "Ctrl + V",
-          "C",
-          "Delete",
-          "",
-          "Arrows",
-          "Ctrl + Arrows",
-          "Alt + Arrows",
-          "Ctrl + Shift + Left Mouse Button",
-          "Shift + Right Mouse Button",
-          "Ctrl + Alt + Left Mouse Button",
-          "Ctrl + Right Mouse Button",
-          "R",
-          "E",
-          "W",
-          "G",
-          "H",
-          "",
-          "A",
-          "S",
-          "D",
-          "F",
-          "",
-          "Home",
-          "Page Up",
-          "Page Down",
-          "End"
-        }
-      }
-    };
-
-        public static readonly THotkeyTexts DescriptionDict = new THotkeyTexts
-    {
-      { HotkeyTabs.General, new List<string>
-        {
-            "Exit the editor",
-            "Close secondary windows",
-            "Create a new empty level",
-            "Load a new level",
-            "Save the current level",
-            "Save the current level in a new file",
-            "",
-            "Switch to and from displaying Clear Physics",
-            "Switch to and from displaying Terrain",
-            "Switch to and from displaying Interactive Objects",
-            "Switch to and from displaying Trigger Areas",
-            "Switch to and from displaying the Screen Start",
-            "Switch to and from displaying Background Images",
-            "Toggle grid usage",
-            "Display Settings window",
-            "Display Hotkeys window",
-            "Playtest the current level in the SuperLemmix player",
-            "Validate the current level",
-            "Display About window"
-        }
-      },
-      { HotkeyTabs.Level, new List<string>
-        {
-          "Select/drag a single piece, or...",
-          "Drag to select multiple pieces, or...",
-          "Drag all currently selected pieces",
-          "Drag to scroll level view position",
-          "Remove all pieces at cursor location from selection",
-          "Add/Remove a single piece to current selection",
-          "Select the piece underneath the piece(s) at cursor location",
-          "Drag the Screen Start position",
-          "Zoom In/Out",
-          "Zoom In/Out",
-          "Scroll horiztontally",
-          "Scroll vertically",
-          "Scroll vertically",
-          "",
-          "Show previous/next item in piece display",
-          "Show previous/next group of items in piece display",
-          "Show previous/next style in piece display",
-          "Toggle between Terrain and Objects",
-          "Add the currently chosen piece to the level",
-          "",
-          "Move Screen Start position by 8 pixels"
-        }
-      },
-      { HotkeyTabs.Pieces, new List<string>
-        {
-          "Undo last change",
-          "Revert last Undo and Redo that action",
-          "Revert last Undo and Redo that action.",
-          "Cut selected pieces",
-          "Copy selected pieces",
-          "Paste copied pieces",
-          "Duplicate-in-place selected pieces",
-          "Delete selected pieces",
-          "",
-          "Move selected pieces by 1 pixel",
-          "Move selected pieces by 8 pixels",
-          "Move selected pieces by Custom Move amount (set in F10 Settings)",
-          "Drag selected pieces horizontally (X-axis only)",
-          "Drag selected pieces horizontally (X-axis only)",
-          "Drag selected pieces vertically (Y-axis only)",
-          "Drag selected pieces vertically (Y-axis only)",
-          "Rotate selected pieces",
-          "Flip selected pieces",
-          "Invert selected pieces",
-          "Group selected pieces",
-          "Ungroup all selected groups",
-          "",
-          "Toggle drawing selected pieces as Eraser pieces",
-          "Toggle drawing selected pieces below existing terrain",
-          "Toggle drawing selected pieces only on existing terrain",
-          "Toggle allowing One-Way-Walls on selected pieces",
-          "",
-          "Bring selected pieces to front",
-          "Bring selected pieces one step to front",
-          "Send selected pieces one step to back",
-          "Send selected pieces to back"
-        }
-      }
     };
 
         public static readonly List<string> VersionList = new List<string>
