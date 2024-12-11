@@ -404,7 +404,7 @@ namespace NLEditor
                 formHotkeys.ShowDialog();
             }
 
-            DisplayHotkeyForm();
+            //DisplayHotkeyForm();
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
