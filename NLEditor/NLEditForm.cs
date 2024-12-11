@@ -1124,7 +1124,6 @@ namespace NLEditor
             {
                 check_Pieces_OneWay.Checked = !check_Pieces_OneWay.Checked;
             }
-            /*
             else if (e.KeyCode == Keys.G)
             {
                 GroupSelectedPieces();
@@ -1133,7 +1132,6 @@ namespace NLEditor
             {
                 UngroupSelectedPieces();
             }
-            */
             else if (e.KeyCode == Keys.Home)
             {
                 MovePieceIndex(true, false);
