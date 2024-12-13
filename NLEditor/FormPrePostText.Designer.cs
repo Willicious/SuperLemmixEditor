@@ -44,6 +44,7 @@
             this.txtPrePostText.Name = "txtPrePostText";
             this.txtPrePostText.Size = new System.Drawing.Size(432, 219);
             this.txtPrePostText.TabIndex = 0;
+            this.txtPrePostText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // butPTextOK
             // 
@@ -94,7 +95,7 @@
             this.Name = "FormPrePostText";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormPrePostTest";
+            this.Text = "FormPrePostText";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPrePostTest_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormPrePostText_KeyDown);
             this.Leave += new System.EventHandler(this.FormPrePostTest_Leave);
