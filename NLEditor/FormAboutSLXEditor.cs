@@ -11,33 +11,77 @@ using System.Windows.Forms.VisualStyles;
 
 namespace NLEditor
 {
-    public partial class FormWhatsNew : Form
+    public partial class FormAboutSLXEditor : Form
     {
-        public FormWhatsNew()
+        public FormAboutSLXEditor()
         {
+            int GetCenter(Control component)
+            {
+                return (this.ClientSize.Width - component.Width) / 2;
+            }
+
             KeyPreview = true;
 
-            Int32 topMargin = 10;
+            Int32 rtbWidth = 720;
+            Int32 topMargin = 12;
+            Int32 padding = 12;
 
             InitializeComponent();
 
+            richTextBox_WhatsNew.Width = rtbWidth;
+            richTextBox_PreviousUpdates.Width = rtbWidth;
+            picturePadding.Left = richTextBox_WhatsNew.Right;
+            pictureClimber.Left = richTextBox_WhatsNew.Right;
+
             lblWhatsNew.Text = "What's New in SuperLemmix Editor"; //+ C.Version;
-            lblWhatsNew.Left = (this.ClientSize.Width - lblWhatsNew.Width) / 2;
             lblWhatsNew.Top = topMargin;
+            lblWhatsNew.Left = GetCenter(lblWhatsNew);
             WriteWhatsNewText();
 
-            lblPreviousUpdates.Left = (this.ClientSize.Width - lblPreviousUpdates.Width) / 2;
+            lblPreviousUpdates.Left = GetCenter(lblPreviousUpdates);
             WritePreviousUpdatesText();
 
-            check_ShowWhatsNew.Left = (this.ClientSize.Width - check_ShowWhatsNew.Width) / 2;
-            check_ShowWhatsNew.Checked = Properties.Settings.Default.ShowWhatsNew;
-            check_ShowWhatsNew.CheckedChanged += Check_ShowWhatsNew_CheckedChanged;
+            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + ")";
+            lblSuperLemmixEditor.Top = richTextBox_PreviousUpdates.Bottom + padding;
+            lblSuperLemmixEditor.Left = GetCenter(lblSuperLemmixEditor);
+
+            lblAuthor.Top = lblSuperLemmixEditor.Bottom + padding;
+            lblAuthor.Left = GetCenter(lblAuthor);
+            lblBasedOn.Top = lblAuthor.Bottom;
+            lblBasedOn.Left = GetCenter(lblBasedOn);
+
+            lblThanksTo.Top = lblBasedOn.Bottom + padding;
+            lblThanksTo.Left = GetCenter(lblThanksTo);
+            lblDMA.Top = lblThanksTo.Bottom;
+            lblDMA.Left = GetCenter(lblDMA);
+            lblLFCommunity.Top = lblDMA.Bottom;
+            lblLFCommunity.Left = GetCenter(lblLFCommunity);
+            linkLF.Top = lblLFCommunity.Bottom;
+            linkLF.Left = GetCenter(linkLF);
+
+            check_ShowThisWindow.Top = linkLF.Bottom + padding;
+            check_ShowThisWindow.Left = GetCenter(check_ShowThisWindow);
+            check_ShowThisWindow.Checked = Properties.Settings.Default.ShowAboutSLXWindowAtStartup;
         }
 
-        private void Check_ShowWhatsNew_CheckedChanged(object sender, EventArgs e)
+        private void Check_ShowThisWindow_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.ShowWhatsNew = check_ShowWhatsNew.Checked;
+            Properties.Settings.Default.ShowAboutSLXWindowAtStartup = check_ShowThisWindow.Checked;
             Properties.Settings.Default.Save();
+        }
+
+        private void FormAboutSLXEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                Close();
+            }
+        }
+
+        private void linkLF_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string url = "https://www.lemmingsforums.net";
+            System.Diagnostics.Process.Start(url);
         }
 
         /// <summary>
@@ -258,14 +302,6 @@ namespace NLEditor
         {
             var richTextBox = richTextBox_PreviousUpdates;
             richTextBox.Clear();
-        }
-
-        private void FormWhatsNew_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape)
-            {
-                Close();
-            }
         }
     }
 }

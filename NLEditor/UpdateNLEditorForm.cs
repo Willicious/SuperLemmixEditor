@@ -607,36 +607,5 @@ namespace NLEditor
                 pic_DragNewPiece.Location = new Point(newPosX, newPosY);
             }
         }
-
-        /// <summary>
-        /// Displays the "About..." page with attribution and license.
-        /// </summary>
-        private void DisplayVersionForm()
-        {
-            Form versionForm = new EscExitForm();
-            versionForm.ClientSize = new Size(420, 220);
-            versionForm.MaximizeBox = false;
-            versionForm.ShowInTaskbar = false;
-            versionForm.StartPosition = FormStartPosition.CenterScreen;
-            versionForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            versionForm.Text = "SLXEditor - About";
-
-            versionForm.Show();
-
-            using (Graphics hotkeyGraphics = versionForm.CreateGraphics())
-            using (SolidBrush brush = new SolidBrush(Color.Black))
-            using (Font boldfont = new Font("Microsoft Sans Serif", 10, FontStyle.Bold))
-            using (Font font = new Font("Microsoft Sans Serif", 10))
-            {
-                for (int i = 0; i < C.VersionList.Count; i++)
-                {
-                    hotkeyGraphics.DrawString(C.VersionList[i], boldfont, brush, 8, 8 + 16 * i);
-                }
-                for (int i = 0; i < C.AboutList.Count; i++)
-                { 
-                    hotkeyGraphics.DrawString(C.AboutList[i], font, brush, 8, 8 + 16 * i);
-                }
-            }
-        }
     }
 }

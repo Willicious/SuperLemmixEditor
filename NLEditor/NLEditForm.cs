@@ -22,7 +22,7 @@ namespace NLEditor
         public NLEditForm()
         {
             InitializeComponent();
-            RemoveFocus();
+            PullFocusFromTextInputs();
             SetRepeatButtonIntervals();
             SetMusicList();
             SetHotkeys();
@@ -224,7 +224,7 @@ namespace NLEditor
 
         private void NLEditForm_Click(object sender, EventArgs e)
         {
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void NLEditForm_Resize(object sender, EventArgs e)
@@ -251,7 +251,7 @@ namespace NLEditor
 
         private void tabLvlProperties_Click(object sender, EventArgs e)
         {
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void textbox_Leave(object sender, EventArgs e)
@@ -288,14 +288,19 @@ namespace NLEditor
             LoadNewLevel();
         }
 
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveLevel();
+        }
+
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveLevelAsNewFile();
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveAsImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveLevel();
+            SaveLevelAsImage();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -336,6 +341,11 @@ namespace NLEditor
         private void deprecatedPiecesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToggleDeprecatedPieces();
+        }
+
+        private void showMissingPiecesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowMissingPiecesDialog();
         }
 
         private void snapToGridToolStripMenuItem_Click(object sender, EventArgs e)
@@ -393,6 +403,11 @@ namespace NLEditor
             ValidateLevel();
         }
 
+        private void cleanseLevelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowCleanseLevelsDialog();
+        }
+
         private void hotkeysToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (FormHotkeys formHotkeys = new FormHotkeys())
@@ -411,7 +426,7 @@ namespace NLEditor
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DisplayVersionForm();
+            ShowAboutSLXEditor();
         }
 
         /* -----------------------------------------------------------
@@ -509,7 +524,7 @@ namespace NLEditor
 
         private void but_RotatePieces_MouseUp(object sender, MouseEventArgs e)
         {
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void but_InvertPieces_Click(object sender, EventArgs e)
@@ -523,7 +538,7 @@ namespace NLEditor
 
         private void but_InvertPieces_MouseUp(object sender, MouseEventArgs e)
         {
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void but_FlipPieces_Click(object sender, EventArgs e)
@@ -537,20 +552,20 @@ namespace NLEditor
 
         private void but_FlipPieces_MouseUp(object sender, MouseEventArgs e)
         {
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
 
         private void but_MoveFront_Click(object sender, EventArgs e)
         {
             MovePieceIndex(true, false);
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void but_MoveBack_Click(object sender, EventArgs e)
         {
             MovePieceIndex(false, false);
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void but_MoveFrontOne_Click(object sender, EventArgs e)
@@ -564,7 +579,7 @@ namespace NLEditor
 
         private void but_MoveFrontOne_MouseUp(object sender, MouseEventArgs e)
         {
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void but_MoveBackOne_Click(object sender, EventArgs e)
@@ -578,19 +593,19 @@ namespace NLEditor
 
         private void but_MoveBackOne_MouseUp(object sender, MouseEventArgs e)
         {
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void but_GroupSelection_Click(object sender, EventArgs e)
         {
             GroupSelectedPieces();
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void but_UngroupSelection_Click(object sender, EventArgs e)
         {
             UngroupSelectedPieces();
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
 
@@ -598,28 +613,28 @@ namespace NLEditor
         {
             bool isChecked = (check_Pieces_Erase.CheckState == CheckState.Checked);
             SetErase(isChecked);
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void check_Pieces_NoOv_CheckedChanged(object sender, EventArgs e)
         {
             bool isChecked = (check_Pieces_NoOv.CheckState == CheckState.Checked);
             SetNoOverwrite(isChecked);
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void check_Pieces_OnlyOnTerrain_CheckedChanged(object sender, EventArgs e)
         {
             bool isChecked = (check_Pieces_OnlyOnTerrain.CheckState == CheckState.Checked);
             SetOnlyOnTerrain(isChecked);
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void check_Pieces_OneWay_CheckedChanged(object sender, EventArgs e)
         {
             bool isChecked = (check_Pieces_OneWay.CheckState == CheckState.Checked);
             SetOneWay(isChecked);
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void check_Piece_Skill_CheckedChanged(object sender, EventArgs e)
@@ -627,7 +642,7 @@ namespace NLEditor
             C.Skill skill = checkboxesSkillFlags.First(check => check.Value.Equals((CheckBox)sender)).Key;
             bool isChecked = ((CheckBox)sender).CheckState == CheckState.Checked;
             SetSkillForObjects(skill, isChecked);
-            RemoveFocus();
+            PullFocusFromTextInputs();
             pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 
@@ -675,7 +690,7 @@ namespace NLEditor
         private void but_PairTeleporter_Click(object sender, EventArgs e)
         {
             PairTeleporters();
-            RemoveFocus();
+            PullFocusFromTextInputs();
             pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
 
@@ -749,30 +764,30 @@ namespace NLEditor
         private void but_PieceTerr_Click(object sender, EventArgs e)
         {
             ChangeObjTerrPieceDisplay(C.SelectPieceType.Terrain);
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void but_PieceObj_Click(object sender, EventArgs e)
         {
             ChangeObjTerrPieceDisplay(C.SelectPieceType.Objects);
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void but_PieceBackground_Click(object sender, EventArgs e)
         {
             ChangeObjTerrPieceDisplay(C.SelectPieceType.Backgrounds);
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void but_PieceSketch_Click(object sender, EventArgs e)
         {
             ChangeObjTerrPieceDisplay(C.SelectPieceType.Sketches);
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void but_PieceLeft_MouseUp(object sender, MouseEventArgs e)
         {
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void but_PieceLeft_Click(object sender, EventArgs e)
@@ -783,7 +798,7 @@ namespace NLEditor
 
         private void but_PieceRight_MouseUp(object sender, MouseEventArgs e)
         {
-            RemoveFocus();
+            PullFocusFromTextInputs();
         }
 
         private void but_PieceRight_Click(object sender, EventArgs e)
@@ -827,21 +842,39 @@ namespace NLEditor
         /* -----------------------------------------------------------
          *              Direct Key and Mouse imput
          * ----------------------------------------------------------- */
-
         private void NLEditForm_KeyDown(object sender, KeyEventArgs e)
         {
-            //Check if the active control is a text input
-            if (ActiveControl != txt_Focus)
+            /// <summary>
+            /// Determines if a key is used for text input.
+            /// </summary>
+            bool IsTextInputKey(Keys key)
             {
-                // If so, ignore the key press and return early
-                return;
+                // Exclude functional keys, esc, and modifiers
+                if (key >= Keys.F1 && key <= Keys.F24) return false; // Functional keys
+                //if (key == Keys.Escape || key == Keys.Enter) return false; // Escape and Enter
+                //if (key == Keys.ControlKey || key == Keys.ShiftKey || key == Keys.Menu) return false; // Modifiers
+                //if (key >= Keys.Left && key <= Keys.Down) return false; // Arrow keys
+
+                // Any other keys are considered text input (letters, numbers, symbols)
+                return true;
             }
 
+            // 1. Check if the active control is text input-related
+            if (ActiveControl != txt_Focus)
+            {
+                // 2. If the key is text-input related and no modifiers are pressed, allow typing
+                if (IsTextInputKey(e.KeyCode) && e.Modifiers == Keys.None)
+                {
+                    return; // Let the key press be handled normally
+                }
+            }
+
+            // 3. Process hotkey actions
             Keys hotkey = e.KeyData; // Includes modifiers like Ctrl, Alt, Shift
             if (hotkeyActions.TryGetValue(hotkey, out Action action))
             {
                 action.Invoke();
-                e.Handled = true; // Prevent further processing if desired
+                e.Handled = true; // Prevent further processing
             }
         }
 
@@ -1453,7 +1486,7 @@ namespace NLEditor
             UpdateFlagsForPieceActions();
 
             mouseButtonPressed = null;
-            RemoveFocus();
+            PullFocusFromTextInputs();
 
             mutexMouseUp.ReleaseMutex();
         }
@@ -1602,22 +1635,17 @@ namespace NLEditor
             num_SR_Countdown_ValueChanged(sender, null);
         }
 
-        private void oKToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showMissingPiecesStatusBarMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowMissingPiecesDialog();
+        }
+
+        private void oKStatusBarMenuItem_Click(object sender, EventArgs e)
         {
             statusBar.Visible = false;
         }
 
-        private void showMissingPiecesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowMissingPiecesDialog();
-        }
-
         private void statusBarLabel1_Click(object sender, EventArgs e)
-        {
-            ShowMissingPiecesDialog();
-        }
-
-        private void showMissingPiecesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ShowMissingPiecesDialog();
         }
@@ -1630,16 +1658,6 @@ namespace NLEditor
         private void toolStripLabel1_MouseLeave(object sender, EventArgs e)
         {
             Cursor = Cursors.Default;
-        }
-
-        private void cleanseLevelsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowCleanseLevelsDialog();
-        }
-
-        private void saveAsImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveLevelAsImage();
         }
 
         private void btnRandomSkillset_Click(object sender, EventArgs e)
@@ -1662,13 +1680,13 @@ namespace NLEditor
 
         private void NLEditForm_Shown(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.ShowWhatsNew)
-                ShowWhatsNew();
+            if (Properties.Settings.Default.ShowAboutSLXWindowAtStartup)
+                ShowAboutSLXEditor();
         }
 
         private void whatsNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowWhatsNew();
+            ShowAboutSLXEditor();
         }
     }
 }

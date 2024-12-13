@@ -13,14 +13,18 @@ namespace NLEditor
         public static Keys HotkeyLoadLevel;
         public static Keys HotkeySaveLevel;
         public static Keys HotkeySaveLevelAs;
+        public static Keys HotkeySaveLevelAsImage;
         public static Keys HotkeyPlaytestLevel;
         public static Keys HotkeyValidateLevel;
+        public static Keys HotkeyCleanseLevels;
         public static Keys HotkeyToggleClearPhysics;
         public static Keys HotkeyToggleTerrain;
         public static Keys HotkeyToggleObjects;
         public static Keys HotkeyToggleTriggerAreas;
         public static Keys HotkeyToggleScreenStart;
         public static Keys HotkeyToggleBackground;
+        public static Keys HotkeyToggleDeprecatedPieces;
+        public static Keys HotkeyShowMissingPieces;
         public static Keys HotkeyToggleSnapToGrid;
         public static Keys HotkeyOpenSettings;
         public static Keys HotkeyOpenConfigHotkeys;
@@ -41,7 +45,7 @@ namespace NLEditor
         public static Keys HotkeyShowNextGroup;
         public static Keys HotkeyShowPreviousStyle;
         public static Keys HotkeyShowNextStyle;
-        public static Keys HotkeySwitchBrowser;
+        public static Keys HotkeyCycleBrowser;
         public static Keys HotkeyAddPiece1;
         public static Keys HotkeyAddPiece2;
         public static Keys HotkeyAddPiece3;
@@ -60,6 +64,7 @@ namespace NLEditor
         public static Keys HotkeyCut;
         public static Keys HotkeyCopy;
         public static Keys HotkeyPaste;
+        public static Keys HotkeyPasteInPlace;
         public static Keys HotkeyDuplicate;
         public static Keys HotkeyDelete;
         public static Keys HotkeyMoveUp;
@@ -88,7 +93,6 @@ namespace NLEditor
         public static Keys HotkeyDrawFirst;
         public static Keys HotkeyCloseWindow;
         public static Keys HotkeyCloseEditor;
-
         public static string FormatHotkeyString(Keys hotkey)
         {
             List<string> hotkeyParts = new List<string>();
@@ -131,9 +135,10 @@ namespace NLEditor
             return result;
         }
 
-        public static bool CheckForDuplicateKeys(string[] lines)
+        public static bool ValidateHotkeyIniFile(string[] lines, out string invalidKey)
         {
             var seenKeys = new HashSet<string>();
+            invalidKey = string.Empty;
 
             foreach (var line in lines)
             {
@@ -143,26 +148,35 @@ namespace NLEditor
 
                 var key = parts[1].Trim();
 
-                if (key != "None" && seenKeys.Contains(key))
-                {
-                    return true; // Duplicate found
-                }
+                if (key != "None")
+                {       // Check for invalid keys           // Check for duplicates
+                    if (!Enum.TryParse<Keys>(key, out _) || seenKeys.Contains(key))
+                    {
+                        // Truncate the key if it's longer than 100 characters
+                        if (key.Length > 100) { key = key.Substring(0, 100) + "..."; }
+                        
+                        invalidKey = key;
+                        return true; // Invalid or duplicate key found
+                    }
 
-                seenKeys.Add(key);
+                    seenKeys.Add(key);
+                }
             }
+
             return false;
         }
-
 
         public static void LoadHotkeysFromIniFile()
         {
             var lines = System.IO.File.ReadAllLines("SLXEditorHotkeys.ini");
 
             // Check for duplicates directly
-            if (CheckForDuplicateKeys(lines))
+            if (ValidateHotkeyIniFile(lines, out string invalidKey))
             {
-                MessageBox.Show("Duplicate hotkeys detected in configuration file. The default hotkeys will be loaded instead.",
-                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Invalid or duplicate key detected in SLXEditorHotkeys.ini\n\n" +
+                                $"{invalidKey}\n\n" +
+                                $"The default hotkeys will be loaded instead",
+                                "Hotkey Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 GetDefaultHotkeys();
                 return;
             }
@@ -177,10 +191,14 @@ namespace NLEditor
                     HotkeySaveLevel = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeySaveLevelAs="))
                     HotkeySaveLevelAs = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                if (line.StartsWith("HotkeySaveLevelAsImage="))
+                    HotkeySaveLevelAsImage = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyPlaytestLevel="))
                     HotkeyPlaytestLevel = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyValidateLevel="))
                     HotkeyValidateLevel = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                if (line.StartsWith("HotkeyCleanseLevels="))
+                    HotkeyCleanseLevels = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyToggleClearPhysics="))
                     HotkeyToggleClearPhysics = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyToggleTerrain="))
@@ -193,6 +211,10 @@ namespace NLEditor
                     HotkeyToggleScreenStart = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyToggleBackground="))
                     HotkeyToggleBackground = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                if (line.StartsWith("HotkeyToggleDeprecatedPieces="))
+                    HotkeyToggleDeprecatedPieces = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                if (line.StartsWith("HotkeyShowMissingPieces="))
+                    HotkeyShowMissingPieces = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyToggleSnapToGrid="))
                     HotkeyToggleSnapToGrid = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyOpenSettings="))
@@ -233,8 +255,8 @@ namespace NLEditor
                     HotkeyShowPreviousStyle = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyShowNextStyle="))
                     HotkeyShowNextStyle = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
-                if (line.StartsWith("HotkeySwitchBrowser="))
-                    HotkeySwitchBrowser = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                if (line.StartsWith("HotkeyCycleBrowser="))
+                    HotkeyCycleBrowser = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyAddPiece1="))
                     HotkeyAddPiece1 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyAddPiece2="))
@@ -271,6 +293,8 @@ namespace NLEditor
                     HotkeyCopy = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyPaste="))
                     HotkeyPaste = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                if (line.StartsWith("HotkeyPasteInPlace"))
+                    HotkeyPasteInPlace = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyDuplicate="))
                     HotkeyDuplicate = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyDelete="))
@@ -284,13 +308,13 @@ namespace NLEditor
                 if (line.StartsWith("HotkeyMoveRight="))
                     HotkeyMoveRight = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyMove8Up="))
-                    HotkeyMoveUp = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyMove8Up = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyMove8Down="))
-                    HotkeyMoveDown = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyMove8Down = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyMove8Left="))
-                    HotkeyMoveLeft = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyMove8Left = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyMove8Right="))
-                    HotkeyMoveRight = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyMove8Right = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyCustomMove="))
                     HotkeyCustomMove = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyDragHorizontally="))
@@ -339,14 +363,18 @@ namespace NLEditor
                 $"HotkeyLoadLevel={HotkeyLoadLevel}",
                 $"HotkeySaveLevel={HotkeySaveLevel}",
                 $"HotkeySaveLevelAs={HotkeySaveLevelAs}",
+                $"HotkeySaveLevelAsImage={HotkeySaveLevelAsImage}",
                 $"HotkeyPlaytestLevel={HotkeyPlaytestLevel}",
                 $"HotkeyValidateLevel={HotkeyValidateLevel}",
+                $"HotkeyCleanseLevels={HotkeyCleanseLevels}",
                 $"HotkeyToggleClearPhysics={HotkeyToggleClearPhysics}",
                 $"HotkeyToggleTerrain={HotkeyToggleTerrain}",
                 $"HotkeyToggleObjects={HotkeyToggleObjects}",
                 $"HotkeyToggleTriggerAreas={HotkeyToggleTriggerAreas}",
                 $"HotkeyToggleScreenStart={HotkeyToggleScreenStart}",
                 $"HotkeyToggleBackground={HotkeyToggleBackground}",
+                $"HotkeyToggleDeprecatedPieces={HotkeyToggleDeprecatedPieces}",
+                $"HotkeyShowMissingPieces={HotkeyShowMissingPieces}",
                 $"HotkeyToggleSnapToGrid={HotkeyToggleSnapToGrid}",
                 $"HotkeyOpenSettings={HotkeyOpenSettings}",
                 $"HotkeyOpenConfigHotkeys={HotkeyOpenConfigHotkeys}",
@@ -367,7 +395,7 @@ namespace NLEditor
                 $"HotkeyShowNextGroup={HotkeyShowNextGroup}",
                 $"HotkeyShowPreviousStyle={HotkeyShowPreviousStyle}",
                 $"HotkeyShowNextStyle={HotkeyShowNextStyle}",
-                $"HotkeySwitchBrowser={HotkeySwitchBrowser}",
+                $"HotkeyCycleBrowser={HotkeyCycleBrowser}",
                 $"HotkeyAddPiece1={HotkeyAddPiece1}",
                 $"HotkeyAddPiece2={HotkeyAddPiece2}",
                 $"HotkeyAddPiece3={HotkeyAddPiece3}",
@@ -386,6 +414,7 @@ namespace NLEditor
                 $"HotkeyCut={HotkeyCut}",
                 $"HotkeyCopy={HotkeyCopy}",
                 $"HotkeyPaste={HotkeyPaste}",
+                $"HotkeyPasteInPlace={HotkeyPasteInPlace}",
                 $"HotkeyDuplicate={HotkeyDuplicate}",
                 $"HotkeyDelete={HotkeyDelete}",
                 $"HotkeyMoveUp={HotkeyMoveUp}",
@@ -425,18 +454,22 @@ namespace NLEditor
             HotkeyLoadLevel = Keys.Control | Keys.O;
             HotkeySaveLevel = Keys.Control | Keys.S;
             HotkeySaveLevelAs = Keys.Control | Keys.Shift | Keys.S;
+            HotkeySaveLevelAsImage = Keys.Control | Keys.Alt | Keys.S;
             HotkeyPlaytestLevel = Keys.F12;
             HotkeyValidateLevel = Keys.Control | Keys.F12;
+            HotkeyCleanseLevels = Keys.Control | Keys.Shift | Keys.F12;
             HotkeyToggleClearPhysics = Keys.F1;
             HotkeyToggleTerrain = Keys.F2;
             HotkeyToggleObjects = Keys.F3;
             HotkeyToggleTriggerAreas = Keys.F4;
             HotkeyToggleScreenStart = Keys.F5;
             HotkeyToggleBackground = Keys.F6;
+            HotkeyToggleDeprecatedPieces = Keys.F7;
+            HotkeyShowMissingPieces = Keys.F8;
             HotkeyToggleSnapToGrid = Keys.F9;
             HotkeyOpenSettings = Keys.F10;
             HotkeyOpenConfigHotkeys = Keys.F11;
-            HotkeyOpenAboutSLX = Keys.Control | Keys.Alt | Keys.F11;
+            HotkeyOpenAboutSLX = Keys.Control | Keys.F10;
             HotkeySelectPieces = Keys.LButton;
             HotkeyDragToScroll = Keys.RButton;
             HotkeyRemovePiecesAtCursor = Keys.MButton;
@@ -453,7 +486,7 @@ namespace NLEditor
             HotkeyShowNextGroup = Keys.Shift | Keys.Alt | Keys.Right;
             HotkeyShowPreviousStyle = Keys.Shift | Keys.Up;
             HotkeyShowNextStyle = Keys.Shift | Keys.Down;
-            HotkeySwitchBrowser = Keys.Space;
+            HotkeyCycleBrowser = Keys.Space;
             HotkeyAddPiece1 = Keys.NumPad1;
             HotkeyAddPiece2 = Keys.NumPad2;
             HotkeyAddPiece3 = Keys.NumPad3;
@@ -472,6 +505,7 @@ namespace NLEditor
             HotkeyCut = Keys.Control | Keys.X;
             HotkeyCopy = Keys.Control | Keys.C;
             HotkeyPaste = Keys.Control | Keys.V;
+            HotkeyPasteInPlace = Keys.Control | Keys.Shift | Keys.V;
             HotkeyDuplicate = Keys.C;
             HotkeyDelete = Keys.Delete;
             HotkeyMoveUp = Keys.Up;

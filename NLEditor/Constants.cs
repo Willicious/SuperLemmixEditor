@@ -102,18 +102,18 @@ namespace NLEditor
         }
 
         public static readonly Dictionary<OBJ, string> TooltipList = new Dictionary<OBJ, string>
-    {
-      {OBJ.TERRAIN, "Terrain"}, {OBJ.STEEL, "Steel"}, {OBJ.NONE, "No effect"},
-      {OBJ.EXIT, "Exit"}, {OBJ.FORCE_FIELD, "Turning field"}, {OBJ.ONE_WAY_WALL, "One-way-wall"}, {OBJ.PAINT, "Paint"},
-      {OBJ.TRAP, "Triggered trap"}, {OBJ.WATER, "Water"}, {OBJ.FIRE, "Fire"},
-      {OBJ.BLASTICINE, "Blasticine"}, {OBJ.VINEWATER, "Vinewater"}, {OBJ.POISON, "Poison"}, {OBJ.LAVA, "Lava"},
-      {OBJ.RADIATION, "Radiation"}, {OBJ.SLOWFREEZE, "Slowfreeze"},
-      {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Preplaced lemming"},
-      {OBJ.PICKUP, "Pick-up skill"}, {OBJ.EXIT_LOCKED, "Locked exit"}, {OBJ.BUTTON, "Button"},
-      {OBJ.COLLECTIBLE, "Collectible"}, {OBJ.UPDRAFT, "Updraft"},
-      {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
-      {OBJ.SPLAT, "Splat wire"}, {OBJ.DECORATION, "Decoration"}, {OBJ.TRAPONCE, "Single-use trap"}
-    };
+        {
+          {OBJ.TERRAIN, "Terrain"}, {OBJ.STEEL, "Steel"}, {OBJ.NONE, "No effect"},
+          {OBJ.EXIT, "Exit"}, {OBJ.FORCE_FIELD, "Turning field"}, {OBJ.ONE_WAY_WALL, "One-way-wall"}, {OBJ.PAINT, "Paint"},
+          {OBJ.TRAP, "Triggered trap"}, {OBJ.WATER, "Water"}, {OBJ.FIRE, "Fire"},
+          {OBJ.BLASTICINE, "Blasticine"}, {OBJ.VINEWATER, "Vinewater"}, {OBJ.POISON, "Poison"}, {OBJ.LAVA, "Lava"},
+          {OBJ.RADIATION, "Radiation"}, {OBJ.SLOWFREEZE, "Slowfreeze"},
+          {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Preplaced lemming"},
+          {OBJ.PICKUP, "Pick-up skill"}, {OBJ.EXIT_LOCKED, "Locked exit"}, {OBJ.BUTTON, "Button"},
+          {OBJ.COLLECTIBLE, "Collectible"}, {OBJ.UPDRAFT, "Updraft"},
+          {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
+          {OBJ.SPLAT, "Splat wire"}, {OBJ.DECORATION, "Decoration"}, {OBJ.TRAPONCE, "Single-use trap"}
+        };
 
         public enum DragActions
         {
@@ -168,15 +168,15 @@ namespace NLEditor
             Trigger, ScreenStart, SelRectGadget, SelRectTerrain
         }
         public static readonly Dictionary<NLColor, Color> NLColors = new Dictionary<NLColor, Color>()
-    {
-      { NLColor.Text, Utility.HexToColor("FEF5F5F5") }, // Color.WhiteSmoke with slightly reduced alpha
-      { NLColor.OWWDefault, Color.Linen },
-      { NLColor.BackDefault, Color.Black },
-      { NLColor.Trigger, Utility.HexToColor("80EE82EE") }, // Color.Violet with reduced alpha
-      { NLColor.ScreenStart, Color.AliceBlue },
-      { NLColor.SelRectGadget, Color.Chartreuse },
-      { NLColor.SelRectTerrain, Color.Gold }
-    };
+        {
+          { NLColor.Text, Utility.HexToColor("FEF5F5F5") }, // Color.WhiteSmoke with slightly reduced alpha
+          { NLColor.OWWDefault, Color.Linen },
+          { NLColor.BackDefault, Color.Black },
+          { NLColor.Trigger, Utility.HexToColor("80EE82EE") }, // Color.Violet with reduced alpha
+          { NLColor.ScreenStart, Color.AliceBlue },
+          { NLColor.SelRectGadget, Color.Chartreuse },
+          { NLColor.SelRectTerrain, Color.Gold }
+        };
 
         public enum TalismanType { Bronze, Silver, Gold }
         public enum TalismanReq
@@ -193,8 +193,6 @@ namespace NLEditor
             UseOnlySkill
         }
         public static Array TalismanReqArray => Enum.GetValues(typeof(C.TalismanReq));
-
-
 
         public static readonly List<string> TalismanSkills = new List<string>()
         {
@@ -251,70 +249,49 @@ namespace NLEditor
         };
 
         public static readonly Dictionary<TalismanReq, string> TalismanKeys = new Dictionary<TalismanReq, string>()
-    {
-      { TalismanReq.SaveReq, "SAVE_REQUIREMENT" }, { TalismanReq.TimeLimit, "TIME_LIMIT" },
-      { TalismanReq.SkillTotal, "SKILL_LIMIT" }, { TalismanReq.SkillTypes, "SKILL_TYPE_LIMIT" },
-      { TalismanReq.SkillWalker, "WALKER_LIMIT" },
-      { TalismanReq.SkillJumper, "JUMPER_LIMIT" }, { TalismanReq.SkillShimmier, "SHIMMIER_LIMIT" },
-      { TalismanReq.SkillBallooner, "BALLOONER_LIMIT" },
-      { TalismanReq.SkillSlider, "SLIDER_LIMIT" }, { TalismanReq.SkillClimber, "CLIMBER_LIMIT"},
-      { TalismanReq.SkillSwimmer, "SWIMMER_LIMIT"}, { TalismanReq.SkillFloater, "FLOATER_LIMIT" },
-      { TalismanReq.SkillGlider, "GLIDER_LIMIT" }, { TalismanReq.SkillDisarmer, "DISARMER_LIMIT" },
-      { TalismanReq.SkillTimebomber, "TIMEBOMBER_LIMIT" }, { TalismanReq.SkillBomber, "BOMBER_LIMIT" },
-      { TalismanReq.SkillFreezer, "FREEZER_LIMIT"}, { TalismanReq.SkillStoner, "STONER_LIMIT"},
-      { TalismanReq.SkillBlocker, "BLOCKER_LIMIT"},
-      { TalismanReq.SkillLadderer, "LADDERER_LIMIT" }, { TalismanReq.SkillPlatformer, "PLATFORMER_LIMIT" },
-      { TalismanReq.SkillBuilder, "BUILDER_LIMIT" }, { TalismanReq.SkillStacker, "STACKER_LIMIT" },
-      { TalismanReq.SkillSpearer, "SPEARER_LIMIT" }, { TalismanReq.SkillGrenader, "GRENADER_LIMIT" },
-      { TalismanReq.SkillLaserer, "LASERER_LIMIT" },
-      { TalismanReq.SkillBasher, "BASHER_LIMIT" }, { TalismanReq.SkillMiner, "MINER_LIMIT" },
-      { TalismanReq.SkillDigger, "DIGGER_LIMIT" }, { TalismanReq.SkillFencer, "FENCER_LIMIT" },
-      { TalismanReq.SkillCloner, "CLONER_LIMIT" }, { TalismanReq.SkillEachLimit, "SKILL_EACH_LIMIT" },
-      { TalismanReq.UseOnlySkill, "USE_ONLY_SKILL" }, { TalismanReq.KillZombies, "KILL_ZOMBIES" },
-      { TalismanReq.ClassicMode, "CLASSIC_MODE" }, { TalismanReq.NoPause, "NO_PAUSE" }
-    };
+        {
+          { TalismanReq.SaveReq, "SAVE_REQUIREMENT" }, { TalismanReq.TimeLimit, "TIME_LIMIT" },
+          { TalismanReq.SkillTotal, "SKILL_LIMIT" }, { TalismanReq.SkillTypes, "SKILL_TYPE_LIMIT" },
+          { TalismanReq.SkillWalker, "WALKER_LIMIT" },
+          { TalismanReq.SkillJumper, "JUMPER_LIMIT" }, { TalismanReq.SkillShimmier, "SHIMMIER_LIMIT" },
+          { TalismanReq.SkillBallooner, "BALLOONER_LIMIT" },
+          { TalismanReq.SkillSlider, "SLIDER_LIMIT" }, { TalismanReq.SkillClimber, "CLIMBER_LIMIT"},
+          { TalismanReq.SkillSwimmer, "SWIMMER_LIMIT"}, { TalismanReq.SkillFloater, "FLOATER_LIMIT" },
+          { TalismanReq.SkillGlider, "GLIDER_LIMIT" }, { TalismanReq.SkillDisarmer, "DISARMER_LIMIT" },
+          { TalismanReq.SkillTimebomber, "TIMEBOMBER_LIMIT" }, { TalismanReq.SkillBomber, "BOMBER_LIMIT" },
+          { TalismanReq.SkillFreezer, "FREEZER_LIMIT"}, { TalismanReq.SkillStoner, "STONER_LIMIT"},
+          { TalismanReq.SkillBlocker, "BLOCKER_LIMIT"},
+          { TalismanReq.SkillLadderer, "LADDERER_LIMIT" }, { TalismanReq.SkillPlatformer, "PLATFORMER_LIMIT" },
+          { TalismanReq.SkillBuilder, "BUILDER_LIMIT" }, { TalismanReq.SkillStacker, "STACKER_LIMIT" },
+          { TalismanReq.SkillSpearer, "SPEARER_LIMIT" }, { TalismanReq.SkillGrenader, "GRENADER_LIMIT" },
+          { TalismanReq.SkillLaserer, "LASERER_LIMIT" },
+          { TalismanReq.SkillBasher, "BASHER_LIMIT" }, { TalismanReq.SkillMiner, "MINER_LIMIT" },
+          { TalismanReq.SkillDigger, "DIGGER_LIMIT" }, { TalismanReq.SkillFencer, "FENCER_LIMIT" },
+          { TalismanReq.SkillCloner, "CLONER_LIMIT" }, { TalismanReq.SkillEachLimit, "SKILL_EACH_LIMIT" },
+          { TalismanReq.UseOnlySkill, "USE_ONLY_SKILL" }, { TalismanReq.KillZombies, "KILL_ZOMBIES" },
+          { TalismanReq.ClassicMode, "CLASSIC_MODE" }, { TalismanReq.NoPause, "NO_PAUSE" }
+        };
 
         public static readonly string[] MusicExtensions = new List<string>()
-    {
-      ".ogg", ".it", ".mp3", ".mo3", ".wav", ".aiff", ".aif",
-      ".mod", ".xm", ".s3m", ".mtm", ".umx"
-    }.ToArray();
+        {
+          ".ogg", ".it", ".mp3", ".mo3", ".wav", ".aiff", ".aif",
+          ".mod", ".xm", ".s3m", ".mtm", ".umx"
+        }.ToArray();
 
         public static readonly List<string> MusicNames = new List<string>()
-    {
-      "orig_01", "orig_02", "orig_03", "orig_04", "orig_05", "orig_06", "orig_07", "orig_08", "orig_09", "orig_10",
-      "orig_11", "orig_12", "orig_13", "orig_14", "orig_15", "orig_16", "orig_17",
-      "ohno_01", "ohno_02", "ohno_03", "ohno_04", "ohno_05", "ohno_06",
-      "xmas_01", "xmas_02", "xmas_03"
-    };
-
-        public static readonly List<string> VersionList = new List<string>
-    {
-      "SuperLemmix Editor Version " + Version,
-    };
-        public static readonly List<string> AboutList = new List<string>
-
-    { "", 
-      "  by William James (WillLem)",
-      "",
-      "Based on the original NeoLemmix Editor by",
-      "  Namida Verasche (namida) & Stephan Neupert (Nepster)",
-      "",
-      "Thanks to",
-      "  DMA Design for creating the original Lemmings games.",
-      "  The Lemmings Community at http://www.lemmingsforums.net.",
-      "",
-      "This application and all its source code is licensed under",
-      "   CC BY-NC 4.0.",
-    };
-
+        {
+          "orig_01", "orig_02", "orig_03", "orig_04", "orig_05", "orig_06", "orig_07", "orig_08", "orig_09", "orig_10",
+          "orig_11", "orig_12", "orig_13", "orig_14", "orig_15", "orig_16", "orig_17",
+          "ohno_01", "ohno_02", "ohno_03", "ohno_04", "ohno_05", "ohno_06",
+          "xmas_01", "xmas_02", "xmas_03"
+        };
 
         public static readonly Dictionary<int, string> FileConverterErrorMsg = new Dictionary<int, string>()
-    {
-      { 2, "Warning: Could not convert some object properties to the nxlv. format due to missing .nxmo files." },
-      { 90, "Error: Level converter got passed invalid file paths." },
-      { 92, "Error: Level converter could not find the translation table .nxtt for the graphic style used in the level." },
-      { 99, "Error: Level converter encountered an unknown error." }
-    };
+        {
+          { 2, "Warning: Could not convert some object properties to the nxlv. format due to missing .nxmo files." },
+          { 90, "Error: Level converter got passed invalid file paths." },
+          { 92, "Error: Level converter could not find the translation table .nxtt for the graphic style used in the level." },
+          { 99, "Error: Level converter encountered an unknown error." }
+        };
     }
 }

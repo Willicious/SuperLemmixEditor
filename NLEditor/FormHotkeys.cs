@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,13 +19,13 @@ namespace NLEditor
             SetSubItemNames();
         }
 
-        private Keys listenedKey;
         private Keys selectedKey;
         private ListViewItem selectedItem;
         private bool DoCheckForDuplicates = true;
 
         private void FormHotkeys_Load(object sender, EventArgs e)
         {
+            KeyPreview = true;
             comboBoxChooseKey.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>().ToList();
         }
 
@@ -68,13 +69,13 @@ namespace NLEditor
             // Handle Enter key press to validate key
             if (e.KeyCode == Keys.Enter)
             {
-                string enteredKeyText = comboBoxChooseKey.Text.Trim(); // Get the text from the ComboBox input
-                if (Enum.TryParse(enteredKeyText, true, out Keys parsedKey)) // Try parsing the string into a Keys enum value
+                string enteredKeyText = comboBoxChooseKey.Text.Trim();
+                if (Enum.TryParse(enteredKeyText, true, out Keys parsedKey))
                 {
                     ClearHighlights();
-                    selectedKey = parsedKey; // Update the selected key
+                    selectedKey = parsedKey;
 
-                    comboBoxChooseKey.SelectedItem = parsedKey; // Select the key in the ComboBox if valid
+                    comboBoxChooseKey.SelectedItem = parsedKey;
                     CheckForDuplicateKeys();
                 }
                 else
@@ -86,54 +87,84 @@ namespace NLEditor
             }
         }
 
-        private void btnListen_Click(object sender, EventArgs e)
-        {
-            ClearHighlights();
-
-            // Enable key listening
-            KeyPreview = true;
-            KeyDown += FormHotkeys_KeyDown;
-
-            // Disable combo box
-            comboBoxChooseKey.Enabled = false;
-
-            // Update labels
-            lblActionToBeAssigned.Text = selectedItem.SubItems[0].Text;
-            lblCurrentHotkey.Text = selectedItem.SubItems[1].Text;
-            lblChosenKey.Enabled = true;
-            lblChosenKey.Text = "Listening for key...";
-            lblChosenHotkey.Enabled = false;
-            lblChosenHotkey.Visible = false;
-            lblChosenHotkey.Text = "";
-            lblDuplicateDetected.Visible = false;
-            lblDuplicateAction.Visible = false;
-            lblDuplicateAction.Text = "";
-
-            // Enable Cancel button
-            btnCancel.Enabled = true;
-        }
-
         private void FormHotkeys_KeyDown(object sender, KeyEventArgs e)
         {
-            ClearHighlights();
+            if (e.KeyCode == Keys.Escape)
+            {
+                if (lblListening.Visible)
+                    return;
+                else if (lblDuplicateDetected.Visible)
+                    ResetUI();
+                else if (ActiveControl == comboBoxChooseKey)
+                    listViewHotkeys.Focus();
+                else
+                    Close();
+            }
+        }
 
-            // Capture the pressed key, but clear existing modifiers for initial processing
-            listenedKey = e.KeyData;
+        private void HandleListenedInput(object sender, EventArgs e, Keys listenedKey)
+        {            
+            // Clear existing modifiers for initial processing
             checkModCtrl.Checked = false;
             checkModShift.Checked = false;
             checkModAlt.Checked = false;
 
+            // Update the combo box with the selected key/button
             comboBoxChooseKey.SelectedItem = listenedKey;
 
-            // Disable key listening
-            KeyPreview = false;
-            KeyDown -= FormHotkeys_KeyDown;
-
-            // Enable combo box
-            comboBoxChooseKey.Enabled = true;
+            // Disable key & mouse events
+            KeyDown -= HandleListeningForKey;
+            MouseDown -= FormHotkeys_MouseDown;
 
             selectedKey = listenedKey;
             CheckForDuplicateKeys();
+        }
+
+        private void HandleListeningForKey(object sender, KeyEventArgs e)
+        {
+            HandleListenedInput(sender, e, e.KeyData);
+        }
+
+        private void FormHotkeys_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Convert mouse buttons to Keys
+            Keys listenedKey = e.Button == MouseButtons.Left ? Keys.LButton :
+                               e.Button == MouseButtons.Right ? Keys.RButton :
+                               e.Button == MouseButtons.Middle ? Keys.MButton :
+                               e.Button == MouseButtons.XButton1 ? Keys.XButton1 :
+                               e.Button == MouseButtons.XButton2 ? Keys.XButton2 :
+                               Keys.None;
+
+            HandleListenedInput(sender, e, listenedKey);
+        }
+
+        private void btnListen_Click(object sender, EventArgs e)
+        {
+            ClearHighlights();
+
+            // Enable key & mouse events
+            KeyDown += HandleListeningForKey;
+            MouseDown += FormHotkeys_MouseDown;
+
+            ResetComponents();
+
+            // Update labels
+            lblListening.Visible = true;
+            lblAddModifier.Visible = false;
+            checkModAlt.Enabled = false;
+            checkModAlt.Visible = false;
+            checkModCtrl.Enabled = false;
+            checkModCtrl.Visible = false;
+            checkModShift.Enabled = false;
+            checkModShift.Visible = false;
+
+            // Update buttons
+            btnListen.Enabled = false;
+            btnCancel.Enabled = true;
+            btnCancel.Focus();
+
+            // Disable combo box
+            comboBoxChooseKey.Enabled = false;
         }
 
         private void checkModifiers_Click(object sender, EventArgs e)
@@ -143,14 +174,16 @@ namespace NLEditor
 
         private void btnAssignChosenKey_Click(object sender, EventArgs e)
         {
-            UpdateSelectedHotkey();
-            UpdateKey();
+            UpdateChosenKey();
+            UpdateListview();
+            UpdateCaption();
         }
 
         private void btnClearAllKeys_Click(object sender, EventArgs e)
         {
             ClearAllKeys();
             ResetUI();
+            UpdateCaption();
         }
 
         private void btnResetToDefaultKeys_Click(object sender, EventArgs e)
@@ -158,16 +191,16 @@ namespace NLEditor
             HotkeyConfig.GetDefaultHotkeys();
             LoadHotkeysToListView();
             ResetUI();
+            UpdateCaption();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             WriteToHotkeyConfig();
             HotkeyConfig.SaveHotkeysToIniFile();
-            MessageBox.Show("Hotkeys saved successfully!", "Hotkey Config", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ResetUI();
+            UpdateCaption(true);
         }
-
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -179,49 +212,22 @@ namespace NLEditor
             Close();
         }
 
-        private void ResetUI()
+        private void UpdateCaption(bool isSaved = false)
         {
-            DoCheckForDuplicates = false;
-            
-            if (listViewHotkeys.SelectedItems.Count > 0)
+            lblEditedSaved.Visible = true;
+
+            if (isSaved)
             {
-                ClearHighlights();
-                selectedItem = listViewHotkeys.SelectedItems[0];
-                selectedItem.EnsureVisible();
-                listViewHotkeys.Focus();
-
-                // Parse the hotkey string back to a Keys value
-                Keys assignedKey = HotkeyConfig.ParseHotkeyString(selectedItem.SubItems[1].Text);
-
-                // Set the combo box to the base key
-                Keys baseKey = assignedKey & ~(Keys.Control | Keys.Shift | Keys.Alt);
-                comboBoxChooseKey.SelectedItem = baseKey;
-
-                // Update the modifier checkboxes
-                checkModCtrl.Checked = assignedKey.HasFlag(Keys.Control);
-                checkModShift.Checked = assignedKey.HasFlag(Keys.Shift);
-                checkModAlt.Checked = assignedKey.HasFlag(Keys.Alt);
-
-                // Update labels
-                lblActionToBeAssigned.Text = selectedItem.SubItems[0].Text;
-                lblCurrentHotkey.Text = selectedItem.SubItems[1].Text;
-                lblChosenKey.Enabled = false;
-                lblChosenHotkey.Enabled = false;
-                lblChosenHotkey.Visible = false;
-                lblChosenHotkey.Text = "";
-                lblDuplicateDetected.Visible = false;
-                lblDuplicateAction.Visible = false;
-                lblDuplicateAction.Text = "";
-
-                // Disable Assign and Cancel buttons
-                btnAssignChosenKey.Enabled = false;
-                btnCancel.Enabled = false;
-
-                // Enable combo box
-                comboBoxChooseKey.Enabled = true;
+                lblEditedSaved.ForeColor = Color.MediumSeaGreen;
+                lblEditedSaved.Text = "Hotkey Configuration saved successfully!";
+                this.Text = "SLX Editor - Hotkey Configuration";
             }
-
-            DoCheckForDuplicates = true;
+            else
+            {
+                lblEditedSaved.ForeColor = Color.DarkViolet;
+                lblEditedSaved.Text = "Hotkey Configuration edited...";
+                this.Text = "SLX Editor - Hotkey Configuration - [Edited]";
+            }  
         }
 
         private void AutoSelectListItem()
@@ -241,20 +247,7 @@ namespace NLEditor
                 item.SubItems[1].Text = "None";
             }
 
-            // Update labels
-            lblActionToBeAssigned.Text = selectedItem.SubItems[0].Text;
-            lblCurrentHotkey.Text = selectedItem.SubItems[1].Text;
-            lblChosenKey.Enabled = false;
-            lblChosenHotkey.Enabled = false;
-            lblChosenHotkey.Visible = false;
-            lblChosenHotkey.Text = "";
-            lblDuplicateDetected.Visible = false;
-            lblDuplicateAction.Visible = false;
-            lblDuplicateAction.Text = "";
-
-            // Disable Assign and Cancel buttons
-            btnAssignChosenKey.Enabled = false;
-            btnCancel.Enabled = false;
+            ResetComponents();
         }
 
         private void ClearHighlights()
@@ -265,11 +258,11 @@ namespace NLEditor
             }
         }
 
-        private void UpdateKey()
+        private void UpdateListview()
         {
+            // Update the listview in preparation for writing to Config
             if (listViewHotkeys.SelectedItems.Count > 0)
             {
-                // Update the ListView's hotkey column
                 selectedItem = listViewHotkeys.SelectedItems[0];
                 selectedItem.SubItems[1].Text = HotkeyConfig.FormatHotkeyString(selectedKey);
 
@@ -277,28 +270,23 @@ namespace NLEditor
             }
         }
 
-        private void UpdateSelectedHotkey()
+        private void UpdateChosenKey()
         {
             if (listViewHotkeys.SelectedItems.Count > 0)
             {
                 selectedItem = listViewHotkeys.SelectedItems[0];
 
+                ResetComponents();
+
                 // Update labels
-                lblActionToBeAssigned.Text = selectedItem.SubItems[0].Text;
-                lblCurrentHotkey.Text = selectedItem.SubItems[1].Text;
                 lblChosenKey.Enabled = true;
-                lblChosenKey.Text = "Chosen Key:";
                 lblChosenHotkey.ForeColor = Color.MediumSeaGreen;
                 lblChosenHotkey.Enabled = true;
                 lblChosenHotkey.Visible = true;
                 lblChosenHotkey.Text = HotkeyConfig.FormatHotkeyString(selectedKey);
-                lblDuplicateDetected.Visible = false;
-                lblDuplicateAction.Visible = false;
-                lblDuplicateAction.Text = "";
 
-                // Enable components
+                // Update buttons and other components
                 btnAssignChosenKey.Enabled = true;
-                comboBoxChooseKey.Enabled = true;
                 btnCancel.Enabled = true;
 
                 if (lblChosenHotkey.Text == lblCurrentHotkey.Text)
@@ -327,11 +315,10 @@ namespace NLEditor
                     duplicateItem.EnsureVisible();
                     duplicateItem.BackColor = Color.MistyRose;
 
+                    ResetComponents();
+
                     // Update labels
-                    lblActionToBeAssigned.Text = selectedItem.SubItems[0].Text;
-                    lblCurrentHotkey.Text = selectedItem.SubItems[1].Text;
                     lblChosenKey.Enabled = true;
-                    lblChosenKey.Text = "Chosen Key:";
                     lblChosenHotkey.ForeColor = Color.Red;
                     lblChosenHotkey.Enabled = true;
                     lblChosenHotkey.Visible = true;
@@ -340,15 +327,75 @@ namespace NLEditor
                     lblDuplicateAction.Visible = true;
                     lblDuplicateAction.Text = duplicateItem.SubItems[0].Text;
 
-                    // Disable Assign button and Enable Cancel button
-                    btnAssignChosenKey.Enabled = false;
+                    // Update buttons
                     btnCancel.Enabled = true;
                 }
                 else
                 {
-                    UpdateSelectedHotkey();
+                    UpdateChosenKey();
                 }
             }
+        }
+
+        private void ResetUI()
+        {
+            DoCheckForDuplicates = false;
+
+            if (listViewHotkeys.SelectedItems.Count > 0)
+            {
+                ClearHighlights();
+                selectedItem = listViewHotkeys.SelectedItems[0];
+                selectedItem.EnsureVisible();
+                listViewHotkeys.Focus();
+
+                // Parse the hotkey string back to a Keys value
+                Keys assignedKey = HotkeyConfig.ParseHotkeyString(selectedItem.SubItems[1].Text);
+
+                // Set the combo box to the base key
+                Keys baseKey = assignedKey & ~(Keys.Control | Keys.Shift | Keys.Alt);
+                comboBoxChooseKey.SelectedItem = baseKey;
+
+                // Update the modifier checkboxes
+                checkModCtrl.Checked = assignedKey.HasFlag(Keys.Control);
+                checkModShift.Checked = assignedKey.HasFlag(Keys.Shift);
+                checkModAlt.Checked = assignedKey.HasFlag(Keys.Alt);
+
+                ResetComponents();
+            }
+
+            DoCheckForDuplicates = true;
+        }
+
+        private void ResetComponents()
+        {           
+            // Reset labels
+            lblActionToBeAssigned.Text = selectedItem.SubItems[0].Text;
+            lblCurrentHotkey.Text = selectedItem.SubItems[1].Text;
+            lblListening.Visible = false;
+            lblAddModifier.Visible = true;
+            checkModAlt.Enabled = true;
+            checkModAlt.Visible = true;
+            checkModCtrl.Enabled = true;
+            checkModCtrl.Visible = true;
+            checkModShift.Enabled = true;
+            checkModShift.Visible = true;
+            lblChosenKey.Enabled = false;
+            lblChosenHotkey.Enabled = false;
+            lblChosenHotkey.Visible = false;
+            lblChosenHotkey.Text = "";
+            lblDuplicateDetected.Visible = false;
+            lblDuplicateAction.Visible = false;
+            lblDuplicateAction.Text = "";
+            lblEditedSaved.Visible = false;
+            lblEditedSaved.Text = "";
+
+            // Reset buttons
+            btnAssignChosenKey.Enabled = false;
+            btnCancel.Enabled = false;
+            btnListen.Enabled = true;
+
+            // Enable combo box
+            comboBoxChooseKey.Enabled = true;
         }
 
         private ListViewItem FindDuplicateHotkey(Keys hotkey, ListView listView, ListViewItem currentItem)
@@ -383,85 +430,20 @@ namespace NLEditor
 
         private void LoadHotkeysToListView()
         {
-            listViewHotkeys.Items[0]. SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyCreateNewLevel);
-            listViewHotkeys.Items[1]. SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyLoadLevel);
-            listViewHotkeys.Items[2]. SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeySaveLevel);
-            listViewHotkeys.Items[3]. SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeySaveLevelAs);
-            listViewHotkeys.Items[4]. SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyPlaytestLevel);
-            listViewHotkeys.Items[5]. SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyValidateLevel);
-            listViewHotkeys.Items[6]. SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyToggleClearPhysics);
-            listViewHotkeys.Items[7]. SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyToggleTerrain);
-            listViewHotkeys.Items[8]. SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyToggleObjects);
-            listViewHotkeys.Items[9]. SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyToggleTriggerAreas);
-            listViewHotkeys.Items[10].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyToggleScreenStart);
-            listViewHotkeys.Items[11].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyToggleBackground);
-            listViewHotkeys.Items[12].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyToggleSnapToGrid);
-            listViewHotkeys.Items[13].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyOpenSettings);
-            listViewHotkeys.Items[14].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyOpenConfigHotkeys);
-            listViewHotkeys.Items[15].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyOpenAboutSLX);
-            listViewHotkeys.Items[16].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeySelectPieces);
-            listViewHotkeys.Items[17].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyDragToScroll);
-            listViewHotkeys.Items[18].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyRemovePiecesAtCursor);
-            listViewHotkeys.Items[19].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddRemoveSinglePiece);
-            listViewHotkeys.Items[20].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeySelectPiecesBelow);
-            listViewHotkeys.Items[21].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyZoomIn);
-            listViewHotkeys.Items[22].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyZoomOut);
-            listViewHotkeys.Items[23].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyScrollHorizontally);
-            listViewHotkeys.Items[24].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyScrollVertically);
-            listViewHotkeys.Items[25].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyMoveScreenStart);
-            listViewHotkeys.Items[26].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyShowPreviousPiece);
-            listViewHotkeys.Items[27].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyShowNextPiece);
-            listViewHotkeys.Items[28].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyShowPreviousGroup);
-            listViewHotkeys.Items[29].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyShowNextGroup);
-            listViewHotkeys.Items[30].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyShowPreviousStyle);
-            listViewHotkeys.Items[31].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyShowNextStyle);
-            listViewHotkeys.Items[32].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeySwitchBrowser);
-            listViewHotkeys.Items[33].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddPiece1);
-            listViewHotkeys.Items[34].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddPiece2);
-            listViewHotkeys.Items[35].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddPiece3);
-            listViewHotkeys.Items[36].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddPiece4);
-            listViewHotkeys.Items[37].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddPiece5);
-            listViewHotkeys.Items[38].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddPiece6);
-            listViewHotkeys.Items[39].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddPiece7);
-            listViewHotkeys.Items[40].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddPiece8);
-            listViewHotkeys.Items[41].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddPiece9);
-            listViewHotkeys.Items[42].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddPiece10);
-            listViewHotkeys.Items[43].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddPiece11);
-            listViewHotkeys.Items[44].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddPiece12);
-            listViewHotkeys.Items[45].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAddPiece13);
-            listViewHotkeys.Items[46].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyUndo);
-            listViewHotkeys.Items[47].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyRedo);
-            listViewHotkeys.Items[48].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyCut);
-            listViewHotkeys.Items[49].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyCopy);
-            listViewHotkeys.Items[50].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyPaste);
-            listViewHotkeys.Items[51].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyDuplicate);
-            listViewHotkeys.Items[52].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyDelete);
-            listViewHotkeys.Items[53].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyMoveUp);
-            listViewHotkeys.Items[54].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyMoveDown);
-            listViewHotkeys.Items[55].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyMoveLeft);
-            listViewHotkeys.Items[56].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyMoveRight);
-            listViewHotkeys.Items[57].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyMove8Up);
-            listViewHotkeys.Items[58].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyMove8Down);
-            listViewHotkeys.Items[59].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyMove8Left);
-            listViewHotkeys.Items[60].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyMove8Right);
-            listViewHotkeys.Items[61].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyCustomMove);
-            listViewHotkeys.Items[62].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyDragHorizontally);
-            listViewHotkeys.Items[63].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyDragVertically);
-            listViewHotkeys.Items[64].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyRotate);
-            listViewHotkeys.Items[65].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyFlip);
-            listViewHotkeys.Items[66].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyInvert);
-            listViewHotkeys.Items[67].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyGroup);
-            listViewHotkeys.Items[68].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyUngroup);
-            listViewHotkeys.Items[69].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyErase);
-            listViewHotkeys.Items[70].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyNoOverwrite);
-            listViewHotkeys.Items[71].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyOnlyOnTerrain);
-            listViewHotkeys.Items[72].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyAllowOneWay);
-            listViewHotkeys.Items[73].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyDrawLast);
-            listViewHotkeys.Items[74].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyDrawSooner);
-            listViewHotkeys.Items[75].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyDrawLater);
-            listViewHotkeys.Items[76].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyDrawFirst);
-            listViewHotkeys.Items[77].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyCloseWindow);
-            listViewHotkeys.Items[78].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyCloseEditor);
+            var fields = typeof(HotkeyConfig).GetFields(System.Reflection.BindingFlags.Public |
+                                                        System.Reflection.BindingFlags.Static);
+
+            int n = 0;
+
+            foreach (var field in fields)
+            {
+                if (field.FieldType == typeof(Keys)) // Ensure the field is of type Keys
+                {
+                    Keys hotkey = (Keys)field.GetValue(null); // Retrieve the currently assigned hotkey
+                    listViewHotkeys.Items[n].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(hotkey);
+                    n++;
+                }
+            }
         }
 
         private void WriteToHotkeyConfig()
@@ -489,11 +471,17 @@ namespace NLEditor
                     case "HotkeySaveLevelAs":
                         HotkeyConfig.HotkeySaveLevelAs = parsedKey;
                         break;
+                    case "HotkeySaveLevelAsImage":
+                        HotkeyConfig.HotkeySaveLevelAsImage = parsedKey;
+                        break;
                     case "HotkeyPlaytestLevel":
                         HotkeyConfig.HotkeyPlaytestLevel = parsedKey;
                         break;
                     case "HotkeyValidateLevel":
                         HotkeyConfig.HotkeyValidateLevel = parsedKey;
+                        break;
+                    case "HotkeyCleanseLevels":
+                        HotkeyConfig.HotkeyCleanseLevels = parsedKey;
                         break;
                     case "HotkeyToggleClearPhysics":
                         HotkeyConfig.HotkeyToggleClearPhysics = parsedKey;
@@ -512,6 +500,12 @@ namespace NLEditor
                         break;
                     case "HotkeyToggleBackground":
                         HotkeyConfig.HotkeyToggleBackground = parsedKey;
+                        break;
+                    case "HotkeyToggleDeprecatedPieces":
+                        HotkeyConfig.HotkeyToggleDeprecatedPieces = parsedKey;
+                        break;
+                    case "HotkeyShowMissingPieces":
+                        HotkeyConfig.HotkeyShowMissingPieces = parsedKey;
                         break;
                     case "HotkeyToggleSnapToGrid":
                         HotkeyConfig.HotkeyToggleSnapToGrid = parsedKey;
@@ -573,8 +567,8 @@ namespace NLEditor
                     case "HotkeyShowNextStyle":
                         HotkeyConfig.HotkeyShowNextStyle = parsedKey;
                         break;
-                    case "HotkeySwitchBrowser":
-                        HotkeyConfig.HotkeySwitchBrowser = parsedKey;
+                    case "HotkeyCycleBrowser":
+                        HotkeyConfig.HotkeyCycleBrowser = parsedKey;
                         break;
                     case "HotkeyAddPiece1":
                         HotkeyConfig.HotkeyAddPiece1 = parsedKey;
@@ -629,6 +623,9 @@ namespace NLEditor
                         break;
                     case "HotkeyPaste":
                         HotkeyConfig.HotkeyPaste = parsedKey;
+                        break;
+                    case "HotkeyPasteInPlace":
+                        HotkeyConfig.HotkeyPasteInPlace = parsedKey;
                         break;
                     case "HotkeyDuplicate":
                         HotkeyConfig.HotkeyDuplicate = parsedKey;
