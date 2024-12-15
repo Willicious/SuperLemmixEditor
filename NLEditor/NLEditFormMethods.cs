@@ -497,15 +497,26 @@ namespace NLEditor
 
         private void ShowCleanseLevelsDialog()
         {
-            // Show folder browser dialog to select the target folder
             using (var folderBrowserDialog = new FolderBrowserDialog())
             {
+                folderBrowserDialog.Description = "Choose a folder of levels to cleanse";
+
                 DialogResult result = folderBrowserDialog.ShowDialog();
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
                 {
                     targetFolder = folderBrowserDialog.SelectedPath;
-                    CleanseLevels(); // Proceed with cleansing levels
+
+                    var confirmResult = MessageBox.Show(
+                        $"Are you sure you want to cleanse all levels in \"{targetFolder}\"?",
+                        "Confirm Cleansing",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (confirmResult == DialogResult.Yes)
+                    {
+                        CleanseLevels();
+                    }
                 }
             }
         }
