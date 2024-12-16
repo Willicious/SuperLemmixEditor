@@ -13,20 +13,41 @@ namespace NLEditor
 {
     public partial class FormHotkeys : Form
     {
-        public FormHotkeys()
+        // For mandatory mouse hotkeys
+        private List<string> mandatoryMouseHotkeyText = new List<string>
         {
-            InitializeComponent();
-            SetSubItemNames();
-        }
+            "HotkeySelectPieces",
+            "HotkeyDragToScroll",
+            "HotkeyDragScreenStart",
+            "HotkeyDragHorizontally",
+            "HotkeyDragVertically"
+        };
+
+        private List<Keys> mandatoryMouseKeys = new List<Keys>
+        {
+            Keys.LButton,
+            Keys.RButton,
+            Keys.MButton,
+            Keys.XButton1,
+            Keys.XButton2
+        };
+
+        private List<ListViewItem> mouseMandatoryItems = new List<ListViewItem>();
 
         private Keys selectedKey;
         private ListViewItem selectedItem;
         private bool DoCheckForDuplicates = true;
 
+        public FormHotkeys()
+        {
+            InitializeComponent();
+            GetMouseMandatoryHotkeys();
+            SetSubItemNames();
+        }
+
         private void FormHotkeys_Load(object sender, EventArgs e)
         {
             KeyPreview = true;
-            comboBoxChooseKey.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>().ToList();
         }
 
         private void FormHotkeys_Shown(object sender, EventArgs e)
@@ -36,10 +57,9 @@ namespace NLEditor
                 HotkeyConfig.LoadHotkeysFromIniFile();
             else
                 HotkeyConfig.GetDefaultHotkeys();
-
+            
+            // Load and focus the listview
             LoadHotkeysToListView();
-
-            // Ensure the list is selected and focused when the Form is shown
             AutoSelectListItem();
         }
 
@@ -169,6 +189,7 @@ namespace NLEditor
 
         private void checkModifiers_Click(object sender, EventArgs e)
         {
+            ClearHighlights();
             CheckForDuplicateKeys();
         }
 
@@ -228,6 +249,48 @@ namespace NLEditor
                 lblEditedSaved.Text = "Hotkey Configuration edited...";
                 this.Text = "SLX Editor - Hotkey Configuration - [Edited]";
             }  
+        }
+
+        /// <summary>
+        /// Iterates over the initial list for string matches
+        /// Assigns each match as a mouse-mandatory item
+        /// </summary>
+        private void GetMouseMandatoryHotkeys()
+        {
+            foreach (var item in listViewHotkeys.Items)
+            {
+                var listViewItem = item as ListViewItem;
+
+                foreach (var subItemText in mandatoryMouseHotkeyText)
+                {
+                    if (listViewItem.SubItems[1].Text == subItemText)
+                    {
+                        mouseMandatoryItems.Add(listViewItem);
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void UpdateComboBox(Keys key)
+        {
+            var selectedItem = listViewHotkeys.SelectedItems[0];
+            MessageBox.Show("Item is selected: " + selectedItem.Text);
+
+            // Check if the selected item is part of the mouse-mandatory items
+            if (mouseMandatoryItems.Contains(selectedItem))
+            {
+                MessageBox.Show("Mouse mandatory items loaded");
+                comboBoxChooseKey.DataSource = mandatoryMouseKeys; // Load mouse-only keys
+            }
+            else // Load default key list
+            {
+                MessageBox.Show("Default items loaded");
+                comboBoxChooseKey.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>().ToList();
+            }
+                
+            comboBoxChooseKey.SelectedItem = key;
+            MessageBox.Show("Combo box should be showing key: " + key.ToString());
         }
 
         private void AutoSelectListItem()
@@ -353,7 +416,7 @@ namespace NLEditor
 
                 // Set the combo box to the base key
                 Keys baseKey = assignedKey & ~(Keys.Control | Keys.Shift | Keys.Alt);
-                comboBoxChooseKey.SelectedItem = baseKey;
+                UpdateComboBox(baseKey);
 
                 // Update the modifier checkboxes
                 checkModCtrl.Checked = assignedKey.HasFlag(Keys.Control);
@@ -409,9 +472,13 @@ namespace NLEditor
                 // Skip if the hotkey string is empty or blank
                 if (string.IsNullOrWhiteSpace(itemHotkeyText)) continue;
 
-                if (HotkeyConfig.ParseHotkeyString(itemHotkeyText) == hotkey)
+                // Compare the entire hotkey string, including modifiers
+                if (itemHotkeyText == HotkeyConfig.FormatHotkeyString(hotkey))
+                {
                     return item; // Return the duplicate item
+                }
             }
+
             return null; // No duplicates found
         }
 
@@ -657,8 +724,17 @@ namespace NLEditor
                     case "HotkeyMove8Right":
                         HotkeyConfig.HotkeyMove8Right = parsedKey;
                         break;
-                    case "HotkeyCustomMove":
-                        HotkeyConfig.HotkeyCustomMove = parsedKey;
+                    case "HotkeyCustomMoveUp":
+                        HotkeyConfig.HotkeyCustomMoveUp = parsedKey;
+                        break;
+                    case "HotkeyCustomMoveDown":
+                        HotkeyConfig.HotkeyCustomMoveDown = parsedKey;
+                        break;
+                    case "HotkeyCustomMoveLeft":
+                        HotkeyConfig.HotkeyCustomMoveLeft = parsedKey;
+                        break;
+                    case "HotkeyCustomMoveRight":
+                        HotkeyConfig.HotkeyCustomMoveRight = parsedKey;
                         break;
                     case "HotkeyDragHorizontally":
                         HotkeyConfig.HotkeyDragHorizontally = parsedKey;

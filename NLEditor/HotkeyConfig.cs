@@ -75,7 +75,10 @@ namespace NLEditor
         public static Keys HotkeyMove8Down;
         public static Keys HotkeyMove8Left;
         public static Keys HotkeyMove8Right;
-        public static Keys HotkeyCustomMove;
+        public static Keys HotkeyCustomMoveUp;
+        public static Keys HotkeyCustomMoveDown;
+        public static Keys HotkeyCustomMoveLeft;
+        public static Keys HotkeyCustomMoveRight;
         public static Keys HotkeyDragHorizontally;
         public static Keys HotkeyDragVertically;
         public static Keys HotkeyRotate;
@@ -315,8 +318,14 @@ namespace NLEditor
                     HotkeyMove8Left = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyMove8Right="))
                     HotkeyMove8Right = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
-                if (line.StartsWith("HotkeyCustomMove="))
-                    HotkeyCustomMove = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                if (line.StartsWith("HotkeyCustomMoveUp="))
+                    HotkeyCustomMoveUp = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                if (line.StartsWith("HotkeyCustomMoveDown="))
+                    HotkeyCustomMoveDown = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                if (line.StartsWith("HotkeyCustomMoveLeft="))
+                    HotkeyCustomMoveLeft = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                if (line.StartsWith("HotkeyCustomMoveRight="))
+                    HotkeyCustomMoveRight = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyDragHorizontally="))
                     HotkeyDragHorizontally = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
                 if (line.StartsWith("HotkeyDragVertically="))
@@ -425,7 +434,10 @@ namespace NLEditor
                 $"HotkeyMove8Down={HotkeyMove8Down}",
                 $"HotkeyMove8Left={HotkeyMove8Left}",
                 $"HotkeyMove8Right={HotkeyMove8Right}",
-                $"HotkeyCustomMove={HotkeyCustomMove}",
+                $"HotkeyCustomMoveUp={HotkeyCustomMoveUp}",
+                $"HotkeyCustomMoveDown={HotkeyCustomMoveDown}",
+                $"HotkeyCustomMoveLeft={HotkeyCustomMoveLeft}",
+                $"HotkeyCustomMoveRight={HotkeyCustomMoveRight}",
                 $"HotkeyDragHorizontally={HotkeyDragHorizontally}",
                 $"HotkeyDragVertically={HotkeyDragVertically}",
                 $"HotkeyRotate={HotkeyRotate}",
@@ -516,7 +528,10 @@ namespace NLEditor
             HotkeyMove8Down = Keys.Control | Keys.Down;
             HotkeyMove8Left = Keys.Control | Keys.Left;
             HotkeyMove8Right = Keys.Control | Keys.Right;
-            HotkeyCustomMove = Keys.Alt | Keys.Up;
+            HotkeyCustomMoveUp = Keys.Alt | Keys.Up;
+            HotkeyCustomMoveDown = Keys.Alt | Keys.Down;
+            HotkeyCustomMoveLeft = Keys.Alt | Keys.Left;
+            HotkeyCustomMoveRight = Keys.Alt | Keys.Right;
             HotkeyDragHorizontally = Keys.Control | Keys.Shift;
             HotkeyDragVertically = Keys.Control | Keys.Alt;
             HotkeyRotate = Keys.R;
