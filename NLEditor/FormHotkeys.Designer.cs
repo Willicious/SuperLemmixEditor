@@ -104,16 +104,16 @@
             "Select piece(s) below piece at cursor location",
             "HotkeySelectPiecesBelow"}, -1);
             System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Zoom In",
+            "Zoom In (also a Mouse Wheel action)",
             "HotkeyZoomIn"}, -1);
             System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Zoom Out",
+            "Zoom Out (also a Mouse Wheel action)",
             "HotkeyZoomOut"}, -1);
             System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Scroll Horizontally",
+            "(Mouse Wheel action) Scroll Horizontally when zoomed in",
             "HotkeyScrollHorizontally"}, -1);
             System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Scroll Vertically",
+            "(Mouse Wheel action) Scroll Vertically when zoomed in",
             "HotkeyScrollVertically"}, -1);
             System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Screen Start",

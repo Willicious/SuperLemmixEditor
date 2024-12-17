@@ -14,7 +14,7 @@ namespace NLEditor
     public partial class FormHotkeys : Form
     {
         // For mandatory mouse hotkeys
-        private List<string> mandatoryMouseHotkeyText = new List<string>
+        private readonly List<string> mandatoryMouseHotkeyText = new List<string>
         {
             "HotkeySelectPieces",
             "HotkeyDragToScroll",
@@ -23,7 +23,7 @@ namespace NLEditor
             "HotkeyDragVertically"
         };
 
-        private List<Keys> mandatoryMouseKeys = new List<Keys>
+        private readonly List<Keys> mandatoryMouseKeys = new List<Keys>
         {
             Keys.LButton,
             Keys.RButton,
@@ -32,7 +32,7 @@ namespace NLEditor
             Keys.XButton2
         };
 
-        private List<ListViewItem> mouseMandatoryItems = new List<ListViewItem>();
+        private readonly List<ListViewItem> mouseMandatoryItems = new List<ListViewItem>();
 
         private Keys selectedKey;
         private ListViewItem selectedItem;
@@ -106,6 +106,7 @@ namespace NLEditor
                 e.Handled = true; // Prevent default behavior for Enter
             }
         }
+
 
         private void FormHotkeys_KeyDown(object sender, KeyEventArgs e)
         {
@@ -275,22 +276,18 @@ namespace NLEditor
         private void UpdateComboBox(Keys key)
         {
             var selectedItem = listViewHotkeys.SelectedItems[0];
-            MessageBox.Show("Item is selected: " + selectedItem.Text);
 
             // Check if the selected item is part of the mouse-mandatory items
             if (mouseMandatoryItems.Contains(selectedItem))
             {
-                MessageBox.Show("Mouse mandatory items loaded");
                 comboBoxChooseKey.DataSource = mandatoryMouseKeys; // Load mouse-only keys
             }
             else // Load default key list
             {
-                MessageBox.Show("Default items loaded");
                 comboBoxChooseKey.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>().ToList();
             }
                 
             comboBoxChooseKey.SelectedItem = key;
-            MessageBox.Show("Combo box should be showing key: " + key.ToString());
         }
 
         private void AutoSelectListItem()
@@ -363,6 +360,12 @@ namespace NLEditor
             
             if (selectedItem != null)
             {
+                if (selectedKey == Keys.None)
+                {
+                    UpdateChosenKey();
+                    return;
+                }
+
                 // Combine the key with modifiers, if selected
                 selectedKey &= ~(Keys.Control | Keys.Shift | Keys.Alt); // Clear existing modifiers
                 if (checkModCtrl.Checked) selectedKey |= Keys.Control;

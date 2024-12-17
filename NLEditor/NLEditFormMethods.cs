@@ -986,6 +986,8 @@ namespace NLEditor
         /// <param name="step"></param>
         private void MoveLevelPiecesOrScreenPos(C.DIR direction, int step = 1)
         {
+            movementActionPerformed = true;
+
             if (CurLevel.SelectionList().Count > 0)
             {
                 CurLevel.MovePieces(direction, step, gridSize);
@@ -1627,11 +1629,9 @@ namespace NLEditor
 
             AddHotkey(HotkeyConfig.HotkeyZoomIn, () => ZoomIn());
             AddHotkey(HotkeyConfig.HotkeyZoomOut, () => ZoomOut());
-            // wheel will still zoom in and out, as the mouse wheel can't be assigned via hotkeys
+            AddHotkey(HotkeyConfig.HotkeyScrollHorizontally, () => scrollHorizontallyPressed = true);
+            AddHotkey(HotkeyConfig.HotkeyScrollVertically, () => scrollVerticallyPressed = true);
 
-            //AddHotkey(HotkeyConfig.HotkeyScrollHorizontally, () => "uses the wheel, but could use arrows" ());
-            //AddHotkey(HotkeyConfig.HotkeyScrollVertically, () => "uses the wheel, but could use arrows" ());
-            
             //AddHotkey(HotkeyConfig.HotkeyDragScreenStart, () => "mouse mandatory" ());
 
             //AddHotkey(HotkeyConfig.HotkeyNudgeScreenStartUp, () => "currently uses direction arrows, but doesn't necessarily need to" ());

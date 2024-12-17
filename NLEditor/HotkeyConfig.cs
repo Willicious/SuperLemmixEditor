@@ -110,6 +110,7 @@ namespace NLEditor
 
             return string.Join("+", hotkeyParts);
         }
+
         public static Keys ParseHotkeyString(string hotkeyString)
         {
             Keys result = Keys.None;
