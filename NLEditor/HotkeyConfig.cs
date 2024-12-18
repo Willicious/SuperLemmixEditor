@@ -96,6 +96,7 @@ namespace NLEditor
         public static Keys HotkeyDrawFirst;
         public static Keys HotkeyCloseWindow;
         public static Keys HotkeyCloseEditor;
+
         public static string FormatHotkeyString(Keys hotkey)
         {
             List<string> hotkeyParts = new List<string>();
@@ -106,7 +107,50 @@ namespace NLEditor
 
             // Get the base key from the flags
             Keys baseKey = hotkey & ~(Keys.Control | Keys.Shift | Keys.Alt);
-            hotkeyParts.Add(baseKey.ToString());
+
+            // Convert special cases to more user-friendly names
+            string baseKeyString;
+            switch (baseKey)
+            {
+                case Keys.Back:
+                    baseKeyString = "Backspace";
+                    break;
+                case Keys.OemMinus:
+                    baseKeyString = "Minus";
+                    break;
+                case Keys.Oemplus:
+                    baseKeyString = "Plus";
+                    break;
+                case Keys.ShiftKey:
+                    baseKeyString = "Shift";
+                    break;
+                case Keys.ControlKey:
+                    baseKeyString = "Ctrl";
+                    break;
+                case Keys.Menu:
+                    baseKeyString = "Alt";
+                    break;
+                case Keys.PageDown:
+                    baseKeyString = "PageDown";
+                    break;
+                case Keys.PageUp:
+                    baseKeyString = "PageUp";
+                    break;
+                case Keys.Oemcomma:
+                    baseKeyString = "Comma";
+                    break;
+                case Keys.OemPeriod:
+                    baseKeyString = "Period";
+                    break;
+                case Keys.OemQuestion:
+                    baseKeyString = "Question";
+                    break;
+                default:
+                    baseKeyString = baseKey.ToString();
+                    break;
+            }
+
+            hotkeyParts.Add(baseKeyString);
 
             return string.Join("+", hotkeyParts);
         }
@@ -118,6 +162,7 @@ namespace NLEditor
 
             foreach (string part in parts)
             {
+                // Convert user-friendly names back to relevant Keys
                 switch (part.Trim())
                 {
                     case "Ctrl":
@@ -129,6 +174,30 @@ namespace NLEditor
                     case "Alt":
                         result |= Keys.Alt;
                         break;
+                    case "Backspace":
+                        result |= Keys.Back;
+                        break;
+                    case "Minus":
+                        result |= Keys.OemMinus;
+                        break;
+                    case "Plus":
+                        result |= Keys.Oemplus;
+                        break;
+                    case "PageDown":
+                        result |= Keys.PageDown;
+                        break;
+                    case "PageUp":
+                        result |= Keys.PageUp;
+                        break;
+                    case "Comma":
+                        result |= Keys.Oemcomma;
+                        break;
+                    case "Period":
+                        result |= Keys.OemPeriod;
+                        break;
+                    case "Question":
+                        result |= Keys.OemQuestion;
+                        break;
                     default:
                         if (Enum.TryParse(part, out Keys key))
                             result |= key;
@@ -138,6 +207,7 @@ namespace NLEditor
 
             return result;
         }
+
 
         public static bool ValidateHotkeyIniFile(string[] lines, out string invalidKey)
         {
@@ -153,17 +223,34 @@ namespace NLEditor
                 var key = parts[1].Trim();
 
                 if (key != "None")
-                {       // Check for invalid keys           // Check for duplicates
-                    if (!Enum.TryParse<Keys>(key, out _) || seenKeys.Contains(key))
+                {
+                    try
                     {
-                        // Truncate the key if it's longer than 100 characters
-                        if (key.Length > 100) { key = key.Substring(0, 100) + "..."; }
-                        
-                        invalidKey = key;
-                        return true; // Invalid or duplicate key found
+                        var parsedKey = ParseHotkeyString(key);
+
+                        // Disallowed combinations: Modifiers alone or together with no other keys
+                        var isModifierOnly = parsedKey == Keys.Control || parsedKey == Keys.Shift || parsedKey == Keys.Alt;
+                        var isModifierCombinationOnly = (parsedKey & (Keys.Control | Keys.Shift | Keys.Alt)) == parsedKey && parsedKey != Keys.None;
+
+                        if (key.Contains("None") || isModifierOnly || isModifierCombinationOnly)
+                        {
+                            invalidKey = key;
+                            return true;
+                        }
+                    }
+                    catch
+                    {
+                        // Truncate overly long invalid keys for error reporting
+                        invalidKey = key.Length > 100 ? key.Substring(0, 100) + "..." : key;
+                        return true;
                     }
 
-                    seenKeys.Add(key);
+                    // Disallow duplicate keys
+                    if (!seenKeys.Add(key))
+                    {
+                        invalidKey = key;
+                        return true;
+                    }
                 }
             }
 
@@ -174,7 +261,6 @@ namespace NLEditor
         {
             var lines = System.IO.File.ReadAllLines("SLXEditorHotkeys.ini");
 
-            // Check for duplicates directly
             if (ValidateHotkeyIniFile(lines, out string invalidKey))
             {
                 MessageBox.Show($"Invalid or duplicate key detected in SLXEditorHotkeys.ini\n\n" +
@@ -188,179 +274,179 @@ namespace NLEditor
             foreach (var line in lines)
             {
                 if (line.StartsWith("HotkeyCreateNewLevel="))
-                    HotkeyCreateNewLevel = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyCreateNewLevel = ParseHotkeyString(line.Substring("HotkeyCreateNewLevel=".Length));
                 if (line.StartsWith("HotkeyLoadLevel="))
-                    HotkeyLoadLevel = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyLoadLevel = ParseHotkeyString(line.Substring("HotkeyLoadLevel=".Length));
                 if (line.StartsWith("HotkeySaveLevel="))
-                    HotkeySaveLevel = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeySaveLevel = ParseHotkeyString(line.Substring("HotkeySaveLevel=".Length));
                 if (line.StartsWith("HotkeySaveLevelAs="))
-                    HotkeySaveLevelAs = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeySaveLevelAs = ParseHotkeyString(line.Substring("HotkeySaveLevelAs=".Length));
                 if (line.StartsWith("HotkeySaveLevelAsImage="))
-                    HotkeySaveLevelAsImage = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeySaveLevelAsImage = ParseHotkeyString(line.Substring("HotkeySaveLevelAsImage=".Length));
                 if (line.StartsWith("HotkeyPlaytestLevel="))
-                    HotkeyPlaytestLevel = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyPlaytestLevel = ParseHotkeyString(line.Substring("HotkeyPlaytestLevel=".Length));
                 if (line.StartsWith("HotkeyValidateLevel="))
-                    HotkeyValidateLevel = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyValidateLevel = ParseHotkeyString(line.Substring("HotkeyValidateLevel=".Length));
                 if (line.StartsWith("HotkeyCleanseLevels="))
-                    HotkeyCleanseLevels = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyCleanseLevels = ParseHotkeyString(line.Substring("HotkeyCleanseLevels=".Length));
                 if (line.StartsWith("HotkeyToggleClearPhysics="))
-                    HotkeyToggleClearPhysics = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyToggleClearPhysics = ParseHotkeyString(line.Substring("HotkeyToggleClearPhysics=".Length));
                 if (line.StartsWith("HotkeyToggleTerrain="))
-                    HotkeyToggleTerrain = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyToggleTerrain = ParseHotkeyString(line.Substring("HotkeyToggleTerrain=".Length));
                 if (line.StartsWith("HotkeyToggleObjects="))
-                    HotkeyToggleObjects = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyToggleObjects = ParseHotkeyString(line.Substring("HotkeyToggleObjects=".Length));
                 if (line.StartsWith("HotkeyToggleTriggerAreas="))
-                    HotkeyToggleTriggerAreas = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyToggleTriggerAreas = ParseHotkeyString(line.Substring("HotkeyToggleTriggerAreas=".Length));
                 if (line.StartsWith("HotkeyToggleScreenStart="))
-                    HotkeyToggleScreenStart = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyToggleScreenStart = ParseHotkeyString(line.Substring("HotkeyToggleScreenStart=".Length));
                 if (line.StartsWith("HotkeyToggleBackground="))
-                    HotkeyToggleBackground = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyToggleBackground = ParseHotkeyString(line.Substring("HotkeyToggleBackground=".Length));
                 if (line.StartsWith("HotkeyToggleDeprecatedPieces="))
-                    HotkeyToggleDeprecatedPieces = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyToggleDeprecatedPieces = ParseHotkeyString(line.Substring("HotkeyToggleDeprecatedPieces=".Length));
                 if (line.StartsWith("HotkeyShowMissingPieces="))
-                    HotkeyShowMissingPieces = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyShowMissingPieces = ParseHotkeyString(line.Substring("HotkeyShowMissingPieces=".Length));
                 if (line.StartsWith("HotkeyToggleSnapToGrid="))
-                    HotkeyToggleSnapToGrid = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyToggleSnapToGrid = ParseHotkeyString(line.Substring("HotkeyToggleSnapToGrid=".Length));
                 if (line.StartsWith("HotkeyOpenSettings="))
-                    HotkeyOpenSettings = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyOpenSettings = ParseHotkeyString(line.Substring("HotkeyOpenSettings=".Length));
                 if (line.StartsWith("HotkeyOpenConfigHotkeys="))
-                    HotkeyOpenConfigHotkeys = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyOpenConfigHotkeys = ParseHotkeyString(line.Substring("HotkeyOpenConfigHotkeys=".Length));
                 if (line.StartsWith("HotkeyOpenAboutSLX="))
-                    HotkeyOpenAboutSLX = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyOpenAboutSLX = ParseHotkeyString(line.Substring("HotkeyOpenAboutSLX=".Length));
                 if (line.StartsWith("HotkeySelectPieces="))
-                    HotkeySelectPieces = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeySelectPieces = ParseHotkeyString(line.Substring("HotkeySelectPieces=".Length));
                 if (line.StartsWith("HotkeyDragToScroll="))
-                    HotkeyDragToScroll = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyDragToScroll = ParseHotkeyString(line.Substring("HotkeyDragToScroll=".Length));
                 if (line.StartsWith("HotkeyRemovePiecesAtCursor="))
-                    HotkeyRemovePiecesAtCursor = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyRemovePiecesAtCursor = ParseHotkeyString(line.Substring("HotkeyRemovePiecesAtCursor=".Length));
                 if (line.StartsWith("HotkeyAddRemoveSinglePiece="))
-                    HotkeyAddRemoveSinglePiece = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddRemoveSinglePiece = ParseHotkeyString(line.Substring("HotkeyAddRemoveSinglePiece=".Length));
                 if (line.StartsWith("HotkeySelectPiecesBelow="))
-                    HotkeySelectPiecesBelow = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeySelectPiecesBelow = ParseHotkeyString(line.Substring("HotkeySelectPiecesBelow=".Length));
                 if (line.StartsWith("HotkeyZoomIn="))
-                    HotkeyZoomIn = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyZoomIn = ParseHotkeyString(line.Substring("HotkeyZoomIn=".Length));
                 if (line.StartsWith("HotkeyZoomOut="))
-                    HotkeyZoomOut = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyZoomOut = ParseHotkeyString(line.Substring("HotkeyZoomOut=".Length));
                 if (line.StartsWith("HotkeyScrollHorizontally="))
-                    HotkeyScrollHorizontally = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyScrollHorizontally = ParseHotkeyString(line.Substring("HotkeyScrollHorizontally=".Length));
                 if (line.StartsWith("HotkeyScrollVertically="))
-                    HotkeyScrollVertically = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyScrollVertically = ParseHotkeyString(line.Substring("HotkeyScrollVertically=".Length));
                 if (line.StartsWith("HotkeyMoveScreenStart="))
-                    HotkeyMoveScreenStart = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyMoveScreenStart = ParseHotkeyString(line.Substring("HotkeyMoveScreenStart=".Length));
                 if (line.StartsWith("HotkeyShowPreviousPiece="))
-                    HotkeyShowPreviousPiece = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyShowPreviousPiece = ParseHotkeyString(line.Substring("HotkeyShowPreviousPiece=".Length));
                 if (line.StartsWith("HotkeyShowNextPiece="))
-                    HotkeyShowNextPiece = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyShowNextPiece = ParseHotkeyString(line.Substring("HotkeyShowNextPiece=".Length));
                 if (line.StartsWith("HotkeyShowPreviousGroup="))
-                    HotkeyShowPreviousGroup = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyShowPreviousGroup = ParseHotkeyString(line.Substring("HotkeyShowPreviousGroup=".Length));
                 if (line.StartsWith("HotkeyShowNextGroup="))
-                    HotkeyShowNextGroup = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyShowNextGroup = ParseHotkeyString(line.Substring("HotkeyShowNextGroup=".Length));
                 if (line.StartsWith("HotkeyShowPreviousStyle="))
-                    HotkeyShowPreviousStyle = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyShowPreviousStyle = ParseHotkeyString(line.Substring("HotkeyShowPreviousStyle=".Length));
                 if (line.StartsWith("HotkeyShowNextStyle="))
-                    HotkeyShowNextStyle = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyShowNextStyle = ParseHotkeyString(line.Substring("HotkeyShowNextStyle=".Length));
                 if (line.StartsWith("HotkeyCycleBrowser="))
-                    HotkeyCycleBrowser = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyCycleBrowser = ParseHotkeyString(line.Substring("HotkeyCycleBrowser=".Length));
                 if (line.StartsWith("HotkeyAddPiece1="))
-                    HotkeyAddPiece1 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddPiece1 = ParseHotkeyString(line.Substring("HotkeyAddPiece1=".Length));
                 if (line.StartsWith("HotkeyAddPiece2="))
-                    HotkeyAddPiece2 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddPiece2 = ParseHotkeyString(line.Substring("HotkeyAddPiece2=".Length));
                 if (line.StartsWith("HotkeyAddPiece3="))
-                    HotkeyAddPiece3 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddPiece3 = ParseHotkeyString(line.Substring("HotkeyAddPiece3=".Length));
                 if (line.StartsWith("HotkeyAddPiece4="))
-                    HotkeyAddPiece4 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddPiece4 = ParseHotkeyString(line.Substring("HotkeyAddPiece4=".Length));
                 if (line.StartsWith("HotkeyAddPiece5="))
-                    HotkeyAddPiece5 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddPiece5 = ParseHotkeyString(line.Substring("HotkeyAddPiece5=".Length));
                 if (line.StartsWith("HotkeyAddPiece6="))
-                    HotkeyAddPiece6 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddPiece6 = ParseHotkeyString(line.Substring("HotkeyAddPiece6=".Length));
                 if (line.StartsWith("HotkeyAddPiece7="))
-                    HotkeyAddPiece7 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddPiece7 = ParseHotkeyString(line.Substring("HotkeyAddPiece7=".Length));
                 if (line.StartsWith("HotkeyAddPiece8="))
-                    HotkeyAddPiece8 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddPiece8 = ParseHotkeyString(line.Substring("HotkeyAddPiece8=".Length));
                 if (line.StartsWith("HotkeyAddPiece9="))
-                    HotkeyAddPiece9 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddPiece9 = ParseHotkeyString(line.Substring("HotkeyAddPiece9=".Length));
                 if (line.StartsWith("HotkeyAddPiece10="))
-                    HotkeyAddPiece10 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddPiece10 = ParseHotkeyString(line.Substring("HotkeyAddPiece10=".Length));
                 if (line.StartsWith("HotkeyAddPiece11="))
-                    HotkeyAddPiece11 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddPiece11 = ParseHotkeyString(line.Substring("HotkeyAddPiece11=".Length));
                 if (line.StartsWith("HotkeyAddPiece12="))
-                    HotkeyAddPiece12 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddPiece12 = ParseHotkeyString(line.Substring("HotkeyAddPiece12=".Length));
                 if (line.StartsWith("HotkeyAddPiece13="))
-                    HotkeyAddPiece13 = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAddPiece13 = ParseHotkeyString(line.Substring("HotkeyAddPiece13=".Length));
                 if (line.StartsWith("HotkeyUndo="))
-                    HotkeyUndo = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyUndo = ParseHotkeyString(line.Substring("HotkeyUndo=".Length));
                 if (line.StartsWith("HotkeyRedo="))
-                    HotkeyRedo = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyRedo = ParseHotkeyString(line.Substring("HotkeyRedo=".Length));
                 if (line.StartsWith("HotkeyCut="))
-                    HotkeyCut = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyCut = ParseHotkeyString(line.Substring("HotkeyCut=".Length));
                 if (line.StartsWith("HotkeyCopy="))
-                    HotkeyCopy = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyCopy = ParseHotkeyString(line.Substring("HotkeyCopy=".Length));
                 if (line.StartsWith("HotkeyPaste="))
-                    HotkeyPaste = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyPaste = ParseHotkeyString(line.Substring("HotkeyPaste=".Length));
                 if (line.StartsWith("HotkeyPasteInPlace"))
-                    HotkeyPasteInPlace = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyPasteInPlace = ParseHotkeyString(line.Substring("HotkeyPasteInPlace=".Length));
                 if (line.StartsWith("HotkeyDuplicate="))
-                    HotkeyDuplicate = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyDuplicate = ParseHotkeyString(line.Substring("HotkeyDuplicate=".Length));
                 if (line.StartsWith("HotkeyDelete="))
-                    HotkeyDelete = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyDelete = ParseHotkeyString(line.Substring("HotkeyDelete=".Length));
                 if (line.StartsWith("HotkeyMoveUp="))
-                    HotkeyMoveUp = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyMoveUp = ParseHotkeyString(line.Substring("HotkeyMoveUp=".Length));
                 if (line.StartsWith("HotkeyMoveDown="))
-                    HotkeyMoveDown = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyMoveDown = ParseHotkeyString(line.Substring("HotkeyMoveDown=".Length));
                 if (line.StartsWith("HotkeyMoveLeft="))
-                    HotkeyMoveLeft = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyMoveLeft = ParseHotkeyString(line.Substring("HotkeyMoveLeft=".Length));
                 if (line.StartsWith("HotkeyMoveRight="))
-                    HotkeyMoveRight = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyMoveRight = ParseHotkeyString(line.Substring("HotkeyMoveRight=".Length));
                 if (line.StartsWith("HotkeyMove8Up="))
-                    HotkeyMove8Up = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyMove8Up = ParseHotkeyString(line.Substring("HotkeyMove8Up=".Length));
                 if (line.StartsWith("HotkeyMove8Down="))
-                    HotkeyMove8Down = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyMove8Down = ParseHotkeyString(line.Substring("HotkeyMove8Down=".Length));
                 if (line.StartsWith("HotkeyMove8Left="))
-                    HotkeyMove8Left = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyMove8Left = ParseHotkeyString(line.Substring("HotkeyMove8Left=".Length));
                 if (line.StartsWith("HotkeyMove8Right="))
-                    HotkeyMove8Right = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyMove8Right = ParseHotkeyString(line.Substring("HotkeyMove8Right=".Length));
                 if (line.StartsWith("HotkeyCustomMoveUp="))
-                    HotkeyCustomMoveUp = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyCustomMoveUp = ParseHotkeyString(line.Substring("HotkeyCustomMoveUp=".Length));
                 if (line.StartsWith("HotkeyCustomMoveDown="))
-                    HotkeyCustomMoveDown = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyCustomMoveDown = ParseHotkeyString(line.Substring("HotkeyCustomMoveDown=".Length));
                 if (line.StartsWith("HotkeyCustomMoveLeft="))
-                    HotkeyCustomMoveLeft = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyCustomMoveLeft = ParseHotkeyString(line.Substring("HotkeyCustomMoveLeft=".Length));
                 if (line.StartsWith("HotkeyCustomMoveRight="))
-                    HotkeyCustomMoveRight = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyCustomMoveRight = ParseHotkeyString(line.Substring("HotkeyCustomMoveRight=".Length));
                 if (line.StartsWith("HotkeyDragHorizontally="))
-                    HotkeyDragHorizontally = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyDragHorizontally = ParseHotkeyString(line.Substring("HotkeyDragHorizontally=".Length));
                 if (line.StartsWith("HotkeyDragVertically="))
-                    HotkeyDragVertically = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyDragVertically = ParseHotkeyString(line.Substring("HotkeyDragVertically=".Length));
                 if (line.StartsWith("HotkeyRotate="))
-                    HotkeyRotate = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyRotate = ParseHotkeyString(line.Substring("HotkeyRotate=".Length));
                 if (line.StartsWith("HotkeyFlip="))
-                    HotkeyFlip = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyFlip = ParseHotkeyString(line.Substring("HotkeyFlip=".Length));
                 if (line.StartsWith("HotkeyInvert="))
-                    HotkeyInvert = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyInvert = ParseHotkeyString(line.Substring("HotkeyInvert=".Length));
                 if (line.StartsWith("HotkeyGroup="))
-                    HotkeyGroup = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyGroup = ParseHotkeyString(line.Substring("HotkeyGroup=".Length));
                 if (line.StartsWith("HotkeyUngroup="))
-                    HotkeyUngroup = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyUngroup = ParseHotkeyString(line.Substring("HotkeyUngroup=".Length));
                 if (line.StartsWith("HotkeyErase="))
-                    HotkeyErase = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyErase = ParseHotkeyString(line.Substring("HotkeyErase=".Length));
                 if (line.StartsWith("HotkeyNoOverwrite="))
-                    HotkeyNoOverwrite = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyNoOverwrite = ParseHotkeyString(line.Substring("HotkeyNoOverwrite=".Length));
                 if (line.StartsWith("HotkeyOnlyOnTerrain="))
-                    HotkeyOnlyOnTerrain = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyOnlyOnTerrain = ParseHotkeyString(line.Substring("HotkeyOnlyOnTerrain=".Length));
                 if (line.StartsWith("HotkeyAllowOneWay="))
-                    HotkeyAllowOneWay = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyAllowOneWay = ParseHotkeyString(line.Substring("HotkeyAllowOneWay=".Length));
                 if (line.StartsWith("HotkeyDrawLast="))
-                    HotkeyDrawLast = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyDrawLast = ParseHotkeyString(line.Substring("HotkeyDrawLast=".Length));
                 if (line.StartsWith("HotkeyDrawSooner="))
-                    HotkeyDrawSooner = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyDrawSooner = ParseHotkeyString(line.Substring("HotkeyDrawSooner=".Length));
                 if (line.StartsWith("HotkeyDrawLater="))
-                    HotkeyDrawLater = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyDrawLater = ParseHotkeyString(line.Substring("HotkeyDrawLater=".Length));
                 if (line.StartsWith("HotkeyDrawFirst="))
-                    HotkeyDrawFirst = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyDrawFirst = ParseHotkeyString(line.Substring("HotkeyDrawFirst=".Length));
                 if (line.StartsWith("HotkeyCloseWindow="))
-                    HotkeyCloseWindow = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyCloseWindow = ParseHotkeyString(line.Substring("HotkeyCloseWindow=".Length));
                 if (line.StartsWith("HotkeyCloseEditor="))
-                    HotkeyCloseEditor = (Keys)Enum.Parse(typeof(Keys), line.Split('=')[1]);
+                    HotkeyCloseEditor = ParseHotkeyString(line.Substring("HotkeyCloseEditor=".Length));
             }
         }
 
@@ -369,93 +455,93 @@ namespace NLEditor
             var lines = new List<string>
             {
                 "[Hotkeys]",
-                $"HotkeyCreateNewLevel={HotkeyCreateNewLevel}",
-                $"HotkeyLoadLevel={HotkeyLoadLevel}",
-                $"HotkeySaveLevel={HotkeySaveLevel}",
-                $"HotkeySaveLevelAs={HotkeySaveLevelAs}",
-                $"HotkeySaveLevelAsImage={HotkeySaveLevelAsImage}",
-                $"HotkeyPlaytestLevel={HotkeyPlaytestLevel}",
-                $"HotkeyValidateLevel={HotkeyValidateLevel}",
-                $"HotkeyCleanseLevels={HotkeyCleanseLevels}",
-                $"HotkeyToggleClearPhysics={HotkeyToggleClearPhysics}",
-                $"HotkeyToggleTerrain={HotkeyToggleTerrain}",
-                $"HotkeyToggleObjects={HotkeyToggleObjects}",
-                $"HotkeyToggleTriggerAreas={HotkeyToggleTriggerAreas}",
-                $"HotkeyToggleScreenStart={HotkeyToggleScreenStart}",
-                $"HotkeyToggleBackground={HotkeyToggleBackground}",
-                $"HotkeyToggleDeprecatedPieces={HotkeyToggleDeprecatedPieces}",
-                $"HotkeyShowMissingPieces={HotkeyShowMissingPieces}",
-                $"HotkeyToggleSnapToGrid={HotkeyToggleSnapToGrid}",
-                $"HotkeyOpenSettings={HotkeyOpenSettings}",
-                $"HotkeyOpenConfigHotkeys={HotkeyOpenConfigHotkeys}",
-                $"HotkeyOpenAboutSLX={HotkeyOpenAboutSLX}",
-                $"HotkeySelectPieces={HotkeySelectPieces}",
-                $"HotkeyDragToScroll={HotkeyDragToScroll}",
-                $"HotkeyRemovePiecesAtCursor={HotkeyRemovePiecesAtCursor}",
-                $"HotkeyAddRemoveSinglePiece={HotkeyAddRemoveSinglePiece}",
-                $"HotkeySelectPiecesBelow={HotkeySelectPiecesBelow}",
-                $"HotkeyZoomIn={HotkeyZoomIn}",
-                $"HotkeyZoomOut={HotkeyZoomOut}",
-                $"HotkeyScrollHorizontally={HotkeyScrollHorizontally}",
-                $"HotkeyScrollVertically={HotkeyScrollVertically}",
-                $"HotkeyMoveScreenStart={HotkeyMoveScreenStart}",
-                $"HotkeyShowPreviousPiece={HotkeyShowPreviousPiece}",
-                $"HotkeyShowNextPiece={HotkeyShowNextPiece}",
-                $"HotkeyShowPreviousGroup={HotkeyShowPreviousGroup}",
-                $"HotkeyShowNextGroup={HotkeyShowNextGroup}",
-                $"HotkeyShowPreviousStyle={HotkeyShowPreviousStyle}",
-                $"HotkeyShowNextStyle={HotkeyShowNextStyle}",
-                $"HotkeyCycleBrowser={HotkeyCycleBrowser}",
-                $"HotkeyAddPiece1={HotkeyAddPiece1}",
-                $"HotkeyAddPiece2={HotkeyAddPiece2}",
-                $"HotkeyAddPiece3={HotkeyAddPiece3}",
-                $"HotkeyAddPiece4={HotkeyAddPiece4}",
-                $"HotkeyAddPiece5={HotkeyAddPiece5}",
-                $"HotkeyAddPiece6={HotkeyAddPiece6}",
-                $"HotkeyAddPiece7={HotkeyAddPiece7}",
-                $"HotkeyAddPiece8={HotkeyAddPiece8}",
-                $"HotkeyAddPiece9={HotkeyAddPiece9}",
-                $"HotkeyAddPiece10={HotkeyAddPiece10}",
-                $"HotkeyAddPiece11={HotkeyAddPiece11}",
-                $"HotkeyAddPiece12={HotkeyAddPiece12}",
-                $"HotkeyAddPiece13={HotkeyAddPiece13}",
-                $"HotkeyUndo={HotkeyUndo}",
-                $"HotkeyRedo={HotkeyRedo}",
-                $"HotkeyCut={HotkeyCut}",
-                $"HotkeyCopy={HotkeyCopy}",
-                $"HotkeyPaste={HotkeyPaste}",
-                $"HotkeyPasteInPlace={HotkeyPasteInPlace}",
-                $"HotkeyDuplicate={HotkeyDuplicate}",
-                $"HotkeyDelete={HotkeyDelete}",
-                $"HotkeyMoveUp={HotkeyMoveUp}",
-                $"HotkeyMoveDown={HotkeyMoveDown}",
-                $"HotkeyMoveLeft={HotkeyMoveLeft}",
-                $"HotkeyMoveRight={HotkeyMoveRight}",
-                $"HotkeyMove8Up={HotkeyMove8Up}",
-                $"HotkeyMove8Down={HotkeyMove8Down}",
-                $"HotkeyMove8Left={HotkeyMove8Left}",
-                $"HotkeyMove8Right={HotkeyMove8Right}",
-                $"HotkeyCustomMoveUp={HotkeyCustomMoveUp}",
-                $"HotkeyCustomMoveDown={HotkeyCustomMoveDown}",
-                $"HotkeyCustomMoveLeft={HotkeyCustomMoveLeft}",
-                $"HotkeyCustomMoveRight={HotkeyCustomMoveRight}",
-                $"HotkeyDragHorizontally={HotkeyDragHorizontally}",
-                $"HotkeyDragVertically={HotkeyDragVertically}",
-                $"HotkeyRotate={HotkeyRotate}",
-                $"HotkeyFlip={HotkeyFlip}",
-                $"HotkeyInvert={HotkeyInvert}",
-                $"HotkeyGroup={HotkeyGroup}",
-                $"HotkeyUngroup={HotkeyUngroup}",
-                $"HotkeyErase={HotkeyErase}",
-                $"HotkeyNoOverwrite={HotkeyNoOverwrite}",
-                $"HotkeyOnlyOnTerrain={HotkeyOnlyOnTerrain}",
-                $"HotkeyAllowOneWay={HotkeyAllowOneWay}",
-                $"HotkeyDrawLast={HotkeyDrawLast}",
-                $"HotkeyDrawSooner={HotkeyDrawSooner}",
-                $"HotkeyDrawLater={HotkeyDrawLater}",
-                $"HotkeyDrawFirst={HotkeyDrawFirst}",
-                $"HotkeyCloseWindow={HotkeyCloseWindow}",
-                $"HotkeyCloseEditor={HotkeyCloseEditor}"
+                $"HotkeyCreateNewLevel={FormatHotkeyString(HotkeyCreateNewLevel)}",
+                $"HotkeyLoadLevel={FormatHotkeyString(HotkeyLoadLevel)}",
+                $"HotkeySaveLevel={FormatHotkeyString(HotkeySaveLevel)}",
+                $"HotkeySaveLevelAs={FormatHotkeyString(HotkeySaveLevelAs)}",
+                $"HotkeySaveLevelAsImage={FormatHotkeyString(HotkeySaveLevelAsImage)}",
+                $"HotkeyPlaytestLevel={FormatHotkeyString(HotkeyPlaytestLevel)}",
+                $"HotkeyValidateLevel={FormatHotkeyString(HotkeyValidateLevel)}",
+                $"HotkeyCleanseLevels={FormatHotkeyString(HotkeyCleanseLevels)}",
+                $"HotkeyToggleClearPhysics={FormatHotkeyString(HotkeyToggleClearPhysics)}",
+                $"HotkeyToggleTerrain={FormatHotkeyString(HotkeyToggleTerrain)}",
+                $"HotkeyToggleObjects={FormatHotkeyString(HotkeyToggleObjects)}",
+                $"HotkeyToggleTriggerAreas={FormatHotkeyString(HotkeyToggleTriggerAreas)}",
+                $"HotkeyToggleScreenStart={FormatHotkeyString(HotkeyToggleScreenStart)}",
+                $"HotkeyToggleBackground={FormatHotkeyString(HotkeyToggleBackground)}",
+                $"HotkeyToggleDeprecatedPieces={FormatHotkeyString(HotkeyToggleDeprecatedPieces)}",
+                $"HotkeyShowMissingPieces={FormatHotkeyString(HotkeyShowMissingPieces)}",
+                $"HotkeyToggleSnapToGrid={FormatHotkeyString(HotkeyToggleSnapToGrid)}",
+                $"HotkeyOpenSettings={FormatHotkeyString(HotkeyOpenSettings)}",
+                $"HotkeyOpenConfigHotkeys={FormatHotkeyString(HotkeyOpenConfigHotkeys)}",
+                $"HotkeyOpenAboutSLX={FormatHotkeyString(HotkeyOpenAboutSLX)}",
+                $"HotkeySelectPieces={FormatHotkeyString(HotkeySelectPieces)}",
+                $"HotkeyDragToScroll={FormatHotkeyString(HotkeyDragToScroll)}",
+                $"HotkeyRemovePiecesAtCursor={FormatHotkeyString(HotkeyRemovePiecesAtCursor)}",
+                $"HotkeyAddRemoveSinglePiece={FormatHotkeyString(HotkeyAddRemoveSinglePiece)}",
+                $"HotkeySelectPiecesBelow={FormatHotkeyString(HotkeySelectPiecesBelow)}",
+                $"HotkeyZoomIn={FormatHotkeyString(HotkeyZoomIn)}",
+                $"HotkeyZoomOut={FormatHotkeyString(HotkeyZoomOut)}",
+                $"HotkeyScrollHorizontally={FormatHotkeyString(HotkeyScrollHorizontally)}",
+                $"HotkeyScrollVertically={FormatHotkeyString(HotkeyScrollVertically)}",
+                $"HotkeyMoveScreenStart={FormatHotkeyString(HotkeyMoveScreenStart)}",
+                $"HotkeyShowPreviousPiece={FormatHotkeyString(HotkeyShowPreviousPiece)}",
+                $"HotkeyShowNextPiece={FormatHotkeyString(HotkeyShowNextPiece)}",
+                $"HotkeyShowPreviousGroup={FormatHotkeyString(HotkeyShowPreviousGroup)}",
+                $"HotkeyShowNextGroup={FormatHotkeyString(HotkeyShowNextGroup)}",
+                $"HotkeyShowPreviousStyle={FormatHotkeyString(HotkeyShowPreviousStyle)}",
+                $"HotkeyShowNextStyle={FormatHotkeyString(HotkeyShowNextStyle)}",
+                $"HotkeyCycleBrowser={FormatHotkeyString(HotkeyCycleBrowser)}",
+                $"HotkeyAddPiece1={FormatHotkeyString(HotkeyAddPiece1)}",
+                $"HotkeyAddPiece2={FormatHotkeyString(HotkeyAddPiece2)}",
+                $"HotkeyAddPiece3={FormatHotkeyString(HotkeyAddPiece3)}",
+                $"HotkeyAddPiece4={FormatHotkeyString(HotkeyAddPiece4)}",
+                $"HotkeyAddPiece5={FormatHotkeyString(HotkeyAddPiece5)}",
+                $"HotkeyAddPiece6={FormatHotkeyString(HotkeyAddPiece6)}",
+                $"HotkeyAddPiece7={FormatHotkeyString(HotkeyAddPiece7)}",
+                $"HotkeyAddPiece8={FormatHotkeyString(HotkeyAddPiece8)}",
+                $"HotkeyAddPiece9={FormatHotkeyString(HotkeyAddPiece9)}",
+                $"HotkeyAddPiece10={FormatHotkeyString(HotkeyAddPiece10)}",
+                $"HotkeyAddPiece11={FormatHotkeyString(HotkeyAddPiece11)}",
+                $"HotkeyAddPiece12={FormatHotkeyString(HotkeyAddPiece12)}",
+                $"HotkeyAddPiece13={FormatHotkeyString(HotkeyAddPiece13)}",
+                $"HotkeyUndo={FormatHotkeyString(HotkeyUndo)}",
+                $"HotkeyRedo={FormatHotkeyString(HotkeyRedo)}",
+                $"HotkeyCut={FormatHotkeyString(HotkeyCut)}",
+                $"HotkeyCopy={FormatHotkeyString(HotkeyCopy)}",
+                $"HotkeyPaste={FormatHotkeyString(HotkeyPaste)}",
+                $"HotkeyPasteInPlace={FormatHotkeyString(HotkeyPasteInPlace)}",
+                $"HotkeyDuplicate={FormatHotkeyString(HotkeyDuplicate)}",
+                $"HotkeyDelete={FormatHotkeyString(HotkeyDelete)}",
+                $"HotkeyMoveUp={FormatHotkeyString(HotkeyMoveUp)}",
+                $"HotkeyMoveDown={FormatHotkeyString(HotkeyMoveDown)}",
+                $"HotkeyMoveLeft={FormatHotkeyString(HotkeyMoveLeft)}",
+                $"HotkeyMoveRight={FormatHotkeyString(HotkeyMoveRight)}",
+                $"HotkeyMove8Up={FormatHotkeyString(HotkeyMove8Up)}",
+                $"HotkeyMove8Down={FormatHotkeyString(HotkeyMove8Down)}",
+                $"HotkeyMove8Left={FormatHotkeyString(HotkeyMove8Left)}",
+                $"HotkeyMove8Right={FormatHotkeyString(HotkeyMove8Right)}",
+                $"HotkeyCustomMoveUp={FormatHotkeyString(HotkeyCustomMoveUp)}",
+                $"HotkeyCustomMoveDown={FormatHotkeyString(HotkeyCustomMoveDown)}",
+                $"HotkeyCustomMoveLeft={FormatHotkeyString(HotkeyCustomMoveLeft)}",
+                $"HotkeyCustomMoveRight={FormatHotkeyString(HotkeyCustomMoveRight)}",
+                $"HotkeyDragHorizontally={FormatHotkeyString(HotkeyDragHorizontally)}",
+                $"HotkeyDragVertically={FormatHotkeyString(HotkeyDragVertically)}",
+                $"HotkeyRotate={FormatHotkeyString(HotkeyRotate)}",
+                $"HotkeyFlip={FormatHotkeyString(HotkeyFlip)}",
+                $"HotkeyInvert={FormatHotkeyString(HotkeyInvert)}",
+                $"HotkeyGroup={FormatHotkeyString(HotkeyGroup)}",
+                $"HotkeyUngroup={FormatHotkeyString(HotkeyUngroup)}",
+                $"HotkeyErase={FormatHotkeyString(HotkeyErase)}",
+                $"HotkeyNoOverwrite={FormatHotkeyString(HotkeyNoOverwrite)}",
+                $"HotkeyOnlyOnTerrain={FormatHotkeyString(HotkeyOnlyOnTerrain)}",
+                $"HotkeyAllowOneWay={FormatHotkeyString(HotkeyAllowOneWay)}",
+                $"HotkeyDrawLast={FormatHotkeyString(HotkeyDrawLast)}",
+                $"HotkeyDrawSooner={FormatHotkeyString(HotkeyDrawSooner)}",
+                $"HotkeyDrawLater={FormatHotkeyString(HotkeyDrawLater)}",
+                $"HotkeyDrawFirst={FormatHotkeyString(HotkeyDrawFirst)}",
+                $"HotkeyCloseWindow={FormatHotkeyString(HotkeyCloseWindow)}",
+                $"HotkeyCloseEditor={FormatHotkeyString(HotkeyCloseEditor)}"
             };
 
             System.IO.File.WriteAllLines("SLXEditorHotkeys.ini", lines);
@@ -490,8 +576,8 @@ namespace NLEditor
             HotkeySelectPiecesBelow = Keys.Alt | Keys.LButton;
             HotkeyZoomIn = Keys.Oemplus;
             HotkeyZoomOut = Keys.OemMinus;
-            HotkeyScrollHorizontally = Keys.Control | Keys.None; // Come back to this later
-            HotkeyScrollVertically = Keys.Alt | Keys.None; // Come back to this later
+            HotkeyScrollHorizontally = Keys.H;
+            HotkeyScrollVertically = Keys.V;
             HotkeyMoveScreenStart = Keys.P;
             HotkeyShowPreviousPiece = Keys.Shift | Keys.Left;
             HotkeyShowNextPiece = Keys.Shift | Keys.Right;
@@ -533,13 +619,13 @@ namespace NLEditor
             HotkeyCustomMoveDown = Keys.Alt | Keys.Down;
             HotkeyCustomMoveLeft = Keys.Alt | Keys.Left;
             HotkeyCustomMoveRight = Keys.Alt | Keys.Right;
-            HotkeyDragHorizontally = Keys.Control | Keys.Shift;
-            HotkeyDragVertically = Keys.Control | Keys.Alt;
+            HotkeyDragHorizontally = Keys.Control | Keys.Shift | Keys.LButton;
+            HotkeyDragVertically = Keys.Control | Keys.Alt | Keys.LButton;
             HotkeyRotate = Keys.R;
             HotkeyFlip = Keys.E;
             HotkeyInvert = Keys.W;
             HotkeyGroup = Keys.G;
-            HotkeyUngroup = Keys.H;
+            HotkeyUngroup = Keys.U;
             HotkeyErase = Keys.A;
             HotkeyNoOverwrite = Keys.S;
             HotkeyOnlyOnTerrain = Keys.D;

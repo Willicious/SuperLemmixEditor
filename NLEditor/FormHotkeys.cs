@@ -38,6 +38,23 @@ namespace NLEditor
         private ListViewItem selectedItem;
         private bool DoCheckForDuplicates = true;
 
+        private readonly List<Keys> defaultKeyList = new List<Keys>()
+        {
+            Keys.None, Keys.LButton, Keys.RButton, Keys.MButton, Keys.XButton1, Keys.XButton2,
+            Keys.F1, Keys.F2, Keys.F3, Keys.F4, Keys.F5, Keys.F6, Keys.F7, Keys.F8, Keys.F9, Keys.F10, Keys.F11, Keys.F12,
+            Keys.Insert, Keys.Delete, Keys.Back, Keys.OemMinus, Keys.Oemplus,
+            Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0,
+            Keys.Capital, Keys.LWin, Keys.RWin,
+            Keys.A, Keys.B, Keys.C, Keys.D, Keys.E, Keys.F, Keys.G, Keys.H, Keys.I, Keys.J, Keys.K, Keys.L, Keys.M,
+            Keys.N, Keys.O, Keys.P, Keys.Q, Keys.R, Keys.S, Keys.T, Keys.U, Keys.V, Keys.W, Keys.X, Keys.Y, Keys.Z,
+            Keys.Oemcomma, Keys.OemPeriod, Keys.OemQuestion,
+            Keys.Up, Keys.Down, Keys.Left, Keys.Right,
+            Keys.PageUp, Keys.PageDown, Keys.End, Keys.Home,
+            Keys.NumLock, Keys.NumPad0, Keys.NumPad1, Keys.NumPad2, Keys.NumPad3, Keys.NumPad4,
+            Keys.NumPad5, Keys.NumPad6, Keys.NumPad7, Keys.NumPad8, Keys.NumPad9,
+            Keys.Divide, Keys.Multiply, Keys.Subtract, Keys.Add
+        };
+
         public FormHotkeys()
         {
             InitializeComponent();
@@ -75,65 +92,68 @@ namespace NLEditor
 
         private void comboBoxChooseKey_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxChooseKey.SelectedItem is Keys key)
+            string selectedString = comboBoxChooseKey.SelectedItem as string;
+
+            if (!string.IsNullOrEmpty(selectedString))
             {
                 ClearHighlights();
 
-                selectedKey = key;
+                // Convert formatted string back to Keys
+                selectedKey = HotkeyConfig.ParseHotkeyString(selectedString);
+
                 CheckForDuplicateKeys();
+                SetModifierAvailability();
             }
         }
 
         private void comboBoxChooseKey_KeyDown(object sender, KeyEventArgs e)
         {
-            // Handle Enter key press to validate key
             if (e.KeyCode == Keys.Enter)
             {
                 string enteredKeyText = comboBoxChooseKey.Text.Trim();
-                if (Enum.TryParse(enteredKeyText, true, out Keys parsedKey))
+
+                try
                 {
                     ClearHighlights();
-                    selectedKey = parsedKey;
 
-                    comboBoxChooseKey.SelectedItem = parsedKey;
+                    // Parse the entered string to Keys
+                    selectedKey = HotkeyConfig.ParseHotkeyString(enteredKeyText);
+                    comboBoxChooseKey.SelectedItem = enteredKeyText;
+
                     CheckForDuplicateKeys();
+                    SetModifierAvailability();
                 }
-                else
+                catch
                 {
                     MessageBox.Show($"Invalid key name: '{enteredKeyText}'", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                e.Handled = true; // Prevent default behavior for Enter
+                e.Handled = true;
             }
         }
-
 
         private void FormHotkeys_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {
                 if (lblListening.Visible)
-                    return;
+                    return; // Prevent closing the form in listening mode
                 else if (lblDuplicateDetected.Visible)
                     ResetUI();
                 else if (ActiveControl == comboBoxChooseKey)
                     listViewHotkeys.Focus();
                 else
                     Close();
-            }
+            }  
         }
 
         private void HandleListenedInput(object sender, EventArgs e, Keys listenedKey)
-        {            
-            // Clear existing modifiers for initial processing
-            checkModCtrl.Checked = false;
-            checkModShift.Checked = false;
-            checkModAlt.Checked = false;
+        {
+            ClearHighlights();
 
-            // Update the combo box with the selected key/button
-            comboBoxChooseKey.SelectedItem = listenedKey;
+            string formattedKey = HotkeyConfig.FormatHotkeyString(listenedKey);
+            comboBoxChooseKey.SelectedItem = formattedKey;
 
-            // Disable key & mouse events
             KeyDown -= HandleListeningForKey;
             MouseDown -= FormHotkeys_MouseDown;
 
@@ -143,6 +163,19 @@ namespace NLEditor
 
         private void HandleListeningForKey(object sender, KeyEventArgs e)
         {
+            // Escape cancels listening
+            if (e.KeyCode == Keys.Escape)
+            {
+                ResetUI();
+                return;
+            }
+            
+            // Ignore modifier keys on their own when listening
+            if (e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.ShiftKey || e.KeyCode == Keys.Menu)
+            {
+                return;
+            }
+
             HandleListenedInput(sender, e, e.KeyData);
         }
 
@@ -276,18 +309,40 @@ namespace NLEditor
         private void UpdateComboBox(Keys key)
         {
             var selectedItem = listViewHotkeys.SelectedItems[0];
+            var formattedHotkeys = defaultKeyList.Select(HotkeyConfig.FormatHotkeyString).ToList();
 
-            // Check if the selected item is part of the mouse-mandatory items
+            string formattedKey = HotkeyConfig.FormatHotkeyString(key);
+
+            // If the key isn't in the formatted list, include it
+            if (!formattedHotkeys.Contains(formattedKey))
+            {
+                formattedHotkeys.Add(formattedKey);
+            }
+
             if (mouseMandatoryItems.Contains(selectedItem))
+                comboBoxChooseKey.DataSource = mandatoryMouseKeys;
+            else
+                comboBoxChooseKey.DataSource = formattedHotkeys;
+
+            comboBoxChooseKey.SelectedItem = formattedKey;
+        }
+
+        private void SetModifierAvailability()
+        {
+            if (comboBoxChooseKey.SelectedItem?.ToString() == "None")
             {
-                comboBoxChooseKey.DataSource = mandatoryMouseKeys; // Load mouse-only keys
+                lblAddModifier.Enabled = false;
+                checkModCtrl.Enabled = false;
+                checkModShift.Enabled = false;
+                checkModAlt.Enabled = false;
             }
-            else // Load default key list
+            else
             {
-                comboBoxChooseKey.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>().ToList();
+                lblAddModifier.Enabled = true;
+                checkModCtrl.Enabled = true;
+                checkModShift.Enabled = true;
+                checkModAlt.Enabled = true;
             }
-                
-            comboBoxChooseKey.SelectedItem = key;
         }
 
         private void AutoSelectListItem()
@@ -509,7 +564,8 @@ namespace NLEditor
             {
                 if (field.FieldType == typeof(Keys)) // Ensure the field is of type Keys
                 {
-                    Keys hotkey = (Keys)field.GetValue(null); // Retrieve the currently assigned hotkey
+                    // Retrieve the currently assigned hotkey and format it as a string
+                    Keys hotkey = (Keys)field.GetValue(null);
                     listViewHotkeys.Items[n].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(hotkey);
                     n++;
                 }
@@ -520,14 +576,13 @@ namespace NLEditor
         {
             foreach (ListViewItem item in listViewHotkeys.Items)
             {
-                string subItemName = item.SubItems[1].Name;
                 string subItemText = item.SubItems[1].Text;
 
-                // Use the HotkeyConfig.ParseHotkeyString method to convert the subItemText into the appropriate Keys enum
+                // Convert string back to Keys
                 Keys parsedKey = HotkeyConfig.ParseHotkeyString(subItemText);
 
                 // Assign the parsed key to the correct HotkeyConfig property
-                switch (subItemName)
+                switch (item.SubItems[1].Name)
                 {
                     case "HotkeyCreateNewLevel":
                         HotkeyConfig.HotkeyCreateNewLevel = parsedKey;

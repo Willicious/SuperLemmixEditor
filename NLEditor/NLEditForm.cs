@@ -853,28 +853,27 @@ namespace NLEditor
             /// </summary>
             bool IsTextInputKey(Keys key)
             {
-                // Exclude functional keys, esc, and modifiers
-                if (key >= Keys.F1 && key <= Keys.F24) return false; // Functional keys
-                //if (key == Keys.Escape || key == Keys.Enter) return false; // Escape and Enter
-                //if (key == Keys.ControlKey || key == Keys.ShiftKey || key == Keys.Menu) return false; // Modifiers
-                //if (key >= Keys.Left && key <= Keys.Down) return false; // Arrow keys
+                // Exclude functional keys, esc, enter, and modifiers
+                if (key >= Keys.F1 && key <= Keys.F24) return false;
+                if (key == Keys.Escape || key == Keys.Enter) return false;
+                if (key == Keys.ControlKey || key == Keys.ShiftKey || key == Keys.Menu) return false;
 
-                // Any other keys are considered text input (letters, numbers, symbols)
+                // Any other keys are considered text input (letters, numbers, symbols, arrows)
                 return true;
             }
 
-            // 1. Check if the active control is text input-related
+            // Check if the active control is text input-related
             if (ActiveControl != txt_Focus)
             {
-                // 2. If the key is text-input related and no modifiers are pressed, allow typing
+                // If the key is text-input related and no modifiers are pressed, allow typing
                 if (IsTextInputKey(e.KeyCode) && e.Modifiers == Keys.None)
                 {
                     return; // Let the key press be handled normally
                 }
             }
 
-            // 3. Process hotkey actions
-            Keys hotkey = e.KeyData; // Includes modifiers like Ctrl, Alt, Shift
+            // Process hotkey actions
+            Keys hotkey = e.KeyData;
             if (hotkeyActions.TryGetValue(hotkey, out Action action))
             {
                 action.Invoke();
