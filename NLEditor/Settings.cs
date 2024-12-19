@@ -102,7 +102,7 @@ namespace NLEditor
             // ========================== Custom Move GroupBox =========================== //
 
             GroupBox groupCustomMove = new GroupBox();
-            groupCustomMove.Text = "Custom move selected pieces (Alt + Arrows)";
+            groupCustomMove.Text = "Custom move selected pieces";
             groupCustomMove.Top = 60;
             groupCustomMove.Left = columnLeft;
             groupCustomMove.Width = 280;

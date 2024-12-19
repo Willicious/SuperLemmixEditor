@@ -107,7 +107,6 @@ namespace NLEditor
             isCtrlPressed = ((ModifierKeys & Keys.Control) != 0);
             isShiftPressed = ((ModifierKeys & Keys.Shift) != 0);
             isAltPressed = ((ModifierKeys & Keys.Alt) != 0);
-            isPPressed = ((ModifierKeys & Keys.P) != 0);
         }
 
         /// <summary>
@@ -928,26 +927,23 @@ namespace NLEditor
             }
             Point levelPos = (Point)curRenderer.GetMousePosInLevel();
 
-            if (mouseButtonPressed == MouseButtons.Left)
-            {
-                if (isCtrlPressed || isShiftPressed)
-                {
-                    // Add or remove a single piece, depending on whether there is a selected piece at the mouse position 
-                    bool doAdd = !CurLevel.HasSelectionAtPos(levelPos);
-                    CurLevel.SelectOnePiece(levelPos, doAdd, isAltPressed);
-                }
-                else
-                {
-                    // Select only the one that is below the mouse cursor
-                    CurLevel.UnselectAll();
-                    CurLevel.SelectOnePiece(levelPos, true, isAltPressed);
-                }
-            }
-            else if (mouseButtonPressed == MouseButtons.Middle)
+            if (removeAllPiecesAtCursorPressed)
             {
                 // Remove all pieces below the mouse point.
                 var selectArea = new Rectangle(levelPos.X, levelPos.Y, 1, 1);
                 CurLevel.SelectAreaPiece(selectArea, false);
+            }
+            else if (addOrRemoveSinglePiecePressed)
+            {
+                // Add or remove a single piece, depending on whether there is a selected piece at the mouse position 
+                bool doAdd = !CurLevel.HasSelectionAtPos(levelPos);
+                CurLevel.SelectOnePiece(levelPos, doAdd, selectPiecesBelowPressed);
+            }
+            else
+            {
+                // Select only the one that is below the mouse cursor
+                CurLevel.UnselectAll();
+                CurLevel.SelectOnePiece(levelPos, true, selectPiecesBelowPressed);
             }
         }
 
@@ -961,10 +957,10 @@ namespace NLEditor
             if (selectArea == null)
                 return;
 
-            if (mouseButtonPressed == MouseButtons.Left)
+            if (dragOrSelectPiecesPressed)
             {
-                // Delete all existing selections
-                if (!isCtrlPressed)
+                // Delete all existing selections if no modifier is pressed
+                if (!isCtrlPressed && !isShiftPressed && !isAltPressed)
                 {
                     CurLevel.UnselectAll();
                 }
@@ -972,7 +968,7 @@ namespace NLEditor
                 // Add all pieces intersection SelectArea
                 CurLevel.SelectAreaPiece((Rectangle)selectArea, true);
             }
-            else if (mouseButtonPressed == MouseButtons.Middle)
+            else if (removeAllPiecesAtCursorPressed)
             {
                 // Remove all pieces intersection SelectArea
                 CurLevel.SelectAreaPiece((Rectangle)selectArea, false);
@@ -984,11 +980,15 @@ namespace NLEditor
         /// </summary>
         /// <param name="direction"></param>
         /// <param name="step"></param>
-        private void MoveLevelPiecesOrScreenPos(C.DIR direction, int step = 1)
+        private void HandleMovement(C.DIR direction, int step = 1)
         {
             movementActionPerformed = true;
 
-            if (CurLevel.SelectionList().Count > 0)
+            if (dragScreenStartPressed)
+            {
+                MoveScreenStartPosition(direction);
+            }
+            else if (CurLevel.SelectionList().Count > 0)
             {
                 CurLevel.MovePieces(direction, step, gridSize);
                 pic_Level.Image = curRenderer.CreateLevelImage();
@@ -1619,26 +1619,18 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyOpenSettings, () => settingsToolStripMenuItem_Click(null, null));
             AddHotkey(HotkeyConfig.HotkeyOpenConfigHotkeys, () => hotkeysToolStripMenuItem_Click(null, null));
             AddHotkey(HotkeyConfig.HotkeyOpenAboutSLX, () => ShowAboutSLXEditor());
-
-            //AddHotkey(HotkeyConfig.HotkeySelectPieces, () => "mouse mandatory" ());
-            //AddHotkey(HotkeyConfig.HotkeyDragToScroll, () => "mouse mandatory" ());
-
-            //AddHotkey(HotkeyConfig.HotkeyRemovePiecesAtCursor, () => "only requires cursor position, hotkey can be anything" ());
-            //AddHotkey(HotkeyConfig.HotkeyAddRemoveSinglePiece, () => "only requires cursor position, hotkey can be anything" ());
-            //AddHotkey(HotkeyConfig.HotkeySelectPiecesBelow, () => "only requires cursor position, hotkey can be anything" ());
-
+            AddHotkey(HotkeyConfig.HotkeySelectPieces, () => dragOrSelectPiecesPressed = true);
+            AddHotkey(HotkeyConfig.HotkeyDragToScroll, () => dragToScrollPressed = true);
+            AddHotkey(HotkeyConfig.HotkeyDragHorizontally, () => dragHorizontallyPressed = true);
+            AddHotkey(HotkeyConfig.HotkeyDragVertically, () => dragVerticallyPressed = true);
+            AddHotkey(HotkeyConfig.HotkeyMoveScreenStart, () => dragScreenStartPressed = true);
+            AddHotkey(HotkeyConfig.HotkeyRemovePiecesAtCursor, () => removeAllPiecesAtCursorPressed = true);
+            AddHotkey(HotkeyConfig.HotkeyAddRemoveSinglePiece, () => addOrRemoveSinglePiecePressed = true);
+            AddHotkey(HotkeyConfig.HotkeySelectPiecesBelow, () => selectPiecesBelowPressed = true);
             AddHotkey(HotkeyConfig.HotkeyZoomIn, () => ZoomIn());
             AddHotkey(HotkeyConfig.HotkeyZoomOut, () => ZoomOut());
             AddHotkey(HotkeyConfig.HotkeyScrollHorizontally, () => scrollHorizontallyPressed = true);
             AddHotkey(HotkeyConfig.HotkeyScrollVertically, () => scrollVerticallyPressed = true);
-
-            //AddHotkey(HotkeyConfig.HotkeyDragScreenStart, () => "mouse mandatory" ());
-
-            //AddHotkey(HotkeyConfig.HotkeyNudgeScreenStartUp, () => "currently uses direction arrows, but doesn't necessarily need to" ());
-            //AddHotkey(HotkeyConfig.HotkeyNudgeScreenStartDown, () => "currently uses direction arrows, but doesn't necessarily need to" ());
-            //AddHotkey(HotkeyConfig.HotkeyNudgeScreenStartLeft, () => "currently uses direction arrows, but doesn't necessarily need to" ());
-            //AddHotkey(HotkeyConfig.HotkeyNudgeScreenStartRight, () => "currently uses direction arrows, but doesn't necessarily need to" ());
-
             AddHotkey(HotkeyConfig.HotkeyShowPreviousPiece, () => MoveTerrPieceSelection(-1));
             AddHotkey(HotkeyConfig.HotkeyShowNextPiece, () => MoveTerrPieceSelection(1));
             AddHotkey(HotkeyConfig.HotkeyShowPreviousGroup, () => MoveTerrPieceSelection(-13));
@@ -1667,22 +1659,18 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyPasteInPlace, () => AddFromClipboard(false));
             AddHotkey(HotkeyConfig.HotkeyDuplicate, () => DuplicateSelectedPieces());
             AddHotkey(HotkeyConfig.HotkeyDelete, () => DeleteSelectedPieces(false));
-            AddHotkey(HotkeyConfig.HotkeyMoveUp, () => MoveLevelPiecesOrScreenPos(C.DIR.N, 1));
-            AddHotkey(HotkeyConfig.HotkeyMoveDown, () => MoveLevelPiecesOrScreenPos(C.DIR.S, 1));
-            AddHotkey(HotkeyConfig.HotkeyMoveLeft, () => MoveLevelPiecesOrScreenPos(C.DIR.W, 1));
-            AddHotkey(HotkeyConfig.HotkeyMoveRight, () => MoveLevelPiecesOrScreenPos(C.DIR.E, 1));
-            AddHotkey(HotkeyConfig.HotkeyMove8Up, () => MoveLevelPiecesOrScreenPos(C.DIR.N, 8));
-            AddHotkey(HotkeyConfig.HotkeyMove8Down, () => MoveLevelPiecesOrScreenPos(C.DIR.S, 8));
-            AddHotkey(HotkeyConfig.HotkeyMove8Left, () => MoveLevelPiecesOrScreenPos(C.DIR.W, 8));
-            AddHotkey(HotkeyConfig.HotkeyMove8Right, () => MoveLevelPiecesOrScreenPos(C.DIR.E, 8));
-            AddHotkey(HotkeyConfig.HotkeyCustomMoveUp, () => MoveLevelPiecesOrScreenPos(C.DIR.N, customMove));
-            AddHotkey(HotkeyConfig.HotkeyCustomMoveDown, () => MoveLevelPiecesOrScreenPos(C.DIR.S, customMove));
-            AddHotkey(HotkeyConfig.HotkeyCustomMoveLeft, () => MoveLevelPiecesOrScreenPos(C.DIR.W, customMove));
-            AddHotkey(HotkeyConfig.HotkeyCustomMoveRight, () => MoveLevelPiecesOrScreenPos(C.DIR.E, customMove));
-
-            //AddHotkey(HotkeyConfig.HotkeyDragHorizontally, () => "mouse mandatory" ());
-            //AddHotkey(HotkeyConfig.HotkeyDragVertically, () => "mouse mandatory" ());
-
+            AddHotkey(HotkeyConfig.HotkeyMoveUp, () => HandleMovement(C.DIR.N, 1));
+            AddHotkey(HotkeyConfig.HotkeyMoveDown, () => HandleMovement(C.DIR.S, 1));
+            AddHotkey(HotkeyConfig.HotkeyMoveLeft, () => HandleMovement(C.DIR.W, 1));
+            AddHotkey(HotkeyConfig.HotkeyMoveRight, () => HandleMovement(C.DIR.E, 1));
+            AddHotkey(HotkeyConfig.HotkeyMove8Up, () => HandleMovement(C.DIR.N, 8));
+            AddHotkey(HotkeyConfig.HotkeyMove8Down, () => HandleMovement(C.DIR.S, 8));
+            AddHotkey(HotkeyConfig.HotkeyMove8Left, () => HandleMovement(C.DIR.W, 8));
+            AddHotkey(HotkeyConfig.HotkeyMove8Right, () => HandleMovement(C.DIR.E, 8));
+            AddHotkey(HotkeyConfig.HotkeyCustomMoveUp, () => HandleMovement(C.DIR.N, customMove));
+            AddHotkey(HotkeyConfig.HotkeyCustomMoveDown, () => HandleMovement(C.DIR.S, customMove));
+            AddHotkey(HotkeyConfig.HotkeyCustomMoveLeft, () => HandleMovement(C.DIR.W, customMove));
+            AddHotkey(HotkeyConfig.HotkeyCustomMoveRight, () => HandleMovement(C.DIR.E, customMove));
             AddHotkey(HotkeyConfig.HotkeyRotate, () => RotateLevelPieces());
             AddHotkey(HotkeyConfig.HotkeyFlip, () => FlipLevelPieces());
             AddHotkey(HotkeyConfig.HotkeyInvert, () => InvertLevelPieces());
@@ -1696,7 +1684,6 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyDrawSooner, () => MovePieceIndex(true, true));
             AddHotkey(HotkeyConfig.HotkeyDrawLater, () => MovePieceIndex(false, true));
             AddHotkey(HotkeyConfig.HotkeyDrawFirst, () => MovePieceIndex(false, false));
-            AddHotkey(HotkeyConfig.HotkeyCloseWindow, () => {} ); // All secondary windows respond to [Esc] by closing anyway
             AddHotkey(HotkeyConfig.HotkeyCloseEditor, () => Application.Exit());
         }
 

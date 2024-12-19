@@ -13,27 +13,6 @@ namespace NLEditor
 {
     public partial class FormHotkeys : Form
     {
-        // For mandatory mouse hotkeys
-        private readonly List<string> mandatoryMouseHotkeyText = new List<string>
-        {
-            "HotkeySelectPieces",
-            "HotkeyDragToScroll",
-            "HotkeyDragScreenStart",
-            "HotkeyDragHorizontally",
-            "HotkeyDragVertically"
-        };
-
-        private readonly List<Keys> mandatoryMouseKeys = new List<Keys>
-        {
-            Keys.LButton,
-            Keys.RButton,
-            Keys.MButton,
-            Keys.XButton1,
-            Keys.XButton2
-        };
-
-        private readonly List<ListViewItem> mouseMandatoryItems = new List<ListViewItem>();
-
         private Keys selectedKey;
         private ListViewItem selectedItem;
         private bool DoCheckForDuplicates = true;
@@ -151,7 +130,24 @@ namespace NLEditor
         {
             ClearHighlights();
 
+            // Format the hotkey for display
             string formattedKey = HotkeyConfig.FormatHotkeyString(listenedKey);
+
+            // Determine if the selected item requires a mouse key
+            var selectedItem = listViewHotkeys.SelectedItems.Count > 0 ? listViewHotkeys.SelectedItems[0] : null;
+
+            if (selectedItem != null && HotkeyConfig.mouseMandatoryItems.Contains(selectedItem))
+            {
+                if (!HotkeyConfig.mandatoryMouseKeys.Contains(listenedKey))
+                {
+                    MessageBox.Show("This hotkey requires a mouse button key (e.g., LButton, RButton, MButton, etc.).",
+                                    "Invalid Key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    ResetUI();
+                    return;
+                }
+            }
+
             comboBoxChooseKey.SelectedItem = formattedKey;
 
             KeyDown -= HandleListeningForKey;
@@ -160,6 +156,7 @@ namespace NLEditor
             selectedKey = listenedKey;
             CheckForDuplicateKeys();
         }
+
 
         private void HandleListeningForKey(object sender, KeyEventArgs e)
         {
@@ -295,11 +292,11 @@ namespace NLEditor
             {
                 var listViewItem = item as ListViewItem;
 
-                foreach (var subItemText in mandatoryMouseHotkeyText)
+                foreach (var subItemText in HotkeyConfig.mandatoryMouseHotkeyText)
                 {
                     if (listViewItem.SubItems[1].Text == subItemText)
                     {
-                        mouseMandatoryItems.Add(listViewItem);
+                        HotkeyConfig.mouseMandatoryItems.Add(listViewItem);
                         break;
                     }
                 }
@@ -319,8 +316,8 @@ namespace NLEditor
                 formattedHotkeys.Add(formattedKey);
             }
 
-            if (mouseMandatoryItems.Contains(selectedItem))
-                comboBoxChooseKey.DataSource = mandatoryMouseKeys;
+            if (HotkeyConfig.mouseMandatoryItems.Contains(selectedItem))
+                comboBoxChooseKey.DataSource = HotkeyConfig.mandatoryMouseKeys;
             else
                 comboBoxChooseKey.DataSource = formattedHotkeys;
 
@@ -650,6 +647,15 @@ namespace NLEditor
                     case "HotkeyDragToScroll":
                         HotkeyConfig.HotkeyDragToScroll = parsedKey;
                         break;
+                    case "HotkeyDragHorizontally":
+                        HotkeyConfig.HotkeyDragHorizontally = parsedKey;
+                        break;
+                    case "HotkeyDragVertically":
+                        HotkeyConfig.HotkeyDragVertically = parsedKey;
+                        break;
+                    case "HotkeyMoveScreenStart":
+                        HotkeyConfig.HotkeyMoveScreenStart = parsedKey;
+                        break;
                     case "HotkeyRemovePiecesAtCursor":
                         HotkeyConfig.HotkeyRemovePiecesAtCursor = parsedKey;
                         break;
@@ -670,9 +676,6 @@ namespace NLEditor
                         break;
                     case "HotkeyScrollVertically":
                         HotkeyConfig.HotkeyScrollVertically = parsedKey;
-                        break;
-                    case "HotkeyMoveScreenStart":
-                        HotkeyConfig.HotkeyMoveScreenStart = parsedKey;
                         break;
                     case "HotkeyShowPreviousPiece":
                         HotkeyConfig.HotkeyShowPreviousPiece = parsedKey;
@@ -794,12 +797,6 @@ namespace NLEditor
                     case "HotkeyCustomMoveRight":
                         HotkeyConfig.HotkeyCustomMoveRight = parsedKey;
                         break;
-                    case "HotkeyDragHorizontally":
-                        HotkeyConfig.HotkeyDragHorizontally = parsedKey;
-                        break;
-                    case "HotkeyDragVertically":
-                        HotkeyConfig.HotkeyDragVertically = parsedKey;
-                        break;
                     case "HotkeyRotate":
                         HotkeyConfig.HotkeyRotate = parsedKey;
                         break;
@@ -838,9 +835,6 @@ namespace NLEditor
                         break;
                     case "HotkeyDrawFirst":
                         HotkeyConfig.HotkeyDrawFirst = parsedKey;
-                        break;
-                    case "HotkeyCloseWindow":
-                        HotkeyConfig.HotkeyCloseWindow = parsedKey;
                         break;
                     case "HotkeyCloseEditor":
                         HotkeyConfig.HotkeyCloseEditor = parsedKey;

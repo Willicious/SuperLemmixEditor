@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace NLEditor
 {
-    public static class HotkeyConfig
+    public class HotkeyConfig
     {
         public static Keys HotkeyCreateNewLevel;
         public static Keys HotkeyLoadLevel;
@@ -31,6 +31,9 @@ namespace NLEditor
         public static Keys HotkeyOpenAboutSLX;
         public static Keys HotkeySelectPieces;
         public static Keys HotkeyDragToScroll;
+        public static Keys HotkeyDragHorizontally;
+        public static Keys HotkeyDragVertically;
+        public static Keys HotkeyMoveScreenStart;
         public static Keys HotkeyRemovePiecesAtCursor;
         public static Keys HotkeyAddRemoveSinglePiece;
         public static Keys HotkeySelectPiecesBelow;
@@ -38,7 +41,6 @@ namespace NLEditor
         public static Keys HotkeyZoomOut;
         public static Keys HotkeyScrollHorizontally;
         public static Keys HotkeyScrollVertically;
-        public static Keys HotkeyMoveScreenStart;
         public static Keys HotkeyShowPreviousPiece;
         public static Keys HotkeyShowNextPiece;
         public static Keys HotkeyShowPreviousGroup;
@@ -79,8 +81,6 @@ namespace NLEditor
         public static Keys HotkeyCustomMoveDown;
         public static Keys HotkeyCustomMoveLeft;
         public static Keys HotkeyCustomMoveRight;
-        public static Keys HotkeyDragHorizontally;
-        public static Keys HotkeyDragVertically;
         public static Keys HotkeyRotate;
         public static Keys HotkeyFlip;
         public static Keys HotkeyInvert;
@@ -94,8 +94,28 @@ namespace NLEditor
         public static Keys HotkeyDrawSooner;
         public static Keys HotkeyDrawLater;
         public static Keys HotkeyDrawFirst;
-        public static Keys HotkeyCloseWindow;
         public static Keys HotkeyCloseEditor;
+
+        // For mandatory mouse hotkeys
+        public static readonly List<string> mandatoryMouseHotkeyText = new List<string>
+        {
+            "HotkeySelectPieces",
+            "HotkeyDragToScroll",
+            "HotkeyDragScreenStart",
+            "HotkeyDragHorizontally",
+            "HotkeyDragVertically"
+        };
+
+        public static readonly List<Keys> mandatoryMouseKeys = new List<Keys>
+        {
+            Keys.LButton,
+            Keys.RButton,
+            Keys.MButton,
+            Keys.XButton1,
+            Keys.XButton2
+        };
+
+        public static readonly List<ListViewItem> mouseMandatoryItems = new List<ListViewItem>();
 
         public static string FormatHotkeyString(Keys hotkey)
         {
@@ -208,7 +228,6 @@ namespace NLEditor
             return result;
         }
 
-
         public static bool ValidateHotkeyIniFile(string[] lines, out string invalidKey)
         {
             var seenKeys = new HashSet<string>();
@@ -216,46 +235,47 @@ namespace NLEditor
 
             foreach (var line in lines)
             {
-                // Extract the value after the '=' sign
+                // Extract the key-value pair
                 var parts = line.Split('=');
                 if (parts.Length < 2) continue;
 
+                var settingName = parts[0].Trim();
                 var key = parts[1].Trim();
 
-                if (key != "None")
+                // Skip empty or "None" values
+                if (key == "None") continue;
+
+                var parsedKey = ParseHotkeyString(key);
+
+                // Check for invalid or disallowed keys
+                if (parsedKey == Keys.None || key.Contains("None") ||
+                    parsedKey == Keys.Control || parsedKey == Keys.Shift || parsedKey == Keys.Alt ||
+                    (parsedKey & (Keys.Control | Keys.Shift | Keys.Alt)) == parsedKey)
                 {
-                    try
-                    {
-                        var parsedKey = ParseHotkeyString(key);
+                    invalidKey = key.Length > 100 ? key.Substring(0, 100) + "..." : key;
+                    return true;
+                }
 
-                        // Disallowed combinations: Modifiers alone or together with no other keys
-                        var isModifierOnly = parsedKey == Keys.Control || parsedKey == Keys.Shift || parsedKey == Keys.Alt;
-                        var isModifierCombinationOnly = (parsedKey & (Keys.Control | Keys.Shift | Keys.Alt)) == parsedKey && parsedKey != Keys.None;
+                // Check for duplicate keys
+                if (!seenKeys.Add(key))
+                {
+                    invalidKey = key.Length > 100 ? key.Substring(0, 100) + "..." : key;
+                    return true;
+                }
 
-                        if (key.Contains("None") || isModifierOnly || isModifierCombinationOnly)
-                        {
-                            invalidKey = key;
-                            return true;
-                        }
-                    }
-                    catch
-                    {
-                        // Truncate overly long invalid keys for error reporting
-                        invalidKey = key.Length > 100 ? key.Substring(0, 100) + "..." : key;
-                        return true;
-                    }
+                // Check for mandatory mouse keys
+                Keys baseKey = parsedKey & ~Keys.Modifiers;
 
-                    // Disallow duplicate keys
-                    if (!seenKeys.Add(key))
-                    {
-                        invalidKey = key;
-                        return true;
-                    }
+                if (mandatoryMouseHotkeyText.Contains(settingName) && !mandatoryMouseKeys.Contains(baseKey))
+                {
+                    invalidKey = $"{settingName} requires a mouse button key. Current key is {parsedKey}";
+                    return true;
                 }
             }
 
             return false;
         }
+
 
         public static void LoadHotkeysFromIniFile()
         {
@@ -317,6 +337,12 @@ namespace NLEditor
                     HotkeySelectPieces = ParseHotkeyString(line.Substring("HotkeySelectPieces=".Length));
                 if (line.StartsWith("HotkeyDragToScroll="))
                     HotkeyDragToScroll = ParseHotkeyString(line.Substring("HotkeyDragToScroll=".Length));
+                if (line.StartsWith("HotkeyDragHorizontally="))
+                    HotkeyDragHorizontally = ParseHotkeyString(line.Substring("HotkeyDragHorizontally=".Length));
+                if (line.StartsWith("HotkeyDragVertically="))
+                    HotkeyDragVertically = ParseHotkeyString(line.Substring("HotkeyDragVertically=".Length));
+                if (line.StartsWith("HotkeyMoveScreenStart="))
+                    HotkeyMoveScreenStart = ParseHotkeyString(line.Substring("HotkeyMoveScreenStart=".Length));
                 if (line.StartsWith("HotkeyRemovePiecesAtCursor="))
                     HotkeyRemovePiecesAtCursor = ParseHotkeyString(line.Substring("HotkeyRemovePiecesAtCursor=".Length));
                 if (line.StartsWith("HotkeyAddRemoveSinglePiece="))
@@ -331,8 +357,6 @@ namespace NLEditor
                     HotkeyScrollHorizontally = ParseHotkeyString(line.Substring("HotkeyScrollHorizontally=".Length));
                 if (line.StartsWith("HotkeyScrollVertically="))
                     HotkeyScrollVertically = ParseHotkeyString(line.Substring("HotkeyScrollVertically=".Length));
-                if (line.StartsWith("HotkeyMoveScreenStart="))
-                    HotkeyMoveScreenStart = ParseHotkeyString(line.Substring("HotkeyMoveScreenStart=".Length));
                 if (line.StartsWith("HotkeyShowPreviousPiece="))
                     HotkeyShowPreviousPiece = ParseHotkeyString(line.Substring("HotkeyShowPreviousPiece=".Length));
                 if (line.StartsWith("HotkeyShowNextPiece="))
@@ -413,10 +437,6 @@ namespace NLEditor
                     HotkeyCustomMoveLeft = ParseHotkeyString(line.Substring("HotkeyCustomMoveLeft=".Length));
                 if (line.StartsWith("HotkeyCustomMoveRight="))
                     HotkeyCustomMoveRight = ParseHotkeyString(line.Substring("HotkeyCustomMoveRight=".Length));
-                if (line.StartsWith("HotkeyDragHorizontally="))
-                    HotkeyDragHorizontally = ParseHotkeyString(line.Substring("HotkeyDragHorizontally=".Length));
-                if (line.StartsWith("HotkeyDragVertically="))
-                    HotkeyDragVertically = ParseHotkeyString(line.Substring("HotkeyDragVertically=".Length));
                 if (line.StartsWith("HotkeyRotate="))
                     HotkeyRotate = ParseHotkeyString(line.Substring("HotkeyRotate=".Length));
                 if (line.StartsWith("HotkeyFlip="))
@@ -443,8 +463,6 @@ namespace NLEditor
                     HotkeyDrawLater = ParseHotkeyString(line.Substring("HotkeyDrawLater=".Length));
                 if (line.StartsWith("HotkeyDrawFirst="))
                     HotkeyDrawFirst = ParseHotkeyString(line.Substring("HotkeyDrawFirst=".Length));
-                if (line.StartsWith("HotkeyCloseWindow="))
-                    HotkeyCloseWindow = ParseHotkeyString(line.Substring("HotkeyCloseWindow=".Length));
                 if (line.StartsWith("HotkeyCloseEditor="))
                     HotkeyCloseEditor = ParseHotkeyString(line.Substring("HotkeyCloseEditor=".Length));
             }
@@ -477,6 +495,9 @@ namespace NLEditor
                 $"HotkeyOpenAboutSLX={FormatHotkeyString(HotkeyOpenAboutSLX)}",
                 $"HotkeySelectPieces={FormatHotkeyString(HotkeySelectPieces)}",
                 $"HotkeyDragToScroll={FormatHotkeyString(HotkeyDragToScroll)}",
+                $"HotkeyDragHorizontally={FormatHotkeyString(HotkeyDragHorizontally)}",
+                $"HotkeyDragVertically={FormatHotkeyString(HotkeyDragVertically)}",
+                $"HotkeyMoveScreenStart={FormatHotkeyString(HotkeyMoveScreenStart)}",
                 $"HotkeyRemovePiecesAtCursor={FormatHotkeyString(HotkeyRemovePiecesAtCursor)}",
                 $"HotkeyAddRemoveSinglePiece={FormatHotkeyString(HotkeyAddRemoveSinglePiece)}",
                 $"HotkeySelectPiecesBelow={FormatHotkeyString(HotkeySelectPiecesBelow)}",
@@ -484,7 +505,6 @@ namespace NLEditor
                 $"HotkeyZoomOut={FormatHotkeyString(HotkeyZoomOut)}",
                 $"HotkeyScrollHorizontally={FormatHotkeyString(HotkeyScrollHorizontally)}",
                 $"HotkeyScrollVertically={FormatHotkeyString(HotkeyScrollVertically)}",
-                $"HotkeyMoveScreenStart={FormatHotkeyString(HotkeyMoveScreenStart)}",
                 $"HotkeyShowPreviousPiece={FormatHotkeyString(HotkeyShowPreviousPiece)}",
                 $"HotkeyShowNextPiece={FormatHotkeyString(HotkeyShowNextPiece)}",
                 $"HotkeyShowPreviousGroup={FormatHotkeyString(HotkeyShowPreviousGroup)}",
@@ -525,8 +545,6 @@ namespace NLEditor
                 $"HotkeyCustomMoveDown={FormatHotkeyString(HotkeyCustomMoveDown)}",
                 $"HotkeyCustomMoveLeft={FormatHotkeyString(HotkeyCustomMoveLeft)}",
                 $"HotkeyCustomMoveRight={FormatHotkeyString(HotkeyCustomMoveRight)}",
-                $"HotkeyDragHorizontally={FormatHotkeyString(HotkeyDragHorizontally)}",
-                $"HotkeyDragVertically={FormatHotkeyString(HotkeyDragVertically)}",
                 $"HotkeyRotate={FormatHotkeyString(HotkeyRotate)}",
                 $"HotkeyFlip={FormatHotkeyString(HotkeyFlip)}",
                 $"HotkeyInvert={FormatHotkeyString(HotkeyInvert)}",
@@ -540,7 +558,6 @@ namespace NLEditor
                 $"HotkeyDrawSooner={FormatHotkeyString(HotkeyDrawSooner)}",
                 $"HotkeyDrawLater={FormatHotkeyString(HotkeyDrawLater)}",
                 $"HotkeyDrawFirst={FormatHotkeyString(HotkeyDrawFirst)}",
-                $"HotkeyCloseWindow={FormatHotkeyString(HotkeyCloseWindow)}",
                 $"HotkeyCloseEditor={FormatHotkeyString(HotkeyCloseEditor)}"
             };
 
@@ -571,6 +588,9 @@ namespace NLEditor
             HotkeyOpenAboutSLX = Keys.Control | Keys.F10;
             HotkeySelectPieces = Keys.LButton;
             HotkeyDragToScroll = Keys.RButton;
+            HotkeyDragHorizontally = Keys.Control | Keys.Shift | Keys.LButton;
+            HotkeyDragVertically = Keys.Control | Keys.Alt | Keys.LButton;
+            HotkeyMoveScreenStart = Keys.P;
             HotkeyRemovePiecesAtCursor = Keys.MButton;
             HotkeyAddRemoveSinglePiece = Keys.Control | Keys.LButton;
             HotkeySelectPiecesBelow = Keys.Alt | Keys.LButton;
@@ -578,7 +598,6 @@ namespace NLEditor
             HotkeyZoomOut = Keys.OemMinus;
             HotkeyScrollHorizontally = Keys.H;
             HotkeyScrollVertically = Keys.V;
-            HotkeyMoveScreenStart = Keys.P;
             HotkeyShowPreviousPiece = Keys.Shift | Keys.Left;
             HotkeyShowNextPiece = Keys.Shift | Keys.Right;
             HotkeyShowPreviousGroup = Keys.Shift | Keys.Alt | Keys.Left;
@@ -586,16 +605,16 @@ namespace NLEditor
             HotkeyShowPreviousStyle = Keys.Shift | Keys.Up;
             HotkeyShowNextStyle = Keys.Shift | Keys.Down;
             HotkeyCycleBrowser = Keys.Space;
-            HotkeyAddPiece1 = Keys.NumPad1;
-            HotkeyAddPiece2 = Keys.NumPad2;
-            HotkeyAddPiece3 = Keys.NumPad3;
-            HotkeyAddPiece4 = Keys.NumPad4;
-            HotkeyAddPiece5 = Keys.NumPad5;
-            HotkeyAddPiece6 = Keys.NumPad6;
-            HotkeyAddPiece7 = Keys.NumPad7;
-            HotkeyAddPiece8 = Keys.NumPad8;
-            HotkeyAddPiece9 = Keys.NumPad9;
-            HotkeyAddPiece10 = Keys.NumPad0;
+            HotkeyAddPiece1 = Keys.D1;
+            HotkeyAddPiece2 = Keys.D2;
+            HotkeyAddPiece3 = Keys.D3;
+            HotkeyAddPiece4 = Keys.D4;
+            HotkeyAddPiece5 = Keys.D5;
+            HotkeyAddPiece6 = Keys.D6;
+            HotkeyAddPiece7 = Keys.D7;
+            HotkeyAddPiece8 = Keys.D8;
+            HotkeyAddPiece9 = Keys.D9;
+            HotkeyAddPiece10 = Keys.D0;
             HotkeyAddPiece11 = Keys.None; // Unassigned by default
             HotkeyAddPiece12 = Keys.None; // Unassigned by default
             HotkeyAddPiece13 = Keys.None; // Unassigned by default
@@ -619,8 +638,6 @@ namespace NLEditor
             HotkeyCustomMoveDown = Keys.Alt | Keys.Down;
             HotkeyCustomMoveLeft = Keys.Alt | Keys.Left;
             HotkeyCustomMoveRight = Keys.Alt | Keys.Right;
-            HotkeyDragHorizontally = Keys.Control | Keys.Shift | Keys.LButton;
-            HotkeyDragVertically = Keys.Control | Keys.Alt | Keys.LButton;
             HotkeyRotate = Keys.R;
             HotkeyFlip = Keys.E;
             HotkeyInvert = Keys.W;
@@ -634,7 +651,6 @@ namespace NLEditor
             HotkeyDrawSooner = Keys.PageUp;
             HotkeyDrawLater = Keys.PageDown;
             HotkeyDrawFirst = Keys.End;
-            HotkeyCloseWindow = Keys.Escape;
             HotkeyCloseEditor = Keys.Alt | Keys.F4;
         }
     }
