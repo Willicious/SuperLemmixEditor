@@ -861,9 +861,9 @@ namespace NLEditor
 
         private void AddPieceViaHotkey(int hotkeyIndex)
         {
-            if (picPieceList.Count >= hotkeyIndex)
+            if (picPieceList.Count >= hotkeyIndex -1)
             {
-                AddNewPieceToLevel(hotkeyIndex);
+                AddNewPieceToLevel(hotkeyIndex -1);
                 UpdateFlagsForPieceActions();
             }
         }

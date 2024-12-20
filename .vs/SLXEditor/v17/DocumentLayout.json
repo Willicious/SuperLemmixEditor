@@ -3,24 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\will3\\Documents\\superlemmixeditor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\nleditformmethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\nleditformmethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\updatenleditorform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\updatenleditorform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\nleditform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\nleditform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\formhotkeys.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\formhotkeys.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\formhotkeys.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\formhotkeys.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\hotkeyconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\hotkeyconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,63 +27,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UpdateNLEditorForm.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\UpdateNLEditorForm.cs",
-              "RelativeDocumentMoniker": "NLEditor\\UpdateNLEditorForm.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\UpdateNLEditorForm.cs",
-              "RelativeToolTip": "NLEditor\\UpdateNLEditorForm.cs",
-              "ViewState": "AgIAAP4BAAAAAAAAAAAcwAQCAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T19:06:04.356Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "NLEditFormMethods.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditFormMethods.cs",
-              "RelativeDocumentMoniker": "NLEditor\\NLEditFormMethods.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditFormMethods.cs",
-              "RelativeToolTip": "NLEditor\\NLEditFormMethods.cs",
-              "ViewState": "AgIAADAFAAAAAAAAAAAcwDYFAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T18:59:00.779Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "NLEditForm.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditForm.cs",
-              "RelativeDocumentMoniker": "NLEditor\\NLEditForm.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditForm.cs",
-              "RelativeToolTip": "NLEditor\\NLEditForm.cs",
-              "ViewState": "AgIAAKYEAAAAAAAAAAAvwK0EAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T18:12:58.138Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "HotkeyConfig.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\HotkeyConfig.cs",
-              "RelativeDocumentMoniker": "NLEditor\\HotkeyConfig.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\HotkeyConfig.cs",
-              "RelativeToolTip": "NLEditor\\HotkeyConfig.cs",
-              "ViewState": "AgIAAEECAAAAAAAAAAAAAE8CAABMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T18:11:15.856Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "FormHotkeys.cs [Design]",
               "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormHotkeys.cs",
               "RelativeDocumentMoniker": "NLEditor\\FormHotkeys.cs",
               "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormHotkeys.cs [Design]",
               "RelativeToolTip": "NLEditor\\FormHotkeys.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T18:11:13.28Z"
+              "WhenOpened": "2024-12-20T18:11:13.28Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FormHotkeys.cs",
+              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormHotkeys.cs",
+              "RelativeDocumentMoniker": "NLEditor\\FormHotkeys.cs",
+              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormHotkeys.cs",
+              "RelativeToolTip": "NLEditor\\FormHotkeys.cs",
+              "ViewState": "AgIAAI8AAAAAAAAAAAAswJsAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-20T20:35:02.967Z",
+              "EditorCaption": ""
             }
           ]
         }

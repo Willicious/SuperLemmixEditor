@@ -101,9 +101,11 @@ namespace NLEditor
         {
             "HotkeySelectPieces",
             "HotkeyDragToScroll",
-            "HotkeyDragScreenStart",
             "HotkeyDragHorizontally",
-            "HotkeyDragVertically"
+            "HotkeyDragVertically",
+            "HotkeyAddRemoveSinglePiece",
+            "HotkeyRemovePiecesAtCursor",
+            "HotkeySelectPiecesBelow"
         };
 
         public static readonly List<Keys> mandatoryMouseKeys = new List<Keys>
@@ -117,6 +119,7 @@ namespace NLEditor
 
         public static readonly List<ListViewItem> mouseMandatoryItems = new List<ListViewItem>();
 
+        public static bool defaultHotkeysLoaded = false;
         public static string FormatHotkeyString(Keys hotkey)
         {
             List<string> hotkeyParts = new List<string>();
@@ -287,7 +290,10 @@ namespace NLEditor
                                 $"{invalidKey}\n\n" +
                                 $"The default hotkeys will be loaded instead",
                                 "Hotkey Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
                 GetDefaultHotkeys();
+                defaultHotkeysLoaded = true;
+                
                 return;
             }
 

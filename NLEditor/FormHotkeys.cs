@@ -53,10 +53,14 @@ namespace NLEditor
                 HotkeyConfig.LoadHotkeysFromIniFile();
             else
                 HotkeyConfig.GetDefaultHotkeys();
-            
+
             // Load and focus the listview
             LoadHotkeysToListView();
             AutoSelectListItem();
+
+            // Show the "Edited" label if defaults have been loaded
+            if (HotkeyConfig.defaultHotkeysLoaded)
+                UpdateCaption();
         }
 
         private void listViewHotkeys_Click(object sender, EventArgs e)
@@ -87,25 +91,24 @@ namespace NLEditor
 
         private void comboBoxChooseKey_KeyDown(object sender, KeyEventArgs e)
         {
+            ClearHighlights();
+
             if (e.KeyCode == Keys.Enter)
             {
                 string enteredKeyText = comboBoxChooseKey.Text.Trim();
 
-                try
-                {
-                    ClearHighlights();
+                // Find the matching item (ignore upper/lowercase)
+                var matchingItem = comboBoxChooseKey.Items
+                    .Cast<string>()
+                    .FirstOrDefault(item => item.IndexOf(enteredKeyText, StringComparison.OrdinalIgnoreCase) >= 0);
 
-                    // Parse the entered string to Keys
-                    selectedKey = HotkeyConfig.ParseHotkeyString(enteredKeyText);
-                    comboBoxChooseKey.SelectedItem = enteredKeyText;
+                if (matchingItem != null)
+                    comboBoxChooseKey.SelectedItem = matchingItem;
+                else
+                    return;
 
-                    CheckForDuplicateKeys();
-                    SetModifierAvailability();
-                }
-                catch
-                {
-                    MessageBox.Show($"Invalid key name: '{enteredKeyText}'", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                CheckForDuplicateKeys();
+                SetModifierAvailability();
 
                 e.Handled = true;
             }
@@ -123,15 +126,16 @@ namespace NLEditor
                     listViewHotkeys.Focus();
                 else
                     Close();
-            }  
+            }
         }
 
         private void HandleListenedInput(object sender, EventArgs e, Keys listenedKey)
         {
             ClearHighlights();
 
-            // Format the hotkey for display
-            string formattedKey = HotkeyConfig.FormatHotkeyString(listenedKey);
+            // Disable key & mouse events
+            KeyDown -= HandleListeningForKey;
+            MouseDown -= FormHotkeys_MouseDown;
 
             // Determine if the selected item requires a mouse key
             var selectedItem = listViewHotkeys.SelectedItems.Count > 0 ? listViewHotkeys.SelectedItems[0] : null;
@@ -148,12 +152,18 @@ namespace NLEditor
                 }
             }
 
+            // Ignore Enter/Return
+            if (selectedItem != null && (listenedKey == Keys.Return || listenedKey == Keys.Enter))
+            {
+                ResetUI();
+                return;
+            }
+
+            // Format the hotkey for display and set the selected key
+            string formattedKey = HotkeyConfig.FormatHotkeyString(listenedKey);
             comboBoxChooseKey.SelectedItem = formattedKey;
-
-            KeyDown -= HandleListeningForKey;
-            MouseDown -= FormHotkeys_MouseDown;
-
             selectedKey = listenedKey;
+
             CheckForDuplicateKeys();
         }
 
@@ -212,7 +222,9 @@ namespace NLEditor
             // Update buttons
             btnListen.Enabled = false;
             btnCancel.Enabled = true;
-            btnCancel.Focus();
+            
+            // Textbox hidden behind the Listen button to catch input from all keys
+            focusText.Focus(); 
 
             // Disable combo box
             comboBoxChooseKey.Enabled = false;
@@ -261,6 +273,25 @@ namespace NLEditor
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            if (lblEditedSaved.Visible && lblEditedSaved.ForeColor == Color.DarkViolet)
+            {
+                // Ask the user if they want to save
+                DialogResult result = MessageBox.Show("Do you want to save the current configuration?",
+                                                      "Configuration Edited",
+                                                      MessageBoxButtons.YesNoCancel,
+                                                      MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    WriteToHotkeyConfig();
+                    HotkeyConfig.SaveHotkeysToIniFile();
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    return; // Don't close form if user clicks Cancel
+                }
+            }
+
+            // Proceed with closing the form if no unsaved changes or after saving
             Close();
         }
 
