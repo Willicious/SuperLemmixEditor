@@ -21,7 +21,6 @@ namespace NLEditor
         /// Gets whether a DisplayType is currently drawn on the level image.
         /// </summary>
         /// <param name="displayType"></param>
-        /// <returns></returns>
         static public bool IsDisplayed(C.DisplayType displayType)
         {
             return displaySet.Contains(displayType);

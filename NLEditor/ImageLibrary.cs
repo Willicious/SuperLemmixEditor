@@ -103,7 +103,6 @@ namespace NLEditor
         /// <param name="newBitmap"></param>
         /// <param name="numFrames"></param>
         /// <param name="isVert"></param>
-        /// <returns></returns>
         private List<Bitmap> SeparateFrames(Bitmap newBitmap, int numFrames, bool isVert)
         {
             List<Bitmap> imageFrames = new List<Bitmap>();
@@ -190,7 +189,6 @@ namespace NLEditor
         /// Returns whether an image with this ImageKey exists.
         /// </summary>
         /// <param name="imageKey"></param>
-        /// <returns></returns>
         public static bool ExistsKey(string imageKey)
         {
             if (imageDict.ContainsKey(imageKey))
@@ -203,7 +201,6 @@ namespace NLEditor
         /// This checks whether an image exists or may be loaded. It does not actually load the image itself.
         /// </summary>
         /// <param name="imagekey"></param>
-        /// <returns></returns>
         public static bool IsImageLoadable(string imageKey)
         {
             string filePath = C.AppPathPieces + imageKey + ".png";
@@ -231,7 +228,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="imageKey"></param>
         /// <param name="rotFlipType"></param>
-        /// <returns></returns>
         public static Bitmap GetImage(string imageKey, RotateFlipType rotFlipType = RotateFlipType.RotateNoneFlipNone)
         {
             return GetImage(imageKey, rotFlipType, 0);
@@ -243,7 +239,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="imageKey"></param>
         /// <param name="rotFlipType"></param>
-        /// <returns></returns>
         public static Bitmap GetImage(string imageKey, RotateFlipType rotFlipType, int index)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -265,7 +260,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="imageKey"></param>
         /// <param name="index"></param>
-        /// <returns></returns>
         public static Bitmap GetImageWithPieceName(string imageKey, int index)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -286,7 +280,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="imageKey"></param>
         /// <param name="index"></param>
-        /// <returns></returns>
         public static Bitmap GetWindowImageWithDirection(string imageKey, RotateFlipType rotFlipType, int index)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -306,7 +299,6 @@ namespace NLEditor
         /// Returns the width of the piece corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
         /// <param name="imageKey"></param>
-        /// <returns></returns>
         public static int GetWidth(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -323,7 +315,6 @@ namespace NLEditor
         /// Returns the height of the piece corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
         /// <param name="imageKey"></param>
-        /// <returns></returns>
         public static int GetHeight(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -340,7 +331,6 @@ namespace NLEditor
         /// Returns the default width of the piece corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
         /// <param name="imageKey"></param>
-        /// <returns></returns>
         public static int GetDefaultWidth(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -357,7 +347,6 @@ namespace NLEditor
         /// Returns the default height of the piece corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
         /// <param name="imageKey"></param>
-        /// <returns></returns>
         public static int GetDefaultHeight(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -374,7 +363,6 @@ namespace NLEditor
         /// Returns the Exit Marker X-pos corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
         /// <param name="imageKey"></param>
-        /// <returns></returns>
         public static int GetMarkerX(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -391,7 +379,6 @@ namespace NLEditor
         /// Returns the Exit Marker Y-pos corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
         /// <param name="imageKey"></param>
-        /// <returns></returns>
         public static int GetMarkerY(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -408,7 +395,6 @@ namespace NLEditor
         /// Returns the object type of the piece corresponding to the key, or C.OBJ.NULL if image cannot be found. 
         /// </summary>
         /// <param name="imageKey"></param>
-        /// <returns></returns>
         public static C.OBJ GetObjType(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -425,7 +411,6 @@ namespace NLEditor
         /// Returns the trigger area of the piece corresponding to the key, or an empty rectangle if image cannot be found. 
         /// </summary>
         /// <param name="imageKey"></param>
-        /// <returns></returns>
         public static Rectangle GetTrigger(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -442,7 +427,6 @@ namespace NLEditor
         /// Returns the resize mode of the piece corresponding to the key, or C.Resize.None if image cannot be found. 
         /// </summary>
         /// <param name="imageKey"></param>
-        /// <returns></returns>
         public static C.Resize GetResizeMode(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -512,7 +496,6 @@ namespace NLEditor
         /// Loads a new image into the ImageLibrary. Returns false, if image cannot be found.
         /// </summary>
         /// <param name="imageKey"></param>
-        /// <returns></returns>
         static bool AddNewImage(string imageKey)
         {
             try
@@ -558,7 +541,6 @@ namespace NLEditor
         /// Creates the image key from a file path (relative or absolute). 
         /// </summary>
         /// <param name="filePath"></param>
-        /// <returns></returns>
         public static string CreatePieceKey(string filePath)
         {
             string fullPath = System.IO.Path.GetFullPath(filePath);
@@ -570,7 +552,6 @@ namespace NLEditor
         /// Creates the sketch image key from a file path (relative or absolute). 
         /// </summary>
         /// <param name="filePath"></param>
-        /// <returns></returns>
         public static string CreateSketchKey(string filePath)
         {
             string fullPath = System.IO.Path.GetFullPath(filePath);
@@ -585,7 +566,6 @@ namespace NLEditor
         /// <param name="styleName"></param>
         /// <param name="pieceName"></param>
         /// <param name="isObject"></param>
-        /// <returns></returns>
         public static string CreatePieceKey(string styleName, string pieceName, bool isObject)
         {
             return styleName + C.DirSep + (isObject ? "objects" : "terrain")
@@ -597,7 +577,6 @@ namespace NLEditor
         /// to editor location (using the merge of primary and secondary animations)
         /// </summary>
         /// <param name="levelFileLocation"></param>
-        /// <returns></returns>
         public static Point LevelFileToEditorCoordinates(string imageKey, Point levelFileLocation,
           bool rotate, bool flip, bool invert)
         {
@@ -645,7 +624,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="imageKey"></param>
         /// <param name="editorLocation"></param>
-        /// <returns></returns>
         public static Point EditorToLevelFileCoordinates(string imageKey, Point editorLocation,
           bool rotate, bool flip, bool invert)
         {

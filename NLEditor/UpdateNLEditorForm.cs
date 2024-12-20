@@ -514,7 +514,6 @@ namespace NLEditor
         /// <summary>
         /// Moves the picture boxes to select new pieces to the correct position.
         /// </summary>
-        /// <returns></returns>
         private bool MovePicPiecesOnResize()
         {
             picPieceList.ForEach(pic => pic.Top = this.Height - 122);
@@ -546,7 +545,6 @@ namespace NLEditor
         /// <summary>
         /// Creates a new picture box for selecting new pieces.
         /// </summary>
-        /// <returns></returns>
         private PictureBox CreatePicPiece()
         {
             PictureBox picPiece = new PictureBox();

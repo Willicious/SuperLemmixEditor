@@ -55,7 +55,6 @@ namespace NLEditor
         /// Compares two TerrainPieces for equality.
         /// </summary>
         /// <param name="piece"></param>
-        /// <returns></returns>
         public bool Equals(TerrainPiece piece)
         {
             return base.Equals(piece)

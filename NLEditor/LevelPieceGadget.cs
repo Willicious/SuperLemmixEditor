@@ -70,7 +70,6 @@ namespace NLEditor
         /// Compares two GadgetPieces for equality.
         /// </summary>
         /// <param name="piece"></param>
-        /// <returns></returns>
         public bool Equals(GadgetPiece piece)
         {
             return base.Equals(piece)
@@ -194,7 +193,6 @@ namespace NLEditor
         /// <summary>
         /// Returns the correct frame to load the image.
         /// </summary>
-        /// <returns></returns>
         protected override int GetFrameIndex()
         {
             if (ObjType == C.OBJ.PICKUP)
@@ -396,7 +394,6 @@ namespace NLEditor
         /// Adds the Pickup skill number to the base image
         /// </summary>
         /// <param name="baseImage"></param>
-        /// <returns></returns>
         private Bitmap AddPickupSkillNumber(Bitmap baseImage)
         {
             Bitmap image = (Bitmap)baseImage.Clone();

@@ -67,7 +67,6 @@ namespace NLEditor
         /// Gets a list of background names, starting with the one in the mainStyle.
         /// </summary>
         /// <param name="mainStyle"></param>
-        /// <returns></returns>
         public List<string> GetDisplayNames(Style mainStyle)
         {
             List<string> displayNames = new List<string>() { "--none--" };
@@ -80,7 +79,6 @@ namespace NLEditor
         /// Finds a background by its name.
         /// </summary>
         /// <param name="name"></param>
-        /// <returns></returns>
         public Background Find(string name)
         {
             name = name.Trim();
@@ -92,7 +90,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="name"></param>
         /// <param name="style"></param>
-        /// <returns></returns>
         public Background Find(string name, Style style)
         {
             name = name.Trim();

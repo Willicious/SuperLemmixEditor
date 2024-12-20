@@ -112,7 +112,6 @@ namespace NLEditor
         /// <summary>
         /// Returns the location where the settings file is stored, or null if none exists.
         /// </summary>
-        /// <returns></returns>
         private string GetSettingsFilePath()
         {
             if (File.Exists(C.AppPathPlayerSettings))
@@ -126,7 +125,6 @@ namespace NLEditor
         /// <summary>
         /// Gets the screen resolution of the monitor.
         /// </summary>
-        /// <returns></returns>
         private Size GetMonitorResolution()
         {
             var monitor = System.Windows.Forms.Screen.PrimaryScreen;
@@ -147,7 +145,6 @@ namespace NLEditor
         /// Returns the size of the level area that is covered by the window screen.
         /// </summary>
         /// <param name="levelSize"></param>
-        /// <returns></returns>
         public Size ScreenArea(int levelWidth, int levelHeight)
         {
             int zoom = zoomFactor;

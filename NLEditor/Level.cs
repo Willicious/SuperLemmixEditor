@@ -113,7 +113,6 @@ namespace NLEditor
         /// <summary>
         /// Creates a deep copy of the level.
         /// </summary>
-        /// <returns></returns>
         public Level Clone()
         {
             Level newLevel = new Level(this.MainStyle);
@@ -164,7 +163,6 @@ namespace NLEditor
         /// Compares two Levels for equality.
         /// </summary>
         /// <param name="otherLevel"></param>
-        /// <returns></returns>
         public bool Equals(Level otherLevel)
         {
             if (otherLevel == null
@@ -233,7 +231,6 @@ namespace NLEditor
         /// Returns the theme color as specified by the main style.
         /// </summary>
         /// <param name="styleColor"></param>
-        /// <returns></returns>
         public Color GetThemeColor(C.StyleColor styleColor)
         {
             return MainStyle?.GetColor(styleColor) ?? C.NLColors[styleColor.ToNLColor()];
@@ -305,7 +302,6 @@ namespace NLEditor
         /// <param name="pos"></param>
         /// <param name="isUnselected"></param>
         /// <param name="doPriorityInvert"></param>
-        /// <returns></returns>
         private LevelPiece GetOnePiece(Point pos, bool isUnselected, bool doPriorityInvert)
         {
             LevelPiece selectedPiece = null;
@@ -371,7 +367,6 @@ namespace NLEditor
         /// <summary>
         /// Gets a list of a currently selected pieces in the level.
         /// </summary>
-        /// <returns></returns>
         public List<LevelPiece> SelectionList()
         {
             var selectedPieces = new List<LevelPiece>();
@@ -383,7 +378,6 @@ namespace NLEditor
         /// <summary>
         /// Gets the smallest rectangle around all selected pieces in the level.
         /// </summary>
-        /// <returns></returns>
         public Rectangle SelectionRectangle()
         {
             var selectedPieces = SelectionList();
@@ -402,7 +396,6 @@ namespace NLEditor
         /// Returns whether there is a selected terrain piece at a point.
         /// </summary>
         /// <param name="pos"></param>
-        /// <returns></returns>
         public bool HasSelectionAtPos(Point pos)
         {
             return SelectionList().Exists(item => item.ImageRectangle.Contains(pos));
@@ -412,7 +405,6 @@ namespace NLEditor
         /// Returns whether there is any terrain or object piece at this point.
         /// </summary>
         /// <param name="pos"></param>
-        /// <returns></returns>
         public bool HasPieceAtPos(Point pos)
         {
             return TerrainList.Exists(item => item.ImageRectangle.Contains(pos))
@@ -487,7 +479,6 @@ namespace NLEditor
         /// <summary>
         /// Groups all selected terrain (non-steel) pieces into one piece. The new group is not selected.
         /// </summary>
-        /// <returns></returns>
         public GroupPiece ReplaceSelectedByGroup()
         {
             var selectedTerrains = SelectionList().FindAll(item => item.ObjType == C.OBJ.TERRAIN);
@@ -617,7 +608,6 @@ namespace NLEditor
         /// Finds the last index of a non-selected piece that when moved to top past all selected pieces changes output.
         /// </summary>
         /// <param name="pieceList"></param>
-        /// <returns></returns>
         private int GetMoveBottomStartIndex<T>(List<T> pieceList) where T : LevelPiece
         {
             for (int i = pieceList.Count - 1; i >= 0; i--)
@@ -641,7 +631,6 @@ namespace NLEditor
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="pieceList"></param>
-        /// <returns></returns>
         private int GetMoveTopEndIndex<T>(List<T> pieceList) where T : LevelPiece
         {
             for (int i = 0; i < pieceList.Count; i++)
@@ -666,7 +655,6 @@ namespace NLEditor
         /// <typeparam name="T"></typeparam>
         /// <param name="pieceList"></param>
         /// <param name="startIndex"></param>
-        /// <returns></returns>
         private List<T> MoveSelectedAllToBottom<T>(List<T> pieceList, int startIndex) where T : LevelPiece
         {
             return pieceList.GetRange(0, startIndex)
@@ -681,7 +669,6 @@ namespace NLEditor
         /// <typeparam name="T"></typeparam>
         /// <param name="pieceList"></param>
         /// <param name="endIndex"></param>
-        /// <returns></returns>
         private List<T> MoveSelectedAllToTop<T>(List<T> pieceList, int endIndex) where T : LevelPiece
         {
             return pieceList.GetRange(0, endIndex + 1).FindAll(item => !item.IsSelected)
@@ -759,7 +746,6 @@ namespace NLEditor
         /// <summary>
         /// Find the lowest unused teleporter/receiver key value.
         /// </summary>
-        /// <returns></returns>
         private int FindNewPairingValue()
         {
             var existingPairingValues = GadgetList.FindAll(gad => gad.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
@@ -773,7 +759,6 @@ namespace NLEditor
         /// <summary>
         /// Checks whether we may group the currently selected pieces.
         /// </summary>
-        /// <returns></returns>
         public bool MayGroupSelection()
         {
             var selection = TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSketch);
@@ -785,7 +770,6 @@ namespace NLEditor
         /// <summary>
         /// Checks whether we may ungroup (some of) the currently selected pieces.
         /// </summary>
-        /// <returns></returns>
         public bool MayUngroupSelection()
         {
             return TerrainList.Exists(ter => ter.IsSelected && ter is GroupPiece);

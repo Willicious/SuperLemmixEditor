@@ -96,7 +96,6 @@ namespace NLEditor
         /// <summary>
         /// Returns whether the ImageLibrary can find an image corresponding to this piece.
         /// </summary>
-        /// <returns></returns>
         public bool ExistsImage()
         {
             return ImageLibrary.ExistsKey(Key);
@@ -139,14 +138,12 @@ namespace NLEditor
         /// <summary>
         /// Creates a deep copy of the piece.
         /// </summary>
-        /// <returns></returns>
         public abstract LevelPiece Clone();
 
         /// <summary>
         /// Compares two LevelPieces for equality.
         /// </summary>
         /// <param name="piece"></param>
-        /// <returns></returns>
         public virtual bool Equals(LevelPiece piece)
         {
             return this.PosX == piece.PosX
@@ -165,25 +162,21 @@ namespace NLEditor
         /// <summary>
         /// Determines whether this piece can be rotated.
         /// </summary>
-        /// <returns></returns>
         public abstract bool MayRotate();
 
         /// <summary>
         /// Determines whether this piece can be flipped.
         /// </summary>
-        /// <returns></returns>
         public abstract bool MayFlip();
 
         /// <summary>
         /// Determines whether this piece can be inverted.
         /// </summary>
-        /// <returns></returns>
         public abstract bool MayInvert();
 
         /// <summary>
         /// Determines whether this piece can receive a flag for a given skill.
         /// </summary>
-        /// <returns></returns>
         public abstract bool MayReceiveSkill(C.Skill skill);
 
         /// <summary>
@@ -230,7 +223,6 @@ namespace NLEditor
         /// <summary>
         /// Translates stored piece data to a RotateFlipType that can be applied to images.
         /// </summary>
-        /// <returns></returns>
         protected RotateFlipType GetRotateFlipType()
         {
             switch (Rotation)
@@ -251,7 +243,6 @@ namespace NLEditor
         /// <summary>
         /// Returns the correct frame to load the image.
         /// </summary>
-        /// <returns></returns>
         protected virtual int GetFrameIndex()
         {
             return 0;

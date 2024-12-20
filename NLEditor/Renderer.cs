@@ -88,7 +88,6 @@ namespace NLEditor
         /// Renders all layers again and stores the result.
         /// <para> Then combines and crops them and returns the image to display on the screen.</para>
         /// </summary>
-        /// <returns></returns>
         public Bitmap CreateLevelImage()
         {
             UpdateLayerBmpSize();
@@ -104,7 +103,6 @@ namespace NLEditor
         /// <summary>
         /// Combines and crops stored layers and returns the image to display on the screen.
         /// </summary>
-        /// <returns></returns>
         public Bitmap CombineLayers(string dragNewPieceKey = null)
         {
             // Create the base level image
@@ -117,7 +115,6 @@ namespace NLEditor
         /// <summary>
         /// Create the screen image from the zoomed level
         /// </summary>
-        /// <returns></returns>
         public Bitmap GetScreenImage()
         {
             return CreateScreenImage();
@@ -126,7 +123,6 @@ namespace NLEditor
         /// <summary>
         /// Get the full un-cropped un-zoomed level image
         /// </summary>
-        /// <returns></returns>
         public Bitmap GetFullLevelImage()
         {
             return baseLevelImage;
@@ -189,7 +185,6 @@ namespace NLEditor
         /// <summary>
         /// Creates the screen image from the zoomed level image
         /// </summary>
-        /// <returns></returns>
         private Bitmap CreateScreenImage()
         {
             UpdateScreenPos();
@@ -303,7 +298,6 @@ namespace NLEditor
         /// <summary>
         /// Returns whether the whole level fits into the picturebox horizontally
         /// </summary>
-        /// <returns></returns>
         private bool DoesFitLevelHorizontally()
         {
             return picBoxWidth > ApplyZoom(baseLevelImage?.Width ?? 0);
@@ -312,7 +306,6 @@ namespace NLEditor
         /// <summary>
         /// Returns whether the whole level fits into the picturebox vertically
         /// </summary>
-        /// <returns></returns>
         private bool DoesFitLevelVertically()
         {
             return picBoxHeight > ApplyZoom(baseLevelImage?.Height ?? 0);
@@ -321,7 +314,6 @@ namespace NLEditor
         /// <summary>
         /// Returns the middle point of pic_Level in level coordinates.
         /// </summary>
-        /// <returns></returns>
         public Point GetCenterPoint()
         {
             Size levelBmpSize = GetLevelBmpSize(); // Size without zoom!
@@ -332,7 +324,6 @@ namespace NLEditor
         /// Translates level distances to screen distances.
         /// </summary>
         /// <param name="lvlCoord"></param>
-        /// <returns></returns>
         public int ApplyZoom(int lvlCoord)
         {
             return (ZoomFactor < 0) ? (lvlCoord / (1 - ZoomFactor)) : (lvlCoord * (ZoomFactor + 1));
@@ -342,7 +333,6 @@ namespace NLEditor
         /// Translates screen distances to level distances.
         /// </summary>
         /// <param name="screenCoord"></param>
-        /// <returns></returns>
         public int ApplyUnZoom(int screenCoord)
         {
             return (ZoomFactor < 0) ? (screenCoord * (1 - ZoomFactor)) : (screenCoord / (ZoomFactor + 1));
@@ -351,7 +341,6 @@ namespace NLEditor
         /// <summary>
         /// Returns the horizontal (screen) width of the border around the level image.
         /// </summary>
-        /// <returns></returns>
         private int BorderWidth()
         {
             return Math.Max(0, (picBoxWidth - ApplyZoom(level.Width)) / 2);
@@ -360,7 +349,6 @@ namespace NLEditor
         /// <summary>
         /// Returns the vertical (screen) height of the border around the level image.
         /// </summary>
-        /// <returns></returns>
         private int BorderHeight()
         {
             return Math.Max(0, (picBoxHeight - ApplyZoom(level.Height)) / 2);
@@ -370,7 +358,6 @@ namespace NLEditor
         /// Returns whether a point in screen corrdinates relative to pic_Level lies in the level area.
         /// </summary>
         /// <param name="point"></param>
-        /// <returns></returns>
         public bool IsPointInLevelArea(Point? point)
         {
             if (point == null)
@@ -382,7 +369,6 @@ namespace NLEditor
         /// <summary>
         /// Returns whether the current mouse position (as stored by the renderer) lies in the level area.
         /// </summary>
-        /// <returns></returns>
         public bool IsPointInLevelArea()
         {
             return IsPointInLevelArea(MouseCurPos);
@@ -392,7 +378,6 @@ namespace NLEditor
         /// Translates a point in screen coordinates (relative to pic_Level) into level coordinates.
         /// </summary>
         /// <param name="mouseScreenPos"></param>
-        /// <returns></returns>
         public Point GetMousePosInLevel(Point mouseScreenPos, bool doCropToLevelArea = true)
         {
             // Adapt to images that do not fill the whole pic_Level and to Mouse positions outside the level
@@ -422,7 +407,6 @@ namespace NLEditor
         /// <para> Returns null if this position lies outside pic_Level. </para>
         /// </summary>
         /// <param name="isCurrent"></param>
-        /// <returns></returns>
         public Point? GetMousePosInLevel(bool isCurrent = true)
         {
             Point? MousePos = isCurrent ? MouseCurPos : MouseStartPos;
@@ -439,7 +423,6 @@ namespace NLEditor
         /// Returns the rectangle in level coordinates spanned by the start and current position of the mouse.
         /// <para> Returns null if either mouse position lies outside pic_Level. </para>
         /// </summary>
-        /// <returns></returns>
         public Rectangle? GetCurSelectionInLevel()
         {
             Point? lvlPos1 = GetMousePosInLevel(false);
@@ -539,7 +522,6 @@ namespace NLEditor
         /// <para> This assumes IsClearPhysics = false.</para>
         /// </summary>
         /// <param name="terrPieces"></param>
-        /// <returns></returns>
         public Bitmap CreateTerrainGroupImage(List<TerrainPiece> terrPieces)
         {
             int width = terrPieces.Max(ter => ter.PosX + ter.Width);
@@ -561,7 +543,6 @@ namespace NLEditor
         /// Returns the correct CustDrawMode for the terrain piece.
         /// </summary>
         /// <param name="terrPiece"></param>
-        /// <returns></returns>
         private C.CustDrawMode GetDrawModeForTerrain(TerrainPiece terrPiece)
         {
             if (terrPiece.IsSketch)
@@ -667,7 +648,6 @@ namespace NLEditor
         /// <summary>
         /// Gets the size of the displayable area in level coordinates.
         /// </summary>
-        /// <returns></returns>
         private Size GetLevelBmpSize()
         {
             return GetLevelBmpSize(picBoxRect.Size);
@@ -676,7 +656,6 @@ namespace NLEditor
         /// <summary>
         /// Gets the size of the specified displayable area in level coordinates.
         /// </summary>
-        /// <returns></returns>
         private Size GetLevelBmpSize(Size picBoxSize)
         {
             int levelBmpWidth = ApplyUnZoom(picBoxSize.Width);
@@ -692,7 +671,6 @@ namespace NLEditor
         /// <summary>
         /// Returns the rectangle of the displayed level area in level coordinates.
         /// </summary>
-        /// <returns></returns>
         public Rectangle GetLevelBmpRect()
         {
             return new Rectangle(ScreenPos, GetLevelBmpSize(new Size(picBoxWidth, picBoxHeight)));
@@ -701,7 +679,6 @@ namespace NLEditor
         /// <summary>
         /// Returns the rectangle of the displayed level area in level coordinates.
         /// </summary>
-        /// <returns></returns>
         public Rectangle GetLevelBmpRect(Size picBoxSize)
         {
             return new Rectangle(ScreenPos, GetLevelBmpSize(picBoxSize));
@@ -710,7 +687,6 @@ namespace NLEditor
         /// <summary>
         /// Gets the screen start rectangle in level coordinates.
         /// </summary>
-        /// <returns></returns>
         public Rectangle ScreenStartRectangle()
         {
             Size levelScreenSize = level.ScreenSize;
@@ -726,7 +702,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="levelBmp"></param>
         /// <param name="NegScreenPos"></param>
-        /// <returns></returns>
         private void AddScreenStartRectangle(ref Bitmap levelBmp)
         {
             if (level.AutoStartPos)
@@ -746,7 +721,6 @@ namespace NLEditor
         /// Adds indizes above hatches
         /// </summary>
         /// <param name="levelBmp"></param>
-        /// <returns></returns>
         private void AddHatchOrder(ref Bitmap levelBmp)
         {
             var hatches = level.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.HATCH);
@@ -770,7 +744,6 @@ namespace NLEditor
         /// Draws skill icon above pre-assigned Gadgets
         /// </summary>
         /// <param name="levelBmp"></param>
-        /// <returns></returns>
         public void AddSkillIcons(ref Bitmap levelBmp)
         {
             var gadgetsWithAssignedSkills = level.GadgetList.Where(gadget => gadget.SkillFlags.Any());
@@ -846,7 +819,6 @@ namespace NLEditor
         /// Adds the selection coordinates and/or grid status at the bottom right of the level image.
         /// </summary>
         /// <param name="levelBmp"></param>
-        /// <returns></returns>
         private void AddCornerText(ref Bitmap fullBmp)
         {
             string text = (IsGridEnabled ? "(G) " : "");
@@ -866,7 +838,6 @@ namespace NLEditor
         /// Draws rectangles around selected pieces on already zoomed and cropped image.
         /// </summary>
         /// <param name="levelBmp"></param>
-        /// <returns></returns>
         private void AddSelectedRectangles(ref Bitmap levelBmp)
         {
             // First get a list of all Rectangled to draw (in image coordinates)
@@ -883,7 +854,6 @@ namespace NLEditor
         /// Translates a rectangle in level coordinates into screen coordinates (relative to pic_Level)
         /// </summary>
         /// <param name="origRect"></param>
-        /// <returns></returns>
         private Rectangle GetPicRectFromLevelRect(Rectangle origRect)
         {
             int posX = ApplyZoom(origRect.X - Math.Max(ScreenPosX, 0));
@@ -905,7 +875,6 @@ namespace NLEditor
         /// Translates a point in level coordinates into screen coordinates (relative to pic_Level)
         /// </summary>
         /// <param name="origPoint"></param>
-        /// <returns></returns>
         private Point GetPicPointFromLevelPoint(Point origPoint)
         {
             int posX = ApplyZoom(origPoint.X - Math.Max(ScreenPosX, 0));
@@ -918,7 +887,6 @@ namespace NLEditor
         /// Draws the rectangle around the area currently selected with the mouse.
         /// </summary>
         /// <param name="levelBmp"></param>
-        /// <returns></returns>
         private void AddMouseSelectionArea(ref Bitmap levelBmp)
         {
             if (MouseDragAction != C.DragActions.SelectArea)
@@ -1086,7 +1054,6 @@ namespace NLEditor
         /// <summary>
         /// Returns the difference between the original and the current mouse position in level coordinates.
         /// </summary>
-        /// <returns></returns>
         public Point GetNewPosFromDragging()
         {
             System.Diagnostics.Debug.Assert(LevelStartPos != null, "Position for dragging called while reference position is null.");

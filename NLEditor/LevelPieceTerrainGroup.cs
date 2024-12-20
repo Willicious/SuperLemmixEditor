@@ -66,7 +66,6 @@ namespace NLEditor
         /// Creates the group key from the terrain list.
         /// </summary>
         /// <param name="terPieceList"></param>
-        /// <returns></returns>
         private static string GetKeyFromTerPieceList(List<TerrainPiece> terPieceList)
         {
             Point groupPos = GetPrelimPosFromTerPieceList(terPieceList);
@@ -94,7 +93,6 @@ namespace NLEditor
         /// Gets the preliminarly position (before cropping) of the group from a raw terrain list.
         /// </summary>
         /// <param name="terPieceList"></param>
-        /// <returns></returns>
         private static Point GetPrelimPosFromTerPieceList(List<TerrainPiece> terPieceList)
         {
             int minXPos = terPieceList.Min(ter => ter.PosX);
@@ -111,7 +109,6 @@ namespace NLEditor
         /// <summary>
         /// Gets a lits of all terrain pieces that are part of the group.
         /// </summary>
-        /// <returns></returns>
         public List<TerrainPiece> GetConstituents()
         {
             var terPieceList = terrainPieces.ConvertAll(ter => (TerrainPiece)ter.Clone()).ToList();
@@ -123,7 +120,6 @@ namespace NLEditor
         /// Checks whether a given level piece is a constituent of the group.
         /// </summary>
         /// <param name="piece"></param>
-        /// <returns></returns>
         public bool ContainsConstituent(LevelPiece piece)
         {
             return terrainPieces.Exists(ter => ter.HasSameKey(piece));

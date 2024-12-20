@@ -18,7 +18,6 @@ namespace NLEditor
         /// <para> Returns null if process is aborted or file is corrupt. </para>
         /// </summary>
         /// <param name="styleList"></param>
-        /// <returns></returns>
         static public Level LoadLevel(List<Style> styleList, BackgroundList backgrounds, string levelDirectory)
         {
             var openFileDialog = new OpenFileDialog();
@@ -777,7 +776,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="curLevel"></param>
         /// <param name="skillNum"></param>
-        /// <returns></returns>
         static public bool IsSkillRequired(Level curLevel, C.Skill skill)
         {
             return (curLevel.SkillSet[skill] > 0)
@@ -1004,7 +1002,6 @@ namespace NLEditor
         /// Returns the name of the skill as a string.
         /// </summary>
         /// <param name="skill"></param>
-        /// <returns></returns>
         static string SkillString(C.Skill skill)
         {
             return Enum.GetName(typeof(C.Skill), skill).ToUpper();
@@ -1015,7 +1012,6 @@ namespace NLEditor
         /// Returns the name of the skill as a string, padded to length 12.
         /// </summary>
         /// <param name="skill"></param>
-        /// <returns></returns>
         static string PaddedSkillString(C.Skill skill)
         {
             return "   " + SkillString(skill) + " ";
@@ -1027,7 +1023,6 @@ namespace NLEditor
         /// <para> This calls SuperLemmix.exe written in Delphi. </para>
         /// </summary>
         /// <param name="filePath"></param>
-        /// <returns></returns>
         static bool ConvertWithSuperLemmix(string filePath)
         {
             if (!File.Exists(C.AppPathSuperLemmix))

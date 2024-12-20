@@ -194,7 +194,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="origBmp"></param>
         /// <param name="cropRect"></param>
-        /// <returns></returns>
         public static Bitmap Crop(this Bitmap origBmp, Rectangle cropRect)
         {
             cropRect.Intersect(new Rectangle(0, 0, origBmp.Width, origBmp.Height));
@@ -621,7 +620,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="origBmp"></param>
         /// <param name="blendColor"></param>
-        /// <returns></returns>
         public static Bitmap ApplyThemeColor(this Bitmap origBmp, Color blendColor)
         {
             byte[] blendColorBytes = new byte[] { blendColor.B, blendColor.G, blendColor.R, 255 };
@@ -671,7 +669,6 @@ namespace NLEditor
         /// <param name="origBmp"></param>
         /// <param name="blendColor"></param>
         /// <param name="ignoreColor"></param>
-        /// <returns></returns>
         public static Bitmap ApplyThemeColor(this Bitmap origBmp, Color blendColor, byte ignoreAlpha)
         {
             byte[] blendColorBytes = new byte[] { blendColor.B, blendColor.G, blendColor.R, 255 };
@@ -724,7 +721,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="origBmp"></param>
         /// <param name="zoomFactor"></param>
-        /// <returns></returns>
         public static Bitmap Zoom(this Bitmap origBmp, int zoomFactor)
         {
             int newWidth = (zoomFactor < 0) ? Math.Max(origBmp.Width / (Math.Abs(zoomFactor) + 1), 1) : origBmp.Width * (zoomFactor + 1);
@@ -740,7 +736,6 @@ namespace NLEditor
         /// <param name="origBmp"></param>
         /// <param name="zoomFactor"></param>
         /// <param name="newBmpSize"></param>
-        /// <returns></returns>
         public static Bitmap Zoom(this Bitmap origBmp, int zoomFactor, Size newBmpSize)
         {
             Bitmap newBmp = new Bitmap(newBmpSize.Width, newBmpSize.Height);
@@ -920,7 +915,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="origBmp"></param>
         /// <param name="rect"></param>
-        /// <returns></returns>
         public static Bitmap PaveArea(this Bitmap origBmp, Rectangle rect)
         {
             if ((origBmp == null) || (rect.Width <= 0) || (rect.Height <= 0))
@@ -952,7 +946,6 @@ namespace NLEditor
         /// <param name="origBmp"></param>
         /// <param name="rect"></param>
         /// <param name="centerArea"></param>
-        /// <returns></returns>
         public static Bitmap NineSliceArea(this Bitmap origBmp, Rectangle rect, Rectangle centerArea)
         {
             int topCut = centerArea.Top;
@@ -1068,7 +1061,6 @@ namespace NLEditor
         /// <param name="textWidth"></param>
         /// <param name="textHeight"></param>
         /// <param name="alignment"></param>
-        /// <returns></returns>
         private static Point AlignText(Point position, int textWidth, int textHeight, ContentAlignment alignment)
         {
             int posX = position.X;
@@ -1101,7 +1093,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="pieceImage"></param>
         /// <param name="owwStyle"></param>
-        /// <returns></returns>
         public static Bitmap RecolorOWW(Bitmap pieceImage, Style owwStyle)
         {
             Color owwColor = owwStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? Color.Linen;
@@ -1118,7 +1109,6 @@ namespace NLEditor
         /// <para> Throws an ArgumentException is the bitmap is completely transparent.</para>
         /// </summary>
         /// <param name="origBmp"></param>
-        /// <returns></returns>
         public static Rectangle GetCropTransparentRectangle(this Bitmap origBmp)
         {
             Rectangle cropRect = new Rectangle();

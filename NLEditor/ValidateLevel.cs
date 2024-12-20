@@ -76,7 +76,6 @@ namespace NLEditor
         /// <summary>
         /// Gets a list of all pieces completely outside the level area.
         /// </summary>
-        /// <returns></returns>
         private List<LevelPiece> GetPiecesOutsideBoundary()
         {
             System.Drawing.Rectangle levelRect = new System.Drawing.Rectangle(0, 0, level.Width, level.Height);
@@ -117,7 +116,6 @@ namespace NLEditor
         /// <summary>
         /// Returns the maximal number of lemmings that can be saved theoretically.
         /// </summary>
-        /// <returns></returns>
         private int MaxNumSavedLems()
         {
             return level.NumLems + level.SkillSet[C.Skill.Cloner] - NumZombies();
@@ -126,7 +124,6 @@ namespace NLEditor
         /// <summary>
         /// Returns the total number of zombie lemmings in the level.
         /// </summary>
-        /// <returns></returns>
         private int NumZombies()
         {
             int numPreplacedAll = level.GadgetList.Count(gad => gad.ObjType == C.OBJ.LEMMING);

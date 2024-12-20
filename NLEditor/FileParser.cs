@@ -68,7 +68,6 @@ namespace NLEditor
         /// Parses new block of lines, ignoring empty lines or ones starting with #.
         /// <para> Returns null at the file end. </para>
         /// </summary>
-        /// <returns></returns>
         public List<FileLine> GetNextLines()
         {
             var fileLineList = new List<FileLine>();
@@ -119,7 +118,6 @@ namespace NLEditor
         /// <summary>
         /// Reads a single line. Returns null at the file end.
         /// </summary>
-        /// <returns></returns>
         private FileLine GetNewLine()
         {
             string line = fileStream.ReadLine();

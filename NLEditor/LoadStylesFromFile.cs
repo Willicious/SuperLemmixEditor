@@ -37,7 +37,6 @@ namespace NLEditor
         /// <para> Color 0: Background (default: black) </para>
         /// </summary>
         /// <param name="styleName"></param>
-        /// <returns></returns>
         public static Dictionary<C.StyleColor, Color> StyleColors(string styleName)
         {
             var colorDict = new Dictionary<C.StyleColor, Color>();
@@ -102,7 +101,6 @@ namespace NLEditor
         /// Reads the styles.ini file and orders and renames styles accordingly.
         /// </summary>
         /// <param name="styleList"></param>
-        /// <returns></returns>
         public static List<Style> OrderAndRenameStyles(List<Style> styleList)
         {
             string filePath = C.AppPath + "styles" + C.DirSep + "styles.ini";
@@ -208,7 +206,6 @@ namespace NLEditor
         /// Loads a .png image or null if the image could not be loaded.
         /// </summary>
         /// <param name="imageKey"></param>
-        /// <returns></returns>
         public static Bitmap Image(string imageKey)
         {
             string imagePath;
@@ -235,7 +232,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="image"></param>
         /// <param name="imageName"></param>
-        /// <returns></returns>
         public static BaseImageInfo ImageInfo(string imageName)
         {
             if (imageName.Substring(0, 8) == "*sketch:")
@@ -267,7 +263,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="newBitmap"></param>
         /// <param name="FilePathInfo"></param>
-        /// <returns></returns>
         private static BaseImageInfo CreateNewObjectInfo(string filePath)
         {
             C.OBJ objType = C.OBJ.NONE;
@@ -741,7 +736,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="newBitmap"></param>
         /// <param name="FilePathInfo"></param>
-        /// <returns></returns>
         private static BaseImageInfo CreateNewTerrainInfo(string filePath)
         {
             bool IsSteel = false;

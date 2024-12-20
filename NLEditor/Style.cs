@@ -78,7 +78,6 @@ namespace NLEditor
         /// Checks for equality of the style's FileName.
         /// </summary>
         /// <param name="otherStyle"></param>
-        /// <returns></returns>
         public bool Equals(Style otherStyle)
         {
             return this.NameInDirectory.Equals(otherStyle?.NameInDirectory);
@@ -102,7 +101,6 @@ namespace NLEditor
         /// Reads the style's color or a default value if no color is specified.
         /// </summary>
         /// <param name="colorType"></param>
-        /// <returns></returns>
         public Color GetColor(C.StyleColor colorType)
         {
             if (colorDict.ContainsKey(colorType))

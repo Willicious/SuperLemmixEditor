@@ -1332,7 +1332,6 @@ namespace NLEditor
         /// Centers the collection of pieces around the cursor.
         /// </summary>
         /// <param name="clipPieces"></param>
-        /// <returns></returns>
         private IEnumerable<LevelPiece> CenterPiecesAtCursor(IEnumerable<LevelPiece> clipPieces)
         {
             Point mousePos = curRenderer.GetMousePosInLevel(pic_Level.PointToClient(Cursor.Position));

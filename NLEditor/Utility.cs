@@ -15,7 +15,6 @@ namespace NLEditor
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <param name="args"></param>
-        /// <returns></returns>
         public static bool In<T>(this T obj, params T[] args)
         {
             return args.Contains(obj);
@@ -52,7 +51,6 @@ namespace NLEditor
         /// Splits the string at all new-lines.
         /// </summary>
         /// <param name="text"></param>
-        /// <returns></returns>
         public static List<string> SplitAtNewLine(this string text)
         {
             return text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
@@ -64,7 +62,6 @@ namespace NLEditor
         /// <typeparam name="T"></typeparam>
         /// <param name="myList"></param>
         /// <param name="index"></param>
-        /// <returns></returns>
         public static List<T> GetRange<T>(this List<T> myList, int index)
         {
             return myList.GetRange(index, myList.Count - index);
@@ -76,7 +73,6 @@ namespace NLEditor
         /// <param name="x"></param>
         /// <param name="min"></param>
         /// <param name="max"></param>
-        /// <returns></returns>
         public static int Restrict(this int x, int min, int max)
         {
             System.Diagnostics.Debug.Assert(max >= min, "int.Restrict called with minimum larger than the maximum.");
@@ -88,7 +84,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="x"></param>
         /// <param name="step"></param>
-        /// <returns></returns>
         public static int RoundToMultiple(this int x, int step)
         {
             if (x == 0)
@@ -114,7 +109,6 @@ namespace NLEditor
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
-        /// <returns></returns>
         public static T ParseEnum<T>(string value)
         {
             return (T)Enum.Parse(typeof(T), value, true);
@@ -125,7 +119,6 @@ namespace NLEditor
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
-        /// <returns></returns>
         public static bool ExistsInEnum<T>(string value)
         {
             return Enum.IsDefined(typeof(T), value);
@@ -135,7 +128,6 @@ namespace NLEditor
         /// Loads a bitmap from a file and closes the file again.
         /// </summary>
         /// <param name="filePath"></param>
-        /// <returns></returns>
         public static Bitmap CreateBitmapFromFile(string filePath)
         {
             Bitmap image;
@@ -184,7 +176,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="pos1"></param>
         /// <param name="pos2"></param>
-        /// <returns></returns>
         public static Rectangle RectangleFrom(Point pos1, Point pos2)
         {
             int left = Math.Min(pos1.X, pos2.X);
@@ -200,7 +191,6 @@ namespace NLEditor
         /// </summary>
         /// <param name="origRect"></param>
         /// <param name="border"></param>
-        /// <returns></returns>
         public static Rectangle RotateInRectangle(this Rectangle origRect, Rectangle border)
         {
             Point center = new Point(border.Left + border.Width / 2, border.Top + border.Height / 2);
@@ -261,7 +251,6 @@ namespace NLEditor
         /// Translates an (A)RGB hex string to a color.
         /// </summary>
         /// <param name="hexString"></param>
-        /// <returns></returns>
         public static Color HexToColor(string hexString)
         {
             hexString = hexString.Replace('#', ' ').Trim();
@@ -278,7 +267,6 @@ namespace NLEditor
         /// <param name="def"></param>
         /// <param name="img"></param>
         /// <param name="resizable"></param>
-        /// <returns></returns>
         public static int EvaluateResizable(int spec, int def, int img, bool resizable)
         {
             if (resizable)
@@ -295,7 +283,6 @@ namespace NLEditor
         /// <summary>
         /// Returns the global instance of the random number generator.
         /// </summary>
-        /// <returns></returns>
         public static Random Random()
         {
             if (rnd == null)
