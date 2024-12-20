@@ -1142,56 +1142,106 @@ namespace NLEditor
 
             curRenderer.MouseCurPos = e.Location;
 
+            if (ShouldUpdateDragAction(e))
+            {
+                mutexMouseMove.ReleaseMutex();
+                return;
+            }
+
+            // Continue with the current drag action
             switch (curRenderer.MouseDragAction)
             {
                 case C.DragActions.SelectArea:
-                    {
-                        pic_Level.SetImage(curRenderer.GetScreenImage());
-                        break;
-                    }
-                case C.DragActions.MoveEditorPos:
-                    {
-                        curRenderer.UpdateScreenPos();
-                        UpdateScrollBarValues();
-                        pic_Level.SetImage(curRenderer.GetScreenImage());
-                        break;
-                    }
-                case C.DragActions.MaybeDragPieces:
-                    {
-                        curRenderer.ConfirmDrag();
-                        DragSelectedPieces();
-                        pic_Level.SetImage(curRenderer.CreateLevelImage());
-                        break;
-                    }
-                case C.DragActions.DragPieces:
-                    {
-                        DragSelectedPieces();
-                        pic_Level.SetImage(curRenderer.CreateLevelImage());
-                        break;
-                    }
-                case C.DragActions.HorizontalDrag:
-                    {
-                        XDragSelectedPieces();
-                        pic_Level.SetImage(curRenderer.CreateLevelImage());
-                        break;
-                    }
-                case C.DragActions.VerticalDrag:
-                    {
-                        YDragSelectedPieces();
-                        pic_Level.SetImage(curRenderer.CreateLevelImage());
-                        break;
-                    }
-                case C.DragActions.MoveStartPos:
-                    {
-                        Point newCenter = curRenderer.GetNewPosFromDragging();
-                        MoveScreenStartPosition(newCenter);
-                        pic_Level.SetImage(curRenderer.GetScreenImage());
-                        break;
-                    }
-            }
-            pic_Level.Refresh();
+                    pic_Level.SetImage(curRenderer.GetScreenImage());
+                    break;
 
+                case C.DragActions.MoveEditorPos:
+                    curRenderer.UpdateScreenPos();
+                    UpdateScrollBarValues();
+                    pic_Level.SetImage(curRenderer.GetScreenImage());
+                    break;
+
+                case C.DragActions.MaybeDragPieces:
+                    curRenderer.ConfirmDrag();
+                    DragSelectedPieces();
+                    pic_Level.SetImage(curRenderer.CreateLevelImage());
+                    break;
+
+                case C.DragActions.DragPieces:
+                    DragSelectedPieces();
+                    pic_Level.SetImage(curRenderer.CreateLevelImage());
+                    break;
+
+                case C.DragActions.HorizontalDrag:
+                    XDragSelectedPieces();
+                    pic_Level.SetImage(curRenderer.CreateLevelImage());
+                    break;
+
+                case C.DragActions.VerticalDrag:
+                    YDragSelectedPieces();
+                    pic_Level.SetImage(curRenderer.CreateLevelImage());
+                    break;
+
+                case C.DragActions.MoveStartPos:
+                    Point newCenter = curRenderer.GetNewPosFromDragging();
+                    MoveScreenStartPosition(newCenter);
+                    pic_Level.SetImage(curRenderer.GetScreenImage());
+                    break;
+            }
+
+            pic_Level.Refresh();
             mutexMouseMove.ReleaseMutex();
+        }
+
+        /// <summary>
+        /// Allows switching between normal, horizontal-only, and vertical-only drag action
+        /// </summary>
+        private bool ShouldUpdateDragAction(MouseEventArgs e)
+        {
+            // Check current mouse button with modifiers
+            Keys currentHotkey = mouseButtonPressed.HasValue
+                ? (mouseButtonPressed.Value == MouseButtons.Left ? Keys.LButton :
+                   mouseButtonPressed.Value == MouseButtons.Right ? Keys.RButton :
+                   mouseButtonPressed.Value == MouseButtons.Middle ? Keys.MButton :
+                   mouseButtonPressed.Value == MouseButtons.XButton1 ? Keys.XButton1 :
+                   mouseButtonPressed.Value == MouseButtons.XButton2 ? Keys.XButton2 :
+                   Keys.None) | Control.ModifierKeys
+                : Keys.None;
+
+            // Dynamically update drag action based on current hotkey during an existing drag
+            if (curRenderer.MouseDragAction == C.DragActions.DragPieces ||
+                curRenderer.MouseDragAction == C.DragActions.HorizontalDrag ||
+                curRenderer.MouseDragAction == C.DragActions.VerticalDrag)
+            {
+                // Preserve current action by default
+                C.DragActions dragAction = curRenderer.MouseDragAction;
+
+                // Check if current hotkey matches horizontal/vertical drag hotkey
+                if (currentHotkey == HotkeyConfig.HotkeyDragHorizontally)
+                {
+                    dragAction = C.DragActions.HorizontalDrag;
+                    Cursor = Cursors.SizeWE;
+                }
+                else if (currentHotkey == HotkeyConfig.HotkeyDragVertically)
+                {
+                    dragAction = C.DragActions.VerticalDrag;
+                    Cursor = Cursors.SizeNS;
+                }
+                else
+                {
+                    dragAction = C.DragActions.DragPieces;
+                    Cursor = Cursors.Default;
+                }
+
+                // If a new drag action is set, update dragging vars and reset move event
+                if (dragAction != curRenderer.MouseDragAction)
+                {
+                    curRenderer.SetDraggingVars(e.Location, dragAction);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void NLEditForm_MouseWheel(object sender, MouseEventArgs e)

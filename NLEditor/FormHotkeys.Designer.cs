@@ -98,7 +98,7 @@
             "Drag Horizontally (X-axis only)",
             "HotkeyDragHorizontally"}, -1);
             System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem(new string[] {
-            "DragVertically (Y-axis only)",
+            "Drag Vertically (Y-axis only)",
             "HotkeyDragVertically"}, -1);
             System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Screen Start",

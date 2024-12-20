@@ -588,8 +588,8 @@ namespace NLEditor
             HotkeyOpenAboutSLX = Keys.Control | Keys.F10;
             HotkeySelectPieces = Keys.LButton;
             HotkeyDragToScroll = Keys.RButton;
-            HotkeyDragHorizontally = Keys.Control | Keys.Shift | Keys.LButton;
-            HotkeyDragVertically = Keys.Control | Keys.Alt | Keys.LButton;
+            HotkeyDragHorizontally = Keys.Control | Keys.Alt | Keys.LButton;
+            HotkeyDragVertically = Keys.Control | Keys.Shift | Keys.LButton;
             HotkeyMoveScreenStart = Keys.P;
             HotkeyRemovePiecesAtCursor = Keys.MButton;
             HotkeyAddRemoveSinglePiece = Keys.Control | Keys.LButton;

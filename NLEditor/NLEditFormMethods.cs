@@ -631,7 +631,6 @@ namespace NLEditor
         /// Returns a style with the requested name, or null if none such is found. 
         /// </summary>
         /// <param name="styleName"></param>
-        /// <returns></returns>
         private Style ValidateStyleName(string styleName)
         {
             return StyleList?.Find(sty => sty.NameInEditor == styleName);
@@ -823,7 +822,6 @@ namespace NLEditor
         /// Gets the key from the index of the clicked PieceBox.
         /// </summary>
         /// <param name="picPieceIndex"></param>
-        /// <returns></returns>
         private string GetPieceKeyFromIndex(int picPieceIndex)
         {
             List<string> pieceList;
@@ -1008,6 +1006,7 @@ namespace NLEditor
             Point targetPos = curRenderer.GetNewPosFromDragging();
             CurLevel.MovePieces(targetPos, gridSize);
         }
+
         /// <summary>
         /// Drags all selected pieces along the X-axis only and displays the result.
         /// </summary>
@@ -1016,6 +1015,7 @@ namespace NLEditor
             Point targetPos = curRenderer.GetNewPosFromXDragging();
             CurLevel.MovePieces(targetPos, gridSize);
         }
+
         /// <summary>
         /// Drags all selected pieces along the Y-axis only and displays the result.
         /// </summary>
