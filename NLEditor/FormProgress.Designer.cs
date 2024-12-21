@@ -59,7 +59,11 @@ namespace NLEditor
             this.ClientSize = new System.Drawing.Size(694, 134);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.labelStatus);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormProgress";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormProgress";
             this.ResumeLayout(false);

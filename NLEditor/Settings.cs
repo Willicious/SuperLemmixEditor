@@ -89,9 +89,10 @@ namespace NLEditor
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
             settingsForm.ClientSize = new System.Drawing.Size(340, 400);
+            settingsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+            settingsForm.MinimizeBox = false;
             settingsForm.MaximizeBox = false;
             settingsForm.ShowInTaskbar = false;
-            settingsForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             settingsForm.Text = "SLXEditor - Settings";
             settingsForm.MouseDown += new MouseEventHandler(settingsForm_MouseDown);
             settingsForm.FormClosing += new FormClosingEventHandler(settingsForm_FormClosing);

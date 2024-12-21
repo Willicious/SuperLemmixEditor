@@ -30,6 +30,7 @@ namespace NLEditor
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAboutSLXEditor));
             this.lblWhatsNew = new System.Windows.Forms.Label();
             this.pictureFloater = new System.Windows.Forms.PictureBox();
             this.pictureClimber = new System.Windows.Forms.PictureBox();
@@ -229,8 +230,12 @@ namespace NLEditor
             this.Controls.Add(this.lblWhatsNew);
             this.Controls.Add(this.lblDMA);
             this.Controls.Add(this.picturePadding);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormAboutSLXEditor";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About SuperLemmix Editor";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormAboutSLXEditor_KeyDown);
