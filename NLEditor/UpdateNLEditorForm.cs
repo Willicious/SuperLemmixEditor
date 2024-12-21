@@ -12,8 +12,19 @@ namespace NLEditor
     /// </summary>
     partial class NLEditForm
     {
-        public void ShowMustRestartMessage()
+        public EditorMode previousEditorMode;
+
+        public void UpdateRestartMessage()
         {
+            if (previousEditorMode == curSettings.CurrentEditorMode)
+            {
+                statusBar.Visible = true;
+                statusBarLabel1.Text = "";
+                statusBarLabel2.Text = "";
+                statusBarButton1.Visible = false;
+                return;
+            }
+            
             string modeString;
 
             if (curSettings.CurrentEditorMode == Settings.EditorMode.NeoLemmix)
@@ -29,6 +40,7 @@ namespace NLEditor
                                    "Please save your work and restart the Editor";
             statusBarButton1.Visible = false;
         }
+
         /// <summary>
         /// Initializes the intervals for all repeat buttons.
         /// </summary>

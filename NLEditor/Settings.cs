@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace NLEditor
@@ -15,6 +16,11 @@ namespace NLEditor
 
         NLEditForm editorForm;
         Form settingsForm;
+        Button btnSaveAndClose;
+        Button btnCancel;
+
+        private bool doSaveSettings = false;
+        private bool settingChanged = false;
 
         public enum EditorMode
         {
@@ -66,6 +72,8 @@ namespace NLEditor
             DisplaySettings.SetDisplayed(C.DisplayType.Trigger, false);
             DisplaySettings.SetDisplayed(C.DisplayType.ClearPhysics, false);
             DisplaySettings.SetDisplayed(C.DisplayType.Deprecated, false);
+
+            settingChanged = false;
         }
 
         /// <summary>
@@ -80,17 +88,19 @@ namespace NLEditor
 
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
-            settingsForm.ClientSize = new System.Drawing.Size(340, 380);
+            settingsForm.ClientSize = new System.Drawing.Size(340, 400);
             settingsForm.MaximizeBox = false;
             settingsForm.ShowInTaskbar = false;
             settingsForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             settingsForm.Text = "SLXEditor - Settings";
+            settingsForm.MouseDown += new MouseEventHandler(settingsForm_MouseDown);
             settingsForm.FormClosing += new FormClosingEventHandler(settingsForm_FormClosing);
+
 
             // =========================== Use Piece Names =========================== //
 
             CheckBox checkPieceNames = new CheckBox();
-            checkPieceNames.Name = "check_PieceNames";
+            checkPieceNames.Name = "checkPieceNames";
             checkPieceNames.AutoSize = true;
             checkPieceNames.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             checkPieceNames.Checked = UsePieceSelectionNames;
@@ -115,7 +125,7 @@ namespace NLEditor
             lblCustomMove.Left = groupBoxColumnLeft;
 
             NumericUpDown numCustomMove = new NumericUpDown();
-            numCustomMove.Name = "num_CustomMove";
+            numCustomMove.Name = "numCustomMove";
             numCustomMove.AutoSize = true;
             numCustomMove.TextAlign = HorizontalAlignment.Center;
             numCustomMove.Minimum = 2;
@@ -125,6 +135,7 @@ namespace NLEditor
             numCustomMove.Left = groupBoxColumnRight;
             numCustomMove.Width = 48;
             numCustomMove.ValueChanged += new EventHandler(numCustomMove_ValueChanged);
+            numCustomMove.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
 
             groupCustomMove.Controls.Add(lblCustomMove);
             groupCustomMove.Controls.Add(numCustomMove);
@@ -139,7 +150,7 @@ namespace NLEditor
             groupSnapToGrid.Height = 50;
 
             CheckBox checkUseGrid = new CheckBox();
-            checkUseGrid.Name = "check_UseGrid";
+            checkUseGrid.Name = "checkUseGrid";
             checkUseGrid.AutoSize = true;
             checkUseGrid.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             checkUseGrid.Checked = UseGridForPieces;
@@ -149,7 +160,7 @@ namespace NLEditor
             checkUseGrid.CheckedChanged += new EventHandler(checkUseGrid_CheckedChanged);
 
             NumericUpDown numGridSize = new NumericUpDown();
-            numGridSize.Name = "num_GridSize";
+            numGridSize.Name = "numGridSize";
             numGridSize.AutoSize = true;
             numGridSize.TextAlign = HorizontalAlignment.Center;
             numGridSize.Minimum = 1;
@@ -160,6 +171,7 @@ namespace NLEditor
             numGridSize.Width = 48;
             numGridSize.Enabled = UseGridForPieces;
             numGridSize.ValueChanged += new EventHandler(numGridSize_ValueChanged);
+            numGridSize.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
 
             groupSnapToGrid.Controls.Add(checkUseGrid);
             groupSnapToGrid.Controls.Add(numGridSize);
@@ -174,7 +186,7 @@ namespace NLEditor
             groupAutosave.Height = 80;
 
             CheckBox checkAutosave = new CheckBox();
-            checkAutosave.Name = "check_Autosave";
+            checkAutosave.Name = "checkAutosave";
             checkAutosave.AutoSize = true;
             checkAutosave.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             checkAutosave.Checked = Autosave;
@@ -184,7 +196,7 @@ namespace NLEditor
             checkAutosave.CheckedChanged += new EventHandler(checkAutosave_CheckedChanged);
 
             NumericUpDown numAutosaveFrequency = new NumericUpDown();
-            numAutosaveFrequency.Name = "num_AutosaveFrequency";
+            numAutosaveFrequency.Name = "numAutosaveFrequency";
             numAutosaveFrequency.AutoSize = true;
             numAutosaveFrequency.TextAlign = HorizontalAlignment.Center;
             numAutosaveFrequency.Value = autosaveFrequency;
@@ -195,6 +207,7 @@ namespace NLEditor
             numAutosaveFrequency.Width = 48;
             numAutosaveFrequency.Enabled = Autosave;
             numAutosaveFrequency.ValueChanged += new EventHandler(numAutosaveFrequency_ValueChanged);
+            numAutosaveFrequency.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
 
             Label lblMinutes = new Label();
             lblMinutes.Text = "minutes";
@@ -203,7 +216,7 @@ namespace NLEditor
             lblMinutes.Left = numAutosaveFrequency.Right + 8;
 
             CheckBox checkDeleteAutosaves = new CheckBox();
-            checkDeleteAutosaves.Name = "check_DeleteAutosaves";
+            checkDeleteAutosaves.Name = "checkDeleteAutosaves";
             checkDeleteAutosaves.AutoSize = true;
             checkDeleteAutosaves.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             checkDeleteAutosaves.Checked = RemoveOldAutosaves;
@@ -214,7 +227,7 @@ namespace NLEditor
             checkDeleteAutosaves.CheckedChanged += new EventHandler(checkDeleteAutosaves_CheckedChanged);
 
             NumericUpDown numAutosavesToKeep = new NumericUpDown();
-            numAutosavesToKeep.Name = "num_AutosavesToKeep";
+            numAutosavesToKeep.Name = "numAutosavesToKeep";
             numAutosavesToKeep.AutoSize = true;
             numAutosavesToKeep.TextAlign = HorizontalAlignment.Center;
             numAutosavesToKeep.Value = keepAutosaveCount;
@@ -225,6 +238,7 @@ namespace NLEditor
             numAutosavesToKeep.Width = 48;
             numAutosavesToKeep.Enabled = Autosave && RemoveOldAutosaves;
             numAutosavesToKeep.ValueChanged += new EventHandler(numAutosavesToKeep_ValueChanged);
+            numAutosavesToKeep.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
 
             groupAutosave.Controls.Add(checkAutosave);
             groupAutosave.Controls.Add(numAutosaveFrequency);
@@ -242,7 +256,7 @@ namespace NLEditor
             groupEditorMode.Height = 50;
 
             RadioButton radSuperLemmixMode = new RadioButton();
-            radSuperLemmixMode.Name = "rad_SuperLemmixMode";
+            radSuperLemmixMode.Name = "radSuperLemmixMode";
             radSuperLemmixMode.AutoSize = true;
             radSuperLemmixMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             radSuperLemmixMode.Checked = CurrentEditorMode == EditorMode.SuperLemmix;
@@ -252,7 +266,7 @@ namespace NLEditor
             radSuperLemmixMode.CheckedChanged += new EventHandler(RadioMode_CheckedChanged);
 
             RadioButton radNeoLemmixMode = new RadioButton();
-            radNeoLemmixMode.Name = "rad_NeoLemmixMode";
+            radNeoLemmixMode.Name = "radNeoLemmixMode";
             radNeoLemmixMode.AutoSize = true;
             radNeoLemmixMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             radNeoLemmixMode.Checked = CurrentEditorMode == EditorMode.NeoLemmix;
@@ -262,7 +276,7 @@ namespace NLEditor
             radNeoLemmixMode.CheckedChanged += new EventHandler(RadioMode_CheckedChanged);
 
             RadioButton radAutoMode = new RadioButton();
-            radAutoMode.Name = "rad_AutoMode";
+            radAutoMode.Name = "radAutoMode";
             radAutoMode.AutoSize = true;
             radAutoMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             radAutoMode.Checked = CurrentEditorMode == EditorMode.Auto;
@@ -275,6 +289,29 @@ namespace NLEditor
             groupEditorMode.Controls.Add(radNeoLemmixMode);
             groupEditorMode.Controls.Add(radAutoMode);
 
+            // ========================== Save And Close Button ========================== //
+
+            btnSaveAndClose = new Button();
+            btnSaveAndClose.Height = 30;
+            btnSaveAndClose.Width = 110;
+            btnSaveAndClose.Top = 360;
+            btnSaveAndClose.Text = "Save And Close";
+            btnSaveAndClose.Click += new EventHandler(BtnSaveAndClose_Click);
+
+            btnCancel = new Button();
+            btnCancel.Height = 30;
+            btnCancel.Width = 70;
+            btnCancel.Top = 360;
+            btnCancel.Text = "Cancel";
+            btnCancel.Click += new EventHandler(BtnCancel_Click);
+            
+            // Position the buttons
+            int totalButtonsWidth = btnSaveAndClose.Width + 10 + btnCancel.Width;
+            int startX = (settingsForm.Width - totalButtonsWidth) / 2;
+            btnSaveAndClose.Left = startX;
+            btnCancel.Left = startX + btnSaveAndClose.Width + 10;
+
+
             // ========================== Add Controls to Form =========================== //
 
             settingsForm.Controls.Add(checkPieceNames);
@@ -283,32 +320,58 @@ namespace NLEditor
             settingsForm.Controls.Add(groupAutosave);
             settingsForm.Controls.Add(groupEditorMode);
 
+            settingsForm.Controls.Add(btnSaveAndClose);
+            settingsForm.Controls.Add(btnCancel);
+
             settingsForm.Show();
         }
 
         private void settingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            WriteSettingsToFile();
+            e.Cancel = true;
+            PrepareFormForClosing();
+            e.Cancel = false;
+        }
+
+        private void settingsForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            btnSaveAndClose.Focus();
+        }
+
+        private void BtnSaveAndClose_Click(object sender, EventArgs e)
+        {
+            doSaveSettings = true;
+            settingsForm.Close();
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            doSaveSettings = false;
+            settingChanged = false;
+            settingsForm.Close();
         }
 
         private void RadioMode_CheckedChanged(object sender, EventArgs e)
-        {
+        {           
             if (sender is RadioButton rb && rb.Checked)
             {
                 switch (rb.Name)
                 {
-                    case "rad_NeoLemmixMode":
+                    case "radNeoLemmixMode":
                         CurrentEditorMode = EditorMode.NeoLemmix;
                         break;
-                    case "rad_SuperLemmixMode":
+                    case "radSuperLemmixMode":
                         CurrentEditorMode = EditorMode.SuperLemmix;
                         break;
-                    case "rad_AutoMode":
+                    case "radAutoMode":
                         CurrentEditorMode = EditorMode.Auto;
                         break;
                 }
-                editorForm.ShowMustRestartMessage();
+
+                editorForm.UpdateRestartMessage();
             }
+
+            settingChanged = true;
         }
 
 
@@ -316,74 +379,76 @@ namespace NLEditor
         {
             UsePieceSelectionNames = ((sender as CheckBox).CheckState == CheckState.Checked);
             editorForm.LoadPiecesIntoPictureBox();
+
+            settingChanged = true;
         }
 
         private void checkUseGrid_CheckedChanged(object sender, EventArgs e)
         {
             UseGridForPieces = ((sender as CheckBox).CheckState == CheckState.Checked);
-            settingsForm.Controls.Find("num_GridSize", false)[0].Enabled = UseGridForPieces;
+
+            if (settingsForm.Controls.Find("numGridSize", true).FirstOrDefault() is NumericUpDown numGridSize)
+                numGridSize.Enabled = UseGridForPieces;
+
+            settingChanged = true;
         }
 
         private void numGridSize_ValueChanged(object sender, EventArgs e)
         {
             gridSize = (int)(sender as NumericUpDown).Value;
+            settingChanged = true;
         }
 
         private void numCustomMove_ValueChanged(object sender, EventArgs e)
         {
             customMove = (int)(sender as NumericUpDown).Value;
+            settingChanged = true;
+        }
+
+        private void numUpDown_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnSaveAndClose.Focus();
+            }
         }
 
         private void checkAutosave_CheckedChanged(object sender, EventArgs e)
         {
             Autosave = ((sender as CheckBox).CheckState == CheckState.Checked);
-            settingsForm.Controls.Find("num_AutoSaveFrequency", false)[0].Enabled = Autosave;
-            settingsForm.Controls.Find("check_DeleteAutosaves", false)[0].Enabled = Autosave;
-            settingsForm.Controls.Find("num_AutosavesToKeep", false)[0].Enabled = Autosave && RemoveOldAutosaves;
+
+            if (settingsForm.Controls.Find("numAutoSaveFrequency", true).FirstOrDefault() is NumericUpDown numAutoSaveFrequency)
+                numAutoSaveFrequency.Enabled = Autosave;
+
+            if (settingsForm.Controls.Find("checkDeleteAutosaves", true).FirstOrDefault() is CheckBox checkDeleteAutosaves)
+                checkDeleteAutosaves.Enabled = Autosave;
+
+            if (settingsForm.Controls.Find("numAutosavesToKeep", true).FirstOrDefault() is NumericUpDown numAutosavesToKeep)
+                numAutosavesToKeep.Enabled = Autosave && RemoveOldAutosaves;
+
+            settingChanged = true;
         }
 
         private void numAutosaveFrequency_ValueChanged(object sender, EventArgs e)
         {
             autosaveFrequency = (int)(sender as NumericUpDown).Value;
+            settingChanged = true;
         }
 
         private void checkDeleteAutosaves_CheckedChanged(object sender, EventArgs e)
         {
             RemoveOldAutosaves = ((sender as CheckBox).CheckState == CheckState.Checked);
-            settingsForm.Controls.Find("num_AutosavesToKeep", false)[0].Enabled = Autosave && RemoveOldAutosaves;
+
+            if (settingsForm.Controls.Find("numAutosavesToKeep", true).FirstOrDefault() is NumericUpDown numAutosavesToKeep)
+                numAutosavesToKeep.Enabled = Autosave && RemoveOldAutosaves;
+
+            settingChanged = true;
         }
 
         private void numAutosavesToKeep_ValueChanged(object sender, EventArgs e)
         {
             keepAutosaveCount = (int)(sender as NumericUpDown).Value;
-        }
-
-        private void radSuperLemmixMode_CheckedChanged(object sender, EventArgs e)
-        {
-            if ((sender as RadioButton)?.Checked == true)
-            {
-                CurrentEditorMode = EditorMode.SuperLemmix;
-                editorForm.ShowMustRestartMessage();
-            }
-        }
-
-
-        private void radNeoLemmixMode_CheckedChanged(object sender, EventArgs e)
-        {
-            if ((sender as RadioButton)?.Checked == true)
-            {
-                CurrentEditorMode = EditorMode.NeoLemmix;
-                editorForm.ShowMustRestartMessage();
-            }
-        }
-
-        private void radAutoMode_CheckedChanged(object sender, EventArgs e)
-        {
-            if ((sender as RadioButton)?.Checked == true)
-            {
-                CurrentEditorMode = EditorMode.Auto;
-                editorForm.ShowMustRestartMessage();
-            }
+            settingChanged = true;
         }
 
         /// <summary>
@@ -408,6 +473,54 @@ namespace NLEditor
         public void SwitchGridUsage()
         {
             UseGridForPieces = !UseGridForPieces;
+        }
+
+        private void PrepareFormForClosing()
+        {
+            btnCancel.Focus(); // Prevents saving values if caret is still in numUpDown
+
+            if (!doSaveSettings)
+            {
+                if (settingChanged)
+                {
+                    // Show dialog asking if the user wants to save
+                    DialogResult result = MessageBox.Show(
+                        "Do you want to save your changes?",
+                        "Unsaved Changes",
+                        MessageBoxButtons.YesNoCancel,
+                        MessageBoxIcon.Question
+                    );
+
+                    if (result == DialogResult.Yes)
+                    {
+                        WriteSettingsToFile();
+                    }
+                    else if (result == DialogResult.No)
+                    {
+                        ReloadSettings();
+                    }
+                    else if (result == DialogResult.Cancel)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    ReloadSettings();
+                }
+            }
+            else
+            {
+                WriteSettingsToFile();
+            }
+        }
+
+        public void ReloadSettings()
+        {
+            ReadSettingsFromFile();
+            WriteSettingsToFile();
+
+            editorForm.UpdateRestartMessage();
         }
 
         /// <summary>
@@ -524,6 +637,9 @@ namespace NLEditor
                             + Path.GetFileName(C.AppPathSettings) + ". Editor uses the default settings.", "File not found");
                 Utility.LogException(Ex);
             }
+
+            editorForm.previousEditorMode = CurrentEditorMode;
+            settingChanged = false;
         }
 
         /// <summary>
