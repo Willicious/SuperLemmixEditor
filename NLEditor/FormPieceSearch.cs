@@ -30,32 +30,25 @@ namespace NLEditor
             check_CurrentStyleOnly.Checked = false;
         }
 
-        private void textBoxSearch_KeyDown(object sender, KeyEventArgs e)
-        {            
-            if (e.KeyCode == Keys.Enter)
-            {
-                BeginSearch();
-            }
-        }
-
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            BeginSearch();
-        }
-
-        private void BeginSearch()
+        private void PerformSearch()
         {
             ResetUI();
 
-            string searchQuery = textBoxSearch.Text.Trim();
+            string pieceQuery = textBoxPieceName.Text.Trim();
+            string styleQuery = textBoxStyleName.Text.Trim();
 
-            if (string.IsNullOrEmpty(searchQuery) || searchQuery == "(Search all pieces)")
+            if (string.IsNullOrEmpty(pieceQuery) || pieceQuery == "(Any)")
             {
-                searchQuery = ""; // Treat as a wildcard to search for all pieces
+                pieceQuery = ""; // Treat as a wildcard to search for all pieces
+            }
+
+            if (string.IsNullOrEmpty(styleQuery) || styleQuery == "(Any)")
+            {
+                styleQuery = ""; // Treat as a wildcard to search for all pieces
             }
 
             progressBar.Visible = true;
-            List<string> searchResults = SearchForPieces(rootPath, searchQuery, progressBar);
+            List<string> searchResults = SearchForPieces(rootPath, pieceQuery, styleQuery, progressBar);
             progressBar.Visible = false;
 
             // Populate the list box with the filtered results
@@ -67,7 +60,12 @@ namespace NLEditor
 
             if (listBoxSearchResults.Items.Count <= 0)
             {
-                listBoxSearchResults.Items.Add($"No results found for '{searchQuery}'");
+                if (!string.IsNullOrEmpty(pieceQuery))
+                    listBoxSearchResults.Items.Add($"No results found for piece: '{pieceQuery}'");
+                else if (!string.IsNullOrEmpty(styleQuery))
+                    listBoxSearchResults.Items.Add($"No results found for style: '{styleQuery}'");
+                else
+                    listBoxSearchResults.Items.Add($"No results found");
             }
         }
 
@@ -78,7 +76,7 @@ namespace NLEditor
         /// <param name="rootPath"></param>
         /// <param name="searchQuery"></param>
         /// <param name="searchCurrentStyleOnly"></param>
-        private List<string> SearchForPieces(string rootPath, string searchQuery, ProgressBar progressBar)
+        private List<string> SearchForPieces(string rootPath, string pieceQuery, string styleQuery, ProgressBar progressBar)
         {
             List<string> results = new List<string>();
 
@@ -105,8 +103,25 @@ namespace NLEditor
                     // Get the relative path for adding to results
                     string relativePath = GetRelativePath(Path.Combine(rootPath, "styles"), file);
 
-                    // Ensure the filename matches the search query
-                    if (string.IsNullOrEmpty(searchQuery) || fileName.IndexOf(searchQuery, StringComparison.OrdinalIgnoreCase) >= 0)
+                    // Extract style name from the relative path
+                    string[] pathParts = relativePath.Split(Path.DirectorySeparatorChar);
+                    string styleName = pathParts.Length > 0 ? pathParts[0] : "";
+
+                    // Ensure the file is in a relevant subfolder
+                    if (!IsInRelevantSubfolder(relativePath, new[] { "objects", "terrain" }))
+                    {
+                        continue; // Skip files not in relevant subfolders
+                    }
+
+                    // Ensure the style matches the search query (or no filtering if empty)
+                    if (!string.IsNullOrEmpty(styleQuery) && styleName.IndexOf(styleQuery, StringComparison.OrdinalIgnoreCase) < 0)
+
+                    {
+                        continue; // Skip files not matching the style
+                    }
+
+                    // Ensure the filename matches the search query (or no filtering if empty)
+                    if (string.IsNullOrEmpty(pieceQuery) || fileName.IndexOf(pieceQuery, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         bool addToResults = false;
 
@@ -155,6 +170,18 @@ namespace NLEditor
             }
 
             return results;
+        }
+
+        private bool IsInRelevantSubfolder(string relativePath, string[] relevantSubfolders)
+        {
+            foreach (var folder in relevantSubfolders)
+            {
+                if (relativePath.IndexOf($"\\{folder}\\", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
 
@@ -451,43 +478,80 @@ namespace NLEditor
 
         private void check_CurrentStyleOnly_CheckedChanged(object sender, EventArgs e)
         {
-            BeginSearch();
+            if (check_CurrentStyleOnly.Checked)
+            {
+                lblStyleName.Enabled = false;
+                textBoxStyleName.Enabled = false;
+            }
+            else
+            {
+                lblStyleName.Enabled = true;
+                textBoxStyleName.Enabled = true;
+            }
+
+            PerformSearch();
         }
 
         private void check_CanResize_CheckedChanged(object sender, EventArgs e)
         {
-            BeginSearch();
+            PerformSearch();
         }
 
         private void check_CanNineSlice_CheckedChanged(object sender, EventArgs e)
         {
-            BeginSearch();
+            PerformSearch();
         }
 
         private void check_Steel_CheckedChanged(object sender, EventArgs e)
         {
-            BeginSearch();
+            PerformSearch();
         }
 
         private void cbTriggerEffect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BeginSearch();
+            PerformSearch();
         }
 
-        private void check_SearchAllPieces_CheckedChanged(object sender, EventArgs e)
+        private void btnSearch_Click(object sender, EventArgs e)
         {
-            if (check_SearchAllPieces.Checked)
+            PerformSearch();
+        }
+
+        private void textBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
             {
-                lblSearchFor.Enabled = false;
-                textBoxSearch.Enabled = false;
-                textBoxSearch.Text = "(Search all pieces)";
+                PerformSearch();
             }
-            else
+        }
+
+        private void btnClearFilters_Click(object sender, EventArgs e)
+        {
+            textBoxPieceName.Text = "(Any)";
+            textBoxStyleName.Text = "(Any)";
+
+            cbTriggerEffect.Text = "<Any>";
+
+            check_CurrentStyleOnly.Checked = false;
+            check_CanResize.Checked = false;
+            check_CanNineSlice.Checked = false;
+            check_Steel.Checked = false;
+
+            PerformSearch();
+        }
+
+        private void textBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null)
             {
-                lblSearchFor.Enabled = true;
-                textBoxSearch.Enabled = true;
-                textBoxSearch.Text = string.Empty;
+                textBox.SelectAll();
             }
+        }
+
+        private void FormPieceSearch_Click(object sender, EventArgs e)
+        {
+            btnSearch.Focus();
         }
     }
 }
