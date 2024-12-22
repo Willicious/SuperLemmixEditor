@@ -43,6 +43,14 @@
             this.lblFilterResults = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
             this.formPadding = new System.Windows.Forms.PictureBox();
+            this.check_CanResize = new System.Windows.Forms.CheckBox();
+            this.check_CanNineSlice = new System.Windows.Forms.CheckBox();
+            this.lblTriggerEffect = new System.Windows.Forms.Label();
+            this.cbTriggerEffect = new System.Windows.Forms.ComboBox();
+            this.check_Steel = new System.Windows.Forms.CheckBox();
+            this.check_SearchAllPieces = new System.Windows.Forms.CheckBox();
+            this.lblOr = new System.Windows.Forms.Label();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.formPadding)).BeginInit();
             this.SuspendLayout();
@@ -59,7 +67,7 @@
             // 
             // textBoxSearch
             // 
-            this.textBoxSearch.Location = new System.Drawing.Point(94, 24);
+            this.textBoxSearch.Location = new System.Drawing.Point(94, 104);
             this.textBoxSearch.Name = "textBoxSearch";
             this.textBoxSearch.Size = new System.Drawing.Size(243, 26);
             this.textBoxSearch.TabIndex = 1;
@@ -69,7 +77,7 @@
             // 
             this.lblSearchFor.AutoSize = true;
             this.lblSearchFor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSearchFor.Location = new System.Drawing.Point(17, 27);
+            this.lblSearchFor.Location = new System.Drawing.Point(17, 107);
             this.lblSearchFor.Name = "lblSearchFor";
             this.lblSearchFor.Size = new System.Drawing.Size(71, 20);
             this.lblSearchFor.TabIndex = 2;
@@ -97,7 +105,7 @@
             // check_CurrentStyleOnly
             // 
             this.check_CurrentStyleOnly.AutoSize = true;
-            this.check_CurrentStyleOnly.Location = new System.Drawing.Point(21, 107);
+            this.check_CurrentStyleOnly.Location = new System.Drawing.Point(21, 219);
             this.check_CurrentStyleOnly.Name = "check_CurrentStyleOnly";
             this.check_CurrentStyleOnly.Size = new System.Drawing.Size(128, 24);
             this.check_CurrentStyleOnly.TabIndex = 5;
@@ -109,7 +117,7 @@
             // 
             this.lblCurrentStyle.AutoSize = true;
             this.lblCurrentStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentStyle.Location = new System.Drawing.Point(144, 108);
+            this.lblCurrentStyle.Location = new System.Drawing.Point(144, 220);
             this.lblCurrentStyle.Name = "lblCurrentStyle";
             this.lblCurrentStyle.Size = new System.Drawing.Size(126, 20);
             this.lblCurrentStyle.TabIndex = 6;
@@ -159,7 +167,7 @@
             // 
             this.lblFilterResults.AutoSize = true;
             this.lblFilterResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFilterResults.Location = new System.Drawing.Point(17, 71);
+            this.lblFilterResults.Location = new System.Drawing.Point(17, 151);
             this.lblFilterResults.Name = "lblFilterResults";
             this.lblFilterResults.Size = new System.Drawing.Size(114, 20);
             this.lblFilterResults.TabIndex = 11;
@@ -173,6 +181,7 @@
             this.btnSearch.TabIndex = 12;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // formPadding
             // 
@@ -182,12 +191,125 @@
             this.formPadding.TabIndex = 13;
             this.formPadding.TabStop = false;
             // 
+            // check_CanResize
+            // 
+            this.check_CanResize.AutoSize = true;
+            this.check_CanResize.Location = new System.Drawing.Point(21, 249);
+            this.check_CanResize.Name = "check_CanResize";
+            this.check_CanResize.Size = new System.Drawing.Size(160, 24);
+            this.check_CanResize.TabIndex = 14;
+            this.check_CanResize.Text = "Resizable objects";
+            this.check_CanResize.UseVisualStyleBackColor = true;
+            this.check_CanResize.CheckedChanged += new System.EventHandler(this.check_CanResize_CheckedChanged);
+            // 
+            // check_CanNineSlice
+            // 
+            this.check_CanNineSlice.AutoSize = true;
+            this.check_CanNineSlice.Location = new System.Drawing.Point(21, 279);
+            this.check_CanNineSlice.Name = "check_CanNineSlice";
+            this.check_CanNineSlice.Size = new System.Drawing.Size(102, 24);
+            this.check_CanNineSlice.TabIndex = 15;
+            this.check_CanNineSlice.Text = "Nine slice";
+            this.check_CanNineSlice.UseVisualStyleBackColor = true;
+            this.check_CanNineSlice.CheckedChanged += new System.EventHandler(this.check_CanNineSlice_CheckedChanged);
+            // 
+            // lblTriggerEffect
+            // 
+            this.lblTriggerEffect.AutoSize = true;
+            this.lblTriggerEffect.Location = new System.Drawing.Point(17, 182);
+            this.lblTriggerEffect.Name = "lblTriggerEffect";
+            this.lblTriggerEffect.Size = new System.Drawing.Size(107, 20);
+            this.lblTriggerEffect.TabIndex = 16;
+            this.lblTriggerEffect.Text = "Trigger effect:";
+            // 
+            // cbTriggerEffect
+            // 
+            this.cbTriggerEffect.FormattingEnabled = true;
+            this.cbTriggerEffect.Items.AddRange(new object[] {
+            "<Any>",
+            "Entrance",
+            "Exit",
+            "Fire",
+            "Water",
+            "Blasticine",
+            "Vinewater",
+            "Poison",
+            "Lava",
+            "Trap",
+            "Updraft",
+            "Teleporter",
+            "Receiver",
+            "Splitter",
+            "Radiation",
+            "Slowfreeze",
+            "Button",
+            "Collectible",
+            "Splat",
+            "NoSplat",
+            "Force",
+            "OneWay"});
+            this.cbTriggerEffect.Location = new System.Drawing.Point(131, 179);
+            this.cbTriggerEffect.Name = "cbTriggerEffect";
+            this.cbTriggerEffect.Size = new System.Drawing.Size(206, 28);
+            this.cbTriggerEffect.TabIndex = 17;
+            this.cbTriggerEffect.Text = "<Any>";
+            this.cbTriggerEffect.SelectedIndexChanged += new System.EventHandler(this.cbTriggerEffect_SelectedIndexChanged);
+            // 
+            // check_Steel
+            // 
+            this.check_Steel.AutoSize = true;
+            this.check_Steel.Location = new System.Drawing.Point(21, 309);
+            this.check_Steel.Name = "check_Steel";
+            this.check_Steel.Size = new System.Drawing.Size(72, 24);
+            this.check_Steel.TabIndex = 18;
+            this.check_Steel.Text = "Steel";
+            this.check_Steel.UseVisualStyleBackColor = true;
+            this.check_Steel.CheckedChanged += new System.EventHandler(this.check_Steel_CheckedChanged);
+            // 
+            // check_SearchAllPieces
+            // 
+            this.check_SearchAllPieces.AutoSize = true;
+            this.check_SearchAllPieces.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.check_SearchAllPieces.Location = new System.Drawing.Point(21, 33);
+            this.check_SearchAllPieces.Name = "check_SearchAllPieces";
+            this.check_SearchAllPieces.Size = new System.Drawing.Size(175, 24);
+            this.check_SearchAllPieces.TabIndex = 19;
+            this.check_SearchAllPieces.Text = "Search All Pieces";
+            this.check_SearchAllPieces.UseVisualStyleBackColor = true;
+            this.check_SearchAllPieces.CheckedChanged += new System.EventHandler(this.check_SearchAllPieces_CheckedChanged);
+            // 
+            // lblOr
+            // 
+            this.lblOr.AutoSize = true;
+            this.lblOr.Location = new System.Drawing.Point(17, 71);
+            this.lblOr.Name = "lblOr";
+            this.lblOr.Size = new System.Drawing.Size(41, 20);
+            this.lblOr.TabIndex = 20;
+            this.lblOr.Text = "- or -";
+            // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(359, 377);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(432, 30);
+            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar.TabIndex = 21;
+            this.progressBar.Visible = false;
+            // 
             // FormPieceSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1330, 423);
+            this.Controls.Add(this.progressBar);
+            this.Controls.Add(this.lblOr);
+            this.Controls.Add(this.check_SearchAllPieces);
+            this.Controls.Add(this.check_Steel);
+            this.Controls.Add(this.cbTriggerEffect);
+            this.Controls.Add(this.lblTriggerEffect);
+            this.Controls.Add(this.check_CanNineSlice);
+            this.Controls.Add(this.check_CanResize);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.lblFilterResults);
             this.Controls.Add(this.btnAddPiece);
@@ -234,5 +356,13 @@
         private System.Windows.Forms.Label lblFilterResults;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.PictureBox formPadding;
+        private System.Windows.Forms.CheckBox check_CanResize;
+        private System.Windows.Forms.CheckBox check_CanNineSlice;
+        private System.Windows.Forms.Label lblTriggerEffect;
+        private System.Windows.Forms.ComboBox cbTriggerEffect;
+        private System.Windows.Forms.CheckBox check_Steel;
+        private System.Windows.Forms.CheckBox check_SearchAllPieces;
+        private System.Windows.Forms.Label lblOr;
+        private System.Windows.Forms.ProgressBar progressBar;
     }
 }

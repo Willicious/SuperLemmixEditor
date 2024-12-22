@@ -15,6 +15,7 @@ namespace NLEditor
     {
         private readonly string rootPath;
         private readonly string curStylePath;
+        private int frameCount;
         public string curStyleName;
 
         public FormPieceSearch(string rootPath, string curStyleName, string curStylePath)
@@ -30,28 +31,43 @@ namespace NLEditor
         }
 
         private void textBoxSearch_KeyDown(object sender, KeyEventArgs e)
-        {
+        {            
             if (e.KeyCode == Keys.Enter)
             {
                 BeginSearch();
             }
         }
 
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            BeginSearch();
+        }
+
         private void BeginSearch()
         {
+            ResetUI();
+
             string searchQuery = textBoxSearch.Text.Trim();
-            if (string.IsNullOrEmpty(searchQuery))
+
+            if (string.IsNullOrEmpty(searchQuery) || searchQuery == "(Search all pieces)")
             {
-                MessageBox.Show("Please enter a search term.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                searchQuery = ""; // Treat as a wildcard to search for all pieces
             }
 
-            List<string> searchResults = SearchForPieces(rootPath, searchQuery);
+            progressBar.Visible = true;
+            List<string> searchResults = SearchForPieces(rootPath, searchQuery, progressBar);
+            progressBar.Visible = false;
 
+            // Populate the list box with the filtered results
             listBoxSearchResults.Items.Clear();
             foreach (var result in searchResults)
             {
                 listBoxSearchResults.Items.Add(result);
+            }
+
+            if (listBoxSearchResults.Items.Count <= 0)
+            {
+                listBoxSearchResults.Items.Add($"No results found for '{searchQuery}'");
             }
         }
 
@@ -62,7 +78,7 @@ namespace NLEditor
         /// <param name="rootPath"></param>
         /// <param name="searchQuery"></param>
         /// <param name="searchCurrentStyleOnly"></param>
-        private List<string> SearchForPieces(string rootPath, string searchQuery)
+        private List<string> SearchForPieces(string rootPath, string searchQuery, ProgressBar progressBar)
         {
             List<string> results = new List<string>();
 
@@ -73,21 +89,64 @@ namespace NLEditor
 
             try
             {
-                // Perform search within the determined path
-                foreach (string file in Directory.GetFiles(searchPath, "*.png", SearchOption.AllDirectories))
+                // Get all PNG files first to calculate progress
+                string[] files = Directory.GetFiles(searchPath, "*.png", SearchOption.AllDirectories);
+                int totalFiles = files.Length;
+                int processedFiles = 0;
+
+                // Set the progress bar's maximum value
+                progressBar.Maximum = totalFiles;
+                progressBar.Value = 0;
+
+                foreach (string file in files)
                 {
                     string fileName = Path.GetFileNameWithoutExtension(file);
 
-                    // Only process files in "terrain", "objects", or "backgrounds" subfolders
+                    // Get the relative path for adding to results
                     string relativePath = GetRelativePath(Path.Combine(rootPath, "styles"), file);
-                    if (!IsInRelevantSubfolder(relativePath))
-                        continue;
 
-                    if (fileName.IndexOf(searchQuery, StringComparison.OrdinalIgnoreCase) >= 0)
+                    // Ensure the filename matches the search query
+                    if (string.IsNullOrEmpty(searchQuery) || fileName.IndexOf(searchQuery, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
-                        // Format result as "style_name\subfolder_name\piece_name"
-                        results.Add(relativePath.Replace(Path.DirectorySeparatorChar, '\\'));
+                        bool addToResults = false;
+
+                        // Check for .nxmt file if Steel is checked
+                        string nxmtFilePath = Path.Combine(Path.GetDirectoryName(file), fileName + ".nxmt");
+                        if (check_Steel.Checked)
+                        {
+                            // Only add to results if an .nxmt file exists and passes the ProcessNxmtFile check
+                            if (File.Exists(nxmtFilePath))
+                            {
+                                addToResults = ProcessNxmtFile(nxmtFilePath);
+                            }
+                        }
+                        else
+                        {
+                            // Check for .nxmo file
+                            string nxmoFilePath = Path.Combine(Path.GetDirectoryName(file), fileName + ".nxmo");
+                            if (File.Exists(nxmoFilePath))
+                            {
+                                addToResults = ProcessNxmoFile(nxmoFilePath);
+                            }
+
+                            // Always add to results if no filters are active
+                            if ((string.IsNullOrEmpty(cbTriggerEffect.Text) || cbTriggerEffect.Text == "<Any>")
+                                && !check_CanNineSlice.Checked && !check_CanResize.Checked)
+                            {
+                                addToResults = true;
+                            }
+                        }
+
+                        // Add the result to the list if applicable
+                        if (addToResults)
+                        {
+                            results.Add(relativePath.Replace(Path.DirectorySeparatorChar, '\\'));
+                        }
                     }
+
+                    // Update progress bar (ensure this happens on the UI thread)
+                    processedFiles++;
+                    progressBar.Invoke((Action)(() => progressBar.Value = processedFiles));
                 }
             }
             catch (Exception ex)
@@ -98,12 +157,119 @@ namespace NLEditor
             return results;
         }
 
-        private bool IsInRelevantSubfolder(string relativePath)
+
+        /// <summary>
+        /// Process an .nxmo file and filter based on checkbox states.
+        /// </summary>
+        /// <param name="filePath">Path to the .nxmo file</param>
+        /// <param name="imageHeight">Height of the associated image</param>
+        private bool ProcessNxmoFile(string filePath)
         {
-            string lowerPath = relativePath.ToLower();
-            return lowerPath.Contains("\\terrain\\") || lowerPath.Contains("\\objects\\") || lowerPath.Contains("\\backgrounds\\");
+            string triggerEffect = string.Empty;
+            bool canResize = false;
+            bool canNineSlice = false;
+            int frameCount = 0;
+
+            string[] lines = File.ReadAllLines(filePath);
+            bool inPrimaryAnimation = false;
+
+            foreach (string line in lines)
+            {
+                string trimmed = line.Trim();
+
+                if (trimmed.StartsWith("EFFECT ", StringComparison.OrdinalIgnoreCase))
+                {
+                    triggerEffect = trimmed.Substring(7).Trim();
+
+                    switch (triggerEffect)
+                    {
+                        case "UNLOCKBUTTON":
+                            triggerEffect = "BUTTON";
+                            break;
+                        case "ONEWAYDOWN":
+                        case "ONEWAYUP":
+                        case "ONEWAYLEFT":
+                        case "ONEWAYRIGHT":
+                            triggerEffect = "ONEWAY";
+                            break;
+                        case "FORCELEFT":
+                        case "FORCERIGHT":
+                            triggerEffect = "FORCE";
+                            break;
+                    }
+                }
+
+                if (trimmed.StartsWith("RESIZE_", StringComparison.OrdinalIgnoreCase))
+                {
+                    canResize = true;
+                }
+
+                if (trimmed.StartsWith("$PRIMARY_ANIMATION", StringComparison.OrdinalIgnoreCase))
+                {
+                    inPrimaryAnimation = true;
+                }
+
+                if (trimmed.StartsWith("$END", StringComparison.OrdinalIgnoreCase))
+                {
+                    inPrimaryAnimation = false;
+                }
+
+                if (inPrimaryAnimation && trimmed.StartsWith("NINE_SLICE", StringComparison.OrdinalIgnoreCase))
+                {
+                    canNineSlice = true;
+                }
+
+                if (inPrimaryAnimation && trimmed.StartsWith("FRAMES", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Extract frame count, e.g., "FRAMES 5"
+                    if (int.TryParse(trimmed.Substring(7).Trim(), out frameCount))
+                    {
+                        // Successfully parsed frame count
+                    }
+                }
+            }
+
+            // Store the frame count and triggerEffect for later use
+            this.frameCount = frameCount;
+
+            string selectedEffect = cbTriggerEffect.Text.Trim();
+            
+            bool passesTriggerEffectFilter =
+                string.IsNullOrEmpty(cbTriggerEffect.Text) ||
+                selectedEffect == "<Any>" ||
+                selectedEffect.Equals(triggerEffect, StringComparison.OrdinalIgnoreCase);
+
+            bool passesResizeFilter = !check_CanResize.Checked || canResize;
+            bool passesNineSliceFilter = !check_CanNineSlice.Checked || canNineSlice;
+
+            // Combine all filters
+            return passesTriggerEffectFilter && passesResizeFilter && passesNineSliceFilter;
         }
 
+
+        /// <summary>
+        /// Process an .nxmt file and filter based on checkbox states.
+        /// </summary>
+        /// <param name="filePath">Path to the .nxmt file</param>
+        /// <returns>True if the file matches the filter criteria</returns>
+        private bool ProcessNxmtFile(string filePath)
+        {
+            string[] lines = File.ReadAllLines(filePath);
+
+            foreach (string line in lines)
+            {
+                if (line.Trim() == "STEEL")
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the relative path from the base path to the file path.
+        /// </summary>
         private string GetRelativePath(string basePath, string filePath)
         {
             Uri baseUri = new Uri(basePath.EndsWith("\\") ? basePath : basePath + "\\");
@@ -142,7 +308,28 @@ namespace NLEditor
             if (File.Exists(piecePath))
             {
                 Bitmap originalImage = new Bitmap(piecePath);
-                ZoomImageWithNearestNeighbor(originalImage);
+
+                // Call ProcessNxmoFile to extract frame count and image height
+                string nxmoFilePath = Path.Combine(Path.GetDirectoryName(piecePath), Path.GetFileNameWithoutExtension(piecePath) + ".nxmo");
+                int imageHeight = originalImage.Height;
+                int frameCount = 0;
+
+                if (File.Exists(nxmoFilePath))
+                {
+                    ProcessNxmoFile(nxmoFilePath);
+                    frameCount = this.frameCount;
+                }
+
+                // If it's an animated image, extract the first frame
+                if (frameCount > 1)
+                {
+                    Bitmap firstFrame = GetFirstFrame(originalImage, frameCount);
+                    ZoomImageWithNearestNeighbor(firstFrame);
+                }
+                else
+                {
+                    ZoomImageWithNearestNeighbor(originalImage);
+                }
             }
             else
             {
@@ -150,6 +337,18 @@ namespace NLEditor
                 lblMetaData.Text += $"\n(Preview not available)";
             }
         }
+
+        private Bitmap GetFirstFrame(Bitmap originalImage, int frameCount)
+        {
+            // Calculate the height of each individual frame
+            int frameHeight = originalImage.Height / frameCount;
+            Rectangle firstFrameRect = new Rectangle(0, 0, originalImage.Width, frameHeight);
+
+            // Crop the image to get the first frame
+            Bitmap firstFrame = originalImage.Clone(firstFrameRect, originalImage.PixelFormat);
+            return firstFrame;
+        }
+
 
         private void ZoomImageWithNearestNeighbor(Bitmap originalImage)
         {
@@ -185,22 +384,6 @@ namespace NLEditor
             // Set the PictureBox (or your desired container) to display the zoomed image
             pictureBoxPreview.Image = zoomedImage;
         }
-
-        private void check_CurrentStyleOnly_CheckedChanged(object sender, EventArgs e)
-        {
-            string searchQuery = textBoxSearch.Text.Trim();
-            if (!string.IsNullOrEmpty(searchQuery))
-            {
-                // Re-run the search when the checkbox state changes
-                List<string> searchResults = SearchForPieces(rootPath, searchQuery);
-                listBoxSearchResults.Items.Clear();
-                foreach (var result in searchResults)
-                {
-                    listBoxSearchResults.Items.Add(result);
-                }
-            }
-        }
-
         
         private void btnLoadStyle_Click(object sender, EventArgs e)
         {
@@ -244,9 +427,6 @@ namespace NLEditor
 
             // Update label
             lblCurrentStyle.Text = curStyleName;
-
-            // Close the search form if adding a piece
-            if (addPiece) Close();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -261,6 +441,53 @@ namespace NLEditor
             int leftPos = screenRect.Left + (screenRect.Width - this.Width) / 2;
 
             this.Location = new Point(leftPos, topPos);
+        }
+
+        private void ResetUI()
+        {
+            pictureBoxPreview.Image = null;
+            lblMetaData.Text = "Preview";
+        }
+
+        private void check_CurrentStyleOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            BeginSearch();
+        }
+
+        private void check_CanResize_CheckedChanged(object sender, EventArgs e)
+        {
+            BeginSearch();
+        }
+
+        private void check_CanNineSlice_CheckedChanged(object sender, EventArgs e)
+        {
+            BeginSearch();
+        }
+
+        private void check_Steel_CheckedChanged(object sender, EventArgs e)
+        {
+            BeginSearch();
+        }
+
+        private void cbTriggerEffect_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BeginSearch();
+        }
+
+        private void check_SearchAllPieces_CheckedChanged(object sender, EventArgs e)
+        {
+            if (check_SearchAllPieces.Checked)
+            {
+                lblSearchFor.Enabled = false;
+                textBoxSearch.Enabled = false;
+                textBoxSearch.Text = "(Search all pieces)";
+            }
+            else
+            {
+                lblSearchFor.Enabled = true;
+                textBoxSearch.Enabled = true;
+                textBoxSearch.Text = string.Empty;
+            }
         }
     }
 }
