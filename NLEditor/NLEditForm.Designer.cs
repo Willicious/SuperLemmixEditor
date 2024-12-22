@@ -266,6 +266,7 @@
             this.txt_Focus = new NLEditor.FocusTextBox();
             this.but_PieceRight = new NLEditor.RepeatButton();
             this.but_PieceLeft = new NLEditor.RepeatButton();
+            this.but_SearchPieces = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -340,7 +341,7 @@
             this.optionsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1185, 33);
+            this.menuStrip.Size = new System.Drawing.Size(1337, 33);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -2202,7 +2203,7 @@
             // 
             // but_ClearBackground
             // 
-            this.but_ClearBackground.Location = new System.Drawing.Point(874, 792);
+            this.but_ClearBackground.Location = new System.Drawing.Point(1005, 792);
             this.but_ClearBackground.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_ClearBackground.Name = "but_ClearBackground";
             this.but_ClearBackground.Size = new System.Drawing.Size(166, 32);
@@ -2250,10 +2251,10 @@
             // 
             // but_PieceBackground
             // 
-            this.but_PieceBackground.Location = new System.Drawing.Point(712, 792);
+            this.but_PieceBackground.Location = new System.Drawing.Point(843, 792);
             this.but_PieceBackground.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_PieceBackground.Name = "but_PieceBackground";
-            this.but_PieceBackground.Size = new System.Drawing.Size(154, 32);
+            this.but_PieceBackground.Size = new System.Drawing.Size(145, 32);
             this.but_PieceBackground.TabIndex = 55;
             this.but_PieceBackground.Text = "Backgrounds";
             this.but_PieceBackground.UseVisualStyleBackColor = true;
@@ -2261,7 +2262,7 @@
             // 
             // but_PieceSketches
             // 
-            this.but_PieceSketches.Location = new System.Drawing.Point(1048, 792);
+            this.but_PieceSketches.Location = new System.Drawing.Point(712, 792);
             this.but_PieceSketches.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_PieceSketches.Name = "but_PieceSketches";
             this.but_PieceSketches.Size = new System.Drawing.Size(123, 32);
@@ -3258,13 +3259,25 @@
             this.but_PieceLeft.Click += new System.EventHandler(this.but_PieceLeft_Click);
             this.but_PieceLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseUp);
             // 
+            // but_SearchPieces
+            // 
+            this.but_SearchPieces.Location = new System.Drawing.Point(1179, 792);
+            this.but_SearchPieces.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.but_SearchPieces.Name = "but_SearchPieces";
+            this.but_SearchPieces.Size = new System.Drawing.Size(145, 32);
+            this.but_SearchPieces.TabIndex = 62;
+            this.but_SearchPieces.Text = "Search Pieces";
+            this.but_SearchPieces.UseVisualStyleBackColor = true;
+            this.but_SearchPieces.Click += new System.EventHandler(this.but_SearchPieces_Click);
+            // 
             // NLEditForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1185, 922);
+            this.ClientSize = new System.Drawing.Size(1337, 922);
+            this.Controls.Add(this.but_SearchPieces);
             this.Controls.Add(this.but_PieceTerr);
             this.Controls.Add(this.but_PieceObj);
             this.Controls.Add(this.statusBar);
@@ -3617,6 +3630,7 @@
         private NumUpDownOverwrite num_Ski_Stoner;
         private System.Windows.Forms.Button but_PieceObj;
         private System.Windows.Forms.Button but_PieceTerr;
+        private System.Windows.Forms.Button but_SearchPieces;
     }
 }
 

@@ -803,12 +803,12 @@ namespace NLEditor
                     newKind = C.SelectPieceType.Objects;
                     break;
                 case C.SelectPieceType.Objects:
-                    newKind = C.SelectPieceType.Backgrounds;
-                    break;
-                case C.SelectPieceType.Backgrounds:
                     newKind = C.SelectPieceType.Sketches;
                     break;
                 case C.SelectPieceType.Sketches:
+                    newKind = C.SelectPieceType.Backgrounds;
+                    break;
+                case C.SelectPieceType.Backgrounds:
                     newKind = C.SelectPieceType.Terrain;
                     break;
                 default:

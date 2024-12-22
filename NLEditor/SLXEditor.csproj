@@ -76,6 +76,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -89,6 +90,12 @@
     <Compile Include="Aliases.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="BmpModify.cs" />
+    <Compile Include="FormPieceSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPieceSearch.Designer.cs">
+      <DependentUpon>FormPieceSearch.cs</DependentUpon>
+    </Compile>
     <Compile Include="HotkeyConfig.cs" />
     <Compile Include="FormHotkeys.cs">
       <SubType>Form</SubType>
@@ -172,6 +179,9 @@
     </Compile>
     <Compile Include="Utility.cs" />
     <Compile Include="ValidateLevel.cs" />
+    <EmbeddedResource Include="FormPieceSearch.resx">
+      <DependentUpon>FormPieceSearch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormHotkeys.resx">
       <DependentUpon>FormHotkeys.cs</DependentUpon>
     </EmbeddedResource>

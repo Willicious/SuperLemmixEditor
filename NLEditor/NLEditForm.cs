@@ -1481,5 +1481,45 @@ namespace NLEditor
         {
             ShowAboutSLXEditor();
         }
+
+        private void but_SearchPieces_Click(object sender, EventArgs e)
+        {
+            string rootPath = Application.StartupPath;
+            string curStyleName = pieceCurStyle?.NameInEditor;
+            string curStylePath = pieceCurStyle?.NameInDirectory;
+
+            if (curStyleName is null || curStylePath is null)
+            {
+                MessageBox.Show("Current style is not defined.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            FormPieceSearch searchForm = new FormPieceSearch(rootPath, curStyleName, curStylePath);
+            
+            searchForm.StyleSelected += (newStylePath) =>
+            {
+                // Find the style based on its directory (NameInDirectory)
+                Style style = StyleList?.Find(sty => sty.NameInDirectory == newStylePath);
+
+                if (style != null)
+                {
+                    // Set the combo box text to the NameInEditor (the user-friendly name)
+                    combo_PieceStyle.Text = style.NameInEditor;
+                }
+                else
+                {
+                    MessageBox.Show("The selected style could not be found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                searchForm.curStyleName = style.NameInEditor;
+            };
+
+            searchForm.PieceSelected += (newPiece) =>
+            {
+                AddNewPieceToLevel(newPiece, curRenderer.GetCenterPoint());
+            };
+
+            searchForm.ShowDialog();
+        }
     }
 }

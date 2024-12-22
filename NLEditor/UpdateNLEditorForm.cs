@@ -394,9 +394,10 @@ namespace NLEditor
             combo_PieceStyle.Top = this.Height - 149;
             but_PieceTerr.Top = this.Height - 149;
             but_PieceObj.Top = this.Height - 149;
+            but_PieceSketches.Top = this.Height - 149;
             but_PieceBackground.Top = this.Height - 149;
             but_ClearBackground.Top = this.Height - 149;
-            but_PieceSketches.Top = this.Height - 149;
+            but_SearchPieces.Top = this.Height - 149;
 
             but_PieceLeft.Top = this.Height - 122;
             but_PieceRight.Top = this.Height - 122;
