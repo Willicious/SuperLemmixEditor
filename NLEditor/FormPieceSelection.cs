@@ -64,7 +64,7 @@ namespace NLEditor
 
 
         /// <summary>
-        /// Displays the correct picutures, descriptions and sets the scroll bar correctly.
+        /// Displays the correct pictures, descriptions and sets the scroll bar correctly.
         /// </summary>
         private void UpdatePiecePictures()
         {

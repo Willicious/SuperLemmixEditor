@@ -15,7 +15,6 @@ namespace NLEditor
     {
         private readonly string rootPath;
         private readonly string curStylePath;
-        private int frameCount;
         public string curStyleName;
 
         public FormPieceSearch(string rootPath, string curStyleName, string curStylePath)
@@ -117,7 +116,7 @@ namespace NLEditor
                     if (!string.IsNullOrEmpty(styleQuery) && styleName.IndexOf(styleQuery, StringComparison.OrdinalIgnoreCase) < 0)
 
                     {
-                        continue; // Skip files not matching the style
+                        continue; // Skip files not matching the chosen style
                     }
 
                     // Ensure the filename matches the search query (or no filtering if empty)
@@ -137,29 +136,35 @@ namespace NLEditor
                         }
                         else
                         {
-                            // Check for .nxmo file
+                            // Check for .nxmo file if the piece is in the "objects" folder
                             string nxmoFilePath = Path.Combine(Path.GetDirectoryName(file), fileName + ".nxmo");
-                            if (File.Exists(nxmoFilePath))
+                            
+                            if (relativePath.IndexOf("\\objects\\", StringComparison.OrdinalIgnoreCase) >= 0)
                             {
-                                addToResults = ProcessNxmoFile(nxmoFilePath);
+                                if (File.Exists(nxmoFilePath)) // Only add files with an associated .nxmo
+                                {
+                                    addToResults = ProcessNxmoFile(nxmoFilePath);
+                                }
                             }
-
-                            // Always add to results if no filters are active
-                            if ((string.IsNullOrEmpty(cbTriggerEffect.Text) || cbTriggerEffect.Text == "<Any>")
-                                && !check_CanNineSlice.Checked && !check_CanResize.Checked)
+                            else
                             {
-                                addToResults = true;
+                                // Always add to results if no filters are active
+                                if ((string.IsNullOrEmpty(cbTriggerEffect.Text) || cbTriggerEffect.Text == "<Any>")
+                                    && !check_CanNineSlice.Checked && !check_CanResize.Checked)
+                                {
+                                    addToResults = true;
+                                }
                             }
                         }
 
-                        // Add the result to the list if applicable
                         if (addToResults)
                         {
-                            results.Add(relativePath.Replace(Path.DirectorySeparatorChar, '\\'));
+                            results.Add(relativePath.Replace(Path.DirectorySeparatorChar, '\\')
+                                                    .Replace(Path.GetExtension(relativePath), ""));
                         }
                     }
 
-                    // Update progress bar (ensure this happens on the UI thread)
+                    // Update progress bar
                     processedFiles++;
                     progressBar.Invoke((Action)(() => progressBar.Value = processedFiles));
                 }
@@ -184,6 +189,39 @@ namespace NLEditor
             return false;
         }
 
+        private void listBoxSearchResults_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBoxSearchResults.SelectedItem == null)
+            {
+                pictureBoxPreview.Image = null;
+                lblMetaData.Text = "No piece selected.";
+                return;
+            }
+
+            string selectedResult = listBoxSearchResults.SelectedItem.ToString();
+
+            UpdateMetaDataLabel(selectedResult);
+            PreviewPiece(selectedResult, pictureBoxPreview);
+        }
+
+        private void UpdateMetaDataLabel(string selectedResult)
+        {
+            // Assumed format of selectedResult is ("style\\subfolder\\piece")
+            string[] parts = selectedResult.Split('\\');
+
+            if (parts.Length < 3)
+            {
+                pictureBoxPreview.Image = null;
+                lblMetaData.Text = "Invalid result format.";
+                return;
+            }
+
+            string style = parts[0];
+            string subfolder = parts[1];
+            string piece = parts[2];
+
+            lblMetaData.Text = $"Style: {style}\nSubfolder: {subfolder}\nPiece: {piece}";
+        }
 
         /// <summary>
         /// Process an .nxmo file and filter based on checkbox states.
@@ -195,10 +233,8 @@ namespace NLEditor
             string triggerEffect = string.Empty;
             bool canResize = false;
             bool canNineSlice = false;
-            int frameCount = 0;
 
             string[] lines = File.ReadAllLines(filePath);
-            bool inPrimaryAnimation = false;
 
             foreach (string line in lines)
             {
@@ -207,9 +243,11 @@ namespace NLEditor
                 if (trimmed.StartsWith("EFFECT ", StringComparison.OrdinalIgnoreCase))
                 {
                     triggerEffect = trimmed.Substring(7).Trim();
-
                     switch (triggerEffect)
                     {
+                        case "LOCKEDEXIT":
+                            triggerEffect = "EXIT";
+                            break;
                         case "UNLOCKBUTTON":
                             triggerEffect = "BUTTON";
                             break;
@@ -231,36 +269,14 @@ namespace NLEditor
                     canResize = true;
                 }
 
-                if (trimmed.StartsWith("$PRIMARY_ANIMATION", StringComparison.OrdinalIgnoreCase))
-                {
-                    inPrimaryAnimation = true;
-                }
-
-                if (trimmed.StartsWith("$END", StringComparison.OrdinalIgnoreCase))
-                {
-                    inPrimaryAnimation = false;
-                }
-
-                if (inPrimaryAnimation && trimmed.StartsWith("NINE_SLICE", StringComparison.OrdinalIgnoreCase))
+                if (trimmed.StartsWith("NINE_SLICE", StringComparison.OrdinalIgnoreCase))
                 {
                     canNineSlice = true;
                 }
-
-                if (inPrimaryAnimation && trimmed.StartsWith("FRAMES", StringComparison.OrdinalIgnoreCase))
-                {
-                    // Extract frame count, e.g., "FRAMES 5"
-                    if (int.TryParse(trimmed.Substring(7).Trim(), out frameCount))
-                    {
-                        // Successfully parsed frame count
-                    }
-                }
             }
 
-            // Store the frame count and triggerEffect for later use
-            this.frameCount = frameCount;
-
             string selectedEffect = cbTriggerEffect.Text.Trim();
-            
+
             bool passesTriggerEffectFilter =
                 string.IsNullOrEmpty(cbTriggerEffect.Text) ||
                 selectedEffect == "<Any>" ||
@@ -273,6 +289,27 @@ namespace NLEditor
             return passesTriggerEffectFilter && passesResizeFilter && passesNineSliceFilter;
         }
 
+        public void PreviewPiece(string pieceKey, PictureBox previewPictureBox)
+        {
+            if (string.IsNullOrEmpty(pieceKey))
+            {
+                previewPictureBox.Image = null;
+                lblMetaData.Text = "No piece selected";
+                return;
+            }
+
+            int frameIndex = (ImageLibrary.GetObjType(pieceKey).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.COLLECTIBLE, C.OBJ.TRAPONCE)) ? 1 : 0;
+            Bitmap pieceImage = ImageLibrary.GetImage(pieceKey, RotateFlipType.RotateNoneFlipNone, frameIndex);
+
+            // TODO: pass Style itself from NLEditForm, as well as Path and Name
+            //if (pieceKey.StartsWith("default") && ImageLibrary.GetObjType(pieceKey) == C.OBJ.ONE_WAY_WALL)
+            //{
+            //    Color blendColor = /*Current Style*/?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? C.NLColors[C.NLColor.OWWDefault];
+            //    pieceImage = pieceImage.ApplyThemeColor(blendColor);
+            //}
+
+            ZoomImageWithNearestNeighbor(pieceImage);
+        }
 
         /// <summary>
         /// Process an .nxmt file and filter based on checkbox states.
@@ -304,88 +341,25 @@ namespace NLEditor
             return Uri.UnescapeDataString(baseUri.MakeRelativeUri(fileUri).ToString().Replace('/', Path.DirectorySeparatorChar));
         }
 
-        private void listBoxSearchResults_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listBoxSearchResults.SelectedItem == null)
-            {
-                pictureBoxPreview.Image = null;
-                lblMetaData.Text = "No piece selected.";
-                return;
-            }
-
-            string selectedResult = listBoxSearchResults.SelectedItem.ToString();
-            string[] parts = selectedResult.Split('\\'); // Assuming the result format is: "style\\subfolder\\piece"
-            if (parts.Length < 3)
-            {
-                pictureBoxPreview.Image = null;
-                lblMetaData.Text = "Invalid result format.";
-                return;
-            }
-
-            string style = parts[0];
-            string subfolder = parts[1];
-            string pieceKey = parts[2];
-
-            // Update metadata
-            lblMetaData.Text = $"Style: {style}\nSubfolder: {subfolder}\nPiece: {pieceKey}";
-
-            // Load preview image
-            string piecePath = Path.Combine(rootPath, "styles", style, subfolder, pieceKey);
-
-            if (File.Exists(piecePath))
-            {
-                Bitmap originalImage = new Bitmap(piecePath);
-
-                // Call ProcessNxmoFile to extract frame count and image height
-                string nxmoFilePath = Path.Combine(Path.GetDirectoryName(piecePath), Path.GetFileNameWithoutExtension(piecePath) + ".nxmo");
-                int imageHeight = originalImage.Height;
-                int frameCount = 0;
-
-                if (File.Exists(nxmoFilePath))
-                {
-                    ProcessNxmoFile(nxmoFilePath);
-                    frameCount = this.frameCount;
-                }
-
-                // If it's an animated image, extract the first frame
-                if (frameCount > 1)
-                {
-                    Bitmap firstFrame = GetFirstFrame(originalImage, frameCount);
-                    ZoomImageWithNearestNeighbor(firstFrame);
-                }
-                else
-                {
-                    ZoomImageWithNearestNeighbor(originalImage);
-                }
-            }
-            else
-            {
-                pictureBoxPreview.Image = null;
-                lblMetaData.Text += $"\n(Preview not available)";
-            }
-        }
-
-        private Bitmap GetFirstFrame(Bitmap originalImage, int frameCount)
-        {
-            // Calculate the height of each individual frame
-            int frameHeight = originalImage.Height / frameCount;
-            Rectangle firstFrameRect = new Rectangle(0, 0, originalImage.Width, frameHeight);
-
-            // Crop the image to get the first frame
-            Bitmap firstFrame = originalImage.Clone(firstFrameRect, originalImage.PixelFormat);
-            return firstFrame;
-        }
-
-
         private void ZoomImageWithNearestNeighbor(Bitmap originalImage)
         {
+            // Add padding to the image before rendering to prevent cropping
+            int padding = 1;
+            Bitmap paddedImage = new Bitmap(originalImage.Width + padding, originalImage.Height + padding);
+
+            using (Graphics g = Graphics.FromImage(paddedImage))
+            {
+                g.Clear(Color.Transparent);
+                g.DrawImage(originalImage, padding, padding);
+            }
+
             // Get the current size of the PictureBox
             int maxWidth = pictureBoxPreview.Width;
             int maxHeight = pictureBoxPreview.Height;
 
             // Start with the original image dimensions
-            int currentWidth = originalImage.Width;
-            int currentHeight = originalImage.Height;
+            int currentWidth = paddedImage.Width;
+            int currentHeight = paddedImage.Height;
 
             // Keep doubling the image size until it exceeds the PictureBox size
             while (currentWidth * 2 <= maxWidth && currentHeight * 2 <= maxHeight)
@@ -397,21 +371,19 @@ namespace NLEditor
             // Create a new Bitmap to hold the scaled image
             Bitmap zoomedImage = new Bitmap(currentWidth, currentHeight);
 
-            // Set up the graphics object with NearestNeighbor interpolation
+            // Draw the scaled image with NearestNeighbor interpolation for accuracy
             using (Graphics g = Graphics.FromImage(zoomedImage))
             {
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
                 g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-
-                // Draw the original image scaled to the new size
-                g.DrawImage(originalImage, 0, 0, currentWidth, currentHeight);
+                g.DrawImage(paddedImage, 0, 0, currentWidth, currentHeight);
             }
 
-            // Set the PictureBox (or your desired container) to display the zoomed image
+            // Set the PictureBox to display the zoomed image
             pictureBoxPreview.Image = zoomedImage;
         }
-        
+
         private void btnLoadStyle_Click(object sender, EventArgs e)
         {
             AddPieceAndOrLoadStyle(true, false);
