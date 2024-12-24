@@ -250,9 +250,17 @@ namespace NLEditor
             UpdateCaption();
         }
 
-        private void btnResetToDefaultKeys_Click(object sender, EventArgs e)
+        private void btnLoadDefault_Click(object sender, EventArgs e)
         {
             HotkeyConfig.GetDefaultHotkeys();
+            LoadHotkeysToListView();
+            ResetUI();
+            UpdateCaption();
+        }
+
+        private void btnLoadClassic_Click(object sender, EventArgs e)
+        {
+            HotkeyConfig.GetClassicHotkeys();
             LoadHotkeysToListView();
             ResetUI();
             UpdateCaption();
@@ -656,6 +664,9 @@ namespace NLEditor
                         break;
                     case "HotkeyToggleDeprecatedPieces":
                         HotkeyConfig.HotkeyToggleDeprecatedPieces = parsedKey;
+                        break;
+                    case "HotkeyPieceSearch":
+                        HotkeyConfig.HotkeyPieceSearch = parsedKey;
                         break;
                     case "HotkeyShowMissingPieces":
                         HotkeyConfig.HotkeyShowMissingPieces = parsedKey;

@@ -1484,41 +1484,7 @@ namespace NLEditor
 
         private void but_SearchPieces_Click(object sender, EventArgs e)
         {
-            string rootPath = Application.StartupPath;
-            Style curStyle = pieceCurStyle;
-
-            if (curStyle is null)
-            {
-                MessageBox.Show("Current style is not defined.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            FormPieceSearch searchForm = new FormPieceSearch(rootPath, curStyle);
-            
-            searchForm.StyleSelected += (newStylePath) =>
-            {
-                // Find the style based on its directory (NameInDirectory)
-                Style style = StyleList?.Find(sty => sty.NameInDirectory == newStylePath);
-
-                if (style != null)
-                {   // Set style based on its user-friendly name
-                    combo_PieceStyle.Text = style.NameInEditor;
-                }
-                else
-                {
-                    MessageBox.Show("The selected style could not be found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-                // Pass the style name back to the piece search form
-                searchForm.curStyleName = style.NameInEditor;
-            };
-
-            searchForm.PieceSelected += (newPiece) =>
-            {
-                AddNewPieceToLevel(newPiece, curRenderer.GetCenterPoint());
-            };
-
-            searchForm.ShowDialog();
+            OpenPieceSearch();
         }
     }
 }

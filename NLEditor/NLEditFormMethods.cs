@@ -360,6 +360,44 @@ namespace NLEditor
             return;
         }
 
+        private void OpenPieceSearch()
+        {
+            string rootPath = Application.StartupPath;
+            Style curStyle = pieceCurStyle;
+
+            if (curStyle is null)
+            {
+                MessageBox.Show("Current style is not defined.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            FormPieceSearch searchForm = new FormPieceSearch(rootPath, curStyle);
+
+            searchForm.StyleSelected += (newStylePath) =>
+            {
+                // Find the style based on its directory (NameInDirectory)
+                Style style = StyleList?.Find(sty => sty.NameInDirectory == newStylePath);
+
+                if (style != null)
+                {   // Set style based on its user-friendly name
+                    combo_PieceStyle.Text = style.NameInEditor;
+                }
+                else
+                {
+                    MessageBox.Show("The selected style could not be found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                // Pass the style name back to the piece search form
+                searchForm.curStyleName = style.NameInEditor;
+            };
+
+            searchForm.PieceSelected += (newPiece) =>
+            {
+                AddNewPieceToLevel(newPiece, curRenderer.GetCenterPoint());
+            };
+
+            searchForm.ShowDialog();
+        }
 
         private void ShowMissingPiecesDialog()
         {
@@ -1614,6 +1652,7 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyToggleBackground, () => ToggleBackground());
             AddHotkey(HotkeyConfig.HotkeyToggleDeprecatedPieces, () => ToggleDeprecatedPieces());
             AddHotkey(HotkeyConfig.HotkeyShowMissingPieces, () => ShowMissingPiecesDialog());
+            AddHotkey(HotkeyConfig.HotkeyPieceSearch, () => OpenPieceSearch());
             AddHotkey(HotkeyConfig.HotkeyToggleSnapToGrid, () => SwitchGridUsage());
             AddHotkey(HotkeyConfig.HotkeyOpenSettings, () => settingsToolStripMenuItem_Click(null, null));
             AddHotkey(HotkeyConfig.HotkeyOpenConfigHotkeys, () => hotkeysToolStripMenuItem_Click(null, null));
@@ -1769,6 +1808,9 @@ namespace NLEditor
 
             showMissingPiecesToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyShowMissingPieces);
+
+            searchPiecesToolStripMenuItem.ShortcutKeyDisplayString =
+                HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyPieceSearch);
 
             snapToGridToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyToggleSnapToGrid);

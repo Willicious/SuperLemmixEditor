@@ -74,216 +74,219 @@
             "Toggle Deprecated Pieces",
             "HotkeyToggleDeprecatedPieces"}, -1);
             System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Open Piece Search",
+            "HotkeyPieceSearch"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
             "Show Missing Pieces",
             "HotkeyShowMissingPieces"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
             "Toggle Snap-to-Grid",
             "HotkeyToggleSnapToGrid"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
             "Open Settings",
             "HotkeyOpenSettings"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
             "Open Hotkey Configuration",
             "HotkeyOpenConfigHotkeys"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
             "Open \"About SuperLemmix Editor\"",
             "HotkeyOpenAboutSLX"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
             "Select/Drag Pieces",
             "HotkeySelectPieces"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem(new string[] {
             "Drag-to-Scroll Level View",
             "HotkeyDragToScroll"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem(new string[] {
             "Drag Horizontally (X-axis only)",
             "HotkeyDragHorizontally"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem(new string[] {
             "Drag Vertically (Y-axis only)",
             "HotkeyDragVertically"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Screen Start",
             "HotkeyMoveScreenStart"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem(new string[] {
             "Remove all pieces at cursor from selection",
             "HotkeyRemovePiecesAtCursor"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem(new string[] {
             "Add/remove a single piece to current selection",
             "HotkeyAddRemoveSinglePiece"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem(new string[] {
             "Select piece(s) below piece at cursor location",
             "HotkeySelectPiecesBelow"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem(new string[] {
             "Zoom In (also a Mouse Wheel action)",
             "HotkeyZoomIn"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem(new string[] {
             "Zoom Out (also a Mouse Wheel action)",
             "HotkeyZoomOut"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem(new string[] {
             "(Mouse Wheel action) Scroll Horizontally when zoomed in",
             "HotkeyScrollHorizontally"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem(new string[] {
             "(Mouse Wheel action) Scroll Vertically when zoomed in",
             "HotkeyScrollVertically"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Show Previous Piece",
             "HotkeyShowPreviousPiece"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Show Next Piece",
             "HotkeyShowNextPiece"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Show Previous Group",
             "HotkeyShowPreviousGroup"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Show Next Group",
             "HotkeyShowNextGroup"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Show Previous Style",
             "HotkeyShowPreviousStyle"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Show Next Style",
             "HotkeyShowNextStyle"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Cycle Browser View",
             "HotkeyCycleBrowser"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem41 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Add Piece 1",
             "HotkeyAddPiece1"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem41 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem42 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Add Piece 2",
             "HotkeyAddPiece2"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem42 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem43 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Add Piece 3",
             "HotkeyAddPiece3"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem43 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem44 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Add Piece 4",
             "HotkeyAddPiece4"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem44 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem45 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Add Piece 5",
             "HotkeyAddPiece5"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem45 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem46 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Add Piece 6",
             "HotkeyAddPiece6"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem46 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem47 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Add Piece 7",
             "HotkeyAddPiece7"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem47 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem48 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Add Piece 8",
             "HotkeyAddPiece8"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem48 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem49 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Add Piece 9",
             "HotkeyAddPiece9"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem49 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem50 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Add Piece 10",
             "HotkeyAddPiece10"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem50 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem51 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Add Piece 11",
             "HotkeyAddPiece11"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem51 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem52 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Add Piece 12",
             "HotkeyAddPiece12"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem52 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem53 = new System.Windows.Forms.ListViewItem(new string[] {
             "Piece Browser: Add Piece 13",
             "HotkeyAddPiece13"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem53 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem54 = new System.Windows.Forms.ListViewItem(new string[] {
             "Undo",
             "HotkeyUndo"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem54 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem55 = new System.Windows.Forms.ListViewItem(new string[] {
             "Redo",
             "HotkeyRedo"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem55 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem56 = new System.Windows.Forms.ListViewItem(new string[] {
             "Cut",
             "HotkeyCut"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem56 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem57 = new System.Windows.Forms.ListViewItem(new string[] {
             "Copy",
             "HotkeyCopy"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem57 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem58 = new System.Windows.Forms.ListViewItem(new string[] {
             "Paste",
             "HotkeyPaste"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem58 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem59 = new System.Windows.Forms.ListViewItem(new string[] {
             "Paste-in-Place",
             "HotkeyPasteInPlace"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem59 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem60 = new System.Windows.Forms.ListViewItem(new string[] {
             "Duplicate-in-Place",
             "HotkeyDuplicate"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem60 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem61 = new System.Windows.Forms.ListViewItem(new string[] {
             "Delete",
             "HotkeyDelete"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem61 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem62 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Up (1 pixel)",
             "HotkeyMoveUp"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem62 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem63 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Down (1 pixel)",
             "HotkeyMoveDown"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem63 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem64 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Left (1 pixel)",
             "HotkeyMoveLeft"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem64 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem65 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Right (1 pixel)",
             "HotkeyMoveRight"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem65 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem66 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Up (8 pixels)",
             "HotkeyMove8Up"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem66 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem67 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Down (8 pixels)",
             "HotkeyMove8Down"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem67 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem68 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Left (8 pixels)",
             "HotkeyMove8Left"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem68 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem69 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Right (8 pixels)",
             "HotkeyMove8Right"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem69 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem70 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Up (Custom - see Settings)",
             "HotkeyCustomMoveUp"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem70 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem71 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Down (Custom)",
             "HotkeyCustomMoveDown"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem71 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem72 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Left (Custom)",
             "HotkeyCustomMoveLeft"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem72 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem73 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Right (Custom)",
             "HotkeyCustomMoveRight"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem73 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem74 = new System.Windows.Forms.ListViewItem(new string[] {
             "Rotate",
             "HotkeyRotate"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem74 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem75 = new System.Windows.Forms.ListViewItem(new string[] {
             "Flip",
             "HotkeyFlip"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem75 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem76 = new System.Windows.Forms.ListViewItem(new string[] {
             "Invert",
             "HotkeyInvert"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem76 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem77 = new System.Windows.Forms.ListViewItem(new string[] {
             "Group",
             "HotkeyGroup"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem77 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem78 = new System.Windows.Forms.ListViewItem(new string[] {
             "Ungroup",
             "HotkeyUngroup"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem78 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem79 = new System.Windows.Forms.ListViewItem(new string[] {
             "Toggle Draw-as-Eraser",
             "HotkeyErase"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem79 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem80 = new System.Windows.Forms.ListViewItem(new string[] {
             "Toggle No Overwrite",
             "HotkeyNoOverwrite"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem80 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem81 = new System.Windows.Forms.ListViewItem(new string[] {
             "Toggle Only-on-Terrain",
             "HotkeyOnlyOnTerrain"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem81 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem82 = new System.Windows.Forms.ListViewItem(new string[] {
             "Toggle Allow One-Way-Walls",
             "HotkeyAllowOneWay"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem82 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem83 = new System.Windows.Forms.ListViewItem(new string[] {
             "Draw Last",
             "HotkeyDrawLast"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem83 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem84 = new System.Windows.Forms.ListViewItem(new string[] {
             "Draw Later",
             "HotkeyDrawLater"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem84 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem85 = new System.Windows.Forms.ListViewItem(new string[] {
             "Draw Sooner",
             "HotkeyDrawSooner"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem85 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem86 = new System.Windows.Forms.ListViewItem(new string[] {
             "Draw First",
             "HotkeyDrawFirst"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem86 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem87 = new System.Windows.Forms.ListViewItem(new string[] {
             "Close Editor",
             "HotkeyCloseEditor"}, -1);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormHotkeys));
@@ -295,7 +298,7 @@
             this.lblAssignedKey = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnClearAllKeys = new System.Windows.Forms.Button();
-            this.btnResetToDefaultKeys = new System.Windows.Forms.Button();
+            this.btnLoadDefault = new System.Windows.Forms.Button();
             this.listViewHotkeys = new System.Windows.Forms.ListView();
             this.EditorFunction = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AssignedKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -316,6 +319,7 @@
             this.lblEditedSaved = new System.Windows.Forms.Label();
             this.lblListening = new System.Windows.Forms.Label();
             this.focusText = new System.Windows.Forms.TextBox();
+            this.btnLoadClassic = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // comboBoxChooseKey
@@ -392,21 +396,21 @@
             // 
             this.btnClearAllKeys.Location = new System.Drawing.Point(720, 548);
             this.btnClearAllKeys.Name = "btnClearAllKeys";
-            this.btnClearAllKeys.Size = new System.Drawing.Size(183, 52);
+            this.btnClearAllKeys.Size = new System.Drawing.Size(120, 52);
             this.btnClearAllKeys.TabIndex = 7;
-            this.btnClearAllKeys.Text = "Clear All Keys";
+            this.btnClearAllKeys.Text = "Clear All";
             this.btnClearAllKeys.UseVisualStyleBackColor = true;
             this.btnClearAllKeys.Click += new System.EventHandler(this.btnClearAllKeys_Click);
             // 
-            // btnResetToDefaultKeys
+            // btnLoadDefault
             // 
-            this.btnResetToDefaultKeys.Location = new System.Drawing.Point(917, 548);
-            this.btnResetToDefaultKeys.Name = "btnResetToDefaultKeys";
-            this.btnResetToDefaultKeys.Size = new System.Drawing.Size(183, 52);
-            this.btnResetToDefaultKeys.TabIndex = 8;
-            this.btnResetToDefaultKeys.Text = "Reset to Default Keys";
-            this.btnResetToDefaultKeys.UseVisualStyleBackColor = true;
-            this.btnResetToDefaultKeys.Click += new System.EventHandler(this.btnResetToDefaultKeys_Click);
+            this.btnLoadDefault.Location = new System.Drawing.Point(846, 548);
+            this.btnLoadDefault.Name = "btnLoadDefault";
+            this.btnLoadDefault.Size = new System.Drawing.Size(128, 52);
+            this.btnLoadDefault.TabIndex = 8;
+            this.btnLoadDefault.Text = "Load Default";
+            this.btnLoadDefault.UseVisualStyleBackColor = true;
+            this.btnLoadDefault.Click += new System.EventHandler(this.btnLoadDefault_Click);
             // 
             // listViewHotkeys
             // 
@@ -502,7 +506,8 @@
             listViewItem83,
             listViewItem84,
             listViewItem85,
-            listViewItem86});
+            listViewItem86,
+            listViewItem87});
             this.listViewHotkeys.Location = new System.Drawing.Point(25, 49);
             this.listViewHotkeys.MultiSelect = false;
             this.listViewHotkeys.Name = "listViewHotkeys";
@@ -709,12 +714,23 @@
             this.focusText.Size = new System.Drawing.Size(100, 26);
             this.focusText.TabIndex = 27;
             // 
+            // btnLoadClassic
+            // 
+            this.btnLoadClassic.Location = new System.Drawing.Point(980, 548);
+            this.btnLoadClassic.Name = "btnLoadClassic";
+            this.btnLoadClassic.Size = new System.Drawing.Size(120, 52);
+            this.btnLoadClassic.TabIndex = 28;
+            this.btnLoadClassic.Text = "Load Classic";
+            this.btnLoadClassic.UseVisualStyleBackColor = true;
+            this.btnLoadClassic.Click += new System.EventHandler(this.btnLoadClassic_Click);
+            // 
             // FormHotkeys
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1128, 785);
+            this.Controls.Add(this.btnLoadClassic);
             this.Controls.Add(this.lblEditedSaved);
             this.Controls.Add(this.lblDuplicateDetected);
             this.Controls.Add(this.lblEditingKey);
@@ -732,7 +748,7 @@
             this.Controls.Add(this.btnAssignChosenKey);
             this.Controls.Add(this.lblActionToBeAssigned);
             this.Controls.Add(this.listViewHotkeys);
-            this.Controls.Add(this.btnResetToDefaultKeys);
+            this.Controls.Add(this.btnLoadDefault);
             this.Controls.Add(this.btnClearAllKeys);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblAssignedKey);
@@ -768,7 +784,7 @@
         private System.Windows.Forms.Label lblAssignedKey;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnClearAllKeys;
-        private System.Windows.Forms.Button btnResetToDefaultKeys;
+        private System.Windows.Forms.Button btnLoadDefault;
         private System.Windows.Forms.ListView listViewHotkeys;
         private System.Windows.Forms.ColumnHeader EditorFunction;
         private System.Windows.Forms.ColumnHeader AssignedKey;
@@ -789,5 +805,6 @@
         private System.Windows.Forms.Label lblEditedSaved;
         private System.Windows.Forms.Label lblListening;
         private System.Windows.Forms.TextBox focusText;
+        private System.Windows.Forms.Button btnLoadClassic;
     }
 }
