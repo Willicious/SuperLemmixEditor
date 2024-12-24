@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace NLEditor
 {
@@ -30,7 +31,8 @@ namespace NLEditor
         public static string AppPathLevels => AppPath + "levels" + DirSep;
         public static string AppPathTempLevel => AppPath + "TempTestLevel.nxlv";
         public static string AppPathThemeInfo(string styleName) => AppPathPieces + styleName + C.DirSep + "theme.nxtm";
-        public static string AppPathSettings => AppPath + "SLXEditorSettings.ini";
+        public static string AppPathSettings => AppPath + "settings" + DirSep + "SLXEditorSettings.ini";
+        public static string AppPathHotkeys => AppPath + "settings" + DirSep + "SLXEditorHotkeys.ini";
         public static string AppPathPlayerSettings => AppPath + "settings" + DirSep + "settings.ini";
         public static string AppPathPlayerSettingsOld => AppPath + "SuperLemmix147Settings.ini";
         public static string AppPathSuperLemmix => AppPath + "SuperLemmix.exe";

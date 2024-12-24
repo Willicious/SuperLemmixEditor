@@ -650,6 +650,12 @@ namespace NLEditor
         {
             try
             {
+                string settingsDirectory = Path.GetDirectoryName(C.AppPathSettings);
+                if (!Directory.Exists(settingsDirectory))
+                {
+                    Directory.CreateDirectory(settingsDirectory);
+                }
+
                 File.Create(C.AppPathSettings).Close();
 
                 TextWriter settingsFile = new StreamWriter(C.AppPathSettings, true);

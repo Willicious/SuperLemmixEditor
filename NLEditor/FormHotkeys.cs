@@ -49,7 +49,7 @@ namespace NLEditor
         private void FormHotkeys_Shown(object sender, EventArgs e)
         {
             // Load hotkeys
-            if (System.IO.File.Exists("SLXEditorHotkeys.ini"))
+            if (System.IO.File.Exists(C.AppPathHotkeys))
                 HotkeyConfig.LoadHotkeysFromIniFile();
             else
                 HotkeyConfig.GetDefaultHotkeys();

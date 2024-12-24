@@ -1615,7 +1615,7 @@ namespace NLEditor
         private void SetHotkeys()
         {
             // Load hotkeys
-            if (File.Exists("SLXEditorHotkeys.ini"))
+            if (File.Exists(C.AppPathHotkeys))
                 HotkeyConfig.LoadHotkeysFromIniFile();
             else
                 HotkeyConfig.GetDefaultHotkeys();

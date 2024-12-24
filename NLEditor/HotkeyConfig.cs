@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -283,7 +284,7 @@ namespace NLEditor
 
         public static void LoadHotkeysFromIniFile()
         {
-            var lines = System.IO.File.ReadAllLines("SLXEditorHotkeys.ini");
+            var lines = System.IO.File.ReadAllLines(C.AppPathHotkeys);
 
             if (ValidateHotkeyIniFile(lines, out string invalidKey))
             {
@@ -571,7 +572,13 @@ namespace NLEditor
                 $"HotkeyCloseEditor={FormatHotkeyString(HotkeyCloseEditor)}"
             };
 
-            System.IO.File.WriteAllLines("SLXEditorHotkeys.ini", lines);
+            string settingsDirectory = Path.GetDirectoryName(C.AppPathHotkeys);
+            if (!Directory.Exists(settingsDirectory))
+            {
+                Directory.CreateDirectory(settingsDirectory);
+            }
+
+            System.IO.File.WriteAllLines(C.AppPathHotkeys, lines);
         }
 
         public static void GetDefaultHotkeys()
