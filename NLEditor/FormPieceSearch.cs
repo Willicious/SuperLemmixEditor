@@ -13,10 +13,8 @@ namespace NLEditor
 {
     public partial class FormPieceSearch : Form
     {
-        private readonly Style curStyle;
+        public Style curStyle;
         private readonly string rootPath;
-        private readonly string curStylePath;
-        public string curStyleName;
 
         public FormPieceSearch(string rootPath, Style curStyle)
         {
@@ -24,10 +22,7 @@ namespace NLEditor
 
             this.rootPath = rootPath;
             this.curStyle = curStyle;
-            this.curStyleName = curStyle?.NameInEditor;
-            this.curStylePath = curStyle?.NameInDirectory;
 
-            lblCurrentStyle.Text = $"{curStyleName}";
             check_CurrentStyleOnly.Checked = false;
         }
 
@@ -83,7 +78,7 @@ namespace NLEditor
 
             // Determine the base path to search
             string searchPath = check_CurrentStyleOnly.Checked
-                                ? Path.Combine(rootPath, "styles", curStylePath) // Search only the current style's folder
+                                ? Path.Combine(rootPath, "styles", curStyle?.NameInDirectory) // Search only the current style's folder
                                 : Path.Combine(rootPath, "styles"); // Search all styles
 
             try
@@ -421,7 +416,7 @@ namespace NLEditor
             if (addPiece)  PieceSelected?.Invoke(newPiece);
 
             // Update label
-            lblCurrentStyle.Text = curStyleName;
+            lblCurrentStyle.Text = curStyle?.NameInEditor;
         }
 
         private void FormPieceSearch_Load(object sender, EventArgs e)
@@ -438,6 +433,7 @@ namespace NLEditor
 
         private void ResetUI()
         {
+            lblCurrentStyle.Text = $"{curStyle?.NameInEditor}";
             pictureBoxPreview.Image = null;
             lblMetaData.Text = "";
         }
@@ -515,9 +511,19 @@ namespace NLEditor
             }
         }
 
+        private void textBox_TextChanged(object sender, EventArgs e)
+        {
+            PerformSearch();
+        }
+
         private void FormPieceSearch_Click(object sender, EventArgs e)
         {
-            btnSearch.Focus();
+            listBoxSearchResults.Focus();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -39,7 +39,6 @@
             this.btnLoadStyle = new System.Windows.Forms.Button();
             this.btnAddPiece = new System.Windows.Forms.Button();
             this.lblFilterResults = new System.Windows.Forms.Label();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.formPadding = new System.Windows.Forms.PictureBox();
             this.check_CanResize = new System.Windows.Forms.CheckBox();
             this.check_CanNineSlice = new System.Windows.Forms.CheckBox();
@@ -50,6 +49,7 @@
             this.lblStyleName = new System.Windows.Forms.Label();
             this.textBoxStyleName = new System.Windows.Forms.TextBox();
             this.btnClearFilters = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.formPadding)).BeginInit();
             this.SuspendLayout();
@@ -71,6 +71,7 @@
             this.textBoxPieceName.Size = new System.Drawing.Size(218, 26);
             this.textBoxPieceName.TabIndex = 1;
             this.textBoxPieceName.Text = "(Any)";
+            this.textBoxPieceName.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             this.textBoxPieceName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyDown);
             this.textBoxPieceName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textBox_MouseDown);
             // 
@@ -128,7 +129,7 @@
             // 
             this.btnLoadStyle.Location = new System.Drawing.Point(815, 367);
             this.btnLoadStyle.Name = "btnLoadStyle";
-            this.btnLoadStyle.Size = new System.Drawing.Size(230, 40);
+            this.btnLoadStyle.Size = new System.Drawing.Size(150, 40);
             this.btnLoadStyle.TabIndex = 7;
             this.btnLoadStyle.Text = "Load Style";
             this.btnLoadStyle.UseVisualStyleBackColor = true;
@@ -136,9 +137,9 @@
             // 
             // btnAddPiece
             // 
-            this.btnAddPiece.Location = new System.Drawing.Point(1061, 367);
+            this.btnAddPiece.Location = new System.Drawing.Point(971, 367);
             this.btnAddPiece.Name = "btnAddPiece";
-            this.btnAddPiece.Size = new System.Drawing.Size(230, 40);
+            this.btnAddPiece.Size = new System.Drawing.Size(150, 40);
             this.btnAddPiece.TabIndex = 10;
             this.btnAddPiece.Text = "Add Piece";
             this.btnAddPiece.UseVisualStyleBackColor = true;
@@ -154,21 +155,11 @@
             this.lblFilterResults.TabIndex = 11;
             this.lblFilterResults.Text = "Filter results:";
             // 
-            // btnSearch
-            // 
-            this.btnSearch.Location = new System.Drawing.Point(21, 367);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(316, 40);
-            this.btnSearch.TabIndex = 12;
-            this.btnSearch.Text = "Perform Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
             // formPadding
             // 
             this.formPadding.Location = new System.Drawing.Point(1061, 1);
             this.formPadding.Name = "formPadding";
-            this.formPadding.Size = new System.Drawing.Size(257, 406);
+            this.formPadding.Size = new System.Drawing.Size(242, 406);
             this.formPadding.TabIndex = 13;
             this.formPadding.TabStop = false;
             // 
@@ -273,12 +264,13 @@
             this.textBoxStyleName.Size = new System.Drawing.Size(218, 26);
             this.textBoxStyleName.TabIndex = 23;
             this.textBoxStyleName.Text = "(Any)";
+            this.textBoxStyleName.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             this.textBoxStyleName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyDown);
             this.textBoxStyleName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textBox_MouseDown);
             // 
             // btnClearFilters
             // 
-            this.btnClearFilters.Location = new System.Drawing.Point(21, 318);
+            this.btnClearFilters.Location = new System.Drawing.Point(21, 367);
             this.btnClearFilters.Name = "btnClearFilters";
             this.btnClearFilters.Size = new System.Drawing.Size(316, 40);
             this.btnClearFilters.TabIndex = 24;
@@ -286,12 +278,23 @@
             this.btnClearFilters.UseVisualStyleBackColor = true;
             this.btnClearFilters.Click += new System.EventHandler(this.btnClearFilters_Click);
             // 
+            // btnClose
+            // 
+            this.btnClose.Location = new System.Drawing.Point(1127, 367);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(150, 40);
+            this.btnClose.TabIndex = 25;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
             // FormPieceSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1315, 423);
+            this.ClientSize = new System.Drawing.Size(1299, 423);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnClearFilters);
             this.Controls.Add(this.textBoxStyleName);
             this.Controls.Add(this.lblStyleName);
@@ -301,7 +304,6 @@
             this.Controls.Add(this.lblTriggerEffect);
             this.Controls.Add(this.check_CanNineSlice);
             this.Controls.Add(this.check_CanResize);
-            this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.lblFilterResults);
             this.Controls.Add(this.btnAddPiece);
             this.Controls.Add(this.btnLoadStyle);
@@ -343,7 +345,6 @@
         private System.Windows.Forms.Button btnLoadStyle;
         private System.Windows.Forms.Button btnAddPiece;
         private System.Windows.Forms.Label lblFilterResults;
-        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.PictureBox formPadding;
         private System.Windows.Forms.CheckBox check_CanResize;
         private System.Windows.Forms.CheckBox check_CanNineSlice;
@@ -354,5 +355,6 @@
         private System.Windows.Forms.Label lblStyleName;
         private System.Windows.Forms.TextBox textBoxStyleName;
         private System.Windows.Forms.Button btnClearFilters;
+        private System.Windows.Forms.Button btnClose;
     }
 }

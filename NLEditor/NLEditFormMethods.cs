@@ -387,8 +387,8 @@ namespace NLEditor
                     MessageBox.Show("The selected style could not be found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                // Pass the style name back to the piece search form
-                searchForm.curStyleName = style.NameInEditor;
+                // Pass the current selected style back to the search form
+                searchForm.curStyle = style;
             };
 
             searchForm.PieceSelected += (newPiece) =>
