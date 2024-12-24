@@ -37,8 +37,6 @@
             this.check_CurrentStyleOnly = new System.Windows.Forms.CheckBox();
             this.lblCurrentStyle = new System.Windows.Forms.Label();
             this.btnLoadStyle = new System.Windows.Forms.Button();
-            this.btnAddPieceAndLoadStyle = new System.Windows.Forms.Button();
-            this.btnClose = new System.Windows.Forms.Button();
             this.btnAddPiece = new System.Windows.Forms.Button();
             this.lblFilterResults = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -128,7 +126,7 @@
             // 
             // btnLoadStyle
             // 
-            this.btnLoadStyle.Location = new System.Drawing.Point(1075, 24);
+            this.btnLoadStyle.Location = new System.Drawing.Point(815, 367);
             this.btnLoadStyle.Name = "btnLoadStyle";
             this.btnLoadStyle.Size = new System.Drawing.Size(230, 40);
             this.btnLoadStyle.TabIndex = 7;
@@ -136,29 +134,9 @@
             this.btnLoadStyle.UseVisualStyleBackColor = true;
             this.btnLoadStyle.Click += new System.EventHandler(this.btnLoadStyle_Click);
             // 
-            // btnAddPieceAndLoadStyle
-            // 
-            this.btnAddPieceAndLoadStyle.Location = new System.Drawing.Point(1075, 71);
-            this.btnAddPieceAndLoadStyle.Name = "btnAddPieceAndLoadStyle";
-            this.btnAddPieceAndLoadStyle.Size = new System.Drawing.Size(230, 40);
-            this.btnAddPieceAndLoadStyle.TabIndex = 8;
-            this.btnAddPieceAndLoadStyle.Text = "Add Piece and Load Style";
-            this.btnAddPieceAndLoadStyle.UseVisualStyleBackColor = true;
-            this.btnAddPieceAndLoadStyle.Click += new System.EventHandler(this.btnAddPieceAndLoadStyle_Click);
-            // 
-            // btnClose
-            // 
-            this.btnClose.Location = new System.Drawing.Point(815, 367);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(490, 40);
-            this.btnClose.TabIndex = 9;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
             // btnAddPiece
             // 
-            this.btnAddPiece.Location = new System.Drawing.Point(1075, 118);
+            this.btnAddPiece.Location = new System.Drawing.Point(1061, 367);
             this.btnAddPiece.Name = "btnAddPiece";
             this.btnAddPiece.Size = new System.Drawing.Size(230, 40);
             this.btnAddPiece.TabIndex = 10;
@@ -190,7 +168,7 @@
             // 
             this.formPadding.Location = new System.Drawing.Point(1061, 1);
             this.formPadding.Name = "formPadding";
-            this.formPadding.Size = new System.Drawing.Size(270, 406);
+            this.formPadding.Size = new System.Drawing.Size(257, 406);
             this.formPadding.TabIndex = 13;
             this.formPadding.TabStop = false;
             // 
@@ -313,7 +291,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1330, 423);
+            this.ClientSize = new System.Drawing.Size(1315, 423);
             this.Controls.Add(this.btnClearFilters);
             this.Controls.Add(this.textBoxStyleName);
             this.Controls.Add(this.lblStyleName);
@@ -326,8 +304,6 @@
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.lblFilterResults);
             this.Controls.Add(this.btnAddPiece);
-            this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.btnAddPieceAndLoadStyle);
             this.Controls.Add(this.btnLoadStyle);
             this.Controls.Add(this.lblCurrentStyle);
             this.Controls.Add(this.check_CurrentStyleOnly);
@@ -365,8 +341,6 @@
         private System.Windows.Forms.CheckBox check_CurrentStyleOnly;
         private System.Windows.Forms.Label lblCurrentStyle;
         private System.Windows.Forms.Button btnLoadStyle;
-        private System.Windows.Forms.Button btnAddPieceAndLoadStyle;
-        private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnAddPiece;
         private System.Windows.Forms.Label lblFilterResults;
         private System.Windows.Forms.Button btnSearch;

@@ -106,11 +106,29 @@ namespace NLEditor
 
             // Version 2.8.3 features
             WriteBoldText(richTextBox, "Version 2.8.3\n");
+            WriteBoldText(richTextBox, "• Fully-customisable hotkeys");
+            richTextBox.AppendText(" - Choose your own hotkey layout for the Editor's features\n");
+
+            WriteBoldText(richTextBox, "• Piece Search dialog added to browser");
+            richTextBox.AppendText(" - Search for specific pieces by name, style, object type, and other properties\n");
+
             WriteBoldText(richTextBox, "• NeoLemmix Mode");
-            richTextBox.AppendText(" - Activates NeoLemmix-specific controls and features\n");
+            richTextBox.AppendText(" - Activates NeoLemmix-specific controls and features across the Editor's UI\n");
+
+            WriteBoldText(richTextBox, "• Settings");
+            richTextBox.AppendText(" - Improved Settings form with more sophisticated UI\n");
+
+            WriteBoldText(richTextBox, "• Talismans");
+            richTextBox.AppendText(" - Added support for \"Max Skill Types\" talisman\n");
+
+            WriteBoldText(richTextBox, "• Hotkeys");
+            richTextBox.AppendText(" - Added Group/Ungroup Pieces hotkeys, plus various others for new features\n");
 
             WriteBoldText(richTextBox, "• Bugfix");
             richTextBox.AppendText(" - Cursor anchor is now correctly preserved when zooming in and out\n");
+
+            WriteBoldText(richTextBox, "• Bugfix");
+            richTextBox.AppendText(" - Preview/Postview text is now displayed centred for better previewing\n");
 
             WriteBoldText(richTextBox, "• Bugfix");
             richTextBox.AppendText(" - Talisman Creation dialog now shows only the skills that have already been added to the skillset\n");
@@ -121,8 +139,11 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Bugfix");
             richTextBox.AppendText(" - Character limits increased to SLX Player UI limits: Title (62), Author (60), Talisman TItle (85)\n");
 
-            WriteBoldText(richTextBox, "• Talismans");
-            richTextBox.AppendText(" - Added support for \"Max Skill Types\" talisman\n");
+            WriteBoldText(richTextBox, "• Bugfix");
+            richTextBox.AppendText(" - All secondary windows can now be closed using the [Esc] key\n");
+
+            WriteBoldText(richTextBox, "• Bugfix");
+            richTextBox.AppendText(" - Cleanse levels now shows a dialog before proceeding with the cleanse\n");
 
             // Version 2.8.X features
             WriteBoldText(richTextBox, "\nVersion 2.8.X\n");

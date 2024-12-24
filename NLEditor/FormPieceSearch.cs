@@ -387,22 +387,17 @@ namespace NLEditor
 
         private void btnLoadStyle_Click(object sender, EventArgs e)
         {
-            AddPieceAndOrLoadStyle(true, false);
-        }
-        
-        private void btnAddPieceAndLoadStyle_Click(object sender, EventArgs e)
-        {
-            AddPieceAndOrLoadStyle(true, true);
+            LoadStyleOrAddPiece(true, false);
         }
 
         private void btnAddPiece_Click(object sender, EventArgs e)
         {
-            AddPieceAndOrLoadStyle(false, true);
+            LoadStyleOrAddPiece(false, true);
         }
 
         public event Action<string> StyleSelected;
         public event Action<string> PieceSelected;
-        private void AddPieceAndOrLoadStyle(bool loadStyle, bool addPiece)
+        private void LoadStyleOrAddPiece(bool loadStyle, bool addPiece)
         {
             if (listBoxSearchResults.SelectedItem == null)
             {
@@ -429,11 +424,6 @@ namespace NLEditor
             lblCurrentStyle.Text = curStyleName;
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
         private void FormPieceSearch_Load(object sender, EventArgs e)
         {
             Rectangle screenRect = Screen.PrimaryScreen.WorkingArea;
@@ -441,12 +431,15 @@ namespace NLEditor
             int leftPos = screenRect.Left + (screenRect.Width - this.Width) / 2;
 
             this.Location = new Point(leftPos, topPos);
+
+            ResetUI();
+            PerformSearch();
         }
 
         private void ResetUI()
         {
             pictureBoxPreview.Image = null;
-            lblMetaData.Text = "Preview";
+            lblMetaData.Text = "";
         }
 
         private void check_CurrentStyleOnly_CheckedChanged(object sender, EventArgs e)
