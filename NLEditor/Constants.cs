@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace NLEditor
 {
-    static class C // for Constants
+    public static class C // for Constants
     {
         public static string Version
         {

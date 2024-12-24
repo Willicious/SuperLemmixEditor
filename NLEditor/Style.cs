@@ -9,7 +9,7 @@ namespace NLEditor
     /// <summary>
     /// Stores all data of a graphics style, except the images themselves.
     /// </summary>
-    class Style
+    public class Style
     {
         /// <summary>
         /// Initializes a new instance of a Style by searching for pieces in the directory AppPath/StyleName/.

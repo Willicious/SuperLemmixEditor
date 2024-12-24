@@ -1485,16 +1485,15 @@ namespace NLEditor
         private void but_SearchPieces_Click(object sender, EventArgs e)
         {
             string rootPath = Application.StartupPath;
-            string curStyleName = pieceCurStyle?.NameInEditor;
-            string curStylePath = pieceCurStyle?.NameInDirectory;
+            Style curStyle = pieceCurStyle;
 
-            if (curStyleName is null || curStylePath is null)
+            if (curStyle is null)
             {
                 MessageBox.Show("Current style is not defined.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            FormPieceSearch searchForm = new FormPieceSearch(rootPath, curStyleName, curStylePath);
+            FormPieceSearch searchForm = new FormPieceSearch(rootPath, curStyle);
             
             searchForm.StyleSelected += (newStylePath) =>
             {
@@ -1502,8 +1501,7 @@ namespace NLEditor
                 Style style = StyleList?.Find(sty => sty.NameInDirectory == newStylePath);
 
                 if (style != null)
-                {
-                    // Set the combo box text to the NameInEditor (the user-friendly name)
+                {   // Set style based on its user-friendly name
                     combo_PieceStyle.Text = style.NameInEditor;
                 }
                 else
@@ -1511,6 +1509,7 @@ namespace NLEditor
                     MessageBox.Show("The selected style could not be found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
+                // Pass the style name back to the piece search form
                 searchForm.curStyleName = style.NameInEditor;
             };
 

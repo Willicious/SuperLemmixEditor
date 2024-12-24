@@ -2,7 +2,7 @@
 
 namespace NLEditor
 {
-    class Background
+    public class Background
     {
         public Background(Style newStyle, string newName)
         {
@@ -15,7 +15,7 @@ namespace NLEditor
         public string Key => Style.NameInDirectory + C.DirSep + "backgrounds" + C.DirSep + Name;
     }
 
-    class BackgroundList
+    public class BackgroundList
     {
         public BackgroundList()
         {

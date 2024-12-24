@@ -13,17 +13,19 @@ namespace NLEditor
 {
     public partial class FormPieceSearch : Form
     {
+        private readonly Style curStyle;
         private readonly string rootPath;
         private readonly string curStylePath;
         public string curStyleName;
 
-        public FormPieceSearch(string rootPath, string curStyleName, string curStylePath)
+        public FormPieceSearch(string rootPath, Style curStyle)
         {
             InitializeComponent();
 
             this.rootPath = rootPath;
-            this.curStyleName = curStyleName;
-            this.curStylePath = curStylePath;
+            this.curStyle = curStyle;
+            this.curStyleName = curStyle?.NameInEditor;
+            this.curStylePath = curStyle?.NameInDirectory;
 
             lblCurrentStyle.Text = $"{curStyleName}";
             check_CurrentStyleOnly.Checked = false;
@@ -301,12 +303,11 @@ namespace NLEditor
             int frameIndex = (ImageLibrary.GetObjType(pieceKey).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.COLLECTIBLE, C.OBJ.TRAPONCE)) ? 1 : 0;
             Bitmap pieceImage = ImageLibrary.GetImage(pieceKey, RotateFlipType.RotateNoneFlipNone, frameIndex);
 
-            // TODO: pass Style itself from NLEditForm, as well as Path and Name
-            //if (pieceKey.StartsWith("default") && ImageLibrary.GetObjType(pieceKey) == C.OBJ.ONE_WAY_WALL)
-            //{
-            //    Color blendColor = /*Current Style*/?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? C.NLColors[C.NLColor.OWWDefault];
-            //    pieceImage = pieceImage.ApplyThemeColor(blendColor);
-            //}
+            if (pieceKey.StartsWith("default") && ImageLibrary.GetObjType(pieceKey) == C.OBJ.ONE_WAY_WALL)
+            {
+                Color blendColor = curStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? C.NLColors[C.NLColor.OWWDefault];
+                pieceImage = pieceImage.ApplyThemeColor(blendColor);
+            }
 
             ZoomImageWithNearestNeighbor(pieceImage);
         }

@@ -8,7 +8,7 @@ namespace NLEditor
     /// This class reads the SuperLemmix player's settings
     /// and determines how much of the level gets displayed
     /// </summary>
-    class ScreenSize
+    public class ScreenSize
     {
         public ScreenSize()
         {
