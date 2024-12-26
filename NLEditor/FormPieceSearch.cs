@@ -190,9 +190,12 @@ namespace NLEditor
             }
 
             // Filters for .nxmo file in "objects" folder
-            if (relativePath.IndexOf("\\objects\\", StringComparison.OrdinalIgnoreCase) >= 0 && File.Exists(nxmoFilePath))
+            if (relativePath.IndexOf("\\objects\\", StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                return ProcessNxmoFile(nxmoFilePath);
+                if (!File.Exists(nxmoFilePath))
+                    return false;
+                else
+                    return ProcessNxmoFile(nxmoFilePath);
             }
 
             bool noTriggerFilter = string.IsNullOrEmpty(cbTriggerEffect.Text) || cbTriggerEffect.Text == "<Any>";
