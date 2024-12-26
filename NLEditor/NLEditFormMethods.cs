@@ -420,8 +420,8 @@ namespace NLEditor
         {
             string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
 
-            bool isNeoLemmixDetected = File.Exists(Path.Combine(baseFolder, "NeoLemmix.exe"));
-            bool isSuperLemmixDetected = File.Exists(Path.Combine(baseFolder, "SuperLemmix.exe"));
+            bool isNeoLemmixDetected = File.Exists(C.AppPathNeoLemmix);
+            bool isSuperLemmixDetected = File.Exists(C.AppPathSuperLemmix);
 
             var curMode = curSettings.CurrentEditorMode;
 
@@ -618,7 +618,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Saves the level as TempTestLevel.nxlv and loads this level in the SuperLemmix player.
+        /// Saves the level as TempTestLevel.nxlv and loads this level in the Neo/SuperLemmix player.
         /// </summary>
         private void PlaytestLevel()
         {
@@ -631,9 +631,23 @@ namespace NLEditor
             SaveLevel(true);
             CurLevel.FilePathToSave = origFilePath;
 
-            if (!System.IO.File.Exists(C.AppPathSuperLemmix))
+            string enginePath;
+            string engineName;
+
+            if (isNeoLemmixOnly)
+            { 
+                enginePath = C.AppPathNeoLemmix;
+                engineName = "NeoLemmix.exe";
+            }
+            else
             {
-                MessageBox.Show("Error: Player SuperLemmix.exe not found in editor directory.", "File not found");
+                enginePath = C.AppPathSuperLemmix;
+                engineName = "SuperLemmix.exe";
+            }
+
+            if (!System.IO.File.Exists(enginePath))
+            {
+                MessageBox.Show($"Error: Player {engineName} not found in editor directory.", "File not found");
             }
             else
             {
@@ -641,7 +655,7 @@ namespace NLEditor
                 {
                     // Start the SuperLemmix player.
                     var playerStartInfo = new System.Diagnostics.ProcessStartInfo();
-                    playerStartInfo.FileName = C.AppPathSuperLemmix;
+                    playerStartInfo.FileName = enginePath;
                     playerStartInfo.Arguments = "test " + "\"" + C.AppPathTempLevel + "\"";
 
                     System.Diagnostics.Process.Start(playerStartInfo);
@@ -649,7 +663,7 @@ namespace NLEditor
                 catch (Exception Ex)
                 {
                     Utility.LogException(Ex);
-                    MessageBox.Show("Error: Starting SuperLemmix.exe failed or was aborted.", "Application start failed");
+                    MessageBox.Show($"Error: Starting {engineName} failed or was aborted.", "Application start failed");
                 }
             }
         }
