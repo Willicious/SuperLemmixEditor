@@ -61,6 +61,13 @@ namespace NLEditor
                 filteredRequirements.Remove(C.TalismanReq.UseOnlySkill);
             }
 
+            if (NLEditForm.isNeoLemmixOnly)
+            {
+                filteredRequirements.Remove(C.TalismanReq.ClassicMode);
+                filteredRequirements.Remove(C.TalismanReq.KillZombies);
+                filteredRequirements.Remove(C.TalismanReq.NoPause);
+            }
+
             foreach (C.TalismanReq requirement in filteredRequirements)
             {
                 cmbRequirementTypes.Items.Add(C.TalismanReqText[requirement]);
