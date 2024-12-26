@@ -50,6 +50,7 @@
             this.textBoxStyleName = new System.Windows.Forms.TextBox();
             this.btnClearFilters = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
+            this.lblSearchingStyles = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.formPadding)).BeginInit();
             this.SuspendLayout();
@@ -288,12 +289,25 @@
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // lblSearchingStyles
+            // 
+            this.lblSearchingStyles.AutoSize = true;
+            this.lblSearchingStyles.BackColor = System.Drawing.SystemColors.Control;
+            this.lblSearchingStyles.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSearchingStyles.Location = new System.Drawing.Point(50, 314);
+            this.lblSearchingStyles.Name = "lblSearchingStyles";
+            this.lblSearchingStyles.Size = new System.Drawing.Size(257, 20);
+            this.lblSearchingStyles.TabIndex = 26;
+            this.lblSearchingStyles.Text = "Updating results. Please wait...";
+            this.lblSearchingStyles.Visible = false;
+            // 
             // FormPieceSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1299, 423);
+            this.Controls.Add(this.lblSearchingStyles);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnClearFilters);
             this.Controls.Add(this.textBoxStyleName);
@@ -325,6 +339,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Search Pieces";
             this.Load += new System.EventHandler(this.FormPieceSearch_Load);
+            this.Shown += new System.EventHandler(this.FormPieceSearch_Shown);
             this.Click += new System.EventHandler(this.FormPieceSearch_Click);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.formPadding)).EndInit();
@@ -356,5 +371,6 @@
         private System.Windows.Forms.TextBox textBoxStyleName;
         private System.Windows.Forms.Button btnClearFilters;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Label lblSearchingStyles;
     }
 }

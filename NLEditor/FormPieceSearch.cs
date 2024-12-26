@@ -14,16 +14,46 @@ namespace NLEditor
     public partial class FormPieceSearch : Form
     {
         public Style curStyle;
+        private Timer searchDelayTimer;
         private readonly string rootPath;
+
+        private List<string> cachedSearchResults = null;
 
         public FormPieceSearch(string rootPath, Style curStyle)
         {
             InitializeComponent();
+            InitializeTimer();
 
             this.rootPath = rootPath;
             this.curStyle = curStyle;
 
             check_CurrentStyleOnly.Checked = false;
+        }
+
+        private void FilterSearchResults()
+        {
+            searchDelayTimer.Stop();
+            PerformSearch();
+        }
+
+        private void SetControlsActive(bool allowUserInput)
+        {
+            if (allowUserInput)
+            {   
+                //progressBar.Visible = false;
+                lblSearchingStyles.Visible = false;
+
+                this.Cursor = Cursors.Default;
+            }
+            else
+            {
+                //progressBar.Visible = true;
+                lblSearchingStyles.Visible = true;
+
+                this.Cursor = Cursors.WaitCursor;
+            }
+
+            Application.DoEvents();
         }
 
         private void PerformSearch()
@@ -43,127 +73,77 @@ namespace NLEditor
                 styleQuery = ""; // Treat as a wildcard to search for all pieces
             }
 
-            progressBar.Visible = true;
-            List<string> searchResults = SearchForPieces(rootPath, pieceQuery, styleQuery, progressBar);
-            progressBar.Visible = false;
+            SetControlsActive(false);
 
-            // Populate the list box with the filtered results
+            // Initialize the cache on the first search
+            if (cachedSearchResults == null)
+            {
+                cachedSearchResults = SearchForPieces(rootPath); // Perform a full search
+            }
+
+            // Apply text-based filtering to the cached results
+            var filteredResults = cachedSearchResults
+                .Where(result =>
+                {
+                    string fileName = Path.GetFileName(result);
+                    string styleName = result.Split('\\')[0]; // Assuming the first folder is the style name
+
+                    // Text filters (Name & Style)
+                    bool textFilterPassed =
+                        (string.IsNullOrEmpty(pieceQuery) || fileName.IndexOf(pieceQuery, StringComparison.OrdinalIgnoreCase) >= 0) &&
+                        (string.IsNullOrEmpty(styleQuery) || styleName.IndexOf(styleQuery, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                    if (!textFilterPassed)
+                    {
+                        return false;
+                    }
+
+                    // Additional filters
+                    return PiecePassesFilters(result, fileName);
+                })
+                .ToList();
+
+            // Update the ListBox with filtered results
+            listBoxSearchResults.BeginUpdate();
             listBoxSearchResults.Items.Clear();
-            foreach (var result in searchResults)
+
+            foreach (var result in filteredResults)
             {
                 listBoxSearchResults.Items.Add(result);
             }
+            listBoxSearchResults.EndUpdate();
 
             if (listBoxSearchResults.Items.Count <= 0)
             {
-                if (!string.IsNullOrEmpty(pieceQuery))
-                    listBoxSearchResults.Items.Add($"No results found for piece: '{pieceQuery}'");
-                else if (!string.IsNullOrEmpty(styleQuery))
-                    listBoxSearchResults.Items.Add($"No results found for style: '{styleQuery}'");
-                else
-                    listBoxSearchResults.Items.Add($"No results found");
+                listBoxSearchResults.Items.Add($"No results found");
             }
+
+            SetControlsActive(true);
         }
 
-
-        /// <summary>
-        /// Recursive search for pieces in the styles directory
-        /// </summary>
-        /// <param name="rootPath"></param>
-        /// <param name="searchQuery"></param>
-        /// <param name="searchCurrentStyleOnly"></param>
-        private List<string> SearchForPieces(string rootPath, string pieceQuery, string styleQuery, ProgressBar progressBar)
+        private List<string> SearchForPieces(string rootPath)
         {
             List<string> results = new List<string>();
 
-            // Determine the base path to search
-            string searchPath = check_CurrentStyleOnly.Checked
-                                ? Path.Combine(rootPath, "styles", curStyle?.NameInDirectory) // Search only the current style's folder
-                                : Path.Combine(rootPath, "styles"); // Search all styles
+            // Search all styles
+            string searchPath = Path.Combine(rootPath, "styles");
 
             try
             {
-                // Get all PNG files first to calculate progress
+                // Get all PNG files first
                 string[] files = Directory.GetFiles(searchPath, "*.png", SearchOption.AllDirectories);
-                int totalFiles = files.Length;
-                int processedFiles = 0;
-
-                // Set the progress bar's maximum value
-                progressBar.Maximum = totalFiles;
-                progressBar.Value = 0;
 
                 foreach (string file in files)
                 {
                     string fileName = Path.GetFileNameWithoutExtension(file);
-
-                    // Get the relative path for adding to results
                     string relativePath = GetRelativePath(Path.Combine(rootPath, "styles"), file);
 
                     // Extract style name from the relative path
                     string[] pathParts = relativePath.Split(Path.DirectorySeparatorChar);
                     string styleName = pathParts.Length > 0 ? pathParts[0] : "";
 
-                    // Ensure the file is in a relevant subfolder
-                    if (!IsInRelevantSubfolder(relativePath, new[] { "objects", "terrain" }))
-                    {
-                        continue; // Skip files not in relevant subfolders
-                    }
-
-                    // Ensure the style matches the search query (or no filtering if empty)
-                    if (!string.IsNullOrEmpty(styleQuery) && styleName.IndexOf(styleQuery, StringComparison.OrdinalIgnoreCase) < 0)
-
-                    {
-                        continue; // Skip files not matching the chosen style
-                    }
-
-                    // Ensure the filename matches the search query (or no filtering if empty)
-                    if (string.IsNullOrEmpty(pieceQuery) || fileName.IndexOf(pieceQuery, StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        bool addToResults = false;
-
-                        // Check for .nxmt file if Steel is checked
-                        string nxmtFilePath = Path.Combine(Path.GetDirectoryName(file), fileName + ".nxmt");
-                        if (check_Steel.Checked)
-                        {
-                            // Only add to results if an .nxmt file exists and passes the ProcessNxmtFile check
-                            if (File.Exists(nxmtFilePath))
-                            {
-                                addToResults = ProcessNxmtFile(nxmtFilePath);
-                            }
-                        }
-                        else
-                        {
-                            // Check for .nxmo file if the piece is in the "objects" folder
-                            string nxmoFilePath = Path.Combine(Path.GetDirectoryName(file), fileName + ".nxmo");
-                            
-                            if (relativePath.IndexOf("\\objects\\", StringComparison.OrdinalIgnoreCase) >= 0)
-                            {
-                                if (File.Exists(nxmoFilePath)) // Only add files with an associated .nxmo
-                                {
-                                    addToResults = ProcessNxmoFile(nxmoFilePath);
-                                }
-                            }
-                            else
-                            {
-                                // Always add to results if no filters are active
-                                if ((string.IsNullOrEmpty(cbTriggerEffect.Text) || cbTriggerEffect.Text == "<Any>")
-                                    && !check_CanNineSlice.Checked && !check_CanResize.Checked)
-                                {
-                                    addToResults = true;
-                                }
-                            }
-                        }
-
-                        if (addToResults)
-                        {
-                            results.Add(relativePath.Replace(Path.DirectorySeparatorChar, '\\')
-                                                    .Replace(Path.GetExtension(relativePath), ""));
-                        }
-                    }
-
-                    // Update progress bar
-                    processedFiles++;
-                    progressBar.Invoke((Action)(() => progressBar.Value = processedFiles));
+                    results.Add(relativePath.Replace(Path.DirectorySeparatorChar, '\\')
+                                            .Replace(Path.GetExtension(relativePath), ""));
                 }
             }
             catch (Exception ex)
@@ -172,6 +152,53 @@ namespace NLEditor
             }
 
             return results;
+        }
+
+        private bool PiecePassesFilters(string relativePath, string fileName)
+        {
+            // Skip files not in a relevant subfolder
+            if (!IsInRelevantSubfolder(relativePath, new[] { "objects", "terrain" }))
+            {
+                return false;
+            }
+
+            // Handle "Current Style Only" checkbox
+            if (check_CurrentStyleOnly.Checked && curStyle != null)
+            {
+                string styleName = relativePath.Split('\\')[0]; // Extract the style name
+                if (!string.Equals(styleName, curStyle.NameInDirectory, StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+            }
+
+            string nxmoFilePath = Path.Combine("styles", Path.GetDirectoryName(relativePath), fileName + ".nxmo");
+            string nxmtFilePath = Path.Combine("styles", Path.GetDirectoryName(relativePath), fileName + ".nxmt");
+
+            // "Steel" checkbox filter
+            if (check_Steel.Checked)
+            {
+                if (relativePath.IndexOf("\\terrain\\", StringComparison.OrdinalIgnoreCase) < 0 || !File.Exists(nxmtFilePath))
+                {
+                    return false;
+                }
+
+                if (!ProcessNxmtFile(nxmtFilePath))
+                {
+                    return false;
+                }
+            }
+
+            // Filters for .nxmo file in "objects" folder
+            if (relativePath.IndexOf("\\objects\\", StringComparison.OrdinalIgnoreCase) >= 0 && File.Exists(nxmoFilePath))
+            {
+                return ProcessNxmoFile(nxmoFilePath);
+            }
+
+            bool noTriggerFilter = string.IsNullOrEmpty(cbTriggerEffect.Text) || cbTriggerEffect.Text == "<Any>";
+
+            // If no filters are active, pass by default
+            return noTriggerFilter && !check_CanNineSlice.Checked && !check_CanResize.Checked;
         }
 
         private bool IsInRelevantSubfolder(string relativePath, string[] relevantSubfolders)
@@ -186,6 +213,92 @@ namespace NLEditor
             return false;
         }
 
+        /// <summary>
+        /// Process an .nxmo file and filter based on checkbox states.
+        /// </summary>
+        /// <param name="filePath">Path to the .nxmo file</param>
+        /// <param name="imageHeight">Height of the associated image</param>
+        private bool ProcessNxmoFile(string filePath)
+        {
+            string triggerEffect = string.Empty;
+            bool canResize = false;
+            bool canNineSlice = false;
+
+            string[] lines = File.ReadAllLines(filePath);
+
+            foreach (string line in lines)
+            {
+                string trimmed = line.Trim();
+
+                if (trimmed.StartsWith("EFFECT ", StringComparison.OrdinalIgnoreCase))
+                {
+                    triggerEffect = trimmed.Substring(7).Trim();
+                    switch (triggerEffect)
+                    {
+                        case "LOCKEDEXIT": triggerEffect = "EXIT"; break;
+                        case "UNLOCKBUTTON": triggerEffect = "BUTTON"; break;
+                        case "ONEWAYDOWN":
+                        case "ONEWAYUP":
+                        case "ONEWAYLEFT":
+                        case "ONEWAYRIGHT": triggerEffect = "ONEWAY"; break;
+                        case "FORCELEFT":
+                        case "FORCERIGHT": triggerEffect = "FORCE"; break;
+                    }
+                }
+
+                if (trimmed.StartsWith("RESIZE_", StringComparison.OrdinalIgnoreCase))
+                {
+                    canResize = true;
+                }
+
+                if (trimmed.StartsWith("NINE_SLICE", StringComparison.OrdinalIgnoreCase))
+                {
+                    canNineSlice = true;
+                }
+            }
+
+            string selectedEffect = cbTriggerEffect.Text.Trim();
+
+            bool passesTriggerEffectFilter =
+                string.IsNullOrEmpty(selectedEffect) ||
+                selectedEffect == "<Any>" ||
+                selectedEffect.Equals(triggerEffect, StringComparison.OrdinalIgnoreCase);
+
+            bool passesResizeFilter = !check_CanResize.Checked || canResize;
+            bool passesNineSliceFilter = !check_CanNineSlice.Checked || canNineSlice;
+
+            return passesTriggerEffectFilter && passesResizeFilter && passesNineSliceFilter;
+        }
+
+        /// <summary>
+        /// Process an .nxmt file and filter based on checkbox states.
+        /// </summary>
+        /// <param name="filePath">Path to the .nxmt file</param>
+        /// <returns>True if the file matches the filter criteria</returns>
+        private bool ProcessNxmtFile(string filePath)
+        {
+            string[] lines = File.ReadAllLines(filePath);
+
+            foreach (string line in lines)
+            {
+                if (line.Trim() == "STEEL")
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the relative path from the base path to the file path.
+        /// </summary>
+        private string GetRelativePath(string basePath, string filePath)
+        {
+            Uri baseUri = new Uri(basePath.EndsWith("\\") ? basePath : basePath + "\\");
+            Uri fileUri = new Uri(filePath);
+            return Uri.UnescapeDataString(baseUri.MakeRelativeUri(fileUri).ToString().Replace('/', Path.DirectorySeparatorChar));
+        }
         private void listBoxSearchResults_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBoxSearchResults.SelectedItem == null)
@@ -220,72 +333,6 @@ namespace NLEditor
             lblMetaData.Text = $"Style: {style}\nSubfolder: {subfolder}\nPiece: {piece}";
         }
 
-        /// <summary>
-        /// Process an .nxmo file and filter based on checkbox states.
-        /// </summary>
-        /// <param name="filePath">Path to the .nxmo file</param>
-        /// <param name="imageHeight">Height of the associated image</param>
-        private bool ProcessNxmoFile(string filePath)
-        {
-            string triggerEffect = string.Empty;
-            bool canResize = false;
-            bool canNineSlice = false;
-
-            string[] lines = File.ReadAllLines(filePath);
-
-            foreach (string line in lines)
-            {
-                string trimmed = line.Trim();
-
-                if (trimmed.StartsWith("EFFECT ", StringComparison.OrdinalIgnoreCase))
-                {
-                    triggerEffect = trimmed.Substring(7).Trim();
-                    switch (triggerEffect)
-                    {
-                        case "LOCKEDEXIT":
-                            triggerEffect = "EXIT";
-                            break;
-                        case "UNLOCKBUTTON":
-                            triggerEffect = "BUTTON";
-                            break;
-                        case "ONEWAYDOWN":
-                        case "ONEWAYUP":
-                        case "ONEWAYLEFT":
-                        case "ONEWAYRIGHT":
-                            triggerEffect = "ONEWAY";
-                            break;
-                        case "FORCELEFT":
-                        case "FORCERIGHT":
-                            triggerEffect = "FORCE";
-                            break;
-                    }
-                }
-
-                if (trimmed.StartsWith("RESIZE_", StringComparison.OrdinalIgnoreCase))
-                {
-                    canResize = true;
-                }
-
-                if (trimmed.StartsWith("NINE_SLICE", StringComparison.OrdinalIgnoreCase))
-                {
-                    canNineSlice = true;
-                }
-            }
-
-            string selectedEffect = cbTriggerEffect.Text.Trim();
-
-            bool passesTriggerEffectFilter =
-                string.IsNullOrEmpty(cbTriggerEffect.Text) ||
-                selectedEffect == "<Any>" ||
-                selectedEffect.Equals(triggerEffect, StringComparison.OrdinalIgnoreCase);
-
-            bool passesResizeFilter = !check_CanResize.Checked || canResize;
-            bool passesNineSliceFilter = !check_CanNineSlice.Checked || canNineSlice;
-
-            // Combine all filters
-            return passesTriggerEffectFilter && passesResizeFilter && passesNineSliceFilter;
-        }
-
         public void PreviewPiece(string pieceKey, PictureBox previewPictureBox)
         {
             if (string.IsNullOrEmpty(pieceKey))
@@ -305,36 +352,6 @@ namespace NLEditor
             }
 
             ZoomImageWithNearestNeighbor(pieceImage);
-        }
-
-        /// <summary>
-        /// Process an .nxmt file and filter based on checkbox states.
-        /// </summary>
-        /// <param name="filePath">Path to the .nxmt file</param>
-        /// <returns>True if the file matches the filter criteria</returns>
-        private bool ProcessNxmtFile(string filePath)
-        {
-            string[] lines = File.ReadAllLines(filePath);
-
-            foreach (string line in lines)
-            {
-                if (line.Trim() == "STEEL")
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Gets the relative path from the base path to the file path.
-        /// </summary>
-        private string GetRelativePath(string basePath, string filePath)
-        {
-            Uri baseUri = new Uri(basePath.EndsWith("\\") ? basePath : basePath + "\\");
-            Uri fileUri = new Uri(filePath);
-            return Uri.UnescapeDataString(baseUri.MakeRelativeUri(fileUri).ToString().Replace('/', Path.DirectorySeparatorChar));
         }
 
         private void ZoomImageWithNearestNeighbor(Bitmap originalImage)
@@ -413,7 +430,7 @@ namespace NLEditor
 
             // Trigger the event to notify NLEditForm
             if (loadStyle) StyleSelected?.Invoke(newStylePath);
-            if (addPiece)  PieceSelected?.Invoke(newPiece);
+            if (addPiece) PieceSelected?.Invoke(newPiece);
 
             // Update label
             lblCurrentStyle.Text = curStyle?.NameInEditor;
@@ -427,8 +444,8 @@ namespace NLEditor
 
             this.Location = new Point(leftPos, topPos);
 
-            ResetUI();
-            PerformSearch();
+            lblSearchingStyles.Left = btnClearFilters.Left +
+                                     (btnClearFilters.Width - lblSearchingStyles.Width) / 2;
         }
 
         private void ResetUI()
@@ -436,6 +453,8 @@ namespace NLEditor
             lblCurrentStyle.Text = $"{curStyle?.NameInEditor}";
             pictureBoxPreview.Image = null;
             lblMetaData.Text = "";
+
+            Application.DoEvents();
         }
 
         private void check_CurrentStyleOnly_CheckedChanged(object sender, EventArgs e)
@@ -451,39 +470,39 @@ namespace NLEditor
                 textBoxStyleName.Enabled = true;
             }
 
-            PerformSearch();
+            FilterSearchResults();
         }
 
         private void check_CanResize_CheckedChanged(object sender, EventArgs e)
         {
-            PerformSearch();
+            FilterSearchResults();
         }
 
         private void check_CanNineSlice_CheckedChanged(object sender, EventArgs e)
         {
-            PerformSearch();
+            FilterSearchResults();
         }
 
         private void check_Steel_CheckedChanged(object sender, EventArgs e)
         {
-            PerformSearch();
+            FilterSearchResults();
         }
 
         private void cbTriggerEffect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PerformSearch();
+            FilterSearchResults();
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            PerformSearch();
+            FilterSearchResults();
         }
 
         private void textBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                PerformSearch();
+                FilterSearchResults();
             }
         }
 
@@ -499,7 +518,7 @@ namespace NLEditor
             check_CanNineSlice.Checked = false;
             check_Steel.Checked = false;
 
-            PerformSearch();
+            FilterSearchResults();
         }
 
         private void textBox_MouseDown(object sender, MouseEventArgs e)
@@ -511,14 +530,37 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Typing into text searches triggers a timer which performs a search after 500 ticks
+        /// </summary>
         private void textBox_TextChanged(object sender, EventArgs e)
         {
-            PerformSearch();
+            // Reset the timer on each keystroke
+            searchDelayTimer.Stop();
+            searchDelayTimer.Start();
+        }
+
+        private void InitializeTimer()
+        {
+            // Initialize the timer
+            searchDelayTimer = new Timer();
+            searchDelayTimer.Interval = 500; // Short delay
+            searchDelayTimer.Tick += SearchDelayTimer_Tick;
+        }
+
+        private void SearchDelayTimer_Tick(object sender, EventArgs e)
+        {
+            FilterSearchResults();
         }
 
         private void FormPieceSearch_Click(object sender, EventArgs e)
         {
             listBoxSearchResults.Focus();
+        }
+
+        private void FormPieceSearch_Shown(object sender, EventArgs e)
+        {
+            PerformSearch();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
