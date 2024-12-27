@@ -107,7 +107,7 @@ namespace NLEditor
             // Version 2.8.4 features
             WriteBoldText(richTextBox, "Version 2.8.4\n");
             WriteBoldText(richTextBox, "• Fully-customisable hotkeys");
-            richTextBox.AppendText(" - Choose your own hotkey layout for the Editor's features\n");
+            richTextBox.AppendText(" - Choose your own hotkey layout for the Editor's features - - (As of 2.8.4 the form is now displayed at the correct size in all screen resolutions)\n");
 
             WriteBoldText(richTextBox, "• Piece Search dialog added to browser");
             richTextBox.AppendText(" - Search for specific pieces by name, style, object type, and other properties\n");

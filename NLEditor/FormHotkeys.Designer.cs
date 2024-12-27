@@ -320,6 +320,7 @@
             this.lblListening = new System.Windows.Forms.Label();
             this.focusText = new System.Windows.Forms.TextBox();
             this.btnLoadClassic = new System.Windows.Forms.Button();
+            this.panelSizing = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // comboBoxChooseKey
@@ -724,10 +725,18 @@
             this.btnLoadClassic.UseVisualStyleBackColor = true;
             this.btnLoadClassic.Click += new System.EventHandler(this.btnLoadClassic_Click);
             // 
+            // panelSizing
+            // 
+            this.panelSizing.Location = new System.Drawing.Point(695, 651);
+            this.panelSizing.Name = "panelSizing";
+            this.panelSizing.Size = new System.Drawing.Size(434, 138);
+            this.panelSizing.TabIndex = 29;
+            // 
             // FormHotkeys
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1128, 785);
             this.Controls.Add(this.btnLoadClassic);
@@ -758,6 +767,7 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblListening);
             this.Controls.Add(this.focusText);
+            this.Controls.Add(this.panelSizing);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -806,5 +816,6 @@
         private System.Windows.Forms.Label lblListening;
         private System.Windows.Forms.TextBox focusText;
         private System.Windows.Forms.Button btnLoadClassic;
+        private System.Windows.Forms.Panel panelSizing;
     }
 }
