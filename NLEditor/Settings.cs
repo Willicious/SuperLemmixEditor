@@ -369,7 +369,8 @@ namespace NLEditor
                         break;
                 }
 
-                editorForm.UpdateRestartMessage();
+                editorForm.DetectLemmixVersions();
+                editorForm.UpdateLemmixVersionFeatures();
             }
 
             settingChanged = true;
@@ -520,8 +521,6 @@ namespace NLEditor
         {
             ReadSettingsFromFile();
             WriteSettingsToFile();
-
-            editorForm.UpdateRestartMessage();
         }
 
         /// <summary>

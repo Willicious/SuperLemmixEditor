@@ -104,7 +104,7 @@ namespace NLEditor
 
             InitializeSettings();
             DetectLemmixVersions();
-            SetLemmixVersionFeatures();
+            UpdateLemmixVersionFeatures();
 
             if (!curSettings.UseTooltipBotton)
                 toolTipButton.Active = false;

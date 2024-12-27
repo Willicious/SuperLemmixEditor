@@ -14,33 +14,6 @@ namespace NLEditor
     {
         public EditorMode previousEditorMode;
 
-        public void UpdateRestartMessage()
-        {
-            if (previousEditorMode == curSettings.CurrentEditorMode)
-            {
-                statusBar.Visible = true;
-                statusBarLabel1.Text = "";
-                statusBarLabel2.Text = "";
-                statusBarButton1.Visible = false;
-                return;
-            }
-            
-            string modeString;
-
-            if (curSettings.CurrentEditorMode == Settings.EditorMode.NeoLemmix)
-                modeString = "NeoLemmix Mode";
-            else if (curSettings.CurrentEditorMode == Settings.EditorMode.SuperLemmix)
-                modeString = "SuperLemmix Mode";
-            else
-                modeString = "Auto Mode";
-
-            statusBar.Visible = true;
-            statusBarLabel1.Text = "";
-            statusBarLabel2.Text = "SuperLemmix Editor must be restarted for " + modeString + " to take effect. " +
-                                   "Please save your work and restart the Editor";
-            statusBarButton1.Visible = false;
-        }
-
         /// <summary>
         /// Initializes the intervals for all repeat buttons.
         /// </summary>
@@ -375,6 +348,39 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Sets non-updating controls according to Lemmix version/user preferences
+        /// </summary>
+        public void UpdateLemmixVersionFeatures()
+        {
+            lbl_Skill_Stoner.Enabled = isNeoLemmixOnly;
+            lbl_Skill_Stoner.Visible = isNeoLemmixOnly;
+            lbl_Skill_Freezer.Enabled = !isNeoLemmixOnly;
+            lbl_Skill_Freezer.Visible = !isNeoLemmixOnly;
+
+            num_Ski_Stoner.Visible = isNeoLemmixOnly;
+            num_Ski_Stoner.Enabled = isNeoLemmixOnly;
+            num_Ski_Freezer.Enabled = !isNeoLemmixOnly;
+            num_Ski_Freezer.Visible = !isNeoLemmixOnly;
+
+            check_Piece_Stoner.Visible = isNeoLemmixOnly;
+            check_Piece_Freezer.Enabled = !isNeoLemmixOnly;
+            check_Piece_Freezer.Visible = !isNeoLemmixOnly;
+
+            lbl_Skill_Ballooner.Enabled = !isNeoLemmixOnly;
+            lbl_Skill_Timebomber.Enabled = !isNeoLemmixOnly;
+            lbl_Skill_Ladderer.Enabled = !isNeoLemmixOnly;
+            lbl_Skill_Spearer.Enabled = !isNeoLemmixOnly;
+            lbl_Skill_Grenader.Enabled = !isNeoLemmixOnly;
+
+            num_Ski_Ballooner.Enabled = !isNeoLemmixOnly;
+            num_Ski_Timebomber.Enabled = !isNeoLemmixOnly;
+            num_Ski_Ladderer.Enabled = !isNeoLemmixOnly;
+            num_Ski_Spearer.Enabled = !isNeoLemmixOnly;
+            num_Ski_Grenader.Enabled = !isNeoLemmixOnly;
+
+            check_Lvl_Superlemming.Enabled = !isNeoLemmixOnly;
+        }
 
         /// <summary>
         /// Repositions the controls after resizing the main form.
