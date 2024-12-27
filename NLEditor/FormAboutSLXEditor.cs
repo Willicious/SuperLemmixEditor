@@ -104,8 +104,8 @@ namespace NLEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
-            // Version 2.8.3 features
-            WriteBoldText(richTextBox, "Version 2.8.3\n");
+            // Version 2.8.4 features
+            WriteBoldText(richTextBox, "Version 2.8.4\n");
             WriteBoldText(richTextBox, "• Fully-customisable hotkeys");
             richTextBox.AppendText(" - Choose your own hotkey layout for the Editor's features\n");
 
@@ -113,7 +113,7 @@ namespace NLEditor
             richTextBox.AppendText(" - Search for specific pieces by name, style, object type, and other properties\n");
 
             WriteBoldText(richTextBox, "• NeoLemmix Mode");
-            richTextBox.AppendText(" - Activates NeoLemmix-specific controls and features across the Editor's UI\n");
+            richTextBox.AppendText(" - Activates NeoLemmix-specific controls and features across the Editor's UI - (As of 2.8.4 it's now possible to switch between Neo/Super/Auto Modes without closing and re-opening the Editor) \n");
 
             WriteBoldText(richTextBox, "• Settings");
             richTextBox.AppendText(" - Improved Settings form with more sophisticated UI\n");
