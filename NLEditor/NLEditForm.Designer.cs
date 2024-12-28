@@ -63,11 +63,13 @@
             this.deprecatedPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.snapToGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.combo_PieceStyle = new System.Windows.Forms.ComboBox();
             this.picPiece0 = new System.Windows.Forms.PictureBox();
             this.picPiece1 = new System.Windows.Forms.PictureBox();
@@ -267,8 +269,6 @@
             this.but_PieceTerr = new System.Windows.Forms.Button();
             this.txt_Focus = new NLEditor.FocusTextBox();
             this.but_SearchPieces = new System.Windows.Forms.Button();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.searchPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -640,6 +640,14 @@
             this.showMissingPiecesToolStripMenuItem.Text = "Show Missing Pieces";
             this.showMissingPiecesToolStripMenuItem.Click += new System.EventHandler(this.showMissingPiecesToolStripMenuItem_Click);
             // 
+            // searchPiecesToolStripMenuItem
+            // 
+            this.searchPiecesToolStripMenuItem.Name = "searchPiecesToolStripMenuItem";
+            this.searchPiecesToolStripMenuItem.ShortcutKeyDisplayString = "F8";
+            this.searchPiecesToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
+            this.searchPiecesToolStripMenuItem.Text = "Search Pieces";
+            this.searchPiecesToolStripMenuItem.Click += new System.EventHandler(this.searchPiecesToolStripMenuItem_Click);
+            // 
             // snapToGridToolStripMenuItem
             // 
             this.snapToGridToolStripMenuItem.Name = "snapToGridToolStripMenuItem";
@@ -676,6 +684,11 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
             this.aboutToolStripMenuItem.Text = "About SuperLemmix Editor";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(405, 6);
             // 
             // combo_PieceStyle
             // 
@@ -3273,18 +3286,6 @@
             this.but_SearchPieces.Text = "Search Pieces";
             this.but_SearchPieces.UseVisualStyleBackColor = true;
             this.but_SearchPieces.Click += new System.EventHandler(this.but_SearchPieces_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(405, 6);
-            // 
-            // searchPiecesToolStripMenuItem
-            // 
-            this.searchPiecesToolStripMenuItem.Name = "searchPiecesToolStripMenuItem";
-            this.searchPiecesToolStripMenuItem.ShortcutKeyDisplayString = "F8";
-            this.searchPiecesToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
-            this.searchPiecesToolStripMenuItem.Text = "Search Pieces";
             // 
             // NLEditForm
             // 

@@ -1486,5 +1486,10 @@ namespace NLEditor
         {
             OpenPieceSearch();
         }
+
+        private void searchPiecesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenPieceSearch();
+        }
     }
 }
