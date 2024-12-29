@@ -832,6 +832,13 @@ namespace NLEditor
             ChangeObjTerrPieceDisplay(newKind);
         }
 
+        private void MaybeOpenPiecesTab()
+        {
+            if (CurLevel.SelectionList().Count > 0)
+            {
+                tabLvlProperties.SelectedIndex = tabLvlProperties.TabPages.IndexOf(tabPieces);
+            }
+        }
         /// <summary>
         /// Gets the key from the index of the clicked PieceBox.
         /// </summary>
@@ -908,6 +915,8 @@ namespace NLEditor
                         pic_Level.SetImage(curRenderer.CombineLayers());
                         break;
                 }
+
+            MaybeOpenPiecesTab();
         }
 
         /// <summary>
@@ -957,6 +966,8 @@ namespace NLEditor
                 CurLevel.UnselectAll();
                 CurLevel.SelectOnePiece(levelPos, true, selectPiecesBelowPressed);
             }
+
+            MaybeOpenPiecesTab();
         }
 
         /// <summary>
