@@ -839,6 +839,81 @@ namespace NLEditor
                 tabLvlProperties.SelectedIndex = tabLvlProperties.TabPages.IndexOf(tabPieces);
             }
         }
+
+        private void LoadStyleFromMetaData()
+        {
+            if (lblPieceStyle.Text != null)
+            {
+                combo_PieceStyle.Text = lblPieceStyle.Text;
+            }
+            else
+            {
+                MessageBox.Show("The selected style could not be found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void UpdatePieceMetaData()
+        {
+            if (CurLevel == null)
+                return;
+            
+            LevelPiece currentPiece;
+            string pieceName;
+            string pieceStyle;
+            string pieceType;
+
+            if (CurLevel.SelectionList().Count == 1)
+                currentPiece = CurLevel.SelectionList().First();
+            else
+            {
+                gbPieceMetaData.Enabled = false;
+
+                lblPieceName.Text = string.Empty;
+                lblPieceStyle.Text = string.Empty;
+                lblPieceType.Text = string.Empty;
+                but_LoadStyle.Visible = false;
+
+                return;
+            }
+
+            // Get the name of the currently-selected piece
+            if (currentPiece.IsSketch)
+                pieceName = char.ToUpper(currentPiece.Name[0]) + currentPiece.Name.Substring(1).ToLower() + " Sketch";
+            else
+                pieceName = currentPiece.Name;
+
+            // Find the style based on its directory (NameInDirectory)
+            Style style = StyleList?.Find(sty => sty.NameInDirectory == currentPiece.Style);
+
+            if (currentPiece.IsSketch)
+                pieceStyle = "(Sketches)";
+            else if (currentPiece is GroupPiece)
+                pieceStyle = "(Group)";
+            else if (style == null)
+                pieceStyle = "(Default)";
+            else
+                pieceStyle = style.NameInEditor;
+
+            // Get the type of the current piece and format appropriately
+            pieceType = char.ToUpper(currentPiece.ObjType.ToString()[0]) +
+                        currentPiece.ObjType.ToString().Substring(1).ToLower();
+
+            // Update panel, labels and button
+            gbPieceMetaData.Enabled = true;
+
+            lblPieceName.Text = pieceName;
+            lblPieceStyle.Text = pieceStyle;
+            lblPieceType.Text = pieceType;
+
+            string[] nonLoadable = { "(Default)", "(Group)", "(Sketches)" };
+
+            if (pieceCurStyle.NameInEditor != pieceStyle && !nonLoadable.Contains(pieceStyle))
+                but_LoadStyle.Visible = true;
+            else
+                but_LoadStyle.Visible = false;
+        }
+
+
         /// <summary>
         /// Gets the key from the index of the clicked PieceBox.
         /// </summary>
@@ -917,6 +992,7 @@ namespace NLEditor
                 }
 
             MaybeOpenPiecesTab();
+            UpdatePieceMetaData();
         }
 
         /// <summary>
@@ -968,6 +1044,7 @@ namespace NLEditor
             }
 
             MaybeOpenPiecesTab();
+            UpdatePieceMetaData();
         }
 
         /// <summary>
@@ -1398,6 +1475,7 @@ namespace NLEditor
                 CurLevel.GroupSelection();
                 SaveChangesToOldLevelList();
                 UpdateFlagsForPieceActions();
+                UpdatePieceMetaData();
                 pic_Level.Image = curRenderer.CreateLevelImage();
             }
         }
@@ -1412,6 +1490,7 @@ namespace NLEditor
                 CurLevel.UngroupSelection();
                 SaveChangesToOldLevelList();
                 UpdateFlagsForPieceActions();
+                UpdatePieceMetaData();
                 pic_Level.Image = curRenderer.CreateLevelImage();
             }
         }
@@ -1485,6 +1564,13 @@ namespace NLEditor
             {
                 aboutSLXEditor.ShowDialog(this);
             }
+        }
+
+        private void SetMetaDataPanel()
+        {
+            gbPieceMetaData.Top = tabPieces.Height - gbPieceMetaData.Height;
+            gbPieceMetaData.Left = tabPieces.Left;
+            gbPieceMetaData.Width = tabPieces.Width - 5;
         }
 
         private void SetAllSkillsToZero()

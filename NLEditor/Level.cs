@@ -264,7 +264,6 @@ namespace NLEditor
             }
         }
 
-
         /// <summary>
         /// Creates a new piece and adds it to the level. 
         /// </summary>

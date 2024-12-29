@@ -101,6 +101,7 @@ namespace NLEditor
 
             CreateNewLevelAndRenderer();
             UpdateFlagsForPieceActions();
+            UpdatePieceMetaData();
 
             InitializeSettings();
             DetectLemmixVersions();
@@ -758,7 +759,9 @@ namespace NLEditor
             // Load new style into PictureBoxes
             pieceCurStyle = newStyle;
             pieceStartIndex = 0;
+
             LoadPiecesIntoPictureBox();
+            UpdatePieceMetaData();
         }
 
         private void combo_PieceStyle_Leave(object sender, EventArgs e)
@@ -1475,6 +1478,8 @@ namespace NLEditor
 
             if (Properties.Settings.Default.ShowAboutSLXWindowAtStartup)
                 ShowAboutSLXEditor();
+
+            SetMetaDataPanel();
         }
 
         private void whatsNewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1490,6 +1495,11 @@ namespace NLEditor
         private void searchPiecesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenPieceSearch();
+        }
+
+        private void but_LoadStyle_Click(object sender, EventArgs e)
+        {
+            LoadStyleFromMetaData();
         }
     }
 }

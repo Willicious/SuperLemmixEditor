@@ -168,7 +168,6 @@ namespace NLEditor
                 imageWithPieceNames.Add(newImage);
             }
         }
-
     }
 
     /// <summary>
