@@ -837,6 +837,7 @@ namespace NLEditor
             if (CurLevel.SelectionList().Count > 0)
             {
                 tabLvlProperties.SelectedIndex = tabLvlProperties.TabPages.IndexOf(tabPieces);
+                PullFocusFromTextInputs();
             }
         }
 
