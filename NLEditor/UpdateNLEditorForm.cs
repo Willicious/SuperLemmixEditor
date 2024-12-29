@@ -364,7 +364,6 @@ namespace NLEditor
             num_Ski_Freezer.Visible = !isNeoLemmixOnly;
 
             check_Piece_Stoner.Visible = isNeoLemmixOnly;
-            check_Piece_Freezer.Enabled = !isNeoLemmixOnly;
             check_Piece_Freezer.Visible = !isNeoLemmixOnly;
 
             lbl_Skill_Ballooner.Enabled = !isNeoLemmixOnly;
