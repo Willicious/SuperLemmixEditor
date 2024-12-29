@@ -1389,6 +1389,20 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Selects all pieces
+        /// </summary>
+        public void SelectAllPieces()
+        {
+            CurLevel.TerrainList.ForEach(ter => ter.IsSelected = true);
+            CurLevel.GadgetList.ForEach(gad => gad.IsSelected = true);
+
+            pic_Level.SetImage(curRenderer.GetScreenImage());
+            UpdateFlagsForPieceActions();
+            PullFocusFromTextInputs();
+            UpdatePieceMetaData();
+        }
+
+        /// <summary>
         /// Adds all pieces that are stored in memory by previously deleting/copying them.
         /// </summary>
         private void AddFromClipboard(bool doCenterAtCursor)
@@ -1764,6 +1778,7 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyAddPiece13, () => AddPieceViaHotkey(13));
             AddHotkey(HotkeyConfig.HotkeyUndo, () => UndoLastChange());
             AddHotkey(HotkeyConfig.HotkeyRedo, () => CancelLastUndo());
+            AddHotkey(HotkeyConfig.HotkeySelectAll, () => SelectAllPieces());
             AddHotkey(HotkeyConfig.HotkeyCut, () => DeleteSelectedPieces());
             AddHotkey(HotkeyConfig.HotkeyCopy, () => WriteToClipboard());
             AddHotkey(HotkeyConfig.HotkeyPaste, () => AddFromClipboard(true));
@@ -1836,6 +1851,9 @@ namespace NLEditor
 
             redoToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyRedo);
+
+            selectAllToolStripMenuItem.ShortcutKeyDisplayString =
+                HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeySelectAll);
 
             cutToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyCut);

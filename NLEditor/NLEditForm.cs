@@ -1501,5 +1501,10 @@ namespace NLEditor
         {
             LoadStyleFromMetaData();
         }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SelectAllPieces();
+        }
     }
 }

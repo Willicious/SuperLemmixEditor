@@ -785,6 +785,9 @@ namespace NLEditor
                     case "HotkeyRedo":
                         HotkeyConfig.HotkeyRedo = parsedKey;
                         break;
+                    case "HotkeySelectAll":
+                        HotkeyConfig.HotkeySelectAll = parsedKey;
+                        break;
                     case "HotkeyCut":
                         HotkeyConfig.HotkeyCut = parsedKey;
                         break;

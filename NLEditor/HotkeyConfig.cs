@@ -65,6 +65,7 @@ namespace NLEditor
         public static Keys HotkeyAddPiece13;
         public static Keys HotkeyUndo;
         public static Keys HotkeyRedo;
+        public static Keys HotkeySelectAll;
         public static Keys HotkeyCut;
         public static Keys HotkeyCopy;
         public static Keys HotkeyPaste;
@@ -411,6 +412,8 @@ namespace NLEditor
                     HotkeyUndo = ParseHotkeyString(line.Substring("HotkeyUndo=".Length));
                 if (line.StartsWith("HotkeyRedo="))
                     HotkeyRedo = ParseHotkeyString(line.Substring("HotkeyRedo=".Length));
+                if (line.StartsWith("HotkeySelectAll="))
+                    HotkeySelectAll = ParseHotkeyString(line.Substring("HotkeySelectAll=".Length));
                 if (line.StartsWith("HotkeyCut="))
                     HotkeyCut = ParseHotkeyString(line.Substring("HotkeyCut=".Length));
                 if (line.StartsWith("HotkeyCopy="))
@@ -538,6 +541,7 @@ namespace NLEditor
                 $"HotkeyAddPiece13={FormatHotkeyString(HotkeyAddPiece13)}",
                 $"HotkeyUndo={FormatHotkeyString(HotkeyUndo)}",
                 $"HotkeyRedo={FormatHotkeyString(HotkeyRedo)}",
+                $"HotkeySelectAll={FormatHotkeyString(HotkeySelectAll)}",
                 $"HotkeyCut={FormatHotkeyString(HotkeyCut)}",
                 $"HotkeyCopy={FormatHotkeyString(HotkeyCopy)}",
                 $"HotkeyPaste={FormatHotkeyString(HotkeyPaste)}",
@@ -638,6 +642,7 @@ namespace NLEditor
             HotkeyAddPiece13 = Keys.NumPad3; // Unassigned by default
             HotkeyUndo = Keys.Control | Keys.Z;
             HotkeyRedo = Keys.Control | Keys.Y;
+            HotkeySelectAll = Keys.Control | Keys.A;
             HotkeyCut = Keys.Control | Keys.X;
             HotkeyCopy = Keys.Control | Keys.C;
             HotkeyPaste = Keys.Control | Keys.V;
@@ -729,6 +734,7 @@ namespace NLEditor
             HotkeyAddPiece13 = Keys.None; // Unassigned in Classic layout
             HotkeyUndo = Keys.Control | Keys.Z;
             HotkeyRedo = Keys.Control | Keys.Y;
+            HotkeySelectAll = Keys.Control | Keys.A;
             HotkeyCut = Keys.Control | Keys.X;
             HotkeyCopy = Keys.Control | Keys.C;
             HotkeyPaste = Keys.Control | Keys.V;
