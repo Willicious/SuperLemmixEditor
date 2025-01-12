@@ -1,6 +1,6 @@
 ﻿namespace NLEditor
 {
-    partial class FormPicLevel
+    partial class FormLevelArranger
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPicLevel));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLevelArranger));
             this.SuspendLayout();
             // 
             // FormPicLevel

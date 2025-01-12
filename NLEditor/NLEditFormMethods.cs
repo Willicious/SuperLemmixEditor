@@ -413,15 +413,15 @@ namespace NLEditor
             }
         }
 
-        private void OpenLevelWindow()
+        private void OpenLevelArrangerWindow()
         {
             // Create the pop-out window and pass pic_Level to it
-            var popOutWindow = new FormPicLevel(pic_Level,
+            var levelArrangerWindow = new FormLevelArranger(pic_Level,
                                                 scrollPicLevelHoriz,
                                                 scrollPicLevelVert,
                                                 this);
 
-            popOutWindow.AddControlsToWindow();
+            levelArrangerWindow.AddControlsToWindow();
 
             // Set the position of pic_Level within the window
             RepositionPicLevel();
@@ -429,7 +429,7 @@ namespace NLEditor
             repositionAfterZooming = false;
 
             // Subscribe to the PictureBoxReturned event to handle re-parenting
-            popOutWindow.PicLevelReturned += () =>
+            levelArrangerWindow.PicLevelReturned += () =>
             {
                 // Use Invoke to ensure that the UI update happens on the main thread
                 this.Invoke(new Action(() =>
@@ -453,8 +453,11 @@ namespace NLEditor
                 }));
             };
 
+            Properties.Settings.Default.LevelArrangerIsOpen = true;
+            Properties.Settings.Default.Save();
+
             // Show the pop-out window
-            popOutWindow.Show();
+            levelArrangerWindow.Show();
         }
 
         /// <summary>
@@ -1786,7 +1789,7 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyShowMissingPieces, () => ShowMissingPiecesDialog());
             AddHotkey(HotkeyConfig.HotkeyPieceSearch, () => OpenPieceSearch());
             AddHotkey(HotkeyConfig.HotkeyToggleSnapToGrid, () => SwitchGridUsage());
-            AddHotkey(HotkeyConfig.HotkeyOpenLevelWindow, () => OpenLevelWindow());
+            AddHotkey(HotkeyConfig.HotkeyOpenLevelWindow, () => OpenLevelArrangerWindow());
             AddHotkey(HotkeyConfig.HotkeyOpenSettings, () => settingsToolStripMenuItem_Click(null, null));
             AddHotkey(HotkeyConfig.HotkeyOpenConfigHotkeys, () => hotkeysToolStripMenuItem_Click(null, null));
             AddHotkey(HotkeyConfig.HotkeyOpenAboutSLX, () => ShowAboutSLXEditor());

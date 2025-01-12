@@ -1480,6 +1480,9 @@ namespace NLEditor
             if (Properties.Settings.Default.ShowAboutSLXWindowAtStartup)
                 ShowAboutSLXEditor();
 
+            if (Properties.Settings.Default.LevelArrangerIsOpen)
+                OpenLevelArrangerWindow();
+
             SetMetaDataPanel();
         }
 
@@ -1510,7 +1513,7 @@ namespace NLEditor
 
         private void openLevelWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenLevelWindow();
+            OpenLevelArrangerWindow();
         }
     }
 }

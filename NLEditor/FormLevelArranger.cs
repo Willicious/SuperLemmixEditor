@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace NLEditor
 {
-    public partial class FormPicLevel : Form
+    public partial class FormLevelArranger : Form
     {
         private NLEditForm mainForm;
 
@@ -13,10 +13,10 @@ namespace NLEditor
 
         public event Action PicLevelReturned;
 
-        internal FormPicLevel(PictureBox picLevelFromMain,
-                              ScrollBar scrollHorizFromMain,
-                              ScrollBar scrollVertFromMain,
-                              NLEditForm parentForm)
+        internal FormLevelArranger(PictureBox picLevelFromMain,
+                                   ScrollBar scrollHorizFromMain,
+                                   ScrollBar scrollVertFromMain,
+                                   NLEditForm parentForm)
         {
             InitializeComponent();
             
@@ -61,13 +61,23 @@ namespace NLEditor
 
         private void FormPicLevel_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                Properties.Settings.Default.LevelArrangerIsOpen = false;
+                Properties.Settings.Default.Save();
+            }
+
             ReturnPicLevelToMainForm();
             mainForm = null;
         }
 
         private void FormPicLevel_KeyDown(object sender, KeyEventArgs e)
         {
-            if (mainForm != null)
+            if (e.KeyCode == Keys.Escape)
+            {
+                Close();
+            }
+            else if (mainForm != null)
             {
                 mainForm.NLEditForm_KeyDown(this, e);
             }

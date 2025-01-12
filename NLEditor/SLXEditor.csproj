@@ -90,11 +90,11 @@
     <Compile Include="Aliases.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="BmpModify.cs" />
-    <Compile Include="FormPicLevel.cs">
+    <Compile Include="FormLevelArranger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormPicLevel.Designer.cs">
-      <DependentUpon>FormPicLevel.cs</DependentUpon>
+    <Compile Include="FormLevelArranger.Designer.cs">
+      <DependentUpon>FormLevelArranger.cs</DependentUpon>
     </Compile>
     <Compile Include="FormPieceSearch.cs">
       <SubType>Form</SubType>
@@ -185,8 +185,8 @@
     </Compile>
     <Compile Include="Utility.cs" />
     <Compile Include="ValidateLevel.cs" />
-    <EmbeddedResource Include="FormPicLevel.resx">
-      <DependentUpon>FormPicLevel.cs</DependentUpon>
+    <EmbeddedResource Include="FormLevelArranger.resx">
+      <DependentUpon>FormLevelArranger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPieceSearch.resx">
       <DependentUpon>FormPieceSearch.cs</DependentUpon>

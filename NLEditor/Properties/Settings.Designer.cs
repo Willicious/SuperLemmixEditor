@@ -34,5 +34,17 @@ namespace NLEditor.Properties {
                 this["ShowAboutSLXWindowAtStartup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LevelArrangerIsOpen {
+            get {
+                return ((bool)(this["LevelArrangerIsOpen"]));
+            }
+            set {
+                this["LevelArrangerIsOpen"] = value;
+            }
+        }
     }
 }
