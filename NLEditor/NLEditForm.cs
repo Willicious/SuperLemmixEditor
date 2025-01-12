@@ -183,6 +183,7 @@ namespace NLEditor
         Stopwatch stopWatchMouse;
         MouseButtons? mouseButtonPressed;
 
+        bool repositionAfterZooming = true;
         bool movementActionPerformed = false;
 
         bool scrollHorizontallyPressed = false;
@@ -858,7 +859,7 @@ namespace NLEditor
         /* -----------------------------------------------------------
          *              Direct Key and Mouse imput
          * ----------------------------------------------------------- */
-        private void NLEditForm_KeyDown(object sender, KeyEventArgs e)
+        public void NLEditForm_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -904,7 +905,7 @@ namespace NLEditor
             }
         }
 
-        private void NLEditForm_KeyUp(object sender, KeyEventArgs e)
+        public void NLEditForm_KeyUp(object sender, KeyEventArgs e)
         {
             // Reset hotkey flags when keys are released
             switch (e.KeyCode)
@@ -956,6 +957,44 @@ namespace NLEditor
                 SaveChangesToOldLevelList();
                 movementActionPerformed = false;
             }
+        }
+
+        public void NLEditForm_MouseWheel(object sender, MouseEventArgs e)
+        {
+            mutexMouseWheel.WaitOne();
+
+            int movement = e.Delta / SystemInformation.MouseWheelScrollDelta;
+
+            // Browse left and right if cursor is the piece browser
+            if (picPieceList[0].PointToClient(this.PointToScreen(e.Location)).Y > -5)
+            {
+                MoveTerrPieceSelection(movement > 0 ? 1 : -1);
+            }
+            else
+            {
+                if (scrollHorizontallyPressed && (curRenderer.ZoomFactor > 2))
+                {
+                    movement *= 4;
+                    scrollPicLevelHoriz_Scroll(sender, new ScrollEventArgs(ScrollEventType.ThumbPosition, curRenderer.ScreenPosX, curRenderer.ScreenPosX + movement, ScrollOrientation.HorizontalScroll));
+                }
+                else if (scrollVerticallyPressed && (curRenderer.ZoomFactor > 2))
+                {
+                    movement *= 4;
+                    scrollPicLevelVert_Scroll(sender, new ScrollEventArgs(ScrollEventType.ThumbPosition, curRenderer.ScreenPosY, curRenderer.ScreenPosY + movement, ScrollOrientation.VerticalScroll));
+                }
+                else // Zoom the level
+                {
+                    Point mousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
+                    curRenderer.SetZoomMousePos(mousePosRelPicLevel);
+                    curRenderer.ChangeZoom(movement > 0 ? 1 : -1, true);
+                }
+            }
+
+            // Update level image
+            RepositionPicLevel();
+            pic_Level.SetImage(curRenderer.GetScreenImage());
+
+            mutexMouseWheel.ReleaseMutex();
         }
 
         private void pic_Level_MouseDown(object sender, MouseEventArgs e)
@@ -1245,44 +1284,6 @@ namespace NLEditor
             }
 
             return false;
-        }
-
-        private void NLEditForm_MouseWheel(object sender, MouseEventArgs e)
-        {
-            mutexMouseWheel.WaitOne();
-
-            int movement = e.Delta / SystemInformation.MouseWheelScrollDelta;
-
-            // Browse left and right if cursor is the piece browser
-            if (picPieceList[0].PointToClient(this.PointToScreen(e.Location)).Y > -5)
-            {
-                MoveTerrPieceSelection(movement > 0 ? 1 : -1);
-            }
-            else // Scroll horizontally/vertically
-            {
-                if (scrollHorizontallyPressed && (curRenderer.ZoomFactor > 2))
-                {
-                    movement *= 4;
-                    scrollPicLevelHoriz_Scroll(sender, new ScrollEventArgs(ScrollEventType.ThumbPosition, curRenderer.ScreenPosX, curRenderer.ScreenPosX + movement, ScrollOrientation.HorizontalScroll));
-                }
-                else if (scrollVerticallyPressed && (curRenderer.ZoomFactor > 2))
-                {
-                    movement *= 4;
-                    scrollPicLevelVert_Scroll(sender, new ScrollEventArgs(ScrollEventType.ThumbPosition, curRenderer.ScreenPosY, curRenderer.ScreenPosY + movement, ScrollOrientation.VerticalScroll));
-                }
-                else // Zoom the level
-                {
-                    Point mousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
-                    curRenderer.SetZoomMousePos(mousePosRelPicLevel);
-                    curRenderer.ChangeZoom(movement > 0 ? 1 : -1, true);
-                }
-                
-                // Update level image
-                RepositionPicLevel();
-                pic_Level.SetImage(curRenderer.GetScreenImage());
-            }
-
-            mutexMouseWheel.ReleaseMutex();
         }
 
         private void btnTalismanMoveUp_Click(object sender, EventArgs e)

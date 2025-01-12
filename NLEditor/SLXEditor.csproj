@@ -90,6 +90,12 @@
     <Compile Include="Aliases.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="BmpModify.cs" />
+    <Compile Include="FormPicLevel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPicLevel.Designer.cs">
+      <DependentUpon>FormPicLevel.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormPieceSearch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,6 +185,9 @@
     </Compile>
     <Compile Include="Utility.cs" />
     <Compile Include="ValidateLevel.cs" />
+    <EmbeddedResource Include="FormPicLevel.resx">
+      <DependentUpon>FormPicLevel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormPieceSearch.resx">
       <DependentUpon>FormPieceSearch.cs</DependentUpon>
     </EmbeddedResource>

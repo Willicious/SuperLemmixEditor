@@ -421,6 +421,9 @@ namespace NLEditor
         /// </summary>
         private void RepositionPicLevel()
         {
+            if (!repositionAfterZooming)
+                return;
+            
             pic_Level.Left = 264;
 
             Size newPicLevelSize = new Size(this.Width - 276, this.Height - 178);

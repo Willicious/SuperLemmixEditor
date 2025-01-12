@@ -413,6 +413,50 @@ namespace NLEditor
             }
         }
 
+        private void OpenLevelWindow()
+        {
+            // Create the pop-out window and pass pic_Level to it
+            var popOutWindow = new FormPicLevel(pic_Level,
+                                                scrollPicLevelHoriz,
+                                                scrollPicLevelVert,
+                                                this);
+
+            popOutWindow.AddControlsToWindow();
+
+            // Set the position of pic_Level within the window
+            RepositionPicLevel();
+            pic_Level.SetImage(curRenderer.GetScreenImage());
+            repositionAfterZooming = false;
+
+            // Subscribe to the PictureBoxReturned event to handle re-parenting
+            popOutWindow.PicLevelReturned += () =>
+            {
+                // Use Invoke to ensure that the UI update happens on the main thread
+                this.Invoke(new Action(() =>
+                {
+                    repositionAfterZooming = true;
+                    
+                    // Re-parent pic_Level back to the main form
+                    pic_Level.Dock = DockStyle.None;
+                    this.Controls.Add(pic_Level);
+
+                    // Reset the position of pic_Level
+                    RepositionPicLevel();
+                    pic_Level.Image = curRenderer.CreateLevelImage();
+
+                    //// Re-parent the scrollbars
+                    //this.Controls.Add(scrollPicLevelHoriz);
+                    //this.Controls.Add(scrollPicLevelVert);
+
+                    pic_Level.Show();
+                    pic_Level.Focus();
+                }));
+            };
+
+            // Show the pop-out window
+            popOutWindow.Show();
+        }
+
         /// <summary>
         /// Checks for presence of Neo/SuperLemmix.exe in Editor's base folder and set isNeoLemmixOnly
         /// </summary>
