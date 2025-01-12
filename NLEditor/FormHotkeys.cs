@@ -674,6 +674,9 @@ namespace NLEditor
                     case "HotkeyToggleSnapToGrid":
                         HotkeyConfig.HotkeyToggleSnapToGrid = parsedKey;
                         break;
+                    case "HotkeyOpenLevelWindow":
+                        HotkeyConfig.HotkeyOpenLevelWindow = parsedKey;
+                        break;
                     case "HotkeyOpenSettings":
                         HotkeyConfig.HotkeyOpenSettings = parsedKey;
                         break;

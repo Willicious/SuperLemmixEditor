@@ -1507,5 +1507,10 @@ namespace NLEditor
         {
             SelectAllPieces();
         }
+
+        private void openLevelWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenLevelWindow();
+        }
     }
 }

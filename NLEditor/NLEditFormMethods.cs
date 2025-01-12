@@ -1786,6 +1786,7 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyShowMissingPieces, () => ShowMissingPiecesDialog());
             AddHotkey(HotkeyConfig.HotkeyPieceSearch, () => OpenPieceSearch());
             AddHotkey(HotkeyConfig.HotkeyToggleSnapToGrid, () => SwitchGridUsage());
+            AddHotkey(HotkeyConfig.HotkeyOpenLevelWindow, () => OpenLevelWindow());
             AddHotkey(HotkeyConfig.HotkeyOpenSettings, () => settingsToolStripMenuItem_Click(null, null));
             AddHotkey(HotkeyConfig.HotkeyOpenConfigHotkeys, () => hotkeysToolStripMenuItem_Click(null, null));
             AddHotkey(HotkeyConfig.HotkeyOpenAboutSLX, () => ShowAboutSLXEditor());
@@ -1950,6 +1951,9 @@ namespace NLEditor
 
             snapToGridToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyToggleSnapToGrid);
+
+            openLevelWindowToolStripMenuItem.ShortcutKeyDisplayString =
+                HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyOpenLevelWindow);
 
             settingsToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyOpenSettings);
