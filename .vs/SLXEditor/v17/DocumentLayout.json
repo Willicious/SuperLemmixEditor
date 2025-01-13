@@ -3,24 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\will3\\Documents\\superlemmixeditor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\nleditform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\nleditform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\formpreposttext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\formpreposttext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\nleditformmethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\nleditformmethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\formlevelarranger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\formlevelarranger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\nleditform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\nleditform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\formaboutslxeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\formaboutslxeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\formpreposttext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\formpreposttext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -29,8 +17,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 200,
-          "SelectedChildIndex": 4,
+          "DockedHeight": 260,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,72 +26,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "FormAboutSLXEditor.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormAboutSLXEditor.cs",
-              "RelativeDocumentMoniker": "NLEditor\\FormAboutSLXEditor.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormAboutSLXEditor.cs",
-              "RelativeToolTip": "NLEditor\\FormAboutSLXEditor.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAAD8AAABiAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "FormPrePostText.cs",
+              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPrePostText.cs",
+              "RelativeDocumentMoniker": "NLEditor\\FormPrePostText.cs",
+              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPrePostText.cs",
+              "RelativeToolTip": "NLEditor\\FormPrePostText.cs",
+              "ViewState": "AgIAAJcAAAAAAAAAAAAcwDAAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-12T02:47:51.325Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "FormLevelArranger.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormLevelArranger.cs",
-              "RelativeDocumentMoniker": "NLEditor\\FormLevelArranger.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormLevelArranger.cs",
-              "RelativeToolTip": "NLEditor\\FormLevelArranger.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAiwE4AAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-12T02:46:45.178Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "NLEditForm.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditForm.cs",
-              "RelativeDocumentMoniker": "NLEditor\\NLEditForm.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditForm.cs",
-              "RelativeToolTip": "NLEditor\\NLEditForm.cs",
-              "ViewState": "AgIAAMEFAAAAAAAAAAAMwMsFAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-12T02:38:37.621Z",
+              "WhenOpened": "2025-01-13T12:26:31.912Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "NLEditForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditForm.cs",
-              "RelativeDocumentMoniker": "NLEditor\\NLEditForm.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditForm.cs [Design]",
-              "RelativeToolTip": "NLEditor\\NLEditForm.cs [Design]",
+              "Title": "FormPrePostText.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPrePostText.cs",
+              "RelativeDocumentMoniker": "NLEditor\\FormPrePostText.cs",
+              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPrePostText.cs [Design]",
+              "RelativeToolTip": "NLEditor\\FormPrePostText.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-12T02:36:11.435Z",
+              "WhenOpened": "2025-01-12T04:21:51.988Z",
               "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "NLEditFormMethods.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditFormMethods.cs",
-              "RelativeDocumentMoniker": "NLEditor\\NLEditFormMethods.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditFormMethods.cs",
-              "RelativeToolTip": "NLEditor\\NLEditFormMethods.cs",
-              "ViewState": "AgIAAMIBAAAAAAAAAAAWwMsBAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-12T02:34:38.126Z",
-              "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedHeight": 200,
+          "DockedHeight": 140,
           "SelectedChildIndex": -1,
           "Children": [
             {

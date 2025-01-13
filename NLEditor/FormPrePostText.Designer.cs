@@ -33,36 +33,39 @@
             this.butPTextOK = new System.Windows.Forms.Button();
             this.butPTextCancel = new System.Windows.Forms.Button();
             this.lblPTextTitle = new System.Windows.Forms.Label();
+            this.butPPreview = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtPrePostText
             // 
             this.txtPrePostText.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPrePostText.Location = new System.Drawing.Point(9, 51);
+            this.txtPrePostText.Location = new System.Drawing.Point(18, 51);
             this.txtPrePostText.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtPrePostText.MaxLength = 1134;
             this.txtPrePostText.Multiline = true;
             this.txtPrePostText.Name = "txtPrePostText";
-            this.txtPrePostText.Size = new System.Drawing.Size(432, 219);
+            this.txtPrePostText.Size = new System.Drawing.Size(580, 460);
             this.txtPrePostText.TabIndex = 0;
             this.txtPrePostText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPrePostText.TextChanged += new System.EventHandler(this.txtPrePostText_TextChanged);
             // 
             // butPTextOK
             // 
-            this.butPTextOK.Location = new System.Drawing.Point(9, 295);
+            this.butPTextOK.Location = new System.Drawing.Point(18, 526);
             this.butPTextOK.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.butPTextOK.Name = "butPTextOK";
-            this.butPTextOK.Size = new System.Drawing.Size(208, 46);
+            this.butPTextOK.Size = new System.Drawing.Size(188, 46);
             this.butPTextOK.TabIndex = 1;
-            this.butPTextOK.Text = "OK";
+            this.butPTextOK.Text = "Save and Close";
             this.butPTextOK.UseVisualStyleBackColor = true;
             this.butPTextOK.Click += new System.EventHandler(this.butPTextOK_Click);
             // 
             // butPTextCancel
             // 
-            this.butPTextCancel.Location = new System.Drawing.Point(236, 295);
+            this.butPTextCancel.Location = new System.Drawing.Point(410, 526);
             this.butPTextCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.butPTextCancel.Name = "butPTextCancel";
-            this.butPTextCancel.Size = new System.Drawing.Size(207, 46);
+            this.butPTextCancel.Size = new System.Drawing.Size(188, 46);
             this.butPTextCancel.TabIndex = 2;
             this.butPTextCancel.Text = "Cancel";
             this.butPTextCancel.UseVisualStyleBackColor = true;
@@ -70,19 +73,31 @@
             // 
             // lblPTextTitle
             // 
-            this.lblPTextTitle.Location = new System.Drawing.Point(4, 14);
+            this.lblPTextTitle.Location = new System.Drawing.Point(14, 14);
             this.lblPTextTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPTextTitle.Name = "lblPTextTitle";
-            this.lblPTextTitle.Size = new System.Drawing.Size(438, 23);
+            this.lblPTextTitle.Size = new System.Drawing.Size(584, 32);
             this.lblPTextTitle.TabIndex = 3;
             this.lblPTextTitle.Text = "Edit";
             this.lblPTextTitle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // butPPreview
+            // 
+            this.butPPreview.Location = new System.Drawing.Point(213, 526);
+            this.butPPreview.Name = "butPPreview";
+            this.butPPreview.Size = new System.Drawing.Size(188, 46);
+            this.butPPreview.TabIndex = 4;
+            this.butPPreview.Text = "Preview";
+            this.butPPreview.UseVisualStyleBackColor = true;
+            this.butPPreview.Click += new System.EventHandler(this.butPPreview_Click);
             // 
             // FormPrePostText
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(448, 360);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(615, 586);
+            this.Controls.Add(this.butPPreview);
             this.Controls.Add(this.lblPTextTitle);
             this.Controls.Add(this.butPTextCancel);
             this.Controls.Add(this.butPTextOK);
@@ -110,5 +125,6 @@
         private System.Windows.Forms.Button butPTextOK;
         private System.Windows.Forms.Button butPTextCancel;
         private System.Windows.Forms.Label lblPTextTitle;
+        private System.Windows.Forms.Button butPPreview;
     }
 }
