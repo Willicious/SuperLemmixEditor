@@ -31,19 +31,19 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLevelArranger));
             this.SuspendLayout();
             // 
-            // FormPicLevel
+            // FormLevelArranger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(578, 244);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "FormPicLevel";
+            this.Name = "FormLevelArranger";
             this.Text = "SuperLemmix Editor - Level Arranger";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPicLevel_FormClosing);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormPicLevel_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormPicLevel_KeyUp);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormLevelArranger_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormLevelArranger_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormLevelArranger_KeyUp);
             this.ResumeLayout(false);
 
         }

@@ -209,6 +209,8 @@ namespace NLEditor
         private static System.Threading.Mutex mutexMouseWheel = new System.Threading.Mutex();
         private static System.Threading.Mutex mutexKeyDown = new System.Threading.Mutex();
 
+        private FormLevelArranger levelArrangerWindow;
+
         private void NLEditForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             try

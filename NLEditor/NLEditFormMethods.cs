@@ -415,13 +415,15 @@ namespace NLEditor
 
         private void OpenLevelArrangerWindow()
         {
-            // Create the pop-out window and pass pic_Level to it
-            var levelArrangerWindow = new FormLevelArranger(pic_Level,
-                                                scrollPicLevelHoriz,
-                                                scrollPicLevelVert,
-                                                this);
+            // Check if the Level Arranger window is already open
+            if (levelArrangerWindow != null && !levelArrangerWindow.IsDisposed)
+            {
+                levelArrangerWindow.BringToFront();
+                return;
+            }
 
-            levelArrangerWindow.AddControlsToWindow();
+            // Create the pop-out window and pass pic_Level to it
+            levelArrangerWindow = new FormLevelArranger(pic_Level, this);
 
             // Set the position of pic_Level within the window
             RepositionPicLevel();
@@ -431,7 +433,6 @@ namespace NLEditor
             // Subscribe to the PictureBoxReturned event to handle re-parenting
             levelArrangerWindow.PicLevelReturned += () =>
             {
-                // Use Invoke to ensure that the UI update happens on the main thread
                 this.Invoke(new Action(() =>
                 {
                     repositionAfterZooming = true;
@@ -444,17 +445,17 @@ namespace NLEditor
                     RepositionPicLevel();
                     pic_Level.Image = curRenderer.CreateLevelImage();
 
-                    //// Re-parent the scrollbars
-                    //this.Controls.Add(scrollPicLevelHoriz);
-                    //this.Controls.Add(scrollPicLevelVert);
-
                     pic_Level.Show();
                     pic_Level.Focus();
                 }));
             };
-
+    
+            // Update settings
             Properties.Settings.Default.LevelArrangerIsOpen = true;
             Properties.Settings.Default.Save();
+
+            // Ensure the reference is cleared when the window is closed
+            levelArrangerWindow.FormClosing += (s, e) => levelArrangerWindow = null;
 
             // Show the pop-out window
             levelArrangerWindow.Show();

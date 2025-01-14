@@ -6,39 +6,28 @@ namespace NLEditor
     public partial class FormLevelArranger : Form
     {
         private NLEditForm mainForm;
-
         readonly PictureBox picLevel;
-        readonly ScrollBar scrollBarHoriz;
-        readonly ScrollBar scrollBarVert;
 
         public event Action PicLevelReturned;
 
-        internal FormLevelArranger(PictureBox picLevelFromMain,
-                                   ScrollBar scrollHorizFromMain,
-                                   ScrollBar scrollVertFromMain,
-                                   NLEditForm parentForm)
+        internal FormLevelArranger(PictureBox picLevelFromMain, NLEditForm parentForm)
         {
             InitializeComponent();
             
-            // Store the reference to the main form
             mainForm = parentForm; 
-            
-            // Set picLevel and scrollbars to those passed from the main form
-            picLevel = picLevelFromMain; 
-            scrollBarHoriz = scrollHorizFromMain;
-            scrollBarVert = scrollVertFromMain;
+            picLevel = picLevelFromMain;
 
             // Ensure interactivity with the main form whilst keeping the window on top
             this.Owner = mainForm;
+
+            // Subscribe to MouseWheel event handler
+            this.MouseWheel += FormLevelArranger_MouseWheel;
+
+            AddControlsToWindow();
         }
 
         private void ReturnPicLevelToMainForm()
         {
-            //// Remove the PictureBox from the pop-out window
-            //this.Controls.Remove(picLevel);
-            //this.Controls.Remove(scrollBarVert);
-            //this.Controls.Remove(scrollBarHoriz);
-
             // Notify main form to handle re-parenting
             PicLevelReturned?.Invoke();
         }
@@ -51,15 +40,9 @@ namespace NLEditor
 
             // Match background color to picLevel's background (prevents flickering)
             this.BackColor = picLevel.BackColor;
-
-            this.MouseWheel += FormPicLevel_MouseWheel;
-
-            //// Add the scrollbars
-            //this.Controls.Add(scrollBarHoriz);
-            //this.Controls.Add(scrollBarVert);
         }
 
-        private void FormPicLevel_FormClosing(object sender, FormClosingEventArgs e)
+        private void FormLevelArranger_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
@@ -71,7 +54,7 @@ namespace NLEditor
             mainForm = null;
         }
 
-        private void FormPicLevel_KeyDown(object sender, KeyEventArgs e)
+        private void FormLevelArranger_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {
@@ -83,7 +66,7 @@ namespace NLEditor
             }
         }
 
-        private void FormPicLevel_KeyUp(object sender, KeyEventArgs e)
+        private void FormLevelArranger_KeyUp(object sender, KeyEventArgs e)
         {
             if (mainForm != null)
             {
@@ -91,7 +74,7 @@ namespace NLEditor
             }
         }
 
-        private void FormPicLevel_MouseWheel(object sender, MouseEventArgs e)
+        private void FormLevelArranger_MouseWheel(object sender, MouseEventArgs e)
         {
             if (mainForm != null)
             {
