@@ -423,7 +423,7 @@ namespace NLEditor
             }
 
             // Create the pop-out window and pass pic_Level to it
-            levelArrangerWindow = new FormLevelArranger(pic_Level, this);
+            levelArrangerWindow = new FormLevelArranger(pic_Level, this, curRenderer);
 
             // Set the position of pic_Level within the window
             RepositionPicLevel();

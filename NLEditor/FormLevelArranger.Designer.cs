@@ -44,6 +44,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormLevelArranger_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormLevelArranger_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormLevelArranger_KeyUp);
+            this.Resize += new System.EventHandler(this.FormLevelArranger_Resize);
             this.ResumeLayout(false);
 
         }

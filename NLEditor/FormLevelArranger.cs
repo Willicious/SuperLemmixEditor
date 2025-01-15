@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace NLEditor
@@ -7,15 +9,26 @@ namespace NLEditor
     {
         private NLEditForm mainForm;
         readonly PictureBox picLevel;
+        readonly Renderer curRenderer;
+
+        HScrollBar scrollHoriz;
+        VScrollBar scrollVert;
+
+        Rectangle originalLevelSize;
 
         public event Action PicLevelReturned;
 
-        internal FormLevelArranger(PictureBox picLevelFromMain, NLEditForm parentForm)
+        internal FormLevelArranger(PictureBox picLevelFromMain,
+                                   NLEditForm parentForm,
+                                   Renderer parentRenderer)
         {
             InitializeComponent();
             
             mainForm = parentForm; 
             picLevel = picLevelFromMain;
+            curRenderer = parentRenderer;
+
+            originalLevelSize = curRenderer.GetLevelBmpRect();
 
             // Ensure interactivity with the main form whilst keeping the window on top
             this.Owner = mainForm;
@@ -40,6 +53,90 @@ namespace NLEditor
 
             // Match background color to picLevel's background (prevents flickering)
             this.BackColor = picLevel.BackColor;
+
+            // Add scrollbars
+            scrollHoriz = new HScrollBar();
+            scrollVert = new VScrollBar();
+
+            this.Controls.Add(scrollHoriz);
+            this.Controls.Add(scrollVert);
+
+            scrollHoriz.Dock = DockStyle.Bottom;
+            scrollVert.Dock = DockStyle.Right;
+
+            scrollHoriz.Scroll += ScrollHoriz_Scroll;
+            scrollVert.Scroll += ScrollVert_Scroll;
+
+            UpdateScrollbars();
+        }
+
+        /// <summary>
+        /// Much of this is duplicated from UpdateNLEditorForm's CheckEnableLevelScrollbars,
+        /// but it's necessary to make the scrollbars work properly!
+        /// </summary>
+        private void UpdateScrollbars()
+        {
+            // Exit early if nothing has been initialized yet
+            if (picLevel == null || curRenderer == null || mainForm == null)
+                return;
+
+            if (scrollHoriz == null || scrollVert == null)
+                return;
+
+            // Get the size of the displayed part of the level
+            Rectangle displayedLevelRect = curRenderer.GetLevelBmpRect();
+
+            bool displayScrollHoriz = false;
+            bool displayScrollVert = false;
+
+            // Display scrollbars if the level has been zoomed in
+            displayScrollHoriz = (displayedLevelRect.Width + 1 < originalLevelSize.Width);
+            displayScrollVert = (displayedLevelRect.Height + 1 < originalLevelSize.Height);
+
+            // Check whether zooming out made either scrollbar necessary, too
+            if (displayScrollHoriz ^ displayScrollVert)
+            {
+                displayedLevelRect = curRenderer.GetLevelBmpRect();
+                if (!displayScrollHoriz && displayedLevelRect.Width + 1 < originalLevelSize.Width)
+                {
+                    displayScrollHoriz = true;
+                }
+                if (!displayScrollVert && displayedLevelRect.Height + 1 < originalLevelSize.Height)
+                {
+                    displayScrollVert = true;
+                }
+            }
+
+            // Update displayed level area
+            displayedLevelRect = curRenderer.GetLevelBmpRect();
+
+            // Set horizontal scrollbar
+            if (displayScrollHoriz)
+            {
+                int maxValue = originalLevelSize.Width + (Renderer.AllowedGrayBorder + 18) - displayedLevelRect.Width + 1;
+                scrollHoriz.Minimum = -Renderer.AllowedGrayBorder;
+                scrollHoriz.Maximum = maxValue;
+                scrollHoriz.SmallChange = 8;
+                scrollHoriz.LargeChange = 16;
+                scrollHoriz.Height = 24;
+                scrollHoriz.Value = Math.Max(Math.Min(displayedLevelRect.Left, maxValue - 1), -Renderer.AllowedGrayBorder);
+            }
+            scrollHoriz.Enabled = displayScrollHoriz;
+            scrollHoriz.Visible = displayScrollHoriz;
+
+            // Set vertical scrollbar
+            if (displayScrollVert)
+            {
+                int maxValue = originalLevelSize.Height + (Renderer.AllowedGrayBorder + 8) - displayedLevelRect.Height + 1;
+                scrollVert.Minimum = -Renderer.AllowedGrayBorder;
+                scrollVert.Maximum = maxValue;
+                scrollVert.SmallChange = 4;
+                scrollVert.LargeChange = 8;
+                scrollVert.Width = 24;
+                scrollVert.Value = Math.Max(Math.Min(displayedLevelRect.Top, maxValue - 1), -Renderer.AllowedGrayBorder);
+            }
+            scrollVert.Enabled = displayScrollVert;
+            scrollVert.Visible = displayScrollVert;
         }
 
         private void FormLevelArranger_FormClosing(object sender, FormClosingEventArgs e)
@@ -80,6 +177,25 @@ namespace NLEditor
             {
                 mainForm.NLEditForm_MouseWheel(this, e);
             }
+
+            UpdateScrollbars();
+        }
+
+        private void FormLevelArranger_Resize(object sender, EventArgs e)
+        {
+            UpdateScrollbars();
+        }
+
+        private void ScrollHoriz_Scroll(object sender, ScrollEventArgs e)
+        {
+            curRenderer.ScreenPosX = e.NewValue;
+            picLevel.SetImage(curRenderer.GetScreenImage());
+        }
+
+        private void ScrollVert_Scroll(object sender, ScrollEventArgs e)
+        {
+            curRenderer.ScreenPosY = e.NewValue;
+            picLevel.SetImage(curRenderer.GetScreenImage());
         }
     }
 }
