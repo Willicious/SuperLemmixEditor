@@ -386,8 +386,8 @@ namespace NLEditor
         /// </summary>
         private void MoveControlsOnFormResize()
         {
-            scrollPicLevelHoriz.Top = this.Height - 182;
-            scrollPicLevelVert.Left = this.Width - 29;
+            scrollPicLevelHoriz.Top = this.Height - 178;
+            scrollPicLevelVert.Left = this.Width - 30;
 
             RepositionPicLevel();
 
@@ -475,7 +475,7 @@ namespace NLEditor
             // Set scrollPicLevelHoriz
             if (displayScrollHoriz)
             {
-                int maxValue = CurLevel.Width + (Renderer.AllowedGrayBorder + 20) - displayedLevelRect.Width + 1;
+                int maxValue = CurLevel.Width + (Renderer.AllowedGrayBorder + 18) - displayedLevelRect.Width + 1;
                 scrollPicLevelHoriz.Minimum = -Renderer.AllowedGrayBorder;
                 scrollPicLevelHoriz.Maximum = maxValue;
                 scrollPicLevelHoriz.SmallChange = 8;
@@ -489,7 +489,7 @@ namespace NLEditor
             // Set scrollPicLevelVert
             if (displayScrollVert)
             {
-                int maxValue = CurLevel.Height + (Renderer.AllowedGrayBorder + 10) - displayedLevelRect.Height + 1;
+                int maxValue = CurLevel.Height + (Renderer.AllowedGrayBorder + 8) - displayedLevelRect.Height + 1;
                 scrollPicLevelVert.Minimum = -Renderer.AllowedGrayBorder;
                 scrollPicLevelVert.Maximum = maxValue;
                 scrollPicLevelVert.SmallChange = 4;
@@ -499,18 +499,18 @@ namespace NLEditor
             scrollPicLevelVert.Enabled = displayScrollVert;
             scrollPicLevelVert.Visible = displayScrollVert;
 
-            // finally resize scrollbars correctly
+            // Finally resize scrollbars correctly
             if (scrollPicLevelHoriz.Enabled)
                 scrollPicLevelVert.Height = newPicBoxSize.Height + 2;
             else 
                 scrollPicLevelVert.Height = newPicBoxSize.Height - 2;
 
             if (scrollPicLevelVert.Enabled)
-                scrollPicLevelHoriz.Width = newPicBoxSize.Width - 25;
+                scrollPicLevelHoriz.Width = newPicBoxSize.Width - 8;
             else
                 scrollPicLevelHoriz.Width = newPicBoxSize.Width - 4;
-                scrollPicLevelHoriz.Left = 264;
-
+                
+            scrollPicLevelHoriz.Left = 268;
             scrollPicLevelVert.Left = scrollPicLevelVert.Parent.ClientRectangle.Width - scrollPicLevelVert.Width;
 
             return newPicBoxSize;
