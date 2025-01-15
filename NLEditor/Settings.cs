@@ -36,7 +36,8 @@ namespace NLEditor
             { "Purple", Color.DarkViolet },
             { "Black", Color.Black },
             { "Gray", Color.Gray },
-            { "White", Color.Silver }
+            { "White", Color.Silver },
+            { "(Invisible)", Color.Empty }
         };
 
         public enum EditorMode
@@ -200,6 +201,7 @@ namespace NLEditor
             labelGridColor.Top = groupBoxTop + 30;
             labelGridColor.Left = groupBoxColumnLeft;
             labelGridColor.AutoSize = true;
+            labelGridColor.Enabled = UseGridForPieces;
 
             ComboBox comboGridColor = new ComboBox();
             comboGridColor.Name = "comboGridColor";
@@ -207,6 +209,7 @@ namespace NLEditor
             comboGridColor.Top = labelGridColor.Top - 2;
             comboGridColor.Left = labelGridColor.Right + 20;
             comboGridColor.Width = 120;
+            comboGridColor.Enabled = UseGridForPieces;
             comboGridColor.Items.AddRange(ColorOptions.Keys.ToArray());
             comboGridColor.SelectedItem = ColorOptions.FirstOrDefault(x => x.Value == GridColor).Key ?? "Midnight (default)";
             comboGridColor.SelectedIndexChanged += new EventHandler(comboGridColor_IndexChanged);
@@ -533,6 +536,26 @@ namespace NLEditor
             UseGridForPieces = !UseGridForPieces;
         }
 
+        private void ValidateGridColor(FileLine line)
+        {
+            string colorString = line.Text.Trim();
+            if (colorString == "(Invisible)")
+            {
+                GridColor = Color.Empty;  // Set invisible color if the string is "(Invisible)"
+            }
+            else
+            {
+                try
+                {
+                    GridColor = ColorTranslator.FromHtml(colorString);
+                }
+                catch (Exception) // Default to MidnightBlue if the color string is invalid
+                {
+                    GridColor = Color.MidnightBlue;
+                }
+            }
+        }
+
         private void PrepareFormForClosing()
         {
             btnCancel.Focus(); // Prevents saving values if caret is still in numUpDown
@@ -631,15 +654,7 @@ namespace NLEditor
                             }
                         case "GRIDCOLOR":
                             {
-                                string colorString = line.Text.Trim();
-                                try
-                                {
-                                    GridColor = ColorTranslator.FromHtml(colorString);
-                                }
-                                catch
-                                {
-                                    GridColor = Color.MidnightBlue;
-                                }
+                                ValidateGridColor(line);
                                 break;
                             }
                         case "CUSTOMMOVE":
@@ -738,7 +753,7 @@ namespace NLEditor
                 settingsFile.WriteLine(" EditorMode          " + CurrentEditorMode.ToString());
                 settingsFile.WriteLine(" PieceSelectionNames " + (UsePieceSelectionNames ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
-                settingsFile.WriteLine(" GridColor           " + ColorTranslator.ToHtml(GridColor));
+                settingsFile.WriteLine(" GridColor           " + (GridColor == Color.Empty ? "(Invisible)" : ColorTranslator.ToHtml(GridColor)));
                 settingsFile.WriteLine(" CustomMove          " + CustomMove.ToString());
                 settingsFile.WriteLine(" Button_Tooltip      " + NumTooltipBottonDisplay.ToString());
                 settingsFile.WriteLine("");
