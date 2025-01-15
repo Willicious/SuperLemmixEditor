@@ -367,7 +367,7 @@ namespace NLEditor
 
         private void snapToGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SwitchGridUsage();
+            ToggleSnapToGrid(true);
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)

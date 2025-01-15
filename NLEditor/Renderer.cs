@@ -447,7 +447,8 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Creates the background layer with the correct background color and background image.
+        /// Creates the background layer with the correct background color and background image, 
+        /// and draws the piece grid if snap-to-grid is active.
         /// </summary>
         public void CreateBackgroundLayer()
         {
@@ -462,7 +463,37 @@ namespace NLEditor
 
                 layerImages[C.Layer.Background].DrawOn(backgroundImage, new Point(0, 0));
             }
+
+            // Draw the pieces grid if needed
+            if (IsGridEnabled)
+            {
+                DrawGrid(layerImages[C.Layer.Background], level.Width, level.Height, curSettings.GridSize, Color.Navy);
+            }
         }
+
+        /// <summary>
+        /// Draws a grid of squares over the level bitmap.
+        /// </summary>
+        private void DrawGrid(Bitmap bitmap, int width, int height, int cellSize, Color color)
+        {
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                Pen gridPen = new Pen(color, 1);
+
+                // Draw vertical lines
+                for (int x = cellSize; x < width; x += cellSize)
+                {
+                    graphics.DrawLine(gridPen, x, 0, x, height);
+                }
+
+                // Draw horizontal lines
+                for (int y = cellSize; y < height; y += cellSize)
+                {
+                    graphics.DrawLine(gridPen, 0, y, width, y);
+                }
+            }
+        }
+
 
         /// <summary>
         /// Renders all NoOverwrite objects.

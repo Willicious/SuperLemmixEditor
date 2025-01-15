@@ -392,12 +392,16 @@ namespace NLEditor
             if (settingsForm.Controls.Find("numGridSize", true).FirstOrDefault() is NumericUpDown numGridSize)
                 numGridSize.Enabled = UseGridForPieces;
 
+            editorForm.ToggleSnapToGrid();
+
             settingChanged = true;
         }
 
         private void numGridSize_ValueChanged(object sender, EventArgs e)
         {
             gridSize = (int)(sender as NumericUpDown).Value;
+            editorForm.ToggleSnapToGrid();
+
             settingChanged = true;
         }
 

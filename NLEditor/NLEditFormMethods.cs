@@ -1559,13 +1559,18 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Switches between Grid usage and no such
+        /// Toggles snap-to-grid on and off
         /// </summary>
-        private void SwitchGridUsage()
+        public void ToggleSnapToGrid(bool fromHotkey = false)
         {
-            curSettings.SwitchGridUsage();
+            if (fromHotkey) curSettings.SwitchGridUsage();
+
             snapToGridToolStripMenuItem.Checked = curSettings.UseGridForPieces;
-            pic_Level.SetImage(curRenderer.GetScreenImage());
+
+            // Draw the grid to the background layer
+            curRenderer.CreateBackgroundLayer();
+            pic_Level.SetImage(curRenderer.CombineLayers());
+            //pic_Level.SetImage(curRenderer.GetScreenImage());
         }
 
         private const string INVALID_AUTOSAVE_NAME_CHARS = "<>:\"/\\|?*.";
@@ -1789,7 +1794,7 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyToggleDeprecatedPieces, () => ToggleDeprecatedPieces());
             AddHotkey(HotkeyConfig.HotkeyShowMissingPieces, () => ShowMissingPiecesDialog());
             AddHotkey(HotkeyConfig.HotkeyPieceSearch, () => OpenPieceSearch());
-            AddHotkey(HotkeyConfig.HotkeyToggleSnapToGrid, () => SwitchGridUsage());
+            AddHotkey(HotkeyConfig.HotkeyToggleSnapToGrid, () => ToggleSnapToGrid(true));
             AddHotkey(HotkeyConfig.HotkeyOpenLevelWindow, () => OpenLevelArrangerWindow());
             AddHotkey(HotkeyConfig.HotkeyOpenSettings, () => settingsToolStripMenuItem_Click(null, null));
             AddHotkey(HotkeyConfig.HotkeyOpenConfigHotkeys, () => hotkeysToolStripMenuItem_Click(null, null));
