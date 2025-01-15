@@ -576,6 +576,10 @@ namespace NLEditor
         public void ReloadSettings()
         {
             ReadSettingsFromFile();
+
+            editorForm.ToggleSnapToGrid();
+            editorForm.LoadPiecesIntoPictureBox();
+
             WriteSettingsToFile();
         }
 
