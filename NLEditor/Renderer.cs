@@ -467,7 +467,7 @@ namespace NLEditor
             // Draw the pieces grid if needed
             if (IsGridEnabled)
             {
-                DrawGrid(layerImages[C.Layer.Background], level.Width, level.Height, curSettings.GridSize, Color.Navy);
+                DrawGrid(layerImages[C.Layer.Background], level.Width, level.Height, curSettings.GridSize, curSettings.GridColor);
             }
         }
 

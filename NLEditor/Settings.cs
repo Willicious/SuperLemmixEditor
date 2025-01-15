@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Windows.Forms;
 
 namespace NLEditor
@@ -22,6 +24,21 @@ namespace NLEditor
         private bool doSaveSettings = false;
         private bool settingChanged = false;
 
+        // Global color dictionary
+        private static readonly Dictionary<string, Color> ColorOptions = new Dictionary<string, Color>
+        {
+            { "Midnight (default)", Color.MidnightBlue },
+            { "Red", Color.Red },
+            { "Orange", Color.DarkOrange },
+            { "Yellow", Color.Khaki },
+            { "Green", Color.ForestGreen },
+            { "Blue", Color.RoyalBlue },
+            { "Purple", Color.DarkViolet },
+            { "Black", Color.Black },
+            { "Gray", Color.Gray },
+            { "White", Color.Silver }
+        };
+
         public enum EditorMode
         {
             SuperLemmix,
@@ -36,8 +53,11 @@ namespace NLEditor
         public bool RemoveOldAutosaves { get; private set; }
         public int NumTooltipBottonDisplay { get; set; }
         public bool UseTooltipBotton => (NumTooltipBottonDisplay > 0);
+
         private int gridSize;
         public int GridSize { get { return UseGridForPieces ? gridSize : 1; } }
+        public Color GridColor { get; private set; }
+
         public int customMove;
         public int CustomMove { get { return customMove; } }
         private int autosaveFrequency;
@@ -56,6 +76,7 @@ namespace NLEditor
             UsePieceSelectionNames = true;
             UseGridForPieces = false;
             gridSize = 8;
+            GridColor = Color.MidnightBlue;
             customMove = 64;
             Autosave = true;
             autosaveFrequency = 5;
@@ -88,7 +109,7 @@ namespace NLEditor
 
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
-            settingsForm.ClientSize = new System.Drawing.Size(340, 400);
+            settingsForm.ClientSize = new System.Drawing.Size(340, 430);
             settingsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             settingsForm.MinimizeBox = false;
             settingsForm.MaximizeBox = false;
@@ -148,7 +169,7 @@ namespace NLEditor
             groupSnapToGrid.Top = 130;
             groupSnapToGrid.Left = columnLeft;
             groupSnapToGrid.Width = 280;
-            groupSnapToGrid.Height = 50;
+            groupSnapToGrid.Height = 80;
 
             CheckBox checkUseGrid = new CheckBox();
             checkUseGrid.Name = "checkUseGrid";
@@ -174,14 +195,32 @@ namespace NLEditor
             numGridSize.ValueChanged += new EventHandler(numGridSize_ValueChanged);
             numGridSize.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
 
+            Label labelGridColor = new Label();
+            labelGridColor.Text = "Choose grid color:";
+            labelGridColor.Top = groupBoxTop + 30;
+            labelGridColor.Left = groupBoxColumnLeft;
+            labelGridColor.AutoSize = true;
+
+            ComboBox comboGridColor = new ComboBox();
+            comboGridColor.Name = "comboGridColor";
+            comboGridColor.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboGridColor.Top = labelGridColor.Top - 2;
+            comboGridColor.Left = labelGridColor.Right + 20;
+            comboGridColor.Width = 120;
+            comboGridColor.Items.AddRange(ColorOptions.Keys.ToArray());
+            comboGridColor.SelectedItem = ColorOptions.FirstOrDefault(x => x.Value == GridColor).Key ?? "Midnight (default)";
+            comboGridColor.SelectedIndexChanged += new EventHandler(comboGridColor_IndexChanged);
+
             groupSnapToGrid.Controls.Add(checkUseGrid);
             groupSnapToGrid.Controls.Add(numGridSize);
+            groupSnapToGrid.Controls.Add(labelGridColor);
+            groupSnapToGrid.Controls.Add(comboGridColor);
 
             // =========================== Autosave GroupBox =========================== //
 
             GroupBox groupAutosave = new GroupBox();
             groupAutosave.Text = "Autosave";
-            groupAutosave.Top = 200;
+            groupAutosave.Top = 230;
             groupAutosave.Left = columnLeft;
             groupAutosave.Width = 280;
             groupAutosave.Height = 80;
@@ -251,7 +290,7 @@ namespace NLEditor
 
             GroupBox groupEditorMode = new GroupBox();
             groupEditorMode.Text = "Editor Mode";
-            groupEditorMode.Top = 300;
+            groupEditorMode.Top = 330;
             groupEditorMode.Left = columnLeft;
             groupEditorMode.Width = 280;
             groupEditorMode.Height = 50;
@@ -295,14 +334,14 @@ namespace NLEditor
             btnSaveAndClose = new Button();
             btnSaveAndClose.Height = 30;
             btnSaveAndClose.Width = 110;
-            btnSaveAndClose.Top = 360;
+            btnSaveAndClose.Top = 390;
             btnSaveAndClose.Text = "Save And Close";
             btnSaveAndClose.Click += new EventHandler(BtnSaveAndClose_Click);
 
             btnCancel = new Button();
             btnCancel.Height = 30;
             btnCancel.Width = 70;
-            btnCancel.Top = 360;
+            btnCancel.Top = 390;
             btnCancel.Text = "Cancel";
             btnCancel.Click += new EventHandler(BtnCancel_Click);
             
@@ -400,6 +439,19 @@ namespace NLEditor
         private void numGridSize_ValueChanged(object sender, EventArgs e)
         {
             gridSize = (int)(sender as NumericUpDown).Value;
+            editorForm.ToggleSnapToGrid();
+
+            settingChanged = true;
+        }
+
+        private void comboGridColor_IndexChanged(object sender, EventArgs e)
+        {
+            if (sender is ComboBox comboGridColor &&
+                comboGridColor.SelectedItem is string selectedColor &&
+                ColorOptions.ContainsKey(selectedColor))
+            {
+                GridColor = ColorOptions[selectedColor];
+            }
             editorForm.ToggleSnapToGrid();
 
             settingChanged = true;
@@ -573,6 +625,19 @@ namespace NLEditor
                                     gridSize = line.Value;
                                 break;
                             }
+                        case "GRIDCOLOR":
+                            {
+                                string colorString = line.Text.Trim();
+                                try
+                                {
+                                    GridColor = ColorTranslator.FromHtml(colorString);
+                                }
+                                catch
+                                {
+                                    GridColor = Color.MidnightBlue;
+                                }
+                                break;
+                            }
                         case "CUSTOMMOVE":
                             {
                                 customMove = line.Value;
@@ -669,6 +734,7 @@ namespace NLEditor
                 settingsFile.WriteLine(" EditorMode          " + CurrentEditorMode.ToString());
                 settingsFile.WriteLine(" PieceSelectionNames " + (UsePieceSelectionNames ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
+                settingsFile.WriteLine(" GridColor           " + ColorTranslator.ToHtml(GridColor));
                 settingsFile.WriteLine(" CustomMove          " + CustomMove.ToString());
                 settingsFile.WriteLine(" Button_Tooltip      " + NumTooltipBottonDisplay.ToString());
                 settingsFile.WriteLine("");
