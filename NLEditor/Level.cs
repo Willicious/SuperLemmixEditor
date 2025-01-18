@@ -461,7 +461,7 @@ namespace NLEditor
         public void FlipPieces()
         {
             Rectangle borderRect = SelectionRectangle();
-            SelectionList().ForEach(item => item.FlipInRect(borderRect));
+            SelectionList().ForEach(item => item.FlipInRect(borderRect, item.ObjType == C.OBJ.HATCH));
 
             // check that paired teleporters/receivers got flipped correctly
             var Teleporters = SelectionList().FindAll(item => item.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER) && (item as GadgetPiece).Val_L != 0);

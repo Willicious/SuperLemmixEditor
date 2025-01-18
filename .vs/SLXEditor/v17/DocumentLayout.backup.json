@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\will3\\Documents\\superlemmixeditor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\formlevelarranger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\formlevelarranger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\levelpiecebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\levelpiecebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}"
+      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\level.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\level.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\levelfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\levelfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\imagelibrary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\imagelibrary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 260,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -27,25 +35,50 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Settings.settings",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\Properties\\Settings.settings",
-              "RelativeDocumentMoniker": "NLEditor\\Properties\\Settings.settings",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\Properties\\Settings.settings",
-              "RelativeToolTip": "NLEditor\\Properties\\Settings.settings",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002767|",
-              "WhenOpened": "2025-01-18T17:05:10.836Z"
+              "Title": "Level.cs",
+              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\Level.cs",
+              "RelativeDocumentMoniker": "NLEditor\\Level.cs",
+              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\Level.cs",
+              "RelativeToolTip": "NLEditor\\Level.cs",
+              "ViewState": "AgIAAMoBAAAAAAAAAAAYwNABAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T20:39:19.786Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ImageLibrary.cs",
+              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\ImageLibrary.cs",
+              "RelativeDocumentMoniker": "NLEditor\\ImageLibrary.cs",
+              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\ImageLibrary.cs",
+              "RelativeToolTip": "NLEditor\\ImageLibrary.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T20:15:23.724Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LevelFile.cs",
+              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\LevelFile.cs",
+              "RelativeDocumentMoniker": "NLEditor\\LevelFile.cs",
+              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\LevelFile.cs",
+              "RelativeToolTip": "NLEditor\\LevelFile.cs",
+              "ViewState": "AgIAAPAAAAAAAAAAAAAYwPkAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T19:36:08.787Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "FormLevelArranger.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormLevelArranger.cs",
-              "RelativeDocumentMoniker": "NLEditor\\FormLevelArranger.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormLevelArranger.cs",
-              "RelativeToolTip": "NLEditor\\FormLevelArranger.cs",
-              "ViewState": "AgIAAMoAAAAAAAAAAAAAANoAAAAQAAAAAAAAAA==",
+              "Title": "LevelPieceBase.cs",
+              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\LevelPieceBase.cs",
+              "RelativeDocumentMoniker": "NLEditor\\LevelPieceBase.cs",
+              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\LevelPieceBase.cs",
+              "RelativeToolTip": "NLEditor\\LevelPieceBase.cs",
+              "ViewState": "AgIAANkAAAAAAAAAAAAuwN0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-18T16:49:24.788Z",
+              "WhenOpened": "2025-01-18T19:34:04.4Z",
               "EditorCaption": ""
             }
           ]

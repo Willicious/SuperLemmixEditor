@@ -247,7 +247,7 @@ namespace NLEditor
             if (doRotate)
                 newGadget.RotateInRect(newGadget.ImageRectangle);
             if (doFlip)
-                newGadget.FlipInRect(newGadget.ImageRectangle);
+                newGadget.FlipInRect(newGadget.ImageRectangle, newGadget.ObjType == C.OBJ.HATCH);
             if (doInvert)
                 newGadget.InvertInRect(newGadget.ImageRectangle);
 
@@ -782,6 +782,14 @@ namespace NLEditor
                 || (curLevel.GadgetList.Exists(gad => gad.ObjType == C.OBJ.PICKUP && gad.SkillFlags.Contains(skill)));
         }
 
+        static public bool NeedFlipOffset(GadgetPiece gadget)
+        {
+            if (gadget.ObjType == C.OBJ.HATCH && gadget.FlipOffset != 0)
+                return true;
+            else
+                return false;
+        }
+
         /// <summary>
         /// Writes all object infos in a text file.
         /// </summary>
@@ -835,6 +843,10 @@ namespace NLEditor
             if (gadget.IsFlippedInPlayer)
             {
                 textFile.WriteLine("   FLIP_HORIZONTAL");
+            }
+            if (NeedFlipOffset(gadget))
+            {
+                textFile.WriteLine($"   FLIP_X_OFFSET {gadget.FlipOffset}");
             }
             if (gadget.IsInvertedInPlayer)
             {

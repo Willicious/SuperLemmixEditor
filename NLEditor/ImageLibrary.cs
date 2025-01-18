@@ -294,6 +294,18 @@ namespace NLEditor
             return imageDict[imageKey].WindowImageWithDirection(rotFlipType, index);
         }
 
+        public static (int Left, int Right) GetMargins(string imageKey)
+        {
+            // Retrieve BaseImageInfo associated with the imageKey
+            var baseImageInfo = imageDict[imageKey];
+
+            // Extract margins from BaseImageInfo
+            int leftMargin = Math.Abs(baseImageInfo.PrimaryImageLocation.X);
+            int rightMargin = Math.Abs(baseImageInfo.Width - baseImageInfo.PrimaryImageLocation.Right);
+
+            return (leftMargin, rightMargin);
+        }
+
         /// <summary>
         /// Returns the width of the piece corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
@@ -508,7 +520,6 @@ namespace NLEditor
                 Utility.LogException(Ex);
                 return false;
             }
-
         }
 
         /// <summary>
