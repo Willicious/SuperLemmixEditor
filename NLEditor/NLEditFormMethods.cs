@@ -1874,6 +1874,7 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyPieceSearch, () => OpenPieceSearch());
             AddHotkey(HotkeyConfig.HotkeyToggleSnapToGrid, () => ToggleSnapToGrid(true));
             AddHotkey(HotkeyConfig.HotkeyOpenLevelWindow, () => OpenLevelArrangerWindow());
+            AddHotkey(HotkeyConfig.HotkeyToggleAllTabs, () => ToggleExpandedTabs());
             AddHotkey(HotkeyConfig.HotkeyOpenSettings, () => settingsToolStripMenuItem_Click(null, null));
             AddHotkey(HotkeyConfig.HotkeyOpenConfigHotkeys, () => hotkeysToolStripMenuItem_Click(null, null));
             AddHotkey(HotkeyConfig.HotkeyOpenAboutSLX, () => ShowAboutSLXEditor());
@@ -2041,6 +2042,9 @@ namespace NLEditor
 
             openLevelWindowToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyOpenLevelWindow);
+
+            expandAllTabsToolStripMenuItem.ShortcutKeyDisplayString =
+                HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyToggleAllTabs);
 
             settingsToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyOpenSettings);

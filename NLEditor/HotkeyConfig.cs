@@ -29,6 +29,7 @@ namespace NLEditor
         public static Keys HotkeyShowMissingPieces;
         public static Keys HotkeyToggleSnapToGrid;
         public static Keys HotkeyOpenLevelWindow;
+        public static Keys HotkeyToggleAllTabs;
         public static Keys HotkeyOpenSettings;
         public static Keys HotkeyOpenConfigHotkeys;
         public static Keys HotkeyOpenAboutSLX;
@@ -341,6 +342,8 @@ namespace NLEditor
                     HotkeyToggleSnapToGrid = ParseHotkeyString(line.Substring("HotkeyToggleSnapToGrid=".Length));
                 if (line.StartsWith("HotkeyOpenLevelWindow="))
                     HotkeyOpenLevelWindow = ParseHotkeyString(line.Substring("HotkeyOpenLevelWindow=".Length));
+                if (line.StartsWith("HotkeyToggleAllTabs="))
+                    HotkeyToggleAllTabs = ParseHotkeyString(line.Substring("HotkeyToggleAllTabs=".Length));
                 if (line.StartsWith("HotkeyOpenSettings="))
                     HotkeyOpenSettings = ParseHotkeyString(line.Substring("HotkeyOpenSettings=".Length));
                 if (line.StartsWith("HotkeyOpenConfigHotkeys="))
@@ -508,6 +511,7 @@ namespace NLEditor
                 $"HotkeyShowMissingPieces={FormatHotkeyString(HotkeyShowMissingPieces)}",
                 $"HotkeyToggleSnapToGrid={FormatHotkeyString(HotkeyToggleSnapToGrid)}",
                 $"HotkeyOpenLevelWindow={FormatHotkeyString(HotkeyOpenLevelWindow)}",
+                $"HotkeyToggleAllTabs={FormatHotkeyString(HotkeyToggleAllTabs)}",
                 $"HotkeyOpenSettings={FormatHotkeyString(HotkeyOpenSettings)}",
                 $"HotkeyOpenConfigHotkeys={FormatHotkeyString(HotkeyOpenConfigHotkeys)}",
                 $"HotkeyOpenAboutSLX={FormatHotkeyString(HotkeyOpenAboutSLX)}",
@@ -610,9 +614,10 @@ namespace NLEditor
             HotkeyShowMissingPieces = Keys.Control | Keys.F8;
             HotkeyToggleSnapToGrid = Keys.F9;
             HotkeyOpenLevelWindow = Keys.Control | Keys.F9;
+            HotkeyToggleAllTabs = Keys.Control | Keys.F10;
             HotkeyOpenSettings = Keys.F10;
             HotkeyOpenConfigHotkeys = Keys.F11;
-            HotkeyOpenAboutSLX = Keys.Control | Keys.F10;
+            HotkeyOpenAboutSLX = Keys.Control | Keys.F11;
             HotkeySelectPieces = Keys.LButton;
             HotkeyDragToScroll = Keys.RButton;
             HotkeyDragHorizontally = Keys.Control | Keys.Alt | Keys.LButton;
@@ -703,9 +708,10 @@ namespace NLEditor
             HotkeyShowMissingPieces = Keys.Control | Keys.F8;
             HotkeyToggleSnapToGrid = Keys.F9;
             HotkeyOpenLevelWindow = Keys.Control | Keys.F9;
+            HotkeyToggleAllTabs = Keys.Control | Keys.F10;
             HotkeyOpenSettings = Keys.F10;
             HotkeyOpenConfigHotkeys = Keys.F11;
-            HotkeyOpenAboutSLX = Keys.Control | Keys.F10;
+            HotkeyOpenAboutSLX = Keys.Control | Keys.F11;
             HotkeySelectPieces = Keys.LButton;
             HotkeyDragToScroll = Keys.RButton;
             HotkeyDragHorizontally = Keys.Control | Keys.Alt | Keys.LButton;
