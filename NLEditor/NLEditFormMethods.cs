@@ -468,10 +468,6 @@ namespace NLEditor
                     pic_Level.Focus();
                 }));
             };
-    
-            // Update settings
-            Properties.Settings.Default.LevelArrangerIsOpen = true;
-            Properties.Settings.Default.Save();
 
             // Ensure the reference is cleared when the window is closed
             levelArrangerWindow.FormClosing += (s, e) => levelArrangerWindow = null;

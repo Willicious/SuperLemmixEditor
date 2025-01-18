@@ -145,11 +145,12 @@ namespace NLEditor
 
         private void FormLevelArranger_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                Properties.Settings.Default.LevelArrangerIsOpen = false;
-                Properties.Settings.Default.Save();
-            }
+            // Update settings
+            Properties.Settings.Default.LevelArrangerIsOpen = e.CloseReason != CloseReason.UserClosing;
+            Properties.Settings.Default.LevelArrangerSize = this.Size;
+            Properties.Settings.Default.LevelArrangerLocation = this.Location;
+            Properties.Settings.Default.LevelArrangerIsMaximized = this.WindowState == FormWindowState.Maximized;
+            Properties.Settings.Default.Save();
 
             ReturnPicLevelToMainForm();
             mainForm = null;
@@ -205,6 +206,19 @@ namespace NLEditor
         private void FormLevelArranger_Shown(object sender, EventArgs e)
         {
             ResetPicLevel();
+        }
+
+        private void FormLevelArranger_Load(object sender, EventArgs e)
+        {
+            // Size and position the form according to settings
+            this.Size = Properties.Settings.Default.LevelArrangerSize;
+            this.Location = Properties.Settings.Default.LevelArrangerLocation;
+
+            // If the window was maximized, apply maximize to ensure correct sizing
+            if (Properties.Settings.Default.LevelArrangerIsMaximized)
+            {
+                this.WindowState = FormWindowState.Maximized;
+            }
         }
     }
 }

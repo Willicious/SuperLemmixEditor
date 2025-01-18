@@ -58,5 +58,41 @@ namespace NLEditor.Properties {
                 this["AllTabsAreExpanded"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("960, 400")]
+        public global::System.Drawing.Size LevelArrangerSize {
+            get {
+                return ((global::System.Drawing.Size)(this["LevelArrangerSize"]));
+            }
+            set {
+                this["LevelArrangerSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("280, 40")]
+        public global::System.Drawing.Point LevelArrangerLocation {
+            get {
+                return ((global::System.Drawing.Point)(this["LevelArrangerLocation"]));
+            }
+            set {
+                this["LevelArrangerLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LevelArrangerIsMaximized {
+            get {
+                return ((bool)(this["LevelArrangerIsMaximized"]));
+            }
+            set {
+                this["LevelArrangerIsMaximized"] = value;
+            }
+        }
     }
 }
