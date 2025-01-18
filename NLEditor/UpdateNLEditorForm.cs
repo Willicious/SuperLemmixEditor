@@ -401,12 +401,15 @@ namespace NLEditor
             but_PieceObj.Top = this.Height - 149;
             but_PieceSketches.Top = this.Height - 149;
             but_PieceBackground.Top = this.Height - 149;
-            but_ClearBackground.Top = this.Height - 149;
-            but_SearchPieces.Top = this.Height - 149;
 
             but_PieceLeft.Top = this.Height - 122;
             but_PieceRight.Top = this.Height - 122;
             but_PieceRight.Left = this.Width - 44;
+
+            but_SearchPieces.Top = this.Height - 149;
+            but_SearchPieces.Left = but_PieceRight.Right - 6 - but_SearchPieces.Width;
+            but_ClearBackground.Top = this.Height - 149;
+            but_ClearBackground.Left = but_SearchPieces.Left - 6 - but_ClearBackground.Width;
 
             bool updateImages = MovePicPiecesOnResize();
             if (updateImages)
