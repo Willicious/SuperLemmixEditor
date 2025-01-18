@@ -196,18 +196,19 @@ namespace NLEditor
             numGridSize.ValueChanged += new EventHandler(numGridSize_ValueChanged);
             numGridSize.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
 
-            Label labelGridColor = new Label();
-            labelGridColor.Text = "Choose grid color:";
-            labelGridColor.Top = groupBoxTop + 30;
-            labelGridColor.Left = groupBoxColumnLeft;
-            labelGridColor.AutoSize = true;
-            labelGridColor.Enabled = UseGridForPieces;
+            Label lblGridColor = new Label();
+            lblGridColor.Name = "lblGridColor";
+            lblGridColor.Text = "Choose grid color:";
+            lblGridColor.Top = groupBoxTop + 30;
+            lblGridColor.Left = groupBoxColumnLeft;
+            lblGridColor.AutoSize = true;
+            lblGridColor.Enabled = UseGridForPieces;
 
             ComboBox comboGridColor = new ComboBox();
             comboGridColor.Name = "comboGridColor";
             comboGridColor.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboGridColor.Top = labelGridColor.Top - 2;
-            comboGridColor.Left = labelGridColor.Right + 20;
+            comboGridColor.Top = lblGridColor.Top - 2;
+            comboGridColor.Left = lblGridColor.Right + 20;
             comboGridColor.Width = 120;
             comboGridColor.Enabled = UseGridForPieces;
             comboGridColor.Items.AddRange(ColorOptions.Keys.ToArray());
@@ -216,7 +217,7 @@ namespace NLEditor
 
             groupSnapToGrid.Controls.Add(checkUseGrid);
             groupSnapToGrid.Controls.Add(numGridSize);
-            groupSnapToGrid.Controls.Add(labelGridColor);
+            groupSnapToGrid.Controls.Add(lblGridColor);
             groupSnapToGrid.Controls.Add(comboGridColor);
 
             // =========================== Autosave GroupBox =========================== //
@@ -433,6 +434,12 @@ namespace NLEditor
 
             if (settingsForm.Controls.Find("numGridSize", true).FirstOrDefault() is NumericUpDown numGridSize)
                 numGridSize.Enabled = UseGridForPieces;
+
+            if (settingsForm.Controls.Find("lblGridColor", true).FirstOrDefault() is Label lblGridColor)
+                lblGridColor.Enabled = UseGridForPieces;
+
+            if (settingsForm.Controls.Find("comboGridColor", true).FirstOrDefault() is ComboBox comboGridColor)
+                comboGridColor.Enabled = UseGridForPieces;
 
             editorForm.ToggleSnapToGrid();
 
