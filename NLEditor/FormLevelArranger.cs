@@ -143,6 +143,25 @@ namespace NLEditor
             scrollVert.Visible = displayScrollVert;
         }
 
+        private bool ValidateScreenSettings(Point location)
+        {
+            // Check for connected displays
+            foreach (var screen in Screen.AllScreens)
+            {
+                if (screen.WorkingArea.Contains(location))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void ResetWindowSettings()
+        {
+            this.Size = new Size(960, 400);
+            this.Location = new Point(280, 40);
+        }
+
         private void FormLevelArranger_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Update settings
@@ -213,6 +232,12 @@ namespace NLEditor
             // Size and position the form according to settings
             this.Size = Properties.Settings.Default.LevelArrangerSize;
             this.Location = Properties.Settings.Default.LevelArrangerLocation;
+
+            // Reset window to default size and position if setting is invalid
+            if (!ValidateScreenSettings(this.Location))
+            {
+                ResetWindowSettings();
+            }
 
             // If the window was maximized, apply maximize to ensure correct sizing
             if (Properties.Settings.Default.LevelArrangerIsMaximized)
