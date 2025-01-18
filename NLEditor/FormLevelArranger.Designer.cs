@@ -42,6 +42,7 @@
             this.Text = "SuperLemmix Editor - Level Arranger";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormLevelArranger_FormClosing);
+            this.Shown += new System.EventHandler(this.FormLevelArranger_Shown);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormLevelArranger_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormLevelArranger_KeyUp);
             this.Resize += new System.EventHandler(this.FormLevelArranger_Resize);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace NLEditor
@@ -68,6 +67,11 @@ namespace NLEditor
             scrollVert.Scroll += ScrollVert_Scroll;
 
             UpdateScrollbars();
+        }
+
+        private void ResetPicLevel()
+        {
+            picLevel.SetImage(curRenderer.GetScreenImage());
         }
 
         /// <summary>
@@ -189,13 +193,18 @@ namespace NLEditor
         private void ScrollHoriz_Scroll(object sender, ScrollEventArgs e)
         {
             curRenderer.ScreenPosX = e.NewValue;
-            picLevel.SetImage(curRenderer.GetScreenImage());
+            ResetPicLevel();
         }
 
         private void ScrollVert_Scroll(object sender, ScrollEventArgs e)
         {
             curRenderer.ScreenPosY = e.NewValue;
-            picLevel.SetImage(curRenderer.GetScreenImage());
+            ResetPicLevel();
+        }
+
+        private void FormLevelArranger_Shown(object sender, EventArgs e)
+        {
+            ResetPicLevel();
         }
     }
 }

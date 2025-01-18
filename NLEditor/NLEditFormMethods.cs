@@ -425,9 +425,7 @@ namespace NLEditor
             // Create the pop-out window and pass pic_Level to it
             levelArrangerWindow = new FormLevelArranger(pic_Level, this, curRenderer);
 
-            // Set the position of pic_Level within the window
-            RepositionPicLevel();
-            pic_Level.SetImage(curRenderer.GetScreenImage());
+            // Don't reposition pic_Level when zooming from within the Arrange Window
             repositionAfterZooming = false;
 
             // Subscribe to the PictureBoxReturned event to handle re-parenting
