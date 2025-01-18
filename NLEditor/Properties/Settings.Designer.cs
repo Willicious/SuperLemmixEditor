@@ -46,5 +46,17 @@ namespace NLEditor.Properties {
                 this["LevelArrangerIsOpen"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AllTabsAreExpanded {
+            get {
+                return ((bool)(this["AllTabsAreExpanded"]));
+            }
+            set {
+                this["AllTabsAreExpanded"] = value;
+            }
+        }
     }
 }

@@ -22,6 +22,7 @@ namespace NLEditor
         public NLEditForm()
         {
             InitializeComponent();
+            UpdateExpandedTabs();
             PullFocusFromTextInputs();
             SetRepeatButtonIntervals();
             SetMusicList();
@@ -182,6 +183,8 @@ namespace NLEditor
         Stopwatch stopWatchKey;
         Stopwatch stopWatchMouse;
         MouseButtons? mouseButtonPressed;
+
+        bool allTabsExpanded = false;
 
         bool repositionAfterZooming = true;
         bool movementActionPerformed = false;
@@ -1518,6 +1521,11 @@ namespace NLEditor
         private void openLevelWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenLevelArrangerWindow();
+        }
+
+        private void expandAllTabsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToggleExpandedTabs();
         }
     }
 }

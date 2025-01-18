@@ -67,6 +67,7 @@
             this.searchPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.snapToGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLevelWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.expandAllTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -225,6 +226,9 @@
             this.but_PieceObj = new System.Windows.Forms.Button();
             this.but_PieceTerr = new System.Windows.Forms.Button();
             this.but_SearchPieces = new System.Windows.Forms.Button();
+            this.tabLvlPieces = new System.Windows.Forms.TabControl();
+            this.tabLvlSkills = new System.Windows.Forms.TabControl();
+            this.tabLvlMisc = new System.Windows.Forms.TabControl();
             this.num_Lvl_TimeSec = new NLEditor.NumUpDownOverwrite();
             this.num_Lvl_TimeMin = new NLEditor.NumUpDownOverwrite();
             this.num_Lvl_SR = new NLEditor.NumUpDownOverwrite();
@@ -247,6 +251,8 @@
             this.but_FlipPieces = new NLEditor.RepeatButton();
             this.but_InvertPieces = new NLEditor.RepeatButton();
             this.but_RotatePieces = new NLEditor.RepeatButton();
+            this.num_RandomMaxLimit = new NLEditor.NumUpDownOverwrite();
+            this.num_RandomMinLimit = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Timebomber = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Laserer = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Grenader = new NLEditor.NumUpDownOverwrite();
@@ -274,8 +280,6 @@
             this.num_Ski_Floater = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Climber = new NLEditor.NumUpDownOverwrite();
             this.num_Ski_Stoner = new NLEditor.NumUpDownOverwrite();
-            this.num_RandomMaxLimit = new NLEditor.NumUpDownOverwrite();
-            this.num_RandomMinLimit = new NLEditor.NumUpDownOverwrite();
             this.txt_Focus = new NLEditor.FocusTextBox();
             this.but_PieceRight = new NLEditor.RepeatButton();
             this.but_PieceLeft = new NLEditor.RepeatButton();
@@ -313,6 +317,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_LemmingLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_RandomMaxLimit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_RandomMinLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Timebomber)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Laserer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Grenader)).BeginInit();
@@ -340,8 +346,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stoner)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_RandomMaxLimit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_RandomMinLimit)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -355,7 +359,7 @@
             this.optionsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1337, 33);
+            this.menuStrip.Size = new System.Drawing.Size(1478, 33);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -645,6 +649,7 @@
             this.searchPiecesToolStripMenuItem,
             this.snapToGridToolStripMenuItem,
             this.openLevelWindowToolStripMenuItem,
+            this.expandAllTabsToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.hotkeysToolStripMenuItem,
             this.toolStripSeparator2,
@@ -685,6 +690,13 @@
             this.openLevelWindowToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
             this.openLevelWindowToolStripMenuItem.Text = "Open Level Arranger Window";
             this.openLevelWindowToolStripMenuItem.Click += new System.EventHandler(this.openLevelWindowToolStripMenuItem_Click);
+            // 
+            // expandAllTabsToolStripMenuItem
+            // 
+            this.expandAllTabsToolStripMenuItem.Name = "expandAllTabsToolStripMenuItem";
+            this.expandAllTabsToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
+            this.expandAllTabsToolStripMenuItem.Text = "Expand All Tabs";
+            this.expandAllTabsToolStripMenuItem.Click += new System.EventHandler(this.expandAllTabsToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
@@ -1236,7 +1248,7 @@
             this.tabPieces.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPieces.Name = "tabPieces";
             this.tabPieces.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPieces.Size = new System.Drawing.Size(384, 787);
+            this.tabPieces.Size = new System.Drawing.Size(388, 787);
             this.tabPieces.TabIndex = 1;
             this.tabPieces.Text = "Pieces";
             this.tabPieces.UseVisualStyleBackColor = true;
@@ -1901,7 +1913,7 @@
             this.tabSkills.Location = new System.Drawing.Point(4, 29);
             this.tabSkills.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabSkills.Name = "tabSkills";
-            this.tabSkills.Size = new System.Drawing.Size(380, 787);
+            this.tabSkills.Size = new System.Drawing.Size(388, 787);
             this.tabSkills.TabIndex = 2;
             this.tabSkills.Text = "Skills";
             this.tabSkills.UseVisualStyleBackColor = true;
@@ -2218,7 +2230,7 @@
             this.tabMisc.Location = new System.Drawing.Point(4, 29);
             this.tabMisc.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabMisc.Name = "tabMisc";
-            this.tabMisc.Size = new System.Drawing.Size(380, 787);
+            this.tabMisc.Size = new System.Drawing.Size(388, 787);
             this.tabMisc.TabIndex = 3;
             this.tabMisc.Text = "Misc.";
             this.tabMisc.UseVisualStyleBackColor = true;
@@ -2505,6 +2517,33 @@
             this.but_SearchPieces.Text = "Search Pieces";
             this.but_SearchPieces.UseVisualStyleBackColor = true;
             this.but_SearchPieces.Click += new System.EventHandler(this.but_SearchPieces_Click);
+            // 
+            // tabLvlPieces
+            // 
+            this.tabLvlPieces.Location = new System.Drawing.Point(412, 42);
+            this.tabLvlPieces.Name = "tabLvlPieces";
+            this.tabLvlPieces.SelectedIndex = 0;
+            this.tabLvlPieces.Size = new System.Drawing.Size(200, 100);
+            this.tabLvlPieces.TabIndex = 63;
+            this.tabLvlPieces.Visible = false;
+            // 
+            // tabLvlSkills
+            // 
+            this.tabLvlSkills.Location = new System.Drawing.Point(618, 42);
+            this.tabLvlSkills.Name = "tabLvlSkills";
+            this.tabLvlSkills.SelectedIndex = 0;
+            this.tabLvlSkills.Size = new System.Drawing.Size(200, 100);
+            this.tabLvlSkills.TabIndex = 64;
+            this.tabLvlSkills.Visible = false;
+            // 
+            // tabLvlMisc
+            // 
+            this.tabLvlMisc.Location = new System.Drawing.Point(824, 42);
+            this.tabLvlMisc.Name = "tabLvlMisc";
+            this.tabLvlMisc.SelectedIndex = 0;
+            this.tabLvlMisc.Size = new System.Drawing.Size(200, 100);
+            this.tabLvlMisc.TabIndex = 65;
+            this.tabLvlMisc.Visible = false;
             // 
             // num_Lvl_TimeSec
             // 
@@ -2965,6 +3004,53 @@
             this.but_RotatePieces.Click += new System.EventHandler(this.but_RotatePieces_Click);
             this.but_RotatePieces.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_RotatePieces_MouseUp);
             // 
+            // num_RandomMaxLimit
+            // 
+            this.num_RandomMaxLimit.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.num_RandomMaxLimit.Location = new System.Drawing.Point(197, 40);
+            this.num_RandomMaxLimit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.num_RandomMaxLimit.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.num_RandomMaxLimit.Name = "num_RandomMaxLimit";
+            this.num_RandomMaxLimit.Size = new System.Drawing.Size(64, 26);
+            this.num_RandomMaxLimit.TabIndex = 46;
+            this.num_RandomMaxLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_RandomMaxLimit.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.num_RandomMaxLimit.ValueChanged += new System.EventHandler(this.num_RandomLimit_ValueChanged);
+            // 
+            // num_RandomMinLimit
+            // 
+            this.num_RandomMinLimit.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.num_RandomMinLimit.Location = new System.Drawing.Point(75, 40);
+            this.num_RandomMinLimit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.num_RandomMinLimit.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.num_RandomMinLimit.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_RandomMinLimit.Name = "num_RandomMinLimit";
+            this.num_RandomMinLimit.Size = new System.Drawing.Size(64, 26);
+            this.num_RandomMinLimit.TabIndex = 45;
+            this.num_RandomMinLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_RandomMinLimit.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_RandomMinLimit.ValueChanged += new System.EventHandler(this.num_RandomLimit_ValueChanged);
+            // 
             // num_Ski_Timebomber
             // 
             this.num_Ski_Timebomber.BackColor = System.Drawing.SystemColors.InactiveBorder;
@@ -3314,53 +3400,6 @@
             this.num_Ski_Stoner.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_Ski_Stoner.Visible = false;
             // 
-            // num_RandomMaxLimit
-            // 
-            this.num_RandomMaxLimit.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_RandomMaxLimit.Location = new System.Drawing.Point(197, 40);
-            this.num_RandomMaxLimit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.num_RandomMaxLimit.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.num_RandomMaxLimit.Name = "num_RandomMaxLimit";
-            this.num_RandomMaxLimit.Size = new System.Drawing.Size(64, 26);
-            this.num_RandomMaxLimit.TabIndex = 46;
-            this.num_RandomMaxLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.num_RandomMaxLimit.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.num_RandomMaxLimit.ValueChanged += new System.EventHandler(this.num_RandomLimit_ValueChanged);
-            // 
-            // num_RandomMinLimit
-            // 
-            this.num_RandomMinLimit.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_RandomMinLimit.Location = new System.Drawing.Point(75, 40);
-            this.num_RandomMinLimit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.num_RandomMinLimit.Maximum = new decimal(new int[] {
-            99,
-            0,
-            0,
-            0});
-            this.num_RandomMinLimit.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.num_RandomMinLimit.Name = "num_RandomMinLimit";
-            this.num_RandomMinLimit.Size = new System.Drawing.Size(64, 26);
-            this.num_RandomMinLimit.TabIndex = 45;
-            this.num_RandomMinLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.num_RandomMinLimit.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.num_RandomMinLimit.ValueChanged += new System.EventHandler(this.num_RandomLimit_ValueChanged);
-            // 
             // txt_Focus
             // 
             this.txt_Focus.Location = new System.Drawing.Point(-150, 2);
@@ -3407,7 +3446,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1337, 1049);
+            this.ClientSize = new System.Drawing.Size(1478, 1049);
+            this.Controls.Add(this.tabLvlMisc);
+            this.Controls.Add(this.tabLvlSkills);
+            this.Controls.Add(this.tabLvlPieces);
             this.Controls.Add(this.but_SearchPieces);
             this.Controls.Add(this.but_PieceTerr);
             this.Controls.Add(this.but_PieceObj);
@@ -3437,7 +3479,7 @@
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MinimumSize = new System.Drawing.Size(1195, 659);
+            this.MinimumSize = new System.Drawing.Size(1300, 700);
             this.Name = "NLEditForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "  SuperLemmix Editor";
@@ -3492,6 +3534,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_LemmingLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_RandomMaxLimit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_RandomMinLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Timebomber)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Laserer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Grenader)).EndInit();
@@ -3519,8 +3563,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Floater)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Climber)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stoner)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_RandomMaxLimit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_RandomMinLimit)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3777,6 +3819,10 @@
         private System.Windows.Forms.GroupBox gbRandomSkillset;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openLevelWindowToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabLvlPieces;
+        private System.Windows.Forms.TabControl tabLvlSkills;
+        private System.Windows.Forms.TabControl tabLvlMisc;
+        private System.Windows.Forms.ToolStripMenuItem expandAllTabsToolStripMenuItem;
     }
 }
 

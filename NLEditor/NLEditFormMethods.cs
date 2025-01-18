@@ -91,6 +91,27 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Sets the correct size and position of the expanded tabs
+        /// </summary>
+        private void UpdateExpandedTabs()
+        {
+            tabLvlPieces.Size = tabLvlProperties.Size;
+            tabLvlPieces.Left = tabLvlProperties.Right;
+            tabLvlPieces.Top = tabLvlProperties.Top;
+
+            tabLvlSkills.Size = tabLvlProperties.Size;
+            tabLvlSkills.Left = tabLvlPieces.Right;
+            tabLvlSkills.Top = tabLvlProperties.Top;
+
+            tabLvlMisc.Size = tabLvlProperties.Size;
+            tabLvlMisc.Left = tabLvlSkills.Right;
+            tabLvlMisc.Top = tabLvlProperties.Top;
+
+            if (Properties.Settings.Default.AllTabsAreExpanded)
+                ExpandAllTabs();
+        }
+
+        /// <summary>
         /// Removes focus from the current control and moves it to the default location txt_Focus.
         /// </summary>
         private void PullFocusFromTextInputs()
@@ -458,6 +479,65 @@ namespace NLEditor
             // Show the pop-out window
             levelArrangerWindow.Show();
         }
+
+        private void ToggleExpandedTabs()
+        {
+            if (!allTabsExpanded)
+            {
+                ExpandAllTabs();
+            }
+            else
+            {
+                CollapseAllTabs();
+            }
+
+            // Update settings
+            Properties.Settings.Default.AllTabsAreExpanded = allTabsExpanded;
+            Properties.Settings.Default.Save();
+        }
+
+        private void ExpandAllTabs()
+        {
+            tabLvlProperties.TabPages.Remove(tabPieces);
+            tabLvlPieces.TabPages.Add(tabPieces);
+            tabLvlPieces.Enabled = true;
+            tabLvlPieces.Visible = true;
+
+            tabLvlProperties.TabPages.Remove(tabSkills);
+            tabLvlSkills.TabPages.Add(tabSkills);
+            tabLvlSkills.Enabled = true;
+            tabLvlSkills.Visible = true;
+
+            tabLvlProperties.TabPages.Remove(tabMisc);
+            tabLvlMisc.TabPages.Add(tabMisc);
+            tabLvlMisc.Enabled = true;
+            tabLvlMisc.Visible = true;
+
+            expandAllTabsToolStripMenuItem.Text = "Collapse All Tabs";
+            allTabsExpanded = true;
+        }
+
+        private void CollapseAllTabs()
+        {
+            tabLvlPieces.TabPages.Remove(tabPieces);
+            tabLvlProperties.TabPages.Add(tabPieces);
+            tabLvlPieces.Enabled = false;
+            tabLvlPieces.Visible = false;
+
+            tabLvlSkills.TabPages.Remove(tabSkills);
+            tabLvlProperties.TabPages.Add(tabSkills);
+            tabLvlSkills.Enabled = false;
+            tabLvlSkills.Visible = false;
+
+            tabLvlMisc.TabPages.Remove(tabMisc);
+            tabLvlProperties.TabPages.Add(tabMisc);
+            tabLvlMisc.Enabled = false;
+            tabLvlMisc.Visible = false;
+
+            expandAllTabsToolStripMenuItem.Text = "Expand All Tabs";
+            allTabsExpanded = false;
+        }
+
 
         /// <summary>
         /// Checks for presence of Neo/SuperLemmix.exe in Editor's base folder and set isNeoLemmixOnly
@@ -880,7 +960,7 @@ namespace NLEditor
 
         private void MaybeOpenPiecesTab()
         {
-            if (CurLevel.SelectionList().Count > 0)
+            if ((CurLevel.SelectionList().Count > 0) && (!allTabsExpanded))
             {
                 tabLvlProperties.SelectedIndex = tabLvlProperties.TabPages.IndexOf(tabPieces);
                 PullFocusFromTextInputs();
