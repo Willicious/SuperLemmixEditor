@@ -28,7 +28,7 @@ namespace NLEditor
             picLevel = picLevelFromMain;
             curRenderer = parentRenderer;
 
-            originalLevelSize = curRenderer.GetLevelBmpRect();
+            originalLevelSize = mainForm.CurLevel.Size;
 
             // Ensure interactivity with the main form whilst keeping the window on top
             this.Owner = mainForm;
