@@ -104,8 +104,52 @@ namespace NLEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
-            // Version 2.8.4 features
-            WriteBoldText(richTextBox, "Version 2.8.4\n");
+            // Version 2.8.5 features
+            WriteBoldText(richTextBox, "Version 2.8.5\n");
+            WriteBoldText(richTextBox, "• Level Arranger Window");
+            richTextBox.AppendText(" - It's now possible to open the level arranger in a pop-out window which can be resized and moved between displays. Its size and position are remembered between sessions\n");
+
+            WriteBoldText(richTextBox, "• Expand/Collapse All Tabs");
+            richTextBox.AppendText(" - Tabs can be expanded and collapsed on-the-fly using a hotkey/menu item (this feature is intended to accompany the level arranger window, but can be used at any time)\n");
+
+            WriteBoldText(richTextBox, "• Pre-placed Lemming");
+            richTextBox.AppendText(" - Added pink (X, Y) location pin to pre-placed lemming)\n");
+
+            WriteBoldText(richTextBox, "• Piece Selection");
+            richTextBox.AppendText(" - Piece Metadata is now displayed in the \"Pieces\" tab, showing name, style and type. Also added a \"Load Style\" button to load the style of the selected piece into the browser\n");
+
+            WriteBoldText(richTextBox, "• Piece Selection");
+            richTextBox.AppendText(" - Clicking (and selecting) a piece now opens the \"Pieces\" tab)\n");
+
+            WriteBoldText(richTextBox, "• Piece Selection");
+            richTextBox.AppendText(" - Added a \"Select All\" hotkey (Ctrl+A by default)\n");
+
+            WriteBoldText(richTextBox, "• Snap-to-Grid");
+            richTextBox.AppendText(" - When snap-to-grid is active, the grid lines are now displayed in a colour of your choice (they can also be invisible, as before)\n");
+
+            WriteBoldText(richTextBox, "• Preview/Postview Text Input");
+            richTextBox.AppendText(" - Widened and heightened the text input dialog, also added a \"Preview\" button to show how the text will appear on the screen in-game)\n");
+
+            WriteBoldText(richTextBox, "• Layout");
+            richTextBox.AppendText(" - Decreased scrollbar thickness slightly)\n");
+
+            WriteBoldText(richTextBox, "• Layout");
+            richTextBox.AppendText(" - Improved position of 'Clear Background' and 'Search Pieces' buttons\n");
+
+            WriteBoldText(richTextBox, "• Layout");
+            richTextBox.AppendText(" - Set minimum window size to 900 x 600)\n");
+
+            WriteBoldText(richTextBox, "• Bugfix");
+            richTextBox.AppendText(" - When flipping a hatch horizontally, the Flip Offset value is calculated and written to the level file so the Player can match its position as seen in the Editor)\n");
+
+            WriteBoldText(richTextBox, "• Bugfix");
+            richTextBox.AppendText(" - Character limit for title and author is now 54 (determined by Preview Screen in FullScreen)\n");
+
+            WriteBoldText(richTextBox, "• Bugfix");
+            richTextBox.AppendText(" - Fixed cancelling of changes to Settings when using the \"Cancel\" button)\n");
+
+            // Version 2.8.X features
+            WriteBoldText(richTextBox, "\nVersion 2.8.X\n");
             WriteBoldText(richTextBox, "• Fully-customisable hotkeys");
             richTextBox.AppendText(" - Choose your own hotkey layout for the Editor's features - - (As of 2.8.4 the form is now displayed at the correct size in all screen resolutions)\n");
 
@@ -145,8 +189,6 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Bugfix");
             richTextBox.AppendText(" - Cleanse levels now shows a dialog before proceeding with the cleanse\n");
 
-            // Version 2.8.X features
-            WriteBoldText(richTextBox, "\nVersion 2.8.X\n");
             WriteBoldText(richTextBox, "• Maximum Lemmings Count");
             richTextBox.AppendText(" - 999 is now the maximum number of lemmings supported by the Editor; this is to match SLX Player skill panel display\n");
 
