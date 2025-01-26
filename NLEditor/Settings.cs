@@ -73,7 +73,7 @@ namespace NLEditor
         /// </summary>
         public void SetDefault()
         {
-            CurrentEditorMode = EditorMode.SuperLemmix;
+            CurrentEditorMode = EditorMode.Auto;
             UsePieceSelectionNames = true;
             UseGridForPieces = false;
             gridSize = 8;
@@ -639,12 +639,12 @@ namespace NLEditor
                         case "EDITORMODE":
                             {
                                 var modeText = line.Text.Trim().ToUpper();
-                                if (modeText == "NEOLEMMIX")
-                                    CurrentEditorMode = EditorMode.NeoLemmix;
-                                else if (modeText == "AUTO")
-                                    CurrentEditorMode = EditorMode.Auto;
-                                else // Default to SuperLemmix Mode
+                                if (modeText == "SUPERLEMMIX")
                                     CurrentEditorMode = EditorMode.SuperLemmix;
+                                else if (modeText == "NEOLEMMIX")
+                                    CurrentEditorMode = EditorMode.NeoLemmix;
+                                else // Default to Auto Mode
+                                    CurrentEditorMode = EditorMode.Auto;
                                 break;
                             }
                         case "PIECESELECTIONNAMES":

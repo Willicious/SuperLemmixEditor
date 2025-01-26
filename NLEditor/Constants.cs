@@ -37,6 +37,7 @@ namespace NLEditor
         public static string AppPathPlayerSettingsOld => AppPath + "SuperLemmix147Settings.ini";
         public static string AppPathSuperLemmix => AppPath + "SuperLemmix.exe";
         public static string AppPathNeoLemmix => AppPath + "NeoLemmix.exe";
+        public static string AppPathNeoLemmixCE => AppPath + "NeoLemmixCE.exe";
 
         public static char DirSep => System.IO.Path.DirectorySeparatorChar;
         public static string NewLine => Environment.NewLine;

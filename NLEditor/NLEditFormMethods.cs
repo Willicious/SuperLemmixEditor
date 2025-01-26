@@ -542,7 +542,7 @@ namespace NLEditor
         {
             string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
 
-            bool isNeoLemmixDetected = File.Exists(C.AppPathNeoLemmix);
+            bool isNeoLemmixDetected = File.Exists(C.AppPathNeoLemmix) || File.Exists(C.AppPathNeoLemmixCE);
             bool isSuperLemmixDetected = File.Exists(C.AppPathSuperLemmix);
 
             var curMode = curSettings.CurrentEditorMode;
@@ -720,8 +720,16 @@ namespace NLEditor
 
             if (isNeoLemmixOnly)
             { 
-                enginePath = C.AppPathNeoLemmix;
-                engineName = "NeoLemmix.exe";
+                if (File.Exists(C.AppPathNeoLemmixCE))
+                {
+                    enginePath = C.AppPathNeoLemmixCE;
+                    engineName = "NeoLemmixCE.exe";
+                }
+                else
+                {
+                    enginePath = C.AppPathNeoLemmix;
+                    engineName = "NeoLemmix.exe";
+                }
             }
             else
             {
