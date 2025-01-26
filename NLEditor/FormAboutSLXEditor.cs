@@ -128,7 +128,7 @@ namespace NLEditor
             richTextBox.AppendText(" - When snap-to-grid is active, the grid lines are now displayed in a colour of your choice (they can also be invisible, as before)\n");
 
             WriteBoldText(richTextBox, "• Preview/Postview Text Input");
-            richTextBox.AppendText(" - Widened and heightened the text input dialog, also added a \"Preview\" button to show how the text will appear on the screen in-game)\n");
+            richTextBox.AppendText(" - Widened and heightened the text input dialog, also added a \"Preview\" button to show how the text will appear on the screen in-game (bugfixed in 2.8.6)\n");
 
             WriteBoldText(richTextBox, "• Layout");
             richTextBox.AppendText(" - Decreased scrollbar thickness slightly)\n");
