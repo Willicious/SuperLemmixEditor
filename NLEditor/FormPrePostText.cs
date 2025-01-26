@@ -83,6 +83,11 @@ namespace NLEditor
         /// </summary>
         private string PrepareWrappedText(TextBox textBox)
         {
+            if (string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                return string.Empty;
+            }
+
             var wrappingPoints = GetWrappingPoints(textBox);
             var text = textBox.Text;
             var builder = new StringBuilder(text);
@@ -142,6 +147,11 @@ namespace NLEditor
 
         private void txtPrePostText_TextChanged(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(txtPrePostText.Text))
+            {
+                return;
+            }
+
             var lines = txtPrePostText.Text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
 
             if (lines.Length > MaxLines)
@@ -192,6 +202,12 @@ namespace NLEditor
 
             previewForm.Controls.Add(previewTextBox);
             previewForm.ShowDialog(this);
+        }
+
+        private void butPClearText_Click(object sender, EventArgs e)
+        {
+            txtPrePostText.Clear();
+            txtPrePostText.Focus();
         }
     }
 }

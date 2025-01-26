@@ -34,6 +34,7 @@
             this.butPTextCancel = new System.Windows.Forms.Button();
             this.lblPTextTitle = new System.Windows.Forms.Label();
             this.butPPreview = new System.Windows.Forms.Button();
+            this.butPClearText = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtPrePostText
@@ -51,21 +52,21 @@
             // 
             // butPTextOK
             // 
-            this.butPTextOK.Location = new System.Drawing.Point(18, 526);
+            this.butPTextOK.Location = new System.Drawing.Point(326, 526);
             this.butPTextOK.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.butPTextOK.Name = "butPTextOK";
-            this.butPTextOK.Size = new System.Drawing.Size(188, 46);
+            this.butPTextOK.Size = new System.Drawing.Size(146, 46);
             this.butPTextOK.TabIndex = 1;
-            this.butPTextOK.Text = "Save and Close";
+            this.butPTextOK.Text = "Save && Close";
             this.butPTextOK.UseVisualStyleBackColor = true;
             this.butPTextOK.Click += new System.EventHandler(this.butPTextOK_Click);
             // 
             // butPTextCancel
             // 
-            this.butPTextCancel.Location = new System.Drawing.Point(410, 526);
+            this.butPTextCancel.Location = new System.Drawing.Point(478, 526);
             this.butPTextCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.butPTextCancel.Name = "butPTextCancel";
-            this.butPTextCancel.Size = new System.Drawing.Size(188, 46);
+            this.butPTextCancel.Size = new System.Drawing.Size(120, 46);
             this.butPTextCancel.TabIndex = 2;
             this.butPTextCancel.Text = "Cancel";
             this.butPTextCancel.UseVisualStyleBackColor = true;
@@ -83,13 +84,23 @@
             // 
             // butPPreview
             // 
-            this.butPPreview.Location = new System.Drawing.Point(213, 526);
+            this.butPPreview.Location = new System.Drawing.Point(144, 526);
             this.butPPreview.Name = "butPPreview";
-            this.butPPreview.Size = new System.Drawing.Size(188, 46);
+            this.butPPreview.Size = new System.Drawing.Size(146, 46);
             this.butPPreview.TabIndex = 4;
             this.butPPreview.Text = "Preview";
             this.butPPreview.UseVisualStyleBackColor = true;
             this.butPPreview.Click += new System.EventHandler(this.butPPreview_Click);
+            // 
+            // butPClearText
+            // 
+            this.butPClearText.Location = new System.Drawing.Point(18, 526);
+            this.butPClearText.Name = "butPClearText";
+            this.butPClearText.Size = new System.Drawing.Size(120, 46);
+            this.butPClearText.TabIndex = 5;
+            this.butPClearText.Text = "Clear Text";
+            this.butPClearText.UseVisualStyleBackColor = true;
+            this.butPClearText.Click += new System.EventHandler(this.butPClearText_Click);
             // 
             // FormPrePostText
             // 
@@ -97,6 +108,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(615, 586);
+            this.Controls.Add(this.butPClearText);
             this.Controls.Add(this.butPPreview);
             this.Controls.Add(this.lblPTextTitle);
             this.Controls.Add(this.butPTextCancel);
@@ -126,5 +138,6 @@
         private System.Windows.Forms.Button butPTextCancel;
         private System.Windows.Forms.Label lblPTextTitle;
         private System.Windows.Forms.Button butPPreview;
+        private System.Windows.Forms.Button butPClearText;
     }
 }
