@@ -1,20 +1,20 @@
-NeoLemmix Editor
+SuperLemmix Editor by William James.
 
-by Stephan Neupert
+Based on NeoLemmix Editor by Stephan Neupert and Namida Verasche.
 
-This is an application to create new levels for NeoLemmix or modify old ones.
+This is an application to create new levels for SuperLemmix and NeoLemmix or modify old ones.
+Levels must be in .nxlv format and the Editor should be present in a Super/NeoLemmix
+installation folder with "styles", "sketches" and "levels" folder present.
 
-Compile informations:
-- Build "NLEditor.sln" (e.g. with Visual Studio 2015 or newer)
-- The editor requires C# 6.0 (or newer)
+Compile information for the Editor:
+- Build "NLEditor.sln" (e.g. with Visual Studio 2022 or newer)
+- The editor requires C# 7.0 (or newer)
 - There are no dependencies on external libraries
 
-To build on Linux, install Mono and run xbuild without any arguments. 
-Note that the editor has several known graphic issues on Linux, though fixing them
-has currently low priority as the NeoLemmix player itself is Windows-only.
-
-Any bugs, feature requests and support issues are currently handled via the lemmings forums at
+Any bugs, feature requests and support issues are currently handled via the Lemmings Forums at
+  
   www.lemmingsforums.net
-My nickname there is Nepster.  
+
+Visit the SuperLemmix board there for more information. My nickname there is WillLem.
 
 Copyright: CC BY-NC 4.0 (2017)
