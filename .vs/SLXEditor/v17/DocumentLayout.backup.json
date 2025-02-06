@@ -3,48 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\will3\\Documents\\superlemmixeditor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\settings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\settings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\formpiecesearch.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\formpiecesearch.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\nleditformmethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\nleditformmethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\formpiecesearch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\formpiecesearch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\constants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\constants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\formaboutslxeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\formaboutslxeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\formpreposttext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\formpreposttext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\formpreposttext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\formpreposttext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\levelpiecebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\levelpiecebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\level.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\level.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\levelfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\levelfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|C:\\Users\\will3\\Documents\\superlemmixeditor\\nleditor\\imagelibrary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\imagelibrary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|c:\\users\\will3\\documents\\superlemmixeditor\\nleditor\\formpiecesearch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}|NLEditor\\SLXEditor.csproj|solutionrelative:nleditor\\formpiecesearch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -59,31 +31,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Settings.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\Settings.cs",
-              "RelativeDocumentMoniker": "NLEditor\\Settings.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\Settings.cs",
-              "RelativeToolTip": "NLEditor\\Settings.cs",
-              "ViewState": "AgIAAO8CAAAAAAAAAAAAAPcCAAApAAAAAAAAAA==",
+              "Title": "FormPieceSearch.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPieceSearch.Designer.cs",
+              "RelativeDocumentMoniker": "NLEditor\\FormPieceSearch.Designer.cs",
+              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPieceSearch.Designer.cs",
+              "RelativeToolTip": "NLEditor\\FormPieceSearch.Designer.cs",
+              "ViewState": "AgIAANIAAAAAAAAAAIAwwN8AAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-26T22:57:13.684Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "NLEditFormMethods.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditFormMethods.cs",
-              "RelativeDocumentMoniker": "NLEditor\\NLEditFormMethods.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\NLEditFormMethods.cs",
-              "RelativeToolTip": "NLEditor\\NLEditFormMethods.cs",
-              "ViewState": "AgIAAB8CAAAAAAAAAAAAACcCAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-26T22:54:31.735Z",
+              "WhenOpened": "2025-02-06T03:59:55.461Z",
               "EditorCaption": ""
             },
             {
@@ -94,106 +49,39 @@
               "RelativeDocumentMoniker": "NLEditor\\Constants.cs",
               "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\Constants.cs",
               "RelativeToolTip": "NLEditor\\Constants.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAkwCYAAABLAAAAAAAAAA==",
+              "ViewState": "AgIAAG0AAAAAAAAAAIAwwHYAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-26T22:53:19.294Z",
+              "WhenOpened": "2025-02-06T03:51:31.88Z",
               "EditorCaption": ""
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "FormPrePostText.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPrePostText.cs",
-              "RelativeDocumentMoniker": "NLEditor\\FormPrePostText.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPrePostText.cs",
-              "RelativeToolTip": "NLEditor\\FormPrePostText.cs",
-              "ViewState": "AgIAAMMAAAAAAAAAAAAuwNIAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-26T03:07:01.239Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "FormPrePostText.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPrePostText.cs",
-              "RelativeDocumentMoniker": "NLEditor\\FormPrePostText.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPrePostText.cs [Design]",
-              "RelativeToolTip": "NLEditor\\FormPrePostText.cs [Design]",
+              "DocumentIndex": 1,
+              "Title": "FormPieceSearch.cs",
+              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPieceSearch.cs",
+              "RelativeDocumentMoniker": "NLEditor\\FormPieceSearch.cs",
+              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPieceSearch.cs",
+              "RelativeToolTip": "NLEditor\\FormPieceSearch.cs",
+              "ViewState": "AgIAAOsAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-26T03:06:52.999Z"
+              "WhenOpened": "2025-02-06T03:52:17.567Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "FormAboutSLXEditor.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormAboutSLXEditor.cs",
-              "RelativeDocumentMoniker": "NLEditor\\FormAboutSLXEditor.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormAboutSLXEditor.cs",
-              "RelativeToolTip": "NLEditor\\FormAboutSLXEditor.cs",
-              "ViewState": "AgIAAJwAAAAAAAAAAAAIwJ4AAAAqAAAAAAAAAA==",
+              "Title": "FormPieceSearch.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPieceSearch.cs",
+              "RelativeDocumentMoniker": "NLEditor\\FormPieceSearch.cs",
+              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\FormPieceSearch.cs [Design]",
+              "RelativeToolTip": "NLEditor\\FormPieceSearch.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-25T02:53:45.606Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AssemblyInfo.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\Properties\\AssemblyInfo.cs",
-              "RelativeDocumentMoniker": "NLEditor\\Properties\\AssemblyInfo.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\Properties\\AssemblyInfo.cs",
-              "RelativeToolTip": "NLEditor\\Properties\\AssemblyInfo.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAYwCIAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-25T02:53:37.198Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Level.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\Level.cs",
-              "RelativeDocumentMoniker": "NLEditor\\Level.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\Level.cs",
-              "RelativeToolTip": "NLEditor\\Level.cs",
-              "ViewState": "AgIAAMoBAAAAAAAAAAAYwNABAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-18T20:39:19.786Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ImageLibrary.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\ImageLibrary.cs",
-              "RelativeDocumentMoniker": "NLEditor\\ImageLibrary.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\ImageLibrary.cs",
-              "RelativeToolTip": "NLEditor\\ImageLibrary.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-18T20:15:23.724Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "LevelFile.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\LevelFile.cs",
-              "RelativeDocumentMoniker": "NLEditor\\LevelFile.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\LevelFile.cs",
-              "RelativeToolTip": "NLEditor\\LevelFile.cs",
-              "ViewState": "AgIAAPAAAAAAAAAAAAAYwPkAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-18T19:36:08.787Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "LevelPieceBase.cs",
-              "DocumentMoniker": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\LevelPieceBase.cs",
-              "RelativeDocumentMoniker": "NLEditor\\LevelPieceBase.cs",
-              "ToolTip": "C:\\Users\\will3\\Documents\\superlemmixeditor\\NLEditor\\LevelPieceBase.cs",
-              "RelativeToolTip": "NLEditor\\LevelPieceBase.cs",
-              "ViewState": "AgIAANkAAAAAAAAAAAAuwN0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-18T19:34:04.4Z"
+              "WhenOpened": "2025-02-06T03:52:00.353Z",
+              "EditorCaption": " [Design]"
             }
           ]
         },

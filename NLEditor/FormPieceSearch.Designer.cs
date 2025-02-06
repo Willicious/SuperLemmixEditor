@@ -217,10 +217,11 @@
             "Slowfreeze",
             "Button",
             "Collectible",
-            "Splat",
-            "NoSplat",
+            "SplatPad",
+            "AntiSplatPad",
             "Force",
-            "OneWay"});
+            "OneWay",
+            "Decoration"});
             this.cbTriggerEffect.Location = new System.Drawing.Point(131, 180);
             this.cbTriggerEffect.Name = "cbTriggerEffect";
             this.cbTriggerEffect.Size = new System.Drawing.Size(206, 28);
