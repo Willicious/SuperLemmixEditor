@@ -427,22 +427,48 @@ namespace NLEditor
             }
 
             string selectedResult = listBoxSearchResults.SelectedItem.ToString();
-            string[] parts = selectedResult.Split('\\'); // Assuming the result format is: "style\\subfolder\\piece"
+            string[] parts = selectedResult.Split('\\'); // Assuming format: "style\\subfolder\\piece"
             if (parts.Length < 3)
             {
                 MessageBox.Show("Invalid result format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            string newStylePath = parts[0]; // Extract style from path
-            string newPiece = selectedResult.Replace(".png", ""); // Use full path (minus extension) for pieces
+            try
+            {
+                string newStylePath = parts[0].ToLower(); // Normalize to lowercase
+                string newPiece = selectedResult.Replace(".png", "").ToLower(); // Normalize to lowercase
 
-            // Trigger the event to notify NLEditForm
-            if (loadStyle) StyleSelected?.Invoke(newStylePath);
-            if (addPiece) PieceSelected?.Invoke(newPiece);
+                // Validate newStylePath
+                if (string.IsNullOrWhiteSpace(newStylePath))
+                {
+                    MessageBox.Show("Invalid style path.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-            // Update label
-            lblCurrentStyle.Text = curStyle?.NameInEditor;
+                // Validate newPiece
+                if (string.IsNullOrWhiteSpace(newPiece))
+                {
+                    MessageBox.Show("Invalid piece key.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Trigger the event to notify NLEditForm
+                if (loadStyle) StyleSelected?.Invoke(newStylePath);
+                if (addPiece) PieceSelected?.Invoke(newPiece);
+
+                // Update label
+                lblCurrentStyle.Text = curStyle?.NameInEditor;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while processing the selection.\n\n" +
+                                $"Selected Result: {selectedResult}\n" +
+                                $"Style Path: {parts[0]}\n" +
+                                $"Piece Key: {selectedResult.Replace(".png", "")}\n\n" +
+                                $"Exception: {ex.Message}\n{ex.StackTrace}",
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void FormPieceSearch_Load(object sender, EventArgs e)

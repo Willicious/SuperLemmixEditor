@@ -414,7 +414,15 @@ namespace NLEditor
 
             searchForm.PieceSelected += (newPiece) =>
             {
-                AddNewPieceToLevel(newPiece, curRenderer.GetCenterPoint());
+                try
+                {
+                    AddNewPieceToLevel(newPiece, curRenderer.GetCenterPoint());
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error adding piece:\nPiece Key: {newPiece}\nException: {ex.Message}",
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             };
 
             searchForm.ShowDialog();
