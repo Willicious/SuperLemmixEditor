@@ -56,7 +56,7 @@ namespace NLEditor
             Application.DoEvents();
         }
 
-        private void PerformSearch()
+        private async void PerformSearch()
         {
             ResetUI();
 
@@ -75,35 +75,40 @@ namespace NLEditor
 
             SetControlsActive(false);
 
-            // Initialize the cache on the first search
+            // If it's the first search, build the cache on a background thread
             if (cachedSearchResults == null)
             {
-                cachedSearchResults = SearchForPieces(rootPath); // Perform a full search
+                cachedSearchResults = await Task.Run(() => SearchForPieces(rootPath));
             }
 
-            // Apply text-based filtering to the cached results
-            var filteredResults = cachedSearchResults
-                .Where(result =>
-                {
-                    string fileName = Path.GetFileName(result);
-                    string styleName = result.Split('\\')[0]; // Assuming the first folder is the style name
+            string selectedEffectFilter = cbTriggerEffect.Text.Trim();
+            bool noTriggerFilter = string.IsNullOrEmpty(cbTriggerEffect.Text) || cbTriggerEffect.Text == "<Any>";
 
-                    // Text filters (Name & Style)
-                    bool textFilterPassed =
-                        (string.IsNullOrEmpty(pieceQuery) || fileName.IndexOf(pieceQuery, StringComparison.OrdinalIgnoreCase) >= 0) &&
-                        (string.IsNullOrEmpty(styleQuery) || styleName.IndexOf(styleQuery, StringComparison.OrdinalIgnoreCase) >= 0);
-
-                    if (!textFilterPassed)
+            // Perform filtering on a background thread
+            var filteredResults = await Task.Run(() =>
+            {
+                return cachedSearchResults
+                    .Where(result =>
                     {
-                        return false;
-                    }
+                        string fileName = Path.GetFileName(result);
+                        // Assuming the first folder in the path is the style name
+                        string styleName = result.Split('\\')[0];
 
-                    // Additional filters
-                    return PiecePassesFilters(result, fileName);
-                })
-                .ToList();
+                        // Text filters (Name & Style)
+                        bool textFilterPassed =
+                            (string.IsNullOrEmpty(pieceQuery) || fileName.IndexOf(pieceQuery, StringComparison.OrdinalIgnoreCase) >= 0) &&
+                            (string.IsNullOrEmpty(styleQuery) || styleName.IndexOf(styleQuery, StringComparison.OrdinalIgnoreCase) >= 0);
 
-            // Update the ListBox with filtered results
+                        if (!textFilterPassed)
+                            return false;
+
+                        // Additional filters
+                        return PiecePassesFilters(result, fileName, selectedEffectFilter, noTriggerFilter);
+                    })
+                    .ToList();
+            });
+
+            // Update the ListBox on the UI thread
             listBoxSearchResults.BeginUpdate();
             listBoxSearchResults.Items.Clear();
 
@@ -115,7 +120,12 @@ namespace NLEditor
 
             if (listBoxSearchResults.Items.Count <= 0)
             {
-                listBoxSearchResults.Items.Add($"No results found");
+                listBoxSearchResults.Items.Add("No results found");
+                listBoxSearchResults.Enabled = false;
+            }
+            else
+            {
+                listBoxSearchResults.Enabled = true;
             }
 
             SetControlsActive(true);
@@ -154,7 +164,7 @@ namespace NLEditor
             return results;
         }
 
-        private bool PiecePassesFilters(string relativePath, string fileName)
+        private bool PiecePassesFilters(string relativePath, string fileName, string selectedEffect, bool noTriggerFilter)
         {
             // Skip files not in a relevant subfolder
             if (!IsInRelevantSubfolder(relativePath, new[] { "objects", "terrain" }))
@@ -195,10 +205,8 @@ namespace NLEditor
                 if (!File.Exists(nxmoFilePath))
                     return false;
                 else
-                    return ProcessNxmoFile(nxmoFilePath);
+                    return ProcessNxmoFile(nxmoFilePath, selectedEffect);
             }
-
-            bool noTriggerFilter = string.IsNullOrEmpty(cbTriggerEffect.Text) || cbTriggerEffect.Text == "<Any>";
 
             // If no filters are active, pass by default
             return noTriggerFilter && !check_CanNineSlice.Checked && !check_CanResize.Checked;
@@ -221,7 +229,7 @@ namespace NLEditor
         /// </summary>
         /// <param name="filePath">Path to the .nxmo file</param>
         /// <param name="imageHeight">Height of the associated image</param>
-        private bool ProcessNxmoFile(string filePath)
+        private bool ProcessNxmoFile(string filePath, string selectedEffect)
         {
             string triggerEffect = string.Empty;
             bool canResize = false;
@@ -259,8 +267,6 @@ namespace NLEditor
                     canNineSlice = true;
                 }
             }
-
-            string selectedEffect = cbTriggerEffect.Text.Trim();
 
             bool passesTriggerEffectFilter =
                 string.IsNullOrEmpty(selectedEffect) ||
