@@ -1757,8 +1757,15 @@ namespace NLEditor
                 .ToList();
             numericUpDowns = numericUpDowns.OrderBy(x => random.Next()).ToList();
 
+            int maxSkills;
+
+            if (isNeoLemmixOnly)
+                maxSkills = 10;
+            else
+                maxSkills = 14;
+
             // Select up to 14 skills and populate them with a number between minValue and maxValue
-            List<NumericUpDown> selectedControls = numericUpDowns.Take(14).ToList();
+            List<NumericUpDown> selectedControls = numericUpDowns.Take(maxSkills).ToList();
             foreach (var numBox in selectedControls)
             {
                 numBox.Value = random.Next(minValue, maxValue + 1); // maxValue + 1 because Random.Next is exclusive on the upper bound
