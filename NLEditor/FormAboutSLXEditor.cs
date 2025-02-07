@@ -104,8 +104,28 @@ namespace NLEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
-            // Version 2.8.5 features
-            WriteBoldText(richTextBox, "Version 2.8.5\n");
+            // Version 2.8.6 features
+            WriteBoldText(richTextBox, "Version 2.8.6-B\n");
+            WriteBoldText(richTextBox, "• NeoLemmix Mode");
+            richTextBox.AppendText(" - Added support for NeoLemmix CE\n");
+
+            WriteBoldText(richTextBox, "• NeoLemmix Mode");
+            richTextBox.AppendText(" - The maximum number of skill types in a randomly-generated skillset is now 10 when in NeoLemmix Mode\n");
+
+            WriteBoldText(richTextBox, "• Editor Mode");
+            richTextBox.AppendText(" - Editor Mode is now set to Auto by default\n");
+
+            WriteBoldText(richTextBox, "• Bugfix");
+            richTextBox.AppendText(" - Pre/PostView Text dialog - Added a button to clear the text input, and blank text is now handled more gracefully\n");
+
+            WriteBoldText(richTextBox, "• Bugfix");
+            richTextBox.AppendText(" - Piece Search is now case-insensitive, preventing errors when adding pieces from style sets with uppercase characters\n");
+
+            WriteBoldText(richTextBox, "• Bugfix");
+            richTextBox.AppendText(" - Added support for (Anti)SplatPads and Decoration objects to Piece Search\n");
+
+            // Version 2.8.X features
+            WriteBoldText(richTextBox, "\nVersion 2.8.X\n");
             WriteBoldText(richTextBox, "• Level Arranger Window");
             richTextBox.AppendText(" - It's now possible to open the level arranger in a pop-out window which can be resized and moved between displays. Its size and position are remembered between sessions\n");
 
@@ -128,7 +148,7 @@ namespace NLEditor
             richTextBox.AppendText(" - When snap-to-grid is active, the grid lines are now displayed in a colour of your choice (they can also be invisible, as before)\n");
 
             WriteBoldText(richTextBox, "• Preview/Postview Text Input");
-            richTextBox.AppendText(" - Widened and heightened the text input dialog, also added a \"Preview\" button to show how the text will appear on the screen in-game (bugfixed in 2.8.6)\n");
+            richTextBox.AppendText(" - Widened and heightened the text input dialog, also added a \"Preview\" button to show how the text will appear on the screen in-game\n");
 
             WriteBoldText(richTextBox, "• Layout");
             richTextBox.AppendText(" - Decreased scrollbar thickness slightly)\n");
@@ -148,8 +168,6 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Bugfix");
             richTextBox.AppendText(" - Fixed cancelling of changes to Settings when using the \"Cancel\" button)\n");
 
-            // Version 2.8.X features
-            WriteBoldText(richTextBox, "\nVersion 2.8.X\n");
             WriteBoldText(richTextBox, "• Fully-customisable hotkeys");
             richTextBox.AppendText(" - Choose your own hotkey layout for the Editor's features - - (As of 2.8.4 the form is now displayed at the correct size in all screen resolutions)\n");
 
