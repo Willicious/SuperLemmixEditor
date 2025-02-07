@@ -41,7 +41,7 @@ namespace NLEditor
             lblPreviousUpdates.Left = GetCenter(lblPreviousUpdates);
             WritePreviousUpdatesText();
 
-            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + ")";
+            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + "-B)";
             lblSuperLemmixEditor.Top = richTextBox_PreviousUpdates.Bottom + padding;
             lblSuperLemmixEditor.Left = GetCenter(lblSuperLemmixEditor);
 
