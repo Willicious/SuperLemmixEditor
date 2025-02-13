@@ -1049,7 +1049,7 @@ namespace NLEditor
                         currentPiece.ObjType.ToString().Substring(1).ToLower();
 
             // Get the size of the current piece
-            pieceSize = $"{ImageLibrary.GetWidth(currentPiece.Key).ToString()}, {ImageLibrary.GetHeight(currentPiece.Key).ToString()}";
+            pieceSize = $"{ImageLibrary.GetWidth(currentPiece.Key).ToString()} x {ImageLibrary.GetHeight(currentPiece.Key).ToString()}";
 
             // Update panel, labels and button
             gbPieceMetaData.Enabled = true;
