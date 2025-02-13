@@ -162,8 +162,31 @@ namespace NLEditor
                 newImage.DrawOn(imageFrame, new Point(posX, posY), 254);
 
                 string pieceName = System.IO.Path.GetFileNameWithoutExtension(pieceKey);
-                Point bottomRightCorner = new Point(newImage.Width, newImage.Height);
-                newImage.WriteText(pieceName, bottomRightCorner, C.NLColors[C.NLColor.Text], 8, ContentAlignment.BottomRight);
+
+                using (Graphics g = Graphics.FromImage(newImage))
+                {
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                    Font font = new Font("Tahoma", 8, FontStyle.Regular);
+                    SizeF textSize = g.MeasureString(pieceName, font);
+
+                    int margin = 4;
+                    int textX = newImage.Width - (int)textSize.Width - margin;
+                    int textY = newImage.Height - (int)textSize.Height - margin;
+                    Rectangle textBackground = new Rectangle(textX - 2, textY - 2, (int)textSize.Width + 4, (int)textSize.Height + 4);
+
+                    // Draw text background
+                    using (Brush bgBrush = new SolidBrush(Color.FromArgb(0, 0, 51))) // #000033 with no transparency
+                    {
+                        g.FillRectangle(bgBrush, textBackground);
+                    }
+
+                    // Draw text
+                    using (Brush textBrush = new SolidBrush(C.NLColors[C.NLColor.Text]))
+                    {
+                        g.DrawString(pieceName, font, textBrush, textX, textY);
+                    }
+                }
 
                 imageWithPieceNames.Add(newImage);
             }
