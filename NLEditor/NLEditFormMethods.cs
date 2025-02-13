@@ -1010,6 +1010,7 @@ namespace NLEditor
             string pieceName;
             string pieceStyle;
             string pieceType;
+            string pieceSize;
 
             if (CurLevel.SelectionList().Count == 1)
                 currentPiece = CurLevel.SelectionList().First();
@@ -1047,12 +1048,16 @@ namespace NLEditor
             pieceType = char.ToUpper(currentPiece.ObjType.ToString()[0]) +
                         currentPiece.ObjType.ToString().Substring(1).ToLower();
 
+            // Get the size of the current piece
+            pieceSize = $"{ImageLibrary.GetWidth(currentPiece.Key).ToString()}, {ImageLibrary.GetHeight(currentPiece.Key).ToString()}";
+
             // Update panel, labels and button
             gbPieceMetaData.Enabled = true;
 
             lblPieceName.Text = pieceName;
             lblPieceStyle.Text = pieceStyle;
             lblPieceType.Text = pieceType;
+            lblPieceSize.Text = pieceSize;
 
             string[] nonLoadable = { "(Default)", "(Group)", "(Sketches)" };
 
