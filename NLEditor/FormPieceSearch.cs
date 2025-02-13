@@ -339,7 +339,9 @@ namespace NLEditor
             string subfolder = parts[1];
             string piece = parts[2];
 
-            lblMetaData.Text = $"Style: {style}\nSubfolder: {subfolder}\nPiece: {piece}";
+            string size = $"{ImageLibrary.GetWidth(selectedResult)} x {ImageLibrary.GetHeight(selectedResult)}";
+
+            lblMetaData.Text = $"Style: {style}\nSubfolder: {subfolder}\nPiece: {piece}\nSize: {size}";
         }
 
         public void PreviewPiece(string pieceKey, PictureBox previewPictureBox)
