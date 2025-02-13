@@ -63,13 +63,14 @@
             this.backgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deprecatedPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.snapToGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openLevelWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.expandAllTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openLevelWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.expandAllTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -283,7 +284,7 @@
             this.tabLvlSkills = new System.Windows.Forms.TabControl();
             this.tabLvlMisc = new System.Windows.Forms.TabControl();
             this.txt_Focus = new NLEditor.FocusTextBox();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.but_PieceSteel = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -661,14 +662,6 @@
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(69, 29);
             this.optionsToolStripMenuItem.Text = "Tools";
             // 
-            // showMissingPiecesToolStripMenuItem
-            // 
-            this.showMissingPiecesToolStripMenuItem.Name = "showMissingPiecesToolStripMenuItem";
-            this.showMissingPiecesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F8";
-            this.showMissingPiecesToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
-            this.showMissingPiecesToolStripMenuItem.Text = "Show Missing Pieces";
-            this.showMissingPiecesToolStripMenuItem.Click += new System.EventHandler(this.showMissingPiecesToolStripMenuItem_Click);
-            // 
             // searchPiecesToolStripMenuItem
             // 
             this.searchPiecesToolStripMenuItem.Name = "searchPiecesToolStripMenuItem";
@@ -685,22 +678,6 @@
             this.snapToGridToolStripMenuItem.Text = "Snap to Grid";
             this.snapToGridToolStripMenuItem.Click += new System.EventHandler(this.snapToGridToolStripMenuItem_Click);
             // 
-            // openLevelWindowToolStripMenuItem
-            // 
-            this.openLevelWindowToolStripMenuItem.Name = "openLevelWindowToolStripMenuItem";
-            this.openLevelWindowToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F9";
-            this.openLevelWindowToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
-            this.openLevelWindowToolStripMenuItem.Text = "Open Level Arranger Window";
-            this.openLevelWindowToolStripMenuItem.Click += new System.EventHandler(this.openLevelWindowToolStripMenuItem_Click);
-            // 
-            // expandAllTabsToolStripMenuItem
-            // 
-            this.expandAllTabsToolStripMenuItem.Name = "expandAllTabsToolStripMenuItem";
-            this.expandAllTabsToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F10";
-            this.expandAllTabsToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
-            this.expandAllTabsToolStripMenuItem.Text = "Expand All Tabs";
-            this.expandAllTabsToolStripMenuItem.Click += new System.EventHandler(this.expandAllTabsToolStripMenuItem_Click);
-            // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
@@ -716,6 +693,35 @@
             this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
             this.hotkeysToolStripMenuItem.Text = "Configure Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(414, 6);
+            // 
+            // showMissingPiecesToolStripMenuItem
+            // 
+            this.showMissingPiecesToolStripMenuItem.Name = "showMissingPiecesToolStripMenuItem";
+            this.showMissingPiecesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F8";
+            this.showMissingPiecesToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
+            this.showMissingPiecesToolStripMenuItem.Text = "Show Missing Pieces";
+            this.showMissingPiecesToolStripMenuItem.Click += new System.EventHandler(this.showMissingPiecesToolStripMenuItem_Click);
+            // 
+            // openLevelWindowToolStripMenuItem
+            // 
+            this.openLevelWindowToolStripMenuItem.Name = "openLevelWindowToolStripMenuItem";
+            this.openLevelWindowToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F9";
+            this.openLevelWindowToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
+            this.openLevelWindowToolStripMenuItem.Text = "Open Level Arranger Window";
+            this.openLevelWindowToolStripMenuItem.Click += new System.EventHandler(this.openLevelWindowToolStripMenuItem_Click);
+            // 
+            // expandAllTabsToolStripMenuItem
+            // 
+            this.expandAllTabsToolStripMenuItem.Name = "expandAllTabsToolStripMenuItem";
+            this.expandAllTabsToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F10";
+            this.expandAllTabsToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
+            this.expandAllTabsToolStripMenuItem.Text = "Expand All Tabs";
+            this.expandAllTabsToolStripMenuItem.Click += new System.EventHandler(this.expandAllTabsToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -873,7 +879,7 @@
             this.pic_Level.Location = new System.Drawing.Point(386, 42);
             this.pic_Level.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pic_Level.Name = "pic_Level";
-            this.pic_Level.Size = new System.Drawing.Size(938, 820);
+            this.pic_Level.Size = new System.Drawing.Size(1002, 820);
             this.pic_Level.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pic_Level.TabIndex = 36;
             this.pic_Level.TabStop = false;
@@ -3204,7 +3210,7 @@
             // 
             // but_ClearBackground
             // 
-            this.but_ClearBackground.Location = new System.Drawing.Point(1010, 871);
+            this.but_ClearBackground.Location = new System.Drawing.Point(1135, 871);
             this.but_ClearBackground.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_ClearBackground.Name = "but_ClearBackground";
             this.but_ClearBackground.Size = new System.Drawing.Size(166, 32);
@@ -3282,7 +3288,7 @@
             // 
             // but_PieceBackground
             // 
-            this.but_PieceBackground.Location = new System.Drawing.Point(848, 871);
+            this.but_PieceBackground.Location = new System.Drawing.Point(969, 871);
             this.but_PieceBackground.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_PieceBackground.Name = "but_PieceBackground";
             this.but_PieceBackground.Size = new System.Drawing.Size(145, 32);
@@ -3293,10 +3299,10 @@
             // 
             // but_PieceSketches
             // 
-            this.but_PieceSketches.Location = new System.Drawing.Point(717, 871);
+            this.but_PieceSketches.Location = new System.Drawing.Point(839, 871);
             this.but_PieceSketches.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_PieceSketches.Name = "but_PieceSketches";
-            this.but_PieceSketches.Size = new System.Drawing.Size(123, 32);
+            this.but_PieceSketches.Size = new System.Drawing.Size(122, 32);
             this.but_PieceSketches.TabIndex = 57;
             this.but_PieceSketches.Text = "Sketches";
             this.but_PieceSketches.UseVisualStyleBackColor = true;
@@ -3374,7 +3380,7 @@
             // 
             // but_PieceObj
             // 
-            this.but_PieceObj.Location = new System.Drawing.Point(590, 871);
+            this.but_PieceObj.Location = new System.Drawing.Point(712, 871);
             this.but_PieceObj.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_PieceObj.Name = "but_PieceObj";
             this.but_PieceObj.Size = new System.Drawing.Size(119, 32);
@@ -3397,7 +3403,7 @@
             // 
             // but_SearchPieces
             // 
-            this.but_SearchPieces.Location = new System.Drawing.Point(1184, 871);
+            this.but_SearchPieces.Location = new System.Drawing.Point(1309, 868);
             this.but_SearchPieces.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_SearchPieces.Name = "but_SearchPieces";
             this.but_SearchPieces.Size = new System.Drawing.Size(145, 32);
@@ -3443,10 +3449,16 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
-            // toolStripSeparator5
+            // but_PieceSteel
             // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(414, 6);
+            this.but_PieceSteel.Location = new System.Drawing.Point(588, 871);
+            this.but_PieceSteel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.but_PieceSteel.Name = "but_PieceSteel";
+            this.but_PieceSteel.Size = new System.Drawing.Size(116, 32);
+            this.but_PieceSteel.TabIndex = 66;
+            this.but_PieceSteel.Text = "Steel";
+            this.but_PieceSteel.UseVisualStyleBackColor = true;
+            this.but_PieceSteel.Click += new System.EventHandler(this.but_PieceSteel_Click);
             // 
             // NLEditForm
             // 
@@ -3455,6 +3467,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1478, 1049);
+            this.Controls.Add(this.but_PieceSteel);
             this.Controls.Add(this.tabLvlMisc);
             this.Controls.Add(this.tabLvlSkills);
             this.Controls.Add(this.tabLvlPieces);
@@ -3832,6 +3845,7 @@
         private System.Windows.Forms.TabControl tabLvlMisc;
         private System.Windows.Forms.ToolStripMenuItem expandAllTabsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.Button but_PieceSteel;
     }
 }
 

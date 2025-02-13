@@ -48,7 +48,7 @@ namespace NLEditor
 
         public enum SelectPieceType
         {
-            Terrain, Objects, Backgrounds, Sketches
+            Terrain, Steel, Objects, Backgrounds, Sketches
         }
 
         public enum DisplayType

@@ -46,11 +46,14 @@ namespace NLEditor
 
             switch (pieceDoDisplayKind)
             {
-                case C.SelectPieceType.Objects:
-                    pieceKeys = pieceCurStyle?.ObjectKeys;
-                    break;
                 case C.SelectPieceType.Terrain:
                     pieceKeys = pieceCurStyle?.TerrainKeys;
+                    break;
+                case C.SelectPieceType.Steel:
+                    pieceKeys = pieceCurStyle?.SteelKeys;
+                    break;
+                case C.SelectPieceType.Objects:
+                    pieceKeys = pieceCurStyle?.ObjectKeys;
                     break;
                 case C.SelectPieceType.Backgrounds:
                     pieceKeys = pieceCurStyle?.BackgroundKeys;
@@ -407,6 +410,7 @@ namespace NLEditor
 
             combo_PieceStyle.Top = this.Height - 149;
             but_PieceTerr.Top = this.Height - 149;
+            but_PieceSteel.Top = this.Height - 149;
             but_PieceObj.Top = this.Height - 149;
             but_PieceSketches.Top = this.Height - 149;
             but_PieceBackground.Top = this.Height - 149;

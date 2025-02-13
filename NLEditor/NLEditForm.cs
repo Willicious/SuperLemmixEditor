@@ -249,7 +249,7 @@ namespace NLEditor
 
         private void NLEditForm_Resize(object sender, EventArgs e)
         {
-            this.MinimumSize = new System.Drawing.Size(900, 600);
+            this.MinimumSize = new System.Drawing.Size(1000, 600);
 
             // Don't do anything on minimizing the form!
             if (WindowState == FormWindowState.Minimized)
@@ -787,25 +787,31 @@ namespace NLEditor
 
         private void but_PieceTerr_Click(object sender, EventArgs e)
         {
-            ChangeObjTerrPieceDisplay(C.SelectPieceType.Terrain);
+            CyclePieceBrowserDisplay(C.SelectPieceType.Terrain);
+            PullFocusFromTextInputs();
+        }
+
+        private void but_PieceSteel_Click(object sender, EventArgs e)
+        {
+            CyclePieceBrowserDisplay(C.SelectPieceType.Steel);
             PullFocusFromTextInputs();
         }
 
         private void but_PieceObj_Click(object sender, EventArgs e)
         {
-            ChangeObjTerrPieceDisplay(C.SelectPieceType.Objects);
+            CyclePieceBrowserDisplay(C.SelectPieceType.Objects);
             PullFocusFromTextInputs();
         }
 
         private void but_PieceBackground_Click(object sender, EventArgs e)
         {
-            ChangeObjTerrPieceDisplay(C.SelectPieceType.Backgrounds);
+            CyclePieceBrowserDisplay(C.SelectPieceType.Backgrounds);
             PullFocusFromTextInputs();
         }
 
         private void but_PieceSketch_Click(object sender, EventArgs e)
         {
-            ChangeObjTerrPieceDisplay(C.SelectPieceType.Sketches);
+            CyclePieceBrowserDisplay(C.SelectPieceType.Sketches);
             PullFocusFromTextInputs();
         }
 

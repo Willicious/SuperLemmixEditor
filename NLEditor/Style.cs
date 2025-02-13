@@ -26,6 +26,7 @@ namespace NLEditor
         Dictionary<C.StyleColor, Color> colorDict;
 
         List<string> terrainKeys;
+        List<string> steelKeys;
         List<string> objectKeys;
         List<string> backgroundKeys;
         static List<string> sketchKeys;
@@ -40,6 +41,16 @@ namespace NLEditor
                 if (terrainKeys == null)
                     LoadTerrainAndObjects();
                 return terrainKeys;
+            }
+        }
+
+        public List<string> SteelKeys
+        {
+            get
+            {
+                if (steelKeys == null)
+                    LoadTerrainAndObjects();
+                return steelKeys;
             }
         }
 
@@ -89,6 +100,7 @@ namespace NLEditor
         private void LoadTerrainAndObjects()
         {
             SearchDirectoryForTerrain();
+            SearchDirectoryForSteel();
             SearchDirectoryForObjects();
             SearchDirectoryForBackgrounds();
 
@@ -139,11 +151,33 @@ namespace NLEditor
             {
                 terrainKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
                                        .Select(file => ImageLibrary.CreatePieceKey(file))
+                                       .Where(key => ImageLibrary.GetObjType(key) != C.OBJ.STEEL) // Filter out steel pieces
                                        .ToList();
             }
-            else // use empty list
+            else
             {
                 terrainKeys = new List<string>();
+            }
+        }
+
+        /// <summary>
+        /// Writes all steel pieces in AppPath/StyleName/terrain to the list of SteelNames.
+        /// </summary>
+        private void SearchDirectoryForSteel()
+        {
+            // Load first the style-specific objects
+            string directoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "terrain";
+
+            if (Directory.Exists(directoryPath))
+            {
+                steelKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
+                                     .Select(file => ImageLibrary.CreatePieceKey(file))
+                                     .Where(key => ImageLibrary.GetObjType(key) == C.OBJ.STEEL) // Only include steel pieces
+                                     .ToList();
+            }
+            else
+            {
+                steelKeys = new List<string>();
             }
         }
 

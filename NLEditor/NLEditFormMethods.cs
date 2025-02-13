@@ -792,13 +792,14 @@ namespace NLEditor
         /// <summary>
         /// Switches between displaying objects and terrain for newly added pieces.
         /// </summary>
-        private void ChangeObjTerrPieceDisplay(C.SelectPieceType newKind)
+        private void CyclePieceBrowserDisplay(C.SelectPieceType newKind)
         {
             if (newKind != pieceDoDisplayKind)
             {
                 pieceDoDisplayKind = newKind;
 
                 but_PieceTerr.Font = new Font(but_PieceTerr.Font, FontStyle.Regular);
+                but_PieceSteel.Font = new Font(but_PieceSteel.Font, FontStyle.Regular);
                 but_PieceObj.Font = new Font(but_PieceObj.Font, FontStyle.Regular);
                 but_PieceBackground.Font = new Font(but_PieceBackground.Font, FontStyle.Regular);
                 but_PieceSketches.Font = new Font(but_PieceSketches.Font, FontStyle.Regular);
@@ -807,6 +808,9 @@ namespace NLEditor
                 {
                     case C.SelectPieceType.Terrain:
                         but_PieceTerr.Font = new Font(but_PieceTerr.Font, FontStyle.Bold);
+                        break;
+                    case C.SelectPieceType.Steel:
+                        but_PieceSteel.Font = new Font(but_PieceSteel.Font, FontStyle.Bold);
                         break;
                     case C.SelectPieceType.Objects:
                         but_PieceObj.Font = new Font(but_PieceObj.Font, FontStyle.Bold);
@@ -891,11 +895,14 @@ namespace NLEditor
 
             switch (pieceDoDisplayKind)
             {
-                case C.SelectPieceType.Objects:
-                    pieceNameList = pieceCurStyle?.ObjectKeys;
-                    break;
                 case C.SelectPieceType.Terrain:
                     pieceNameList = pieceCurStyle?.TerrainKeys;
+                    break;
+                case C.SelectPieceType.Steel:
+                    pieceNameList = pieceCurStyle?.SteelKeys;
+                    break;
+                case C.SelectPieceType.Objects:
+                    pieceNameList = pieceCurStyle?.ObjectKeys;
                     break;
                 case C.SelectPieceType.Backgrounds:
                     pieceNameList = pieceCurStyle?.BackgroundKeys;
@@ -952,6 +959,9 @@ namespace NLEditor
             switch (pieceDoDisplayKind)
             {
                 case C.SelectPieceType.Terrain:
+                    newKind = C.SelectPieceType.Steel;
+                    break;
+                case C.SelectPieceType.Steel:
                     newKind = C.SelectPieceType.Objects;
                     break;
                 case C.SelectPieceType.Objects:
@@ -967,7 +977,7 @@ namespace NLEditor
                     throw new ArgumentException();
             }
 
-            ChangeObjTerrPieceDisplay(newKind);
+            CyclePieceBrowserDisplay(newKind);
         }
 
         private void MaybeOpenPiecesTab()
