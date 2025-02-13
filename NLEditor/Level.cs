@@ -256,7 +256,7 @@ namespace NLEditor
                 }
                 else if (newPiece is GadgetPiece)
                 {
-                    if (newPiece.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
+                    if (newPiece.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER, C.OBJ.PORTAL))
                         ((GadgetPiece)newPiece).SetTeleporterValue(0);
 
                     GadgetList.Add((GadgetPiece)newPiece);
@@ -464,7 +464,7 @@ namespace NLEditor
             SelectionList().ForEach(item => item.FlipInRect(borderRect, item.ObjType == C.OBJ.HATCH));
 
             // check that paired teleporters/receivers got flipped correctly
-            var Teleporters = SelectionList().FindAll(item => item.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER) && (item as GadgetPiece).Val_L != 0);
+            var Teleporters = SelectionList().FindAll(item => item.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER, C.OBJ.PORTAL) && (item as GadgetPiece).Val_L != 0);
             foreach (GadgetPiece item in Teleporters)
             {
                 var pairedObject = GadgetList.Find(gadget => gadget != item && gadget.Val_L == item.Val_L);
@@ -684,6 +684,12 @@ namespace NLEditor
             GadgetPiece teleporter = (GadgetPiece)SelectionList().Find(gad => gad.ObjType == C.OBJ.TELEPORTER);
             GadgetPiece receiver = (GadgetPiece)SelectionList().Find(gad => gad.ObjType == C.OBJ.RECEIVER);
 
+            if ((teleporter == null) || (receiver == null))
+            {
+                teleporter = (GadgetPiece)SelectionList().Find(gad => gad.ObjType == C.OBJ.PORTAL);
+                receiver = (GadgetPiece)SelectionList().Find(gad => (gad != teleporter) && (gad.ObjType == C.OBJ.PORTAL));
+            }
+
             System.Diagnostics.Debug.Assert(teleporter != null, "Tried to pair teleporters without a selected teleporter!");
             System.Diagnostics.Debug.Assert(receiver != null, "Tried to pair teleporters without a selected teleporter!");
 
@@ -738,7 +744,7 @@ namespace NLEditor
         /// <param name="removeValue"></param>
         private void RemovePairingValue(int removeValue)
         {
-            GadgetList.FindAll(gad => gad.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER) && gad.Val_L == removeValue)
+            GadgetList.FindAll(gad => gad.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER, C.OBJ.PORTAL) && gad.Val_L == removeValue)
                       .ForEach(gad => gad.SetTeleporterValue(0));
         }
 
@@ -747,7 +753,7 @@ namespace NLEditor
         /// </summary>
         private int FindNewPairingValue()
         {
-            var existingPairingValues = GadgetList.FindAll(gad => gad.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER))
+            var existingPairingValues = GadgetList.FindAll(gad => gad.ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER, C.OBJ.PORTAL))
                                                   .ConvertAll(gad => gad.Val_L);
 
             return Enumerable.Range(1, int.MaxValue - 1)

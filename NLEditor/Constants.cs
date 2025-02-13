@@ -82,6 +82,9 @@ namespace NLEditor
             UPDRAFT = 19, SPLAT = 20, SPLITTER = 21,
             RADIATION = 22, SLOWFREEZE = 23,
             DECORATION = 24, PAINT = 25,
+            PORTAL = 26,
+            NEUTRALIZER = 27, DENEUTRALIZER = 28,
+            SKILL_ADD = 29, SKILL_REMOVE = 30,
             NONE = 100, NULL
         }
 
@@ -116,7 +119,9 @@ namespace NLEditor
           {OBJ.PICKUP, "Pickup Skill"}, {OBJ.EXIT_LOCKED, "Locked Exit"}, {OBJ.BUTTON, "Button"},
           {OBJ.COLLECTIBLE, "Collectible"}, {OBJ.UPDRAFT, "Updraft"},
           {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
-          {OBJ.SPLAT, "Splat Pad"}, {OBJ.DECORATION, "Decoration"}, {OBJ.TRAPONCE, "Single-Use Trap"}
+          {OBJ.SPLAT, "Splat Pad"}, {OBJ.DECORATION, "Decoration"}, {OBJ.TRAPONCE, "Single-Use Trap"},
+          {OBJ.PORTAL, "Portal" }, {OBJ.NEUTRALIZER, "Neutralizer" }, {OBJ.SKILL_ADD, "PermaSkill Assigner" },
+          {OBJ.DENEUTRALIZER, "Deneutralizer" }, {OBJ.SKILL_REMOVE, "PermaSkills Remover" }
         };
 
         public enum DragActions

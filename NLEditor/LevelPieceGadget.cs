@@ -155,6 +155,7 @@ namespace NLEditor
                 {
                     image = AddPickupSkillNumber(base.Image);
                 }
+
                 if (ObjType == C.OBJ.HATCH)
                 {
                     image = ImageLibrary.GetWindowImageWithDirection(Key, GetRotateFlipType(), GetFrameIndex());
@@ -195,7 +196,7 @@ namespace NLEditor
         /// </summary>
         protected override int GetFrameIndex()
         {
-            if (ObjType == C.OBJ.PICKUP)
+            if (ObjType.In(C.OBJ.PICKUP, C.OBJ.SKILL_ADD))
             {
                 // Return the index of the skill + 1 or return 0 if no skill is selected
                 foreach (C.Skill skill in C.SkillArray)
@@ -216,17 +217,17 @@ namespace NLEditor
 
         public override bool MayRotate()
         {
-            return !(ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING, C.OBJ.PICKUP));
+            return !(ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING, C.OBJ.PICKUP, C.OBJ.PORTAL));
         }
 
         public override bool MayFlip()
         {
-            return !(ObjType.In(C.OBJ.PICKUP));
+            return !(ObjType.In(C.OBJ.PICKUP, C.OBJ.PORTAL));
         }
 
         public override bool MayInvert()
         {
-            return !(ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING, C.OBJ.PICKUP));
+            return !(ObjType.In(C.OBJ.HATCH, C.OBJ.SPLITTER, C.OBJ.LEMMING, C.OBJ.PICKUP, C.OBJ.PORTAL));
         }
 
         public override bool MayReceiveSkill(C.Skill skill)
@@ -263,6 +264,10 @@ namespace NLEditor
                 case C.OBJ.EXIT_LOCKED:
                     {
                         return skill == C.Skill.Rival && !NLEditForm.isNeoLemmixOnly;
+                    }
+                case C.OBJ.SKILL_ADD:
+                    {
+                        return skill.In(C.Skill.Slider, C.Skill.Climber, C.Skill.Floater, C.Skill.Glider, C.Skill.Disarmer, C.Skill.Swimmer);
                     }
                 default:
                     return false;
@@ -329,6 +334,7 @@ namespace NLEditor
                 case C.OBJ.PICKUP:
                 case C.OBJ.EXIT:
                 case C.OBJ.EXIT_LOCKED:
+                case C.OBJ.SKILL_ADD:
                     {
                         SkillFlags.Clear();
                         if (doAdd)
@@ -364,7 +370,7 @@ namespace NLEditor
         /// <param name="newValue"></param>
         public void SetTeleporterValue(int newValue)
         {
-            System.Diagnostics.Debug.Assert(ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER), "Teleporter pairing key set for object, that is neither teleporter nor receiver.");
+            System.Diagnostics.Debug.Assert(ObjType.In(C.OBJ.TELEPORTER, C.OBJ.RECEIVER, C.OBJ.PORTAL), "Teleporter pairing key set for object, that is neither teleporter nor receiver.");
             Val_L = newValue;
         }
 

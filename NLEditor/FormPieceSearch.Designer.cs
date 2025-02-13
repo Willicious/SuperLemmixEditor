@@ -212,6 +212,7 @@
             "Updraft",
             "Teleporter",
             "Receiver",
+            "Portal",
             "Splitter",
             "Radiation",
             "Slowfreeze",
@@ -221,6 +222,10 @@
             "AntiSplatPad",
             "Force",
             "OneWay",
+            "Neutralizer",
+            "DeNeutralizer",
+            "AddSkill",
+            "RemoveSkills",
             "Decoration"});
             this.cbTriggerEffect.Location = new System.Drawing.Point(131, 180);
             this.cbTriggerEffect.Name = "cbTriggerEffect";

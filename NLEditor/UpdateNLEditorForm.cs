@@ -315,12 +315,21 @@ namespace NLEditor
                 num_SR_Countdown.Visible = false;
             }
 
-            if (selectionList.Count == 2
-                && selectionList.Exists(item => item.ObjType == C.OBJ.TELEPORTER)
-                && selectionList.Exists(item => item.ObjType == C.OBJ.RECEIVER))
+            if (selectionList.Count == 2 &&
+                   (
+                       (selectionList.Exists(item => item.ObjType == C.OBJ.TELEPORTER) && selectionList.Exists(item => item.ObjType == C.OBJ.RECEIVER)) ||
+                       (selectionList.Count(item => item.ObjType == C.OBJ.PORTAL) == 2)
+                    )
+               )
             {
                 GadgetPiece MyTeleporter = (GadgetPiece)selectionList.Find(item => item.ObjType == C.OBJ.TELEPORTER);
                 GadgetPiece MyReceiver = (GadgetPiece)selectionList.Find(item => item.ObjType == C.OBJ.RECEIVER);
+
+                if (MyTeleporter == null || MyReceiver == null)
+                {
+                    MyTeleporter = (GadgetPiece)selectionList.Find(item => item.ObjType == C.OBJ.PORTAL);
+                    MyReceiver = (GadgetPiece)selectionList.Find(item => (item != MyTeleporter) && (item.ObjType == C.OBJ.PORTAL));
+                }
 
                 if (MyTeleporter.Val_L > 0 && MyTeleporter.Val_L == MyReceiver.Val_L)
                 {

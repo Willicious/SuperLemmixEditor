@@ -424,6 +424,21 @@ namespace NLEditor
                                 case "DECORATION":
                                     objType = C.OBJ.DECORATION;
                                     break;
+                                case "PORTAL":
+                                    objType = C.OBJ.PORTAL;
+                                    break;
+                                case "NEUTRALIZER":
+                                    objType = C.OBJ.NEUTRALIZER;
+                                    break;
+                                case "DENEUTRALIZER":
+                                    objType = C.OBJ.DENEUTRALIZER;
+                                    break;
+                                case "ADDSKILL":
+                                    objType = C.OBJ.SKILL_ADD;
+                                    break;
+                                case "REMOVESKILLS":
+                                    objType = C.OBJ.SKILL_REMOVE;
+                                    break;
                             }
                             break;
 
