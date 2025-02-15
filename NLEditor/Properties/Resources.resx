@@ -142,4 +142,13 @@
   <data name="IntroClimber" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IntroClimber.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ArrowFourWay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ArrowFourWay.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowHoriz" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ArrowHoriz.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowVert" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ArrowVert.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
