@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -172,7 +170,7 @@ namespace NLEditor
                 return false;
             }
 
-            // Handle "Current Style Only" checkbox
+            // Handle "Current Style Only" filter
             if (check_CurrentStyleOnly.Checked && curStyle != null)
             {
                 string styleName = relativePath.Split('\\')[0]; // Extract the style name
@@ -185,33 +183,117 @@ namespace NLEditor
             string nxmoFilePath = Path.Combine("styles", Path.GetDirectoryName(relativePath), fileName + ".nxmo");
             string nxmtFilePath = Path.Combine("styles", Path.GetDirectoryName(relativePath), fileName + ".nxmt");
 
-            // "Steel" checkbox filter
-            if (check_Steel.Checked)
-            {
-                if (relativePath.IndexOf("\\terrain\\", StringComparison.OrdinalIgnoreCase) < 0 || !File.Exists(nxmtFilePath))
-                {
-                    return false;
-                }
+            bool isTerrain = relativePath.IndexOf("\\terrain\\", StringComparison.OrdinalIgnoreCase) >= 0;
+            bool isObject = relativePath.IndexOf("\\objects\\", StringComparison.OrdinalIgnoreCase) >= 0;
 
-                if (!ProcessNxmtFile(nxmtFilePath))
+            // Skip objects that don't have an associated .nxmo file
+            if (isObject && !File.Exists(nxmoFilePath))
+                return false;
+
+            bool passesFilters = false;
+            bool passesTriggerFilter = false;
+            bool passesResizeFilter = false;
+            bool passesNineSliceFilter = false;
+            bool passesSteelFilter = false;
+
+            if (string.IsNullOrEmpty(selectedEffect) || selectedEffect == "<Any>")
+                passesTriggerFilter = true;
+
+            if (!check_CanResize.Checked)
+                passesResizeFilter = true;
+
+            if (!check_CanNineSlice.Checked)
+                passesNineSliceFilter = true;
+
+            if (!check_Steel.Checked)
+                passesSteelFilter = true;
+
+            passesFilters = passesTriggerFilter &&
+                            passesResizeFilter &&
+                            passesNineSliceFilter &&
+                            passesSteelFilter;
+
+            if (passesFilters)
+                return true; // Return early if there are no filters applied
+
+            // Handle object filters
+            if (isObject)
+            {
+                string[] nxmoContent = File.ReadAllLines(nxmoFilePath);
+
+                foreach (string line in nxmoContent)
                 {
-                    return false;
+                    string triggerEffect = string.Empty;
+                    string trimmed = line.Trim();
+
+                    if (trimmed.StartsWith("EFFECT ", StringComparison.OrdinalIgnoreCase))
+                    {
+                        triggerEffect = trimmed.Substring(7).Trim();
+                        switch (triggerEffect)
+                        {
+                            case "LOCKEDEXIT": triggerEffect = "EXIT"; break;
+                            case "UNLOCKBUTTON": triggerEffect = "BUTTON"; break;
+                            case "ONEWAYDOWN":
+                            case "ONEWAYUP":
+                            case "ONEWAYLEFT":
+                            case "ONEWAYRIGHT": triggerEffect = "ONEWAY"; break;
+                            case "FORCELEFT":
+                            case "FORCERIGHT": triggerEffect = "FORCE"; break;
+                        }
+                    }
+
+                    if (selectedEffect.Equals(triggerEffect, StringComparison.OrdinalIgnoreCase))
+                        passesTriggerFilter = true;
+
+                    if (trimmed.StartsWith("RESIZE_", StringComparison.OrdinalIgnoreCase))
+                    {
+                        passesResizeFilter = true;
+                    }
+
+                    if (trimmed.StartsWith("NINE_SLICE", StringComparison.OrdinalIgnoreCase))
+                    {
+                        passesNineSliceFilter = true;
+                    }
                 }
             }
 
-            // Filters for .nxmo file in "objects" folder
-            if (relativePath.IndexOf("\\objects\\", StringComparison.OrdinalIgnoreCase) >= 0)
+            // Handle terrain filters
+            if (isTerrain && File.Exists(nxmtFilePath))
             {
-                if (!File.Exists(nxmoFilePath))
-                    return false;
-                else
-                    return ProcessNxmoFile(nxmoFilePath, selectedEffect);
+                string[] nxmtContent = File.ReadAllLines(nxmtFilePath);
+
+                foreach (string line in nxmtContent)
+                {
+                    string trimmed = line.Trim();
+
+                    if (trimmed == "STEEL")
+                    {
+                        passesSteelFilter = true;
+                    }
+
+                    if (trimmed.StartsWith("RESIZE_", StringComparison.OrdinalIgnoreCase))
+                    {
+                        passesResizeFilter = true;
+                    }
+
+                    if (trimmed.StartsWith("NINE_SLICE", StringComparison.OrdinalIgnoreCase))
+                    {
+                        passesNineSliceFilter = true;
+                    }
+                }
             }
 
-            // If no filters are active, pass by default
-            return noTriggerFilter && !check_CanNineSlice.Checked && !check_CanResize.Checked;
+            passesFilters = passesTriggerFilter &&
+                            passesResizeFilter &&
+                            passesNineSliceFilter &&
+                            passesSteelFilter;
+
+            return passesFilters;
         }
 
+        /// <summary>
+        /// Ignore pieces not in "terrain" or "objects" folders
+        /// </summary>
         private bool IsInRelevantSubfolder(string relativePath, string[] relevantSubfolders)
         {
             foreach (var folder in relevantSubfolders)
@@ -221,81 +303,6 @@ namespace NLEditor
                     return true;
                 }
             }
-            return false;
-        }
-
-        /// <summary>
-        /// Process an .nxmo file and filter based on checkbox states.
-        /// </summary>
-        /// <param name="filePath">Path to the .nxmo file</param>
-        /// <param name="imageHeight">Height of the associated image</param>
-        private bool ProcessNxmoFile(string filePath, string selectedEffect)
-        {
-            string triggerEffect = string.Empty;
-            bool canResize = false;
-            bool canNineSlice = false;
-
-            string[] lines = File.ReadAllLines(filePath);
-
-            foreach (string line in lines)
-            {
-                string trimmed = line.Trim();
-
-                if (trimmed.StartsWith("EFFECT ", StringComparison.OrdinalIgnoreCase))
-                {
-                    triggerEffect = trimmed.Substring(7).Trim();
-                    switch (triggerEffect)
-                    {
-                        case "LOCKEDEXIT": triggerEffect = "EXIT"; break;
-                        case "UNLOCKBUTTON": triggerEffect = "BUTTON"; break;
-                        case "ONEWAYDOWN":
-                        case "ONEWAYUP":
-                        case "ONEWAYLEFT":
-                        case "ONEWAYRIGHT": triggerEffect = "ONEWAY"; break;
-                        case "FORCELEFT":
-                        case "FORCERIGHT": triggerEffect = "FORCE"; break;
-                    }
-                }
-
-                if (trimmed.StartsWith("RESIZE_", StringComparison.OrdinalIgnoreCase))
-                {
-                    canResize = true;
-                }
-
-                if (trimmed.StartsWith("NINE_SLICE", StringComparison.OrdinalIgnoreCase))
-                {
-                    canNineSlice = true;
-                }
-            }
-
-            bool passesTriggerEffectFilter =
-                string.IsNullOrEmpty(selectedEffect) ||
-                selectedEffect == "<Any>" ||
-                selectedEffect.Equals(triggerEffect, StringComparison.OrdinalIgnoreCase);
-
-            bool passesResizeFilter = !check_CanResize.Checked || canResize;
-            bool passesNineSliceFilter = !check_CanNineSlice.Checked || canNineSlice;
-
-            return passesTriggerEffectFilter && passesResizeFilter && passesNineSliceFilter;
-        }
-
-        /// <summary>
-        /// Process an .nxmt file and filter based on checkbox states.
-        /// </summary>
-        /// <param name="filePath">Path to the .nxmt file</param>
-        /// <returns>True if the file matches the filter criteria</returns>
-        private bool ProcessNxmtFile(string filePath)
-        {
-            string[] lines = File.ReadAllLines(filePath);
-
-            foreach (string line in lines)
-            {
-                if (line.Trim() == "STEEL")
-                {
-                    return true;
-                }
-            }
-
             return false;
         }
 
