@@ -150,7 +150,7 @@ namespace NLEditor
                     toolTipText += $", Resize: {ImageLibrary.GetResizeMode(pieceKey)}";
                 }
 
-                if ((ImageLibrary.GetNineSliceArea(pieceKey) != null) && (pieceObjType != C.OBJ.TERRAIN))
+                if (ImageLibrary.IsNineSliced(pieceKey))
                 {
                     toolTipText += ", 9S";
                 }

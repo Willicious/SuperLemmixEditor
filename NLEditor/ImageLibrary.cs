@@ -485,6 +485,23 @@ namespace NLEditor
             return imageDict[imageKey].Deprecated;
         }
 
+        public static bool IsNineSliced(string imageKey)
+        {
+            var nineSliceArea = imageDict[imageKey].NineSlicingArea;
+
+            if (!nineSliceArea.HasValue)
+                return false;
+
+            var nineSliceWidth = nineSliceArea.Value.Width;
+            var nineSliceHeight = nineSliceArea.Value.Height;
+
+            var pieceWidth = imageDict[imageKey].Width;
+            var pieceHeight = imageDict[imageKey].Height;
+
+            return nineSliceWidth > 0 && nineSliceWidth < pieceWidth ||
+                   nineSliceHeight > 0 && nineSliceHeight < pieceHeight;
+        }
+
         public static Rectangle? GetNineSliceArea(string imageKey, RotateFlipType rotFlipType = RotateFlipType.RotateNoneFlipNone)
         {
             if (!imageDict.ContainsKey(imageKey))
