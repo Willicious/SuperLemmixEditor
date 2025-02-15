@@ -94,14 +94,12 @@ namespace NLEditor
                 int frameIndex = (ImageLibrary.GetObjType(pieceKey).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.COLLECTIBLE, C.OBJ.TRAPONCE)) ? 1 : 0;
                 Bitmap pieceImage;
 
-                if (curSettings.UsePieceSelectionNames)
-                {
+                if (curSettings.CurrentPieceBrowserMode == PieceBrowserMode.ShowNames)
                     pieceImage = ImageLibrary.GetImageWithPieceName(pieceKey, frameIndex);
-                }
+                else if (curSettings.CurrentPieceBrowserMode == PieceBrowserMode.ShowData)
+                    pieceImage = ImageLibrary.GetImageWithData(pieceKey, frameIndex);
                 else
-                {
                     pieceImage = ImageLibrary.GetImage(pieceKey, RotateFlipType.RotateNoneFlipNone, frameIndex);
-                }
 
                 if (pieceKey.StartsWith("default") && ImageLibrary.GetObjType(pieceKey) == C.OBJ.ONE_WAY_WALL)
                 {

@@ -47,8 +47,15 @@ namespace NLEditor
             Auto
         }
 
+        public enum PieceBrowserMode
+        {
+            ShowPiecesOnly,
+            ShowNames,
+            ShowData,
+        }
+
         public EditorMode CurrentEditorMode { get; private set; }
-        public bool UsePieceSelectionNames { get; private set; }
+        public PieceBrowserMode CurrentPieceBrowserMode { get; private set; }
         public bool UseGridForPieces { get; private set; }
         public bool Autosave { get; private set; }
         public bool RemoveOldAutosaves { get; private set; }
@@ -74,7 +81,7 @@ namespace NLEditor
         public void SetDefault()
         {
             CurrentEditorMode = EditorMode.Auto;
-            UsePieceSelectionNames = true;
+            CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
             UseGridForPieces = false;
             gridSize = 8;
             GridColor = Color.MidnightBlue;
@@ -110,7 +117,7 @@ namespace NLEditor
 
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
-            settingsForm.ClientSize = new System.Drawing.Size(340, 430);
+            settingsForm.ClientSize = new System.Drawing.Size(340, 460);
             settingsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             settingsForm.MinimizeBox = false;
             settingsForm.MaximizeBox = false;
@@ -120,23 +127,56 @@ namespace NLEditor
             settingsForm.FormClosing += new FormClosingEventHandler(settingsForm_FormClosing);
 
 
-            // =========================== Use Piece Names =========================== //
+            // ======================= Piece Browser Mode GroupBox ======================== //
 
-            CheckBox checkPieceNames = new CheckBox();
-            checkPieceNames.Name = "checkPieceNames";
-            checkPieceNames.AutoSize = true;
-            checkPieceNames.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            checkPieceNames.Checked = UsePieceSelectionNames;
-            checkPieceNames.Text = "Display piece names in piece selection browser";
-            checkPieceNames.Top = 20;
-            checkPieceNames.Left = columnLeft;
-            checkPieceNames.CheckedChanged += new EventHandler(checkPieceNames_CheckedChanged);
+            GroupBox groupPieceBrowserMode = new GroupBox();
+            groupPieceBrowserMode.Text = "Piece Browser Mode";
+            groupPieceBrowserMode.Top = 20;
+            groupPieceBrowserMode.Left = columnLeft;
+            groupPieceBrowserMode.Width = 280;
+            groupPieceBrowserMode.Height = 50;
+
+            RadioButton radShowPieceData = new RadioButton();
+            radShowPieceData.Name = "radShowPieceData";
+            radShowPieceData.AutoSize = true;
+            radShowPieceData.Width = 80;
+            radShowPieceData.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radShowPieceData.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowData;
+            radShowPieceData.Text = "Data";
+            radShowPieceData.Top = groupBoxTop;
+            radShowPieceData.Left = groupBoxColumnLeft;
+            radShowPieceData.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
+
+            RadioButton radShowPieceNames = new RadioButton();
+            radShowPieceNames.Name = "radShowPieceNames";
+            radShowPieceNames.AutoSize = true;
+            radShowPieceData.Width = 80;
+            radShowPieceNames.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radShowPieceNames.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowNames;
+            radShowPieceNames.Text = "Names";
+            radShowPieceNames.Top = groupBoxTop;
+            radShowPieceNames.Left = groupBoxColumnLeft + radShowPieceData.Width;
+            radShowPieceNames.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
+
+            RadioButton radShowPiecesOnly = new RadioButton();
+            radShowPiecesOnly.Name = "radShowPiecesOnly";
+            radShowPiecesOnly.AutoSize = true;
+            radShowPiecesOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radShowPiecesOnly.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowPiecesOnly;
+            radShowPiecesOnly.Text = "Pieces Only";
+            radShowPiecesOnly.Top = groupBoxTop;
+            radShowPiecesOnly.Left = groupBoxColumnLeft + radShowPieceData.Width + radShowPieceNames.Width - 20;
+            radShowPiecesOnly.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
+
+            groupPieceBrowserMode.Controls.Add(radShowPiecesOnly);
+            groupPieceBrowserMode.Controls.Add(radShowPieceNames);
+            groupPieceBrowserMode.Controls.Add(radShowPieceData);
 
             // ========================== Custom Move GroupBox =========================== //
 
             GroupBox groupCustomMove = new GroupBox();
             groupCustomMove.Text = "Custom move selected pieces";
-            groupCustomMove.Top = 60;
+            groupCustomMove.Top = 90;
             groupCustomMove.Left = columnLeft;
             groupCustomMove.Width = 280;
             groupCustomMove.Height = 50;
@@ -167,7 +207,7 @@ namespace NLEditor
 
             GroupBox groupSnapToGrid = new GroupBox();
             groupSnapToGrid.Text = "Snap Pieces to Grid";
-            groupSnapToGrid.Top = 130;
+            groupSnapToGrid.Top = 160;
             groupSnapToGrid.Left = columnLeft;
             groupSnapToGrid.Width = 280;
             groupSnapToGrid.Height = 80;
@@ -224,7 +264,7 @@ namespace NLEditor
 
             GroupBox groupAutosave = new GroupBox();
             groupAutosave.Text = "Autosave";
-            groupAutosave.Top = 230;
+            groupAutosave.Top = 260;
             groupAutosave.Left = columnLeft;
             groupAutosave.Width = 280;
             groupAutosave.Height = 80;
@@ -294,7 +334,7 @@ namespace NLEditor
 
             GroupBox groupEditorMode = new GroupBox();
             groupEditorMode.Text = "Editor Mode";
-            groupEditorMode.Top = 330;
+            groupEditorMode.Top = 360;
             groupEditorMode.Left = columnLeft;
             groupEditorMode.Width = 280;
             groupEditorMode.Height = 50;
@@ -307,7 +347,7 @@ namespace NLEditor
             radSuperLemmixMode.Text = "SuperLemmix";
             radSuperLemmixMode.Top = groupBoxTop;
             radSuperLemmixMode.Left = groupBoxColumnLeft;
-            radSuperLemmixMode.CheckedChanged += new EventHandler(RadioMode_CheckedChanged);
+            radSuperLemmixMode.CheckedChanged += new EventHandler(EditorMode_CheckedChanged);
 
             RadioButton radNeoLemmixMode = new RadioButton();
             radNeoLemmixMode.Name = "radNeoLemmixMode";
@@ -317,7 +357,7 @@ namespace NLEditor
             radNeoLemmixMode.Text = "NeoLemmix";
             radNeoLemmixMode.Top = groupBoxTop;
             radNeoLemmixMode.Left = groupBoxColumnLeft + radSuperLemmixMode.Width;
-            radNeoLemmixMode.CheckedChanged += new EventHandler(RadioMode_CheckedChanged);
+            radNeoLemmixMode.CheckedChanged += new EventHandler(EditorMode_CheckedChanged);
 
             RadioButton radAutoMode = new RadioButton();
             radAutoMode.Name = "radAutoMode";
@@ -326,8 +366,8 @@ namespace NLEditor
             radAutoMode.Checked = CurrentEditorMode == EditorMode.Auto;
             radAutoMode.Text = "Auto";
             radAutoMode.Top = groupBoxTop;
-            radAutoMode.Left = groupBoxColumnLeft + radSuperLemmixMode.Width + radNeoLemmixMode.Width;
-            radAutoMode.CheckedChanged += new EventHandler(RadioMode_CheckedChanged);
+            radAutoMode.Left = groupBoxColumnLeft + radSuperLemmixMode.Width + radNeoLemmixMode.Width - 10;
+            radAutoMode.CheckedChanged += new EventHandler(EditorMode_CheckedChanged);
 
             groupEditorMode.Controls.Add(radSuperLemmixMode);
             groupEditorMode.Controls.Add(radNeoLemmixMode);
@@ -338,14 +378,14 @@ namespace NLEditor
             btnSaveAndClose = new Button();
             btnSaveAndClose.Height = 30;
             btnSaveAndClose.Width = 110;
-            btnSaveAndClose.Top = 390;
+            btnSaveAndClose.Top = 420;
             btnSaveAndClose.Text = "Save And Close";
             btnSaveAndClose.Click += new EventHandler(BtnSaveAndClose_Click);
 
             btnCancel = new Button();
             btnCancel.Height = 30;
             btnCancel.Width = 70;
-            btnCancel.Top = 390;
+            btnCancel.Top = 420;
             btnCancel.Text = "Cancel";
             btnCancel.Click += new EventHandler(BtnCancel_Click);
             
@@ -358,7 +398,7 @@ namespace NLEditor
 
             // ========================== Add Controls to Form =========================== //
 
-            settingsForm.Controls.Add(checkPieceNames);
+            settingsForm.Controls.Add(groupPieceBrowserMode);
             settingsForm.Controls.Add(groupCustomMove);
             settingsForm.Controls.Add(groupSnapToGrid);
             settingsForm.Controls.Add(groupAutosave);
@@ -395,7 +435,7 @@ namespace NLEditor
             settingsForm.Close();
         }
 
-        private void RadioMode_CheckedChanged(object sender, EventArgs e)
+        private void EditorMode_CheckedChanged(object sender, EventArgs e)
         {           
             if (sender is RadioButton rb && rb.Checked)
             {
@@ -419,11 +459,25 @@ namespace NLEditor
             settingChanged = true;
         }
 
-
-        private void checkPieceNames_CheckedChanged(object sender, EventArgs e)
+        private void PieceBrowserMode_CheckedChanged(object sender, EventArgs e)
         {
-            UsePieceSelectionNames = ((sender as CheckBox).CheckState == CheckState.Checked);
-            editorForm.LoadPiecesIntoPictureBox();
+            if (sender is RadioButton rb && rb.Checked)
+            {
+                switch (rb.Name)
+                {
+                    case "radShowPiecesOnly":
+                        CurrentPieceBrowserMode = PieceBrowserMode.ShowPiecesOnly;
+                        break;
+                    case "radShowPieceNames":
+                        CurrentPieceBrowserMode = PieceBrowserMode.ShowNames;
+                        break;
+                    case "radShowPieceData":
+                        CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
+                        break;
+                }
+
+                editorForm.LoadPiecesIntoPictureBox();
+            }
 
             settingChanged = true;
         }
@@ -647,9 +701,15 @@ namespace NLEditor
                                     CurrentEditorMode = EditorMode.Auto;
                                 break;
                             }
-                        case "PIECESELECTIONNAMES":
+                        case "PIECEBROWSERMODE":
                             {
-                                UsePieceSelectionNames = (line.Text.Trim().ToUpper() == "TRUE");
+                                var modeText = line.Text.Trim().ToUpper();
+                                if (modeText == "SHOWPIECESONLY")
+                                    CurrentPieceBrowserMode = PieceBrowserMode.ShowPiecesOnly;
+                                else if (modeText == "SHOWNAMES")
+                                    CurrentPieceBrowserMode = PieceBrowserMode.ShowNames;
+                                else // Default to Show Data
+                                    CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
                                 break;
                             }
                         case "GRIDSIZE":
@@ -758,7 +818,7 @@ namespace NLEditor
                 settingsFile.WriteLine(" Autosave            " + AutosaveFrequency.ToString());
                 settingsFile.WriteLine(" AutosaveLimit       " + KeepAutosaveCount.ToString());
                 settingsFile.WriteLine(" EditorMode          " + CurrentEditorMode.ToString());
-                settingsFile.WriteLine(" PieceSelectionNames " + (UsePieceSelectionNames ? "True" : "False"));
+                settingsFile.WriteLine(" PieceBrowserMode    " + CurrentPieceBrowserMode.ToString());
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
                 settingsFile.WriteLine(" GridColor           " + (GridColor == Color.Empty ? "(Invisible)" : ColorTranslator.ToHtml(GridColor)));
                 settingsFile.WriteLine(" CustomMove          " + CustomMove.ToString());

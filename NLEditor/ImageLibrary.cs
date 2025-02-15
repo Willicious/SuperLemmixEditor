@@ -55,6 +55,7 @@ namespace NLEditor
         Dictionary<RotateFlipType, List<Bitmap>> images;
         List<Bitmap> baseImages => images[RotateFlipType.RotateNoneFlipNone];
         List<Bitmap> imageWithPieceNames;
+        List<Bitmap> imageWithData;
 
         public Bitmap Image(RotateFlipType rotFlipType)
         {
@@ -73,6 +74,12 @@ namespace NLEditor
             if (imageWithPieceNames == null)
                 CreateImagesWithPieceNames(pieceKey);
             return imageWithPieceNames[index % imageWithPieceNames.Count];
+        }
+        public Bitmap ImageWithData(int index, string pieceKey)
+        {
+            if (imageWithData == null)
+                CreateImagesWithData(pieceKey);
+            return imageWithData[index % imageWithData.Count];
         }
         public Bitmap WindowImageWithDirection(RotateFlipType rotFlipType, int index)
         {
@@ -163,32 +170,106 @@ namespace NLEditor
 
                 string pieceName = System.IO.Path.GetFileNameWithoutExtension(pieceKey);
 
-                using (Graphics g = Graphics.FromImage(newImage))
+                DrawDataString(newImage, pieceName, 0, 0, C.NLColors[C.NLColor.Text], 8);
+
+                imageWithPieceNames.Add(newImage);
+            }
+        }
+
+        /// <summary>
+        /// Creates images with the piece name at the bottom right corner.
+        /// </summary>
+        /// <param name="pieceKey"></param>
+        private void CreateImagesWithData(string pieceKey)
+        {
+            imageWithData = new List<Bitmap>();
+
+            foreach (Bitmap imageFrame in baseImages)
+            {
+                Bitmap newImage = new Bitmap(C.PicPieceSize.Width, C.PicPieceSize.Height);
+                int posX = (newImage.Width - imageFrame.Width) / 2;
+                int posY = (newImage.Height - imageFrame.Height) / 2;
+                newImage.DrawOn(imageFrame, new Point(posX, posY), 254);
+
+                // Type
+                string pieceDesc = C.ObjectDescriptions.TryGetValue(ObjectType, out string displayName)
+                                   ? displayName
+                                   : ObjectType.ToString();
+
+                // Show Name instead of Type when in Terrain/Steel tab
+                if (ObjectType == C.OBJ.TERRAIN || ObjectType == C.OBJ.STEEL)
+                    pieceDesc = System.IO.Path.GetFileNameWithoutExtension(pieceKey);
+
+                // Size
+                string pieceSize = Width.ToString() + " x " + Height.ToString();
+
+                // Resize type
+                Image resizeIcon = null;
+
+                if (ResizeMode == C.Resize.Both)
+                    resizeIcon = Properties.Resources.ArrowFourWay;
+                if (ResizeMode == C.Resize.Horiz)
+                    resizeIcon = Properties.Resources.ArrowHoriz;
+                if (ResizeMode == C.Resize.Vert)
+                    resizeIcon = Properties.Resources.ArrowVert;
+
+                if (resizeIcon != null)
                 {
-                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-                    Font font = new Font("Tahoma", 8, FontStyle.Regular);
-                    SizeF textSize = g.MeasureString(pieceName, font);
-
-                    int margin = 4;
-                    int textX = newImage.Width - (int)textSize.Width - margin;
-                    int textY = newImage.Height - (int)textSize.Height - margin;
-                    Rectangle textBackground = new Rectangle(textX - 2, textY - 2, (int)textSize.Width + 4, (int)textSize.Height + 4);
-
-                    // Draw text background
-                    using (Brush bgBrush = new SolidBrush(Color.FromArgb(0, 0, 51))) // #000033 with no transparency
+                    using (Graphics g = Graphics.FromImage(newImage))
                     {
-                        g.FillRectangle(bgBrush, textBackground);
-                    }
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-                    // Draw text
-                    using (Brush textBrush = new SolidBrush(C.NLColors[C.NLColor.Text]))
-                    {
-                        g.DrawString(pieceName, font, textBrush, textX, textY);
+                        int iconX = 4;
+                        int iconY = 4;
+
+                        g.DrawImage(resizeIcon, iconX, iconY, 17, 17);
                     }
                 }
 
-                imageWithPieceNames.Add(newImage);
+                // Nine-Sliced?
+                string nineSlice = string.Empty;
+
+                var nineS = NineSlicingArea;
+                if (nineS.HasValue)
+                {
+                    if (nineS.Value.Width > 0 && nineS.Value.Width < Width ||
+                        nineS.Value.Height > 0 && nineS.Value.Height < Height)
+                        nineSlice = "9S";
+                }
+
+                DrawDataString(newImage, pieceDesc, 0, 0, C.NLColors[C.NLColor.Text], 8);
+                DrawDataString(newImage, pieceSize, 0, 64, Color.SkyBlue, 8);
+                DrawDataString(newImage, nineSlice, 44, 64, Color.MediumSpringGreen, 8);
+
+                imageWithData.Add(newImage);
+            }
+        }
+
+        private void DrawDataString(Bitmap image, String text, int xOffset, int yOffset, Color color, int fontSize)
+        {
+            using (Graphics g = Graphics.FromImage(image))
+            {
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                Font font = new Font("Tahoma", fontSize, FontStyle.Regular);
+                SizeF textSize = g.MeasureString(text, font);
+
+                int margin = 4;
+                int textX = image.Width - (int)textSize.Width - margin - xOffset;
+                int textY = image.Height - (int)textSize.Height - margin - yOffset;
+
+                // Draw text background
+                Rectangle textBackground = new Rectangle(textX - 2, textY - 2, (int)textSize.Width + 4, (int)textSize.Height + 4);
+                using (Brush bgBrush = new SolidBrush(Color.FromArgb(0, 0, 51))) // #000033 with no transparency
+                {
+                    g.FillRectangle(bgBrush, textBackground);
+                }
+
+                // Draw text
+                using (Brush textBrush = new SolidBrush(color))
+                {
+                    g.DrawString(text, font, textBrush, textX, textY);
+                }
             }
         }
     }
@@ -295,6 +376,27 @@ namespace NLEditor
             }
 
             return imageDict[imageKey].ImageWithPieceName(index, imageKey);
+        }
+
+        /// <summary>
+        /// Returns the image with the piece's data displayed at the edges.
+        /// <para> These images are used for the PieceSelection. </para>
+        /// </summary>
+        /// <param name="imageKey"></param>
+        /// <param name="index"></param>
+        public static Bitmap GetImageWithData(string imageKey, int index)
+        {
+            if (!imageDict.ContainsKey(imageKey))
+            {
+                bool success = AddNewImage(imageKey);
+                if (!success)
+                {
+                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".", "File not found");
+                    return null;
+                }
+            }
+
+            return imageDict[imageKey].ImageWithData(index, imageKey);
         }
 
         /// <summary>
