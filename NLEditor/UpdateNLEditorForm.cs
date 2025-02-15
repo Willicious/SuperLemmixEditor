@@ -137,9 +137,9 @@ namespace NLEditor
         {
             string toolTipText = "unknown";
             C.OBJ pieceObjType = (pieceKey == null) ? C.OBJ.NULL : ImageLibrary.GetObjType(pieceKey);
-            if (C.TooltipList.ContainsKey(pieceObjType))
+            if (C.ObjectDescriptions.ContainsKey(pieceObjType))
             {
-                toolTipText = C.TooltipList[pieceObjType];
+                toolTipText = C.ObjectDescriptions[pieceObjType];
             }
             if (pieceKey != null && ImageLibrary.GetWidth(pieceKey) > 0 && ImageLibrary.GetHeight(pieceKey) > 0)
             {

@@ -108,20 +108,20 @@ namespace NLEditor
             }
         }
 
-        public static readonly Dictionary<OBJ, string> TooltipList = new Dictionary<OBJ, string>
+        public static readonly Dictionary<OBJ, string> ObjectDescriptions = new Dictionary<OBJ, string>
         {
           {OBJ.TERRAIN, "Terrain"}, {OBJ.STEEL, "Steel"}, {OBJ.NONE, "No Effect"},
-          {OBJ.EXIT, "Exit"}, {OBJ.FORCE_FIELD, "Force-Field"}, {OBJ.ONE_WAY_WALL, "One-Way-Wall"}, {OBJ.PAINT, "Paint"},
-          {OBJ.TRAP, "Triggered Trap"}, {OBJ.WATER, "Water"}, {OBJ.FIRE, "Fire"},
+          {OBJ.EXIT, "Exit"}, {OBJ.FORCE_FIELD, "Force-Field"}, {OBJ.ONE_WAY_WALL, "One-Way"}, {OBJ.PAINT, "Paint"},
+          {OBJ.TRAP, "Trap"}, {OBJ.WATER, "Water"}, {OBJ.FIRE, "Fire"},
           {OBJ.BLASTICINE, "Blasticine"}, {OBJ.VINEWATER, "Vinewater"}, {OBJ.POISON, "Poison"}, {OBJ.LAVA, "Lava"},
           {OBJ.RADIATION, "Radiation"}, {OBJ.SLOWFREEZE, "Slowfreeze"},
-          {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Preplaced Lemming"},
+          {OBJ.TELEPORTER, "Teleporter"}, {OBJ.RECEIVER, "Receiver"}, {OBJ.LEMMING, "Lemming"},
           {OBJ.PICKUP, "Pickup Skill"}, {OBJ.EXIT_LOCKED, "Locked Exit"}, {OBJ.BUTTON, "Button"},
           {OBJ.COLLECTIBLE, "Collectible"}, {OBJ.UPDRAFT, "Updraft"},
           {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
-          {OBJ.SPLAT, "Splat Pad"}, {OBJ.DECORATION, "Decoration"}, {OBJ.TRAPONCE, "Single-Use Trap"},
-          {OBJ.PORTAL, "Portal" }, {OBJ.NEUTRALIZER, "Neutralizer" }, {OBJ.SKILL_ADD, "PermaSkill Assigner" },
-          {OBJ.DENEUTRALIZER, "Deneutralizer" }, {OBJ.SKILL_REMOVE, "PermaSkills Remover" }
+          {OBJ.SPLAT, "Splat Pad"}, {OBJ.DECORATION, "Decoration"}, {OBJ.TRAPONCE, "Single Trap"},
+          {OBJ.PORTAL, "Portal" }, {OBJ.NEUTRALIZER, "Neutralizer" }, {OBJ.SKILL_ADD, "Skill Assigner" },
+          {OBJ.DENEUTRALIZER, "Deneutralizer" }, {OBJ.SKILL_REMOVE, "Skill Remover" }
         };
 
         public enum DragActions

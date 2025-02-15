@@ -81,7 +81,7 @@ namespace NLEditor
                     string pieceKey = pieceKeys[curIndex + picIndex];
                     string pieceDescription = System.IO.Path.GetFileNameWithoutExtension(pieceKey)
                                               + C.NewLine
-                                              + C.TooltipList[ImageLibrary.GetObjType(pieceKey)];
+                                              + C.ObjectDescriptions[ImageLibrary.GetObjType(pieceKey)];
                     lblPieceList[picIndex].Text = pieceDescription;
 
                     int frameIndex = (ImageLibrary.GetObjType(pieceKey).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.COLLECTIBLE, C.OBJ.TRAPONCE)) ? 1 : 0;
