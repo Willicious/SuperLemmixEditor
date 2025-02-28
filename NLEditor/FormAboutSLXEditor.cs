@@ -104,8 +104,37 @@ namespace NLEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
-            // Version 2.8.6 features
-            WriteBoldText(richTextBox, "Version 2.8.6-B\n");
+            // Version 2.8.X features
+            WriteBoldText(richTextBox, "Version 2.8.7\n");
+            WriteBoldText(richTextBox, "• New Objects Support");
+            richTextBox.AppendText(" - Added support for NeoLemmix 12.14 new objects (portal, (de)assigner, (de)neutralizer)\n");
+
+            WriteBoldText(richTextBox, "• Piece Browser");
+            richTextBox.AppendText(" - Added 'Steel' tab for steel pieces\n");
+
+            WriteBoldText(richTextBox, "• Piece Browser");
+            richTextBox.AppendText(" - Piece data (size, resize/nine-slice info) and object descriptions are now (optionally) shown in Piece Browser\n");
+
+            WriteBoldText(richTextBox, "• Piece Browser");
+            richTextBox.AppendText(" - 3-way option 'Data/Descriptions/Pieces Only' switches between showing additional piece data, descriptions (previously 'Show piece names'), or just the pieces\n");
+            richTextBox.AppendText(" - Note that for objects, the Type rather than the Name is shown when the 'Data' or 'Descriptions' option is active\n");
+
+            WriteBoldText(richTextBox, "• Piece Browser");
+            richTextBox.AppendText(" - Added resizing info to the tooltips\n");
+
+            WriteBoldText(richTextBox, "• Piece Browser");
+            richTextBox.AppendText(" - Info labels are now drawn with a filled background to ensure visability\n");
+
+            WriteBoldText(richTextBox, "• Piece Selection");
+            richTextBox.AppendText(" - Added piece size info to metadata in Pieces tab\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - Piece Search");
+            richTextBox.AppendText(" - Terrain pieces are now included in the search for resizable/nine-sliced pieces\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - Piece Search");
+            richTextBox.AppendText(" - Adding a piece to the level via the Piece Search now focuses the Pieces tab\n");
+
+            // Version 2.8.X features
             WriteBoldText(richTextBox, "• NeoLemmix Mode");
             richTextBox.AppendText(" - Added support for NeoLemmix CE\n");
 
@@ -115,17 +144,15 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Editor Mode");
             richTextBox.AppendText(" - Editor Mode is now set to Auto by default\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
-            richTextBox.AppendText(" - Pre/PostView Text dialog - Added a button to clear the text input, and blank text is now handled more gracefully\n");
+            WriteBoldText(richTextBox, "• Bugfix - Pre/PostView Text dialog");
+            richTextBox.AppendText(" - Added a button to clear the text input, and blank text is now handled more gracefully\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
-            richTextBox.AppendText(" - Piece Search is now case-insensitive, preventing errors when adding pieces from style sets with uppercase characters\n");
+            WriteBoldText(richTextBox, "• Bugfix - Piece Search");
+            richTextBox.AppendText(" - Search is now case-insensitive, preventing errors when adding pieces from style sets with uppercase characters\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - Piece Search");
             richTextBox.AppendText(" - Added support for (Anti)SplatPads and Decoration objects to Piece Search\n");
 
-            // Version 2.8.X features
-            WriteBoldText(richTextBox, "\nVersion 2.8.X\n");
             WriteBoldText(richTextBox, "• Level Arranger Window");
             richTextBox.AppendText(" - It's now possible to open the level arranger in a pop-out window which can be resized and moved between displays. Its size and position are remembered between sessions\n");
 
@@ -159,13 +186,13 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Layout");
             richTextBox.AppendText(" - Set minimum window size to 900 x 600)\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - Entrance Hatches");
             richTextBox.AppendText(" - When flipping a hatch horizontally, the Flip Offset value is calculated and written to the level file so the Player can match its position as seen in the Editor)\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - Character Limits");
             richTextBox.AppendText(" - Character limit for title and author is now 54 (determined by Preview Screen in FullScreen)\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - Settings");
             richTextBox.AppendText(" - Fixed cancelling of changes to Settings when using the \"Cancel\" button)\n");
 
             WriteBoldText(richTextBox, "• Fully-customisable hotkeys");
@@ -186,26 +213,26 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Hotkeys");
             richTextBox.AppendText(" - Added Group/Ungroup Pieces hotkeys, plus various others for new features\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - Cursor Zoom");
             richTextBox.AppendText(" - Cursor anchor is now correctly preserved when zooming in and out\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
-            richTextBox.AppendText(" - Preview/Postview text is now displayed centred for better previewing\n");
+            WriteBoldText(richTextBox, "• Bugfix - Preview/Postview Text");
+            richTextBox.AppendText(" - Text is now displayed centred for better previewing\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
-            richTextBox.AppendText(" - Talisman Creation dialog now shows only the skills that have already been added to the skillset\n");
+            WriteBoldText(richTextBox, "• Bugfix - Talismans");
+            richTextBox.AppendText(" - Dialog now shows only the skills that have already been added to the skillset\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
-            richTextBox.AppendText(" - Talisman Creation dialog now adds a default title if the Title field is empty\n");
+            WriteBoldText(richTextBox, "• Bugfix - Talismans");
+            richTextBox.AppendText(" - Dialog now adds a default title if the Title field is empty\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - Character Limits");
             richTextBox.AppendText(" - Character limits increased to SLX Player UI limits: Title (62), Author (60), Talisman TItle (85)\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - UI");
             richTextBox.AppendText(" - All secondary windows can now be closed using the [Esc] key\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
-            richTextBox.AppendText(" - Cleanse levels now shows a dialog before proceeding with the cleanse\n");
+            WriteBoldText(richTextBox, "• Bugfix - Cleanse Levels");
+            richTextBox.AppendText(" - Confirmation dialog is now shown before proceeding with the cleanse\n");
 
             WriteBoldText(richTextBox, "• Maximum Lemmings Count");
             richTextBox.AppendText(" - 999 is now the maximum number of lemmings supported by the Editor; this is to match SLX Player skill panel display\n");
@@ -228,13 +255,13 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Cleanse Levels update");
             richTextBox.AppendText(" - We now show a progress bar during the process, and re-initialize the Editor when it's finished\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - Trigger Areas");
             richTextBox.AppendText(" - Fixed trigger area repositionings for flipped/inverted/rotated objects\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - UI");
             richTextBox.AppendText(" - Zoom factor is now 1 instead of 0 when opening the Editor\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - UI");
             richTextBox.AppendText(" - Editor now opens Maximized by default\n");
 
             // Version 2.7.X features
@@ -251,10 +278,10 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• New Objects");
             richTextBox.AppendText(" - Support added for Collectibles, Lava and Decoration objects\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - Missing Piece Handling");
             richTextBox.AppendText(" - Levels with missing pieces no longer create infinite popups; instead, a status bar is used to inform the player that the level has missing pieces\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - Missing Piece Handling");
             richTextBox.AppendText(" - Saving a level with missing pieces will create a unique file rather than overwriting the original\n");
 
             // Version 2.6.X features
@@ -270,7 +297,7 @@ namespace NLEditor
 
             // Version 2.5.X features
             WriteBoldText(richTextBox, "\nVersion 2.5.X\n");
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - Talismans");
             richTextBox.AppendText(" - Talisman requirements that aren't number-related (e.g. Play in Classic Mode, Kill All Zombies) no longer display \": 0\" unnecessarily when added\n");
 
             WriteBoldText(richTextBox, "• Radiation & Slowfreeze");
@@ -320,7 +347,7 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• UI Improvements");
             richTextBox.AppendText(" - Further refinements to scrollbars\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - UI");
             richTextBox.AppendText(" - The state of the AutoStart checkbox is now remembered per-level when Closing and re-opening the Editor\n");
 
             WriteBoldText(richTextBox, "• Centred Dialogs");
@@ -329,12 +356,12 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Tab Display");
             richTextBox.AppendText(" - \"Display Tabs\" is no longer an option - tab display is the default and only option (necessary due to the various 2.X updates\n");
 
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - Talismans");
             richTextBox.AppendText(" - A num up/down box was displayed for Kill All Zombies talisman when it didn't need to be, and wasn't displaying when it did need to be for other talismans\n");
 
             // Version 2.1.X features
             WriteBoldText(richTextBox, "\nVersion 2.1.X\n");
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - UI");
             richTextBox.AppendText(" - Auto-start checkbox is no longer checked by default, but its state is remembered when closing and re-loading the Editor\n");
 
             WriteBoldText(richTextBox, "• Custom Move");
@@ -351,7 +378,7 @@ namespace NLEditor
 
             // Version 2.0.X features
             WriteBoldText(richTextBox, "\nVersion 2.0.X\n");
-            WriteBoldText(richTextBox, "• Bugfix");
+            WriteBoldText(richTextBox, "• Bugfix - UI");
             richTextBox.AppendText(" - Fixed bug affecting the position of the screen area in relation to the scrollbars when zoomed in\n");
 
             WriteBoldText(richTextBox, "• UI Improvements");
