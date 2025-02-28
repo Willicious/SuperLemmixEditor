@@ -41,7 +41,7 @@ namespace NLEditor
             lblPreviousUpdates.Left = GetCenter(lblPreviousUpdates);
             WritePreviousUpdatesText();
 
-            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + "-B)";
+            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + ")";
             lblSuperLemmixEditor.Top = richTextBox_PreviousUpdates.Bottom + padding;
             lblSuperLemmixEditor.Left = GetCenter(lblSuperLemmixEditor);
 
@@ -104,7 +104,7 @@ namespace NLEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
-            // Version 2.8.X features
+            // Version 2.8.7 features
             WriteBoldText(richTextBox, "Version 2.8.7\n");
             WriteBoldText(richTextBox, "• New Objects Support");
             richTextBox.AppendText(" - Added support for NeoLemmix 12.14 new objects (portal, (de)assigner, (de)neutralizer)\n");
