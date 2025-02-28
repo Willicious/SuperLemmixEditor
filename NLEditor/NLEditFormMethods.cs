@@ -416,6 +416,7 @@ namespace NLEditor
                 try
                 {
                     AddNewPieceToLevel(newPiece, curRenderer.GetCenterPoint());
+                    MaybeOpenPiecesTab();
                 }
                 catch (Exception ex)
                 {
