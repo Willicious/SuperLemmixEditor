@@ -50,7 +50,7 @@ namespace NLEditor
         public enum PieceBrowserMode
         {
             ShowPiecesOnly,
-            ShowNames,
+            ShowDescriptions,
             ShowData,
         }
 
@@ -147,16 +147,16 @@ namespace NLEditor
             radShowPieceData.Left = groupBoxColumnLeft;
             radShowPieceData.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
 
-            RadioButton radShowPieceNames = new RadioButton();
-            radShowPieceNames.Name = "radShowPieceNames";
-            radShowPieceNames.AutoSize = true;
-            radShowPieceData.Width = 80;
-            radShowPieceNames.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            radShowPieceNames.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowNames;
-            radShowPieceNames.Text = "Names";
-            radShowPieceNames.Top = groupBoxTop;
-            radShowPieceNames.Left = groupBoxColumnLeft + radShowPieceData.Width;
-            radShowPieceNames.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
+            RadioButton radShowPieceDescriptions = new RadioButton();
+            radShowPieceDescriptions.Name = "radShowPieceDescriptions";
+            radShowPieceDescriptions.AutoSize = true;
+            radShowPieceDescriptions.Width = 80;
+            radShowPieceDescriptions.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radShowPieceDescriptions.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowDescriptions;
+            radShowPieceDescriptions.Text = "Descriptions";
+            radShowPieceDescriptions.Top = groupBoxTop;
+            radShowPieceDescriptions.Left = groupBoxColumnLeft + radShowPieceData.Width - 16;
+            radShowPieceDescriptions.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
 
             RadioButton radShowPiecesOnly = new RadioButton();
             radShowPiecesOnly.Name = "radShowPiecesOnly";
@@ -165,11 +165,11 @@ namespace NLEditor
             radShowPiecesOnly.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowPiecesOnly;
             radShowPiecesOnly.Text = "Pieces Only";
             radShowPiecesOnly.Top = groupBoxTop;
-            radShowPiecesOnly.Left = groupBoxColumnLeft + radShowPieceData.Width + radShowPieceNames.Width - 20;
+            radShowPiecesOnly.Left = groupBoxColumnLeft + radShowPieceData.Width + radShowPieceDescriptions.Width;
             radShowPiecesOnly.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
 
             groupPieceBrowserMode.Controls.Add(radShowPiecesOnly);
-            groupPieceBrowserMode.Controls.Add(radShowPieceNames);
+            groupPieceBrowserMode.Controls.Add(radShowPieceDescriptions);
             groupPieceBrowserMode.Controls.Add(radShowPieceData);
 
             // ========================== Custom Move GroupBox =========================== //
@@ -468,8 +468,8 @@ namespace NLEditor
                     case "radShowPiecesOnly":
                         CurrentPieceBrowserMode = PieceBrowserMode.ShowPiecesOnly;
                         break;
-                    case "radShowPieceNames":
-                        CurrentPieceBrowserMode = PieceBrowserMode.ShowNames;
+                    case "radShowPieceDescriptions":
+                        CurrentPieceBrowserMode = PieceBrowserMode.ShowDescriptions;
                         break;
                     case "radShowPieceData":
                         CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
@@ -706,8 +706,8 @@ namespace NLEditor
                                 var modeText = line.Text.Trim().ToUpper();
                                 if (modeText == "SHOWPIECESONLY")
                                     CurrentPieceBrowserMode = PieceBrowserMode.ShowPiecesOnly;
-                                else if (modeText == "SHOWNAMES")
-                                    CurrentPieceBrowserMode = PieceBrowserMode.ShowNames;
+                                else if (modeText == "SHOWDESCRIPTIONS")
+                                    CurrentPieceBrowserMode = PieceBrowserMode.ShowDescriptions;
                                 else // Default to Show Data
                                     CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
                                 break;

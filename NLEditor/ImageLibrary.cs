@@ -54,7 +54,7 @@ namespace NLEditor
 
         Dictionary<RotateFlipType, List<Bitmap>> images;
         List<Bitmap> baseImages => images[RotateFlipType.RotateNoneFlipNone];
-        List<Bitmap> imageWithPieceNames;
+        List<Bitmap> imageWithPieceDescriptions;
         List<Bitmap> imageWithData;
 
         public Bitmap Image(RotateFlipType rotFlipType)
@@ -69,11 +69,11 @@ namespace NLEditor
                 CreateRotatedImages(rotFlipType);
             return images[rotFlipType][index % images[rotFlipType].Count];
         }
-        public Bitmap ImageWithPieceName(int index, string pieceKey)
+        public Bitmap ImageWithPieceDescription(int index, string pieceKey)
         {
-            if (imageWithPieceNames == null)
-                CreateImagesWithPieceNames(pieceKey);
-            return imageWithPieceNames[index % imageWithPieceNames.Count];
+            if (imageWithPieceDescriptions == null)
+                CreateImagesWithPieceDescriptions(pieceKey);
+            return imageWithPieceDescriptions[index % imageWithPieceDescriptions.Count];
         }
         public Bitmap ImageWithData(int index, string pieceKey)
         {
@@ -157,9 +157,9 @@ namespace NLEditor
         /// Creates images with the piece name at the bottom right corner.
         /// </summary>
         /// <param name="pieceKey"></param>
-        private void CreateImagesWithPieceNames(string pieceKey)
+        private void CreateImagesWithPieceDescriptions(string pieceKey)
         {
-            imageWithPieceNames = new List<Bitmap>();
+            imageWithPieceDescriptions = new List<Bitmap>();
 
             foreach (Bitmap imageFrame in baseImages)
             {
@@ -168,11 +168,20 @@ namespace NLEditor
                 int posY = (newImage.Height - imageFrame.Height) / 2;
                 newImage.DrawOn(imageFrame, new Point(posX, posY), 254);
 
-                string pieceName = System.IO.Path.GetFileNameWithoutExtension(pieceKey);
+                string pieceName = "";
 
-                DrawDataString(newImage, pieceName, 0, 0, C.NLColors[C.NLColor.Text], 8);
+                // Type
+                string pieceDesc = C.ObjectDescriptions.TryGetValue(ObjectType, out string displayName)
+                                   ? displayName
+                                   : ObjectType.ToString();
 
-                imageWithPieceNames.Add(newImage);
+                // Show Name instead of Type when in Terrain/Steel tab
+                if (ObjectType == C.OBJ.TERRAIN || ObjectType == C.OBJ.STEEL)
+                    pieceDesc = System.IO.Path.GetFileNameWithoutExtension(pieceKey);
+
+                DrawDataString(newImage, pieceDesc, 0, 0, C.NLColors[C.NLColor.Text], 8);
+
+                imageWithPieceDescriptions.Add(newImage);
             }
         }
 
@@ -363,7 +372,7 @@ namespace NLEditor
         /// </summary>
         /// <param name="imageKey"></param>
         /// <param name="index"></param>
-        public static Bitmap GetImageWithPieceName(string imageKey, int index)
+        public static Bitmap GetImageWithPieceDescription(string imageKey, int index)
         {
             if (!imageDict.ContainsKey(imageKey))
             {
@@ -375,7 +384,7 @@ namespace NLEditor
                 }
             }
 
-            return imageDict[imageKey].ImageWithPieceName(index, imageKey);
+            return imageDict[imageKey].ImageWithPieceDescription(index, imageKey);
         }
 
         /// <summary>
