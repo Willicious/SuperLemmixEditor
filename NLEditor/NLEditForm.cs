@@ -1533,5 +1533,18 @@ namespace NLEditor
         {
             ToggleExpandedTabs();
         }
+
+        private void combo_MouseEnter(object sender, EventArgs e)
+        {
+            if (sender is ComboBox combo)
+            {
+                combo.Focus();
+            }
+        }
+
+        private void combo_MouseLeave(object sender, EventArgs e)
+        {
+            PullFocusFromTextInputs();
+        }
     }
 }
