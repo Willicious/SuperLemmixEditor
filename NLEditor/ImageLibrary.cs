@@ -168,8 +168,6 @@ namespace NLEditor
                 int posY = (newImage.Height - imageFrame.Height) / 2;
                 newImage.DrawOn(imageFrame, new Point(posX, posY), 254);
 
-                string pieceName = "";
-
                 // Type
                 string pieceDesc = C.ObjectDescriptions.TryGetValue(ObjectType, out string displayName)
                                    ? displayName
