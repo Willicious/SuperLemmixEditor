@@ -104,7 +104,7 @@
             this.butRequirementAdd.Name = "butRequirementAdd";
             this.butRequirementAdd.Size = new System.Drawing.Size(289, 40);
             this.butRequirementAdd.TabIndex = 19;
-            this.butRequirementAdd.Text = "Add New Requirement";
+            this.butRequirementAdd.Text = "Add This Requirement To List";
             this.butRequirementAdd.UseVisualStyleBackColor = true;
             this.butRequirementAdd.Click += new System.EventHandler(this.butRequirementAdd_Click);
             // 
@@ -217,6 +217,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(462, 495);
+            this.Controls.Add(this.butRequirementAdd);
             this.Controls.Add(this.cmbRequirementSkill);
             this.Controls.Add(this.listRequirements);
             this.Controls.Add(this.butTalismanCancel);
@@ -226,7 +227,6 @@
             this.Controls.Add(this.radBronze);
             this.Controls.Add(this.txtTalismanTitle);
             this.Controls.Add(this.lblTalTitle);
-            this.Controls.Add(this.butRequirementAdd);
             this.Controls.Add(this.butRequirementDelete);
             this.Controls.Add(this.numReqValue2);
             this.Controls.Add(this.numReqValue1);
