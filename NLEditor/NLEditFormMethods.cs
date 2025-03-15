@@ -1211,7 +1211,7 @@ namespace NLEditor
             if (selectArea == null)
                 return;
 
-            if (dragOrSelectPiecesPressed)
+            if (mouseButtonPressed == MouseButtons.Left)
             {
                 // Delete all existing selections if no modifier is pressed
                 if (!isCtrlPressed && !isShiftPressed && !isAltPressed)
@@ -1912,7 +1912,7 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyOpenSettings, () => settingsToolStripMenuItem_Click(null, null));
             AddHotkey(HotkeyConfig.HotkeyOpenConfigHotkeys, () => hotkeysToolStripMenuItem_Click(null, null));
             AddHotkey(HotkeyConfig.HotkeyOpenAboutSLX, () => ShowAboutSLXEditor());
-            AddHotkey(HotkeyConfig.HotkeySelectPieces, () => dragOrSelectPiecesPressed = true);
+            AddHotkey(HotkeyConfig.HotkeySelectPieces, () => {/* deliberately does nothing */});
             AddHotkey(HotkeyConfig.HotkeyDragToScroll, () => dragToScrollPressed = true);
             AddHotkey(HotkeyConfig.HotkeyDragHorizontally, () => dragHorizontallyPressed = true);
             AddHotkey(HotkeyConfig.HotkeyDragVertically, () => dragVerticallyPressed = true);

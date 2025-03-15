@@ -518,6 +518,11 @@ namespace NLEditor
                 checkModAlt.Checked = assignedKey.HasFlag(Keys.Alt);
 
                 ResetComponents();
+
+                if (selectedItem.Text == "Select/Drag Pieces")
+                {
+                    SetUIForSelectPiecesHotkey();
+                }
             }
 
             DoCheckForDuplicates = true;
@@ -553,6 +558,41 @@ namespace NLEditor
 
             // Enable combo box
             comboBoxChooseKey.Enabled = true;
+        }
+
+        /// <summary>
+        /// This hotkey is set to Left Mouse Button and cannot be changed
+        /// </summary>
+        private void SetUIForSelectPiecesHotkey()
+        {
+            // Set labels
+            lblActionToBeAssigned.Text = selectedItem.SubItems[0].Text;
+            lblCurrentHotkey.Text = selectedItem.SubItems[1].Text;
+            lblListening.Visible = false;
+            lblAddModifier.Visible = true;
+            checkModAlt.Enabled = false;
+            checkModAlt.Visible = true;
+            checkModCtrl.Enabled = false;
+            checkModCtrl.Visible = true;
+            checkModShift.Enabled = false;
+            checkModShift.Visible = true;
+            lblChosenKey.Enabled = false;
+            lblChosenHotkey.Enabled = false;
+            lblChosenHotkey.Visible = false;
+            lblChosenHotkey.Text = "";
+            lblDuplicateDetected.Visible = false;
+            lblDuplicateAction.Visible = false;
+            lblDuplicateAction.Text = "";
+            lblEditedSaved.Visible = false;
+            lblEditedSaved.Text = "";
+
+            // Set buttons
+            btnAssignChosenKey.Enabled = false;
+            btnCancel.Enabled = false;
+            btnListen.Enabled = false;
+
+            // Set combo box
+            comboBoxChooseKey.Enabled = false;
         }
 
         private ListViewItem FindDuplicateHotkey(Keys hotkey, ListView listView, ListViewItem currentItem)
@@ -690,7 +730,7 @@ namespace NLEditor
                         HotkeyConfig.HotkeyOpenAboutSLX = parsedKey;
                         break;
                     case "HotkeySelectPieces":
-                        HotkeyConfig.HotkeySelectPieces = parsedKey;
+                        HotkeyConfig.HotkeySelectPieces = Keys.LButton; // Just in case
                         break;
                     case "HotkeyDragToScroll":
                         HotkeyConfig.HotkeyDragToScroll = parsedKey;

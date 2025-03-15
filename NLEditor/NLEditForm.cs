@@ -192,7 +192,6 @@ namespace NLEditor
         bool scrollHorizontallyPressed = false;
         bool scrollVerticallyPressed = false;
 
-        bool dragOrSelectPiecesPressed = false;
         bool dragToScrollPressed = false;
         bool dragHorizontallyPressed = false;
         bool dragVerticallyPressed = false;
@@ -938,9 +937,6 @@ namespace NLEditor
                 case var key when key == HotkeyConfig.HotkeyScrollVertically:
                     scrollVerticallyPressed = false;
                     break;
-                case var key when key == HotkeyConfig.HotkeySelectPieces:
-                    dragOrSelectPiecesPressed = false;
-                    break;
                 case var key when key == HotkeyConfig.HotkeyDragToScroll:
                     dragToScrollPressed = false;
                     break;
@@ -1067,7 +1063,7 @@ namespace NLEditor
                     dragAction = C.DragActions.MoveStartPos;
                 }
             }
-            else if (hasSelectedPieceAtPos && dragOrSelectPiecesPressed)
+            else if (hasSelectedPieceAtPos && mouseButtonPressed == MouseButtons.Left)
             {
                 dragAction = C.DragActions.DragPieces;
             }
@@ -1081,7 +1077,7 @@ namespace NLEditor
                 dragAction = C.DragActions.VerticalDrag;
                 Cursor = Cursors.SizeNS;
             }
-            else if (hasPieceAtPos && dragOrSelectPiecesPressed)
+            else if (hasPieceAtPos && mouseButtonPressed == MouseButtons.Left)
             {
                 curRenderer.MouseCurPos = e.Location;
                 LevelSelectSinglePiece();
@@ -1178,7 +1174,6 @@ namespace NLEditor
             // Reset hotkey flags (just in case)
             scrollHorizontallyPressed = false;
             scrollVerticallyPressed = false;
-            dragOrSelectPiecesPressed = false;
             dragToScrollPressed = false;
             dragHorizontallyPressed = false;
             dragVerticallyPressed = false;

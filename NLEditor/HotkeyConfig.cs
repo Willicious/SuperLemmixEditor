@@ -240,6 +240,7 @@ namespace NLEditor
         {
             var seenKeys = new HashSet<string>();
             invalidKey = string.Empty;
+            bool foundHotkeySelectPieces = false;
 
             foreach (var line in lines)
             {
@@ -249,6 +250,17 @@ namespace NLEditor
 
                 var settingName = parts[0].Trim();
                 var key = parts[1].Trim();
+
+                // Check for "HotkeySelectPieces"
+                if (settingName == "HotkeySelectPieces")
+                {
+                    foundHotkeySelectPieces = true;
+                    if (key != "LButton") // Ensure it's specifically "LButton"
+                    {
+                        invalidKey = $"HotkeySelectPieces must be LButton, but found '{key}'";
+                        return true;
+                    }
+                }
 
                 // Skip empty or "None" values
                 if (key == "None") continue;
@@ -279,6 +291,13 @@ namespace NLEditor
                     invalidKey = $"{settingName} requires a mouse button key. Current key is {parsedKey}";
                     return true;
                 }
+            }
+
+            // Final check: If "HotkeySelectPieces" was missing entirely, flag it
+            if (!foundHotkeySelectPieces)
+            {
+                invalidKey = "HotkeySelectPieces is missing from SLXEditorHotkeys.ini";
+                return true;
             }
 
             return false;
@@ -351,7 +370,7 @@ namespace NLEditor
                 if (line.StartsWith("HotkeyOpenAboutSLX="))
                     HotkeyOpenAboutSLX = ParseHotkeyString(line.Substring("HotkeyOpenAboutSLX=".Length));
                 if (line.StartsWith("HotkeySelectPieces="))
-                    HotkeySelectPieces = ParseHotkeyString(line.Substring("HotkeySelectPieces=".Length));
+                    HotkeySelectPieces = Keys.LButton; // Just in case)
                 if (line.StartsWith("HotkeyDragToScroll="))
                     HotkeyDragToScroll = ParseHotkeyString(line.Substring("HotkeyDragToScroll=".Length));
                 if (line.StartsWith("HotkeyDragHorizontally="))
