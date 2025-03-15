@@ -19,6 +19,9 @@ namespace NLEditor
 
         public FormPieceSearch(string rootPath, Style curStyle)
         {
+            // Explicitly set the directory in case the Editor has been opened via .nxlv
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(C.AppPath));
+
             InitializeComponent();
             InitializeTimer();
 
