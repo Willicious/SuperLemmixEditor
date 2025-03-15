@@ -356,7 +356,9 @@ namespace NLEditor
             }
 
             if (HotkeyConfig.mouseMandatoryItems.Contains(selectedItem))
-                comboBoxChooseKey.DataSource = HotkeyConfig.mandatoryMouseKeys;
+                comboBoxChooseKey.DataSource = HotkeyConfig.mandatoryMouseKeys
+                    .Select(HotkeyConfig.FormatHotkeyString)
+                    .ToList();
             else
                 comboBoxChooseKey.DataSource = formattedHotkeys;
 
