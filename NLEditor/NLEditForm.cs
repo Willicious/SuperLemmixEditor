@@ -1063,11 +1063,16 @@ namespace NLEditor
                     dragAction = C.DragActions.MoveStartPos;
                 }
             }
-            else if (hasSelectedPieceAtPos && addOrRemoveSinglePiecePressed)
+            else if (hasSelectedPieceAtPos)
             {
                 curRenderer.MouseCurPos = e.Location;
-                LevelSelectSinglePiece();
-                pic_Level.SetImage(curRenderer.GetScreenImage());
+
+                if (addOrRemoveSinglePiecePressed)
+                {
+                    LevelSelectSinglePiece();
+                    pic_Level.SetImage(curRenderer.GetScreenImage());
+                }
+
                 dragAction = C.DragActions.DragPieces;
             }
             else if (hasSelectedPieceAtPos && dragHorizontallyPressed)
