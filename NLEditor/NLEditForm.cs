@@ -1025,10 +1025,10 @@ namespace NLEditor
                 action.Invoke();
             }
 
-            HandleMouseInput(sender, e, mouseButtonKey);
+            HandleMouseInput(sender, e);
         }
 
-        private void HandleMouseInput(object sender, MouseEventArgs e, Keys mouseButtonKey)
+        private void HandleMouseInput(object sender, MouseEventArgs e)
         {
             mutexMouseDown.WaitOne();
 
