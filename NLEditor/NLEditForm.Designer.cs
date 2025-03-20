@@ -745,12 +745,14 @@
             // 
             // combo_PieceStyle
             // 
+            this.combo_PieceStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combo_PieceStyle.FormattingEnabled = true;
             this.combo_PieceStyle.Location = new System.Drawing.Point(11, 871);
             this.combo_PieceStyle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.combo_PieceStyle.Name = "combo_PieceStyle";
             this.combo_PieceStyle.Size = new System.Drawing.Size(442, 28);
             this.combo_PieceStyle.TabIndex = 52;
+            this.combo_PieceStyle.SelectedIndexChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
             this.combo_PieceStyle.TextChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
             this.combo_PieceStyle.Leave += new System.EventHandler(this.combo_PieceStyle_Leave);
             this.combo_PieceStyle.MouseEnter += new System.EventHandler(this.combo_MouseEnter);
@@ -1071,6 +1073,7 @@
             // 
             // combo_Music
             // 
+            this.combo_Music.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combo_Music.FormattingEnabled = true;
             this.combo_Music.Location = new System.Drawing.Point(68, 88);
             this.combo_Music.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1351,6 +1354,7 @@
             // 
             // combo_MainStyle
             // 
+            this.combo_MainStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combo_MainStyle.FormattingEnabled = true;
             this.combo_MainStyle.Location = new System.Drawing.Point(68, 129);
             this.combo_MainStyle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1358,6 +1362,7 @@
             this.combo_MainStyle.Size = new System.Drawing.Size(302, 28);
             this.combo_MainStyle.TabIndex = 7;
             this.combo_MainStyle.TextChanged += new System.EventHandler(this.combo_MainStyle_TextChanged);
+            this.combo_MainStyle.SelectedIndexChanged += new System.EventHandler(this.combo_MainStyle_TextChanged);
             this.combo_MainStyle.Leave += new System.EventHandler(this.textbox_Leave);
             this.combo_MainStyle.MouseEnter += new System.EventHandler(this.combo_MouseEnter);
             this.combo_MainStyle.MouseLeave += new System.EventHandler(this.combo_MouseLeave);
