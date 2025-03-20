@@ -174,9 +174,11 @@ namespace NLEditor
                 }
             }
 
-            if (numSkillsUsed > 10)
+            int editorModeLimit = NLEditForm.isNeoLemmixOnly ? 10 : 14;
+
+            if (numSkillsUsed > editorModeLimit)
             {
-                issuesList.Add(numSkillsUsed.ToString() + " skill types used. Only 10 allowed.");
+                issuesList.Add(numSkillsUsed.ToString() + $" skill types used. Only {editorModeLimit} allowed.");
             }
         }
 
