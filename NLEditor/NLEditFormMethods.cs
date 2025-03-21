@@ -1084,6 +1084,9 @@ namespace NLEditor
                 case C.SelectPieceType.Terrain:
                     pieceList = pieceCurStyle?.TerrainKeys;
                     break;
+                case C.SelectPieceType.Steel:
+                    pieceList = pieceCurStyle?.SteelKeys;
+                    break;
                 case C.SelectPieceType.Backgrounds:
                     pieceList = pieceCurStyle?.BackgroundKeys;
                     break;
@@ -1133,6 +1136,7 @@ namespace NLEditor
                 switch (pieceDoDisplayKind)
                 {
                     case C.SelectPieceType.Terrain:
+                    case C.SelectPieceType.Steel:
                     case C.SelectPieceType.Objects:
                     case C.SelectPieceType.Sketches:
                         AddNewPieceToLevel(pieceKey, curRenderer.GetCenterPoint());
