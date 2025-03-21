@@ -917,12 +917,50 @@ namespace NLEditor
             if (pieceNameList == null || pieceNameList.Count == 0)
                 return;
 
+            ScrollPieces(pieceNameList, movement);
+            LoadPiecesIntoPictureBox();
+        }
+
+        /// <summary>
+        /// Previous infinite wrap-scrolling for piece browser, could bring this back optionally
+        /// </summary>
+        private void ScrollPiecesInfinitely(List<string> pieceNameList, int movement)
+        {
             // Pass to correct piece index
             pieceStartIndex = (pieceStartIndex + movement) % pieceNameList.Count;
             // ensure that PieceStartIndex is positive
             pieceStartIndex = (pieceStartIndex + pieceNameList.Count) % pieceNameList.Count;
+        }
 
-            LoadPiecesIntoPictureBox();
+        /// <summary>
+        /// Scroll the piece browser left and right, stopping at the first and last pieces in each list
+        /// </summary>
+        private void ScrollPieces(List<string> pieceNameList, int movement)
+        {
+            if (pieceNameList == null || pieceNameList.Count == 0)
+                return;
+
+            if (pieceNameList.Count <= picPieceList.Count)
+            {
+                pieceStartIndex = 0; // No scrolling needed
+                LoadPiecesIntoPictureBox();
+                return;
+            }
+
+            int newIndex = pieceStartIndex + movement;
+
+            if (newIndex < 0)
+                newIndex = 0; // Stop scrolling left
+
+            int maxIndex = pieceNameList.Count - picPieceList.Count;
+            if (newIndex > maxIndex)
+                newIndex = maxIndex; // Stop scrolling right
+
+            if (newIndex != pieceStartIndex)
+            {
+                pieceStartIndex = newIndex;
+                LoadPiecesIntoPictureBox();
+            }
         }
 
         /// <summary>
