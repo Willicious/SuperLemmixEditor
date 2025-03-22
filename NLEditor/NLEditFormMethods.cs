@@ -576,6 +576,8 @@ namespace NLEditor
             {
                 case DialogResult.Yes:
                     SaveLevel();
+                    if (!LevelValidator.validationPassed)
+                        return true;
                     break;
                 case DialogResult.Cancel:
                     return true;
@@ -606,6 +608,11 @@ namespace NLEditor
         /// </summary>
         private void SaveLevel(bool isPlaytest = false)
         {
+            ValidateLevel(true);
+
+            if (!LevelValidator.validationPassed)
+                return;
+
             if (CurLevel.FilePathToSave == null)
             {
                 SaveLevelAsNewFile();
@@ -771,11 +778,11 @@ namespace NLEditor
         /// <summary>
         /// Creates a new LevelValidator, runs the validation and displays the result in a new form.
         /// </summary>
-        private void ValidateLevel()
+        private void ValidateLevel(bool openedViaSave)
         {
             ReadLevelInfoFromForm(true);
             var validator = new LevelValidator(CurLevel);
-            validator.Validate();
+            validator.Validate(false, openedViaSave);
         }
 
 
@@ -1937,7 +1944,7 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeySaveLevelAs, () => SaveLevelAsNewFile());
             AddHotkey(HotkeyConfig.HotkeySaveLevelAsImage, () => SaveLevelAsImage());
             AddHotkey(HotkeyConfig.HotkeyPlaytestLevel, () => PlaytestLevel());
-            AddHotkey(HotkeyConfig.HotkeyValidateLevel, () => ValidateLevel());
+            AddHotkey(HotkeyConfig.HotkeyValidateLevel, () => ValidateLevel(false));
             AddHotkey(HotkeyConfig.HotkeyCleanseLevels, () => ShowCleanseLevelsDialog());
             AddHotkey(HotkeyConfig.HotkeyToggleClearPhysics, () => ToggleClearPhysics());
             AddHotkey(HotkeyConfig.HotkeyToggleTerrain, () => ToggleTerrain());

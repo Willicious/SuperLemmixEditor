@@ -30,17 +30,28 @@ namespace NLEditor
 
         Form validatorForm;
         TextBox txtIssuesList;
-        Button butResolveIssues;
+        Button butFixIssues;
+        Button butClose;
+
+        public static bool validationPassed = true;
 
         /// <summary>
         /// Finds all issues in a level, creates a new form and displays the issues there.
         /// </summary>
-        public void Validate(bool reuseValidatorForm = false)
+        public void Validate(bool reuseValidatorForm, bool openedViaSave)
         {
             FindIssues();
+
+            if ((issuesList.Count == 0) && openedViaSave)
+            {
+                validationPassed = true;
+                return;
+            }
+
             if (!reuseValidatorForm)
-                CreateValidatorForm();
-            DisplayValidationResult();
+                CreateValidatorForm(openedViaSave);
+            
+            DisplayValidationResult();  
         }
 
         /// <summary>
@@ -231,7 +242,7 @@ namespace NLEditor
         /// <summary>
         /// Creates a new form to display the validation result.
         /// </summary>
-        private void CreateValidatorForm()
+        private void CreateValidatorForm(bool openedViaSave)
         {
             validatorForm = new Form();
             validatorForm.Width = 500;
@@ -252,18 +263,30 @@ namespace NLEditor
             txtIssuesList.ScrollBars = ScrollBars.Vertical;
             txtIssuesList.Text = "";
             txtIssuesList.ReadOnly = true;
+            txtIssuesList.TabStop = false;
             validatorForm.Controls.Add(txtIssuesList);
 
-            butResolveIssues = new Button();
-            butResolveIssues.Top = 212;
-            butResolveIssues.Left = 6;
-            butResolveIssues.Width = 482;
-            butResolveIssues.Height = 60;
-            butResolveIssues.Text = "Delete pieces outside level";
-            butResolveIssues.Click += new EventHandler(butResolveIssues_Click);
-            validatorForm.Controls.Add(butResolveIssues);
+            butFixIssues = new Button();
+            butFixIssues.Top = 212;
+            butFixIssues.Left = 6;
+            butFixIssues.Width = 220;
+            butFixIssues.Height = 40;
+            butFixIssues.Text = "Edit Level";
+            butFixIssues.Click += new EventHandler(butFixIssues_Click);
+            validatorForm.Controls.Add(butFixIssues);
 
-            validatorForm.Show();
+            String butCloseCaption = openedViaSave ? "Save Anyway" : "Close";
+            butClose = new Button();
+            butClose.Top = 212;
+            butClose.Left = butFixIssues.Left + butFixIssues.Width + 20;
+            butClose.Width = 220;
+            butClose.Height = 40;
+            butClose.Text = butCloseCaption;
+            butClose.Click += new EventHandler(butClose_Click);
+            validatorForm.Controls.Add(butClose);
+
+            DisplayValidationResult();
+            validatorForm.ShowDialog();
         }
 
         /// <summary>
@@ -274,7 +297,8 @@ namespace NLEditor
         private void ValidatorForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             txtIssuesList.Dispose();
-            butResolveIssues.Dispose();
+            butFixIssues.Dispose();
+            butClose.Dispose();
         }
 
 
@@ -288,14 +312,15 @@ namespace NLEditor
             if (issuesList == null || issuesList.Count == 0)
             {
                 txtIssuesList.Text = "No issues found.";
-                butResolveIssues.Enabled = false;
+                butFixIssues.Enabled = false;
             }
             else
             {
                 txtIssuesList.Text = string.Join(C.NewLine, issuesList);
-                butResolveIssues.Enabled = issuesList[0].StartsWith("Piece outside");
+                if (issuesList[0].StartsWith("Piece outside"))
+                    butFixIssues.Text = "Delete Pieces Outside Level";
+                butFixIssues.Enabled = true;
             }
-
         }
 
         /// <summary>
@@ -303,12 +328,34 @@ namespace NLEditor
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void butResolveIssues_Click(object sender, EventArgs e)
+        private void butFixIssues_Click(object sender, EventArgs e)
         {
+            if (butFixIssues.Text == "Edit Level")
+            {
+                validationPassed = false;
+                validatorForm.Close();
+                return;
+            }
+
             RemovePiecesOutsideBoundary();
-            Validate(true);
+            Validate(true, false);
+
+            if (issuesList.Count <= 0)
+            {
+                validationPassed = true;
+                validatorForm.Close();
+                return;
+            }
+
+            butFixIssues.Enabled = true;
+            butFixIssues.Text = "Edit Level";
         }
 
+        private void butClose_Click(object sender, EventArgs e)
+        {
+            validationPassed = true; // user chose to save anyway, treat as validation passed
+            validatorForm.Close();
+        }
 
         /// <summary>
         /// Removes all pieces that do not intersect the level boundaries.
@@ -319,6 +366,5 @@ namespace NLEditor
             level.TerrainList.RemoveAll(ter => !ter.ImageRectangle.IntersectsWith(levelRect));
             level.GadgetList.RemoveAll(obj => !obj.ImageRectangle.IntersectsWith(levelRect));
         }
-
     }
 }
