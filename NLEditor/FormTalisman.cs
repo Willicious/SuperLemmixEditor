@@ -182,7 +182,11 @@ namespace NLEditor
             }
             else if (cmbRequirementSkill.Visible)
             {
-                value = cmbRequirementSkill.SelectedIndex;
+                string selectedSkill = cmbRequirementSkill.SelectedItem?.ToString();
+                if (!string.IsNullOrEmpty(selectedSkill))
+                {
+                    value = C.TalismanSkills.IndexOf(selectedSkill); // Get the correct index from full list
+                }
             }
             talisman.Requirements[newReq] = value;
 
