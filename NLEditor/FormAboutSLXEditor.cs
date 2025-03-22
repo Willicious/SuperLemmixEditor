@@ -41,7 +41,7 @@ namespace NLEditor
             lblPreviousUpdates.Left = GetCenter(lblPreviousUpdates);
             WritePreviousUpdatesText();
 
-            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + ")";
+            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + "-A)";
             lblSuperLemmixEditor.Top = richTextBox_PreviousUpdates.Bottom + padding;
             lblSuperLemmixEditor.Left = GetCenter(lblSuperLemmixEditor);
 
@@ -104,8 +104,40 @@ namespace NLEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
+            // Version 2.8.7-B features
+            WriteBoldText(richTextBox, "Version 2.8.7-A\n");
+            WriteBoldText(richTextBox, "• Bugfix - Piece Search");
+            richTextBox.AppendText(" - Working directory is now always set to that of the .exe, so pieces will always be correctly found even if opening the Editor via a .nxlv level file\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - Level Validation");
+            richTextBox.AppendText(" -  Validate Level now shows correct skill limit amount depending on Editor mode (10 for NeoLemmix, 14 for SuperLemmix)\n");
+
+            WriteBoldText(richTextBox, "• Level Validation");
+            richTextBox.AppendText(" - Level Validation is now called when attempting a level save. The dialog is shown if there are any issues, and the level can then be edited to fix the issues or saved anyway\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - UI");
+            richTextBox.AppendText(" - Scroll wheel can be used to change items when mousing over a dropdown list (without clicking)\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - UI");
+            richTextBox.AppendText(" - It's no longer possible to type into dropdown lists (to prevent accidental typing). However, it's now possible to use A-Z keys to quickly jump to a style/author when the list is active\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - Piece Browser");
+            richTextBox.AppendText(" - 'Steel' tab now works correctly when pieces are clicked (apologies for the oversight!)\n");
+
+            WriteBoldText(richTextBox, "• Piece Browser");
+            richTextBox.AppendText(" - Piece Browser no longer scrolls infinitely, instead stopping at the lowest/highest pieces in each tab\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - Hotkeys");
+            richTextBox.AppendText(" - Select/Drag pieces is once again hard-coded to Left Mouse Button, fixing an error where pieces weren't being selected properly if using the Ctrl modifier\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - Hotkey Configuration Dialog");
+            richTextBox.AppendText(" - UI now updates correctly when editing Mouse Button keys\n");
+
+            WriteBoldText(richTextBox, "• Talisman Dialog");
+            richTextBox.AppendText(" - Renamed 'Add Requirement' button to 'Add This Requirement to List' for further clarity\n");
+
             // Version 2.8.7 features
-            WriteBoldText(richTextBox, "Version 2.8.7\n");
+            WriteBoldText(richTextBox, "\nVersion 2.8.7\n");
             WriteBoldText(richTextBox, "• New Objects Support");
             richTextBox.AppendText(" - Added support for NeoLemmix 12.14 new objects (portal, (de)assigner, (de)neutralizer)\n");
 
