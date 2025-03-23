@@ -1500,6 +1500,7 @@ namespace NLEditor
                 OpenLevelArrangerWindow();
 
             SetMetaDataPanel();
+            combo_MainStyle.Focus(); // Allows combos to be interacted with from the start
         }
 
         private void whatsNewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1535,19 +1536,6 @@ namespace NLEditor
         private void expandAllTabsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToggleExpandedTabs();
-        }
-
-        private void combo_MouseEnter(object sender, EventArgs e)
-        {
-            if (sender is ComboBox combo)
-            {
-                combo.Focus();
-            }
-        }
-
-        private void combo_MouseLeave(object sender, EventArgs e)
-        {
-            PullFocusFromTextInputs();
         }
     }
 }
