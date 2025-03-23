@@ -755,6 +755,7 @@
             this.combo_PieceStyle.SelectedIndexChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
             this.combo_PieceStyle.TextChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
             this.combo_PieceStyle.Leave += new System.EventHandler(this.combo_PieceStyle_Leave);
+            this.combo_PieceStyle.MouseCaptureChanged += new System.EventHandler(this.combo_MouseCaptureChanged);
             // 
             // picPiece0
             // 
@@ -1079,6 +1080,7 @@
             this.combo_Music.Size = new System.Drawing.Size(302, 28);
             this.combo_Music.TabIndex = 5;
             this.combo_Music.Leave += new System.EventHandler(this.textbox_Leave);
+            this.combo_Music.MouseCaptureChanged += new System.EventHandler(this.combo_MouseCaptureChanged);
             // 
             // num_Lvl_TimeSec
             // 
@@ -1357,9 +1359,10 @@
             this.combo_MainStyle.Name = "combo_MainStyle";
             this.combo_MainStyle.Size = new System.Drawing.Size(302, 28);
             this.combo_MainStyle.TabIndex = 7;
-            this.combo_MainStyle.TextChanged += new System.EventHandler(this.combo_MainStyle_TextChanged);
             this.combo_MainStyle.SelectedIndexChanged += new System.EventHandler(this.combo_MainStyle_TextChanged);
+            this.combo_MainStyle.TextChanged += new System.EventHandler(this.combo_MainStyle_TextChanged);
             this.combo_MainStyle.Leave += new System.EventHandler(this.textbox_Leave);
+            this.combo_MainStyle.MouseCaptureChanged += new System.EventHandler(this.combo_MouseCaptureChanged);
             // 
             // lbl_Global_Style
             // 
