@@ -203,7 +203,10 @@ namespace NLEditor
                 int NumPreplacedLems = level.GadgetList.Count(obj => obj.ObjType == C.OBJ.LEMMING);
                 if (level.NumLems > NumPreplacedLems)
                 {
-                    issuesList.Add("Missing object: Hatch.");
+                    String preplacedLemWarning = (NumPreplacedLems > 0)
+                        ? " (Lemming count is higher than the number of pre-placed lemmings)."
+                        : "";
+                    issuesList.Add("Missing object: Hatch." + preplacedLemWarning);
                 }
             }
 
