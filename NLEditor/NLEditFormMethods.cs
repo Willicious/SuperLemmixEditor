@@ -1951,11 +1951,16 @@ namespace NLEditor
 
         private void SetHotkeys()
         {
-            // Load hotkeys
+            HotkeyConfig.GetDefaultHotkeys();
+
             if (File.Exists(C.AppPathHotkeys))
+            {
                 HotkeyConfig.LoadHotkeysFromIniFile();
-            else
-                HotkeyConfig.GetDefaultHotkeys();
+
+                // Merge player hotkeys with any newly-added defaults
+                if (HotkeyConfig.playerHotkeysLoaded)
+                    HotkeyConfig.SaveHotkeysToIniFile();
+            }
 
             InitializeHotkeyActions();
             UpdateMenuShortcutKeyDisplayStrings();

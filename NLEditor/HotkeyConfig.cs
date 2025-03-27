@@ -129,6 +129,7 @@ namespace NLEditor
         public static readonly List<ListViewItem> mouseMandatoryItems = new List<ListViewItem>();
 
         public static bool defaultHotkeysLoaded = false;
+        public static bool playerHotkeysLoaded = false;
         public static string FormatHotkeyString(Keys hotkey)
         {
             List<string> hotkeyParts = new List<string>();
@@ -321,6 +322,7 @@ namespace NLEditor
                 
                 GetDefaultHotkeys();
                 defaultHotkeysLoaded = true;
+                playerHotkeysLoaded = false;
                 
                 return;
             }
@@ -517,6 +519,7 @@ namespace NLEditor
                     HotkeyCloseEditor = ParseHotkeyString(line.Substring("HotkeyCloseEditor=".Length));
 
                 HandleHotkeyBackwardsCompatibility(line);
+                playerHotkeysLoaded = true;
             }
         }
 
