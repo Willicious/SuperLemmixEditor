@@ -851,6 +851,18 @@ namespace NLEditor
                     case "HotkeyDuplicate":
                         HotkeyConfig.HotkeyDuplicate = parsedKey;
                         break;
+                    case "HotkeyDuplicateUp":
+                        HotkeyConfig.HotkeyDuplicateUp = parsedKey;
+                        break;
+                    case "HotkeyDuplicateDown":
+                        HotkeyConfig.HotkeyDuplicateDown = parsedKey;
+                        break;
+                    case "HotkeyDuplicateLeft":
+                        HotkeyConfig.HotkeyDuplicateLeft = parsedKey;
+                        break;
+                    case "HotkeyDuplicateRight":
+                        HotkeyConfig.HotkeyDuplicateRight = parsedKey;
+                        break;
                     case "HotkeyDelete":
                         HotkeyConfig.HotkeyDelete = parsedKey;
                         break;

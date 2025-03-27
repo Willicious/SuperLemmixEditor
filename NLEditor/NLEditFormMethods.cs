@@ -1567,15 +1567,50 @@ namespace NLEditor
         /// <summary>
         /// Duplicates all selected pieces and displays the result.
         /// </summary>
-        private void DuplicateSelectedPieces()
+        private void DuplicateSelectedPieces(C.DIR? direction = null)
         {
             if (CurLevel.SelectionList().Count == 0)
                 return;
+
             var selection = CurLevel.SelectionList();
+
             CurLevel.UnselectAll();
             CurLevel.AddMultiplePieces(selection);
+
+            if (direction.HasValue)
+            {
+                C.DIR dir = direction.Value;
+                CurLevel.MovePieces(dir, GetDuplicationMoveAmount(dir, selection), gridSize);
+            }
+
             SaveChangesToOldLevelList();
             pic_Level.Image = curRenderer.CreateLevelImage();
+        }
+
+        /// <summary>
+        /// Gets the movement amount for duplication based on the width/height of the selection (depending on direction)
+        /// </summary>
+        private int GetDuplicationMoveAmount(C.DIR direction, List<LevelPiece> selection)
+        {
+            if (selection == null || selection.Count == 0)
+                return 0;
+
+            int amountMin = 0;
+            int amountMax = 0;
+
+            if (direction == C.DIR.E || direction == C.DIR.W)
+            {
+                amountMin = selection.Min(piece => piece.PosX);
+                amountMax = selection.Max(piece => piece.PosX + piece.Width);
+            }
+
+            if (direction == C.DIR.N || direction == C.DIR.S)
+            {
+                amountMin = selection.Min(piece => piece.PosY);
+                amountMax = selection.Max(piece => piece.PosY + piece.Height);
+            }
+
+            return amountMax - amountMin;
         }
 
         /// <summary>
@@ -2001,6 +2036,10 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyPaste, () => AddFromClipboard(true));
             AddHotkey(HotkeyConfig.HotkeyPasteInPlace, () => AddFromClipboard(false));
             AddHotkey(HotkeyConfig.HotkeyDuplicate, () => DuplicateSelectedPieces());
+            AddHotkey(HotkeyConfig.HotkeyDuplicateUp, () => DuplicateSelectedPieces(C.DIR.N));
+            AddHotkey(HotkeyConfig.HotkeyDuplicateDown, () => DuplicateSelectedPieces(C.DIR.S));
+            AddHotkey(HotkeyConfig.HotkeyDuplicateLeft, () => DuplicateSelectedPieces(C.DIR.W));
+            AddHotkey(HotkeyConfig.HotkeyDuplicateRight, () => DuplicateSelectedPieces(C.DIR.E));
             AddHotkey(HotkeyConfig.HotkeyDelete, () => DeleteSelectedPieces(false));
             AddHotkey(HotkeyConfig.HotkeyMoveUp, () => HandleMovement(C.DIR.N, 1));
             AddHotkey(HotkeyConfig.HotkeyMoveDown, () => HandleMovement(C.DIR.S, 1));
