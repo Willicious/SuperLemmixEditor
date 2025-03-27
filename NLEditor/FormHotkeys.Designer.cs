@@ -233,17 +233,17 @@
             "Move Right (1 pixel)",
             "HotkeyMoveRight"}, -1);
             System.Windows.Forms.ListViewItem listViewItem69 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Move Up (8 pixels)",
-            "HotkeyMove8Up"}, -1);
+            "Move Up (Grid Amount)",
+            "HotkeyGridMoveUp"}, -1);
             System.Windows.Forms.ListViewItem listViewItem70 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Move Down (8 pixels)",
-            "HotkeyMove8Down"}, -1);
+            "Move Down (Grid Amount)",
+            "HotkeyGridMoveDown"}, -1);
             System.Windows.Forms.ListViewItem listViewItem71 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Move Left (8 pixels)",
-            "HotkeyMove8Left"}, -1);
+            "Move Left (Grid Amount)",
+            "HotkeyGridMoveLeft"}, -1);
             System.Windows.Forms.ListViewItem listViewItem72 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Move Right (8 pixels)",
-            "HotkeyMove8Right"}, -1);
+            "Move Right (Grid Amount)",
+            "HotkeyGridMoveRight"}, -1);
             System.Windows.Forms.ListViewItem listViewItem73 = new System.Windows.Forms.ListViewItem(new string[] {
             "Move Up (Custom - see Settings)",
             "HotkeyCustomMoveUp"}, -1);

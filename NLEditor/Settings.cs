@@ -64,6 +64,7 @@ namespace NLEditor
 
         private int gridSize;
         public int GridSize { get { return UseGridForPieces ? gridSize : 1; } }
+        public int GridMoveAmount { get { return gridSize; } }
         public Color GridColor { get; private set; }
 
         public int customMove;

@@ -2006,10 +2006,10 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyMoveDown, () => HandleMovement(C.DIR.S, 1));
             AddHotkey(HotkeyConfig.HotkeyMoveLeft, () => HandleMovement(C.DIR.W, 1));
             AddHotkey(HotkeyConfig.HotkeyMoveRight, () => HandleMovement(C.DIR.E, 1));
-            AddHotkey(HotkeyConfig.HotkeyMove8Up, () => HandleMovement(C.DIR.N, 8));
-            AddHotkey(HotkeyConfig.HotkeyMove8Down, () => HandleMovement(C.DIR.S, 8));
-            AddHotkey(HotkeyConfig.HotkeyMove8Left, () => HandleMovement(C.DIR.W, 8));
-            AddHotkey(HotkeyConfig.HotkeyMove8Right, () => HandleMovement(C.DIR.E, 8));
+            AddHotkey(HotkeyConfig.HotkeyGridMoveUp, () => HandleMovement(C.DIR.N, gridMoveAmount));
+            AddHotkey(HotkeyConfig.HotkeyGridMoveDown, () => HandleMovement(C.DIR.S, gridMoveAmount));
+            AddHotkey(HotkeyConfig.HotkeyGridMoveLeft, () => HandleMovement(C.DIR.W, gridMoveAmount));
+            AddHotkey(HotkeyConfig.HotkeyGridMoveRight, () => HandleMovement(C.DIR.E, gridMoveAmount));
             AddHotkey(HotkeyConfig.HotkeyCustomMoveUp, () => HandleMovement(C.DIR.N, customMove));
             AddHotkey(HotkeyConfig.HotkeyCustomMoveDown, () => HandleMovement(C.DIR.S, customMove));
             AddHotkey(HotkeyConfig.HotkeyCustomMoveLeft, () => HandleMovement(C.DIR.W, customMove));

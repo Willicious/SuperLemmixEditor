@@ -178,6 +178,7 @@ namespace NLEditor
         string targetFolder;
 
         int gridSize => curSettings.GridSize;
+        int gridMoveAmount => curSettings.GridMoveAmount;
         int customMove => curSettings.CustomMove;
 
         Stopwatch stopWatchKey;
