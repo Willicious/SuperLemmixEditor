@@ -73,6 +73,10 @@ namespace NLEditor
         public static Keys HotkeyPaste;
         public static Keys HotkeyPasteInPlace;
         public static Keys HotkeyDuplicate;
+        public static Keys HotkeyDuplicateUp;
+        public static Keys HotkeyDuplicateDown;
+        public static Keys HotkeyDuplicateLeft;
+        public static Keys HotkeyDuplicateRight;
         public static Keys HotkeyDelete;
         public static Keys HotkeyMoveUp;
         public static Keys HotkeyMoveDown;
@@ -449,6 +453,14 @@ namespace NLEditor
                     HotkeyPasteInPlace = ParseHotkeyString(line.Substring("HotkeyPasteInPlace=".Length));
                 if (line.StartsWith("HotkeyDuplicate="))
                     HotkeyDuplicate = ParseHotkeyString(line.Substring("HotkeyDuplicate=".Length));
+                if (line.StartsWith("HotkeyDuplicateUp="))
+                    HotkeyDuplicateUp = ParseHotkeyString(line.Substring("HotkeyDuplicateUp=".Length));
+                if (line.StartsWith("HotkeyDuplicateDown="))
+                    HotkeyDuplicateDown = ParseHotkeyString(line.Substring("HotkeyDuplicateDown=".Length));
+                if (line.StartsWith("HotkeyDuplicateLeft="))
+                    HotkeyDuplicateLeft = ParseHotkeyString(line.Substring("HotkeyDuplicateLeft=".Length));
+                if (line.StartsWith("HotkeyDuplicateRight="))
+                    HotkeyDuplicateRight = ParseHotkeyString(line.Substring("HotkeyDuplicateRight=".Length));
                 if (line.StartsWith("HotkeyDelete="))
                     HotkeyDelete = ParseHotkeyString(line.Substring("HotkeyDelete=".Length));
                 if (line.StartsWith("HotkeyMoveUp="))
@@ -588,6 +600,10 @@ namespace NLEditor
                 $"HotkeyPaste={FormatHotkeyString(HotkeyPaste)}",
                 $"HotkeyPasteInPlace={FormatHotkeyString(HotkeyPasteInPlace)}",
                 $"HotkeyDuplicate={FormatHotkeyString(HotkeyDuplicate)}",
+                $"HotkeyDuplicateUp={FormatHotkeyString(HotkeyDuplicateUp)}",
+                $"HotkeyDuplicateDown={FormatHotkeyString(HotkeyDuplicateDown)}",
+                $"HotkeyDuplicateLeft={FormatHotkeyString(HotkeyDuplicateLeft)}",
+                $"HotkeyDuplicateRight={FormatHotkeyString(HotkeyDuplicateRight)}",
                 $"HotkeyDelete={FormatHotkeyString(HotkeyDelete)}",
                 $"HotkeyMoveUp={FormatHotkeyString(HotkeyMoveUp)}",
                 $"HotkeyMoveDown={FormatHotkeyString(HotkeyMoveDown)}",
@@ -691,6 +707,10 @@ namespace NLEditor
             HotkeyPaste = Keys.Control | Keys.V;
             HotkeyPasteInPlace = Keys.Control | Keys.Shift | Keys.V;
             HotkeyDuplicate = Keys.D;
+            HotkeyDuplicateUp = Keys.Control | Keys.Alt | Keys.Up;
+            HotkeyDuplicateDown = Keys.Control | Keys.Alt | Keys.Down;
+            HotkeyDuplicateLeft = Keys.Control | Keys.Alt | Keys.Left;
+            HotkeyDuplicateRight = Keys.Control | Keys.Alt | Keys.Right;
             HotkeyDelete = Keys.Delete;
             HotkeyMoveUp = Keys.Up;
             HotkeyMoveDown = Keys.Down;
@@ -785,6 +805,10 @@ namespace NLEditor
             HotkeyPaste = Keys.Control | Keys.V;
             HotkeyPasteInPlace = Keys.Control | Keys.Shift | Keys.V;
             HotkeyDuplicate = Keys.C;
+            HotkeyDuplicateUp = Keys.Control | Keys.Alt | Keys.Up;
+            HotkeyDuplicateDown = Keys.Control | Keys.Alt | Keys.Down;
+            HotkeyDuplicateLeft = Keys.Control | Keys.Alt | Keys.Left;
+            HotkeyDuplicateRight = Keys.Control | Keys.Alt | Keys.Right;
             HotkeyDelete = Keys.Delete;
             HotkeyMoveUp = Keys.Up;
             HotkeyMoveDown = Keys.Down;
