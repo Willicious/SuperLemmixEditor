@@ -78,10 +78,10 @@ namespace NLEditor
         public static Keys HotkeyMoveDown;
         public static Keys HotkeyMoveLeft;
         public static Keys HotkeyMoveRight;
-        public static Keys HotkeyMove8Up;
-        public static Keys HotkeyMove8Down;
-        public static Keys HotkeyMove8Left;
-        public static Keys HotkeyMove8Right;
+        public static Keys HotkeyGridMoveUp;
+        public static Keys HotkeyGridMoveDown;
+        public static Keys HotkeyGridMoveLeft;
+        public static Keys HotkeyGridMoveRight;
         public static Keys HotkeyCustomMoveUp;
         public static Keys HotkeyCustomMoveDown;
         public static Keys HotkeyCustomMoveLeft;
@@ -459,14 +459,14 @@ namespace NLEditor
                     HotkeyMoveLeft = ParseHotkeyString(line.Substring("HotkeyMoveLeft=".Length));
                 if (line.StartsWith("HotkeyMoveRight="))
                     HotkeyMoveRight = ParseHotkeyString(line.Substring("HotkeyMoveRight=".Length));
-                if (line.StartsWith("HotkeyMove8Up="))
-                    HotkeyMove8Up = ParseHotkeyString(line.Substring("HotkeyMove8Up=".Length));
-                if (line.StartsWith("HotkeyMove8Down="))
-                    HotkeyMove8Down = ParseHotkeyString(line.Substring("HotkeyMove8Down=".Length));
-                if (line.StartsWith("HotkeyMove8Left="))
-                    HotkeyMove8Left = ParseHotkeyString(line.Substring("HotkeyMove8Left=".Length));
-                if (line.StartsWith("HotkeyMove8Right="))
-                    HotkeyMove8Right = ParseHotkeyString(line.Substring("HotkeyMove8Right=".Length));
+                if (line.StartsWith("HotkeyGridMoveUp="))
+                    HotkeyGridMoveUp = ParseHotkeyString(line.Substring("HotkeyGridMoveUp=".Length));
+                if (line.StartsWith("HotkeyGridMoveDown="))
+                    HotkeyGridMoveDown = ParseHotkeyString(line.Substring("HotkeyGridMoveDown=".Length));
+                if (line.StartsWith("HotkeyGridMoveLeft="))
+                    HotkeyGridMoveLeft = ParseHotkeyString(line.Substring("HotkeyGridMoveLeft=".Length));
+                if (line.StartsWith("HotkeyGridMoveRight="))
+                    HotkeyGridMoveRight = ParseHotkeyString(line.Substring("HotkeyGridMoveRight=".Length));
                 if (line.StartsWith("HotkeyCustomMoveUp="))
                     HotkeyCustomMoveUp = ParseHotkeyString(line.Substring("HotkeyCustomMoveUp=".Length));
                 if (line.StartsWith("HotkeyCustomMoveDown="))
@@ -503,7 +503,21 @@ namespace NLEditor
                     HotkeyDrawFirst = ParseHotkeyString(line.Substring("HotkeyDrawFirst=".Length));
                 if (line.StartsWith("HotkeyCloseEditor="))
                     HotkeyCloseEditor = ParseHotkeyString(line.Substring("HotkeyCloseEditor=".Length));
+
+                HandleHotkeyBackwardsCompatibility(line);
             }
+        }
+
+        private static void HandleHotkeyBackwardsCompatibility(string line)
+        {
+            if (line.StartsWith("HotkeyMove8Up=") && HotkeyGridMoveUp == Keys.None)
+                HotkeyGridMoveUp = ParseHotkeyString(line.Substring("HotkeyMove8Up=".Length));
+            if (line.StartsWith("HotkeyMove8Down=") && HotkeyGridMoveDown == Keys.None)
+                HotkeyGridMoveDown = ParseHotkeyString(line.Substring("HotkeyMove8Down=".Length));
+            if (line.StartsWith("HotkeyMove8Left=") && HotkeyGridMoveLeft == Keys.None)
+                HotkeyGridMoveLeft = ParseHotkeyString(line.Substring("HotkeyMove8Left=".Length));
+            if (line.StartsWith("HotkeyMove8Right=") && HotkeyGridMoveRight == Keys.None)
+                HotkeyGridMoveRight = ParseHotkeyString(line.Substring("HotkeyMove8Right=".Length));
         }
 
         public static void SaveHotkeysToIniFile()
@@ -579,10 +593,10 @@ namespace NLEditor
                 $"HotkeyMoveDown={FormatHotkeyString(HotkeyMoveDown)}",
                 $"HotkeyMoveLeft={FormatHotkeyString(HotkeyMoveLeft)}",
                 $"HotkeyMoveRight={FormatHotkeyString(HotkeyMoveRight)}",
-                $"HotkeyMove8Up={FormatHotkeyString(HotkeyMove8Up)}",
-                $"HotkeyMove8Down={FormatHotkeyString(HotkeyMove8Down)}",
-                $"HotkeyMove8Left={FormatHotkeyString(HotkeyMove8Left)}",
-                $"HotkeyMove8Right={FormatHotkeyString(HotkeyMove8Right)}",
+                $"HotkeyGridMoveUp={FormatHotkeyString(HotkeyGridMoveUp)}",
+                $"HotkeyGridMoveDown={FormatHotkeyString(HotkeyGridMoveDown)}",
+                $"HotkeyGridMoveLeft={FormatHotkeyString(HotkeyGridMoveLeft)}",
+                $"HotkeyGridMoveRight={FormatHotkeyString(HotkeyGridMoveRight)}",
                 $"HotkeyCustomMoveUp={FormatHotkeyString(HotkeyCustomMoveUp)}",
                 $"HotkeyCustomMoveDown={FormatHotkeyString(HotkeyCustomMoveDown)}",
                 $"HotkeyCustomMoveLeft={FormatHotkeyString(HotkeyCustomMoveLeft)}",
@@ -682,10 +696,10 @@ namespace NLEditor
             HotkeyMoveDown = Keys.Down;
             HotkeyMoveLeft = Keys.Left;
             HotkeyMoveRight = Keys.Right;
-            HotkeyMove8Up = Keys.Control | Keys.Up;
-            HotkeyMove8Down = Keys.Control | Keys.Down;
-            HotkeyMove8Left = Keys.Control | Keys.Left;
-            HotkeyMove8Right = Keys.Control | Keys.Right;
+            HotkeyGridMoveUp = Keys.Control | Keys.Up;
+            HotkeyGridMoveDown = Keys.Control | Keys.Down;
+            HotkeyGridMoveLeft = Keys.Control | Keys.Left;
+            HotkeyGridMoveRight = Keys.Control | Keys.Right;
             HotkeyCustomMoveUp = Keys.Alt | Keys.Up;
             HotkeyCustomMoveDown = Keys.Alt | Keys.Down;
             HotkeyCustomMoveLeft = Keys.Alt | Keys.Left;
@@ -776,10 +790,10 @@ namespace NLEditor
             HotkeyMoveDown = Keys.Down;
             HotkeyMoveLeft = Keys.Left;
             HotkeyMoveRight = Keys.Right;
-            HotkeyMove8Up = Keys.Control | Keys.Up;
-            HotkeyMove8Down = Keys.Control | Keys.Down;
-            HotkeyMove8Left = Keys.Control | Keys.Left;
-            HotkeyMove8Right = Keys.Control | Keys.Right;
+            HotkeyGridMoveUp = Keys.Control | Keys.Up;
+            HotkeyGridMoveDown = Keys.Control | Keys.Down;
+            HotkeyGridMoveLeft = Keys.Control | Keys.Left;
+            HotkeyGridMoveRight = Keys.Control | Keys.Right;
             HotkeyCustomMoveUp = Keys.Alt | Keys.Up;
             HotkeyCustomMoveDown = Keys.Alt | Keys.Down;
             HotkeyCustomMoveLeft = Keys.Alt | Keys.Left;

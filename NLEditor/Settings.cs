@@ -63,7 +63,7 @@ namespace NLEditor
         public bool UseTooltipBotton => (NumTooltipBottonDisplay > 0);
 
         private int gridSize;
-        public int GridSize { get { return UseGridForPieces ? gridSize : 1; } }
+        public int GridSize { get { return gridSize; } }
         public Color GridColor { get; private set; }
 
         public int customMove;

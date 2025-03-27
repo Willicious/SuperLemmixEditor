@@ -866,17 +866,17 @@ namespace NLEditor
                     case "HotkeyMoveRight":
                         HotkeyConfig.HotkeyMoveRight = parsedKey;
                         break;
-                    case "HotkeyMove8Up":
-                        HotkeyConfig.HotkeyMove8Up = parsedKey;
+                    case "HotkeyGridMoveUp":
+                        HotkeyConfig.HotkeyGridMoveUp = parsedKey;
                         break;
-                    case "HotkeyMove8Down":
-                        HotkeyConfig.HotkeyMove8Down = parsedKey;
+                    case "HotkeyGridMoveDown":
+                        HotkeyConfig.HotkeyGridMoveDown = parsedKey;
                         break;
-                    case "HotkeyMove8Left":
-                        HotkeyConfig.HotkeyMove8Left = parsedKey;
+                    case "HotkeyGridMoveLeft":
+                        HotkeyConfig.HotkeyGridMoveLeft = parsedKey;
                         break;
-                    case "HotkeyMove8Right":
-                        HotkeyConfig.HotkeyMove8Right = parsedKey;
+                    case "HotkeyGridMoveRight":
+                        HotkeyConfig.HotkeyGridMoveRight = parsedKey;
                         break;
                     case "HotkeyCustomMoveUp":
                         HotkeyConfig.HotkeyCustomMoveUp = parsedKey;
