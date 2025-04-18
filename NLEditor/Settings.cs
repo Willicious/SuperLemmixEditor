@@ -56,6 +56,7 @@ namespace NLEditor
 
         public EditorMode CurrentEditorMode { get; private set; }
         public PieceBrowserMode CurrentPieceBrowserMode { get; private set; }
+        public bool InfiniteScrolling { get; private set; }
         public bool UseGridForPieces { get; private set; }
         public bool Autosave { get; private set; }
         public bool RemoveOldAutosaves { get; private set; }
@@ -83,6 +84,7 @@ namespace NLEditor
         {
             CurrentEditorMode = EditorMode.Auto;
             CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
+            InfiniteScrolling = false;
             UseGridForPieces = false;
             gridSize = 8;
             GridColor = Color.MidnightBlue;
@@ -118,7 +120,7 @@ namespace NLEditor
 
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
-            settingsForm.ClientSize = new System.Drawing.Size(340, 460);
+            settingsForm.ClientSize = new System.Drawing.Size(340, 490);
             settingsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             settingsForm.MinimizeBox = false;
             settingsForm.MaximizeBox = false;
@@ -135,7 +137,7 @@ namespace NLEditor
             groupPieceBrowserMode.Top = 20;
             groupPieceBrowserMode.Left = columnLeft;
             groupPieceBrowserMode.Width = 280;
-            groupPieceBrowserMode.Height = 50;
+            groupPieceBrowserMode.Height = 80;
 
             RadioButton radShowPieceData = new RadioButton();
             radShowPieceData.Name = "radShowPieceData";
@@ -169,15 +171,26 @@ namespace NLEditor
             radShowPiecesOnly.Left = groupBoxColumnLeft + radShowPieceData.Width + radShowPieceDescriptions.Width;
             radShowPiecesOnly.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
 
+            CheckBox checkInfiniteScrolling = new CheckBox();
+            checkInfiniteScrolling.Name = "checkInfiniteScrolling";
+            checkInfiniteScrolling.AutoSize = true;
+            checkInfiniteScrolling.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkInfiniteScrolling.Checked = InfiniteScrolling;
+            checkInfiniteScrolling.Text = "Infinite Scrolling";
+            checkInfiniteScrolling.Top = groupBoxTop + 30;
+            checkInfiniteScrolling.Left = groupBoxColumnLeft;
+            checkInfiniteScrolling.CheckedChanged += new EventHandler(checkInfiniteScrolling_CheckedChanged);
+
             groupPieceBrowserMode.Controls.Add(radShowPiecesOnly);
             groupPieceBrowserMode.Controls.Add(radShowPieceDescriptions);
             groupPieceBrowserMode.Controls.Add(radShowPieceData);
+            groupPieceBrowserMode.Controls.Add(checkInfiniteScrolling);
 
             // ========================== Custom Move GroupBox =========================== //
 
             GroupBox groupCustomMove = new GroupBox();
             groupCustomMove.Text = "Custom move selected pieces";
-            groupCustomMove.Top = 90;
+            groupCustomMove.Top = 120;
             groupCustomMove.Left = columnLeft;
             groupCustomMove.Width = 280;
             groupCustomMove.Height = 50;
@@ -208,7 +221,7 @@ namespace NLEditor
 
             GroupBox groupSnapToGrid = new GroupBox();
             groupSnapToGrid.Text = "Snap Pieces to Grid";
-            groupSnapToGrid.Top = 160;
+            groupSnapToGrid.Top = 190;
             groupSnapToGrid.Left = columnLeft;
             groupSnapToGrid.Width = 280;
             groupSnapToGrid.Height = 80;
@@ -265,7 +278,7 @@ namespace NLEditor
 
             GroupBox groupAutosave = new GroupBox();
             groupAutosave.Text = "Autosave";
-            groupAutosave.Top = 260;
+            groupAutosave.Top = 290;
             groupAutosave.Left = columnLeft;
             groupAutosave.Width = 280;
             groupAutosave.Height = 80;
@@ -335,7 +348,7 @@ namespace NLEditor
 
             GroupBox groupEditorMode = new GroupBox();
             groupEditorMode.Text = "Editor Mode";
-            groupEditorMode.Top = 360;
+            groupEditorMode.Top = 390;
             groupEditorMode.Left = columnLeft;
             groupEditorMode.Width = 280;
             groupEditorMode.Height = 50;
@@ -379,14 +392,14 @@ namespace NLEditor
             btnSaveAndClose = new Button();
             btnSaveAndClose.Height = 30;
             btnSaveAndClose.Width = 110;
-            btnSaveAndClose.Top = 420;
+            btnSaveAndClose.Top = 450;
             btnSaveAndClose.Text = "Save And Close";
             btnSaveAndClose.Click += new EventHandler(BtnSaveAndClose_Click);
 
             btnCancel = new Button();
             btnCancel.Height = 30;
             btnCancel.Width = 70;
-            btnCancel.Top = 420;
+            btnCancel.Top = 450;
             btnCancel.Text = "Cancel";
             btnCancel.Click += new EventHandler(BtnCancel_Click);
             
@@ -480,6 +493,12 @@ namespace NLEditor
                 editorForm.LoadPiecesIntoPictureBox();
             }
 
+            settingChanged = true;
+        }
+
+        private void checkInfiniteScrolling_CheckedChanged(object sender, EventArgs e)
+        {
+            InfiniteScrolling = ((sender as CheckBox).CheckState == CheckState.Checked);
             settingChanged = true;
         }
 
@@ -713,6 +732,11 @@ namespace NLEditor
                                     CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
                                 break;
                             }
+                        case "INFINITESCROLLING":
+                            {
+                                InfiniteScrolling = (line.Text.Trim().ToUpper() == "TRUE");
+                                break;
+                            }
                         case "GRIDSIZE":
                             {
                                 UseGridForPieces = (line.Value != 1);
@@ -820,6 +844,7 @@ namespace NLEditor
                 settingsFile.WriteLine(" AutosaveLimit       " + KeepAutosaveCount.ToString());
                 settingsFile.WriteLine(" EditorMode          " + CurrentEditorMode.ToString());
                 settingsFile.WriteLine(" PieceBrowserMode    " + CurrentPieceBrowserMode.ToString());
+                settingsFile.WriteLine(" InfiniteScrolling   " + (InfiniteScrolling ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
                 settingsFile.WriteLine(" GridColor           " + (GridColor == Color.Empty ? "(Invisible)" : ColorTranslator.ToHtml(GridColor)));
                 settingsFile.WriteLine(" CustomMove          " + CustomMove.ToString());

@@ -924,7 +924,11 @@ namespace NLEditor
             if (pieceNameList == null || pieceNameList.Count == 0)
                 return;
 
-            ScrollPieces(pieceNameList, movement);
+            if (curSettings.InfiniteScrolling)
+                ScrollPiecesInfinitely(pieceNameList, movement);
+            else
+                ScrollPieces(pieceNameList, movement);
+
             LoadPiecesIntoPictureBox();
         }
 
