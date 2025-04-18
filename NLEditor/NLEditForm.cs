@@ -1539,8 +1539,8 @@ namespace NLEditor
             ToggleExpandedTabs();
         }
 
-        private void combo_MouseCaptureChanged(object sender, EventArgs e)
-        {
+        private void comboPieceStyle_MouseCaptureChanged(object sender, EventArgs e)
+        {            
             if (!combo_PieceStyle.DroppedDown)
             {
                 combo_PieceStyle.DroppedDown = true; // Keep it open until a selection is made
