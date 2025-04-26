@@ -41,7 +41,7 @@ namespace NLEditor
             lblPreviousUpdates.Left = GetCenter(lblPreviousUpdates);
             WritePreviousUpdatesText();
 
-            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + "-A)";
+            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + "-B)";
             lblSuperLemmixEditor.Top = richTextBox_PreviousUpdates.Bottom + padding;
             lblSuperLemmixEditor.Left = GetCenter(lblSuperLemmixEditor);
 
@@ -105,7 +105,27 @@ namespace NLEditor
             richTextBox.Clear();
 
             // Version 2.8.7-B features
-            WriteBoldText(richTextBox, "Version 2.8.7-A\n");
+            WriteBoldText(richTextBox, "Version 2.8.7-B\n");
+            WriteBoldText(richTextBox, "• Piece Browser");
+            richTextBox.AppendText(" - Added option to scroll piece browser infinitely (previous behaviour)\n");
+
+            WriteBoldText(richTextBox, "• Hotkeys - Duplicate Up/Down/Left/Right");
+            richTextBox.AppendText(" - Duplicate piece(s) to the immediate N/E/S/W of the selected piece(s)\n");
+
+            WriteBoldText(richTextBox, "• Hotkeys - Move by Grid Amount");
+            richTextBox.AppendText(" - Previous hotkeys to move pieces by 8px now move pieces by the specified grid size (backwards compatibility remaps existing hotkeys)\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - Talisman Creation");
+            richTextBox.AppendText(" - \"Using only the skill\" once again outputs the correct skill (index needed fixing following skill-specific talisman options update)\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - UI");
+            richTextBox.AppendText(" - Improved mouseover handling for dropdown lists\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - UI");
+            richTextBox.AppendText(" - Validate Level dialog now alerts the user that the lem count is higher than the pre-placed lem count (where relevant) rather than just showing \"missing hatch\"\n");
+
+            // Version 2.8.7 features
+            WriteBoldText(richTextBox, "\nVersion 2.8.7\n");
             WriteBoldText(richTextBox, "• Bugfix - Piece Search");
             richTextBox.AppendText(" - Working directory is now always set to that of the .exe, so pieces will always be correctly found even if opening the Editor via a .nxlv level file\n");
 
@@ -136,13 +156,8 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Talisman Dialog");
             richTextBox.AppendText(" - Renamed 'Add Requirement' button to 'Add This Requirement to List' for further clarity\n");
 
-            // Version 2.8.7 features
-            WriteBoldText(richTextBox, "\nVersion 2.8.7\n");
             WriteBoldText(richTextBox, "• New Objects Support");
             richTextBox.AppendText(" - Added support for NeoLemmix 12.14 new objects (portal, (de)assigner, (de)neutralizer)\n");
-
-            WriteBoldText(richTextBox, "• Piece Browser");
-            richTextBox.AppendText(" - Added 'Steel' tab for steel pieces\n");
 
             WriteBoldText(richTextBox, "• Piece Browser");
             richTextBox.AppendText(" - Piece data (size, resize/nine-slice info) and object descriptions are now (optionally) shown in Piece Browser\n");
@@ -167,6 +182,7 @@ namespace NLEditor
             richTextBox.AppendText(" - Adding a piece to the level via the Piece Search now focuses the Pieces tab\n");
 
             // Version 2.8.X features
+            WriteBoldText(richTextBox, "\nVersion 2.8.X\n");
             WriteBoldText(richTextBox, "• NeoLemmix Mode");
             richTextBox.AppendText(" - Added support for NeoLemmix CE\n");
 
