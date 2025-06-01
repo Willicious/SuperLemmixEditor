@@ -388,17 +388,26 @@ namespace NLEditor
 
         private void radBronze_CheckedChanged(object sender, EventArgs e)
         {
-            txtTalismanTitle.Text = "Bronze Talisman";
+            if (string.IsNullOrEmpty(talisman.Title) ||
+                talisman.Title == "Silver Talisman" ||
+                talisman.Title == "Gold Talisman")
+                txtTalismanTitle.Text = "Bronze Talisman";
         }
 
         private void radSilver_CheckedChanged(object sender, EventArgs e)
         {
-            txtTalismanTitle.Text = "Silver Talisman";
+            if (string.IsNullOrEmpty(talisman.Title) ||
+                talisman.Title == "Bronze Talisman" ||
+                talisman.Title == "Gold Talisman")
+                txtTalismanTitle.Text = "Silver Talisman";
         }
 
         private void radGold_CheckedChanged(object sender, EventArgs e)
         {
-            txtTalismanTitle.Text = "Gold Talisman";
+            if (string.IsNullOrEmpty(talisman.Title) ||
+                talisman.Title == "Bronze Talisman" ||
+                talisman.Title == "Silver Talisman")
+                txtTalismanTitle.Text = "Gold Talisman";
         }
 
         private void FormTalisman_KeyDown(object sender, KeyEventArgs e)
