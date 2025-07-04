@@ -608,10 +608,13 @@ namespace NLEditor
         /// </summary>
         private void SaveLevel(bool isPlaytest = false)
         {
-            ValidateLevel(true);
+            if (curSettings.ValidateWhenSaving)
+            {
+                ValidateLevel(true);
 
-            if (!LevelValidator.validationPassed)
-                return;
+                if (!LevelValidator.validationPassed)
+                    return;
+            }
 
             if (CurLevel.FilePathToSave == null)
             {

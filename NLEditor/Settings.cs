@@ -58,6 +58,7 @@ namespace NLEditor
         public PieceBrowserMode CurrentPieceBrowserMode { get; private set; }
         public bool InfiniteScrolling { get; private set; }
         public bool UseGridForPieces { get; private set; }
+        public bool ValidateWhenSaving { get; private set; }
         public bool Autosave { get; private set; }
         public bool RemoveOldAutosaves { get; private set; }
         public int NumTooltipBottonDisplay { get; set; }
@@ -89,6 +90,7 @@ namespace NLEditor
             gridSize = 8;
             GridColor = Color.MidnightBlue;
             customMove = 64;
+            ValidateWhenSaving = true;
             Autosave = true;
             autosaveFrequency = 5;
             RemoveOldAutosaves = true;
@@ -117,10 +119,11 @@ namespace NLEditor
             int groupBoxTop = 20;
             int groupBoxColumnLeft = 16;
             int groupBoxColumnRight = 208;
+            int buttonsTop = 480;
 
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
-            settingsForm.ClientSize = new System.Drawing.Size(340, 490);
+            settingsForm.ClientSize = new System.Drawing.Size(340, 520);
             settingsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             settingsForm.MinimizeBox = false;
             settingsForm.MaximizeBox = false;
@@ -129,12 +132,54 @@ namespace NLEditor
             settingsForm.MouseDown += new MouseEventHandler(settingsForm_MouseDown);
             settingsForm.FormClosing += new FormClosingEventHandler(settingsForm_FormClosing);
 
+            // ========================== Editor Mode GroupBox =========================== //
+
+            GroupBox groupEditorMode = new GroupBox();
+            groupEditorMode.Text = "Editor Mode";
+            groupEditorMode.Top = 20;
+            groupEditorMode.Left = columnLeft;
+            groupEditorMode.Width = 280;
+            groupEditorMode.Height = 50;
+
+            RadioButton radSuperLemmixMode = new RadioButton();
+            radSuperLemmixMode.Name = "radSuperLemmixMode";
+            radSuperLemmixMode.AutoSize = true;
+            radSuperLemmixMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radSuperLemmixMode.Checked = CurrentEditorMode == EditorMode.SuperLemmix;
+            radSuperLemmixMode.Text = "SuperLemmix";
+            radSuperLemmixMode.Top = groupBoxTop;
+            radSuperLemmixMode.Left = groupBoxColumnLeft;
+            radSuperLemmixMode.CheckedChanged += new EventHandler(EditorMode_CheckedChanged);
+
+            RadioButton radNeoLemmixMode = new RadioButton();
+            radNeoLemmixMode.Name = "radNeoLemmixMode";
+            radNeoLemmixMode.AutoSize = true;
+            radNeoLemmixMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radNeoLemmixMode.Checked = CurrentEditorMode == EditorMode.NeoLemmix;
+            radNeoLemmixMode.Text = "NeoLemmix";
+            radNeoLemmixMode.Top = groupBoxTop;
+            radNeoLemmixMode.Left = groupBoxColumnLeft + radSuperLemmixMode.Width;
+            radNeoLemmixMode.CheckedChanged += new EventHandler(EditorMode_CheckedChanged);
+
+            RadioButton radAutoMode = new RadioButton();
+            radAutoMode.Name = "radAutoMode";
+            radAutoMode.AutoSize = true;
+            radAutoMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radAutoMode.Checked = CurrentEditorMode == EditorMode.Auto;
+            radAutoMode.Text = "Auto";
+            radAutoMode.Top = groupBoxTop;
+            radAutoMode.Left = groupBoxColumnLeft + radSuperLemmixMode.Width + radNeoLemmixMode.Width - 10;
+            radAutoMode.CheckedChanged += new EventHandler(EditorMode_CheckedChanged);
+
+            groupEditorMode.Controls.Add(radSuperLemmixMode);
+            groupEditorMode.Controls.Add(radNeoLemmixMode);
+            groupEditorMode.Controls.Add(radAutoMode);
 
             // ======================= Piece Browser Mode GroupBox ======================== //
 
             GroupBox groupPieceBrowserMode = new GroupBox();
             groupPieceBrowserMode.Text = "Piece Browser Mode";
-            groupPieceBrowserMode.Top = 20;
+            groupPieceBrowserMode.Top = 90;
             groupPieceBrowserMode.Left = columnLeft;
             groupPieceBrowserMode.Width = 280;
             groupPieceBrowserMode.Height = 80;
@@ -190,7 +235,7 @@ namespace NLEditor
 
             GroupBox groupCustomMove = new GroupBox();
             groupCustomMove.Text = "Custom move selected pieces";
-            groupCustomMove.Top = 120;
+            groupCustomMove.Top = 190;
             groupCustomMove.Left = columnLeft;
             groupCustomMove.Width = 280;
             groupCustomMove.Height = 50;
@@ -221,7 +266,7 @@ namespace NLEditor
 
             GroupBox groupSnapToGrid = new GroupBox();
             groupSnapToGrid.Text = "Snap Pieces to Grid";
-            groupSnapToGrid.Top = 190;
+            groupSnapToGrid.Top = 260;
             groupSnapToGrid.Left = columnLeft;
             groupSnapToGrid.Width = 280;
             groupSnapToGrid.Height = 80;
@@ -274,14 +319,24 @@ namespace NLEditor
             groupSnapToGrid.Controls.Add(lblGridColor);
             groupSnapToGrid.Controls.Add(comboGridColor);
 
-            // =========================== Autosave GroupBox =========================== //
+            // =========================== Saving Options GroupBox =========================== //
 
-            GroupBox groupAutosave = new GroupBox();
-            groupAutosave.Text = "Autosave";
-            groupAutosave.Top = 290;
-            groupAutosave.Left = columnLeft;
-            groupAutosave.Width = 280;
-            groupAutosave.Height = 80;
+            GroupBox groupSavingOptions = new GroupBox();
+            groupSavingOptions.Text = "Level Saving Options";
+            groupSavingOptions.Top = 360;
+            groupSavingOptions.Left = columnLeft;
+            groupSavingOptions.Width = 280;
+            groupSavingOptions.Height = 110;
+
+            CheckBox checkValidateWhenSaving = new CheckBox();
+            checkValidateWhenSaving.Name = "checkValidateWhenSaving";
+            checkValidateWhenSaving.AutoSize = true;
+            checkValidateWhenSaving.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkValidateWhenSaving.Checked = ValidateWhenSaving;
+            checkValidateWhenSaving.Text = "Validate level when saving";
+            checkValidateWhenSaving.Top = groupBoxTop;
+            checkValidateWhenSaving.Left = groupBoxColumnLeft;
+            checkValidateWhenSaving.CheckedChanged += new EventHandler(checkValidateWhenSaving_CheckedChanged);
 
             CheckBox checkAutosave = new CheckBox();
             checkAutosave.Name = "checkAutosave";
@@ -289,7 +344,7 @@ namespace NLEditor
             checkAutosave.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             checkAutosave.Checked = Autosave;
             checkAutosave.Text = "Autosave level every";
-            checkAutosave.Top = groupBoxTop;
+            checkAutosave.Top = groupBoxTop + 30;
             checkAutosave.Left = groupBoxColumnLeft;
             checkAutosave.CheckedChanged += new EventHandler(checkAutosave_CheckedChanged);
 
@@ -310,7 +365,7 @@ namespace NLEditor
             Label lblMinutes = new Label();
             lblMinutes.Text = "minutes";
             lblMinutes.AutoSize = true;
-            lblMinutes.Top = groupBoxTop;
+            lblMinutes.Top = groupBoxTop + 30;
             lblMinutes.Left = numAutosaveFrequency.Right + 8;
 
             CheckBox checkDeleteAutosaves = new CheckBox();
@@ -320,7 +375,7 @@ namespace NLEditor
             checkDeleteAutosaves.Checked = RemoveOldAutosaves;
             checkDeleteAutosaves.Enabled = Autosave;
             checkDeleteAutosaves.Text = "Limit autosaves kept to";
-            checkDeleteAutosaves.Top = groupBoxTop + 30;
+            checkDeleteAutosaves.Top = groupBoxTop + 60;
             checkDeleteAutosaves.Left = groupBoxColumnLeft;
             checkDeleteAutosaves.CheckedChanged += new EventHandler(checkDeleteAutosaves_CheckedChanged);
 
@@ -338,68 +393,26 @@ namespace NLEditor
             numAutosavesToKeep.ValueChanged += new EventHandler(numAutosavesToKeep_ValueChanged);
             numAutosavesToKeep.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
 
-            groupAutosave.Controls.Add(checkAutosave);
-            groupAutosave.Controls.Add(numAutosaveFrequency);
-            groupAutosave.Controls.Add(lblMinutes);
-            groupAutosave.Controls.Add(checkDeleteAutosaves);
-            groupAutosave.Controls.Add(numAutosavesToKeep);
-
-            // ========================== Editor Mode GroupBox =========================== //
-
-            GroupBox groupEditorMode = new GroupBox();
-            groupEditorMode.Text = "Editor Mode";
-            groupEditorMode.Top = 390;
-            groupEditorMode.Left = columnLeft;
-            groupEditorMode.Width = 280;
-            groupEditorMode.Height = 50;
-
-            RadioButton radSuperLemmixMode = new RadioButton();
-            radSuperLemmixMode.Name = "radSuperLemmixMode";
-            radSuperLemmixMode.AutoSize = true;
-            radSuperLemmixMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            radSuperLemmixMode.Checked = CurrentEditorMode == EditorMode.SuperLemmix;
-            radSuperLemmixMode.Text = "SuperLemmix";
-            radSuperLemmixMode.Top = groupBoxTop;
-            radSuperLemmixMode.Left = groupBoxColumnLeft;
-            radSuperLemmixMode.CheckedChanged += new EventHandler(EditorMode_CheckedChanged);
-
-            RadioButton radNeoLemmixMode = new RadioButton();
-            radNeoLemmixMode.Name = "radNeoLemmixMode";
-            radNeoLemmixMode.AutoSize = true;
-            radNeoLemmixMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            radNeoLemmixMode.Checked = CurrentEditorMode == EditorMode.NeoLemmix;
-            radNeoLemmixMode.Text = "NeoLemmix";
-            radNeoLemmixMode.Top = groupBoxTop;
-            radNeoLemmixMode.Left = groupBoxColumnLeft + radSuperLemmixMode.Width;
-            radNeoLemmixMode.CheckedChanged += new EventHandler(EditorMode_CheckedChanged);
-
-            RadioButton radAutoMode = new RadioButton();
-            radAutoMode.Name = "radAutoMode";
-            radAutoMode.AutoSize = true;
-            radAutoMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            radAutoMode.Checked = CurrentEditorMode == EditorMode.Auto;
-            radAutoMode.Text = "Auto";
-            radAutoMode.Top = groupBoxTop;
-            radAutoMode.Left = groupBoxColumnLeft + radSuperLemmixMode.Width + radNeoLemmixMode.Width - 10;
-            radAutoMode.CheckedChanged += new EventHandler(EditorMode_CheckedChanged);
-
-            groupEditorMode.Controls.Add(radSuperLemmixMode);
-            groupEditorMode.Controls.Add(radNeoLemmixMode);
-            groupEditorMode.Controls.Add(radAutoMode);
+            groupSavingOptions.Controls.Add(checkValidateWhenSaving);
+            groupSavingOptions.Controls.Add(checkAutosave);
+            groupSavingOptions.Controls.Add(numAutosaveFrequency);
+            groupSavingOptions.Controls.Add(lblMinutes);
+            groupSavingOptions.Controls.Add(checkDeleteAutosaves);
+            groupSavingOptions.Controls.Add(numAutosavesToKeep);
 
             // ========================== Save And Close Button ========================== //
 
             btnSaveAndClose = new Button();
             btnSaveAndClose.Height = 30;
             btnSaveAndClose.Width = 110;
-            btnSaveAndClose.Top = 450;
+            btnSaveAndClose.Top = buttonsTop;
             btnSaveAndClose.Text = "Save And Close";
             btnSaveAndClose.Click += new EventHandler(BtnSaveAndClose_Click);
 
             btnCancel = new Button();
             btnCancel.Height = 30;
             btnCancel.Width = 70;
-            btnCancel.Top = 450;
+            btnCancel.Top = buttonsTop;
             btnCancel.Text = "Cancel";
             btnCancel.Click += new EventHandler(BtnCancel_Click);
             
@@ -412,11 +425,11 @@ namespace NLEditor
 
             // ========================== Add Controls to Form =========================== //
 
+            settingsForm.Controls.Add(groupEditorMode);
             settingsForm.Controls.Add(groupPieceBrowserMode);
             settingsForm.Controls.Add(groupCustomMove);
             settingsForm.Controls.Add(groupSnapToGrid);
-            settingsForm.Controls.Add(groupAutosave);
-            settingsForm.Controls.Add(groupEditorMode);
+            settingsForm.Controls.Add(groupSavingOptions);
 
             settingsForm.Controls.Add(btnSaveAndClose);
             settingsForm.Controls.Add(btnCancel);
@@ -553,6 +566,12 @@ namespace NLEditor
             {
                 btnSaveAndClose.Focus();
             }
+        }
+
+        private void checkValidateWhenSaving_CheckedChanged(object sender, EventArgs e)
+        {
+            ValidateWhenSaving = ((sender as CheckBox).CheckState == CheckState.Checked);
+            settingChanged = true;
         }
 
         private void checkAutosave_CheckedChanged(object sender, EventArgs e)
@@ -754,6 +773,11 @@ namespace NLEditor
                                 customMove = line.Value;
                                 break;
                             }
+                        case "VALIDATEWHENSAVING":
+                            {
+                                ValidateWhenSaving = (line.Text.Trim().ToUpper() == "TRUE");
+                                break;
+                            }
                         case "AUTOSAVE":
                             {
                                 Autosave = (line.Value != 0);
@@ -840,6 +864,7 @@ namespace NLEditor
                 TextWriter settingsFile = new StreamWriter(C.AppPathSettings, true);
 
                 settingsFile.WriteLine("# SLXEditor settings ");
+                settingsFile.WriteLine(" ValidateWhenSaving  " + (ValidateWhenSaving ? "True" : "False"));
                 settingsFile.WriteLine(" Autosave            " + AutosaveFrequency.ToString());
                 settingsFile.WriteLine(" AutosaveLimit       " + KeepAutosaveCount.ToString());
                 settingsFile.WriteLine(" EditorMode          " + CurrentEditorMode.ToString());
