@@ -434,7 +434,7 @@ namespace NLEditor
             settingsForm.Controls.Add(btnSaveAndClose);
             settingsForm.Controls.Add(btnCancel);
 
-            settingsForm.Show();
+            settingsForm.ShowDialog();
         }
 
         private void settingsForm_FormClosing(object sender, FormClosingEventArgs e)
