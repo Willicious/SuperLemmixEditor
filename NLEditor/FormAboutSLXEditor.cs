@@ -41,7 +41,7 @@ namespace NLEditor
             lblPreviousUpdates.Left = GetCenter(lblPreviousUpdates);
             WritePreviousUpdatesText();
 
-            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + "-B)";
+            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + ")";
             lblSuperLemmixEditor.Top = richTextBox_PreviousUpdates.Bottom + padding;
             lblSuperLemmixEditor.Left = GetCenter(lblSuperLemmixEditor);
 
@@ -104,8 +104,25 @@ namespace NLEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
-            // Version 2.8.7-B features
-            WriteBoldText(richTextBox, "Version 2.8.7-B\n");
+            // Version 2.8.8 features
+            WriteBoldText(richTextBox, "Version 2.8.8\n");
+            WriteBoldText(richTextBox, "• Level Validation");
+            richTextBox.AppendText(" - Added a setting to toggle automatic level validation on/off when manually saving a level\n");
+
+            WriteBoldText(richTextBox, "• Piece Browser");
+            richTextBox.AppendText(" - Added option to show name rather than type for objects (restores previous behaviour)\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - Talisman Creation");
+            richTextBox.AppendText(" - User-created Talisman titles are once again preserved when editing an existing Talisman\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - UI");
+            richTextBox.AppendText(" - The mouse wheel can now interact with dropdown lists from the start, and even if a piece is selected in the level arranger window\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - UI");
+            richTextBox.AppendText(" - Settings form now stays on top when active\n");
+
+            // Version 2.8.7 features
+            WriteBoldText(richTextBox, "\nVersion 2.8.7\n");
             WriteBoldText(richTextBox, "• Piece Browser");
             richTextBox.AppendText(" - Added option to scroll piece browser infinitely (previous behaviour)\n");
 
@@ -124,8 +141,6 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Bugfix - UI");
             richTextBox.AppendText(" - Validate Level dialog now alerts the user that the lem count is higher than the pre-placed lem count (where relevant) rather than just showing \"missing hatch\"\n");
 
-            // Version 2.8.7 features
-            WriteBoldText(richTextBox, "\nVersion 2.8.7\n");
             WriteBoldText(richTextBox, "• Bugfix - Piece Search");
             richTextBox.AppendText(" - Working directory is now always set to that of the .exe, so pieces will always be correctly found even if opening the Editor via a .nxlv level file\n");
 
@@ -133,7 +148,7 @@ namespace NLEditor
             richTextBox.AppendText(" -  Validate Level now shows correct skill limit amount depending on Editor mode (10 for NeoLemmix, 14 for SuperLemmix)\n");
 
             WriteBoldText(richTextBox, "• Level Validation");
-            richTextBox.AppendText(" - Level Validation is now called when attempting a level save. The dialog is shown if there are any issues, and the level can then be edited to fix the issues or saved anyway\n");
+            richTextBox.AppendText(" - Level Validation is now run automatically when attempting to save a level. The dialog is shown if there are any issues, and the level can then be edited to fix the issues or saved anyway\n");
 
             WriteBoldText(richTextBox, "• Bugfix - UI");
             richTextBox.AppendText(" - Scroll wheel can be used to change items when mousing over a dropdown list (without clicking)\n");
