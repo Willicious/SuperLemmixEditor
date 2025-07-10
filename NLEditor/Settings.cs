@@ -54,6 +54,7 @@ namespace NLEditor
             ShowData,
         }
 
+        public bool PreferObjectName { get; private set; }
         public EditorMode CurrentEditorMode { get; private set; }
         public PieceBrowserMode CurrentPieceBrowserMode { get; private set; }
         public bool InfiniteScrolling { get; private set; }
@@ -85,6 +86,7 @@ namespace NLEditor
         {
             CurrentEditorMode = EditorMode.Auto;
             CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
+            PreferObjectName = false;
             InfiniteScrolling = false;
             UseGridForPieces = false;
             gridSize = 8;
@@ -119,11 +121,11 @@ namespace NLEditor
             int groupBoxTop = 20;
             int groupBoxColumnLeft = 16;
             int groupBoxColumnRight = 208;
-            int buttonsTop = 480;
+            int buttonsTop = 510;
 
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
-            settingsForm.ClientSize = new System.Drawing.Size(340, 520);
+            settingsForm.ClientSize = new System.Drawing.Size(340, 550);
             settingsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             settingsForm.MinimizeBox = false;
             settingsForm.MaximizeBox = false;
@@ -182,7 +184,7 @@ namespace NLEditor
             groupPieceBrowserMode.Top = 90;
             groupPieceBrowserMode.Left = columnLeft;
             groupPieceBrowserMode.Width = 280;
-            groupPieceBrowserMode.Height = 80;
+            groupPieceBrowserMode.Height = 110;
 
             RadioButton radShowPieceData = new RadioButton();
             radShowPieceData.Name = "radShowPieceData";
@@ -216,26 +218,37 @@ namespace NLEditor
             radShowPiecesOnly.Left = groupBoxColumnLeft + radShowPieceData.Width + radShowPieceDescriptions.Width;
             radShowPiecesOnly.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
 
+            CheckBox checkPreferObjectName = new CheckBox();
+            checkPreferObjectName.Name = "checkPreferObjectName";
+            checkPreferObjectName.AutoSize = true;
+            checkPreferObjectName.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkPreferObjectName.Checked = PreferObjectName;
+            checkPreferObjectName.Text = "Prefer piece name to object type";
+            checkPreferObjectName.Top = groupBoxTop + 30;
+            checkPreferObjectName.Left = groupBoxColumnLeft;
+            checkPreferObjectName.CheckedChanged += new EventHandler(checkPreferObjectName_CheckedChanged);
+
             CheckBox checkInfiniteScrolling = new CheckBox();
             checkInfiniteScrolling.Name = "checkInfiniteScrolling";
             checkInfiniteScrolling.AutoSize = true;
             checkInfiniteScrolling.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             checkInfiniteScrolling.Checked = InfiniteScrolling;
             checkInfiniteScrolling.Text = "Infinite Scrolling";
-            checkInfiniteScrolling.Top = groupBoxTop + 30;
+            checkInfiniteScrolling.Top = groupBoxTop + 60;
             checkInfiniteScrolling.Left = groupBoxColumnLeft;
             checkInfiniteScrolling.CheckedChanged += new EventHandler(checkInfiniteScrolling_CheckedChanged);
 
             groupPieceBrowserMode.Controls.Add(radShowPiecesOnly);
             groupPieceBrowserMode.Controls.Add(radShowPieceDescriptions);
             groupPieceBrowserMode.Controls.Add(radShowPieceData);
+            groupPieceBrowserMode.Controls.Add(checkPreferObjectName);
             groupPieceBrowserMode.Controls.Add(checkInfiniteScrolling);
 
             // ========================== Custom Move GroupBox =========================== //
 
             GroupBox groupCustomMove = new GroupBox();
             groupCustomMove.Text = "Custom move selected pieces";
-            groupCustomMove.Top = 190;
+            groupCustomMove.Top = 220;
             groupCustomMove.Left = columnLeft;
             groupCustomMove.Width = 280;
             groupCustomMove.Height = 50;
@@ -266,7 +279,7 @@ namespace NLEditor
 
             GroupBox groupSnapToGrid = new GroupBox();
             groupSnapToGrid.Text = "Snap Pieces to Grid";
-            groupSnapToGrid.Top = 260;
+            groupSnapToGrid.Top = 290;
             groupSnapToGrid.Left = columnLeft;
             groupSnapToGrid.Width = 280;
             groupSnapToGrid.Height = 80;
@@ -323,7 +336,7 @@ namespace NLEditor
 
             GroupBox groupSavingOptions = new GroupBox();
             groupSavingOptions.Text = "Level Saving Options";
-            groupSavingOptions.Top = 360;
+            groupSavingOptions.Top = 390;
             groupSavingOptions.Left = columnLeft;
             groupSavingOptions.Width = 280;
             groupSavingOptions.Height = 110;
@@ -506,6 +519,21 @@ namespace NLEditor
                 editorForm.LoadPiecesIntoPictureBox();
             }
 
+            if (settingsForm.Controls.Find("checkPreferObjectName", true).FirstOrDefault() is CheckBox checkPreferObjectName)
+            {
+                if (CurrentPieceBrowserMode == PieceBrowserMode.ShowPiecesOnly)
+                    checkPreferObjectName.Enabled = false;
+                else
+                    checkPreferObjectName.Enabled = true;
+            }
+
+            settingChanged = true;
+        }
+
+        private void checkPreferObjectName_CheckedChanged(object sender, EventArgs e)
+        {
+            PreferObjectName = ((sender as CheckBox).CheckState == CheckState.Checked);
+            editorForm.LoadPiecesIntoPictureBox();
             settingChanged = true;
         }
 
@@ -751,6 +779,11 @@ namespace NLEditor
                                     CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
                                 break;
                             }
+                        case "PREFEROBJECTNAME":
+                            {
+                                PreferObjectName = (line.Text.Trim().ToUpper() == "TRUE");
+                                break;
+                            }
                         case "INFINITESCROLLING":
                             {
                                 InfiniteScrolling = (line.Text.Trim().ToUpper() == "TRUE");
@@ -869,6 +902,7 @@ namespace NLEditor
                 settingsFile.WriteLine(" AutosaveLimit       " + KeepAutosaveCount.ToString());
                 settingsFile.WriteLine(" EditorMode          " + CurrentEditorMode.ToString());
                 settingsFile.WriteLine(" PieceBrowserMode    " + CurrentPieceBrowserMode.ToString());
+                settingsFile.WriteLine(" PreferObjectName    " + (PreferObjectName ? "True" : "False"));
                 settingsFile.WriteLine(" InfiniteScrolling   " + (InfiniteScrolling ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
                 settingsFile.WriteLine(" GridColor           " + (GridColor == Color.Empty ? "(Invisible)" : ColorTranslator.ToHtml(GridColor)));

@@ -54,8 +54,10 @@ namespace NLEditor
 
         Dictionary<RotateFlipType, List<Bitmap>> images;
         List<Bitmap> baseImages => images[RotateFlipType.RotateNoneFlipNone];
-        List<Bitmap> imageWithPieceDescriptions;
-        List<Bitmap> imageWithData;
+        List<Bitmap> imagesWithDescriptions;
+        List<Bitmap> imagesWithNames;
+        List<Bitmap> imagesWithNameAndData;
+        List<Bitmap> imagesWithDescriptionAndData;
 
         public Bitmap Image(RotateFlipType rotFlipType)
         {
@@ -69,17 +71,29 @@ namespace NLEditor
                 CreateRotatedImages(rotFlipType);
             return images[rotFlipType][index % images[rotFlipType].Count];
         }
-        public Bitmap ImageWithPieceDescription(int index, string pieceKey)
+        public Bitmap ImageWithDescription(int index, string pieceKey)
         {
-            if (imageWithPieceDescriptions == null)
-                CreateImagesWithPieceDescriptions(pieceKey);
-            return imageWithPieceDescriptions[index % imageWithPieceDescriptions.Count];
+            if (imagesWithDescriptions == null)
+                CreateImagesWithDescriptions(pieceKey);
+            return imagesWithDescriptions[index % imagesWithDescriptions.Count];
         }
-        public Bitmap ImageWithData(int index, string pieceKey)
+        public Bitmap ImageWithName(int index, string pieceKey)
         {
-            if (imageWithData == null)
-                CreateImagesWithData(pieceKey);
-            return imageWithData[index % imageWithData.Count];
+            if (imagesWithNames == null)
+                CreateImagesWithNames(pieceKey);
+            return imagesWithNames[index % imagesWithNames.Count];
+        }
+        public Bitmap ImageWithDescriptionAndData(int index, string pieceKey)
+        {
+            if (imagesWithDescriptionAndData == null)
+                CreateImagesWithDescriptionAndData(pieceKey);
+            return imagesWithDescriptionAndData[index % imagesWithDescriptionAndData.Count];
+        }
+        public Bitmap ImageWithNameAndData(int index, string pieceKey)
+        {
+            if (imagesWithNameAndData == null)
+                CreateImagesWithNameAndData(pieceKey);
+            return imagesWithNameAndData[index % imagesWithNameAndData.Count];
         }
         public Bitmap WindowImageWithDirection(RotateFlipType rotFlipType, int index)
         {
@@ -154,12 +168,11 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Creates images with the piece name at the bottom right corner.
+        /// Creates images with the piece description in the Piece Browser (prefers trigger type for objects)
         /// </summary>
-        /// <param name="pieceKey"></param>
-        private void CreateImagesWithPieceDescriptions(string pieceKey)
+        private void CreateImagesWithDescriptions(string pieceKey)
         {
-            imageWithPieceDescriptions = new List<Bitmap>();
+            imagesWithDescriptions = new List<Bitmap>();
 
             foreach (Bitmap imageFrame in baseImages)
             {
@@ -179,17 +192,38 @@ namespace NLEditor
 
                 DrawDataString(newImage, pieceDesc, 0, 0, C.NLColors[C.NLColor.Text], 8);
 
-                imageWithPieceDescriptions.Add(newImage);
+                imagesWithDescriptions.Add(newImage);
             }
         }
 
         /// <summary>
-        /// Creates images with the piece name at the bottom right corner.
+        /// Creates images with the piece name in the Piece Browser (prefers name for objects)
         /// </summary>
-        /// <param name="pieceKey"></param>
-        private void CreateImagesWithData(string pieceKey)
+        private void CreateImagesWithNames(string pieceKey)
         {
-            imageWithData = new List<Bitmap>();
+            imagesWithNames = new List<Bitmap>();
+
+            foreach (Bitmap imageFrame in baseImages)
+            {
+                Bitmap newImage = new Bitmap(C.PicPieceSize.Width, C.PicPieceSize.Height);
+                int posX = (newImage.Width - imageFrame.Width) / 2;
+                int posY = (newImage.Height - imageFrame.Height) / 2;
+                newImage.DrawOn(imageFrame, new Point(posX, posY), 254);
+
+                string pieceDesc = System.IO.Path.GetFileNameWithoutExtension(pieceKey);
+
+                DrawDataString(newImage, pieceDesc, 0, 0, C.NLColors[C.NLColor.Text], 8);
+
+                imagesWithNames.Add(newImage);
+            }
+        }
+
+        /// <summary>
+        /// Creates images with data in the piece browser (prefers trigger type for objects)
+        /// </summary>
+        private void CreateImagesWithDescriptionAndData(string pieceKey)
+        {
+            imagesWithDescriptionAndData = new List<Bitmap>();
 
             foreach (Bitmap imageFrame in baseImages)
             {
@@ -248,7 +282,69 @@ namespace NLEditor
                 DrawDataString(newImage, pieceSize, 0, 64, Color.SkyBlue, 8);
                 DrawDataString(newImage, nineSlice, 44, 64, Color.MediumSpringGreen, 8);
 
-                imageWithData.Add(newImage);
+                imagesWithDescriptionAndData.Add(newImage);
+            }
+        }
+
+        /// <summary>
+        /// Creates images with data in the Piece Browser (prefers name for objects)
+        /// </summary>
+        private void CreateImagesWithNameAndData(string pieceKey)
+        {
+            imagesWithNameAndData = new List<Bitmap>();
+
+            foreach (Bitmap imageFrame in baseImages)
+            {
+                Bitmap newImage = new Bitmap(C.PicPieceSize.Width, C.PicPieceSize.Height);
+                int posX = (newImage.Width - imageFrame.Width) / 2;
+                int posY = (newImage.Height - imageFrame.Height) / 2;
+                newImage.DrawOn(imageFrame, new Point(posX, posY), 254);
+
+                // Show Name
+                string pieceDesc = System.IO.Path.GetFileNameWithoutExtension(pieceKey);
+
+                // Size
+                string pieceSize = Width.ToString() + " x " + Height.ToString();
+
+                // Resize type
+                Image resizeIcon = null;
+
+                if (ResizeMode == C.Resize.Both)
+                    resizeIcon = Properties.Resources.ArrowFourWay;
+                if (ResizeMode == C.Resize.Horiz)
+                    resizeIcon = Properties.Resources.ArrowHoriz;
+                if (ResizeMode == C.Resize.Vert)
+                    resizeIcon = Properties.Resources.ArrowVert;
+
+                if (resizeIcon != null)
+                {
+                    using (Graphics g = Graphics.FromImage(newImage))
+                    {
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                        int iconX = 4;
+                        int iconY = 4;
+
+                        g.DrawImage(resizeIcon, iconX, iconY, 17, 17);
+                    }
+                }
+
+                // Nine-Sliced?
+                string nineSlice = string.Empty;
+
+                var nineS = NineSlicingArea;
+                if (nineS.HasValue)
+                {
+                    if (nineS.Value.Width > 0 && nineS.Value.Width < Width ||
+                        nineS.Value.Height > 0 && nineS.Value.Height < Height)
+                        nineSlice = "9S";
+                }
+
+                DrawDataString(newImage, pieceDesc, 0, 0, C.NLColors[C.NLColor.Text], 8);
+                DrawDataString(newImage, pieceSize, 0, 64, Color.SkyBlue, 8);
+                DrawDataString(newImage, nineSlice, 44, 64, Color.MediumSpringGreen, 8);
+
+                imagesWithNameAndData.Add(newImage);
             }
         }
 
@@ -365,12 +461,9 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Returns the image with the piece's name at the bottom right.
-        /// <para> These images are used for the PieceSelection. </para>
+        /// Populates the Piece Browser with images & descriptions
         /// </summary>
-        /// <param name="imageKey"></param>
-        /// <param name="index"></param>
-        public static Bitmap GetImageWithPieceDescription(string imageKey, int index)
+        public static Bitmap GetImageWithDescription(string imageKey, int index)
         {
             if (!imageDict.ContainsKey(imageKey))
             {
@@ -382,16 +475,13 @@ namespace NLEditor
                 }
             }
 
-            return imageDict[imageKey].ImageWithPieceDescription(index, imageKey);
+            return imageDict[imageKey].ImageWithDescription(index, imageKey);
         }
 
         /// <summary>
-        /// Returns the image with the piece's data displayed at the edges.
-        /// <para> These images are used for the PieceSelection. </para>
+        /// Populates the Piece Browser with images (prefers piece names for objects)
         /// </summary>
-        /// <param name="imageKey"></param>
-        /// <param name="index"></param>
-        public static Bitmap GetImageWithData(string imageKey, int index)
+        public static Bitmap GetImageWithName(string imageKey, int index)
         {
             if (!imageDict.ContainsKey(imageKey))
             {
@@ -403,14 +493,48 @@ namespace NLEditor
                 }
             }
 
-            return imageDict[imageKey].ImageWithData(index, imageKey);
+            return imageDict[imageKey].ImageWithName(index, imageKey);
         }
 
         /// <summary>
-        /// Returns the image with the directional arrow at the bottom right.
+        /// Populates the Piece Browser with images & data
         /// </summary>
-        /// <param name="imageKey"></param>
-        /// <param name="index"></param>
+        public static Bitmap GetImageWithDescriptionAndData(string imageKey, int index)
+        {
+            if (!imageDict.ContainsKey(imageKey))
+            {
+                bool success = AddNewImage(imageKey);
+                if (!success)
+                {
+                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".", "File not found");
+                    return null;
+                }
+            }
+
+            return imageDict[imageKey].ImageWithDescriptionAndData(index, imageKey);
+        }
+
+        /// <summary>
+        /// Populates the Piece Browser with images & data (prefers names for objects)
+        /// </summary>
+        public static Bitmap GetImageWithNameAndData(string imageKey, int index)
+        {
+            if (!imageDict.ContainsKey(imageKey))
+            {
+                bool success = AddNewImage(imageKey);
+                if (!success)
+                {
+                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".", "File not found");
+                    return null;
+                }
+            }
+
+            return imageDict[imageKey].ImageWithNameAndData(index, imageKey);
+        }
+
+        /// <summary>
+        /// Returns the image with the directional arrow in the Piece Browser
+        /// </summary>
         public static Bitmap GetWindowImageWithDirection(string imageKey, RotateFlipType rotFlipType, int index)
         {
             if (!imageDict.ContainsKey(imageKey))
