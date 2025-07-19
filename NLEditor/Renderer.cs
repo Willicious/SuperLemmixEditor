@@ -860,7 +860,7 @@ namespace NLEditor
                 text = text + selectRect.X.ToString() + "/" + selectRect.Y.ToString();
             }
 
-            Point textPos = new Point(picBoxWidth + 6, picBoxHeight + 2);
+            Point textPos = new Point(picBoxWidth + 2, picBoxHeight);
 
             // Get the size of the displayed part of the level
             Rectangle displayedLevelRect = GetLevelBmpRect();
@@ -872,7 +872,10 @@ namespace NLEditor
                 if (displayedLevelRect.Height + 1 < level.Height) textPos.Y = textPos.Y - 8;
             }
 
-            fullBmp.WriteText(text, textPos, C.NLColors[C.NLColor.Text], 10, ContentAlignment.BottomRight);
+            // Set color
+            Color color = C.NLColors[C.NLColor.Text];
+
+            fullBmp.WriteText(text, textPos, color, 12, ContentAlignment.BottomRight);
         }
 
         /// <summary>
