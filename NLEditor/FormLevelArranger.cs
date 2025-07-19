@@ -224,6 +224,7 @@ namespace NLEditor
 
         private void FormLevelArranger_Shown(object sender, EventArgs e)
         {
+            Properties.Settings.Default.LevelArrangerIsOpen = true;
             ResetPicLevel();
         }
 

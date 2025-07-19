@@ -860,7 +860,17 @@ namespace NLEditor
                 text = text + selectRect.X.ToString() + "/" + selectRect.Y.ToString();
             }
 
-            Point textPos = new Point(picBoxWidth + 7, picBoxHeight + 3);
+            Point textPos = new Point(picBoxWidth + 6, picBoxHeight + 2);
+
+            // Get the size of the displayed part of the level
+            Rectangle displayedLevelRect = GetLevelBmpRect();
+
+            // Adjust text position if the scrollbars are visible and we're not in Level Arranger window
+            if (!Properties.Settings.Default.LevelArrangerIsOpen)
+            {
+                if (displayedLevelRect.Width + 1 < level.Width) textPos.X = textPos.X - 10;
+                if (displayedLevelRect.Height + 1 < level.Height) textPos.Y = textPos.Y - 8;
+            }
 
             fullBmp.WriteText(text, textPos, C.NLColors[C.NLColor.Text], 10, ContentAlignment.BottomRight);
         }
