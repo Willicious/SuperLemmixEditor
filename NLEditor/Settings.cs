@@ -298,7 +298,7 @@ namespace NLEditor
             numGridSize.Name = "numGridSize";
             numGridSize.AutoSize = true;
             numGridSize.TextAlign = HorizontalAlignment.Center;
-            numGridSize.Minimum = 1;
+            numGridSize.Minimum = 2;
             numGridSize.Maximum = 128;
             numGridSize.Value = gridSize;
             numGridSize.Top = checkUseGrid.Top - 2;
