@@ -163,9 +163,9 @@ namespace NLEditor
         /// </summary>
         private void FindIssuesTimeLimit()
         {
-            if (!level.IsNoTimeLimit && level.TimeLimit < 10)
+            if (!level.IsNoTimeLimit && level.TimeLimit < 1)
             {
-                issuesList.Add("Not enough time: Only " + level.TimeLimit.ToString() + "seconds available.");
+                issuesList.Add("Time limit must be at least 1 second or set to infinite. " + level.TimeLimit.ToString() + " seconds available.");
             }
         }
 
