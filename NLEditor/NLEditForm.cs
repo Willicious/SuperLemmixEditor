@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 namespace NLEditor
 {
@@ -1538,16 +1539,9 @@ namespace NLEditor
             ToggleExpandedTabs();
         }
 
-        private void comboPieceStyle_MouseCaptureChanged(object sender, EventArgs e)
-        {            
-            if (!combo_PieceStyle.DroppedDown)
-            {
-                combo_PieceStyle.DroppedDown = true; // Keep it open until a selection is made
-            }
-        }
-
         private void ComboMouseEnter(object sender, EventArgs e)
         {
+            // Focus the combo if the mouse is hovered over it to allow wheel interaction
             if (sender is ComboBox combo)
             {
                 combo.Focus();
@@ -1556,6 +1550,22 @@ namespace NLEditor
 
         private void ComboMouseLeave(object sender, EventArgs e)
         {
+            // Return focus to main form if the combo is no longer focused
+            if (sender is ComboBox combo)
+            {
+                BeginInvoke(new Action(() =>
+                {
+                    if (!combo.DroppedDown && !combo.Bounds.Contains(PointToClient(MousePosition)))
+                    {
+                        PullFocusFromTextInputs();
+                    }
+                }));
+            }
+        }
+
+        private void ComboDropDownClosed(object sender, EventArgs e)
+        {
+            // Return focus to main form if the list is closed
             PullFocusFromTextInputs();
         }
     }
