@@ -27,7 +27,7 @@ namespace NLEditor
         // Global color dictionary
         private static readonly Dictionary<string, Color> ColorOptions = new Dictionary<string, Color>
         {
-            { "Midnight (default)", Color.MidnightBlue },
+            { "Midnight", Color.MidnightBlue },
             { "Red", Color.Red },
             { "Orange", Color.DarkOrange },
             { "Yellow", Color.Khaki },
@@ -324,7 +324,7 @@ namespace NLEditor
             comboGridColor.Width = 120;
             comboGridColor.Enabled = UseGridForPieces;
             comboGridColor.Items.AddRange(ColorOptions.Keys.ToArray());
-            comboGridColor.SelectedItem = ColorOptions.FirstOrDefault(x => x.Value == GridColor).Key ?? "Midnight (default)";
+            comboGridColor.SelectedItem = ColorOptions.FirstOrDefault(x => x.Value == GridColor).Key ?? "Midnight";
             comboGridColor.SelectedIndexChanged += new EventHandler(comboGridColor_IndexChanged);
 
             groupSnapToGrid.Controls.Add(checkUseGrid);
