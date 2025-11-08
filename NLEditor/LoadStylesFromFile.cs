@@ -113,13 +113,37 @@ namespace NLEditor
             Dictionary<string, string> newStyleNameDict;
             ReadStyleOrderFromFile(filePath, out styleOrderDict, out newStyleNameDict);
 
-            // Rename all custom names
+            // Hard-coded names for "slx_" styles
+            Dictionary<string, string> slxNameOverrides = new Dictionary<string, string>
+            {
+                { "slx_crystal", "Crystal" },
+                { "slx_dirt", "Dirt" },
+                { "slx_fire", "Fire" },
+                { "slx_marble", "Marble" },
+                { "slx_pillar", "Pillar" },
+                { "slx_brick", "Brick" },
+                { "slx_bubble", "Bubble" },
+                { "slx_rock", "Rock" },
+                { "slx_snow", "Snow" },
+            };
+
+            // Rename all custom names from styles.ini
             foreach (string styleFileName in newStyleNameDict.Keys)
             {
                 Style curStyle = styleList.Find(sty => sty.NameInDirectory.Equals(styleFileName));
                 if (curStyle != null)
                 {
                     curStyle.NameInEditor = newStyleNameDict[styleFileName];
+                }
+            }
+
+            // Apply "slx_" style names (overrides anything from styles.ini)
+            foreach (var kvp in slxNameOverrides)
+            {
+                Style curStyle = styleList.Find(sty => sty.NameInDirectory.Equals(kvp.Key));
+                if (curStyle != null)
+                {
+                    curStyle.NameInEditor = kvp.Value;
                 }
             }
 
