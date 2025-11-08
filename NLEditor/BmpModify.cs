@@ -178,16 +178,46 @@ namespace NLEditor
         /// </summary>
         /// <param name="ptrToPixel"></param>
         /// <param name="ptrToNewPixel"></param>
-        private static unsafe void ChangePixelBlend(byte* ptrToPixel, byte* ptrToNewPixel)
+        private static unsafe void ChangePixelBlend(byte* ptrToPixel, byte* ptrToNewPixel, Settings.TriggerAreaColor triggerAreaColor)
         {
             int NewAlphaFact = ptrToNewPixel[3];
             int OrigAlphaFact = (255 - NewAlphaFact) / 4; // because the orig bitmap has alpha 25%
-            ptrToPixel[0] = (byte)((ptrToPixel[0] * OrigAlphaFact + ptrToNewPixel[0] * NewAlphaFact) / (OrigAlphaFact + NewAlphaFact));
-            ptrToPixel[1] = (byte)((ptrToPixel[1] * OrigAlphaFact + ptrToNewPixel[1] * NewAlphaFact) / (OrigAlphaFact + NewAlphaFact));
-            ptrToPixel[2] = (byte)((ptrToPixel[2] * OrigAlphaFact + ptrToNewPixel[2] * NewAlphaFact) / (OrigAlphaFact + NewAlphaFact));
-            ptrToPixel[3] = 255;
+
+            ApplyTriggerAreaColor(triggerAreaColor, ptrToPixel, ptrToNewPixel, OrigAlphaFact, NewAlphaFact);
         }
 
+        /// <summary>
+        /// Calculates and applies color to the trigger area
+        /// </summary>
+        private static unsafe void ApplyTriggerAreaColor(Settings.TriggerAreaColor triggerAreaColor, byte* ptrToPixel, byte* ptrToNewPixel, double OrigAlphaFact, double NewAlphaFact)
+        {
+            byte Blend(byte orig, byte @new, double origAlphaFact, double newAlphaFact)
+            {
+                return (byte)((orig * origAlphaFact + @new * newAlphaFact) / (origAlphaFact + newAlphaFact));
+            }
+
+            // Each rule defines: (destinationIndex, sourceIndex) pairs, and which index to set to 255
+            var colorRules = new Dictionary<Settings.TriggerAreaColor, ((int dst, int src)[] blends, int setTo255)>
+            {
+                [Settings.TriggerAreaColor.Pink] = (new[] { (0, 0), (1, 1), (2, 2) }, 3),
+                [Settings.TriggerAreaColor.Yellow] = (new[] { (3, 0), (0, 1), (1, 2) }, 2),
+                [Settings.TriggerAreaColor.Green] = (new[] { (2, 0), (3, 1), (0, 2) }, 1),
+                [Settings.TriggerAreaColor.Blue] = (new[] { (1, 0), (2, 1), (3, 2) }, 0),               
+                [Settings.TriggerAreaColor.Purple] = (new[] { (1, 1), (2, 2), (3, 2) }, 0)
+            };
+
+            if (!colorRules.TryGetValue(triggerAreaColor, out var rule))
+                return;
+
+            var (blends, setTo255) = rule;
+
+            foreach (var (dst, src) in blends)
+            {
+                ptrToPixel[dst] = Blend(ptrToPixel[src], ptrToNewPixel[src], OrigAlphaFact, NewAlphaFact);
+            }
+
+            ptrToPixel[setTo255] = 255;
+        }
 
         /// <summary>
         /// Crops the bitmap along a rectangle.
@@ -559,9 +589,9 @@ namespace NLEditor
         /// </summary>
         /// <param name="origBmp"></param>
         /// <param name="newBmp"></param>
-        public static void DrawOnWithAlpha(this Bitmap origBmp, Bitmap newBmp)
+        public static void DrawOnWithAlpha(this Bitmap origBmp, Bitmap newBmp, Settings.TriggerAreaColor triggerAreaColor)
         {
-            origBmp.DrawOnWithAlpha(newBmp, new Point(0, 0));
+            origBmp.DrawOnWithAlpha(newBmp, new Point(0, 0), triggerAreaColor);
         }
 
 
@@ -572,7 +602,7 @@ namespace NLEditor
         /// <param name="origBmp"></param>
         /// <param name="newBmp"></param>
         /// <param name="pos"></param>
-        public static void DrawOnWithAlpha(this Bitmap origBmp, Bitmap newBmp, Point pos)
+        public static void DrawOnWithAlpha(this Bitmap origBmp, Bitmap newBmp, Point pos, Settings.TriggerAreaColor triggerAreaColor)
         {
             if (newBmp == null)
                 return;
@@ -605,7 +635,7 @@ namespace NLEditor
                     {
                         if (curNewLine[x + 3] > 0)
                         {
-                            ChangePixelBlend(curOrigLine + x, curNewLine + x);
+                            ChangePixelBlend(curOrigLine + x, curNewLine + x, triggerAreaColor);
                         }
                     }
                 });

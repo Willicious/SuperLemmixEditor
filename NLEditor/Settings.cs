@@ -40,6 +40,15 @@ namespace NLEditor
             { "(Invisible)", Color.Empty }
         };
 
+        public enum TriggerAreaColor
+        {
+            Pink,
+            Yellow,
+            Green,
+            Blue,
+            Purple
+        }
+
         public enum EditorMode
         {
             SuperLemmix,
@@ -57,6 +66,7 @@ namespace NLEditor
         public bool PreferObjectName { get; private set; }
         public EditorMode CurrentEditorMode { get; private set; }
         public PieceBrowserMode CurrentPieceBrowserMode { get; private set; }
+        public TriggerAreaColor CurrentTriggerAreaColor { get; private set; }
         public bool InfiniteScrolling { get; private set; }
         public bool UseGridForPieces { get; private set; }
         public bool ValidateWhenSaving { get; private set; }
@@ -86,6 +96,7 @@ namespace NLEditor
         {
             CurrentEditorMode = EditorMode.Auto;
             CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
+            CurrentTriggerAreaColor = TriggerAreaColor.Pink;
             PreferObjectName = false;
             InfiniteScrolling = false;
             UseGridForPieces = false;
@@ -121,11 +132,11 @@ namespace NLEditor
             int groupBoxTop = 20;
             int groupBoxColumnLeft = 16;
             int groupBoxColumnRight = 208;
-            int buttonsTop = 510;
+            int buttonsTop = 590;
 
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
-            settingsForm.ClientSize = new System.Drawing.Size(340, 550);
+            settingsForm.ClientSize = new System.Drawing.Size(340, 640);
             settingsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             settingsForm.MinimizeBox = false;
             settingsForm.MaximizeBox = false;
@@ -332,11 +343,42 @@ namespace NLEditor
             groupSnapToGrid.Controls.Add(lblGridColor);
             groupSnapToGrid.Controls.Add(comboGridColor);
 
+            // ========================== Trigger Area Color GroupBox ========================== //
+
+            GroupBox groupTriggerAreaColor = new GroupBox();
+            groupTriggerAreaColor.Text = "Trigger Area Color";
+            groupTriggerAreaColor.Top = 390;
+            groupTriggerAreaColor.Left = columnLeft;
+            groupTriggerAreaColor.Width = 280;
+            groupTriggerAreaColor.Height = 50;
+
+            Label lblTriggerAreaColor = new Label();
+            lblTriggerAreaColor.Name = "lblTriggerAreaColor";
+            lblTriggerAreaColor.Text = "Choose trigger area color:";
+            lblTriggerAreaColor.Top = groupBoxTop;
+            lblTriggerAreaColor.Left = groupBoxColumnLeft;
+            lblTriggerAreaColor.AutoSize = true;
+            lblTriggerAreaColor.Enabled = true;
+
+            ComboBox comboTriggerAreaColor = new ComboBox();
+            comboTriggerAreaColor.Name = "comboTriggerAreaColor";
+            comboTriggerAreaColor.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboTriggerAreaColor.Top = lblTriggerAreaColor.Top - 4;
+            comboTriggerAreaColor.Left = lblTriggerAreaColor.Right + 40;
+            comboTriggerAreaColor.Width = 100;
+            comboTriggerAreaColor.Enabled = true;
+            comboTriggerAreaColor.Items.AddRange(Enum.GetNames(typeof(TriggerAreaColor)));
+            comboTriggerAreaColor.SelectedItem = CurrentTriggerAreaColor.ToString();
+            comboTriggerAreaColor.SelectedIndexChanged += new EventHandler(comboTriggerAreaColor_IndexChanged);
+
+            groupTriggerAreaColor.Controls.Add(lblTriggerAreaColor);
+            groupTriggerAreaColor.Controls.Add(comboTriggerAreaColor);
+
             // =========================== Saving Options GroupBox =========================== //
 
             GroupBox groupSavingOptions = new GroupBox();
             groupSavingOptions.Text = "Level Saving Options";
-            groupSavingOptions.Top = 390;
+            groupSavingOptions.Top = 460;
             groupSavingOptions.Left = columnLeft;
             groupSavingOptions.Width = 280;
             groupSavingOptions.Height = 110;
@@ -442,6 +484,7 @@ namespace NLEditor
             settingsForm.Controls.Add(groupPieceBrowserMode);
             settingsForm.Controls.Add(groupCustomMove);
             settingsForm.Controls.Add(groupSnapToGrid);
+            settingsForm.Controls.Add(groupTriggerAreaColor);
             settingsForm.Controls.Add(groupSavingOptions);
 
             settingsForm.Controls.Add(btnSaveAndClose);
@@ -582,6 +625,22 @@ namespace NLEditor
             settingChanged = true;
         }
 
+        private void comboTriggerAreaColor_IndexChanged(object sender, EventArgs e)
+        {
+            if (sender is ComboBox comboTriggerAreaColor &&
+                comboTriggerAreaColor.SelectedItem != null)
+            {
+                Enum.TryParse<TriggerAreaColor>(
+                    comboTriggerAreaColor.SelectedItem.ToString(),
+                    out var selectedColor);
+
+                CurrentTriggerAreaColor = selectedColor;
+            }
+            editorForm.RefreshLevel();
+
+            settingChanged = true;
+        }
+
         private void numCustomMove_ValueChanged(object sender, EventArgs e)
         {
             customMove = (int)(sender as NumericUpDown).Value;
@@ -682,6 +741,18 @@ namespace NLEditor
                     GridColor = Color.MidnightBlue;
                 }
             }
+        }
+
+        private void ValidateTriggerAreaColor(FileLine line)
+        {
+            string colorString = line.Text.Trim();
+
+            if (!Enum.TryParse<TriggerAreaColor>(colorString, ignoreCase: true, out var parsedColor))
+            {                
+                parsedColor = TriggerAreaColor.Pink; // Default to Pink if parsing fails
+            }
+
+            CurrentTriggerAreaColor = parsedColor;
         }
 
         private void PrepareFormForClosing()
@@ -801,6 +872,11 @@ namespace NLEditor
                                 ValidateGridColor(line);
                                 break;
                             }
+                        case "TRIGGERAREACOLOR":
+                            {
+                                ValidateTriggerAreaColor(line);
+                                break;
+                            }
                         case "CUSTOMMOVE":
                             {
                                 customMove = line.Value;
@@ -906,6 +982,7 @@ namespace NLEditor
                 settingsFile.WriteLine(" InfiniteScrolling   " + (InfiniteScrolling ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
                 settingsFile.WriteLine(" GridColor           " + (GridColor == Color.Empty ? "(Invisible)" : ColorTranslator.ToHtml(GridColor)));
+                settingsFile.WriteLine(" TriggerAreaColor    " + CurrentTriggerAreaColor.ToString());
                 settingsFile.WriteLine(" CustomMove          " + CustomMove.ToString());
                 settingsFile.WriteLine(" Button_Tooltip      " + NumTooltipBottonDisplay.ToString());
                 settingsFile.WriteLine("");

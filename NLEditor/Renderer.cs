@@ -178,7 +178,7 @@ namespace NLEditor
 
             if (IsTriggerLayer)
             {
-                baseLevelImage.DrawOnWithAlpha(layerImages[C.Layer.Trigger]);
+                baseLevelImage.DrawOnWithAlpha(layerImages[C.Layer.Trigger], curSettings.CurrentTriggerAreaColor);
             }
         }
 
