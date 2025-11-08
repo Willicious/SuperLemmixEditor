@@ -319,7 +319,7 @@ namespace NLEditor
             ComboBox comboGridColor = new ComboBox();
             comboGridColor.Name = "comboGridColor";
             comboGridColor.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboGridColor.Top = lblGridColor.Top - 2;
+            comboGridColor.Top = lblGridColor.Top - 4;
             comboGridColor.Left = lblGridColor.Right + 20;
             comboGridColor.Width = 120;
             comboGridColor.Enabled = UseGridForPieces;
