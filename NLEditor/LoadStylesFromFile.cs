@@ -125,24 +125,33 @@ namespace NLEditor
 
             // Reorder the styles
             styleList.Sort((sty1, sty2) =>
-              {
-                  if (styleOrderDict.ContainsKey(sty1.NameInDirectory) && styleOrderDict.ContainsKey(sty2.NameInDirectory))
-                  {
-                      return styleOrderDict[sty1.NameInDirectory].CompareTo(styleOrderDict[sty2.NameInDirectory]);
-                  }
-                  else if (styleOrderDict.ContainsKey(sty1.NameInDirectory))
-                  {
-                      return -1;
-                  }
-                  else if (styleOrderDict.ContainsKey(sty2.NameInDirectory))
-                  {
-                      return 1;
-                  }
-                  else
-                  {
-                      return styleList.FindIndex(sty => sty == sty1).CompareTo(styleList.FindIndex(sty => sty == sty2));
-                  }
-              });
+            {
+                bool sty1IsSlx = sty1.NameInDirectory.StartsWith("slx_");
+                bool sty2IsSlx = sty2.NameInDirectory.StartsWith("slx_");
+
+                // First, prioritize SuperLemmix ("slx_") styles
+                if (sty1IsSlx && !sty2IsSlx) return -1;
+                if (!sty1IsSlx && sty2IsSlx) return 1;
+
+                // Then, order as listed in styles.ini
+                if (styleOrderDict.ContainsKey(sty1.NameInDirectory) && styleOrderDict.ContainsKey(sty2.NameInDirectory))
+                {
+                    return styleOrderDict[sty1.NameInDirectory].CompareTo(styleOrderDict[sty2.NameInDirectory]);
+                }
+                else if (styleOrderDict.ContainsKey(sty1.NameInDirectory))
+                {
+                    return -1;
+                }
+                else if (styleOrderDict.ContainsKey(sty2.NameInDirectory))
+                {
+                    return 1;
+                }
+                else
+                {
+                    // Fallback to original order
+                    return styleList.FindIndex(sty => sty == sty1).CompareTo(styleList.FindIndex(sty => sty == sty2));
+                }
+            });
 
             return styleList;
         }
