@@ -317,6 +317,14 @@ namespace NLEditor
             UpdateSpecialLemmingCounter();
         }
 
+        /// <summary>
+        /// Redraws the current level image - useful when changing settings
+        /// </summary>
+        public void RefreshLevel()
+        {
+            pic_Level.Image = curRenderer.CreateLevelImage();
+        }
+
         // Store the names of the missing pieces for the current level
         private HashSet<string> missingPieces = new HashSet<string>();
 
