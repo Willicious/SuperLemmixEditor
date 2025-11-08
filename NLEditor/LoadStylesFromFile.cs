@@ -124,7 +124,8 @@ namespace NLEditor
                 "slx_brick",
                 "slx_bubble",
                 "slx_rock",
-                "slx_snow"
+                "slx_snow",
+                "xmas"
             };
 
             Dictionary<string, string> slxNameOverrides = new Dictionary<string, string>
@@ -137,7 +138,8 @@ namespace NLEditor
                 { "slx_brick", "Brick" },
                 { "slx_bubble", "Bubble" },
                 { "slx_rock", "Rock" },
-                { "slx_snow", "Snow" }
+                { "slx_snow", "Snow" },
+                { "xmas", "Christmas" }
             };
 
             // Rename all styles according to styles.ini
