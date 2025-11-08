@@ -113,7 +113,20 @@ namespace NLEditor
             Dictionary<string, string> newStyleNameDict;
             ReadStyleOrderFromFile(filePath, out styleOrderDict, out newStyleNameDict);
 
-            // Hard-coded names for "slx_" styles
+            // Hard-coded "slx_" style names and order
+            List<string> slxOrder = new List<string>
+            {
+                "slx_crystal",
+                "slx_dirt",
+                "slx_fire",
+                "slx_marble",
+                "slx_pillar",
+                "slx_brick",
+                "slx_bubble",
+                "slx_rock",
+                "slx_snow"
+            };
+
             Dictionary<string, string> slxNameOverrides = new Dictionary<string, string>
             {
                 { "slx_crystal", "Crystal" },
@@ -124,10 +137,10 @@ namespace NLEditor
                 { "slx_brick", "Brick" },
                 { "slx_bubble", "Bubble" },
                 { "slx_rock", "Rock" },
-                { "slx_snow", "Snow" },
+                { "slx_snow", "Snow" }
             };
 
-            // Rename all custom names from styles.ini
+            // Rename all styles according to styles.ini
             foreach (string styleFileName in newStyleNameDict.Keys)
             {
                 Style curStyle = styleList.Find(sty => sty.NameInDirectory.Equals(styleFileName));
@@ -137,7 +150,7 @@ namespace NLEditor
                 }
             }
 
-            // Apply "slx_" style names (overrides anything from styles.ini)
+            // Override "slx_" style names
             foreach (var kvp in slxNameOverrides)
             {
                 Style curStyle = styleList.Find(sty => sty.NameInDirectory.Equals(kvp.Key));
@@ -147,33 +160,47 @@ namespace NLEditor
                 }
             }
 
-            // Reorder the styles
+            // Sort styles: first by "slx_" order, then by styles.ini order, then original order
             styleList.Sort((sty1, sty2) =>
             {
-                bool sty1IsSlx = sty1.NameInDirectory.StartsWith("slx_");
-                bool sty2IsSlx = sty2.NameInDirectory.StartsWith("slx_");
+                int sty1SlxIndex = slxOrder.IndexOf(sty1.NameInDirectory);
+                int sty2SlxIndex = slxOrder.IndexOf(sty2.NameInDirectory);
 
-                // First, prioritize SuperLemmix ("slx_") styles
-                if (sty1IsSlx && !sty2IsSlx) return -1;
-                if (!sty1IsSlx && sty2IsSlx) return 1;
-
-                // Then, order as listed in styles.ini
-                if (styleOrderDict.ContainsKey(sty1.NameInDirectory) && styleOrderDict.ContainsKey(sty2.NameInDirectory))
+                if (sty1SlxIndex != -1 && sty2SlxIndex != -1)
                 {
-                    return styleOrderDict[sty1.NameInDirectory].CompareTo(styleOrderDict[sty2.NameInDirectory]);
+                    // Both are slx_ styles → sort by defined order
+                    return sty1SlxIndex.CompareTo(sty2SlxIndex);
                 }
-                else if (styleOrderDict.ContainsKey(sty1.NameInDirectory))
+                else if (sty1SlxIndex != -1)
                 {
+                    // Only sty1 is slx_ → comes first
                     return -1;
                 }
-                else if (styleOrderDict.ContainsKey(sty2.NameInDirectory))
+                else if (sty2SlxIndex != -1)
                 {
+                    // Only sty2 is slx_ → comes first
                     return 1;
                 }
                 else
                 {
-                    // Fallback to original order
-                    return styleList.FindIndex(sty => sty == sty1).CompareTo(styleList.FindIndex(sty => sty == sty2));
+                    // Neither is slx_ → fallback to styles.ini order
+                    if (styleOrderDict.ContainsKey(sty1.NameInDirectory) && styleOrderDict.ContainsKey(sty2.NameInDirectory))
+                    {
+                        return styleOrderDict[sty1.NameInDirectory].CompareTo(styleOrderDict[sty2.NameInDirectory]);
+                    }
+                    else if (styleOrderDict.ContainsKey(sty1.NameInDirectory))
+                    {
+                        return -1;
+                    }
+                    else if (styleOrderDict.ContainsKey(sty2.NameInDirectory))
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        // Fallback to original list order
+                        return styleList.FindIndex(sty => sty == sty1).CompareTo(styleList.FindIndex(sty => sty == sty2));
+                    }
                 }
             });
 
