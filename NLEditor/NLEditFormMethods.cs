@@ -495,13 +495,9 @@ namespace NLEditor
         private void ToggleExpandedTabs()
         {
             if (!allTabsExpanded)
-            {
                 ExpandAllTabs();
-            }
             else
-            {
                 CollapseAllTabs();
-            }
 
             // Update settings
             Properties.Settings.Default.AllTabsAreExpanded = allTabsExpanded;
@@ -1908,6 +1904,13 @@ namespace NLEditor
             MessageBox.Show($"Image saved as {savedFilePath}", "Save Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private void HighlightEraserPieces()
+        {
+            Properties.Settings.Default.ErasersAreHighlighted = !Properties.Settings.Default.ErasersAreHighlighted;
+            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            Properties.Settings.Default.Save();
+        }
+
         private void ToggleClearPhysics()
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.ClearPhysics);
@@ -2001,6 +2004,7 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyPlaytestLevel, () => PlaytestLevel());
             AddHotkey(HotkeyConfig.HotkeyValidateLevel, () => ValidateLevel(false));
             AddHotkey(HotkeyConfig.HotkeyCleanseLevels, () => ShowCleanseLevelsDialog());
+            AddHotkey(HotkeyConfig.HotkeyHighlightEraserPieces, () => HighlightEraserPieces());
             AddHotkey(HotkeyConfig.HotkeyToggleClearPhysics, () => ToggleClearPhysics());
             AddHotkey(HotkeyConfig.HotkeyToggleTerrain, () => ToggleTerrain());
             AddHotkey(HotkeyConfig.HotkeyToggleObjects, () => ToggleObjects());
@@ -2151,6 +2155,9 @@ namespace NLEditor
 
             ungroupToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyUngroup);
+
+            highlightEraserPiecesToolStripMenuItem.ShortcutKeyDisplayString =
+                HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyHighlightEraserPieces);
 
             clearPhysicsToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyToggleClearPhysics);

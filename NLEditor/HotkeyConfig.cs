@@ -18,6 +18,7 @@ namespace NLEditor
         public static Keys HotkeyPlaytestLevel;
         public static Keys HotkeyValidateLevel;
         public static Keys HotkeyCleanseLevels;
+        public static Keys HotkeyHighlightEraserPieces;
         public static Keys HotkeyToggleClearPhysics;
         public static Keys HotkeyToggleTerrain;
         public static Keys HotkeyToggleObjects;
@@ -345,6 +346,8 @@ namespace NLEditor
                     HotkeyValidateLevel = ParseHotkeyString(line.Substring("HotkeyValidateLevel=".Length));
                 if (line.StartsWith("HotkeyCleanseLevels="))
                     HotkeyCleanseLevels = ParseHotkeyString(line.Substring("HotkeyCleanseLevels=".Length));
+                if (line.StartsWith("HotkeyHighlightEraserPieces="))
+                    HotkeyHighlightEraserPieces = ParseHotkeyString(line.Substring("HotkeyHighlightEraserPieces=".Length));
                 if (line.StartsWith("HotkeyToggleClearPhysics="))
                     HotkeyToggleClearPhysics = ParseHotkeyString(line.Substring("HotkeyToggleClearPhysics=".Length));
                 if (line.StartsWith("HotkeyToggleTerrain="))
@@ -548,6 +551,7 @@ namespace NLEditor
                 $"HotkeyPlaytestLevel={FormatHotkeyString(HotkeyPlaytestLevel)}",
                 $"HotkeyValidateLevel={FormatHotkeyString(HotkeyValidateLevel)}",
                 $"HotkeyCleanseLevels={FormatHotkeyString(HotkeyCleanseLevels)}",
+                $"HotkeyHighlightEraserPieces={FormatHotkeyString(HotkeyHighlightEraserPieces)}",
                 $"HotkeyToggleClearPhysics={FormatHotkeyString(HotkeyToggleClearPhysics)}",
                 $"HotkeyToggleTerrain={FormatHotkeyString(HotkeyToggleTerrain)}",
                 $"HotkeyToggleObjects={FormatHotkeyString(HotkeyToggleObjects)}",
@@ -655,6 +659,7 @@ namespace NLEditor
             HotkeyPlaytestLevel = Keys.F12;
             HotkeyValidateLevel = Keys.Control | Keys.F12;
             HotkeyCleanseLevels = Keys.Control | Keys.Shift | Keys.F12;
+            HotkeyHighlightEraserPieces = Keys.Control | Keys.E;
             HotkeyToggleClearPhysics = Keys.F1;
             HotkeyToggleTerrain = Keys.F2;
             HotkeyToggleObjects = Keys.F3;
@@ -753,6 +758,7 @@ namespace NLEditor
             HotkeyPlaytestLevel = Keys.F12;
             HotkeyValidateLevel = Keys.Control | Keys.F12;
             HotkeyCleanseLevels = Keys.Control | Keys.Shift | Keys.F12;
+            HotkeyHighlightEraserPieces = Keys.Control | Keys.E;
             HotkeyToggleClearPhysics = Keys.F1;
             HotkeyToggleTerrain = Keys.F2;
             HotkeyToggleObjects = Keys.F3;

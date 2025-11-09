@@ -686,6 +686,9 @@ namespace NLEditor
                     case "HotkeyCleanseLevels":
                         HotkeyConfig.HotkeyCleanseLevels = parsedKey;
                         break;
+                    case "HotkeyHighlightEraserPieces":
+                        HotkeyConfig.HotkeyHighlightEraserPieces = parsedKey;
+                        break;
                     case "HotkeyToggleClearPhysics":
                         HotkeyConfig.HotkeyToggleClearPhysics = parsedKey;
                         break;

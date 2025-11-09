@@ -331,6 +331,11 @@ namespace NLEditor
             Application.Exit();
         }
 
+        private void highlightEraserPiecesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HighlightEraserPieces();
+        }
+
         private void clearPhysicsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToggleClearPhysics();

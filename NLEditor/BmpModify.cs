@@ -54,6 +54,7 @@ namespace NLEditor
         const int BytesPerPixel = 4;
 
         private static readonly byte[] COLOR_ERASE = { 0, 0, 0, 0 };
+        private static readonly byte[] COLOR_ERASE_SOLID = { 100, 0, 100, 255 };
         private static readonly byte[] COLOR_CLEAR_PHYSICS_LIGHT = { 200, 200, 200, 254 };
         private static readonly byte[] COLOR_CLEAR_PHYSICS_DARK = { 170, 170, 170, 254 };
         private static readonly byte[] COLOR_CLEAR_PHYSICS_LIGHT_OWW = { 200, 200, 200, 255 };
@@ -72,7 +73,10 @@ namespace NLEditor
 
         private static byte[] ColorFunc_Erase(int posX, int posY)
         {
-            return COLOR_ERASE;
+            if (Properties.Settings.Default.ErasersAreHighlighted)
+                return COLOR_ERASE_SOLID;
+            else
+                return COLOR_ERASE;
         }
 
         private static byte[] ColorFunc_ClearPhysics(int posX, int posY)

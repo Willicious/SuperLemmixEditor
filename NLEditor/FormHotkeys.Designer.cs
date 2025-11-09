@@ -310,6 +310,9 @@
             System.Windows.Forms.ListViewItem listViewItem94 = new System.Windows.Forms.ListViewItem(new string[] {
             "Close Editor",
             "HotkeyCloseEditor"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem95 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Highlight Eraser Pieces",
+            "HotkeyToggleEraserPieces"}, -1);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormHotkeys));
             this.comboBoxChooseKey = new System.Windows.Forms.ComboBox();
             this.btnSave = new System.Windows.Forms.Button();
@@ -536,7 +539,8 @@
             listViewItem91,
             listViewItem92,
             listViewItem93,
-            listViewItem94});
+            listViewItem94,
+            listViewItem95});
             this.listViewHotkeys.Location = new System.Drawing.Point(25, 49);
             this.listViewHotkeys.MultiSelect = false;
             this.listViewHotkeys.Name = "listViewHotkeys";

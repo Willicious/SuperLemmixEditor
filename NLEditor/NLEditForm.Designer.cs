@@ -287,6 +287,7 @@
             this.tabLvlMisc = new System.Windows.Forms.TabControl();
             this.but_PieceSteel = new System.Windows.Forms.Button();
             this.txt_Focus = new NLEditor.FocusTextBox();
+            this.highlightEraserPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
@@ -567,6 +568,7 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.highlightEraserPiecesToolStripMenuItem,
             this.clearPhysicsToolStripMenuItem,
             this.terrainToolStripMenuItem,
             this.objectToolStripMenuItem,
@@ -583,7 +585,7 @@
             this.clearPhysicsToolStripMenuItem.CheckOnClick = true;
             this.clearPhysicsToolStripMenuItem.Name = "clearPhysicsToolStripMenuItem";
             this.clearPhysicsToolStripMenuItem.ShortcutKeyDisplayString = "F1";
-            this.clearPhysicsToolStripMenuItem.Size = new System.Drawing.Size(333, 34);
+            this.clearPhysicsToolStripMenuItem.Size = new System.Drawing.Size(352, 34);
             this.clearPhysicsToolStripMenuItem.Text = "Clear Physics Mode";
             this.clearPhysicsToolStripMenuItem.Click += new System.EventHandler(this.clearPhysicsToolStripMenuItem_Click);
             // 
@@ -594,7 +596,7 @@
             this.terrainToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
             this.terrainToolStripMenuItem.ShortcutKeyDisplayString = "F2";
-            this.terrainToolStripMenuItem.Size = new System.Drawing.Size(333, 34);
+            this.terrainToolStripMenuItem.Size = new System.Drawing.Size(352, 34);
             this.terrainToolStripMenuItem.Text = "Show/Hide Terrain";
             this.terrainToolStripMenuItem.Click += new System.EventHandler(this.terrainToolStripMenuItem_Click);
             // 
@@ -605,7 +607,7 @@
             this.objectToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.objectToolStripMenuItem.Name = "objectToolStripMenuItem";
             this.objectToolStripMenuItem.ShortcutKeyDisplayString = "F3";
-            this.objectToolStripMenuItem.Size = new System.Drawing.Size(333, 34);
+            this.objectToolStripMenuItem.Size = new System.Drawing.Size(352, 34);
             this.objectToolStripMenuItem.Text = "Show/Hide Objects";
             this.objectToolStripMenuItem.Click += new System.EventHandler(this.objectToolStripMenuItem_Click);
             // 
@@ -614,7 +616,7 @@
             this.triggerAreasToolStripMenuItem.CheckOnClick = true;
             this.triggerAreasToolStripMenuItem.Name = "triggerAreasToolStripMenuItem";
             this.triggerAreasToolStripMenuItem.ShortcutKeyDisplayString = "F4";
-            this.triggerAreasToolStripMenuItem.Size = new System.Drawing.Size(333, 34);
+            this.triggerAreasToolStripMenuItem.Size = new System.Drawing.Size(352, 34);
             this.triggerAreasToolStripMenuItem.Text = "Show/Hide Triggers";
             this.triggerAreasToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.triggerAreasToolStripMenuItem.Click += new System.EventHandler(this.triggerAreasToolStripMenuItem_Click);
@@ -624,7 +626,7 @@
             this.screenStartToolStripMenuItem.CheckOnClick = true;
             this.screenStartToolStripMenuItem.Name = "screenStartToolStripMenuItem";
             this.screenStartToolStripMenuItem.ShortcutKeyDisplayString = "F5";
-            this.screenStartToolStripMenuItem.Size = new System.Drawing.Size(333, 34);
+            this.screenStartToolStripMenuItem.Size = new System.Drawing.Size(352, 34);
             this.screenStartToolStripMenuItem.Text = "Show/Hide Screen Start";
             this.screenStartToolStripMenuItem.Click += new System.EventHandler(this.screenStartToolStripMenuItem_Click);
             // 
@@ -633,7 +635,7 @@
             this.backgroundToolStripMenuItem.CheckOnClick = true;
             this.backgroundToolStripMenuItem.Name = "backgroundToolStripMenuItem";
             this.backgroundToolStripMenuItem.ShortcutKeyDisplayString = "F6";
-            this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(333, 34);
+            this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(352, 34);
             this.backgroundToolStripMenuItem.Text = "Show/Hide Background";
             this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
             // 
@@ -642,7 +644,7 @@
             this.deprecatedPiecesToolStripMenuItem.CheckOnClick = true;
             this.deprecatedPiecesToolStripMenuItem.Name = "deprecatedPiecesToolStripMenuItem";
             this.deprecatedPiecesToolStripMenuItem.ShortcutKeyDisplayString = "F7";
-            this.deprecatedPiecesToolStripMenuItem.Size = new System.Drawing.Size(333, 34);
+            this.deprecatedPiecesToolStripMenuItem.Size = new System.Drawing.Size(352, 34);
             this.deprecatedPiecesToolStripMenuItem.Text = "Show/Hide Deprecated";
             this.deprecatedPiecesToolStripMenuItem.Click += new System.EventHandler(this.deprecatedPiecesToolStripMenuItem_Click);
             // 
@@ -3497,6 +3499,14 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
+            // highlightEraserPiecesToolStripMenuItem
+            // 
+            this.highlightEraserPiecesToolStripMenuItem.Name = "highlightEraserPiecesToolStripMenuItem";
+            this.highlightEraserPiecesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+E";
+            this.highlightEraserPiecesToolStripMenuItem.Size = new System.Drawing.Size(352, 34);
+            this.highlightEraserPiecesToolStripMenuItem.Text = "Highlight Eraser Pieces";
+            this.highlightEraserPiecesToolStripMenuItem.Click += new System.EventHandler(this.highlightEraserPiecesToolStripMenuItem_Click);
+            // 
             // NLEditForm
             // 
             this.AllowDrop = true;
@@ -3885,6 +3895,7 @@
         private System.Windows.Forms.Button but_PieceSteel;
         private System.Windows.Forms.Label lblPieceSize;
         private System.Windows.Forms.Label lblSize;
+        private System.Windows.Forms.ToolStripMenuItem highlightEraserPiecesToolStripMenuItem;
     }
 }
 

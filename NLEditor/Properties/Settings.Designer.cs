@@ -94,5 +94,17 @@ namespace NLEditor.Properties {
                 this["LevelArrangerIsMaximized"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ErasersAreHighlighted {
+            get {
+                return ((bool)(this["ErasersAreHighlighted"]));
+            }
+            set {
+                this["ErasersAreHighlighted"] = value;
+            }
+        }
     }
 }
