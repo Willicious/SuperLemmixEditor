@@ -53,6 +53,9 @@
             "Cleanse Levels",
             "HotkeyCleanseLevels"}, -1);
             System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Highlight Eraser Pieces",
+            "HotkeyHighlightEraserPieces"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
             "Toggle Clear Physics",
             "HotkeyToggleClearPhysics"}, -1);
             System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
@@ -310,9 +313,6 @@
             System.Windows.Forms.ListViewItem listViewItem94 = new System.Windows.Forms.ListViewItem(new string[] {
             "Close Editor",
             "HotkeyCloseEditor"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem95 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Highlight Eraser Pieces",
-            "HotkeyHighlightEraserPieces"}, -1);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormHotkeys));
             this.comboBoxChooseKey = new System.Windows.Forms.ComboBox();
             this.btnSave = new System.Windows.Forms.Button();

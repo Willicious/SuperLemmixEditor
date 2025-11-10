@@ -25,6 +25,7 @@ namespace NLEditor
             pic_Level.Image = curRenderer.CombineLayers();
 
             snapToGridToolStripMenuItem.Checked = curSettings.UseGridForPieces;
+            highlightEraserPiecesToolStripMenuItem.Checked = Properties.Settings.Default.ErasersAreHighlighted;
 
             MoveControlsOnFormResize();
             ResetLevelImage();
@@ -1907,6 +1908,7 @@ namespace NLEditor
         private void HighlightEraserPieces()
         {
             Properties.Settings.Default.ErasersAreHighlighted = !Properties.Settings.Default.ErasersAreHighlighted;
+            highlightEraserPiecesToolStripMenuItem.Checked = Properties.Settings.Default.ErasersAreHighlighted;
             pic_Level.SetImage(curRenderer.CreateLevelImage());
             Properties.Settings.Default.Save();
         }
