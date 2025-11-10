@@ -1738,19 +1738,25 @@ namespace NLEditor
         {
             if (CurLevel.MayGroupSelection())
             {
+                bool userHasHighlightEraserPiecesEnabled = Properties.Settings.Default.ErasersAreHighlighted;
+
+                // Temporarily disable highlit eraser pieces to ensure these are grouped correctly
+                if (userHasHighlightEraserPiecesEnabled)
+                {
+                    Properties.Settings.Default.ErasersAreHighlighted = false;
+                    pic_Level.Image = curRenderer.CreateLevelImage();
+                }
+
                 CurLevel.GroupSelection();
                 SaveChangesToOldLevelList();
                 UpdateFlagsForPieceActions();
                 UpdatePieceMetaData();
+
+                // Reset option before redrawing level
+                if (userHasHighlightEraserPiecesEnabled)
+                    Properties.Settings.Default.ErasersAreHighlighted = true;
+
                 pic_Level.Image = curRenderer.CreateLevelImage();
-            } 
-            else
-            {
-                string hotkey = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyHighlightEraserPieces);
-                statusBar.Visible = true;
-                statusBarButton1.DropDownItems[0].Visible = false;
-                statusBarLabel1.Text = "Eraser pieces cannot be grouped whilst erasers are highlighted";
-                statusBarLabel2.Text = "Press " + hotkey + " to un-highlight erasers, then group";
             }
         }
 

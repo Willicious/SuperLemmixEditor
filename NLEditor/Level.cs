@@ -768,10 +768,6 @@ namespace NLEditor
         {
             var selection = TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSketch);
             var selectionVisible = selection.FindAll(ter => !ter.IsErase);
-            var selectionErasers = selection.FindAll(ter => ter.IsErase);
-
-            if (Properties.Settings.Default.ErasersAreHighlighted && selectionErasers.Count > 0)
-                return false;
 
             return selection.Count > 1 && selectionVisible.Count > 0
                 && (selectionVisible.TrueForAll(ter => ter.IsSteel) || selectionVisible.TrueForAll(ter => !ter.IsSteel));
