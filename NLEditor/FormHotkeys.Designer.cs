@@ -312,7 +312,7 @@
             "HotkeyCloseEditor"}, -1);
             System.Windows.Forms.ListViewItem listViewItem95 = new System.Windows.Forms.ListViewItem(new string[] {
             "Highlight Eraser Pieces",
-            "HotkeyToggleEraserPieces"}, -1);
+            "HotkeyHighlightEraserPieces"}, -1);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormHotkeys));
             this.comboBoxChooseKey = new System.Windows.Forms.ComboBox();
             this.btnSave = new System.Windows.Forms.Button();
