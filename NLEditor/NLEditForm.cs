@@ -331,6 +331,11 @@ namespace NLEditor
             Application.Exit();
         }
 
+        private void highlightGroupedPiecesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HighlightGroupedPieces();
+        }
+
         private void highlightEraserPiecesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HighlightEraserPieces();

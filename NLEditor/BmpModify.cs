@@ -31,6 +31,7 @@ namespace NLEditor
             colorFuncDict.Add(C.CustDrawMode.ClearPhysicsNoOverwrite, ColorFunc_ClearPhysics);
             colorFuncDict.Add(C.CustDrawMode.ClearPhysicsNoOverwriteOWW, ColorFunc_ClearPhysicsOWW);
             colorFuncDict.Add(C.CustDrawMode.ClearPhysicsSteelNoOverwrite, ColorFunc_ClearPhysicsSteel);
+            colorFuncDict.Add(C.CustDrawMode.HighlightGrouped, ColorFunc_HighlightGrouped);
 
             doDrawThisPixelDict = new Dictionary<C.CustDrawMode, Func<byte, byte, bool>>();
             doDrawThisPixelDict.Add(C.CustDrawMode.Default, DoDrawThisPixel_DrawNew);
@@ -46,6 +47,7 @@ namespace NLEditor
             doDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsNoOverwrite, DoDrawThisPixel_NotAtMask);
             doDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsNoOverwriteOWW, DoDrawThisPixel_NotAtMask);
             doDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsSteelNoOverwrite, DoDrawThisPixel_NotAtMask);
+            doDrawThisPixelDict.Add(C.CustDrawMode.HighlightGrouped, DoDrawThisPixel_DrawNew);
         }
 
         private static Dictionary<C.CustDrawMode, Func<int, int, byte[]>> colorFuncDict;
@@ -63,6 +65,7 @@ namespace NLEditor
         private static readonly byte[] COLOR_CLEAR_PHYSICS_STEEL_DARK = { 50, 50, 50, 254 };
         private static readonly byte[] COLOR_RECTANGLE_LIGHT = { 240, 240, 240, 255 };
         private static readonly byte[] COLOR_RECTANGLE_DARK = { 30, 30, 30, 255 };
+        private static readonly byte[] HIGHLIGHT_GROUPED = { 0, 100, 0, 255 };
 
         [Obsolete]
         public static void SetCustomDrawMode(Func<int, int, byte[]> colorFunc, Func<byte, byte, bool> drawTypeFunc)
@@ -113,6 +116,11 @@ namespace NLEditor
             {
                 return COLOR_CLEAR_PHYSICS_STEEL_DARK;
             }
+        }
+
+        private static byte[] ColorFunc_HighlightGrouped(int posX, int posY)
+        {
+            return HIGHLIGHT_GROUPED;
         }
 
         private static bool DoDrawThisPixel_DrawNew(byte newBmpAlpha, byte maskBmpAlpha)

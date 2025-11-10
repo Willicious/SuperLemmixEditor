@@ -62,6 +62,7 @@ namespace NLEditor
             NoOverwrite, NoOverwriteOWW,
             ClearPhysics, ClearPhysicsOWW, ClearPhysicsSteel,
             ClearPhysicsNoOverwrite, ClearPhysicsNoOverwriteOWW, ClearPhysicsSteelNoOverwrite,
+            HighlightGrouped,
             Custom
         }
 

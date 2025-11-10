@@ -580,6 +580,8 @@ namespace NLEditor
                 return C.CustDrawMode.Default;
             else if (terrPiece.IsErase)
                 return C.CustDrawMode.Erase;
+            if (terrPiece is GroupPiece && Properties.Settings.Default.GroupsAreHighlighted)
+                return C.CustDrawMode.HighlightGrouped;
             else if (terrPiece.IsNoOverwrite)
             {
                 if (IsClearPhysics)

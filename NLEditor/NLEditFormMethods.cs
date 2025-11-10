@@ -25,6 +25,7 @@ namespace NLEditor
             pic_Level.Image = curRenderer.CombineLayers();
 
             snapToGridToolStripMenuItem.Checked = curSettings.UseGridForPieces;
+            highlightGroupedPiecesToolStripMenuItem.Checked = Properties.Settings.Default.GroupsAreHighlighted;
             highlightEraserPiecesToolStripMenuItem.Checked = Properties.Settings.Default.ErasersAreHighlighted;
 
             MoveControlsOnFormResize();
@@ -1905,6 +1906,14 @@ namespace NLEditor
             MessageBox.Show($"Image saved as {savedFilePath}", "Save Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private void HighlightGroupedPieces()
+        {
+            Properties.Settings.Default.GroupsAreHighlighted = !Properties.Settings.Default.GroupsAreHighlighted;
+            highlightGroupedPiecesToolStripMenuItem.Checked = Properties.Settings.Default.GroupsAreHighlighted;
+            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            Properties.Settings.Default.Save();
+        }
+
         private void HighlightEraserPieces()
         {
             Properties.Settings.Default.ErasersAreHighlighted = !Properties.Settings.Default.ErasersAreHighlighted;
@@ -2006,6 +2015,7 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyPlaytestLevel, () => PlaytestLevel());
             AddHotkey(HotkeyConfig.HotkeyValidateLevel, () => ValidateLevel(false));
             AddHotkey(HotkeyConfig.HotkeyCleanseLevels, () => ShowCleanseLevelsDialog());
+            AddHotkey(HotkeyConfig.HotkeyHighlightGroupedPieces, () => HighlightGroupedPieces());
             AddHotkey(HotkeyConfig.HotkeyHighlightEraserPieces, () => HighlightEraserPieces());
             AddHotkey(HotkeyConfig.HotkeyToggleClearPhysics, () => ToggleClearPhysics());
             AddHotkey(HotkeyConfig.HotkeyToggleTerrain, () => ToggleTerrain());
@@ -2157,6 +2167,9 @@ namespace NLEditor
 
             ungroupToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyUngroup);
+
+            highlightGroupedPiecesToolStripMenuItem.ShortcutKeyDisplayString =
+                HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyHighlightGroupedPieces);
 
             highlightEraserPiecesToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyHighlightEraserPieces);

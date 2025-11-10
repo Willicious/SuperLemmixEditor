@@ -106,5 +106,17 @@ namespace NLEditor.Properties {
                 this["ErasersAreHighlighted"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupsAreHighlighted {
+            get {
+                return ((bool)(this["GroupsAreHighlighted"]));
+            }
+            set {
+                this["GroupsAreHighlighted"] = value;
+            }
+        }
     }
 }
