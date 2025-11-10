@@ -378,6 +378,7 @@ namespace NLEditor
 
                 // Update status strip
                 statusBar.Visible = true;
+                statusBarButton1.DropDownItems[0].Visible = true;
                 statusBarLabel1.Text = "This level contains missing pieces (click to show).";
                 statusBarLabel2.Text = "If saved, a new copy called " + newFileName +
                                              " will be created to prevent overwriting the original.";
@@ -1742,6 +1743,14 @@ namespace NLEditor
                 UpdateFlagsForPieceActions();
                 UpdatePieceMetaData();
                 pic_Level.Image = curRenderer.CreateLevelImage();
+            } 
+            else
+            {
+                string hotkey = HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyHighlightEraserPieces);
+                statusBar.Visible = true;
+                statusBarButton1.DropDownItems[0].Visible = false;
+                statusBarLabel1.Text = "Eraser pieces cannot be grouped whilst erasers are highlighted";
+                statusBarLabel2.Text = "Press " + hotkey + " to un-highlight erasers, then group";
             }
         }
 
