@@ -40,6 +40,7 @@ namespace NLEditor
         public static Keys HotkeyDragHorizontally;
         public static Keys HotkeyDragVertically;
         public static Keys HotkeyMoveScreenStart;
+        public static Keys HotkeySetScreenStartToCursor;
         public static Keys HotkeyRemovePiecesAtCursor;
         public static Keys HotkeyAddRemoveSinglePiece;
         public static Keys HotkeySelectPiecesBelow;
@@ -391,6 +392,8 @@ namespace NLEditor
                     HotkeyDragVertically = ParseHotkeyString(line.Substring("HotkeyDragVertically=".Length));
                 if (line.StartsWith("HotkeyMoveScreenStart="))
                     HotkeyMoveScreenStart = ParseHotkeyString(line.Substring("HotkeyMoveScreenStart=".Length));
+                if (line.StartsWith("HotkeySetScreenStartToCursor="))
+                    HotkeySetScreenStartToCursor = ParseHotkeyString(line.Substring("HotkeySetScreenStartToCursor=".Length));
                 if (line.StartsWith("HotkeyRemovePiecesAtCursor="))
                     HotkeyRemovePiecesAtCursor = ParseHotkeyString(line.Substring("HotkeyRemovePiecesAtCursor=".Length));
                 if (line.StartsWith("HotkeyAddRemoveSinglePiece="))
@@ -576,6 +579,7 @@ namespace NLEditor
                 $"HotkeyDragHorizontally={FormatHotkeyString(HotkeyDragHorizontally)}",
                 $"HotkeyDragVertically={FormatHotkeyString(HotkeyDragVertically)}",
                 $"HotkeyMoveScreenStart={FormatHotkeyString(HotkeyMoveScreenStart)}",
+                $"HotkeySetScreenStartToCursor={FormatHotkeyString(HotkeySetScreenStartToCursor)}",
                 $"HotkeyRemovePiecesAtCursor={FormatHotkeyString(HotkeyRemovePiecesAtCursor)}",
                 $"HotkeyAddRemoveSinglePiece={FormatHotkeyString(HotkeyAddRemoveSinglePiece)}",
                 $"HotkeySelectPiecesBelow={FormatHotkeyString(HotkeySelectPiecesBelow)}",
@@ -685,6 +689,7 @@ namespace NLEditor
             HotkeyDragHorizontally = Keys.Control | Keys.Alt | Keys.LButton;
             HotkeyDragVertically = Keys.Control | Keys.Shift | Keys.LButton;
             HotkeyMoveScreenStart = Keys.P;
+            HotkeySetScreenStartToCursor = Keys.L;
             HotkeyRemovePiecesAtCursor = Keys.MButton;
             HotkeyAddRemoveSinglePiece = Keys.Control | Keys.LButton;
             HotkeySelectPiecesBelow = Keys.Alt | Keys.LButton;
@@ -785,6 +790,7 @@ namespace NLEditor
             HotkeyDragHorizontally = Keys.Control | Keys.Alt | Keys.LButton;
             HotkeyDragVertically = Keys.Control | Keys.Shift | Keys.LButton;
             HotkeyMoveScreenStart = Keys.P;
+            HotkeySetScreenStartToCursor = Keys.L;
             HotkeyRemovePiecesAtCursor = Keys.MButton;
             HotkeyAddRemoveSinglePiece = Keys.Control | Keys.LButton;
             HotkeySelectPiecesBelow = Keys.Alt | Keys.LButton;

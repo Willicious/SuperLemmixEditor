@@ -752,6 +752,9 @@ namespace NLEditor
                     case "HotkeyMoveScreenStart":
                         HotkeyConfig.HotkeyMoveScreenStart = parsedKey;
                         break;
+                    case "HotkeySetScreenStartToCursor":
+                        HotkeyConfig.HotkeySetScreenStartToCursor = parsedKey;
+                        break;
                     case "HotkeyRemovePiecesAtCursor":
                         HotkeyConfig.HotkeyRemovePiecesAtCursor = parsedKey;
                         break;

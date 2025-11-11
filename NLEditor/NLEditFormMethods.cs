@@ -2102,6 +2102,12 @@ namespace NLEditor
             LoadPiecesIntoPictureBox();
         }
 
+        private void SetScreenStartToCursor()
+        {
+            Point mousePos = curRenderer.GetMousePosInLevel(pic_Level.PointToClient(Cursor.Position));
+            MoveScreenStartPosition(new Point(mousePos.X, mousePos.Y));
+        }
+
         private void ZoomIn()
         {
             curRenderer.ChangeZoom(1, false);
@@ -2175,6 +2181,7 @@ namespace NLEditor
             AddHotkey(HotkeyConfig.HotkeyDragHorizontally, () => dragHorizontallyPressed = true);
             AddHotkey(HotkeyConfig.HotkeyDragVertically, () => dragVerticallyPressed = true);
             AddHotkey(HotkeyConfig.HotkeyMoveScreenStart, () => dragScreenStartPressed = true);
+            AddHotkey(HotkeyConfig.HotkeySetScreenStartToCursor, () => SetScreenStartToCursor());
             AddHotkey(HotkeyConfig.HotkeyRemovePiecesAtCursor, () => removeAllPiecesAtCursorPressed = true);
             AddHotkey(HotkeyConfig.HotkeyAddRemoveSinglePiece, () => addOrRemoveSinglePiecePressed = true);
             AddHotkey(HotkeyConfig.HotkeySelectPiecesBelow, () => selectPiecesBelowPressed = true);
