@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -68,6 +70,127 @@ namespace NLEditor
 
             Backgrounds.SortBackgrounds();
         }
+
+        /// <summary>
+        /// Applies the chosen custom skillset to the skill selection
+        /// </summary>
+        public void ApplyCustomSkillset()
+        {
+            try
+            {
+                string selectedSkillset = combo_CustomSkillset.Text;
+
+                if (string.IsNullOrWhiteSpace(selectedSkillset))
+                {
+                    MessageBox.Show("Please select a skillset first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                const int bufferSize = 4096;
+                byte[] buffer = new byte[bufferSize];
+
+                int length = GetPrivateProfileSection(selectedSkillset, buffer, bufferSize, C.AppPathCustomSkillsets);
+                if (length == 0)
+                {
+                    MessageBox.Show($"No skills found for skillset '{selectedSkillset}'.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                SetAllSkillsToZero(); // Reset all skills
+
+                string sectionData = Encoding.Unicode.GetString(buffer, 0, length * 2).Trim('\0');
+                string[] skills = sectionData.Split(new char[] { '\0' }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string line in skills)
+                {
+                    string[] parts = line.Split('=');
+                    if (parts.Length != 2) continue;
+
+                    string skillName = parts[0].Trim();
+                    string skillValueStr = parts[1].Trim();
+
+                    if (!int.TryParse(skillValueStr, out int skillValue))
+                        continue; // Skip invalid numbers
+                    if (!Enum.TryParse(skillName, ignoreCase: true, out C.Skill skillEnum))
+                        continue; // Skip unknown skills
+
+                    if (numericsSkillSet.TryGetValue(skillEnum, out NumericUpDown numeric))
+                    {
+                        // Ensure value doesn't exceed min/max values of numerics
+                        skillValue = Math.Max((int)numeric.Minimum, Math.Min((int)numeric.Maximum, skillValue));
+                        numeric.Value = skillValue;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error applying skillset:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        } [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+          private static extern int GetPrivateProfileSection(string lpAppName, byte[] lpszReturnBuffer, int nSize, string lpFileName);
+
+        /// <summary>
+        /// Populates the Custom Skillset combo with a list of preset/user skillsets
+        /// </summary>
+        private void SetCustomSkillsetList()
+        {
+            try
+            {
+                if (File.Exists(C.AppPathCustomSkillsets))
+                {
+                    combo_CustomSkillset.Enabled = true;
+                    btnCustomSkillset.Enabled = true;
+
+                    combo_CustomSkillset.Items.Clear();
+
+                    // Read all section names (skillset names)
+                    string[] skillsetNames = GetSkillsetNames(C.AppPathCustomSkillsets);
+
+                    foreach (string name in skillsetNames)
+                    {
+                        combo_CustomSkillset.Items.Add(name);
+                    }
+
+                    // Optionally select the first item
+                    if (combo_CustomSkillset.Items.Count > 0)
+                        combo_CustomSkillset.SelectedIndex = 0;
+                }
+                else
+                {
+                    combo_CustomSkillset.Enabled = false;
+                    btnCustomSkillset.Enabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error reading custom skillset file:\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                combo_CustomSkillset.Enabled = false;
+                btnCustomSkillset.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Returns all skillset names (INI section headers) from the given SLXCustomSkillsets.ini file.
+        /// </summary>
+        private static string[] GetSkillsetNames(string filePath)
+        {
+            const int bufferSize = 4096; // doubled to be safe
+            byte[] buffer = new byte[bufferSize];
+
+            int length = GetPrivateProfileSectionNames(buffer, bufferSize, filePath);
+            if (length == 0)
+                return Array.Empty<string>();
+
+            string allSections = Encoding.Unicode.GetString(buffer, 0, length * 2).Trim('\0');
+            return allSections.Split(new char[] { '\0' }, StringSplitOptions.RemoveEmptyEntries);
+        } [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+          private static extern int GetPrivateProfileSectionNames(byte[] lpszReturnBuffer, int nSize, string lpFileName);
 
         /// <summary>
         /// Sets the music options according to available files in the music folder.

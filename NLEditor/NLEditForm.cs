@@ -26,6 +26,7 @@ namespace NLEditor
             UpdateExpandedTabs();
             PullFocusFromTextInputs();
             SetRepeatButtonIntervals();
+            SetCustomSkillsetList();
             SetMusicList();
 
             C.ScreenSize = new ScreenSize();
@@ -1577,6 +1578,11 @@ namespace NLEditor
         {
             // Return focus to main form if the list is closed
             PullFocusFromTextInputs();
+        }
+
+        private void btnCustomSkillset_Click(object sender, EventArgs e)
+        {
+            ApplyCustomSkillset();
         }
     }
 }
