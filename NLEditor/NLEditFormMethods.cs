@@ -136,35 +136,70 @@ namespace NLEditor
         {
             try
             {
-                if (File.Exists(C.AppPathCustomSkillsets))
+                if (!File.Exists(C.AppPathCustomSkillsets))
                 {
-                    combo_CustomSkillset.Enabled = true;
-                    btnCustomSkillset.Enabled = true;
+                    // Create the .ini file with default skillsets
+                    string defaultContent = @"# SLXEditor Custom Skillsets
 
-                    combo_CustomSkillset.Items.Clear();
+[Classic 8 - 10 of each]
+Climber=10
+Floater=10
+Timebomber=10
+Blocker=10
+Builder=10
+Basher=10
+Miner=10
+Digger=10
 
-                    // Read all section names (skillset names)
-                    string[] skillsetNames = GetSkillsetNames(C.AppPathCustomSkillsets);
+[Classic 8 - 20 of each]
+Climber=20
+Floater=20
+Timebomber=20
+Blocker=20
+Builder=20
+Basher=20
+Miner=20
+Digger=20
 
-                    foreach (string name in skillsetNames)
+[SLX Exclusive - 10 of each]
+Ballooner=10
+Grenader=10
+Spearer=10
+Freezer=10
+Ladderer=10";
+
+                    // Ensure the directory exists
+                    string directory = Path.GetDirectoryName(C.AppPathCustomSkillsets);
+                    if (!Directory.Exists(directory))
                     {
-                        combo_CustomSkillset.Items.Add(name);
+                        Directory.CreateDirectory(directory);
                     }
 
-                    // Optionally select the first item
-                    if (combo_CustomSkillset.Items.Count > 0)
-                        combo_CustomSkillset.SelectedIndex = 0;
+                    File.WriteAllText(C.AppPathCustomSkillsets, defaultContent, Encoding.Unicode);
                 }
-                else
+
+                // At this point the file exists, so enable components and populate combo
+                combo_CustomSkillset.Enabled = true;
+                btnCustomSkillset.Enabled = true;
+
+                combo_CustomSkillset.Items.Clear();
+
+                // Read all section names (skillset names)
+                string[] skillsetNames = GetSkillsetNames(C.AppPathCustomSkillsets);
+
+                foreach (string name in skillsetNames)
                 {
-                    combo_CustomSkillset.Enabled = false;
-                    btnCustomSkillset.Enabled = false;
+                    combo_CustomSkillset.Items.Add(name);
                 }
+
+                // Optionally select the first item
+                if (combo_CustomSkillset.Items.Count > 0)
+                    combo_CustomSkillset.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error reading custom skillset file:\n" + ex.Message,
+                    "Error checking or creating custom skillset file:\n" + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
