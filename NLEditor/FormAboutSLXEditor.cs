@@ -104,8 +104,40 @@ namespace NLEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
+            // Version 2.8.9 features
+            WriteBoldText(richTextBox, "Version 2.8.9\n");
+            WriteBoldText(richTextBox, "• Custom Skillsets");
+            richTextBox.AppendText(" - It's now possible to apply custom preset skillsets using SLXCustomSkillsets.ini\n");
+
+            WriteBoldText(richTextBox, "• UI - Highlight Grouped Pieces");
+            richTextBox.AppendText(" - It's now possible to highlight all grouped pieces\n");
+
+            WriteBoldText(richTextBox, "• UI - Highlight Eraser Pieces");
+            richTextBox.AppendText(" - It's now possible to highlight all pieces designated as 'Erase'\n");
+
+            WriteBoldText(richTextBox, "• UI - Trigger area colours");
+            richTextBox.AppendText(" - It's now possible to choose between 5 different trigger area colours\n");
+
+            WriteBoldText(richTextBox, "• UI - Set Screen Start to Mouse Cursor");
+            richTextBox.AppendText(" - It's now possible to set the screen start to the mouse cursor position using a customisable hotkey\n");
+
+            WriteBoldText(richTextBox, "• UI - Zoom");
+            richTextBox.AppendText(" - Increased maximum zoom level\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - Level Validation");
+            richTextBox.AppendText(" - Validate level now has a minimum time limit of 1 second\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - UI");
+            richTextBox.AppendText(" - Dropdown lists are now prevented from closing if the mouse is moved too quickly\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - UI");
+            richTextBox.AppendText(" - Increased minimum selectable grid size to 2px\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - UI");
+            richTextBox.AppendText(" - In the Level Arranger window, X/Y co-ordinates of selected pieces now stay visible when the scrollbars appear\n");
+
             // Version 2.8.8 features
-            WriteBoldText(richTextBox, "Version 2.8.8\n");
+            WriteBoldText(richTextBox, "\nVersion 2.8.8\n");
             WriteBoldText(richTextBox, "• Level Validation");
             richTextBox.AppendText(" - Added a setting to toggle automatic level validation on/off when manually saving a level\n");
 
@@ -121,8 +153,8 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Bugfix - UI");
             richTextBox.AppendText(" - Settings form now stays on top when active\n");
 
-            // Version 2.8.7 features
-            WriteBoldText(richTextBox, "\nVersion 2.8.7\n");
+            // Version 2.8.X features
+            WriteBoldText(richTextBox, "\nVersion 2.8.X\n");
             WriteBoldText(richTextBox, "• Piece Browser");
             richTextBox.AppendText(" - Added option to scroll piece browser infinitely (previous behaviour)\n");
 
@@ -196,8 +228,6 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Bugfix - Piece Search");
             richTextBox.AppendText(" - Adding a piece to the level via the Piece Search now focuses the Pieces tab\n");
 
-            // Version 2.8.X features
-            WriteBoldText(richTextBox, "\nVersion 2.8.X\n");
             WriteBoldText(richTextBox, "• NeoLemmix Mode");
             richTextBox.AppendText(" - Added support for NeoLemmix CE\n");
 
