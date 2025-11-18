@@ -42,10 +42,15 @@ namespace NLEditor
         {
             FindIssues();
 
-            if ((issuesList.Count == 0) && openedViaSave)
+            if (openedViaSave)
             {
-                validationPassed = true;
-                return;
+                if (issuesList.Count == 0)
+                {
+                    validationPassed = true;
+                    return;
+                }
+                else
+                    validationPassed = false;
             }
 
             if (!reuseValidatorForm)
