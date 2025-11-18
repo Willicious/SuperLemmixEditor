@@ -90,7 +90,7 @@
             "HotkeyToggleSnapToGrid"}, -1);
             System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
             "Open Level Arranger Window",
-            "HotkeyOpenLevelWindow"}, -1);
+            "HotkeyOpenLevelArrangerWindow"}, -1);
             System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
             "Expand/Collapse All Tabs",
             "HotkeyToggleAllTabs"}, -1);
