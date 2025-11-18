@@ -76,15 +76,6 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.combo_PieceStyle = new System.Windows.Forms.ComboBox();
-            this.picPiece0 = new System.Windows.Forms.PictureBox();
-            this.picPiece1 = new System.Windows.Forms.PictureBox();
-            this.picPiece2 = new System.Windows.Forms.PictureBox();
-            this.picPiece3 = new System.Windows.Forms.PictureBox();
-            this.picPiece4 = new System.Windows.Forms.PictureBox();
-            this.picPiece5 = new System.Windows.Forms.PictureBox();
-            this.picPiece6 = new System.Windows.Forms.PictureBox();
-            this.picPiece7 = new System.Windows.Forms.PictureBox();
             this.pic_Level = new System.Windows.Forms.PictureBox();
             this.tabLvlProperties = new System.Windows.Forms.TabControl();
             this.tabGlobalInfo = new System.Windows.Forms.TabPage();
@@ -267,16 +258,10 @@
             this.btnTalismanAdd = new System.Windows.Forms.Button();
             this.lblTalismans = new System.Windows.Forms.Label();
             this.lbTalismans = new System.Windows.Forms.ListBox();
-            this.but_ClearBackground = new System.Windows.Forms.Button();
             this.toolTipPieces = new System.Windows.Forms.ToolTip(this.components);
             this.scrollPicLevelHoriz = new System.Windows.Forms.HScrollBar();
             this.scrollPicLevelVert = new System.Windows.Forms.VScrollBar();
-            this.pic_DragNewPiece = new System.Windows.Forms.PictureBox();
             this.toolTipButton = new System.Windows.Forms.ToolTip(this.components);
-            this.but_PieceRight = new NLEditor.RepeatButton();
-            this.but_PieceLeft = new NLEditor.RepeatButton();
-            this.but_PieceBackground = new System.Windows.Forms.Button();
-            this.but_PieceSketches = new System.Windows.Forms.Button();
             this.timerAutosave = new System.Windows.Forms.Timer(this.components);
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.statusBarLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -284,23 +269,31 @@
             this.statusBarButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.showMissingPiecesStatusBarMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oKStatusBarMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.but_PieceObj = new System.Windows.Forms.Button();
-            this.but_PieceTerr = new System.Windows.Forms.Button();
-            this.but_SearchPieces = new System.Windows.Forms.Button();
             this.tabLvlPieces = new System.Windows.Forms.TabControl();
             this.tabLvlSkills = new System.Windows.Forms.TabControl();
             this.tabLvlMisc = new System.Windows.Forms.TabControl();
-            this.but_PieceSteel = new System.Windows.Forms.Button();
             this.txt_Focus = new NLEditor.FocusTextBox();
+            this.panelPieceBrowser = new System.Windows.Forms.Panel();
+            this.but_PieceSteel = new System.Windows.Forms.Button();
+            this.but_SearchPieces = new System.Windows.Forms.Button();
+            this.but_PieceTerr = new System.Windows.Forms.Button();
+            this.but_PieceObj = new System.Windows.Forms.Button();
+            this.but_PieceSketches = new System.Windows.Forms.Button();
+            this.but_PieceBackground = new System.Windows.Forms.Button();
+            this.but_ClearBackground = new System.Windows.Forms.Button();
+            this.pic_DragNewPiece = new System.Windows.Forms.PictureBox();
+            this.picPiece6 = new System.Windows.Forms.PictureBox();
+            this.picPiece5 = new System.Windows.Forms.PictureBox();
+            this.picPiece4 = new System.Windows.Forms.PictureBox();
+            this.picPiece3 = new System.Windows.Forms.PictureBox();
+            this.but_PieceRight = new NLEditor.RepeatButton();
+            this.picPiece2 = new System.Windows.Forms.PictureBox();
+            this.picPiece1 = new System.Windows.Forms.PictureBox();
+            this.but_PieceLeft = new NLEditor.RepeatButton();
+            this.picPiece0 = new System.Windows.Forms.PictureBox();
+            this.combo_PieceStyle = new System.Windows.Forms.ComboBox();
+            this.picPiece7 = new System.Windows.Forms.PictureBox();
             this.menuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).BeginInit();
             this.tabLvlProperties.SuspendLayout();
             this.tabGlobalInfo.SuspendLayout();
@@ -354,8 +347,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ski_Stoner)).BeginInit();
             this.gbCustomSkillset.SuspendLayout();
             this.tabMisc.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).BeginInit();
             this.statusBar.SuspendLayout();
+            this.panelPieceBrowser.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece7)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -369,7 +371,7 @@
             this.optionsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1478, 33);
+            this.menuStrip.Size = new System.Drawing.Size(1478, 36);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -387,7 +389,7 @@
             this.validateLevelToolStripMenuItem,
             this.cleanseLevelsToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 32);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
@@ -482,7 +484,7 @@
             this.ungroupToolStripMenuItem,
             this.toolStripSeparator3});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 29);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 32);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // undoToolStripMenuItem
@@ -583,7 +585,7 @@
             this.backgroundToolStripMenuItem,
             this.deprecatedPiecesToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(65, 32);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // highlightGroupedPiecesToolStripMenuItem
@@ -687,7 +689,7 @@
             this.aboutToolStripMenuItem,
             this.toolStripSeparator4});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(69, 29);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(69, 32);
             this.optionsToolStripMenuItem.Text = "Tools";
             // 
             // searchPiecesToolStripMenuItem
@@ -768,142 +770,6 @@
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(414, 6);
-            // 
-            // combo_PieceStyle
-            // 
-            this.combo_PieceStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combo_PieceStyle.FormattingEnabled = true;
-            this.combo_PieceStyle.Location = new System.Drawing.Point(11, 871);
-            this.combo_PieceStyle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.combo_PieceStyle.Name = "combo_PieceStyle";
-            this.combo_PieceStyle.Size = new System.Drawing.Size(442, 28);
-            this.combo_PieceStyle.TabIndex = 52;
-            this.combo_PieceStyle.SelectedIndexChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
-            this.combo_PieceStyle.DropDownClosed += new System.EventHandler(this.ComboDropDownClosed);
-            this.combo_PieceStyle.TextChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
-            this.combo_PieceStyle.Leave += new System.EventHandler(this.combo_PieceStyle_Leave);
-            this.combo_PieceStyle.MouseEnter += new System.EventHandler(this.ComboMouseEnter);
-            this.combo_PieceStyle.MouseLeave += new System.EventHandler(this.ComboMouseLeave);
-            // 
-            // picPiece0
-            // 
-            this.picPiece0.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece0.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece0.Location = new System.Drawing.Point(59, 909);
-            this.picPiece0.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.picPiece0.Name = "picPiece0";
-            this.picPiece0.Size = new System.Drawing.Size(124, 127);
-            this.picPiece0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece0.TabIndex = 25;
-            this.picPiece0.TabStop = false;
-            this.picPiece0.Click += new System.EventHandler(this.picPieces_Click);
-            this.picPiece0.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
-            this.picPiece0.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
-            // 
-            // picPiece1
-            // 
-            this.picPiece1.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece1.Location = new System.Drawing.Point(194, 909);
-            this.picPiece1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.picPiece1.Name = "picPiece1";
-            this.picPiece1.Size = new System.Drawing.Size(124, 127);
-            this.picPiece1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece1.TabIndex = 27;
-            this.picPiece1.TabStop = false;
-            this.picPiece1.Click += new System.EventHandler(this.picPieces_Click);
-            this.picPiece1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
-            this.picPiece1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
-            // 
-            // picPiece2
-            // 
-            this.picPiece2.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece2.Location = new System.Drawing.Point(329, 909);
-            this.picPiece2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.picPiece2.Name = "picPiece2";
-            this.picPiece2.Size = new System.Drawing.Size(124, 127);
-            this.picPiece2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece2.TabIndex = 28;
-            this.picPiece2.TabStop = false;
-            this.picPiece2.Click += new System.EventHandler(this.picPieces_Click);
-            this.picPiece2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
-            this.picPiece2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
-            // 
-            // picPiece3
-            // 
-            this.picPiece3.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece3.Location = new System.Drawing.Point(464, 909);
-            this.picPiece3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.picPiece3.Name = "picPiece3";
-            this.picPiece3.Size = new System.Drawing.Size(124, 127);
-            this.picPiece3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece3.TabIndex = 30;
-            this.picPiece3.TabStop = false;
-            this.picPiece3.Click += new System.EventHandler(this.picPieces_Click);
-            this.picPiece3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
-            this.picPiece3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
-            // 
-            // picPiece4
-            // 
-            this.picPiece4.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece4.Location = new System.Drawing.Point(599, 909);
-            this.picPiece4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.picPiece4.Name = "picPiece4";
-            this.picPiece4.Size = new System.Drawing.Size(124, 127);
-            this.picPiece4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece4.TabIndex = 31;
-            this.picPiece4.TabStop = false;
-            this.picPiece4.Click += new System.EventHandler(this.picPieces_Click);
-            this.picPiece4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
-            this.picPiece4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
-            // 
-            // picPiece5
-            // 
-            this.picPiece5.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece5.Location = new System.Drawing.Point(734, 909);
-            this.picPiece5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.picPiece5.Name = "picPiece5";
-            this.picPiece5.Size = new System.Drawing.Size(124, 127);
-            this.picPiece5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece5.TabIndex = 32;
-            this.picPiece5.TabStop = false;
-            this.picPiece5.Click += new System.EventHandler(this.picPieces_Click);
-            this.picPiece5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
-            this.picPiece5.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
-            // 
-            // picPiece6
-            // 
-            this.picPiece6.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece6.Location = new System.Drawing.Point(869, 909);
-            this.picPiece6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.picPiece6.Name = "picPiece6";
-            this.picPiece6.Size = new System.Drawing.Size(124, 127);
-            this.picPiece6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece6.TabIndex = 33;
-            this.picPiece6.TabStop = false;
-            this.picPiece6.Click += new System.EventHandler(this.picPieces_Click);
-            this.picPiece6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
-            this.picPiece6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
-            // 
-            // picPiece7
-            // 
-            this.picPiece7.BackColor = System.Drawing.SystemColors.Control;
-            this.picPiece7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPiece7.Location = new System.Drawing.Point(1004, 909);
-            this.picPiece7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.picPiece7.Name = "picPiece7";
-            this.picPiece7.Size = new System.Drawing.Size(124, 127);
-            this.picPiece7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picPiece7.TabIndex = 34;
-            this.picPiece7.TabStop = false;
-            this.picPiece7.Click += new System.EventHandler(this.picPieces_Click);
-            this.picPiece7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
-            this.picPiece7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
             // 
             // pic_Level
             // 
@@ -3301,17 +3167,6 @@
             this.lbTalismans.Size = new System.Drawing.Size(348, 164);
             this.lbTalismans.TabIndex = 0;
             // 
-            // but_ClearBackground
-            // 
-            this.but_ClearBackground.Location = new System.Drawing.Point(1135, 871);
-            this.but_ClearBackground.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.but_ClearBackground.Name = "but_ClearBackground";
-            this.but_ClearBackground.Size = new System.Drawing.Size(166, 32);
-            this.but_ClearBackground.TabIndex = 56;
-            this.but_ClearBackground.Text = "Clear Background";
-            this.but_ClearBackground.UseVisualStyleBackColor = true;
-            this.but_ClearBackground.Click += new System.EventHandler(this.but_ClearBackground_Click);
-            // 
             // scrollPicLevelHoriz
             // 
             this.scrollPicLevelHoriz.LargeChange = 2;
@@ -3334,72 +3189,9 @@
             this.scrollPicLevelVert.Visible = false;
             this.scrollPicLevelVert.Scroll += new System.Windows.Forms.ScrollEventHandler(this.scrollPicLevelVert_Scroll);
             // 
-            // pic_DragNewPiece
-            // 
-            this.pic_DragNewPiece.BackColor = System.Drawing.Color.Black;
-            this.pic_DragNewPiece.Location = new System.Drawing.Point(1297, 1016);
-            this.pic_DragNewPiece.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pic_DragNewPiece.Name = "pic_DragNewPiece";
-            this.pic_DragNewPiece.Size = new System.Drawing.Size(30, 31);
-            this.pic_DragNewPiece.TabIndex = 42;
-            this.pic_DragNewPiece.TabStop = false;
-            this.pic_DragNewPiece.Visible = false;
-            // 
             // toolTipButton
             // 
             this.toolTipButton.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTipButton_Popup);
-            // 
-            // but_PieceRight
-            // 
-            this.but_PieceRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.but_PieceRight.Location = new System.Drawing.Point(1276, 909);
-            this.but_PieceRight.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.but_PieceRight.Name = "but_PieceRight";
-            this.but_PieceRight.NoPaddingText = null;
-            this.but_PieceRight.Size = new System.Drawing.Size(48, 129);
-            this.but_PieceRight.TabIndex = 59;
-            this.but_PieceRight.Text = "⇨";
-            this.toolTipButton.SetToolTip(this.but_PieceRight, "Right-click for faster scrolling");
-            this.but_PieceRight.UseVisualStyleBackColor = true;
-            this.but_PieceRight.Click += new System.EventHandler(this.but_PieceRight_Click);
-            this.but_PieceRight.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceRight_MouseUp);
-            // 
-            // but_PieceLeft
-            // 
-            this.but_PieceLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.but_PieceLeft.Location = new System.Drawing.Point(5, 909);
-            this.but_PieceLeft.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.but_PieceLeft.Name = "but_PieceLeft";
-            this.but_PieceLeft.NoPaddingText = null;
-            this.but_PieceLeft.Size = new System.Drawing.Size(48, 129);
-            this.but_PieceLeft.TabIndex = 58;
-            this.but_PieceLeft.Text = "⇦";
-            this.toolTipButton.SetToolTip(this.but_PieceLeft, "Right-click for faster scrolling");
-            this.but_PieceLeft.UseVisualStyleBackColor = true;
-            this.but_PieceLeft.Click += new System.EventHandler(this.but_PieceLeft_Click);
-            this.but_PieceLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseUp);
-            // 
-            // but_PieceBackground
-            // 
-            this.but_PieceBackground.Location = new System.Drawing.Point(969, 871);
-            this.but_PieceBackground.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.but_PieceBackground.Name = "but_PieceBackground";
-            this.but_PieceBackground.Size = new System.Drawing.Size(145, 32);
-            this.but_PieceBackground.TabIndex = 55;
-            this.but_PieceBackground.Text = "Backgrounds";
-            this.but_PieceBackground.UseVisualStyleBackColor = true;
-            this.but_PieceBackground.Click += new System.EventHandler(this.but_PieceBackground_Click);
-            // 
-            // but_PieceSketches
-            // 
-            this.but_PieceSketches.Location = new System.Drawing.Point(839, 871);
-            this.but_PieceSketches.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.but_PieceSketches.Name = "but_PieceSketches";
-            this.but_PieceSketches.Size = new System.Drawing.Size(122, 32);
-            this.but_PieceSketches.TabIndex = 57;
-            this.but_PieceSketches.Text = "Sketches";
-            this.but_PieceSketches.UseVisualStyleBackColor = true;
-            this.but_PieceSketches.Click += new System.EventHandler(this.but_PieceSketch_Click);
             // 
             // timerAutosave
             // 
@@ -3471,40 +3263,6 @@
             this.oKStatusBarMenuItem.Text = "Got it, thanks";
             this.oKStatusBarMenuItem.Click += new System.EventHandler(this.oKStatusBarMenuItem_Click);
             // 
-            // but_PieceObj
-            // 
-            this.but_PieceObj.Location = new System.Drawing.Point(712, 871);
-            this.but_PieceObj.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.but_PieceObj.Name = "but_PieceObj";
-            this.but_PieceObj.Size = new System.Drawing.Size(119, 32);
-            this.but_PieceObj.TabIndex = 60;
-            this.but_PieceObj.Text = "Objects";
-            this.but_PieceObj.UseVisualStyleBackColor = true;
-            this.but_PieceObj.Click += new System.EventHandler(this.but_PieceObj_Click);
-            // 
-            // but_PieceTerr
-            // 
-            this.but_PieceTerr.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.but_PieceTerr.Location = new System.Drawing.Point(464, 871);
-            this.but_PieceTerr.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.but_PieceTerr.Name = "but_PieceTerr";
-            this.but_PieceTerr.Size = new System.Drawing.Size(116, 32);
-            this.but_PieceTerr.TabIndex = 61;
-            this.but_PieceTerr.Text = "Terrain";
-            this.but_PieceTerr.UseVisualStyleBackColor = true;
-            this.but_PieceTerr.Click += new System.EventHandler(this.but_PieceTerr_Click);
-            // 
-            // but_SearchPieces
-            // 
-            this.but_SearchPieces.Location = new System.Drawing.Point(1309, 868);
-            this.but_SearchPieces.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.but_SearchPieces.Name = "but_SearchPieces";
-            this.but_SearchPieces.Size = new System.Drawing.Size(145, 32);
-            this.but_SearchPieces.TabIndex = 62;
-            this.but_SearchPieces.Text = "Search Pieces";
-            this.but_SearchPieces.UseVisualStyleBackColor = true;
-            this.but_SearchPieces.Click += new System.EventHandler(this.but_SearchPieces_Click);
-            // 
             // tabLvlPieces
             // 
             this.tabLvlPieces.Location = new System.Drawing.Point(412, 42);
@@ -3532,17 +3290,6 @@
             this.tabLvlMisc.TabIndex = 65;
             this.tabLvlMisc.Visible = false;
             // 
-            // but_PieceSteel
-            // 
-            this.but_PieceSteel.Location = new System.Drawing.Point(588, 871);
-            this.but_PieceSteel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.but_PieceSteel.Name = "but_PieceSteel";
-            this.but_PieceSteel.Size = new System.Drawing.Size(116, 32);
-            this.but_PieceSteel.TabIndex = 66;
-            this.but_PieceSteel.Text = "Steel";
-            this.but_PieceSteel.UseVisualStyleBackColor = true;
-            this.but_PieceSteel.Click += new System.EventHandler(this.but_PieceSteel_Click);
-            // 
             // txt_Focus
             // 
             this.txt_Focus.Location = new System.Drawing.Point(-150, 2);
@@ -3553,6 +3300,288 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
+            // panelPieceBrowser
+            // 
+            this.panelPieceBrowser.BackColor = System.Drawing.Color.Transparent;
+            this.panelPieceBrowser.Controls.Add(this.picPiece7);
+            this.panelPieceBrowser.Controls.Add(this.but_PieceSteel);
+            this.panelPieceBrowser.Controls.Add(this.but_SearchPieces);
+            this.panelPieceBrowser.Controls.Add(this.but_PieceTerr);
+            this.panelPieceBrowser.Controls.Add(this.but_PieceObj);
+            this.panelPieceBrowser.Controls.Add(this.but_PieceSketches);
+            this.panelPieceBrowser.Controls.Add(this.but_PieceBackground);
+            this.panelPieceBrowser.Controls.Add(this.but_ClearBackground);
+            this.panelPieceBrowser.Controls.Add(this.pic_DragNewPiece);
+            this.panelPieceBrowser.Controls.Add(this.picPiece6);
+            this.panelPieceBrowser.Controls.Add(this.picPiece5);
+            this.panelPieceBrowser.Controls.Add(this.picPiece4);
+            this.panelPieceBrowser.Controls.Add(this.picPiece3);
+            this.panelPieceBrowser.Controls.Add(this.but_PieceRight);
+            this.panelPieceBrowser.Controls.Add(this.picPiece2);
+            this.panelPieceBrowser.Controls.Add(this.picPiece1);
+            this.panelPieceBrowser.Controls.Add(this.but_PieceLeft);
+            this.panelPieceBrowser.Controls.Add(this.picPiece0);
+            this.panelPieceBrowser.Controls.Add(this.combo_PieceStyle);
+            this.panelPieceBrowser.Location = new System.Drawing.Point(0, 871);
+            this.panelPieceBrowser.Name = "panelPieceBrowser";
+            this.panelPieceBrowser.Size = new System.Drawing.Size(1454, 176);
+            this.panelPieceBrowser.TabIndex = 67;
+            // 
+            // but_PieceSteel
+            // 
+            this.but_PieceSteel.Location = new System.Drawing.Point(586, 2);
+            this.but_PieceSteel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.but_PieceSteel.Name = "but_PieceSteel";
+            this.but_PieceSteel.Size = new System.Drawing.Size(116, 32);
+            this.but_PieceSteel.TabIndex = 84;
+            this.but_PieceSteel.Text = "Steel";
+            this.but_PieceSteel.UseVisualStyleBackColor = true;
+            this.but_PieceSteel.Click += new System.EventHandler(this.but_PieceSteel_Click);
+            // 
+            // but_SearchPieces
+            // 
+            this.but_SearchPieces.Location = new System.Drawing.Point(1307, 1);
+            this.but_SearchPieces.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.but_SearchPieces.Name = "but_SearchPieces";
+            this.but_SearchPieces.Size = new System.Drawing.Size(145, 32);
+            this.but_SearchPieces.TabIndex = 83;
+            this.but_SearchPieces.Text = "Search Pieces";
+            this.but_SearchPieces.UseVisualStyleBackColor = true;
+            this.but_SearchPieces.Click += new System.EventHandler(this.but_SearchPieces_Click);
+            // 
+            // but_PieceTerr
+            // 
+            this.but_PieceTerr.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.but_PieceTerr.Location = new System.Drawing.Point(462, 2);
+            this.but_PieceTerr.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.but_PieceTerr.Name = "but_PieceTerr";
+            this.but_PieceTerr.Size = new System.Drawing.Size(116, 32);
+            this.but_PieceTerr.TabIndex = 82;
+            this.but_PieceTerr.Text = "Terrain";
+            this.but_PieceTerr.UseVisualStyleBackColor = true;
+            this.but_PieceTerr.Click += new System.EventHandler(this.but_PieceTerr_Click);
+            // 
+            // but_PieceObj
+            // 
+            this.but_PieceObj.Location = new System.Drawing.Point(710, 2);
+            this.but_PieceObj.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.but_PieceObj.Name = "but_PieceObj";
+            this.but_PieceObj.Size = new System.Drawing.Size(119, 32);
+            this.but_PieceObj.TabIndex = 81;
+            this.but_PieceObj.Text = "Objects";
+            this.but_PieceObj.UseVisualStyleBackColor = true;
+            this.but_PieceObj.Click += new System.EventHandler(this.but_PieceObj_Click);
+            // 
+            // but_PieceSketches
+            // 
+            this.but_PieceSketches.Location = new System.Drawing.Point(837, 2);
+            this.but_PieceSketches.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.but_PieceSketches.Name = "but_PieceSketches";
+            this.but_PieceSketches.Size = new System.Drawing.Size(122, 32);
+            this.but_PieceSketches.TabIndex = 78;
+            this.but_PieceSketches.Text = "Sketches";
+            this.but_PieceSketches.UseVisualStyleBackColor = true;
+            this.but_PieceSketches.Click += new System.EventHandler(this.but_PieceSketch_Click);
+            // 
+            // but_PieceBackground
+            // 
+            this.but_PieceBackground.Location = new System.Drawing.Point(967, 2);
+            this.but_PieceBackground.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.but_PieceBackground.Name = "but_PieceBackground";
+            this.but_PieceBackground.Size = new System.Drawing.Size(145, 32);
+            this.but_PieceBackground.TabIndex = 76;
+            this.but_PieceBackground.Text = "Backgrounds";
+            this.but_PieceBackground.UseVisualStyleBackColor = true;
+            this.but_PieceBackground.Click += new System.EventHandler(this.but_PieceBackground_Click);
+            // 
+            // but_ClearBackground
+            // 
+            this.but_ClearBackground.Location = new System.Drawing.Point(1133, 2);
+            this.but_ClearBackground.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.but_ClearBackground.Name = "but_ClearBackground";
+            this.but_ClearBackground.Size = new System.Drawing.Size(166, 32);
+            this.but_ClearBackground.TabIndex = 77;
+            this.but_ClearBackground.Text = "Clear Background";
+            this.but_ClearBackground.UseVisualStyleBackColor = true;
+            this.but_ClearBackground.Click += new System.EventHandler(this.but_ClearBackground_Click);
+            // 
+            // pic_DragNewPiece
+            // 
+            this.pic_DragNewPiece.BackColor = System.Drawing.Color.Black;
+            this.pic_DragNewPiece.Location = new System.Drawing.Point(1295, 147);
+            this.pic_DragNewPiece.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pic_DragNewPiece.Name = "pic_DragNewPiece";
+            this.pic_DragNewPiece.Size = new System.Drawing.Size(30, 31);
+            this.pic_DragNewPiece.TabIndex = 74;
+            this.pic_DragNewPiece.TabStop = false;
+            this.pic_DragNewPiece.Visible = false;
+            // 
+            // picPiece6
+            // 
+            this.picPiece6.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece6.Location = new System.Drawing.Point(867, 40);
+            this.picPiece6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.picPiece6.Name = "picPiece6";
+            this.picPiece6.Size = new System.Drawing.Size(124, 127);
+            this.picPiece6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece6.TabIndex = 73;
+            this.picPiece6.TabStop = false;
+            this.picPiece6.Click += new System.EventHandler(this.picPieces_Click);
+            this.picPiece6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
+            this.picPiece6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
+            // 
+            // picPiece5
+            // 
+            this.picPiece5.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece5.Location = new System.Drawing.Point(732, 40);
+            this.picPiece5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.picPiece5.Name = "picPiece5";
+            this.picPiece5.Size = new System.Drawing.Size(124, 127);
+            this.picPiece5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece5.TabIndex = 72;
+            this.picPiece5.TabStop = false;
+            this.picPiece5.Click += new System.EventHandler(this.picPieces_Click);
+            this.picPiece5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
+            this.picPiece5.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
+            // 
+            // picPiece4
+            // 
+            this.picPiece4.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece4.Location = new System.Drawing.Point(597, 40);
+            this.picPiece4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.picPiece4.Name = "picPiece4";
+            this.picPiece4.Size = new System.Drawing.Size(124, 127);
+            this.picPiece4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece4.TabIndex = 71;
+            this.picPiece4.TabStop = false;
+            this.picPiece4.Click += new System.EventHandler(this.picPieces_Click);
+            this.picPiece4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
+            this.picPiece4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
+            // 
+            // picPiece3
+            // 
+            this.picPiece3.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece3.Location = new System.Drawing.Point(462, 40);
+            this.picPiece3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.picPiece3.Name = "picPiece3";
+            this.picPiece3.Size = new System.Drawing.Size(124, 127);
+            this.picPiece3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece3.TabIndex = 70;
+            this.picPiece3.TabStop = false;
+            this.picPiece3.Click += new System.EventHandler(this.picPieces_Click);
+            this.picPiece3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
+            this.picPiece3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
+            // 
+            // but_PieceRight
+            // 
+            this.but_PieceRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.but_PieceRight.Location = new System.Drawing.Point(1274, 40);
+            this.but_PieceRight.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.but_PieceRight.Name = "but_PieceRight";
+            this.but_PieceRight.NoPaddingText = null;
+            this.but_PieceRight.Size = new System.Drawing.Size(48, 129);
+            this.but_PieceRight.TabIndex = 80;
+            this.but_PieceRight.Text = "⇨";
+            this.toolTipButton.SetToolTip(this.but_PieceRight, "Right-click for faster scrolling");
+            this.but_PieceRight.UseVisualStyleBackColor = true;
+            this.but_PieceRight.Click += new System.EventHandler(this.but_PieceRight_Click);
+            this.but_PieceRight.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceRight_MouseUp);
+            // 
+            // picPiece2
+            // 
+            this.picPiece2.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece2.Location = new System.Drawing.Point(327, 40);
+            this.picPiece2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.picPiece2.Name = "picPiece2";
+            this.picPiece2.Size = new System.Drawing.Size(124, 127);
+            this.picPiece2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece2.TabIndex = 69;
+            this.picPiece2.TabStop = false;
+            this.picPiece2.Click += new System.EventHandler(this.picPieces_Click);
+            this.picPiece2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
+            this.picPiece2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
+            // 
+            // picPiece1
+            // 
+            this.picPiece1.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece1.Location = new System.Drawing.Point(192, 40);
+            this.picPiece1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.picPiece1.Name = "picPiece1";
+            this.picPiece1.Size = new System.Drawing.Size(124, 127);
+            this.picPiece1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece1.TabIndex = 68;
+            this.picPiece1.TabStop = false;
+            this.picPiece1.Click += new System.EventHandler(this.picPieces_Click);
+            this.picPiece1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
+            this.picPiece1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
+            // 
+            // but_PieceLeft
+            // 
+            this.but_PieceLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.but_PieceLeft.Location = new System.Drawing.Point(3, 40);
+            this.but_PieceLeft.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.but_PieceLeft.Name = "but_PieceLeft";
+            this.but_PieceLeft.NoPaddingText = null;
+            this.but_PieceLeft.Size = new System.Drawing.Size(48, 129);
+            this.but_PieceLeft.TabIndex = 79;
+            this.but_PieceLeft.Text = "⇦";
+            this.toolTipButton.SetToolTip(this.but_PieceLeft, "Right-click for faster scrolling");
+            this.but_PieceLeft.UseVisualStyleBackColor = true;
+            this.but_PieceLeft.Click += new System.EventHandler(this.but_PieceLeft_Click);
+            this.but_PieceLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.but_PieceLeft_MouseUp);
+            // 
+            // picPiece0
+            // 
+            this.picPiece0.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece0.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece0.Location = new System.Drawing.Point(57, 40);
+            this.picPiece0.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.picPiece0.Name = "picPiece0";
+            this.picPiece0.Size = new System.Drawing.Size(124, 127);
+            this.picPiece0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece0.TabIndex = 67;
+            this.picPiece0.TabStop = false;
+            this.picPiece0.Click += new System.EventHandler(this.picPieces_Click);
+            this.picPiece0.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
+            this.picPiece0.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
+            // 
+            // combo_PieceStyle
+            // 
+            this.combo_PieceStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combo_PieceStyle.FormattingEnabled = true;
+            this.combo_PieceStyle.Location = new System.Drawing.Point(9, 2);
+            this.combo_PieceStyle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.combo_PieceStyle.Name = "combo_PieceStyle";
+            this.combo_PieceStyle.Size = new System.Drawing.Size(442, 28);
+            this.combo_PieceStyle.TabIndex = 75;
+            this.combo_PieceStyle.SelectedIndexChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
+            this.combo_PieceStyle.DropDownClosed += new System.EventHandler(this.ComboDropDownClosed);
+            this.combo_PieceStyle.TextChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
+            this.combo_PieceStyle.Leave += new System.EventHandler(this.combo_PieceStyle_Leave);
+            this.combo_PieceStyle.MouseEnter += new System.EventHandler(this.ComboMouseEnter);
+            this.combo_PieceStyle.MouseLeave += new System.EventHandler(this.ComboMouseLeave);
+            // 
+            // picPiece7
+            // 
+            this.picPiece7.BackColor = System.Drawing.SystemColors.Control;
+            this.picPiece7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picPiece7.Location = new System.Drawing.Point(1001, 40);
+            this.picPiece7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.picPiece7.Name = "picPiece7";
+            this.picPiece7.Size = new System.Drawing.Size(124, 127);
+            this.picPiece7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picPiece7.TabIndex = 85;
+            this.picPiece7.TabStop = false;
+            this.picPiece7.Click += new System.EventHandler(this.picPieces_Click);
+            this.picPiece7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picPieces_MouseDown);
+            this.picPiece7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_Level_MouseUp);
+            // 
             // NLEditForm
             // 
             this.AllowDrop = true;
@@ -3560,35 +3589,17 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1478, 1049);
-            this.Controls.Add(this.but_PieceSteel);
             this.Controls.Add(this.tabLvlMisc);
             this.Controls.Add(this.tabLvlSkills);
             this.Controls.Add(this.tabLvlPieces);
-            this.Controls.Add(this.but_SearchPieces);
-            this.Controls.Add(this.but_PieceTerr);
-            this.Controls.Add(this.but_PieceObj);
             this.Controls.Add(this.statusBar);
             this.Controls.Add(this.tabLvlProperties);
-            this.Controls.Add(this.but_PieceSketches);
-            this.Controls.Add(this.but_PieceBackground);
-            this.Controls.Add(this.but_ClearBackground);
-            this.Controls.Add(this.pic_DragNewPiece);
             this.Controls.Add(this.scrollPicLevelVert);
             this.Controls.Add(this.scrollPicLevelHoriz);
             this.Controls.Add(this.txt_Focus);
             this.Controls.Add(this.pic_Level);
-            this.Controls.Add(this.picPiece7);
-            this.Controls.Add(this.picPiece6);
-            this.Controls.Add(this.picPiece5);
-            this.Controls.Add(this.picPiece4);
-            this.Controls.Add(this.picPiece3);
-            this.Controls.Add(this.but_PieceRight);
-            this.Controls.Add(this.picPiece2);
-            this.Controls.Add(this.picPiece1);
-            this.Controls.Add(this.but_PieceLeft);
-            this.Controls.Add(this.picPiece0);
-            this.Controls.Add(this.combo_PieceStyle);
             this.Controls.Add(this.menuStrip);
+            this.Controls.Add(this.panelPieceBrowser);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip;
@@ -3609,14 +3620,6 @@
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.NLEditForm_MouseWheel);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPiece7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).EndInit();
             this.tabLvlProperties.ResumeLayout(false);
             this.tabGlobalInfo.ResumeLayout(false);
@@ -3675,9 +3678,18 @@
             this.gbCustomSkillset.ResumeLayout(false);
             this.tabMisc.ResumeLayout(false);
             this.tabMisc.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).EndInit();
             this.statusBar.ResumeLayout(false);
             this.statusBar.PerformLayout();
+            this.panelPieceBrowser.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pic_DragNewPiece)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPiece7)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3764,17 +3776,6 @@
         private NLEditor.NumUpDownOverwrite num_Lvl_SR;
         private System.Windows.Forms.Label lbl_Global_SR;
         private System.Windows.Forms.ComboBox combo_Music;
-        private System.Windows.Forms.ComboBox combo_PieceStyle;
-        private System.Windows.Forms.PictureBox picPiece0;
-        private NLEditor.RepeatButton but_PieceLeft;
-        private System.Windows.Forms.PictureBox picPiece1;
-        private System.Windows.Forms.PictureBox picPiece2;
-        private NLEditor.RepeatButton but_PieceRight;
-        private System.Windows.Forms.PictureBox picPiece3;
-        private System.Windows.Forms.PictureBox picPiece4;
-        private System.Windows.Forms.PictureBox picPiece5;
-        private System.Windows.Forms.PictureBox picPiece6;
-        private System.Windows.Forms.PictureBox picPiece7;
         private System.Windows.Forms.CheckBox check_Lvl_InfTime;
         private System.Windows.Forms.PictureBox pic_Level;
         private System.Windows.Forms.TabControl tabLvlProperties;
@@ -3827,7 +3828,6 @@
         private System.Windows.Forms.Button but_GroupSelection;
         private System.Windows.Forms.ToolStripMenuItem groupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ungroupToolStripMenuItem;
-        private System.Windows.Forms.PictureBox pic_DragNewPiece;
         private System.Windows.Forms.ToolTip toolTipButton;
         private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem;
         private NumUpDownOverwrite num_PickupSkillCount;
@@ -3854,12 +3854,9 @@
         private System.Windows.Forms.Label lbl_Skill_Jumper;
         private NumUpDownOverwrite num_Ski_Jumper;
         private System.Windows.Forms.CheckBox check_Piece_Jumper;
-        private System.Windows.Forms.Button but_PieceBackground;
-        private System.Windows.Forms.Button but_ClearBackground;
         private System.Windows.Forms.TextBox txt_LevelID;
         private System.Windows.Forms.Label lbl_Global_ID;
         private System.Windows.Forms.Button but_RandomID;
-        private System.Windows.Forms.Button but_PieceSketches;
         private System.Windows.Forms.ToolStripMenuItem pasteInPlaceToolStripMenuItem;
         private System.Windows.Forms.Timer timerAutosave;
         private System.Windows.Forms.Label lbl_Global_LemmingTypes;
@@ -3918,9 +3915,6 @@
         private System.Windows.Forms.CheckBox check_Piece_Stoner;
         private System.Windows.Forms.Label lbl_Skill_Stoner;
         private NumUpDownOverwrite num_Ski_Stoner;
-        private System.Windows.Forms.Button but_PieceObj;
-        private System.Windows.Forms.Button but_PieceTerr;
-        private System.Windows.Forms.Button but_SearchPieces;
         private System.Windows.Forms.ToolStripMenuItem searchPiecesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.Label lblType;
@@ -3939,7 +3933,6 @@
         private System.Windows.Forms.TabControl tabLvlMisc;
         private System.Windows.Forms.ToolStripMenuItem expandAllTabsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.Button but_PieceSteel;
         private System.Windows.Forms.Label lblPieceSize;
         private System.Windows.Forms.Label lblSize;
         private System.Windows.Forms.ToolStripMenuItem highlightEraserPiecesToolStripMenuItem;
@@ -3947,6 +3940,26 @@
         private System.Windows.Forms.GroupBox gbCustomSkillset;
         private System.Windows.Forms.Button btnCustomSkillset;
         private System.Windows.Forms.ComboBox combo_CustomSkillset;
+        private System.Windows.Forms.Panel panelPieceBrowser;
+        private System.Windows.Forms.PictureBox picPiece7;
+        private System.Windows.Forms.Button but_PieceSteel;
+        private System.Windows.Forms.Button but_SearchPieces;
+        private System.Windows.Forms.Button but_PieceTerr;
+        private System.Windows.Forms.Button but_PieceObj;
+        private System.Windows.Forms.Button but_PieceSketches;
+        private System.Windows.Forms.Button but_PieceBackground;
+        private System.Windows.Forms.Button but_ClearBackground;
+        private System.Windows.Forms.PictureBox pic_DragNewPiece;
+        private System.Windows.Forms.PictureBox picPiece6;
+        private System.Windows.Forms.PictureBox picPiece5;
+        private System.Windows.Forms.PictureBox picPiece4;
+        private System.Windows.Forms.PictureBox picPiece3;
+        private RepeatButton but_PieceRight;
+        private System.Windows.Forms.PictureBox picPiece2;
+        private System.Windows.Forms.PictureBox picPiece1;
+        private RepeatButton but_PieceLeft;
+        private System.Windows.Forms.PictureBox picPiece0;
+        private System.Windows.Forms.ComboBox combo_PieceStyle;
     }
 }
 

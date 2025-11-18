@@ -13,6 +13,7 @@ namespace NLEditor
     partial class NLEditForm
     {
         public EditorMode previousEditorMode;
+        private int pieceBrowserTop = 26;
 
         /// <summary>
         /// Initializes the intervals for all repeat buttons.
@@ -429,20 +430,25 @@ namespace NLEditor
                 tabControl.Height = this.Height - 178;
             }
 
-            combo_PieceStyle.Top = this.Height - 149;
-            but_PieceTerr.Top = this.Height - 149;
-            but_PieceSteel.Top = this.Height - 149;
-            but_PieceObj.Top = this.Height - 149;
-            but_PieceSketches.Top = this.Height - 149;
-            but_PieceBackground.Top = this.Height - 149;
+            panelPieceBrowser.Left = tabLvlProperties.Left - 6;
+            panelPieceBrowser.Width = this.Width - 12;
+            panelPieceBrowser.Top = this.Height - 148;
+            panelPieceBrowser.Height = this.Height - panelPieceBrowser.Top;
 
-            but_PieceLeft.Top = this.Height - 122;
-            but_PieceRight.Top = this.Height - 122;
-            but_PieceRight.Left = this.Width - 44;
+            combo_PieceStyle.Top = 0;
+            but_PieceTerr.Top = 0;
+            but_PieceSteel.Top = 0;
+            but_PieceObj.Top = 0;
+            but_PieceSketches.Top = 0;
+            but_PieceBackground.Top = 0;
 
-            but_SearchPieces.Top = this.Height - 149;
-            but_SearchPieces.Left = but_PieceRight.Right - 6 - but_SearchPieces.Width;
-            but_ClearBackground.Top = this.Height - 149;
+            but_PieceLeft.Top = pieceBrowserTop;
+            but_PieceRight.Top = pieceBrowserTop;
+            but_PieceRight.Left = panelPieceBrowser.Width - 36;
+
+            but_SearchPieces.Top = 0;
+            but_SearchPieces.Left = but_PieceRight.Right - 4 - but_SearchPieces.Width;
+            but_ClearBackground.Top = 0;
             but_ClearBackground.Left = but_SearchPieces.Left - 6 - but_ClearBackground.Width;
 
             bool updateImages = MovePicPiecesOnResize();
@@ -574,7 +580,7 @@ namespace NLEditor
         /// </summary>
         private bool MovePicPiecesOnResize()
         {
-            picPieceList.ForEach(pic => pic.Top = this.Height - 122);
+            picPieceList.ForEach(pic => pic.Top = pieceBrowserTop);
 
             int numPicPieces = (this.Width - 170) / 90 + 1;
 
@@ -607,7 +613,7 @@ namespace NLEditor
         {
             PictureBox picPiece = new PictureBox();
             picPiece.Size = C.PicPieceSize;
-            picPiece.Top = this.Height - 122;
+            picPiece.Top = pieceBrowserTop;
             picPiece.BorderStyle = BorderStyle.Fixed3D;
             picPiece.SizeMode = PictureBoxSizeMode.CenterImage;
 
@@ -615,7 +621,7 @@ namespace NLEditor
             picPiece.MouseDown += new MouseEventHandler(picPieces_MouseDown);
             picPiece.MouseUp += new MouseEventHandler(pic_Level_MouseUp);
 
-            this.Controls.Add(picPiece);
+            panelPieceBrowser.Controls.Add(picPiece);
 
             return picPiece;
         }
