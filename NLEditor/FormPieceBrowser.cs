@@ -15,6 +15,9 @@ namespace NLEditor
         private NLEditForm mainForm;
         readonly Panel panelPieceBrowser;
 
+        private int fixedHeight;
+        private int minWidth;
+
         public event Action PieceBrowserReturned;
 
         internal FormPieceBrowser(Panel panelPieceBrowserFromMain, NLEditForm parentForm)
@@ -33,6 +36,17 @@ namespace NLEditor
             ResetWindowSettings();
             AddControlsToWindow();
         }
+        private void ResetWindowSettings()
+        {
+            fixedHeight = panelPieceBrowser.Height;
+            minWidth = mainForm.editorMinWidth + 15;
+
+            this.MinimumSize = new Size(minWidth, fixedHeight);
+            this.MaximumSize = new Size(99999, fixedHeight);
+
+            this.Size = new Size(minWidth, fixedHeight);
+            this.Location = new Point(40, 500);
+        }
 
         private void ReturnPieceBrowserToMainForm()
         {
@@ -44,7 +58,8 @@ namespace NLEditor
         {
             // Add panelPieceBrowser from the main form
             this.Controls.Add(panelPieceBrowser);
-            mainForm.RepositionPieceBrowser(true);
+            mainForm.RepositionPieceBrowser(true, this.Width);
+            mainForm.RepositionPicPieces(true, this.Width);
         }
 
         private bool ValidateScreenSettings(Point location)
@@ -58,12 +73,6 @@ namespace NLEditor
                 }
             }
             return false;
-        }
-
-        private void ResetWindowSettings()
-        {
-            this.Size = new Size(500, 200);
-            this.Location = new Point(280, 40);
         }
 
         private void FormPieceBrowser_FormClosing(object sender, FormClosingEventArgs e)
@@ -111,7 +120,11 @@ namespace NLEditor
 
         private void FormPieceBrowser_Resize(object sender, EventArgs e)
         {
-            // Add more pic pieces? Reposition controls?
+            if (mainForm != null)
+            {
+                mainForm.RepositionPieceBrowser(true, this.Width);
+                mainForm.RepositionPicPieces(true, this.Width);
+            }
         }
 
         private void FormPieceBrowser_Shown(object sender, EventArgs e)

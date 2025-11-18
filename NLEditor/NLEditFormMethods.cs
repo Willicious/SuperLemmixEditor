@@ -676,6 +676,7 @@ Ladderer=10";
 
                     // Reset the position of panelPieceBrowser
                     RepositionPieceBrowser();
+                    RepositionPicPieces(false, this.Width);
 
                     panelPieceBrowser.Show();
                     panelPieceBrowser.Focus();

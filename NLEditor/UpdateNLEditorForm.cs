@@ -431,23 +431,15 @@ namespace NLEditor
                 tabControl.Height = this.Height - 178;
             }
 
-            combo_PieceStyle.Top = 0;
-            but_PieceTerr.Top = 0;
-            but_PieceSteel.Top = 0;
-            but_PieceObj.Top = 0;
-            but_PieceSketches.Top = 0;
-            but_PieceBackground.Top = 0;
+            RepositionPicPieces(false, this.Width);
+        }
 
-            but_PieceLeft.Top = pieceBrowserTop;
-            but_PieceRight.Top = pieceBrowserTop;
-            but_PieceRight.Left = panelPieceBrowser.Width - 36;
-
-            but_SearchPieces.Top = 0;
-            but_SearchPieces.Left = but_PieceRight.Right - 4 - but_SearchPieces.Width;
-            but_ClearBackground.Top = 0;
-            but_ClearBackground.Left = but_SearchPieces.Left - 6 - but_ClearBackground.Width;
-
-            bool updateImages = MovePicPiecesOnResize();
+        /// <summary>
+        /// Adds and repositions Piece Browser images based on form width
+        /// </summary>
+        public void RepositionPicPieces(bool windowed, int width)
+        {
+            bool updateImages = MovePicPiecesOnResize(windowed, width);
             if (updateImages)
             {
                 UpdateBackgroundImage();
@@ -458,29 +450,47 @@ namespace NLEditor
         /// <summary>
         /// Positions panelPieceBrowser at the correct place on the main form
         /// </summary>
-        public void RepositionPieceBrowser(bool isWindowed = false)
+        public void RepositionPieceBrowser(bool isWindowed = false, int windowWidth = 0)
         {
-            int posLeft = 0; int posTop = 0; int width =900; int height = 200;
+            int posLeft = 0;
+            int posTop = 0;
+            int width = 0;
+            int height = 148;
+            int rightButtonOffset = 0;
             
             if (isWindowed)
             {
-                posLeft = 0;
-                posTop = 0;
-                width = this.Width - 12;
-                height = 200;
+                width = windowWidth;
+                rightButtonOffset = 50;
             }
             else
             {
                 posLeft = tabLvlProperties.Left - 6;
-                posTop = this.Height - 148;
+                posTop = this.Height - height;
                 width = this.Width - 12;
-                height = this.Height - panelPieceBrowser.Top;
+                rightButtonOffset = 36;
             }
 
             panelPieceBrowser.Left = posLeft;
             panelPieceBrowser.Top = posTop;
             panelPieceBrowser.Width = width;
             panelPieceBrowser.Height = height;
+
+            combo_PieceStyle.Top = 0;
+            but_PieceTerr.Top = 0;
+            but_PieceSteel.Top = 0;
+            but_PieceObj.Top = 0;
+            but_PieceSketches.Top = 0;
+            but_PieceBackground.Top = 0;
+
+            but_PieceLeft.Top = pieceBrowserTop;
+            but_PieceRight.Top = pieceBrowserTop;
+            but_PieceRight.Left = panelPieceBrowser.Width - rightButtonOffset;
+
+            but_SearchPieces.Top = 0;
+            but_SearchPieces.Left = but_PieceRight.Right - 4 - but_SearchPieces.Width;
+            but_ClearBackground.Top = 0;
+            but_ClearBackground.Left = but_SearchPieces.Left - 6 - but_ClearBackground.Width;
         }
 
         /// <summary>
@@ -602,11 +612,13 @@ namespace NLEditor
         /// <summary>
         /// Moves the picture boxes to select new pieces to the correct position.
         /// </summary>
-        private bool MovePicPiecesOnResize()
+        private bool MovePicPiecesOnResize(bool windowed, int width)
         {
-            picPieceList.ForEach(pic => pic.Top = pieceBrowserTop);
+            int posTop = pieceBrowserTop;
+            if (windowed) posTop = 26; // For Piece Browser window
+            picPieceList.ForEach(pic => pic.Top = posTop);
 
-            int numPicPieces = (this.Width - 170) / 90 + 1;
+            int numPicPieces = (width - 170) / 90 + 1;
 
             while (picPieceList.Count > numPicPieces)
             {
@@ -624,7 +636,7 @@ namespace NLEditor
 
             for (int picPieceIndex = 0; picPieceIndex < numPicPieces; picPieceIndex++)
             {
-                picPieceList[picPieceIndex].Left = 36 + picPieceIndex * (this.Width - 170) / (numPicPieces - 1);
+                picPieceList[picPieceIndex].Left = 36 + picPieceIndex * (width - 170) / (numPicPieces - 1);
             }
 
             return needUpdatePicPieceImages;

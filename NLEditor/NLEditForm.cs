@@ -183,6 +183,9 @@ namespace NLEditor
         int gridMoveAmount => curSettings.GridMoveAmount;
         int customMove => curSettings.CustomMove;
 
+        public int editorMinWidth = 1000;
+        public int editorMinHeight = 600;
+
         Stopwatch stopWatchKey;
         Stopwatch stopWatchMouse;
         MouseButtons? mouseButtonPressed;
@@ -255,7 +258,7 @@ namespace NLEditor
             if (this == null || curRenderer == null)
                 return;
 
-            this.MinimumSize = new System.Drawing.Size(1000, 600);
+            this.MinimumSize = new System.Drawing.Size(editorMinWidth, editorMinHeight);
 
             // Don't do anything on minimizing the form!
             if (WindowState == FormWindowState.Minimized)
