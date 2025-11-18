@@ -252,6 +252,9 @@ namespace NLEditor
 
         private void NLEditForm_Resize(object sender, EventArgs e)
         {
+            if (this == null || curRenderer == null)
+                return;
+
             this.MinimumSize = new System.Drawing.Size(1000, 600);
 
             // Don't do anything on minimizing the form!
