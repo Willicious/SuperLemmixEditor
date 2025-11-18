@@ -1549,6 +1549,11 @@ namespace NLEditor
             OpenLevelArrangerWindow();
         }
 
+        private void openPieceBrowserWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenPieceBrowserWindow();
+        }
+
         private void expandAllTabsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToggleExpandedTabs();

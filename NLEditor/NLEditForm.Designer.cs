@@ -293,6 +293,7 @@
             this.combo_PieceStyle = new System.Windows.Forms.ComboBox();
             this.txt_Focus = new NLEditor.FocusTextBox();
             this.pic_DragNewPiece = new System.Windows.Forms.PictureBox();
+            this.openPieceBrowserWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).BeginInit();
             this.tabLvlProperties.SuspendLayout();
@@ -684,6 +685,7 @@
             this.toolStripSeparator5,
             this.showMissingPiecesToolStripMenuItem,
             this.openLevelWindowToolStripMenuItem,
+            this.openPieceBrowserWindowToolStripMenuItem,
             this.expandAllTabsToolStripMenuItem,
             this.toolStripSeparator2,
             this.aboutToolStripMenuItem,
@@ -696,7 +698,7 @@
             // 
             this.searchPiecesToolStripMenuItem.Name = "searchPiecesToolStripMenuItem";
             this.searchPiecesToolStripMenuItem.ShortcutKeyDisplayString = "F8";
-            this.searchPiecesToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
+            this.searchPiecesToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
             this.searchPiecesToolStripMenuItem.Text = "Search Pieces";
             this.searchPiecesToolStripMenuItem.Click += new System.EventHandler(this.searchPiecesToolStripMenuItem_Click);
             // 
@@ -704,7 +706,7 @@
             // 
             this.snapToGridToolStripMenuItem.Name = "snapToGridToolStripMenuItem";
             this.snapToGridToolStripMenuItem.ShortcutKeyDisplayString = "F9";
-            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
+            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
             this.snapToGridToolStripMenuItem.Text = "Snap to Grid";
             this.snapToGridToolStripMenuItem.Click += new System.EventHandler(this.snapToGridToolStripMenuItem_Click);
             // 
@@ -712,7 +714,7 @@
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.ShortcutKeyDisplayString = "F10";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
@@ -720,20 +722,20 @@
             // 
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
             this.hotkeysToolStripMenuItem.ShortcutKeyDisplayString = "F11";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
             this.hotkeysToolStripMenuItem.Text = "Configure Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(414, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(457, 6);
             // 
             // showMissingPiecesToolStripMenuItem
             // 
             this.showMissingPiecesToolStripMenuItem.Name = "showMissingPiecesToolStripMenuItem";
             this.showMissingPiecesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F8";
-            this.showMissingPiecesToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
+            this.showMissingPiecesToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
             this.showMissingPiecesToolStripMenuItem.Text = "Show Missing Pieces";
             this.showMissingPiecesToolStripMenuItem.Click += new System.EventHandler(this.showMissingPiecesToolStripMenuItem_Click);
             // 
@@ -741,7 +743,7 @@
             // 
             this.openLevelWindowToolStripMenuItem.Name = "openLevelWindowToolStripMenuItem";
             this.openLevelWindowToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F9";
-            this.openLevelWindowToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
+            this.openLevelWindowToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
             this.openLevelWindowToolStripMenuItem.Text = "Open Level Arranger Window";
             this.openLevelWindowToolStripMenuItem.Click += new System.EventHandler(this.openLevelWindowToolStripMenuItem_Click);
             // 
@@ -749,27 +751,27 @@
             // 
             this.expandAllTabsToolStripMenuItem.Name = "expandAllTabsToolStripMenuItem";
             this.expandAllTabsToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F10";
-            this.expandAllTabsToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
+            this.expandAllTabsToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
             this.expandAllTabsToolStripMenuItem.Text = "Expand All Tabs";
             this.expandAllTabsToolStripMenuItem.Click += new System.EventHandler(this.expandAllTabsToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(414, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(457, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F11";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(417, 34);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
             this.aboutToolStripMenuItem.Text = "About SuperLemmix Editor";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(414, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(457, 6);
             // 
             // pic_Level
             // 
@@ -3581,6 +3583,14 @@
             this.pic_DragNewPiece.TabStop = false;
             this.pic_DragNewPiece.Visible = false;
             // 
+            // openPieceBrowserWindowToolStripMenuItem
+            // 
+            this.openPieceBrowserWindowToolStripMenuItem.Name = "openPieceBrowserWindowToolStripMenuItem";
+            this.openPieceBrowserWindowToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+F9";
+            this.openPieceBrowserWindowToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.openPieceBrowserWindowToolStripMenuItem.Text = "Open Piece Browser Window";
+            this.openPieceBrowserWindowToolStripMenuItem.Click += new System.EventHandler(this.openPieceBrowserWindowToolStripMenuItem_Click);
+            // 
             // NLEditForm
             // 
             this.AllowDrop = true;
@@ -3961,6 +3971,7 @@
         private System.Windows.Forms.PictureBox picPiece0;
         private System.Windows.Forms.ComboBox combo_PieceStyle;
         private System.Windows.Forms.PictureBox pic_DragNewPiece;
+        private System.Windows.Forms.ToolStripMenuItem openPieceBrowserWindowToolStripMenuItem;
     }
 }
 

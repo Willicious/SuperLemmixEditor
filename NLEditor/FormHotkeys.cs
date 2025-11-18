@@ -725,6 +725,9 @@ namespace NLEditor
                     case "HotkeyOpenLevelArrangerWindow":
                         HotkeyConfig.HotkeyOpenLevelArrangerWindow = parsedKey;
                         break;
+                    case "HotkeyOpenPieceBrowserWindow":
+                        HotkeyConfig.HotkeyOpenPieceBrowserWindow = parsedKey;
+                        break;
                     case "HotkeyToggleAllTabs":
                         HotkeyConfig.HotkeyToggleAllTabs = parsedKey;
                         break;

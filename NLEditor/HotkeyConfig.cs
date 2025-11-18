@@ -31,6 +31,7 @@ namespace NLEditor
         public static Keys HotkeyShowMissingPieces;
         public static Keys HotkeyToggleSnapToGrid;
         public static Keys HotkeyOpenLevelArrangerWindow;
+        public static Keys HotkeyOpenPieceBrowserWindow;
         public static Keys HotkeyToggleAllTabs;
         public static Keys HotkeyOpenSettings;
         public static Keys HotkeyOpenConfigHotkeys;
@@ -374,6 +375,8 @@ namespace NLEditor
                     HotkeyToggleSnapToGrid = ParseHotkeyString(line.Substring("HotkeyToggleSnapToGrid=".Length));
                 if (line.StartsWith("HotkeyOpenLevelArrangerWindow="))
                     HotkeyOpenLevelArrangerWindow = ParseHotkeyString(line.Substring("HotkeyOpenLevelArrangerWindow=".Length));
+                if (line.StartsWith("HotkeyOpenPieceBrowserWindow="))
+                    HotkeyOpenPieceBrowserWindow = ParseHotkeyString(line.Substring("HotkeyOpenPieceBrowserWindow=".Length));
                 if (line.StartsWith("HotkeyToggleAllTabs="))
                     HotkeyToggleAllTabs = ParseHotkeyString(line.Substring("HotkeyToggleAllTabs=".Length));
                 if (line.StartsWith("HotkeyOpenSettings="))
@@ -572,6 +575,7 @@ namespace NLEditor
                 $"HotkeyShowMissingPieces={FormatHotkeyString(HotkeyShowMissingPieces)}",
                 $"HotkeyToggleSnapToGrid={FormatHotkeyString(HotkeyToggleSnapToGrid)}",
                 $"HotkeyOpenLevelArrangerWindow={FormatHotkeyString(HotkeyOpenLevelArrangerWindow)}",
+                $"HotkeyOpenPieceBrowserWindow={FormatHotkeyString(HotkeyOpenPieceBrowserWindow)}",
                 $"HotkeyToggleAllTabs={FormatHotkeyString(HotkeyToggleAllTabs)}",
                 $"HotkeyOpenSettings={FormatHotkeyString(HotkeyOpenSettings)}",
                 $"HotkeyOpenConfigHotkeys={FormatHotkeyString(HotkeyOpenConfigHotkeys)}",
@@ -682,6 +686,7 @@ namespace NLEditor
             HotkeyShowMissingPieces = Keys.Control | Keys.F8;
             HotkeyToggleSnapToGrid = Keys.F9;
             HotkeyOpenLevelArrangerWindow = Keys.Control | Keys.F9;
+            HotkeyOpenPieceBrowserWindow = Keys.Control | Keys.Shift | Keys.F9;
             HotkeyToggleAllTabs = Keys.Control | Keys.F10;
             HotkeyOpenSettings = Keys.F10;
             HotkeyOpenConfigHotkeys = Keys.F11;
@@ -783,6 +788,7 @@ namespace NLEditor
             HotkeyShowMissingPieces = Keys.Control | Keys.F8;
             HotkeyToggleSnapToGrid = Keys.F9;
             HotkeyOpenLevelArrangerWindow = Keys.Control | Keys.F9;
+            HotkeyOpenPieceBrowserWindow = Keys.Control | Keys.Shift | Keys.F9;
             HotkeyToggleAllTabs = Keys.Control | Keys.F10;
             HotkeyOpenSettings = Keys.F10;
             HotkeyOpenConfigHotkeys = Keys.F11;
