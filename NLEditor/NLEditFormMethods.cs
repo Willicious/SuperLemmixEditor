@@ -936,6 +936,10 @@ Ladderer=10";
             SaveLevel(true);
             CurLevel.FilePathToSave = origFilePath;
 
+            // Exit if validation failed
+            if (!LevelValidator.validationPassed)
+                return;
+
             string enginePath;
             string engineName;
 
