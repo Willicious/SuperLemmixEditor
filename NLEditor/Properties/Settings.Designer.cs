@@ -73,7 +73,7 @@ namespace NLEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("280, 40")]
+        [global::System.Configuration.DefaultSettingValueAttribute("180, 40")]
         public global::System.Drawing.Point LevelArrangerLocation {
             get {
                 return ((global::System.Drawing.Point)(this["LevelArrangerLocation"]));

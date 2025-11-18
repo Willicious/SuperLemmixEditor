@@ -15,7 +15,7 @@
       <Value Profile="(Default)">960, 400</Value>
     </Setting>
     <Setting Name="LevelArrangerLocation" Type="System.Drawing.Point" Scope="User">
-      <Value Profile="(Default)">280, 40</Value>
+      <Value Profile="(Default)">180, 40</Value>
     </Setting>
     <Setting Name="LevelArrangerIsMaximized" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
