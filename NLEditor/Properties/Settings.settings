@@ -26,5 +26,17 @@
     <Setting Name="GroupsAreHighlighted" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="PieceBrowserSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">1000, 148</Value>
+    </Setting>
+    <Setting Name="PieceBrowserLocation" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">40, 560</Value>
+    </Setting>
+    <Setting Name="PieceBrowserIsMaximized" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="PieceBrowserIsOpen" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

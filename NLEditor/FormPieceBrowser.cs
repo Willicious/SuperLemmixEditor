@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NLEditor
@@ -78,11 +72,11 @@ namespace NLEditor
         private void FormPieceBrowser_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Update settings
-            //Properties.Settings.Default.LevelArrangerIsOpen = e.CloseReason != CloseReason.UserClosing;
-            //Properties.Settings.Default.LevelArrangerSize = this.Size;
-            //Properties.Settings.Default.LevelArrangerLocation = this.Location;
-            //Properties.Settings.Default.LevelArrangerIsMaximized = this.WindowState == FormWindowState.Maximized;
-            //Properties.Settings.Default.Save();
+            Properties.Settings.Default.PieceBrowserIsOpen = e.CloseReason != CloseReason.UserClosing;
+            Properties.Settings.Default.PieceBrowserSize = this.Size;
+            Properties.Settings.Default.PieceBrowserLocation = this.Location;
+            Properties.Settings.Default.PieceBrowserIsMaximized = this.WindowState == FormWindowState.Maximized;
+            Properties.Settings.Default.Save();
 
             ReturnPieceBrowserToMainForm();
             mainForm = null;
@@ -129,14 +123,14 @@ namespace NLEditor
 
         private void FormPieceBrowser_Shown(object sender, EventArgs e)
         {
-            //Properties.Settings.Default.LevelArrangerIsOpen = true;
+            Properties.Settings.Default.PieceBrowserIsOpen = true;
         }
 
         private void FormPieceBrowser_Load(object sender, EventArgs e)
         {
             // Size and position the form according to settings
-            //this.Size = Properties.Settings.Default.LevelArrangerSize;
-            //this.Location = Properties.Settings.Default.LevelArrangerLocation;
+            this.Size = Properties.Settings.Default.PieceBrowserSize;
+            this.Location = Properties.Settings.Default.PieceBrowserLocation;
 
             // Reset window to default size and position if setting is invalid
             if (!ValidateScreenSettings(this.Location))
@@ -144,11 +138,11 @@ namespace NLEditor
                 ResetWindowSettings();
             }
 
-            //// If the window was maximized, apply maximize to ensure correct sizing
-            //if (Properties.Settings.Default.LevelArrangerIsMaximized)
-            //{
-            //    this.WindowState = FormWindowState.Maximized;
-            //}
+            // If the window was maximized, apply maximize to ensure correct sizing
+            if (Properties.Settings.Default.PieceBrowserIsMaximized)
+            {
+                this.WindowState = FormWindowState.Maximized;
+            }
         }
     }
 }

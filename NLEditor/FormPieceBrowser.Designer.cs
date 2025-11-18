@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPieceBrowser));
             this.SuspendLayout();
             // 
             // FormPieceBrowser
@@ -37,6 +38,7 @@
             this.ClientSize = new System.Drawing.Size(1121, 154);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormPieceBrowser";
             this.Text = "SuperLemmix Editor - Piece Browser";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPieceBrowser_FormClosing);
