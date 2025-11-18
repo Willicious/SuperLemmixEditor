@@ -626,7 +626,7 @@ Ladderer=10";
             // Don't reposition pic_Level when zooming from within the Arrange Window
             repositionAfterZooming = false;
 
-            // Subscribe to the PictureBoxReturned event to handle re-parenting
+            // Subscribe to the PicLevelReturned event to handle re-parenting
             levelArrangerWindow.PicLevelReturned += () =>
             {
                 this.Invoke(new Action(() =>
@@ -652,6 +652,43 @@ Ladderer=10";
             // Show the pop-out window
             levelArrangerWindow.Show();
         }
+
+
+        private void OpenPieceBrowserWindow()
+        {
+            // Check if the Piece Browser window is already open
+            if (pieceBrowserWindow != null && !pieceBrowserWindow.IsDisposed)
+            {
+                pieceBrowserWindow.BringToFront();
+                return;
+            }
+
+            // Create the pop-out window and pass panelPieceBrowser to it
+            pieceBrowserWindow = new FormPieceBrowser(panelPieceBrowser, this);
+
+            // Subscribe to the PieceBrowserReturned event to handle re-parenting
+            pieceBrowserWindow.PieceBrowserReturned += () =>
+            {
+                this.Invoke(new Action(() =>
+                {
+                    // Re-parent panelPieceBrowser back to the main form
+                    this.Controls.Add(panelPieceBrowser);
+
+                    // Reset the position of panelPieceBrowser
+                    RepositionPieceBrowser();
+
+                    panelPieceBrowser.Show();
+                    panelPieceBrowser.Focus();
+                }));
+            };
+
+            // Ensure the reference is cleared when the window is closed
+            pieceBrowserWindow.FormClosing += (s, e) => pieceBrowserWindow = null;
+
+            // Show the pop-out window
+            pieceBrowserWindow.Show();
+        }
+
 
         private void ToggleExpandedTabs()
         {
@@ -1064,7 +1101,7 @@ Ladderer=10";
         /// Displays new pieces on the piece selection bar.
         /// </summary>
         /// <param name="movement"></param>
-        private void MoveTerrPieceSelection(int movement)
+        public void MoveTerrPieceSelection(int movement)
         {       
             List<string> pieceNameList;
 

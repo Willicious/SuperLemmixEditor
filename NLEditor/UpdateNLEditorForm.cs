@@ -424,16 +424,12 @@ namespace NLEditor
             scrollPicLevelVert.Left = this.Width - 30;
 
             RepositionPicLevel();
+            RepositionPieceBrowser();
 
             foreach (TabControl tabControl in this.Controls.OfType<TabControl>())
             {
                 tabControl.Height = this.Height - 178;
             }
-
-            panelPieceBrowser.Left = tabLvlProperties.Left - 6;
-            panelPieceBrowser.Width = this.Width - 12;
-            panelPieceBrowser.Top = this.Height - 148;
-            panelPieceBrowser.Height = this.Height - panelPieceBrowser.Top;
 
             combo_PieceStyle.Top = 0;
             but_PieceTerr.Top = 0;
@@ -457,6 +453,34 @@ namespace NLEditor
                 UpdateBackgroundImage();
                 LoadPiecesIntoPictureBox();
             }
+        }
+
+        /// <summary>
+        /// Positions panelPieceBrowser at the correct place on the main form
+        /// </summary>
+        public void RepositionPieceBrowser(bool isWindowed = false)
+        {
+            int posLeft = 0; int posTop = 0; int width =900; int height = 200;
+            
+            if (isWindowed)
+            {
+                posLeft = 0;
+                posTop = 0;
+                width = this.Width - 12;
+                height = 200;
+            }
+            else
+            {
+                posLeft = tabLvlProperties.Left - 6;
+                posTop = this.Height - 148;
+                width = this.Width - 12;
+                height = this.Height - panelPieceBrowser.Top;
+            }
+
+            panelPieceBrowser.Left = posLeft;
+            panelPieceBrowser.Top = posTop;
+            panelPieceBrowser.Width = width;
+            panelPieceBrowser.Height = height;
         }
 
         /// <summary>

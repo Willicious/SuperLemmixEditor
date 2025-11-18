@@ -215,6 +215,7 @@ namespace NLEditor
         private static System.Threading.Mutex mutexKeyDown = new System.Threading.Mutex();
 
         private FormLevelArranger levelArrangerWindow;
+        private FormPieceBrowser pieceBrowserWindow;
 
         private void NLEditForm_FormClosing(object sender, FormClosingEventArgs e)
         {
