@@ -72,6 +72,137 @@ namespace NLEditor
         }
 
         /// <summary>
+        /// Creates a simple input dialog
+        /// </summary>
+        public static class InputDialog
+        {
+            public static string Show(string prompt, string title)
+            {
+                Form form = new Form();
+                Label label = new Label();
+                TextBox textBox = new TextBox();
+                Button buttonOk = new Button();
+                Button buttonCancel = new Button();
+
+                form.Text = title;
+                label.Text = prompt;
+
+                buttonOk.Text = "OK";
+                buttonCancel.Text = "Cancel";
+                buttonOk.DialogResult = DialogResult.OK;
+                buttonCancel.DialogResult = DialogResult.Cancel;
+
+                label.SetBounds(9, 10, 372, 13);
+                textBox.SetBounds(12, 30, 372, 20);
+                buttonOk.SetBounds(228, 60, 75, 23);
+                buttonCancel.SetBounds(309, 60, 75, 23);
+
+                label.AutoSize = true;
+                textBox.Anchor = textBox.Anchor | AnchorStyles.Right;
+                buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+                buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+
+                form.ClientSize = new Size(396, 100);
+                form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel });
+                form.FormBorderStyle = FormBorderStyle.FixedDialog;
+                form.StartPosition = FormStartPosition.CenterScreen;
+                form.MinimizeBox = false;
+                form.MaximizeBox = false;
+                form.AcceptButton = buttonOk;
+                form.CancelButton = buttonCancel;
+
+                return form.ShowDialog() == DialogResult.OK ? textBox.Text : null;
+            }
+        }
+
+        /// <summary>
+        /// Reduces multiple consecutive blank lines in to a single blank line.
+        /// </summary>
+        private static void CollapseMultipleBlankLines(string filePath)
+        {
+            var lines = File.ReadAllLines(filePath, Encoding.Unicode);
+            var cleanedLines = new List<string>();
+
+            bool previousWasBlank = false;
+
+            foreach (var line in lines)
+            {
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    if (!previousWasBlank)
+                    {
+                        cleanedLines.Add(string.Empty); // Keep a single blank line
+                        previousWasBlank = true;
+                    }
+                }
+                else // Skip additional blank lines
+                {
+                    cleanedLines.Add(line);
+                    previousWasBlank = false;
+                }
+            }
+
+            File.WriteAllLines(filePath, cleanedLines, Encoding.Unicode);
+        }
+
+        /// <summary>
+        /// Saves the currently-applied skillset as a custom set
+        /// </summary>
+        public void SaveSkillsetAsCustom()
+        {
+            try
+            {
+                if (!File.Exists(C.AppPathCustomSkillsets))
+                {
+                    MessageBox.Show("Custom skillset file was not found.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Ask for a name for the new skillset
+                string newName = InputDialog.Show("Enter a name for the custom skillset:", "Save Custom Skillset");
+                if (string.IsNullOrWhiteSpace(newName))
+                    return;
+
+                // Overwrite existing section if it already exists (delete it first)
+                WritePrivateProfileString(newName, null, null, C.AppPathCustomSkillsets);
+
+                // Now write the values, beginning with a blank line
+                File.AppendAllText(C.AppPathCustomSkillsets, Environment.NewLine, Encoding.Unicode);
+                foreach (var entry in numericsSkillSet)
+                {
+                    C.Skill skill = entry.Key;
+                    NumericUpDown numeric = entry.Value;
+
+                    if (numeric.Value == 0)
+                        continue; // Add only non-zero skills
+
+                    string key = skill.ToString();
+                    string value = numeric.Value.ToString();
+
+                    WritePrivateProfileString(newName, key, value, C.AppPathCustomSkillsets);
+                }
+
+                // Clean up extra blank lines
+                CollapseMultipleBlankLines(C.AppPathCustomSkillsets);
+
+                // Refresh dropdown and auto-select the new entry
+                SetCustomSkillsetList();
+                combo_CustomSkillset.SelectedItem = newName;
+
+                MessageBox.Show("Custom skillset saved successfully!", "Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving custom skillset:\n" + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        } [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+          private static extern bool WritePrivateProfileString(string lpAppName, string lpKeyName, string lpString, string lpFileName);
+
+
+        /// <summary>
         /// Applies the chosen custom skillset to the skill selection
         /// </summary>
         public void ApplyCustomSkillset()

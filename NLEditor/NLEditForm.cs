@@ -1596,5 +1596,10 @@ namespace NLEditor
         {
             ApplyCustomSkillset();
         }
+
+        private void btnSaveAsCustomSkillset_Click(object sender, EventArgs e)
+        {
+            SaveSkillsetAsCustom();
+        }
     }
 }

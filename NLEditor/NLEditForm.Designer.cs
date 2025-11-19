@@ -2339,7 +2339,7 @@
             // 
             // btnCustomSkillset
             // 
-            this.btnCustomSkillset.Location = new System.Drawing.Point(23, 73);
+            this.btnCustomSkillset.Location = new System.Drawing.Point(23, 71);
             this.btnCustomSkillset.Name = "btnCustomSkillset";
             this.btnCustomSkillset.Size = new System.Drawing.Size(238, 34);
             this.btnCustomSkillset.TabIndex = 51;
@@ -2696,7 +2696,7 @@
             // 
             this.combo_CustomSkillset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combo_CustomSkillset.FormattingEnabled = true;
-            this.combo_CustomSkillset.Location = new System.Drawing.Point(23, 113);
+            this.combo_CustomSkillset.Location = new System.Drawing.Point(23, 111);
             this.combo_CustomSkillset.Name = "combo_CustomSkillset";
             this.combo_CustomSkillset.Size = new System.Drawing.Size(238, 28);
             this.combo_CustomSkillset.TabIndex = 0;
@@ -3595,7 +3595,7 @@
             // 
             // btnSaveAsCustomSkillset
             // 
-            this.btnSaveAsCustomSkillset.Location = new System.Drawing.Point(23, 21);
+            this.btnSaveAsCustomSkillset.Location = new System.Drawing.Point(23, 19);
             this.btnSaveAsCustomSkillset.Name = "btnSaveAsCustomSkillset";
             this.btnSaveAsCustomSkillset.Size = new System.Drawing.Size(238, 34);
             this.btnSaveAsCustomSkillset.TabIndex = 55;
