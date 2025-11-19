@@ -1496,9 +1496,9 @@ namespace NLEditor
             GenerateRandomSkillset();
         }
 
-        private void btnAllSkillsToZero_Click(object sender, EventArgs e)
+        private void btnAllNonZeroSkillsToN_Click(object sender, EventArgs e)
         {
-            SetAllSkillsToZero();
+            SetAllNonZeroSkillsToN();
         }
 
         private void num_RandomLimit_ValueChanged(object sender, EventArgs e)

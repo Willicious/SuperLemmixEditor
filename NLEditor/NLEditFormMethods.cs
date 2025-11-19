@@ -2063,9 +2063,24 @@ Ladderer=10";
             foreach (Control ctrl in tabSkills.Controls)
             {
                 if (ctrl is NumericUpDown numBox && numBox != num_RandomMinLimit
-                                                 && numBox != num_RandomMaxLimit)
+                                                 && numBox != num_RandomMaxLimit
+                                                 && numBox != num_AllNonZeroSkillsToN)
                 {
                     numBox.Value = 0;
+                }
+            }
+        }
+
+        private void SetAllNonZeroSkillsToN()
+        {
+            foreach (Control ctrl in tabSkills.Controls)
+            {
+                if (ctrl is NumericUpDown numBox && numBox != num_RandomMinLimit
+                                                 && numBox != num_RandomMaxLimit
+                                                 && numBox != num_AllNonZeroSkillsToN)
+                {
+                    if (numBox.Value != 0)
+                        numBox.Value = num_AllNonZeroSkillsToN.Value;
                 }
             }
         }

@@ -72,6 +72,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLevelWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openPieceBrowserWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.expandAllTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -183,9 +184,9 @@
             this.but_InvertPieces = new NLEditor.RepeatButton();
             this.but_RotatePieces = new NLEditor.RepeatButton();
             this.tabSkills = new System.Windows.Forms.TabPage();
+            this.num_AllNonZeroSkillsToN = new NLEditor.NumUpDownOverwrite();
             this.btnCustomSkillset = new System.Windows.Forms.Button();
-            this.btnAllSkillsToZero = new System.Windows.Forms.Button();
-            this.btnRandomSkillset = new System.Windows.Forms.Button();
+            this.btnAllNonZeroSkillsToN = new System.Windows.Forms.Button();
             this.lbl_Skill_Timebomber = new System.Windows.Forms.Label();
             this.lbl_Skill_Laserer = new System.Windows.Forms.Label();
             this.lbl_Skill_Grenader = new System.Windows.Forms.Label();
@@ -293,7 +294,8 @@
             this.combo_PieceStyle = new System.Windows.Forms.ComboBox();
             this.txt_Focus = new NLEditor.FocusTextBox();
             this.pic_DragNewPiece = new System.Windows.Forms.PictureBox();
-            this.openPieceBrowserWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnSaveAsCustomSkillset = new System.Windows.Forms.Button();
+            this.btnRandomSkillset = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).BeginInit();
             this.tabLvlProperties.SuspendLayout();
@@ -316,6 +318,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).BeginInit();
             this.tabSkills.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_AllNonZeroSkillsToN)).BeginInit();
             this.gbRandomSkillset.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_RandomMaxLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_RandomMinLimit)).BeginInit();
@@ -746,6 +749,14 @@
             this.openLevelWindowToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
             this.openLevelWindowToolStripMenuItem.Text = "Open Level Arranger Window";
             this.openLevelWindowToolStripMenuItem.Click += new System.EventHandler(this.openLevelWindowToolStripMenuItem_Click);
+            // 
+            // openPieceBrowserWindowToolStripMenuItem
+            // 
+            this.openPieceBrowserWindowToolStripMenuItem.Name = "openPieceBrowserWindowToolStripMenuItem";
+            this.openPieceBrowserWindowToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+F9";
+            this.openPieceBrowserWindowToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.openPieceBrowserWindowToolStripMenuItem.Text = "Open Piece Browser Window";
+            this.openPieceBrowserWindowToolStripMenuItem.Click += new System.EventHandler(this.openPieceBrowserWindowToolStripMenuItem_Click);
             // 
             // expandAllTabsToolStripMenuItem
             // 
@@ -2251,9 +2262,8 @@
             // 
             // tabSkills
             // 
-            this.tabSkills.Controls.Add(this.btnCustomSkillset);
-            this.tabSkills.Controls.Add(this.btnAllSkillsToZero);
-            this.tabSkills.Controls.Add(this.btnRandomSkillset);
+            this.tabSkills.Controls.Add(this.num_AllNonZeroSkillsToN);
+            this.tabSkills.Controls.Add(this.btnAllNonZeroSkillsToN);
             this.tabSkills.Controls.Add(this.lbl_Skill_Timebomber);
             this.tabSkills.Controls.Add(this.lbl_Skill_Laserer);
             this.tabSkills.Controls.Add(this.lbl_Skill_Grenader);
@@ -2319,37 +2329,34 @@
             this.tabSkills.Text = "Skills";
             this.tabSkills.UseVisualStyleBackColor = true;
             // 
+            // num_AllNonZeroSkillsToN
+            // 
+            this.num_AllNonZeroSkillsToN.Location = new System.Drawing.Point(274, 755);
+            this.num_AllNonZeroSkillsToN.Name = "num_AllNonZeroSkillsToN";
+            this.num_AllNonZeroSkillsToN.Size = new System.Drawing.Size(64, 26);
+            this.num_AllNonZeroSkillsToN.TabIndex = 53;
+            this.num_AllNonZeroSkillsToN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // btnCustomSkillset
             // 
-            this.btnCustomSkillset.Location = new System.Drawing.Point(100, 613);
+            this.btnCustomSkillset.Location = new System.Drawing.Point(23, 73);
             this.btnCustomSkillset.Name = "btnCustomSkillset";
-            this.btnCustomSkillset.Size = new System.Drawing.Size(192, 38);
+            this.btnCustomSkillset.Size = new System.Drawing.Size(238, 34);
             this.btnCustomSkillset.TabIndex = 51;
             this.btnCustomSkillset.Text = "Apply Custom Skillset";
             this.btnCustomSkillset.UseVisualStyleBackColor = true;
             this.btnCustomSkillset.Click += new System.EventHandler(this.btnCustomSkillset_Click);
             // 
-            // btnAllSkillsToZero
+            // btnAllNonZeroSkillsToN
             // 
-            this.btnAllSkillsToZero.Location = new System.Drawing.Point(100, 723);
-            this.btnAllSkillsToZero.Name = "btnAllSkillsToZero";
-            this.btnAllSkillsToZero.Size = new System.Drawing.Size(192, 38);
-            this.btnAllSkillsToZero.TabIndex = 42;
-            this.btnAllSkillsToZero.Text = "Set All Skills To Zero";
-            this.btnAllSkillsToZero.UseVisualStyleBackColor = true;
-            this.btnAllSkillsToZero.Click += new System.EventHandler(this.btnAllSkillsToZero_Click);
-            this.btnAllSkillsToZero.MouseLeave += new System.EventHandler(this.textbox_Leave);
-            // 
-            // btnRandomSkillset
-            // 
-            this.btnRandomSkillset.Location = new System.Drawing.Point(100, 492);
-            this.btnRandomSkillset.Name = "btnRandomSkillset";
-            this.btnRandomSkillset.Size = new System.Drawing.Size(192, 38);
-            this.btnRandomSkillset.TabIndex = 41;
-            this.btnRandomSkillset.Text = "Random Skillset";
-            this.btnRandomSkillset.UseVisualStyleBackColor = true;
-            this.btnRandomSkillset.Click += new System.EventHandler(this.btnRandomSkillset_Click);
-            this.btnRandomSkillset.MouseLeave += new System.EventHandler(this.textbox_Leave);
+            this.btnAllNonZeroSkillsToN.Location = new System.Drawing.Point(55, 754);
+            this.btnAllNonZeroSkillsToN.Name = "btnAllNonZeroSkillsToN";
+            this.btnAllNonZeroSkillsToN.Size = new System.Drawing.Size(212, 34);
+            this.btnAllNonZeroSkillsToN.TabIndex = 42;
+            this.btnAllNonZeroSkillsToN.Text = "Set All Non-Zero Skills To";
+            this.btnAllNonZeroSkillsToN.UseVisualStyleBackColor = true;
+            this.btnAllNonZeroSkillsToN.Click += new System.EventHandler(this.btnAllNonZeroSkillsToN_Click);
+            this.btnAllNonZeroSkillsToN.MouseLeave += new System.EventHandler(this.textbox_Leave);
             // 
             // lbl_Skill_Timebomber
             // 
@@ -2598,20 +2605,21 @@
             // 
             // gbRandomSkillset
             // 
+            this.gbRandomSkillset.Controls.Add(this.btnRandomSkillset);
             this.gbRandomSkillset.Controls.Add(this.num_RandomMaxLimit);
             this.gbRandomSkillset.Controls.Add(this.lblRandomMinLimit);
             this.gbRandomSkillset.Controls.Add(this.num_RandomMinLimit);
             this.gbRandomSkillset.Controls.Add(this.lblRandomMaxLimit);
-            this.gbRandomSkillset.Location = new System.Drawing.Point(55, 503);
+            this.gbRandomSkillset.Location = new System.Drawing.Point(55, 631);
             this.gbRandomSkillset.Name = "gbRandomSkillset";
-            this.gbRandomSkillset.Size = new System.Drawing.Size(283, 89);
+            this.gbRandomSkillset.Size = new System.Drawing.Size(283, 107);
             this.gbRandomSkillset.TabIndex = 50;
             this.gbRandomSkillset.TabStop = false;
             // 
             // num_RandomMaxLimit
             // 
             this.num_RandomMaxLimit.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_RandomMaxLimit.Location = new System.Drawing.Point(197, 38);
+            this.num_RandomMaxLimit.Location = new System.Drawing.Point(197, 65);
             this.num_RandomMaxLimit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_RandomMaxLimit.Minimum = new decimal(new int[] {
             2,
@@ -2631,7 +2639,7 @@
             // 
             // lblRandomMinLimit
             // 
-            this.lblRandomMinLimit.Location = new System.Drawing.Point(19, 40);
+            this.lblRandomMinLimit.Location = new System.Drawing.Point(19, 67);
             this.lblRandomMinLimit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblRandomMinLimit.Name = "lblRandomMinLimit";
             this.lblRandomMinLimit.Size = new System.Drawing.Size(50, 26);
@@ -2641,7 +2649,7 @@
             // num_RandomMinLimit
             // 
             this.num_RandomMinLimit.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.num_RandomMinLimit.Location = new System.Drawing.Point(75, 38);
+            this.num_RandomMinLimit.Location = new System.Drawing.Point(75, 65);
             this.num_RandomMinLimit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_RandomMinLimit.Maximum = new decimal(new int[] {
             99,
@@ -2666,7 +2674,7 @@
             // 
             // lblRandomMaxLimit
             // 
-            this.lblRandomMaxLimit.Location = new System.Drawing.Point(159, 40);
+            this.lblRandomMaxLimit.Location = new System.Drawing.Point(159, 67);
             this.lblRandomMaxLimit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblRandomMaxLimit.Name = "lblRandomMaxLimit";
             this.lblRandomMaxLimit.Size = new System.Drawing.Size(32, 26);
@@ -2675,10 +2683,12 @@
             // 
             // gbCustomSkillset
             // 
+            this.gbCustomSkillset.Controls.Add(this.btnSaveAsCustomSkillset);
             this.gbCustomSkillset.Controls.Add(this.combo_CustomSkillset);
-            this.gbCustomSkillset.Location = new System.Drawing.Point(55, 626);
+            this.gbCustomSkillset.Controls.Add(this.btnCustomSkillset);
+            this.gbCustomSkillset.Location = new System.Drawing.Point(55, 470);
             this.gbCustomSkillset.Name = "gbCustomSkillset";
-            this.gbCustomSkillset.Size = new System.Drawing.Size(283, 77);
+            this.gbCustomSkillset.Size = new System.Drawing.Size(283, 155);
             this.gbCustomSkillset.TabIndex = 52;
             this.gbCustomSkillset.TabStop = false;
             // 
@@ -2686,7 +2696,7 @@
             // 
             this.combo_CustomSkillset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combo_CustomSkillset.FormattingEnabled = true;
-            this.combo_CustomSkillset.Location = new System.Drawing.Point(23, 34);
+            this.combo_CustomSkillset.Location = new System.Drawing.Point(23, 113);
             this.combo_CustomSkillset.Name = "combo_CustomSkillset";
             this.combo_CustomSkillset.Size = new System.Drawing.Size(238, 28);
             this.combo_CustomSkillset.TabIndex = 0;
@@ -3583,13 +3593,23 @@
             this.pic_DragNewPiece.TabStop = false;
             this.pic_DragNewPiece.Visible = false;
             // 
-            // openPieceBrowserWindowToolStripMenuItem
+            // btnSaveAsCustomSkillset
             // 
-            this.openPieceBrowserWindowToolStripMenuItem.Name = "openPieceBrowserWindowToolStripMenuItem";
-            this.openPieceBrowserWindowToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+F9";
-            this.openPieceBrowserWindowToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.openPieceBrowserWindowToolStripMenuItem.Text = "Open Piece Browser Window";
-            this.openPieceBrowserWindowToolStripMenuItem.Click += new System.EventHandler(this.openPieceBrowserWindowToolStripMenuItem_Click);
+            this.btnSaveAsCustomSkillset.Location = new System.Drawing.Point(23, 21);
+            this.btnSaveAsCustomSkillset.Name = "btnSaveAsCustomSkillset";
+            this.btnSaveAsCustomSkillset.Size = new System.Drawing.Size(238, 34);
+            this.btnSaveAsCustomSkillset.TabIndex = 55;
+            this.btnSaveAsCustomSkillset.Text = "Save As Custom Skillset";
+            this.btnSaveAsCustomSkillset.UseVisualStyleBackColor = true;
+            // 
+            // btnRandomSkillset
+            // 
+            this.btnRandomSkillset.Location = new System.Drawing.Point(23, 23);
+            this.btnRandomSkillset.Name = "btnRandomSkillset";
+            this.btnRandomSkillset.Size = new System.Drawing.Size(238, 34);
+            this.btnRandomSkillset.TabIndex = 47;
+            this.btnRandomSkillset.Text = "Random Skillset";
+            this.btnRandomSkillset.UseVisualStyleBackColor = true;
             // 
             // NLEditForm
             // 
@@ -3602,7 +3622,6 @@
             this.Controls.Add(this.tabLvlMisc);
             this.Controls.Add(this.tabLvlSkills);
             this.Controls.Add(this.tabLvlPieces);
-            this.Controls.Add(this.statusBar);
             this.Controls.Add(this.tabLvlProperties);
             this.Controls.Add(this.scrollPicLevelVert);
             this.Controls.Add(this.scrollPicLevelHoriz);
@@ -3610,6 +3629,7 @@
             this.Controls.Add(this.pic_Level);
             this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.panelPieceBrowser);
+            this.Controls.Add(this.statusBar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip;
@@ -3656,6 +3676,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Resize_Width)).EndInit();
             this.tabSkills.ResumeLayout(false);
             this.tabSkills.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_AllNonZeroSkillsToN)).EndInit();
             this.gbRandomSkillset.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.num_RandomMaxLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_RandomMinLimit)).EndInit();
@@ -3917,8 +3938,7 @@
         private System.Windows.Forms.CheckBox check_Lvl_Invincibility;
         private System.Windows.Forms.ToolStripMenuItem cleanseLevelsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsImageToolStripMenuItem;
-        private System.Windows.Forms.Button btnAllSkillsToZero;
-        private System.Windows.Forms.Button btnRandomSkillset;
+        private System.Windows.Forms.Button btnAllNonZeroSkillsToN;
         private NumUpDownOverwrite num_RandomMaxLimit;
         private NumUpDownOverwrite num_RandomMinLimit;
         private System.Windows.Forms.Label lblRandomMaxLimit;
@@ -3972,6 +3992,9 @@
         private System.Windows.Forms.ComboBox combo_PieceStyle;
         private System.Windows.Forms.PictureBox pic_DragNewPiece;
         private System.Windows.Forms.ToolStripMenuItem openPieceBrowserWindowToolStripMenuItem;
+        private NumUpDownOverwrite num_AllNonZeroSkillsToN;
+        private System.Windows.Forms.Button btnSaveAsCustomSkillset;
+        private System.Windows.Forms.Button btnRandomSkillset;
     }
 }
 
