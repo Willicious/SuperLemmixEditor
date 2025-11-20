@@ -117,6 +117,10 @@ namespace NLEditor
 
         private void FormPieceBrowser_Resize(object sender, EventArgs e)
         {
+            // Don't do anything on minimizing the form!
+            if (WindowState == FormWindowState.Minimized)
+                return;
+
             if (mainForm != null)
             {
                 mainForm.RepositionPieceBrowser(true, this.Width);
