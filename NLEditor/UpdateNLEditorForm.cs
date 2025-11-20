@@ -424,14 +424,17 @@ namespace NLEditor
             scrollPicLevelVert.Left = this.Width - 30;
 
             RepositionPicLevel();
-            RepositionPieceBrowser();
 
             foreach (TabControl tabControl in this.Controls.OfType<TabControl>())
             {
                 tabControl.Height = this.Height - 178;
             }
 
-            RepositionPicPieces(false, this.Width);
+            bool pieceBrowserIsWindowed = pieceBrowserWindow != null;
+            int width = pieceBrowserWindow != null ? pieceBrowserWindow.Width : this.Width;
+
+            RepositionPieceBrowser(pieceBrowserIsWindowed, width);
+            RepositionPicPieces(pieceBrowserIsWindowed, width);
         }
 
         /// <summary>
@@ -450,7 +453,7 @@ namespace NLEditor
         /// <summary>
         /// Positions panelPieceBrowser at the correct place on the main form
         /// </summary>
-        public void RepositionPieceBrowser(bool isWindowed = false, int windowWidth = 0)
+        public void RepositionPieceBrowser(bool isWindowed, int windowWidth = 0)
         {
             int posLeft = 0;
             int posTop = 0;

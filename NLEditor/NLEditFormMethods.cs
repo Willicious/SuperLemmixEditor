@@ -806,7 +806,7 @@ Ladderer=10";
                     this.Controls.Add(panelPieceBrowser);
 
                     // Reset the position of panelPieceBrowser
-                    RepositionPieceBrowser();
+                    RepositionPieceBrowser(false, this.Width);
                     RepositionPicPieces(false, this.Width);
 
                     panelPieceBrowser.Show();
