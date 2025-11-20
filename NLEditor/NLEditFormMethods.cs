@@ -406,6 +406,9 @@ Ladderer=10";
         /// </summary>
         private void PullFocusFromTextInputs()
         {
+            if (pieceBrowserWindow != null)
+                pieceBrowserWindow.ActiveControl = txt_FocusPieceBrowser;
+
             this.ActiveControl = txt_Focus;
             UpdateIsSystemKeyPressed();
         }
@@ -819,6 +822,8 @@ Ladderer=10";
 
             // Show the pop-out window
             pieceBrowserWindow.Show();
+            txt_FocusPieceBrowser.SendToBack();
+            txt_FocusPieceBrowser.Focus();
         }
 
 

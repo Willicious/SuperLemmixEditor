@@ -1322,6 +1322,20 @@ namespace NLEditor
             return false;
         }
 
+        /// <summary>
+        /// Handles hotkey interaction when style dropdown on Piece Browser window is focused
+        /// </summary>
+        private void HandlePieceBrowserWindowCombo(bool isMouseEnter)
+        {
+            if (pieceBrowserWindow == null)
+                return;
+
+            if (isMouseEnter)
+                pieceBrowserWindow.KeyPreview = false; // Prevent hotkey interaction
+            else
+                pieceBrowserWindow.KeyPreview = true; // Re-enable hotkey interaction
+        }
+
         private void btnTalismanMoveUp_Click(object sender, EventArgs e)
         {
             int talIndex = lbTalismans.SelectedIndex;
@@ -1568,6 +1582,7 @@ namespace NLEditor
             if (sender is ComboBox combo)
             {
                 combo.Focus();
+                HandlePieceBrowserWindowCombo(true);
             }
         }
 
@@ -1580,6 +1595,7 @@ namespace NLEditor
                 {
                     if (!combo.DroppedDown && !combo.Bounds.Contains(PointToClient(MousePosition)))
                     {
+                        HandlePieceBrowserWindowCombo(false);
                         PullFocusFromTextInputs();
                     }
                 }));
