@@ -41,7 +41,7 @@ namespace NLEditor
             lblPreviousUpdates.Left = GetCenter(lblPreviousUpdates);
             WritePreviousUpdatesText();
 
-            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + ")";
+            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + "b)";
             lblSuperLemmixEditor.Top = richTextBox_PreviousUpdates.Bottom + padding;
             lblSuperLemmixEditor.Left = GetCenter(lblSuperLemmixEditor);
 
@@ -104,8 +104,22 @@ namespace NLEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
+            // Version 2.8.9b features
+            WriteBoldText(richTextBox, "Version 2.8.9b\n");
+            WriteBoldText(richTextBox, "• Piece Browser Window");
+            richTextBox.AppendText(" - The Piece Browser can now be opened in its own pop-out window to accompany the Level Arranger. It's external-display compatible, and size & location are remembered between sessions\n");
+
+            WriteBoldText(richTextBox, "• Custom Skillsets");
+            richTextBox.AppendText(" - Added a button for \"Save As Custom Skillset\" which allows the user to save the currently-applied skillset as a custom preset. When saving, entering the name of an existing custom skillset will overwrite the existing one\n");
+
+            WriteBoldText(richTextBox, "• Set All Non-Zero Skills to [N]");
+            richTextBox.AppendText(" - \"Set All Skills to Zero\" is now \"Set All Non-Zero Skills To [N]\", where N can be specified using a numeric control\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - Level Validation");
+            richTextBox.AppendText(" - When playtesting, the game .exe doesn't open if validation has failed (i.e. the user chose not to save anyway, and instead clicked \"Edit Level\")\n");
+
             // Version 2.8.9 features
-            WriteBoldText(richTextBox, "Version 2.8.9\n");
+            WriteBoldText(richTextBox, "\nVersion 2.8.9\n");
             WriteBoldText(richTextBox, "• Custom Skillsets");
             richTextBox.AppendText(" - It's now possible to apply custom preset skillsets using SLXCustomSkillsets.ini\n");
 
