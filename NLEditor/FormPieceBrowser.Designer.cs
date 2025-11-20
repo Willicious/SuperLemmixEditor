@@ -39,6 +39,7 @@
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "FormPieceBrowser";
             this.Text = "SuperLemmix Editor - Piece Browser";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPieceBrowser_FormClosing);

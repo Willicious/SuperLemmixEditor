@@ -27,9 +27,6 @@ namespace NLEditor
             // Subscribe to MouseWheel event handler
             this.MouseWheel += FormPieceBrowser_MouseWheel;
 
-            // Ensure key events are passed correctly
-            this.KeyPreview = true;
-
             ResetWindowSettings();
             AddControlsToWindow();
         }
