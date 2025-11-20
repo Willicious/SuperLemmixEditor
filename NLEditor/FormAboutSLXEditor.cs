@@ -41,7 +41,7 @@ namespace NLEditor
             lblPreviousUpdates.Left = GetCenter(lblPreviousUpdates);
             WritePreviousUpdatesText();
 
-            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + "b)";
+            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + ")";
             lblSuperLemmixEditor.Top = richTextBox_PreviousUpdates.Bottom + padding;
             lblSuperLemmixEditor.Left = GetCenter(lblSuperLemmixEditor);
 
@@ -104,8 +104,19 @@ namespace NLEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
-            // Version 2.8.9b features
-            WriteBoldText(richTextBox, "Version 2.8.9b\n");
+            // Version 2.9 features
+            WriteBoldText(richTextBox, "Version 2.9\n");
+            WriteBoldText(richTextBox, "• Piece Browser Window - Bugfix");
+            richTextBox.AppendText(" - The Piece Browser window is now re-drawn correctly after minimizing and then restoring the Editor\n");
+
+            WriteBoldText(richTextBox, "• Piece Browser Window - Bugfix");
+            richTextBox.AppendText(" - Minimising the Piece Browser window to the taskbar no longer creates an unhandled exception error\n");
+
+            WriteBoldText(richTextBox, "• Piece Browser Window - Bugfix");
+            richTextBox.AppendText(" - Fixed focus for the piece dropdown control, so hotkeys should now work fully as expected when the Piece Browser window is active\n");
+
+            // Version 2.8.9(b) features
+            WriteBoldText(richTextBox, "\nVersion 2.8.9(b)\n");
             WriteBoldText(richTextBox, "• Piece Browser Window");
             richTextBox.AppendText(" - The Piece Browser can now be opened in its own pop-out window to accompany the Level Arranger. It's external-display compatible, and size & location are remembered between sessions\n");
 
@@ -118,8 +129,6 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Bugfix - Level Validation");
             richTextBox.AppendText(" - When playtesting, the game .exe doesn't open if validation has failed (i.e. the user chose not to save anyway, and instead clicked \"Edit Level\")\n");
 
-            // Version 2.8.9 features
-            WriteBoldText(richTextBox, "\nVersion 2.8.9\n");
             WriteBoldText(richTextBox, "• Custom Skillsets");
             richTextBox.AppendText(" - It's now possible to apply custom preset skillsets using SLXCustomSkillsets.ini\n");
 
