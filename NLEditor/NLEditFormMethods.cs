@@ -822,7 +822,6 @@ Ladderer=10";
 
             // Show the pop-out window
             pieceBrowserWindow.Show();
-            txt_FocusPieceBrowser.SendToBack();
             txt_FocusPieceBrowser.Focus();
         }
 
