@@ -192,57 +192,62 @@ namespace NLEditor
         /// <param name="ptrToNewPixel"></param>
         private static unsafe void ChangePixelBlend(byte* ptrToPixel, byte* ptrToNewPixel, Settings.TriggerAreaColor triggerAreaColor)
         {
-            int NewAlphaFact = ptrToNewPixel[3];
-            int OrigAlphaFact = (255 - NewAlphaFact) / 2;
+            int newAlpha = ptrToNewPixel[3];
+            int origAlpha = (255 - newAlpha) / 2;
 
-            byte newB = 0;
-            byte newG = 0;
-            byte newR = 0;
+            byte newB, newG, newR;
 
-            if (triggerAreaColor == Settings.TriggerAreaColor.Green)
-            {
-                newB = 128;
-                newG = 255;
-                newR = ptrToNewPixel[1];
+            byte srcB = ptrToNewPixel[0];
+            byte srcG = ptrToNewPixel[1];
+            byte srcR = ptrToNewPixel[2];
 
-                //newB = 128;
-                //newG = ptrToNewPixel[0];
-                //newR = 128;
-            }
-            else if (triggerAreaColor == Settings.TriggerAreaColor.Pink)
+            switch (triggerAreaColor)
             {
-                newB = ptrToNewPixel[0];
-                newG = ptrToNewPixel[1];
-                newR = ptrToNewPixel[2];
-            }
-            else if (triggerAreaColor == Settings.TriggerAreaColor.Blue)
-            {
-                newB = 255;
-                newG = ptrToNewPixel[0];
-                newR = ptrToNewPixel[1];
+                case Settings.TriggerAreaColor.Green:
+                    newB = 128;  // 128;
+                    newG = 255;  // srcB;
+                    newR = srcG; // 128;
+                    break;
 
-                //newB = 255;
-                //newG = ptrToNewPixel[1];
-                //newR = 128;
-            }
-            else if (triggerAreaColor == Settings.TriggerAreaColor.Yellow)
-            {
-                newB = 0;
-                newG = 255;
-                newR = ptrToNewPixel[0];
-            }
-            else if (triggerAreaColor == Settings.TriggerAreaColor.Purple)
-            {
-                newB = 255;
-                newG = 0;
-                newR = 192;
+                case Settings.TriggerAreaColor.Pink:
+                    newB = srcB;
+                    newG = srcG;
+                    newR = srcR;
+                    break;
+
+                case Settings.TriggerAreaColor.Blue:
+                    newB = 255;  // 255;
+                    newG = srcB; // srcG;
+                    newR = srcG; // 128;
+                    break;
+
+                case Settings.TriggerAreaColor.Yellow:
+                    newB = 0;
+                    newG = 255;
+                    newR = srcB;
+                    break;
+
+                case Settings.TriggerAreaColor.Purple:
+                    newB = 255;
+                    newG = 0;
+                    newR = 192;
+                    break;
+
+                default: // Fallback (same as Pink)
+                    newB = srcB;
+                    newG = srcG;
+                    newR = srcR;
+                    break;
             }
 
-            ptrToPixel[0] = (byte)((ptrToPixel[0] * OrigAlphaFact + newB * NewAlphaFact) / (OrigAlphaFact + NewAlphaFact));
-            ptrToPixel[1] = (byte)((ptrToPixel[1] * OrigAlphaFact + newG * NewAlphaFact) / (OrigAlphaFact + NewAlphaFact));
-            ptrToPixel[2] = (byte)((ptrToPixel[2] * OrigAlphaFact + newR * NewAlphaFact) / (OrigAlphaFact + NewAlphaFact));
+            int totalAlpha = origAlpha + newAlpha;
+
+            ptrToPixel[0] = (byte)((ptrToPixel[0] * origAlpha + newB * newAlpha) / totalAlpha);
+            ptrToPixel[1] = (byte)((ptrToPixel[1] * origAlpha + newG * newAlpha) / totalAlpha);
+            ptrToPixel[2] = (byte)((ptrToPixel[2] * origAlpha + newR * newAlpha) / totalAlpha);
             ptrToPixel[3] = 255;
         }
+
 
         /// <summary>
         /// Crops the bitmap along a rectangle.
