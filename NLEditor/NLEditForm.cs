@@ -1617,5 +1617,10 @@ namespace NLEditor
         {
             SaveSkillsetAsCustom();
         }
+
+        private void refreshStylesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RefreshStyles();
+        }
     }
 }

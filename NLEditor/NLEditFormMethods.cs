@@ -683,6 +683,11 @@ Ladderer=10";
             return;
         }
 
+        private void RefreshStyles()
+        {
+            // currently does nothing
+        }
+
         private void OpenPieceSearch()
         {
             string rootPath = Application.StartupPath;
