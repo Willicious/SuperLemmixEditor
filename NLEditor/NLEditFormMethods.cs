@@ -684,6 +684,18 @@ Ladderer=10";
         }
 
         /// <summary>
+        /// Performs actions before checking for missing pieces
+        /// </summary>
+        private void PrepareForPieceValidation()
+        {
+            // Initialise missingPieces list
+            missingPieces.Clear();
+
+            // Initialize status bar
+            UpdateStatusBar();
+        }
+
+        /// <summary>
         /// Validates style pieces after a refresh
         /// </summary>
         private void ValidateStylePieces()
@@ -691,20 +703,10 @@ Ladderer=10";
             if (CurLevel == null)
                 return;
 
-            // Initialise missingPieces list
-            // TODO: This list should NOT be cleared if Refresh Styles is performed on a level
-            // which is already determined to have missing pieces
-            missingPieces.Clear();
+            PrepareForPieceValidation();
+            UpdateMissingPiecesList();
 
-            // Initialize status bar
-            UpdateStatusBar();
-
-            CurLevel.TerrainList.FindAll(ter => !ter.ExistsImage())
-                              .ForEach(ter => missingPieces.Add(ter.Name + " in style " + ter.Style));
-            CurLevel.GadgetList.FindAll(gad => !gad.ExistsImage())
-                             .ForEach(gad => missingPieces.Add(gad.Name + " in style " + gad.Style));
-
-            // Re-validate the level if it contains pieces that were removed from the style (but not the level itself) before refreshing
+            // Ask if the user wants to delete any missing pieces
             if (missingPieces.Count > 0)
             {
                 var result = MessageBox.Show(
@@ -717,14 +719,14 @@ Ladderer=10";
 
                 if (result == DialogResult.Yes)
                 {
-                    // Delete missing pieces
-                    CurLevel.TerrainList.RemoveAll(ter => !ter.ExistsImage());
-                    CurLevel.GadgetList.RemoveAll(gad => !gad.ExistsImage());
+                    DeleteMissingPieces();
                     missingPieces.Clear(); // Clear the list
                 }
             }
 
-            // TODO - Ideally, we need to call ValidateLevelPieces at this point
+            // Refresh missing pieces list and status bar
+            UpdateMissingPiecesList();
+            UpdateStatusBar();
         }
 
         // Store the names of the missing pieces for the current level
@@ -738,16 +740,8 @@ Ladderer=10";
             if (CurLevel == null)
                 return;
 
-            // Initialise missingPieces list
-            missingPieces.Clear();
-
-            // Initialize status bar
-            UpdateStatusBar();
-
-            CurLevel.TerrainList.FindAll(ter => !ter.ExistsImage())
-                              .ForEach(ter => missingPieces.Add(ter.Name + " in style " + ter.Style));
-            CurLevel.GadgetList.FindAll(gad => !gad.ExistsImage())
-                             .ForEach(gad => missingPieces.Add(gad.Name + " in style " + gad.Style));
+            PrepareForPieceValidation();
+            UpdateMissingPiecesList();
 
             if (missingPieces.Count > 0)
             {
@@ -771,11 +765,7 @@ Ladderer=10";
                 // Update the file path
                 CurLevel.FilePathToSave = newFilePath;
 
-                // Delete missing pieces
-                CurLevel.TerrainList.RemoveAll(ter => !ter.ExistsImage());
-                CurLevel.GadgetList.RemoveAll(gad => !gad.ExistsImage());
-
-                // Update status strip
+                DeleteMissingPieces();
                 UpdateStatusBar(newFileName);
 
                 // Store the filename of the level with missing pieces
@@ -783,6 +773,9 @@ Ladderer=10";
             }
         }
 
+        /// <summary>
+        ///  Handles status bar visibility and display text
+        /// </summary>
         public void UpdateStatusBar(string fileName = "")
         {
             if (missingPieces.Count > 0)
@@ -804,6 +797,29 @@ Ladderer=10";
             }
         }
 
+        /// <summary>
+        /// Searches for missing pieces in the current level, and populates the list if found
+        /// </summary>
+        private void UpdateMissingPiecesList()
+        {
+            CurLevel.TerrainList.FindAll(ter => !ter.ExistsImage())
+                  .ForEach(ter => missingPieces.Add(ter.Name + " in style " + ter.Style));
+            CurLevel.GadgetList.FindAll(gad => !gad.ExistsImage())
+                             .ForEach(gad => missingPieces.Add(gad.Name + " in style " + gad.Style));
+        }
+
+        /// <summary>
+        /// Removes missing pieces from the level
+        /// </summary>
+        private void DeleteMissingPieces()
+        {
+            CurLevel.TerrainList.RemoveAll(ter => !ter.ExistsImage());
+            CurLevel.GadgetList.RemoveAll(gad => !gad.ExistsImage());
+        }
+
+        /// <summary>
+        /// Performs a search for pieces throughout the full styles folder
+        /// </summary>
         private void OpenPieceSearch()
         {
             string rootPath = Application.StartupPath;
