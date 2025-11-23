@@ -669,14 +669,14 @@ Ladderer=10";
                 this.combo_PieceStyle.Text = ValidateStyleList(pieceStyle);
             }
 
+            ValidateStylePieces();
+            UpdateStatusBar();
+
             curRenderer.SetLevel(CurLevel);
             RefreshLevel();
 
             UpdateFlagsForPieceActions();
             UpdatePieceMetaData();
-
-            ValidateStylePieces();
-            UpdateStatusBar();
             
             // TODO: If a level with missing pieces is loaded
             //       and then the style is updated (i.e. the missing pieces are placed into the style manually)
