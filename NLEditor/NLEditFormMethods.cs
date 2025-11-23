@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -688,10 +689,8 @@ Ladderer=10";
         /// </summary>
         private void PrepareForPieceValidation()
         {
-            // Initialise missingPieces list
+            // Initialise missingPieces list and status bar
             missingPieces.Clear();
-
-            // Initialize status bar
             UpdateStatusBar();
         }
 
@@ -704,27 +703,6 @@ Ladderer=10";
                 return;
 
             PrepareForPieceValidation();
-            UpdateMissingPiecesList();
-
-            // Ask if the user wants to delete any missing pieces
-            if (missingPieces.Count > 0)
-            {
-                var result = MessageBox.Show(
-                    "This level contains pieces that are no longer part of the current style.\n\n" +
-                    "Do you want to remove the missing pieces?",
-                    "Missing Pieces Detected",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning
-                );
-
-                if (result == DialogResult.Yes)
-                {
-                    DeleteMissingPieces();
-                    missingPieces.Clear(); // Clear the list
-                }
-            }
-
-            // Refresh missing pieces list and status bar
             UpdateMissingPiecesList();
             UpdateStatusBar();
         }
@@ -742,51 +720,24 @@ Ladderer=10";
 
             PrepareForPieceValidation();
             UpdateMissingPiecesList();
+            UpdateStatusBar();
 
             if (missingPieces.Count > 0)
             {
-                // Append "_MissingPieces" to the file name
-                string originalFilePath = CurLevel.FilePathToSave;
-                string directory = Path.GetDirectoryName(originalFilePath);
-                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(originalFilePath);
-                string fileExtension = Path.GetExtension(originalFilePath);
-                string newFileName = $"{fileNameWithoutExtension}_MissingPieces{fileExtension}";
-
-                // Check for unique file name
-                int count = 1;
-                string newFilePath = Path.Combine(directory, newFileName);
-                while (File.Exists(newFilePath))
-                {
-                    newFileName = $"{fileNameWithoutExtension}_MissingPieces ({count}){fileExtension}";
-                    newFilePath = Path.Combine(directory, newFileName);
-                    count++;
-                }
-
-                // Update the file path
-                CurLevel.FilePathToSave = newFilePath;
-
-                DeleteMissingPieces();
-                UpdateStatusBar(newFileName);
-
                 // Store the filename of the level with missing pieces
-                levelsWithMissingPieces.Add(originalFilePath);
+                levelsWithMissingPieces.Add(CurLevel.FilePathToSave);
             }
         }
 
         /// <summary>
         ///  Handles status bar visibility and display text
         /// </summary>
-        public void UpdateStatusBar(string fileName = "")
+        public void UpdateStatusBar()
         {
             if (missingPieces.Count > 0)
             {
                 statusBarLabel1.Text = "This level contains missing pieces (click to show).";
-
-                if (fileName == "")
-                    statusBarLabel2.Text = "";
-                else
-                    statusBarLabel2.Text = "If saved, a new copy called " + fileName +
-                                           " will be created to prevent overwriting the original.";
+                statusBarLabel2.Text = "Click the lemming button for more options";
                 statusBar.Visible = true;
                 statusBar.Enabled = true;
             }
@@ -803,9 +754,9 @@ Ladderer=10";
         private void UpdateMissingPiecesList()
         {
             CurLevel.TerrainList.FindAll(ter => !ter.ExistsImage())
-                  .ForEach(ter => missingPieces.Add(ter.Name + " in style " + ter.Style));
+                  .ForEach(ter => missingPieces.Add($@"{ter.Style}\terrain\{ter.Name}"));
             CurLevel.GadgetList.FindAll(gad => !gad.ExistsImage())
-                             .ForEach(gad => missingPieces.Add(gad.Name + " in style " + gad.Style));
+                             .ForEach(gad => missingPieces.Add($@"{gad.Style}\terrain\{gad.Name}"));
         }
 
         /// <summary>
@@ -813,8 +764,22 @@ Ladderer=10";
         /// </summary>
         private void DeleteMissingPieces()
         {
+            if (missingPieces.Count > 0)
+            {
+                var result = MessageBox.Show(
+                    "Are you sure you want to delete all missing pieces from the level?",
+                    "Confirm Deletion",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (result != DialogResult.Yes)
+                    return;
+            }
+
             CurLevel.TerrainList.RemoveAll(ter => !ter.ExistsImage());
             CurLevel.GadgetList.RemoveAll(gad => !gad.ExistsImage());
+            missingPieces.Clear();
+            UpdateStatusBar();
         }
 
         /// <summary>
@@ -1187,7 +1152,7 @@ Ladderer=10";
                 {
                     completionMessage += "\n\nLevels with missing pieces:\n\n";
                     completionMessage += string.Join("\n", levelsWithMissingPieces.Select(Path.GetFileName));
-                    completionMessage += "\n\nThese levels have been saved with '_MissingPieces' appended to the filename.";
+                    completionMessage += "\n\nThese levels contain missing or invalid style pieces.";
 
                 }
                 MessageBox.Show(completionMessage, "Cleanse Levels Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);

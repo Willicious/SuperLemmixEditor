@@ -1492,6 +1492,11 @@ namespace NLEditor
             statusBar.Visible = false;
         }
 
+        private void deleteMissingPiecesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeleteMissingPieces();
+        }
+
         private void statusBarLabel1_Click(object sender, EventArgs e)
         {
             ShowMissingPiecesDialog();
@@ -1551,11 +1556,6 @@ namespace NLEditor
         private void searchPiecesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenPieceSearch();
-        }
-
-        private void but_RefreshStyles_Click(object sender, EventArgs e)
-        {
-            RefreshStyles();
         }
 
         private void but_LoadStyle_Click(object sender, EventArgs e)
