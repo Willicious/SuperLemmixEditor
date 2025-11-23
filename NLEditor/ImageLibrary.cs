@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace NLEditor
 {
@@ -392,6 +391,22 @@ namespace NLEditor
         static Dictionary<string, BaseImageInfo> imageDict;
 
         /// <summary>
+        /// Clears the current imageDict
+        /// </summary>
+        public static void Clear()
+        {
+            imageDict.Clear();
+        }
+
+        private static NLEditForm mainForm;
+
+        // Method to set the editor form, this must be called early in your app
+        public static void SetEditorForm(NLEditForm editorForm)
+        {
+            mainForm = editorForm;
+        }
+
+        /// <summary>
         /// Returns whether an image with this ImageKey exists.
         /// </summary>
         /// <param name="imageKey"></param>
@@ -452,7 +467,7 @@ namespace NLEditor
                 bool success = AddNewImage(imageKey);
                 if (!success)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".", "File not found");
+                    mainForm.missingPieces.Add(imageKey);
                     return null;
                 }
             }
@@ -470,7 +485,7 @@ namespace NLEditor
                 bool success = AddNewImage(imageKey);
                 if (!success)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".", "File not found");
+                    mainForm.missingPieces.Add(imageKey);
                     return null;
                 }
             }
@@ -488,7 +503,7 @@ namespace NLEditor
                 bool success = AddNewImage(imageKey);
                 if (!success)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".", "File not found");
+                    mainForm.missingPieces.Add(imageKey);
                     return null;
                 }
             }
@@ -506,7 +521,7 @@ namespace NLEditor
                 bool success = AddNewImage(imageKey);
                 if (!success)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".", "File not found");
+                    mainForm.missingPieces.Add(imageKey);
                     return null;
                 }
             }
@@ -524,7 +539,7 @@ namespace NLEditor
                 bool success = AddNewImage(imageKey);
                 if (!success)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".", "File not found");
+                    mainForm.missingPieces.Add(imageKey);
                     return null;
                 }
             }
@@ -542,7 +557,7 @@ namespace NLEditor
                 bool success = AddNewImage(imageKey);
                 if (!success)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot find image " + imageKey + ".", "File not found");
+                    mainForm.missingPieces.Add(imageKey);
                     return null;
                 }
             }

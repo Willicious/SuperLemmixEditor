@@ -34,6 +34,8 @@ namespace NLEditor
 
             LoadStylesFromFile.AddInitialImagesToLibrary();
 
+            ImageLibrary.SetEditorForm(this);
+
             picPieceList = new List<PictureBox>
                 {
                     picPiece0, picPiece1, picPiece2, picPiece3,
@@ -1549,6 +1551,11 @@ namespace NLEditor
         private void searchPiecesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenPieceSearch();
+        }
+
+        private void but_RefreshStyles_Click(object sender, EventArgs e)
+        {
+            RefreshStyles();
         }
 
         private void but_LoadStyle_Click(object sender, EventArgs e)

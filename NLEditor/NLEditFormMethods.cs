@@ -619,12 +619,119 @@ Ladderer=10";
             pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
+        /// </summary> 
+        /// Checks that the given style is present in the StyleList
+        /// </summary>
+        private string ValidateStyleList(Style style)
+        {
+            if (style == null)
+            {
+                MessageBox.Show("ValidateStyleList: Style cannot be null.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return string.Empty;
+            }
+
+            if (StyleList.Any(sty => sty.NameInEditor == style.NameInEditor))
+            {
+                return style.NameInEditor;
+            }
+            else
+            {
+                MessageBox.Show($"Style '{style.NameInEditor}' not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Reloads all styles to keep pieces up-to-date without closing & reopening the Editor
+        /// </summary>
+        private void RefreshStyles()
+        {
+            if (CurLevel == null || pieceCurStyle == null)
+                return;
+
+            Style themeStyle = CurLevel.MainStyle;
+            Style pieceStyle = pieceCurStyle;
+
+            StyleList.Clear();
+            combo_MainStyle.Items.Clear();
+            combo_PieceStyle.Items.Clear();
+
+            ImageLibrary.Clear();
+
+            CreateStyleList();
+            if (StyleList.Count > 0)
+            {
+                this.combo_MainStyle.Items.AddRange(StyleList.Where(sty => File.Exists(C.AppPathThemeInfo(sty.NameInDirectory))).Select(sty => sty.NameInEditor).ToArray());
+                this.combo_MainStyle.Text = ValidateStyleList(themeStyle);
+
+                this.combo_PieceStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.NameInEditor).ToArray());
+                this.combo_PieceStyle.Text = ValidateStyleList(pieceStyle);
+            }
+
+            curRenderer.SetLevel(CurLevel);
+            RefreshLevel();
+
+            UpdateFlagsForPieceActions();
+            UpdatePieceMetaData();
+
+            ValidateStylePieces();
+            UpdateStatusBar();
+            
+            // TODO: If a level with missing pieces is loaded
+            //       and then the style is updated (i.e. the missing pieces are placed into the style manually)
+            //       and then Refresh Styles is performed,
+            //       the level should be saved and then re-loaded
+        }
+
+        /// <summary>
+        /// Validates style pieces after a refresh
+        /// </summary>
+        private void ValidateStylePieces()
+        {
+            if (CurLevel == null)
+                return;
+
+            // Initialise missingPieces list
+            // TODO: This list should NOT be cleared if Refresh Styles is performed on a level
+            // which is already determined to have missing pieces
+            missingPieces.Clear();
+
+            // Initialize status bar
+            UpdateStatusBar();
+
+            CurLevel.TerrainList.FindAll(ter => !ter.ExistsImage())
+                              .ForEach(ter => missingPieces.Add(ter.Name + " in style " + ter.Style));
+            CurLevel.GadgetList.FindAll(gad => !gad.ExistsImage())
+                             .ForEach(gad => missingPieces.Add(gad.Name + " in style " + gad.Style));
+
+            // Re-validate the level if it contains pieces that were removed from the style (but not the level itself) before refreshing
+            if (missingPieces.Count > 0)
+            {
+                var result = MessageBox.Show(
+                    "This level contains pieces that are no longer part of the current style.\n\n" +
+                    "Do you want to remove the missing pieces?",
+                    "Missing Pieces Detected",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (result == DialogResult.Yes)
+                {
+                    // Delete missing pieces
+                    CurLevel.TerrainList.RemoveAll(ter => !ter.ExistsImage());
+                    CurLevel.GadgetList.RemoveAll(gad => !gad.ExistsImage());
+                    missingPieces.Clear(); // Clear the list
+                }
+            }
+
+            // TODO - Ideally, we need to call ValidateLevelPieces at this point
+        }
+
         // Store the names of the missing pieces for the current level
-        private HashSet<string> missingPieces = new HashSet<string>();
+        public HashSet<string> missingPieces = new HashSet<string>();
 
         /// <summary>
         /// Checks for & removes all pieces for which no image in the corresponding style exists.
-        /// <para> A warning is displayed if pieces are removed. </para>
         /// </summary>
         private void ValidateLevelPieces()
         {
@@ -634,8 +741,8 @@ Ladderer=10";
             // Initialise missingPieces list
             missingPieces.Clear();
 
-            // Initialise status strip
-            statusBar.Visible = false;
+            // Initialize status bar
+            UpdateStatusBar();
 
             CurLevel.TerrainList.FindAll(ter => !ter.ExistsImage())
                               .ForEach(ter => missingPieces.Add(ter.Name + " in style " + ter.Style));
@@ -669,23 +776,32 @@ Ladderer=10";
                 CurLevel.GadgetList.RemoveAll(gad => !gad.ExistsImage());
 
                 // Update status strip
-                statusBar.Visible = true;
-                statusBarButton1.DropDownItems[0].Visible = true;
-                statusBarLabel1.Text = "This level contains missing pieces (click to show).";
-                statusBarLabel2.Text = "If saved, a new copy called " + newFileName +
-                                             " will be created to prevent overwriting the original.";
+                UpdateStatusBar(newFileName);
 
                 // Store the filename of the level with missing pieces
                 levelsWithMissingPieces.Add(originalFilePath);
             }
-
-            // Return true if no missing images were found
-            return;
         }
 
-        private void RefreshStyles()
+        public void UpdateStatusBar(string fileName = "")
         {
-            // currently does nothing
+            if (missingPieces.Count > 0)
+            {
+                statusBarLabel1.Text = "This level contains missing pieces (click to show).";
+
+                if (fileName == "")
+                    statusBarLabel2.Text = "";
+                else
+                    statusBarLabel2.Text = "If saved, a new copy called " + fileName +
+                                           " will be created to prevent overwriting the original.";
+                statusBar.Visible = true;
+                statusBar.Enabled = true;
+            }
+            else
+            {
+                statusBar.Visible = false;
+                statusBar.Enabled = false;
+            }
         }
 
         private void OpenPieceSearch()
@@ -1388,15 +1504,24 @@ Ladderer=10";
             }
         }
 
+        /// <summary>
+        /// Checks that the selected style is valid and loads it into the piece style combo
+        /// </summary>
         private void LoadStyleFromMetaData()
         {
-            if (lblPieceStyle.Text != null)
+            if (string.IsNullOrWhiteSpace(lblPieceStyle.Text))
+            {
+                MessageBox.Show("No valid style detected in metadata.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (combo_PieceStyle.Items.Cast<string>().Contains(lblPieceStyle.Text))
             {
                 combo_PieceStyle.Text = lblPieceStyle.Text;
             }
             else
             {
-                MessageBox.Show("The selected style could not be found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Style '{lblPieceStyle.Text}' not found in style list.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
