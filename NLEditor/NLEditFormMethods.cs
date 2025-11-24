@@ -689,19 +689,15 @@ Ladderer=10";
                 Application.Exit();
             }
 
+            // Reset style pieces and status bar
             ValidateStylePieces();
             UpdateStatusBar();
 
+            // Reset level
             curRenderer.SetLevel(CurLevel);
             RefreshLevel();
-
             UpdateFlagsForPieceActions();
             UpdatePieceMetaData();
-            
-            // TODO: If a level with missing pieces is loaded
-            //       and then the style is updated (i.e. the missing pieces are placed into the style manually)
-            //       and then Refresh Styles is performed,
-            //       the level should be saved and then re-loaded
         }
 
         /// <summary>
