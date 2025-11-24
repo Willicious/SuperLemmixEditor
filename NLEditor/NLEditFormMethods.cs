@@ -57,12 +57,14 @@ namespace NLEditor
                 {
                     Utility.LogException(Ex);
 
-                    MessageBox.Show("Error: Could not read the style folders." + C.NewLine + Ex.Message, "Error loading styles");
+                    MessageBox.Show("Error: Could not read the style folders. The Editor will now close." + C.NewLine + Ex.Message, "Error loading styles");
+                    Application.Exit();
                 }
             }
             else
             {
-                MessageBox.Show("Warning: The folder 'styles' is missing.", "Styles missing");
+                MessageBox.Show("Warning: The folder 'styles' is missing. The Editor will now close.", "Styles missing");
+                Application.Exit();
             }
             // Create the StyleList from the StyleNameList
             styleNameList.RemoveAll(sty => sty == "default");
@@ -656,6 +658,12 @@ Ladderer=10";
             if (CurLevel == null || pieceCurStyle == null)
                 return;
 
+            if (!Directory.Exists(C.AppPathPieces) || Directory.GetDirectories(C.AppPathPieces).Length == 0)
+            {
+                MessageBox.Show("Cannot refresh. The 'styles' folder appears to be empty or missing.");
+                return;
+            }
+
             Style themeStyle = CurLevel.MainStyle;
             Style pieceStyle = pieceCurStyle;
 
@@ -674,6 +682,11 @@ Ladderer=10";
 
                 this.combo_PieceStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.NameInEditor).ToArray());
                 this.combo_PieceStyle.Text = ValidateStyleList(pieceStyle);
+            }
+            else
+            {
+                MessageBox.Show("The style list could not be built. The Editor will now close.");
+                Application.Exit();
             }
 
             ValidateStylePieces();
