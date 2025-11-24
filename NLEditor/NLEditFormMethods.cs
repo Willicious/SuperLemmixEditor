@@ -658,6 +658,7 @@ Ladderer=10";
             combo_PieceStyle.Items.Clear();
 
             ImageLibrary.Clear();
+            LoadStylesFromFile.AddInitialImagesToLibrary();
 
             CreateStyleList();
             if (StyleList.Count > 0)
