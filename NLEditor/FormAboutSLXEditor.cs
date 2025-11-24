@@ -104,8 +104,22 @@ namespace NLEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
-            // Version 2.9 features
-            WriteBoldText(richTextBox, "Version 2.9\n");
+            // Version 2.9.2 features
+            WriteBoldText(richTextBox, "Version 2.9.2\n");
+            WriteBoldText(richTextBox, "• Refresh Styles");
+            richTextBox.AppendText(" - It's now possible to refresh the styles without closing and re-opening the Editor. So, if a style is modified during a level editing session, it can be refreshed without interrupting workflow! This feature is accessed via a menu item and customizable hotkey (Ctrl+Shift+F8 by default)\n");
+
+            WriteBoldText(richTextBox, "• UI - Missing Pieces Handling");
+            richTextBox.AppendText(" - Much improved handling of missing pieces. The status bar now gives 3 options (Show, Keep or Delete missing pieces) - no more auto-deletion of pieces, and no more need to auto-save with an appended filename\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - Missing Pieces Handling");
+            richTextBox.AppendText(" - Status bar is once again shown correctly\n");
+
+            WriteBoldText(richTextBox, "• Bugfix - Trigger area colours");
+            richTextBox.AppendText(" - Fixed transparency for the non-default colours\n");
+
+            // Version 2.9.X features
+            WriteBoldText(richTextBox, "\nVersion 2.9.X\n");
             WriteBoldText(richTextBox, "• Piece Browser Window - Bugfix");
             richTextBox.AppendText(" - The Piece Browser window is now re-drawn correctly after minimizing and then restoring the Editor\n");
 
@@ -115,8 +129,8 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Piece Browser Window - Bugfix");
             richTextBox.AppendText(" - Fixed focus for the piece dropdown control, so hotkeys should now work fully as expected when the Piece Browser window is active\n");
 
-            // Version 2.8.9(b) features
-            WriteBoldText(richTextBox, "\nVersion 2.8.9(b)\n");
+            // Version 2.8.X features
+            WriteBoldText(richTextBox, "\nVersion 2.8.X\n");
             WriteBoldText(richTextBox, "• Piece Browser Window");
             richTextBox.AppendText(" - The Piece Browser can now be opened in its own pop-out window to accompany the Level Arranger. It's external-display compatible, and size & location are remembered between sessions\n");
 
@@ -159,8 +173,6 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Bugfix - UI");
             richTextBox.AppendText(" - In the Level Arranger window, X/Y co-ordinates of selected pieces now stay visible when the scrollbars appear\n");
 
-            // Version 2.8.8 features
-            WriteBoldText(richTextBox, "\nVersion 2.8.8\n");
             WriteBoldText(richTextBox, "• Level Validation");
             richTextBox.AppendText(" - Added a setting to toggle automatic level validation on/off when manually saving a level\n");
 
@@ -176,8 +188,6 @@ namespace NLEditor
             WriteBoldText(richTextBox, "• Bugfix - UI");
             richTextBox.AppendText(" - Settings form now stays on top when active\n");
 
-            // Version 2.8.X features
-            WriteBoldText(richTextBox, "\nVersion 2.8.X\n");
             WriteBoldText(richTextBox, "• Piece Browser");
             richTextBox.AppendText(" - Added option to scroll piece browser infinitely (previous behaviour)\n");
 
