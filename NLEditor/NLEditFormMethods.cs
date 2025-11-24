@@ -620,26 +620,32 @@ Ladderer=10";
             pic_Level.Image = curRenderer.CreateLevelImage();
         }
 
-        /// </summary> 
-        /// Checks that the given style is present in the StyleList
+        /// <summary>
+        /// Returns the requested style or the first available valid style
         /// </summary>
         private string ValidateStyleList(Style style)
         {
+            // Fallback to first valid style if requested style is null or invalid
             if (style == null)
             {
-                MessageBox.Show("ValidateStyleList: Style cannot be null.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return string.Empty;
+                MessageBox.Show("Style cannot be null. Using the first available style.", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return StyleList[0].NameInEditor;
             }
 
+            // Return requested style if it exists
             if (StyleList.Any(sty => sty.NameInEditor == style.NameInEditor))
-            {
                 return style.NameInEditor;
-            }
-            else
-            {
-                MessageBox.Show($"Style '{style.NameInEditor}' not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return string.Empty;
-            }
+
+            // Fallback to first valid style if requested style is missing
+            MessageBox.Show(
+                $"Style '{style.NameInEditor}' could not be found.\n" +
+                $"Using '{StyleList[0].NameInEditor}' instead.",
+                "Style Not Found",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            return StyleList[0].NameInEditor;
         }
 
         /// <summary>
