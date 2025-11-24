@@ -2100,6 +2100,7 @@ Ladderer=10";
             CurLevel.GadgetList.RemoveAll(obj => obj.IsSelected);
             SaveChangesToOldLevelList();
             pic_Level.Image = curRenderer.CreateLevelImage();
+            UpdateFlagsForPieceActions();
         }
 
         /// <summary>
