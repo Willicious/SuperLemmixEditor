@@ -275,6 +275,7 @@
             this.statusBarButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.showMissingPiecesStatusBarMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oKStatusBarMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabLvlPieces = new System.Windows.Forms.TabControl();
             this.tabLvlSkills = new System.Windows.Forms.TabControl();
             this.tabLvlMisc = new System.Windows.Forms.TabControl();
@@ -298,7 +299,6 @@
             this.txt_FocusPieceBrowser = new NLEditor.FocusTextBox();
             this.pic_DragNewPiece = new System.Windows.Forms.PictureBox();
             this.txt_Focus = new NLEditor.FocusTextBox();
-            this.deleteMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).BeginInit();
             this.tabLvlProperties.SuspendLayout();
@@ -690,10 +690,10 @@
             this.hotkeysToolStripMenuItem,
             this.toolStripSeparator5,
             this.showMissingPiecesToolStripMenuItem,
+            this.refreshStylesToolStripMenuItem,
             this.openLevelWindowToolStripMenuItem,
             this.openPieceBrowserWindowToolStripMenuItem,
             this.expandAllTabsToolStripMenuItem,
-            this.refreshStylesToolStripMenuItem,
             this.toolStripSeparator2,
             this.aboutToolStripMenuItem,
             this.toolStripSeparator4});
@@ -773,6 +773,7 @@
             // refreshStylesToolStripMenuItem
             // 
             this.refreshStylesToolStripMenuItem.Name = "refreshStylesToolStripMenuItem";
+            this.refreshStylesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+F8";
             this.refreshStylesToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
             this.refreshStylesToolStripMenuItem.Text = "Refresh Styles";
             this.refreshStylesToolStripMenuItem.Click += new System.EventHandler(this.refreshStylesToolStripMenuItem_Click);
@@ -3335,6 +3336,13 @@
             this.oKStatusBarMenuItem.Text = "Keep missing pieces";
             this.oKStatusBarMenuItem.Click += new System.EventHandler(this.oKStatusBarMenuItem_Click);
             // 
+            // deleteMissingPiecesToolStripMenuItem
+            // 
+            this.deleteMissingPiecesToolStripMenuItem.Name = "deleteMissingPiecesToolStripMenuItem";
+            this.deleteMissingPiecesToolStripMenuItem.Size = new System.Drawing.Size(284, 34);
+            this.deleteMissingPiecesToolStripMenuItem.Text = "Delete missing pieces";
+            this.deleteMissingPiecesToolStripMenuItem.Click += new System.EventHandler(this.deleteMissingPiecesToolStripMenuItem_Click);
+            // 
             // tabLvlPieces
             // 
             this.tabLvlPieces.Location = new System.Drawing.Point(412, 42);
@@ -3633,13 +3641,6 @@
             this.txt_Focus.TabIndex = 37;
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
-            // 
-            // deleteMissingPiecesToolStripMenuItem
-            // 
-            this.deleteMissingPiecesToolStripMenuItem.Name = "deleteMissingPiecesToolStripMenuItem";
-            this.deleteMissingPiecesToolStripMenuItem.Size = new System.Drawing.Size(284, 34);
-            this.deleteMissingPiecesToolStripMenuItem.Text = "Delete missing pieces";
-            this.deleteMissingPiecesToolStripMenuItem.Click += new System.EventHandler(this.deleteMissingPiecesToolStripMenuItem_Click);
             // 
             // NLEditForm
             // 

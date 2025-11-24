@@ -2523,6 +2523,7 @@ Ladderer=10";
             AddHotkey(HotkeyConfig.HotkeyToggleBackground, () => ToggleBackground());
             AddHotkey(HotkeyConfig.HotkeyToggleDeprecatedPieces, () => ToggleDeprecatedPieces());
             AddHotkey(HotkeyConfig.HotkeyShowMissingPieces, () => ShowMissingPiecesDialog());
+            AddHotkey(HotkeyConfig.HotkeyRefreshStyles, () => RefreshStyles());
             AddHotkey(HotkeyConfig.HotkeyPieceSearch, () => OpenPieceSearch());
             AddHotkey(HotkeyConfig.HotkeyToggleSnapToGrid, () => ToggleSnapToGrid(true));
             AddHotkey(HotkeyConfig.HotkeyOpenLevelArrangerWindow, () => OpenLevelArrangerWindow());
@@ -2697,6 +2698,9 @@ Ladderer=10";
 
             showMissingPiecesToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyShowMissingPieces);
+
+            refreshStylesToolStripMenuItem.ShortcutKeyDisplayString =
+                HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyRefreshStyles);
 
             searchPiecesToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyPieceSearch);

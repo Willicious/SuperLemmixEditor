@@ -719,6 +719,9 @@ namespace NLEditor
                     case "HotkeyShowMissingPieces":
                         HotkeyConfig.HotkeyShowMissingPieces = parsedKey;
                         break;
+                    case "HotkeyRefreshStyles":
+                        HotkeyConfig.HotkeyRefreshStyles = parsedKey;
+                        break;
                     case "HotkeyToggleSnapToGrid":
                         HotkeyConfig.HotkeyToggleSnapToGrid = parsedKey;
                         break;

@@ -29,6 +29,7 @@ namespace NLEditor
         public static Keys HotkeyToggleDeprecatedPieces;
         public static Keys HotkeyPieceSearch;
         public static Keys HotkeyShowMissingPieces;
+        public static Keys HotkeyRefreshStyles;
         public static Keys HotkeyToggleSnapToGrid;
         public static Keys HotkeyOpenLevelArrangerWindow;
         public static Keys HotkeyOpenPieceBrowserWindow;
@@ -371,6 +372,8 @@ namespace NLEditor
                     HotkeyPieceSearch = ParseHotkeyString(line.Substring("HotkeyPieceSearch=".Length));
                 if (line.StartsWith("HotkeyShowMissingPieces="))
                     HotkeyShowMissingPieces = ParseHotkeyString(line.Substring("HotkeyShowMissingPieces=".Length));
+                if (line.StartsWith("HotkeyRefreshStyles="))
+                    HotkeyRefreshStyles = ParseHotkeyString(line.Substring("HotkeyRefreshStyles=".Length));
                 if (line.StartsWith("HotkeyToggleSnapToGrid="))
                     HotkeyToggleSnapToGrid = ParseHotkeyString(line.Substring("HotkeyToggleSnapToGrid=".Length));
                 if (line.StartsWith("HotkeyOpenLevelArrangerWindow="))
@@ -573,6 +576,7 @@ namespace NLEditor
                 $"HotkeyToggleDeprecatedPieces={FormatHotkeyString(HotkeyToggleDeprecatedPieces)}",
                 $"HotkeyPieceSearch={FormatHotkeyString(HotkeyPieceSearch)}",
                 $"HotkeyShowMissingPieces={FormatHotkeyString(HotkeyShowMissingPieces)}",
+                $"HotkeyRefreshStyles={FormatHotkeyString(HotkeyRefreshStyles)}",
                 $"HotkeyToggleSnapToGrid={FormatHotkeyString(HotkeyToggleSnapToGrid)}",
                 $"HotkeyOpenLevelArrangerWindow={FormatHotkeyString(HotkeyOpenLevelArrangerWindow)}",
                 $"HotkeyOpenPieceBrowserWindow={FormatHotkeyString(HotkeyOpenPieceBrowserWindow)}",
@@ -684,6 +688,7 @@ namespace NLEditor
             HotkeyToggleDeprecatedPieces = Keys.F7;
             HotkeyPieceSearch = Keys.F8;
             HotkeyShowMissingPieces = Keys.Control | Keys.F8;
+            HotkeyRefreshStyles = Keys.Control | Keys.Shift | Keys.F8;
             HotkeyToggleSnapToGrid = Keys.F9;
             HotkeyOpenLevelArrangerWindow = Keys.Control | Keys.F9;
             HotkeyOpenPieceBrowserWindow = Keys.Control | Keys.Shift | Keys.F9;
@@ -786,6 +791,7 @@ namespace NLEditor
             HotkeyToggleDeprecatedPieces = Keys.F7;
             HotkeyPieceSearch = Keys.F8;
             HotkeyShowMissingPieces = Keys.Control | Keys.F8;
+            HotkeyRefreshStyles = Keys.Control | Keys.Shift | Keys.F8;
             HotkeyToggleSnapToGrid = Keys.F9;
             HotkeyOpenLevelArrangerWindow = Keys.Control | Keys.F9;
             HotkeyOpenPieceBrowserWindow = Keys.Control | Keys.Shift | Keys.F9;
