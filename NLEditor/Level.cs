@@ -38,7 +38,8 @@ namespace NLEditor
 
             this.NumLems = 40;
             this.SaveReq = 20;
-            this.SpawnRate = 50;
+            this.ReleaseRate = 50;
+            this.SpawnInterval = 53;
             this.IsSpawnRateFix = false;
             this.TimeLimit = 0;
             this.IsNoTimeLimit = true;
@@ -95,7 +96,8 @@ namespace NLEditor
 
         public int NumLems { get; set; }
         public int SaveReq { get; set; }
-        public int SpawnRate { get; set; }
+        public int SpawnInterval { get; set; }
+        public int ReleaseRate { get; set; }
         public bool IsSpawnRateFix { get; set; }
         public int TimeLimit { get; set; }
         public bool IsNoTimeLimit { get; set; }
@@ -139,7 +141,8 @@ namespace NLEditor
 
             newLevel.NumLems = this.NumLems;
             newLevel.SaveReq = this.SaveReq;
-            newLevel.SpawnRate = this.SpawnRate;
+            newLevel.SpawnInterval = this.SpawnInterval;
+            newLevel.ReleaseRate = this.ReleaseRate;
             newLevel.IsSpawnRateFix = this.IsSpawnRateFix;
             newLevel.TimeLimit = this.TimeLimit;
             newLevel.IsNoTimeLimit = this.IsNoTimeLimit;
@@ -184,7 +187,8 @@ namespace NLEditor
                 || this.GadgetList.Count != otherLevel.GadgetList.Count
                 || this.NumLems != otherLevel.NumLems
                 || this.SaveReq != otherLevel.SaveReq
-                || this.SpawnRate != otherLevel.SpawnRate
+                || this.SpawnInterval != otherLevel.SpawnInterval
+                || this.ReleaseRate != otherLevel.ReleaseRate
                 || this.IsSpawnRateFix != otherLevel.IsSpawnRateFix
                 || this.IsSuperlemming != otherLevel.IsSuperlemming
                 || this.IsInvincibility != otherLevel.IsInvincibility

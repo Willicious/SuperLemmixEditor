@@ -31,6 +31,7 @@ namespace NLEditor
             highlightGroupedPiecesToolStripMenuItem.Checked = Properties.Settings.Default.GroupsAreHighlighted;
             highlightEraserPiecesToolStripMenuItem.Checked = Properties.Settings.Default.ErasersAreHighlighted;
 
+            UpdateRRSIControls();
             MoveControlsOnFormResize();
             ResetLevelImage();
         }
@@ -442,7 +443,8 @@ Ladderer=10";
             CurLevel.StartPosY = decimal.ToInt32(num_Lvl_StartY.Value);
             CurLevel.NumLems = decimal.ToInt32(num_Lvl_Lems.Value);
             CurLevel.SaveReq = decimal.ToInt32(num_Lvl_Rescue.Value);
-            CurLevel.SpawnRate = decimal.ToInt32(num_Lvl_SR.Value);
+            CurLevel.SpawnInterval = decimal.ToInt32(num_Lvl_SI.Value);
+            CurLevel.ReleaseRate = decimal.ToInt32(num_Lvl_RR.Value);
             CurLevel.IsSpawnRateFix = check_Lvl_LockSR.Checked;
             CurLevel.IsSuperlemming = check_Lvl_Superlemming.Checked;
             CurLevel.TimeLimit = decimal.ToInt32(num_Lvl_TimeMin.Value) * 60
@@ -510,7 +512,8 @@ Ladderer=10";
                 // Add the rest of the values
                 num_Lvl_Lems.Value = CurLevel.NumLems;
                 num_Lvl_Rescue.Value = CurLevel.SaveReq;
-                num_Lvl_SR.Value = CurLevel.SpawnRate;
+                num_Lvl_SI.Value = CurLevel.SpawnInterval;
+                num_Lvl_RR.Value = CurLevel.ReleaseRate;
                 check_Lvl_LockSR.Checked = CurLevel.IsSpawnRateFix;
                 num_Lvl_TimeMin.Value = CurLevel.TimeLimit / 60;
                 num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;

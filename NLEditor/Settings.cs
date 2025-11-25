@@ -69,6 +69,7 @@ namespace NLEditor
         public TriggerAreaColor CurrentTriggerAreaColor { get; private set; }
         public bool InfiniteScrolling { get; private set; }
         public bool UseGridForPieces { get; private set; }
+        public bool UseSpawnInterval { get; private set; }
         public bool ValidateWhenSaving { get; private set; }
         public bool Autosave { get; private set; }
         public bool RemoveOldAutosaves { get; private set; }
@@ -100,6 +101,7 @@ namespace NLEditor
             PreferObjectName = false;
             InfiniteScrolling = false;
             UseGridForPieces = false;
+            UseSpawnInterval = false;
             gridSize = 8;
             GridColor = Color.MidnightBlue;
             customMove = 64;
@@ -129,14 +131,15 @@ namespace NLEditor
         public void OpenSettingsWindow()
         {
             int columnLeft = 30;
+            int columnRight = 340;
             int groupBoxTop = 20;
             int groupBoxColumnLeft = 16;
             int groupBoxColumnRight = 208;
-            int buttonsTop = 590;
+            int buttonsTop = 350;
 
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
-            settingsForm.ClientSize = new System.Drawing.Size(340, 640);
+            settingsForm.ClientSize = new System.Drawing.Size(650, 400);
             settingsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             settingsForm.MinimizeBox = false;
             settingsForm.MaximizeBox = false;
@@ -255,130 +258,11 @@ namespace NLEditor
             groupPieceBrowserMode.Controls.Add(checkPreferObjectName);
             groupPieceBrowserMode.Controls.Add(checkInfiniteScrolling);
 
-            // ========================== Custom Move GroupBox =========================== //
-
-            GroupBox groupCustomMove = new GroupBox();
-            groupCustomMove.Text = "Custom move selected pieces";
-            groupCustomMove.Top = 220;
-            groupCustomMove.Left = columnLeft;
-            groupCustomMove.Width = 280;
-            groupCustomMove.Height = 50;
-
-            Label lblCustomMove = new Label();
-            lblCustomMove.Text = "Custom move amount in pixels:";
-            lblCustomMove.AutoSize = true;
-            lblCustomMove.Top = groupBoxTop;
-            lblCustomMove.Left = groupBoxColumnLeft;
-
-            NumericUpDown numCustomMove = new NumericUpDown();
-            numCustomMove.Name = "numCustomMove";
-            numCustomMove.AutoSize = true;
-            numCustomMove.TextAlign = HorizontalAlignment.Center;
-            numCustomMove.Minimum = 2;
-            numCustomMove.Maximum = 3200;
-            numCustomMove.Value = customMove;
-            numCustomMove.Top = lblCustomMove.Top - 2;
-            numCustomMove.Left = groupBoxColumnRight;
-            numCustomMove.Width = 48;
-            numCustomMove.ValueChanged += new EventHandler(numCustomMove_ValueChanged);
-            numCustomMove.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
-
-            groupCustomMove.Controls.Add(lblCustomMove);
-            groupCustomMove.Controls.Add(numCustomMove);
-
-            // ========================== Snap-to-Grid GroupBox ========================== //
-
-            GroupBox groupSnapToGrid = new GroupBox();
-            groupSnapToGrid.Text = "Snap Pieces to Grid";
-            groupSnapToGrid.Top = 290;
-            groupSnapToGrid.Left = columnLeft;
-            groupSnapToGrid.Width = 280;
-            groupSnapToGrid.Height = 80;
-
-            CheckBox checkUseGrid = new CheckBox();
-            checkUseGrid.Name = "checkUseGrid";
-            checkUseGrid.AutoSize = true;
-            checkUseGrid.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            checkUseGrid.Checked = UseGridForPieces;
-            checkUseGrid.Text = "Snap-to-Grid amount in pixels:";
-            checkUseGrid.Top = groupBoxTop;
-            checkUseGrid.Left = groupBoxColumnLeft;
-            checkUseGrid.CheckedChanged += new EventHandler(checkUseGrid_CheckedChanged);
-
-            NumericUpDown numGridSize = new NumericUpDown();
-            numGridSize.Name = "numGridSize";
-            numGridSize.AutoSize = true;
-            numGridSize.TextAlign = HorizontalAlignment.Center;
-            numGridSize.Minimum = 2;
-            numGridSize.Maximum = 128;
-            numGridSize.Value = gridSize;
-            numGridSize.Top = checkUseGrid.Top - 2;
-            numGridSize.Left = groupBoxColumnRight;
-            numGridSize.Width = 48;
-            numGridSize.Enabled = UseGridForPieces;
-            numGridSize.ValueChanged += new EventHandler(numGridSize_ValueChanged);
-            numGridSize.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
-
-            Label lblGridColor = new Label();
-            lblGridColor.Name = "lblGridColor";
-            lblGridColor.Text = "Choose grid color:";
-            lblGridColor.Top = groupBoxTop + 30;
-            lblGridColor.Left = groupBoxColumnLeft;
-            lblGridColor.AutoSize = true;
-            lblGridColor.Enabled = UseGridForPieces;
-
-            ComboBox comboGridColor = new ComboBox();
-            comboGridColor.Name = "comboGridColor";
-            comboGridColor.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboGridColor.Top = lblGridColor.Top - 4;
-            comboGridColor.Left = lblGridColor.Right + 20;
-            comboGridColor.Width = 120;
-            comboGridColor.Enabled = UseGridForPieces;
-            comboGridColor.Items.AddRange(ColorOptions.Keys.ToArray());
-            comboGridColor.SelectedItem = ColorOptions.FirstOrDefault(x => x.Value == GridColor).Key ?? "Midnight";
-            comboGridColor.SelectedIndexChanged += new EventHandler(comboGridColor_IndexChanged);
-
-            groupSnapToGrid.Controls.Add(checkUseGrid);
-            groupSnapToGrid.Controls.Add(numGridSize);
-            groupSnapToGrid.Controls.Add(lblGridColor);
-            groupSnapToGrid.Controls.Add(comboGridColor);
-
-            // ========================== Trigger Area Color GroupBox ========================== //
-
-            GroupBox groupTriggerAreaColor = new GroupBox();
-            groupTriggerAreaColor.Text = "Trigger Area Color";
-            groupTriggerAreaColor.Top = 390;
-            groupTriggerAreaColor.Left = columnLeft;
-            groupTriggerAreaColor.Width = 280;
-            groupTriggerAreaColor.Height = 50;
-
-            Label lblTriggerAreaColor = new Label();
-            lblTriggerAreaColor.Name = "lblTriggerAreaColor";
-            lblTriggerAreaColor.Text = "Choose trigger area color:";
-            lblTriggerAreaColor.Top = groupBoxTop;
-            lblTriggerAreaColor.Left = groupBoxColumnLeft;
-            lblTriggerAreaColor.AutoSize = true;
-            lblTriggerAreaColor.Enabled = true;
-
-            ComboBox comboTriggerAreaColor = new ComboBox();
-            comboTriggerAreaColor.Name = "comboTriggerAreaColor";
-            comboTriggerAreaColor.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboTriggerAreaColor.Top = lblTriggerAreaColor.Top - 4;
-            comboTriggerAreaColor.Left = lblTriggerAreaColor.Right + 40;
-            comboTriggerAreaColor.Width = 100;
-            comboTriggerAreaColor.Enabled = true;
-            comboTriggerAreaColor.Items.AddRange(Enum.GetNames(typeof(TriggerAreaColor)));
-            comboTriggerAreaColor.SelectedItem = CurrentTriggerAreaColor.ToString();
-            comboTriggerAreaColor.SelectedIndexChanged += new EventHandler(comboTriggerAreaColor_IndexChanged);
-
-            groupTriggerAreaColor.Controls.Add(lblTriggerAreaColor);
-            groupTriggerAreaColor.Controls.Add(comboTriggerAreaColor);
-
             // =========================== Saving Options GroupBox =========================== //
 
             GroupBox groupSavingOptions = new GroupBox();
             groupSavingOptions.Text = "Level Saving Options";
-            groupSavingOptions.Top = 460;
+            groupSavingOptions.Top = 220;
             groupSavingOptions.Left = columnLeft;
             groupSavingOptions.Width = 280;
             groupSavingOptions.Height = 110;
@@ -455,6 +339,159 @@ namespace NLEditor
             groupSavingOptions.Controls.Add(checkDeleteAutosaves);
             groupSavingOptions.Controls.Add(numAutosavesToKeep);
 
+            // ========================== Snap-to-Grid GroupBox ========================== //
+
+            GroupBox groupSnapToGrid = new GroupBox();
+            groupSnapToGrid.Text = "Snap Pieces to Grid";
+            groupSnapToGrid.Top = 20;
+            groupSnapToGrid.Left = columnRight;
+            groupSnapToGrid.Width = 280;
+            groupSnapToGrid.Height = 80;
+
+            CheckBox checkUseGrid = new CheckBox();
+            checkUseGrid.Name = "checkUseGrid";
+            checkUseGrid.AutoSize = true;
+            checkUseGrid.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkUseGrid.Checked = UseGridForPieces;
+            checkUseGrid.Text = "Snap-to-Grid amount in pixels:";
+            checkUseGrid.Top = groupBoxTop;
+            checkUseGrid.Left = groupBoxColumnLeft;
+            checkUseGrid.CheckedChanged += new EventHandler(checkUseGrid_CheckedChanged);
+
+            NumericUpDown numGridSize = new NumericUpDown();
+            numGridSize.Name = "numGridSize";
+            numGridSize.AutoSize = true;
+            numGridSize.TextAlign = HorizontalAlignment.Center;
+            numGridSize.Minimum = 2;
+            numGridSize.Maximum = 128;
+            numGridSize.Value = gridSize;
+            numGridSize.Top = checkUseGrid.Top - 2;
+            numGridSize.Left = groupBoxColumnRight;
+            numGridSize.Width = 48;
+            numGridSize.Enabled = UseGridForPieces;
+            numGridSize.ValueChanged += new EventHandler(numGridSize_ValueChanged);
+            numGridSize.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
+
+            Label lblGridColor = new Label();
+            lblGridColor.Name = "lblGridColor";
+            lblGridColor.Text = "Choose grid color:";
+            lblGridColor.Top = groupBoxTop + 30;
+            lblGridColor.Left = groupBoxColumnLeft;
+            lblGridColor.AutoSize = true;
+            lblGridColor.Enabled = UseGridForPieces;
+
+            ComboBox comboGridColor = new ComboBox();
+            comboGridColor.Name = "comboGridColor";
+            comboGridColor.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboGridColor.Top = lblGridColor.Top - 4;
+            comboGridColor.Left = lblGridColor.Right + 20;
+            comboGridColor.Width = 120;
+            comboGridColor.Enabled = UseGridForPieces;
+            comboGridColor.Items.AddRange(ColorOptions.Keys.ToArray());
+            comboGridColor.SelectedItem = ColorOptions.FirstOrDefault(x => x.Value == GridColor).Key ?? "Midnight";
+            comboGridColor.SelectedIndexChanged += new EventHandler(comboGridColor_IndexChanged);
+
+            groupSnapToGrid.Controls.Add(checkUseGrid);
+            groupSnapToGrid.Controls.Add(numGridSize);
+            groupSnapToGrid.Controls.Add(lblGridColor);
+            groupSnapToGrid.Controls.Add(comboGridColor);
+
+            // ========================== Custom Move GroupBox =========================== //
+
+            GroupBox groupCustomMove = new GroupBox();
+            groupCustomMove.Text = "Custom move selected pieces";
+            groupCustomMove.Top = 120;
+            groupCustomMove.Left = columnRight;
+            groupCustomMove.Width = 280;
+            groupCustomMove.Height = 50;
+
+            Label lblCustomMove = new Label();
+            lblCustomMove.Text = "Custom move amount in pixels:";
+            lblCustomMove.AutoSize = true;
+            lblCustomMove.Top = groupBoxTop;
+            lblCustomMove.Left = groupBoxColumnLeft;
+
+            NumericUpDown numCustomMove = new NumericUpDown();
+            numCustomMove.Name = "numCustomMove";
+            numCustomMove.AutoSize = true;
+            numCustomMove.TextAlign = HorizontalAlignment.Center;
+            numCustomMove.Minimum = 2;
+            numCustomMove.Maximum = 3200;
+            numCustomMove.Value = customMove;
+            numCustomMove.Top = lblCustomMove.Top - 2;
+            numCustomMove.Left = groupBoxColumnRight;
+            numCustomMove.Width = 48;
+            numCustomMove.ValueChanged += new EventHandler(numCustomMove_ValueChanged);
+            numCustomMove.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
+
+            groupCustomMove.Controls.Add(lblCustomMove);
+            groupCustomMove.Controls.Add(numCustomMove);
+
+            // ========================== Trigger Area Color GroupBox ========================== //
+
+            GroupBox groupTriggerAreaColor = new GroupBox();
+            groupTriggerAreaColor.Text = "Trigger Area Color";
+            groupTriggerAreaColor.Top = 190;
+            groupTriggerAreaColor.Left = columnRight;
+            groupTriggerAreaColor.Width = 280;
+            groupTriggerAreaColor.Height = 50;
+
+            Label lblTriggerAreaColor = new Label();
+            lblTriggerAreaColor.Name = "lblTriggerAreaColor";
+            lblTriggerAreaColor.Text = "Choose trigger area color:";
+            lblTriggerAreaColor.Top = groupBoxTop;
+            lblTriggerAreaColor.Left = groupBoxColumnLeft;
+            lblTriggerAreaColor.AutoSize = true;
+            lblTriggerAreaColor.Enabled = true;
+
+            ComboBox comboTriggerAreaColor = new ComboBox();
+            comboTriggerAreaColor.Name = "comboTriggerAreaColor";
+            comboTriggerAreaColor.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboTriggerAreaColor.Top = lblTriggerAreaColor.Top - 4;
+            comboTriggerAreaColor.Left = lblTriggerAreaColor.Right + 40;
+            comboTriggerAreaColor.Width = 100;
+            comboTriggerAreaColor.Enabled = true;
+            comboTriggerAreaColor.Items.AddRange(Enum.GetNames(typeof(TriggerAreaColor)));
+            comboTriggerAreaColor.SelectedItem = CurrentTriggerAreaColor.ToString();
+            comboTriggerAreaColor.SelectedIndexChanged += new EventHandler(comboTriggerAreaColor_IndexChanged);
+
+            groupTriggerAreaColor.Controls.Add(lblTriggerAreaColor);
+            groupTriggerAreaColor.Controls.Add(comboTriggerAreaColor);
+
+            // ========================== Spawn Interval GroupBox ========================== //
+
+            GroupBox groupSpawnInterval = new GroupBox();
+            groupSpawnInterval.Text = "Spawn Interval / Release Rate";
+            groupSpawnInterval.Top = 260;
+            groupSpawnInterval.Left = columnRight;
+            groupSpawnInterval.Width = 280;
+            groupSpawnInterval.Height = 50;
+
+            RadioButton radUseSpawnInterval = new RadioButton();
+            radUseSpawnInterval.Name = "radUseSpawnInterval";
+            radUseSpawnInterval.AutoSize = true;
+            radUseSpawnInterval.Width = 130;
+            radUseSpawnInterval.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radUseSpawnInterval.Checked = UseSpawnInterval;
+            radUseSpawnInterval.Text = "Spawn Interval";
+            radUseSpawnInterval.Top = groupBoxTop;
+            radUseSpawnInterval.Left = groupBoxColumnLeft;
+            radUseSpawnInterval.CheckedChanged += new EventHandler(UseSpawnInterval_CheckedChanged);
+
+            RadioButton radUseReleaseRate = new RadioButton();
+            radUseReleaseRate.Name = "radUseReleaseRate";
+            radUseReleaseRate.AutoSize = true;
+            radUseReleaseRate.Width = 130;
+            radUseReleaseRate.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radUseReleaseRate.Checked = !UseSpawnInterval;
+            radUseReleaseRate.Text = "Release Rate";
+            radUseReleaseRate.Top = groupBoxTop;
+            radUseReleaseRate.Left = groupBoxColumnLeft + radUseSpawnInterval.Width - 16;
+            radUseReleaseRate.CheckedChanged += new EventHandler(UseSpawnInterval_CheckedChanged);
+
+            groupSpawnInterval.Controls.Add(radUseSpawnInterval);
+            groupSpawnInterval.Controls.Add(radUseReleaseRate);
+
             // ========================== Save And Close Button ========================== //
 
             btnSaveAndClose = new Button();
@@ -485,6 +522,7 @@ namespace NLEditor
             settingsForm.Controls.Add(groupCustomMove);
             settingsForm.Controls.Add(groupSnapToGrid);
             settingsForm.Controls.Add(groupTriggerAreaColor);
+            settingsForm.Controls.Add(groupSpawnInterval);
             settingsForm.Controls.Add(groupSavingOptions);
 
             settingsForm.Controls.Add(btnSaveAndClose);
@@ -568,6 +606,26 @@ namespace NLEditor
                     checkPreferObjectName.Enabled = false;
                 else
                     checkPreferObjectName.Enabled = true;
+            }
+
+            settingChanged = true;
+        }
+
+        private void UseSpawnInterval_CheckedChanged(object sender, EventArgs e)
+        {
+            if (sender is RadioButton rb && rb.Checked)
+            {
+                switch (rb.Name)
+                {
+                    case "radUseSpawnInterval":
+                        UseSpawnInterval = true;
+                        break;
+                    case "radUseReleaseRate":
+                        UseSpawnInterval = false;
+                        break;
+                }
+
+                editorForm.UpdateRRSIControls();
             }
 
             settingChanged = true;

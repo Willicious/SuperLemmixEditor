@@ -1637,5 +1637,14 @@ namespace NLEditor
                 styleManagerForm.ShowDialog(this);
             }
         }
+
+        private void HandleSpawnIntervalNumerics(object sender, EventArgs e)
+        {
+            if (sender == num_Lvl_SI)
+                num_Lvl_RR.Value = 103 - num_Lvl_SI.Value;
+
+            if (sender == num_Lvl_RR)
+                num_Lvl_SI.Value = 103 - num_Lvl_RR.Value;
+        }
     }
 }

@@ -110,7 +110,8 @@ namespace NLEditor
                 newLevel.IsNoTimeLimit = false;
             }
 
-            newLevel.SpawnRate = 103 - file["MAX_SPAWN_INTERVAL"].ValueInt;
+            newLevel.SpawnInterval = file["MAX_SPAWN_INTERVAL"].ValueInt;
+            newLevel.ReleaseRate = 103 - file["MAX_SPAWN_INTERVAL"].ValueInt;
             newLevel.IsSpawnRateFix = file.HasChildWithKey("SPAWN_INTERVAL_LOCKED");
             newLevel.IsSuperlemming = file.HasChildWithKey("SUPERLEMMING");
             newLevel.IsInvincibility = file.HasChildWithKey("INVINCIBILITY");
@@ -478,7 +479,8 @@ namespace NLEditor
             // Global level properties
             newLevel.NumLems = Math.Max(Math.Min(newLevel.NumLems, 999), 1);
             newLevel.SaveReq = Math.Max(Math.Min(newLevel.SaveReq, 999), 1);
-            newLevel.SpawnRate = Math.Max(Math.Min(newLevel.SpawnRate, 99), 1);
+            newLevel.SpawnInterval = Math.Max(Math.Min(newLevel.SpawnInterval, 102), 4);
+            newLevel.ReleaseRate = Math.Max(Math.Min(newLevel.ReleaseRate, 99), 1);
             newLevel.TimeLimit = Math.Max(Math.Min(newLevel.TimeLimit, 5999), 0);
             // Skill numbers
             foreach (C.Skill skill in C.SkillArray)
@@ -605,7 +607,7 @@ namespace NLEditor
             {
                 textFile.WriteLine(" TIME_LIMIT " + curLevel.TimeLimit.ToString());
             }
-            textFile.WriteLine(" MAX_SPAWN_INTERVAL " + (103 - curLevel.SpawnRate).ToString());
+            textFile.WriteLine(" MAX_SPAWN_INTERVAL " + curLevel.SpawnInterval.ToString());
             if (curLevel.IsSpawnRateFix)
             {
                 textFile.WriteLine(" SPAWN_INTERVAL_LOCKED");
