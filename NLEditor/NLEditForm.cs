@@ -1629,5 +1629,13 @@ namespace NLEditor
         {
             RefreshStyles();
         }
+
+        private void styleManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var styleManagerForm = new FormStyleManager(this))
+            {
+                styleManagerForm.ShowDialog(this);
+            }
+        }
     }
 }

@@ -69,12 +69,13 @@
             this.snapToGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.styleManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshStylesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLevelWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openPieceBrowserWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.expandAllTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.refreshStylesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -688,6 +689,7 @@
             this.snapToGridToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.hotkeysToolStripMenuItem,
+            this.styleManagerToolStripMenuItem,
             this.toolStripSeparator5,
             this.showMissingPiecesToolStripMenuItem,
             this.refreshStylesToolStripMenuItem,
@@ -733,6 +735,13 @@
             this.hotkeysToolStripMenuItem.Text = "Configure Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
+            // styleManagerToolStripMenuItem
+            // 
+            this.styleManagerToolStripMenuItem.Name = "styleManagerToolStripMenuItem";
+            this.styleManagerToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.styleManagerToolStripMenuItem.Text = "Style Manager";
+            this.styleManagerToolStripMenuItem.Click += new System.EventHandler(this.styleManagerToolStripMenuItem_Click);
+            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
@@ -745,6 +754,14 @@
             this.showMissingPiecesToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
             this.showMissingPiecesToolStripMenuItem.Text = "Show Missing Pieces";
             this.showMissingPiecesToolStripMenuItem.Click += new System.EventHandler(this.showMissingPiecesToolStripMenuItem_Click);
+            // 
+            // refreshStylesToolStripMenuItem
+            // 
+            this.refreshStylesToolStripMenuItem.Name = "refreshStylesToolStripMenuItem";
+            this.refreshStylesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+F8";
+            this.refreshStylesToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.refreshStylesToolStripMenuItem.Text = "Refresh Styles";
+            this.refreshStylesToolStripMenuItem.Click += new System.EventHandler(this.refreshStylesToolStripMenuItem_Click);
             // 
             // openLevelWindowToolStripMenuItem
             // 
@@ -769,14 +786,6 @@
             this.expandAllTabsToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
             this.expandAllTabsToolStripMenuItem.Text = "Expand All Tabs";
             this.expandAllTabsToolStripMenuItem.Click += new System.EventHandler(this.expandAllTabsToolStripMenuItem_Click);
-            // 
-            // refreshStylesToolStripMenuItem
-            // 
-            this.refreshStylesToolStripMenuItem.Name = "refreshStylesToolStripMenuItem";
-            this.refreshStylesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+F8";
-            this.refreshStylesToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.refreshStylesToolStripMenuItem.Text = "Refresh Styles";
-            this.refreshStylesToolStripMenuItem.Click += new System.EventHandler(this.refreshStylesToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -4030,6 +4039,7 @@
         private FocusTextBox txt_FocusPieceBrowser;
         private System.Windows.Forms.ToolStripMenuItem refreshStylesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteMissingPiecesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem styleManagerToolStripMenuItem;
     }
 }
 

@@ -108,6 +108,12 @@
     <Compile Include="FormPieceSearch.Designer.cs">
       <DependentUpon>FormPieceSearch.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormStyleManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStyleManager.Designer.cs">
+      <DependentUpon>FormStyleManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="HotkeyConfig.cs" />
     <Compile Include="FormHotkeys.cs">
       <SubType>Form</SubType>
@@ -200,6 +206,9 @@
     <EmbeddedResource Include="FormPrePostText.resx">
       <DependentUpon>FormPrePostText.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStyleManager.resx">
+      <DependentUpon>FormStyleManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTalisman.resx">
       <DependentUpon>FormTalisman.cs</DependentUpon>

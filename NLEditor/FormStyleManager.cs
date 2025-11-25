@@ -1,0 +1,397 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using static NLEditor.FormStyleManager;
+
+namespace NLEditor
+{
+    public partial class FormStyleManager : Form
+    {
+        public class StyleEntry
+        {
+            public string FolderName { get; set; }
+            public string DisplayName { get; set; }
+            public int Order { get; set; }
+        }
+
+        private List<StyleEntry> styles = new List<StyleEntry>();
+        
+        private string styleFilePath = C.AppPath + "styles" + C.DirSep + "styles.ini";
+        
+        private NLEditForm mainForm;
+
+        internal FormStyleManager(NLEditForm parentForm)
+        {
+            InitializeComponent();
+            mainForm = parentForm;
+        }
+
+        private void LoadStylesIntoListView()
+        {
+            if (!File.Exists(styleFilePath))
+            {
+                MessageBox.Show("Could not find styles.ini. Style Manager will now close");
+                Close();
+                return;
+            }
+
+            string[] lines = File.ReadAllLines(styleFilePath);
+
+            StyleEntry current = null;
+
+            foreach (var rawLine in lines)
+            {
+                string line = rawLine.Trim();
+                if (line.Length == 0)
+                    continue; // Skip blank lines
+
+                // SECTION HEADER
+                if (line.StartsWith("[") && line.EndsWith("]"))
+                {
+                    string folder = line.Trim('[', ']').Trim();
+
+                    // Ignore empty data
+                    if (string.IsNullOrWhiteSpace(folder))
+                        continue;
+
+                    // Prevent duplicates
+                    if (styles.Any(s => s.FolderName.Equals(folder, StringComparison.OrdinalIgnoreCase)))
+                        continue;
+
+                    current = new StyleEntry
+                    {
+                        FolderName = folder,
+                        DisplayName = folder, // Default until overwritten
+                        Order = 0
+                    };
+
+                    styles.Add(current);
+                    continue;
+                }
+
+                // Ignore data that does not belong to a section
+                if (current == null)
+                    continue;
+
+                // NAME
+                if (line.StartsWith("Name=", StringComparison.OrdinalIgnoreCase))
+                {
+                    current.DisplayName = line.Substring(5).Trim();
+                    if (string.IsNullOrWhiteSpace(current.DisplayName))
+                        current.DisplayName = current.FolderName;
+                    continue;
+                }
+
+                // ORDER
+                if (line.StartsWith("Order=", StringComparison.OrdinalIgnoreCase))
+                {
+                    string num = line.Substring(6).Trim();
+
+                    if (double.TryParse(num, // Parse as double for backwards compatibility
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out double dval))
+                    {
+                        int val = (int)dval; // Convert to integer
+
+                        if (val < 0) val = 0;
+                        if (val > 1000000) val = 1000000;
+
+                        current.Order = val;
+                    }
+                    else
+                    {
+                        current.Order = 0;
+                    }
+
+                    continue;
+                }
+            }
+
+            // Sort entries
+            styles = styles.OrderBy(s => s.Order).ToList();
+
+            // Populate list view
+            foreach (var s in styles)
+            {
+                var item = new ListViewItem(s.FolderName);
+                item.SubItems.Add(s.DisplayName);
+                listStyles.Items.Add(item);
+            }
+        }
+
+        private void RenameStyle()
+        {
+            if (listStyles.SelectedIndices.Count != 1)
+            {
+                MessageBox.Show("Please select a single style to rename.", "Rename", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            int idx = listStyles.SelectedIndices[0];
+
+            if (idx < 0 || idx >= styles.Count)
+                return;
+
+            string newName = (txtDisplayName.Text ?? string.Empty).Trim();
+
+            if (string.IsNullOrWhiteSpace(newName))
+            {
+                MessageBox.Show("Display name cannot be empty.", "Rename", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDisplayName.Focus();
+                return;
+            }
+
+            // Update the data list
+            styles[idx].DisplayName = newName;
+
+            // Update the ListView
+            if (listStyles.Items[idx].SubItems.Count < 2)
+                listStyles.Items[idx].SubItems.Add(newName);
+            else
+                listStyles.Items[idx].SubItems[1].Text = newName;
+
+            // Keep selection and focus consistent
+            listStyles.Items[idx].Selected = true;
+            listStyles.Focus();
+        }
+
+        private void MoveStyleUp(object sender)
+        {
+            if (listStyles.SelectedIndices.Count == 0) return;
+            int index = listStyles.SelectedIndices[0];
+
+            int moveAmount = (sender == btnMoveUp10) ? 10 : 1;
+
+            // Clamp the target index to not go below 0
+            int targetIndex = Math.Max(index - moveAmount, 0);
+
+            if (targetIndex == index) return;
+
+            // Swap in the data list
+            var tmp = styles[index];
+            styles.RemoveAt(index);
+            styles.Insert(targetIndex, tmp);
+
+            // Swap in the ListView
+            var item = listStyles.Items[index];
+            listStyles.Items.RemoveAt(index);
+            listStyles.Items.Insert(targetIndex, item);
+            listStyles.Items[targetIndex].Selected = true;
+
+            listStyles.Focus();
+        }
+
+        private void MoveStyleDown(object sender)
+        {
+            if (listStyles.SelectedIndices.Count == 0) return;
+            int index = listStyles.SelectedIndices[0];
+
+            int moveAmount = (sender == btnMoveDown10) ? 10 : 1;
+
+            // Clamp the target index to not exceed last index
+            int targetIndex = Math.Min(index + moveAmount, listStyles.Items.Count - 1);
+
+            if (targetIndex == index) return;
+
+            // Swap in the data list
+            var tmp = styles[index];
+            styles.RemoveAt(index);
+            styles.Insert(targetIndex, tmp);
+
+            // Swap in the ListView
+            var item = listStyles.Items[index];
+            listStyles.Items.RemoveAt(index);
+            listStyles.Items.Insert(targetIndex, item);
+            listStyles.Items[targetIndex].Selected = true;
+
+            listStyles.Focus();
+        }
+
+        private void UpdateDisplayNameTextInput()
+        {
+            // Check if we need to enable the text input
+            if (listStyles.SelectedIndices.Count != 1)
+            {
+                txtDisplayName.Text = string.Empty;
+                btnRename.Enabled = false;
+                return;
+            }
+
+            int idx = listStyles.SelectedIndices[0];
+
+            if (idx < 0 || idx >= styles.Count)
+            {
+                txtDisplayName.Text = string.Empty;
+                btnRename.Enabled = false;
+                return;
+            }
+
+            txtDisplayName.Text = styles[idx].DisplayName ?? styles[idx].FolderName;
+            btnRename.Enabled = true;
+            txtDisplayName.Focus();
+            txtDisplayName.SelectAll();
+        }
+
+        private void AddNewStyle() // TODO - Improve folder browser
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                fbd.Description = "Select a new style folder to add";
+                fbd.SelectedPath = Path.Combine(C.AppPath, "styles");
+
+                if (fbd.ShowDialog() != DialogResult.OK) return;
+
+                string selectedFolderPath = fbd.SelectedPath;
+                string folderName = Path.GetFileName(selectedFolderPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+
+                if (string.IsNullOrWhiteSpace(folderName)) return;
+
+                // Check for duplicates
+                int existingIndex = styles.FindIndex(s => string.Equals(s.FolderName, folderName, StringComparison.OrdinalIgnoreCase));
+                if (existingIndex >= 0)
+                {
+                    listStyles.Items[existingIndex].Selected = true;
+                    listStyles.EnsureVisible(existingIndex);
+                    txtDisplayName.Text = styles[existingIndex].DisplayName;
+                    btnRename.Enabled = true;
+                    return;
+                }
+
+                // Create new style
+                var newStyle = new StyleEntry
+                {
+                    FolderName = folderName,
+                    DisplayName = folderName,
+                    Order = 0
+                };
+
+                // Check for existing author prefix
+                string prefix = folderName.Contains("_") ? folderName.Split('_')[0] + "_" : folderName.Substring(0, 1);
+
+                var matchingIndices = styles
+                    .Select((s, idx) => new { s, idx })
+                    .Where(x => x.s.FolderName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                    .OrderBy(x => x.s.FolderName, StringComparer.OrdinalIgnoreCase)
+                    .Select(x => x.idx);
+
+                int insertIndex = matchingIndices.Any() ? matchingIndices.First() : -1;
+
+                if (insertIndex < 0) // TODO - Improve alphabetic indexing (for after the "_")
+                {
+                    // No prefix match: insert at first occurrence of the starting letter
+                    char firstLetter = char.ToLowerInvariant(folderName[0]);
+                    insertIndex = styles.FindIndex(s => char.ToLowerInvariant(s.FolderName[0]) >= firstLetter);
+                    if (insertIndex < 0) insertIndex = styles.Count; // Append if none
+                }
+
+                // Insert in data list
+                styles.Insert(insertIndex, newStyle);
+
+                // Insert in ListView
+                var item = new ListViewItem(newStyle.FolderName);
+                item.SubItems.Add(newStyle.DisplayName);
+                listStyles.Items.Insert(insertIndex, item);
+
+                // Select the new item
+                item.Selected = true;
+                listStyles.EnsureVisible(insertIndex);
+                txtDisplayName.Text = newStyle.DisplayName;
+                btnRename.Enabled = true;
+                txtDisplayName.Focus();
+                txtDisplayName.SelectAll();
+            }
+        }
+
+        private void SaveStylesList()
+        {
+            if (styles.Count == 0)
+            {
+                MessageBox.Show("No styles to save.", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            int orderValue = 1;
+
+            foreach (var style in styles)
+            {
+                string folder = style.FolderName?.Trim();
+                if (string.IsNullOrWhiteSpace(folder))
+                    folder = "Unknown";
+
+                string display = (style.DisplayName ?? folder).Trim();
+
+                sb.AppendLine($"[{folder}]");
+                sb.AppendLine($"Name={display}");
+                sb.AppendLine($"Order={orderValue}");
+                sb.AppendLine("");
+
+                orderValue++;
+            }
+
+            try
+            {
+                File.WriteAllText(styleFilePath, sb.ToString());
+                MessageBox.Show("List successfully saved to styles.ini");
+                mainForm.RefreshStyles();
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to save styles.ini:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ListStyles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateDisplayNameTextInput();
+        }
+
+        private void FormStyleManager_Load(object sender, EventArgs e)
+        {
+            LoadStylesIntoListView();
+        }
+
+        private void BtnMoveUp_Click(object sender, EventArgs e)
+        {
+            MoveStyleUp(sender);
+        }
+
+        private void BtnMoveDown_Click(object sender, EventArgs e)
+        {
+            MoveStyleDown(sender);
+        }
+
+        private void BtnRename_Click(object sender, EventArgs e)
+        {
+            RenameStyle();
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            SaveStylesList();
+        }
+
+        private void BtnAddNew_Click(object sender, EventArgs e)
+        {
+            AddNewStyle();
+        }
+
+        private void txtDisplayName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                RenameStyle();
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            Close(); // Close without saving
+        }
+    }
+}

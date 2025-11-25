@@ -653,7 +653,7 @@ Ladderer=10";
         /// <summary>
         /// Reloads all styles to keep pieces up-to-date without closing & reopening the Editor
         /// </summary>
-        private void RefreshStyles()
+        public void RefreshStyles()
         {
             if (CurLevel == null || pieceCurStyle == null)
                 return;
