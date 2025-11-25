@@ -854,13 +854,15 @@ namespace NLEditor
         /// <param name="levelBmp"></param>
         private void AddCornerText(ref Bitmap fullBmp)
         {
-            string text = (IsGridEnabled ? "(G) " : "");
+            string text = (IsGridEnabled ? "(G)" : "");
 
             if (level.SelectionList()?.Count > 0)
             {
                 Rectangle selectRect = level.SelectionRectangle();
-                text = text + selectRect.X.ToString() + "/" + selectRect.Y.ToString();
+                text = text + " " + selectRect.X.ToString() + "/" + selectRect.Y.ToString();
             }
+
+            text = text + ($" (Z: {ZoomFactor})");
 
             Point textPos = new Point(picBoxWidth + 2, picBoxHeight);
 
