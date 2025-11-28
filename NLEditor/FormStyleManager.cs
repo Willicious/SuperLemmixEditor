@@ -202,8 +202,18 @@ namespace NLEditor
 
             foreach (int index in indices)
             {
-                // Clamp the target index to not go below 0
-                int targetIndex = Math.Max(index - moveAmount, 0);
+                // Determine top limit depending on pinned status
+                var style = styles[index];
+                int minIndex;
+
+                if (style.PinnedTop)
+                    minIndex = 0;
+                else if (style.PinnedBottom)
+                    minIndex = styles.FindIndex(s => s.PinnedBottom);
+                else
+                    minIndex = styles.FindIndex(s => !s.PinnedTop);
+
+                int targetIndex = Math.Max(index - moveAmount, minIndex);
                 if (targetIndex == index) continue;
 
                 // Move in data list
@@ -230,9 +240,19 @@ namespace NLEditor
             var indices = listStyles.SelectedIndices.Cast<int>().OrderByDescending(i => i).ToList();
 
             foreach (int index in indices)
-            {  
-                // Clamp the target index to not exceed last index
-                int targetIndex = Math.Min(index + moveAmount, listStyles.Items.Count - 1);
+            {
+                // Determine bottom limit depending on pinned status
+                var style = styles[index];
+                int maxIndex;
+
+                if (style.PinnedBottom)
+                    maxIndex = styles.Count - 1;
+                else if (style.PinnedTop)
+                    maxIndex = styles.FindLastIndex(s => s.PinnedTop);
+                else
+                    maxIndex = styles.FindLastIndex(s => !s.PinnedBottom);
+
+                int targetIndex = Math.Min(index + moveAmount, maxIndex);
                 if (targetIndex == index) continue;
 
                 // Move in data list
