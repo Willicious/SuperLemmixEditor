@@ -237,24 +237,57 @@ namespace NLEditor
             txtDisplayName.SelectAll();
         }
 
+        /// <summary>
+        /// Adding new styles
+        /// </summary>
+        private static readonly string[] ReservedStyles = new string[]
+        {   // TODO - make this list user-configurable
+            "slx_",
+            "orig_",
+            "ohno_",
+            "psp_",
+            "sms_",
+            "l2_",
+            "l3_",
+            "xmas"
+        };
+
+        private static bool IsReservedStyle(string folderName)
+        {
+            string lower = folderName.ToLowerInvariant();
+            return ReservedStyles.Any(p =>
+                p.EndsWith("_") ? lower.StartsWith(p) : lower == p);
+        }
+
         private void AddNewStyle() // TODO - Improve folder browser
         {
             using (var fbd = new FolderBrowserDialog())
             {
                 fbd.Description = "Select a new style folder to add";
                 fbd.SelectedPath = Path.Combine(C.AppPath, "styles");
+                fbd.ShowNewFolderButton = true;
 
-                if (fbd.ShowDialog() != DialogResult.OK) return;
+                if (fbd.ShowDialog() != DialogResult.OK)
+                    return;
 
                 string selectedFolderPath = fbd.SelectedPath;
-                string folderName = Path.GetFileName(selectedFolderPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+                string folderName = Path.GetFileName(
+                    selectedFolderPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
 
-                if (string.IsNullOrWhiteSpace(folderName)) return;
+                if (string.IsNullOrWhiteSpace(folderName))
+                {
+                    MessageBox.Show("Invalid folder selected.", "Add Style",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
                 // Check for duplicates
-                int existingIndex = styles.FindIndex(s => string.Equals(s.FolderName, folderName, StringComparison.OrdinalIgnoreCase));
+                int existingIndex = styles.FindIndex(s =>
+                    string.Equals(s.FolderName, folderName, StringComparison.OrdinalIgnoreCase));
+
                 if (existingIndex >= 0)
                 {
+                    // Already exists — select it
                     listStyles.Items[existingIndex].Selected = true;
                     listStyles.EnsureVisible(existingIndex);
                     txtDisplayName.Text = styles[existingIndex].DisplayName;
@@ -270,29 +303,33 @@ namespace NLEditor
                     Order = 0
                 };
 
-                // Check for existing author prefix
-                string prefix = folderName.Contains("_") ? folderName.Split('_')[0] + "_" : folderName.Substring(0, 1);
+                // -----------------------------------------------------------------------------------
+                // INSERTION LOGIC:
+                //   1. Reserved styles (slx_*, orig_*, ohno_*, xmas, etc) stay in the same order at the top.
+                //   2. Everything else is alphabetical by full folder name.
+                // -----------------------------------------------------------------------------------
 
-                var matchingIndices = styles
-                    .Select((s, idx) => new { s, idx })
-                    .Where(x => x.s.FolderName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-                    .OrderBy(x => x.s.FolderName, StringComparer.OrdinalIgnoreCase)
-                    .Select(x => x.idx);
+                // Count reserved styles at the top
+                int reservedCount = styles.Count(s => IsReservedStyle(s.FolderName));
+                MessageBox.Show($"Reserved count is {reservedCount}");
 
-                int insertIndex = matchingIndices.Any() ? matchingIndices.First() : -1;
+                // Find proper alphabetical insertion point among non-reserved styles
+                int relativeIndex = styles
+                    .Skip(reservedCount)
+                    .Take(styles.Count - reservedCount)
+                    .ToList()
+                    .FindIndex(s =>
+                        string.Compare(s.FolderName, folderName, StringComparison.OrdinalIgnoreCase) > 0);
 
-                if (insertIndex < 0) // TODO - Improve alphabetic indexing (for after the "_")
-                {
-                    // No prefix match: insert at first occurrence of the starting letter
-                    char firstLetter = char.ToLowerInvariant(folderName[0]);
-                    insertIndex = styles.FindIndex(s => char.ToLowerInvariant(s.FolderName[0]) >= firstLetter);
-                    if (insertIndex < 0) insertIndex = styles.Count; // Append if none
-                }
+                // Convert to absolute index
+                int insertIndex = (relativeIndex >= 0)
+                    ? reservedCount + relativeIndex
+                    : styles.Count;
 
-                // Insert in data list
+                // Insert into data list
                 styles.Insert(insertIndex, newStyle);
 
-                // Insert in ListView
+                // Insert into ListView
                 var item = new ListViewItem(newStyle.FolderName);
                 item.SubItems.Add(newStyle.DisplayName);
                 listStyles.Items.Insert(insertIndex, item);
