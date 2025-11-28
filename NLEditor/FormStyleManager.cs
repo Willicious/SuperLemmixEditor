@@ -237,6 +237,35 @@ namespace NLEditor
             txtDisplayName.SelectAll();
         }
 
+        private void SortAllStylesAlphabetically()
+        {
+            // Separate reserved + normal
+            var reserved = styles
+                .Where(s => IsReservedStyle(s.FolderName))
+                .ToList();
+
+            var normal = styles
+                .Where(s => !IsReservedStyle(s.FolderName))
+                .OrderBy(s => s.FolderName, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            // Combine: reserved first, sorted normal entries after
+            styles = reserved.Concat(normal).ToList();
+
+            // Update ListView UI to match
+            listStyles.BeginUpdate();
+            listStyles.Items.Clear();
+
+            foreach (var s in styles)
+            {
+                var item = new ListViewItem(s.FolderName);
+                item.SubItems.Add(s.DisplayName);
+                listStyles.Items.Add(item);
+            }
+
+            listStyles.EndUpdate();
+        }
+
         /// <summary>
         /// Adding new styles
         /// </summary>
@@ -429,6 +458,11 @@ namespace NLEditor
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             Close(); // Close without saving
+        }
+
+        private void btnSortAlphabetically_Click(object sender, EventArgs e)
+        {
+            SortAllStylesAlphabetically();
         }
     }
 }
