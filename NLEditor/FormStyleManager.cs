@@ -191,54 +191,61 @@ namespace NLEditor
             listStyles.Focus();
         }
 
-        private void MoveStyleUp(object sender)
+        private void MoveStylesUp(object sender)
         {
             if (listStyles.SelectedIndices.Count == 0) return;
-            int index = listStyles.SelectedIndices[0];
 
             int moveAmount = (sender == btnMoveUp10) ? 10 : 1;
 
-            // Clamp the target index to not go below 0
-            int targetIndex = Math.Max(index - moveAmount, 0);
+            // Sort indices ascending for moving up
+            var indices = listStyles.SelectedIndices.Cast<int>().OrderBy(i => i).ToList();
 
-            if (targetIndex == index) return;
+            foreach (int index in indices)
+            {
+                // Clamp the target index to not go below 0
+                int targetIndex = Math.Max(index - moveAmount, 0);
+                if (targetIndex == index) continue;
 
-            // Swap in the data list
-            var tmp = styles[index];
-            styles.RemoveAt(index);
-            styles.Insert(targetIndex, tmp);
+                // Move in data list
+                var tmp = styles[index];
+                styles.RemoveAt(index);
+                styles.Insert(targetIndex, tmp);
 
-            // Swap in the ListView
-            var item = listStyles.Items[index];
-            listStyles.Items.RemoveAt(index);
-            listStyles.Items.Insert(targetIndex, item);
-            listStyles.Items[targetIndex].Selected = true;
+                // Move in ListView
+                var item = listStyles.Items[index];
+                listStyles.Items.RemoveAt(index);
+                listStyles.Items.Insert(targetIndex, item);
+                item.Selected = true;
+            }
 
             listStyles.Focus();
         }
-
-        private void MoveStyleDown(object sender)
+        private void MoveStylesDown(object sender)
         {
             if (listStyles.SelectedIndices.Count == 0) return;
-            int index = listStyles.SelectedIndices[0];
 
             int moveAmount = (sender == btnMoveDown10) ? 10 : 1;
 
-            // Clamp the target index to not exceed last index
-            int targetIndex = Math.Min(index + moveAmount, listStyles.Items.Count - 1);
+            // Sort indices descending for moving down
+            var indices = listStyles.SelectedIndices.Cast<int>().OrderByDescending(i => i).ToList();
 
-            if (targetIndex == index) return;
+            foreach (int index in indices)
+            {  
+                // Clamp the target index to not exceed last index
+                int targetIndex = Math.Min(index + moveAmount, listStyles.Items.Count - 1);
+                if (targetIndex == index) continue;
 
-            // Swap in the data list
-            var tmp = styles[index];
-            styles.RemoveAt(index);
-            styles.Insert(targetIndex, tmp);
+                // Move in data list
+                var tmp = styles[index];
+                styles.RemoveAt(index);
+                styles.Insert(targetIndex, tmp);
 
-            // Swap in the ListView
-            var item = listStyles.Items[index];
-            listStyles.Items.RemoveAt(index);
-            listStyles.Items.Insert(targetIndex, item);
-            listStyles.Items[targetIndex].Selected = true;
+                // Move in ListView
+                var item = listStyles.Items[index];
+                listStyles.Items.RemoveAt(index);
+                listStyles.Items.Insert(targetIndex, item);
+                item.Selected = true;
+            }
 
             listStyles.Focus();
         }
@@ -512,12 +519,12 @@ namespace NLEditor
 
         private void BtnMoveUp_Click(object sender, EventArgs e)
         {
-            MoveStyleUp(sender);
+            MoveStylesUp(sender);
         }
 
         private void BtnMoveDown_Click(object sender, EventArgs e)
         {
-            MoveStyleDown(sender);
+            MoveStylesDown(sender);
         }
 
         private void BtnRename_Click(object sender, EventArgs e)
@@ -559,6 +566,16 @@ namespace NLEditor
         private void btnPinToBottom_Click(object sender, EventArgs e)
         {
             PinStylesToBottomOfList();
+        }
+
+        private void FormStyleManager_Click(object sender, EventArgs e)
+        {
+            btnAddNew.Focus();
+        }
+
+        private void FormStyleManager_Shown(object sender, EventArgs e)
+        {
+            btnAddNew.Focus();
         }
     }
 }

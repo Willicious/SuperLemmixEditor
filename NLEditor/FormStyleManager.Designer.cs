@@ -49,7 +49,7 @@
             // 
             // btnMoveUp1
             // 
-            this.btnMoveUp1.Location = new System.Drawing.Point(527, 140);
+            this.btnMoveUp1.Location = new System.Drawing.Point(575, 140);
             this.btnMoveUp1.Name = "btnMoveUp1";
             this.btnMoveUp1.Size = new System.Drawing.Size(137, 55);
             this.btnMoveUp1.TabIndex = 1;
@@ -59,7 +59,7 @@
             // 
             // btnMoveDown1
             // 
-            this.btnMoveDown1.Location = new System.Drawing.Point(670, 140);
+            this.btnMoveDown1.Location = new System.Drawing.Point(718, 140);
             this.btnMoveDown1.Name = "btnMoveDown1";
             this.btnMoveDown1.Size = new System.Drawing.Size(137, 55);
             this.btnMoveDown1.TabIndex = 2;
@@ -69,7 +69,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(527, 645);
+            this.btnSave.Location = new System.Drawing.Point(575, 645);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(277, 55);
             this.btnSave.TabIndex = 3;
@@ -79,7 +79,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(527, 706);
+            this.btnCancel.Location = new System.Drawing.Point(575, 706);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(277, 55);
             this.btnCancel.TabIndex = 4;
@@ -96,9 +96,9 @@
             this.listStyles.FullRowSelect = true;
             this.listStyles.GridLines = true;
             this.listStyles.HideSelection = false;
-            this.listStyles.Location = new System.Drawing.Point(13, 22);
+            this.listStyles.Location = new System.Drawing.Point(17, 22);
             this.listStyles.Name = "listStyles";
-            this.listStyles.Size = new System.Drawing.Size(499, 739);
+            this.listStyles.Size = new System.Drawing.Size(541, 739);
             this.listStyles.TabIndex = 5;
             this.listStyles.UseCompatibleStateImageBehavior = false;
             this.listStyles.View = System.Windows.Forms.View.Details;
@@ -107,21 +107,21 @@
             // colFolderName
             // 
             this.colFolderName.Text = "Folder Name";
-            this.colFolderName.Width = 130;
+            this.colFolderName.Width = 140;
             // 
             // colDisplayName
             // 
             this.colDisplayName.Text = "Display Name";
-            this.colDisplayName.Width = 130;
+            this.colDisplayName.Width = 140;
             // 
             // colPinnedStatus
             // 
             this.colPinnedStatus.Text = "Pinned";
-            this.colPinnedStatus.Width = 130;
+            this.colPinnedStatus.Width = 60;
             // 
             // txtDisplayName
             // 
-            this.txtDisplayName.Location = new System.Drawing.Point(527, 374);
+            this.txtDisplayName.Location = new System.Drawing.Point(575, 374);
             this.txtDisplayName.Name = "txtDisplayName";
             this.txtDisplayName.Size = new System.Drawing.Size(277, 26);
             this.txtDisplayName.TabIndex = 6;
@@ -129,7 +129,7 @@
             // 
             // btnRename
             // 
-            this.btnRename.Location = new System.Drawing.Point(527, 406);
+            this.btnRename.Location = new System.Drawing.Point(575, 406);
             this.btnRename.Name = "btnRename";
             this.btnRename.Size = new System.Drawing.Size(277, 55);
             this.btnRename.TabIndex = 7;
@@ -139,7 +139,7 @@
             // 
             // btnAddNew
             // 
-            this.btnAddNew.Location = new System.Drawing.Point(527, 22);
+            this.btnAddNew.Location = new System.Drawing.Point(575, 22);
             this.btnAddNew.Name = "btnAddNew";
             this.btnAddNew.Size = new System.Drawing.Size(277, 55);
             this.btnAddNew.TabIndex = 8;
@@ -149,7 +149,7 @@
             // 
             // btnMoveUp10
             // 
-            this.btnMoveUp10.Location = new System.Drawing.Point(527, 201);
+            this.btnMoveUp10.Location = new System.Drawing.Point(575, 201);
             this.btnMoveUp10.Name = "btnMoveUp10";
             this.btnMoveUp10.Size = new System.Drawing.Size(134, 55);
             this.btnMoveUp10.TabIndex = 9;
@@ -159,7 +159,7 @@
             // 
             // btnMoveDown10
             // 
-            this.btnMoveDown10.Location = new System.Drawing.Point(670, 201);
+            this.btnMoveDown10.Location = new System.Drawing.Point(718, 201);
             this.btnMoveDown10.Name = "btnMoveDown10";
             this.btnMoveDown10.Size = new System.Drawing.Size(134, 55);
             this.btnMoveDown10.TabIndex = 10;
@@ -169,7 +169,7 @@
             // 
             // btnSortAlphabetically
             // 
-            this.btnSortAlphabetically.Location = new System.Drawing.Point(527, 522);
+            this.btnSortAlphabetically.Location = new System.Drawing.Point(575, 522);
             this.btnSortAlphabetically.Name = "btnSortAlphabetically";
             this.btnSortAlphabetically.Size = new System.Drawing.Size(277, 55);
             this.btnSortAlphabetically.TabIndex = 11;
@@ -179,7 +179,7 @@
             // 
             // btnPinToTop
             // 
-            this.btnPinToTop.Location = new System.Drawing.Point(527, 262);
+            this.btnPinToTop.Location = new System.Drawing.Point(575, 262);
             this.btnPinToTop.Name = "btnPinToTop";
             this.btnPinToTop.Size = new System.Drawing.Size(137, 55);
             this.btnPinToTop.TabIndex = 12;
@@ -189,7 +189,7 @@
             // 
             // btnPinToBottom
             // 
-            this.btnPinToBottom.Location = new System.Drawing.Point(670, 262);
+            this.btnPinToBottom.Location = new System.Drawing.Point(718, 262);
             this.btnPinToBottom.Name = "btnPinToBottom";
             this.btnPinToBottom.Size = new System.Drawing.Size(134, 55);
             this.btnPinToBottom.TabIndex = 13;
@@ -201,7 +201,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(815, 773);
+            this.ClientSize = new System.Drawing.Size(869, 773);
             this.Controls.Add(this.btnPinToBottom);
             this.Controls.Add(this.btnPinToTop);
             this.Controls.Add(this.btnSortAlphabetically);
@@ -220,6 +220,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Style Manager";
             this.Load += new System.EventHandler(this.FormStyleManager_Load);
+            this.Shown += new System.EventHandler(this.FormStyleManager_Shown);
+            this.Click += new System.EventHandler(this.FormStyleManager_Click);
             this.ResumeLayout(false);
             this.PerformLayout();
 
