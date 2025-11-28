@@ -150,6 +150,7 @@ namespace NLEditor
             {
                 var item = new ListViewItem(s.FolderName);
                 item.SubItems.Add(s.DisplayName);
+                item.SubItems.Add(s.PinnedTop ? "↑" : s.PinnedBottom ? "↓" : "");
                 listStyles.Items.Add(item);
             }
         }
@@ -276,6 +277,7 @@ namespace NLEditor
             {
                 var item = new ListViewItem(s.FolderName);
                 item.SubItems.Add(s.DisplayName);
+                item.SubItems.Add(s.PinnedTop ? "↑" : s.PinnedBottom ? "↓" : "");
                 listStyles.Items.Add(item);
             }
 

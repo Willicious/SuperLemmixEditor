@@ -36,6 +36,7 @@
             this.listStyles = new System.Windows.Forms.ListView();
             this.colFolderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDisplayName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colPinnedStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.txtDisplayName = new System.Windows.Forms.TextBox();
             this.btnRename = new System.Windows.Forms.Button();
             this.btnAddNew = new System.Windows.Forms.Button();
@@ -48,7 +49,7 @@
             // 
             // btnMoveUp1
             // 
-            this.btnMoveUp1.Location = new System.Drawing.Point(527, 201);
+            this.btnMoveUp1.Location = new System.Drawing.Point(527, 140);
             this.btnMoveUp1.Name = "btnMoveUp1";
             this.btnMoveUp1.Size = new System.Drawing.Size(137, 55);
             this.btnMoveUp1.TabIndex = 1;
@@ -58,7 +59,7 @@
             // 
             // btnMoveDown1
             // 
-            this.btnMoveDown1.Location = new System.Drawing.Point(527, 262);
+            this.btnMoveDown1.Location = new System.Drawing.Point(670, 140);
             this.btnMoveDown1.Name = "btnMoveDown1";
             this.btnMoveDown1.Size = new System.Drawing.Size(137, 55);
             this.btnMoveDown1.TabIndex = 2;
@@ -90,7 +91,8 @@
             // 
             this.listStyles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colFolderName,
-            this.colDisplayName});
+            this.colDisplayName,
+            this.colPinnedStatus});
             this.listStyles.FullRowSelect = true;
             this.listStyles.GridLines = true;
             this.listStyles.HideSelection = false;
@@ -109,8 +111,13 @@
             // 
             // colDisplayName
             // 
-            this.colDisplayName.Text = "Style Name";
+            this.colDisplayName.Text = "Display Name";
             this.colDisplayName.Width = 130;
+            // 
+            // colPinnedStatus
+            // 
+            this.colPinnedStatus.Text = "Pinned";
+            this.colPinnedStatus.Width = 130;
             // 
             // txtDisplayName
             // 
@@ -142,7 +149,7 @@
             // 
             // btnMoveUp10
             // 
-            this.btnMoveUp10.Location = new System.Drawing.Point(670, 201);
+            this.btnMoveUp10.Location = new System.Drawing.Point(527, 201);
             this.btnMoveUp10.Name = "btnMoveUp10";
             this.btnMoveUp10.Size = new System.Drawing.Size(134, 55);
             this.btnMoveUp10.TabIndex = 9;
@@ -152,7 +159,7 @@
             // 
             // btnMoveDown10
             // 
-            this.btnMoveDown10.Location = new System.Drawing.Point(670, 262);
+            this.btnMoveDown10.Location = new System.Drawing.Point(670, 201);
             this.btnMoveDown10.Name = "btnMoveDown10";
             this.btnMoveDown10.Size = new System.Drawing.Size(134, 55);
             this.btnMoveDown10.TabIndex = 10;
@@ -172,7 +179,7 @@
             // 
             // btnPinToTop
             // 
-            this.btnPinToTop.Location = new System.Drawing.Point(527, 140);
+            this.btnPinToTop.Location = new System.Drawing.Point(527, 262);
             this.btnPinToTop.Name = "btnPinToTop";
             this.btnPinToTop.Size = new System.Drawing.Size(137, 55);
             this.btnPinToTop.TabIndex = 12;
@@ -182,7 +189,7 @@
             // 
             // btnPinToBottom
             // 
-            this.btnPinToBottom.Location = new System.Drawing.Point(670, 140);
+            this.btnPinToBottom.Location = new System.Drawing.Point(670, 262);
             this.btnPinToBottom.Name = "btnPinToBottom";
             this.btnPinToBottom.Size = new System.Drawing.Size(134, 55);
             this.btnPinToBottom.TabIndex = 13;
@@ -226,6 +233,7 @@
         private System.Windows.Forms.ListView listStyles;
         private System.Windows.Forms.ColumnHeader colFolderName;
         private System.Windows.Forms.ColumnHeader colDisplayName;
+        private System.Windows.Forms.ColumnHeader colPinnedStatus;
         private System.Windows.Forms.TextBox txtDisplayName;
         private System.Windows.Forms.Button btnRename;
         private System.Windows.Forms.Button btnAddNew;
