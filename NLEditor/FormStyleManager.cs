@@ -16,6 +16,7 @@ namespace NLEditor
             public string FolderName { get; set; }
             public string DisplayName { get; set; }
             public int Order { get; set; }
+            public bool Pinned { get; set; }
         }
 
         private List<StyleEntry> styles = new List<StyleEntry>();
@@ -109,6 +110,15 @@ namespace NLEditor
                     }
 
                     continue;
+                }
+
+                // PINNED
+                if (line.StartsWith("Pinned=") && current != null)
+                {
+                    if (int.TryParse(line.Substring(7).Trim(), out int pval))
+                        current.Pinned = (pval == 1);
+                    else
+                        current.Pinned = false;
                 }
             }
 
@@ -237,22 +247,8 @@ namespace NLEditor
             txtDisplayName.SelectAll();
         }
 
-        private void SortAllStylesAlphabetically()
+        private void RebuildListView()
         {
-            // Separate reserved + normal
-            var reserved = styles
-                .Where(s => IsReservedStyle(s.FolderName))
-                .ToList();
-
-            var normal = styles
-                .Where(s => !IsReservedStyle(s.FolderName))
-                .OrderBy(s => s.FolderName, StringComparer.OrdinalIgnoreCase)
-                .ToList();
-
-            // Combine: reserved first, sorted normal entries after
-            styles = reserved.Concat(normal).ToList();
-
-            // Update ListView UI to match
             listStyles.BeginUpdate();
             listStyles.Items.Clear();
 
@@ -267,25 +263,58 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Adding new styles
+        /// Moves the selected styles to the top of the list (in selection order)
         /// </summary>
-        private static readonly string[] ReservedStyles = new string[]
-        {   // TODO - make this list user-configurable
-            "slx_",
-            "orig_",
-            "ohno_",
-            "psp_",
-            "sms_",
-            "l2_",
-            "l3_",
-            "xmas"
-        };
-
-        private static bool IsReservedStyle(string folderName)
+        private void PinStylesToTopOfList()
         {
-            string lower = folderName.ToLowerInvariant();
-            return ReservedStyles.Any(p =>
-                p.EndsWith("_") ? lower.StartsWith(p) : lower == p);
+            if (listStyles.SelectedIndices.Count == 0)
+                return;
+
+            var selectedStyles = listStyles.SelectedIndices
+                .Cast<int>()
+                .OrderBy(i => i)
+                .Select(i => styles[i])
+                .ToList();
+
+            foreach (var s in selectedStyles)
+                s.Pinned = true;
+
+            foreach (var s in selectedStyles)
+                styles.Remove(s);
+
+            styles.InsertRange(0, selectedStyles);
+
+            RebuildListView();
+
+            foreach (var s in selectedStyles)
+            {
+                int idx = styles.IndexOf(s);
+                if (idx >= 0)
+                    listStyles.Items[idx].Selected = true;
+            }
+
+            listStyles.EnsureVisible(0);
+            listStyles.Focus();
+        }
+
+        private void PinStylesToBottomOfList()
+        {
+            // TODO - Implement logic
+        }
+
+        /// <summary>
+        /// Sorts all unpinned styles alphabetically
+        /// </summary>
+        private void SortAllStylesAlphabetically()
+        {
+            var pinned = styles.Where(s => s.Pinned).ToList();
+            var unpinned = styles.Where(s => !s.Pinned)
+                                 .OrderBy(s => s.FolderName, StringComparer.OrdinalIgnoreCase)
+                                 .ToList();
+
+            styles = pinned.Concat(unpinned).ToList();
+
+            RebuildListView();
         }
 
         private void AddNewStyle() // TODO - Improve folder browser
@@ -329,30 +358,29 @@ namespace NLEditor
                 {
                     FolderName = folderName,
                     DisplayName = folderName,
-                    Order = 0
+                    Pinned = false
                 };
 
-                // -----------------------------------------------------------------------------------
+                // -------------------------------------------------------------
                 // INSERTION LOGIC:
-                //   1. Reserved styles (slx_*, orig_*, ohno_*, xmas, etc) stay in the same order at the top.
-                //   2. Everything else is alphabetical by full folder name.
-                // -----------------------------------------------------------------------------------
+                //   1. Pinned styles stay at top (keep user order).
+                //   2. Insert new style alphabetically *after* the pinned block.
+                // -------------------------------------------------------------
 
-                // Count reserved styles at the top
-                int reservedCount = styles.Count(s => IsReservedStyle(s.FolderName));
-                MessageBox.Show($"Reserved count is {reservedCount}");
+                // Count pinned styles
+                int pinnedCount = styles.Count(s => s.Pinned);
 
-                // Find proper alphabetical insertion point among non-reserved styles
+                // Find alphabetical position among unpinned styles
                 int relativeIndex = styles
-                    .Skip(reservedCount)
-                    .Take(styles.Count - reservedCount)
+                    .Skip(pinnedCount)
                     .ToList()
                     .FindIndex(s =>
-                        string.Compare(s.FolderName, folderName, StringComparison.OrdinalIgnoreCase) > 0);
+                        string.Compare(s.FolderName, folderName,
+                        StringComparison.OrdinalIgnoreCase) > 0);
 
                 // Convert to absolute index
                 int insertIndex = (relativeIndex >= 0)
-                    ? reservedCount + relativeIndex
+                    ? pinnedCount + relativeIndex
                     : styles.Count;
 
                 // Insert into data list
@@ -396,6 +424,7 @@ namespace NLEditor
                 sb.AppendLine($"[{folder}]");
                 sb.AppendLine($"Name={display}");
                 sb.AppendLine($"Order={orderValue}");
+                sb.AppendLine($"Pinned={(style.Pinned ? 1 : 0)}");
                 sb.AppendLine("");
 
                 orderValue++;
@@ -463,6 +492,16 @@ namespace NLEditor
         private void btnSortAlphabetically_Click(object sender, EventArgs e)
         {
             SortAllStylesAlphabetically();
+        }
+
+        private void btnPinToTop_Click(object sender, EventArgs e)
+        {
+            PinStylesToTopOfList();
+        }
+
+        private void btnPinToBottom_Click(object sender, EventArgs e)
+        {
+            PinStylesToBottomOfList();
         }
     }
 }

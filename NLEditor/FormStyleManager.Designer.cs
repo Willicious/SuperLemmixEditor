@@ -42,11 +42,13 @@
             this.btnMoveUp10 = new System.Windows.Forms.Button();
             this.btnMoveDown10 = new System.Windows.Forms.Button();
             this.btnSortAlphabetically = new System.Windows.Forms.Button();
+            this.btnPinToTop = new System.Windows.Forms.Button();
+            this.btnPinToBottom = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnMoveUp1
             // 
-            this.btnMoveUp1.Location = new System.Drawing.Point(527, 128);
+            this.btnMoveUp1.Location = new System.Drawing.Point(527, 201);
             this.btnMoveUp1.Name = "btnMoveUp1";
             this.btnMoveUp1.Size = new System.Drawing.Size(137, 55);
             this.btnMoveUp1.TabIndex = 1;
@@ -56,7 +58,7 @@
             // 
             // btnMoveDown1
             // 
-            this.btnMoveDown1.Location = new System.Drawing.Point(527, 189);
+            this.btnMoveDown1.Location = new System.Drawing.Point(527, 262);
             this.btnMoveDown1.Name = "btnMoveDown1";
             this.btnMoveDown1.Size = new System.Drawing.Size(137, 55);
             this.btnMoveDown1.TabIndex = 2;
@@ -66,7 +68,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(527, 572);
+            this.btnSave.Location = new System.Drawing.Point(527, 645);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(277, 55);
             this.btnSave.TabIndex = 3;
@@ -76,7 +78,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(527, 633);
+            this.btnCancel.Location = new System.Drawing.Point(527, 706);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(277, 55);
             this.btnCancel.TabIndex = 4;
@@ -94,7 +96,7 @@
             this.listStyles.HideSelection = false;
             this.listStyles.Location = new System.Drawing.Point(13, 22);
             this.listStyles.Name = "listStyles";
-            this.listStyles.Size = new System.Drawing.Size(499, 666);
+            this.listStyles.Size = new System.Drawing.Size(499, 739);
             this.listStyles.TabIndex = 5;
             this.listStyles.UseCompatibleStateImageBehavior = false;
             this.listStyles.View = System.Windows.Forms.View.Details;
@@ -112,7 +114,7 @@
             // 
             // txtDisplayName
             // 
-            this.txtDisplayName.Location = new System.Drawing.Point(527, 301);
+            this.txtDisplayName.Location = new System.Drawing.Point(527, 374);
             this.txtDisplayName.Name = "txtDisplayName";
             this.txtDisplayName.Size = new System.Drawing.Size(277, 26);
             this.txtDisplayName.TabIndex = 6;
@@ -120,7 +122,7 @@
             // 
             // btnRename
             // 
-            this.btnRename.Location = new System.Drawing.Point(527, 333);
+            this.btnRename.Location = new System.Drawing.Point(527, 406);
             this.btnRename.Name = "btnRename";
             this.btnRename.Size = new System.Drawing.Size(277, 55);
             this.btnRename.TabIndex = 7;
@@ -140,7 +142,7 @@
             // 
             // btnMoveUp10
             // 
-            this.btnMoveUp10.Location = new System.Drawing.Point(670, 128);
+            this.btnMoveUp10.Location = new System.Drawing.Point(670, 201);
             this.btnMoveUp10.Name = "btnMoveUp10";
             this.btnMoveUp10.Size = new System.Drawing.Size(134, 55);
             this.btnMoveUp10.TabIndex = 9;
@@ -150,7 +152,7 @@
             // 
             // btnMoveDown10
             // 
-            this.btnMoveDown10.Location = new System.Drawing.Point(670, 189);
+            this.btnMoveDown10.Location = new System.Drawing.Point(670, 262);
             this.btnMoveDown10.Name = "btnMoveDown10";
             this.btnMoveDown10.Size = new System.Drawing.Size(134, 55);
             this.btnMoveDown10.TabIndex = 10;
@@ -160,7 +162,7 @@
             // 
             // btnSortAlphabetically
             // 
-            this.btnSortAlphabetically.Location = new System.Drawing.Point(527, 449);
+            this.btnSortAlphabetically.Location = new System.Drawing.Point(527, 522);
             this.btnSortAlphabetically.Name = "btnSortAlphabetically";
             this.btnSortAlphabetically.Size = new System.Drawing.Size(277, 55);
             this.btnSortAlphabetically.TabIndex = 11;
@@ -168,11 +170,33 @@
             this.btnSortAlphabetically.UseVisualStyleBackColor = true;
             this.btnSortAlphabetically.Click += new System.EventHandler(this.btnSortAlphabetically_Click);
             // 
+            // btnPinToTop
+            // 
+            this.btnPinToTop.Location = new System.Drawing.Point(527, 140);
+            this.btnPinToTop.Name = "btnPinToTop";
+            this.btnPinToTop.Size = new System.Drawing.Size(137, 55);
+            this.btnPinToTop.TabIndex = 12;
+            this.btnPinToTop.Text = "Pin To Top";
+            this.btnPinToTop.UseVisualStyleBackColor = true;
+            this.btnPinToTop.Click += new System.EventHandler(this.btnPinToTop_Click);
+            // 
+            // btnPinToBottom
+            // 
+            this.btnPinToBottom.Location = new System.Drawing.Point(670, 140);
+            this.btnPinToBottom.Name = "btnPinToBottom";
+            this.btnPinToBottom.Size = new System.Drawing.Size(134, 55);
+            this.btnPinToBottom.TabIndex = 13;
+            this.btnPinToBottom.Text = "Pin To Bottom";
+            this.btnPinToBottom.UseVisualStyleBackColor = true;
+            this.btnPinToBottom.Click += new System.EventHandler(this.btnPinToBottom_Click);
+            // 
             // FormStyleManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(815, 702);
+            this.ClientSize = new System.Drawing.Size(815, 773);
+            this.Controls.Add(this.btnPinToBottom);
+            this.Controls.Add(this.btnPinToTop);
             this.Controls.Add(this.btnSortAlphabetically);
             this.Controls.Add(this.btnMoveDown10);
             this.Controls.Add(this.btnMoveUp10);
@@ -208,5 +232,7 @@
         private System.Windows.Forms.Button btnMoveUp10;
         private System.Windows.Forms.Button btnMoveDown10;
         private System.Windows.Forms.Button btnSortAlphabetically;
+        private System.Windows.Forms.Button btnPinToTop;
+        private System.Windows.Forms.Button btnPinToBottom;
     }
 }
