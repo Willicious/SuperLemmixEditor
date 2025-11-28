@@ -151,6 +151,7 @@ namespace NLEditor
                 var item = new ListViewItem(s.FolderName);
                 item.SubItems.Add(s.DisplayName);
                 item.SubItems.Add(s.PinnedTop ? "↑" : s.PinnedBottom ? "↓" : "");
+                item.Tag = s;
                 listStyles.Items.Add(item);
             }
         }
