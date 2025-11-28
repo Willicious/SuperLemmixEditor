@@ -252,6 +252,8 @@ namespace NLEditor
                 btnPinToTop.Visible = false;
                 btnPinToBottom.Enabled = false;
                 btnPinToBottom.Visible = false;
+                btnUnpin.Enabled = false;
+                btnUnpin.Visible = false;
             }
             else
             {
@@ -272,6 +274,8 @@ namespace NLEditor
                 btnPinToTop.Visible = true;
                 btnPinToBottom.Enabled = true;
                 btnPinToBottom.Visible = true;
+                btnUnpin.Enabled = true;
+                btnUnpin.Visible = true;
             }
         }
 
@@ -503,6 +507,39 @@ namespace NLEditor
             }
 
             listStyles.EnsureVisible(styles.Count - 1);
+            listStyles.Focus();
+        }
+
+        private void UnpinSelectedStyles()
+        {
+            if (listStyles.SelectedIndices.Count == 0)
+                return;
+
+            var selectedStyles = listStyles.SelectedIndices
+                .Cast<int>()
+                .OrderBy(i => i)
+                .Select(i => styles[i])
+                .ToList();
+
+            foreach (var s in selectedStyles)
+            {
+                s.PinnedTop = false;
+                s.PinnedBottom = false;
+            }
+
+            SortAllStylesAlphabetically();
+
+            foreach (var s in selectedStyles)
+            {
+                int idx = styles.IndexOf(s);
+                if (idx >= 0)
+                    listStyles.Items[idx].Selected = true;
+            }
+
+            // Ensure first item is visible
+            int firstNewIndex = styles.IndexOf(selectedStyles[0]);
+            if (firstNewIndex >= 0)
+                listStyles.EnsureVisible(firstNewIndex);
             listStyles.Focus();
         }
 
@@ -745,6 +782,11 @@ namespace NLEditor
         private void btnClearSearch_Click(object sender, EventArgs e)
         {
             txtSearch.Clear();
+        }
+
+        private void btnUnpin_Click(object sender, EventArgs e)
+        {
+            UnpinSelectedStyles();
         }
     }
 }

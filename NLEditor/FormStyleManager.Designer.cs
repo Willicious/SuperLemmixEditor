@@ -49,13 +49,14 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnShowSelectedItemsInList = new System.Windows.Forms.Button();
             this.btnClearSearch = new System.Windows.Forms.Button();
+            this.btnUnpin = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnMoveUp1
             // 
-            this.btnMoveUp1.Location = new System.Drawing.Point(575, 146);
+            this.btnMoveUp1.Location = new System.Drawing.Point(575, 153);
             this.btnMoveUp1.Name = "btnMoveUp1";
-            this.btnMoveUp1.Size = new System.Drawing.Size(137, 55);
+            this.btnMoveUp1.Size = new System.Drawing.Size(137, 44);
             this.btnMoveUp1.TabIndex = 1;
             this.btnMoveUp1.Text = "Move Up 1";
             this.btnMoveUp1.UseVisualStyleBackColor = true;
@@ -63,9 +64,9 @@
             // 
             // btnMoveDown1
             // 
-            this.btnMoveDown1.Location = new System.Drawing.Point(718, 146);
+            this.btnMoveDown1.Location = new System.Drawing.Point(718, 153);
             this.btnMoveDown1.Name = "btnMoveDown1";
-            this.btnMoveDown1.Size = new System.Drawing.Size(134, 55);
+            this.btnMoveDown1.Size = new System.Drawing.Size(134, 44);
             this.btnMoveDown1.TabIndex = 2;
             this.btnMoveDown1.Text = "Move Down 1";
             this.btnMoveDown1.UseVisualStyleBackColor = true;
@@ -124,7 +125,7 @@
             // 
             // txtDisplayName
             // 
-            this.txtDisplayName.Location = new System.Drawing.Point(575, 391);
+            this.txtDisplayName.Location = new System.Drawing.Point(575, 404);
             this.txtDisplayName.Name = "txtDisplayName";
             this.txtDisplayName.Size = new System.Drawing.Size(277, 26);
             this.txtDisplayName.TabIndex = 6;
@@ -132,7 +133,7 @@
             // 
             // btnRename
             // 
-            this.btnRename.Location = new System.Drawing.Point(575, 423);
+            this.btnRename.Location = new System.Drawing.Point(575, 436);
             this.btnRename.Name = "btnRename";
             this.btnRename.Size = new System.Drawing.Size(277, 55);
             this.btnRename.TabIndex = 7;
@@ -152,9 +153,9 @@
             // 
             // btnMoveUp10
             // 
-            this.btnMoveUp10.Location = new System.Drawing.Point(575, 207);
+            this.btnMoveUp10.Location = new System.Drawing.Point(575, 203);
             this.btnMoveUp10.Name = "btnMoveUp10";
-            this.btnMoveUp10.Size = new System.Drawing.Size(137, 55);
+            this.btnMoveUp10.Size = new System.Drawing.Size(137, 44);
             this.btnMoveUp10.TabIndex = 9;
             this.btnMoveUp10.Text = "Move Up 10";
             this.btnMoveUp10.UseVisualStyleBackColor = true;
@@ -162,9 +163,9 @@
             // 
             // btnMoveDown10
             // 
-            this.btnMoveDown10.Location = new System.Drawing.Point(718, 207);
+            this.btnMoveDown10.Location = new System.Drawing.Point(718, 203);
             this.btnMoveDown10.Name = "btnMoveDown10";
-            this.btnMoveDown10.Size = new System.Drawing.Size(134, 55);
+            this.btnMoveDown10.Size = new System.Drawing.Size(134, 44);
             this.btnMoveDown10.TabIndex = 10;
             this.btnMoveDown10.Text = "Move Down 10";
             this.btnMoveDown10.UseVisualStyleBackColor = true;
@@ -172,7 +173,7 @@
             // 
             // btnSortAlphabetically
             // 
-            this.btnSortAlphabetically.Location = new System.Drawing.Point(575, 542);
+            this.btnSortAlphabetically.Location = new System.Drawing.Point(575, 554);
             this.btnSortAlphabetically.Name = "btnSortAlphabetically";
             this.btnSortAlphabetically.Size = new System.Drawing.Size(277, 55);
             this.btnSortAlphabetically.TabIndex = 11;
@@ -182,9 +183,9 @@
             // 
             // btnPinToTop
             // 
-            this.btnPinToTop.Location = new System.Drawing.Point(575, 268);
+            this.btnPinToTop.Location = new System.Drawing.Point(575, 253);
             this.btnPinToTop.Name = "btnPinToTop";
-            this.btnPinToTop.Size = new System.Drawing.Size(137, 55);
+            this.btnPinToTop.Size = new System.Drawing.Size(137, 44);
             this.btnPinToTop.TabIndex = 12;
             this.btnPinToTop.Text = "Pin To Top";
             this.btnPinToTop.UseVisualStyleBackColor = true;
@@ -192,9 +193,9 @@
             // 
             // btnPinToBottom
             // 
-            this.btnPinToBottom.Location = new System.Drawing.Point(718, 268);
+            this.btnPinToBottom.Location = new System.Drawing.Point(718, 253);
             this.btnPinToBottom.Name = "btnPinToBottom";
-            this.btnPinToBottom.Size = new System.Drawing.Size(134, 55);
+            this.btnPinToBottom.Size = new System.Drawing.Size(134, 44);
             this.btnPinToBottom.TabIndex = 13;
             this.btnPinToBottom.Text = "Pin To Bottom";
             this.btnPinToBottom.UseVisualStyleBackColor = true;
@@ -240,11 +241,22 @@
             this.btnClearSearch.UseVisualStyleBackColor = true;
             this.btnClearSearch.Click += new System.EventHandler(this.btnClearSearch_Click);
             // 
+            // btnUnpin
+            // 
+            this.btnUnpin.Location = new System.Drawing.Point(575, 303);
+            this.btnUnpin.Name = "btnUnpin";
+            this.btnUnpin.Size = new System.Drawing.Size(277, 44);
+            this.btnUnpin.TabIndex = 18;
+            this.btnUnpin.Text = "Unpin";
+            this.btnUnpin.UseVisualStyleBackColor = true;
+            this.btnUnpin.Click += new System.EventHandler(this.btnUnpin_Click);
+            // 
             // FormStyleManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 794);
+            this.Controls.Add(this.btnUnpin);
             this.Controls.Add(this.btnShowSelectedItemsInList);
             this.Controls.Add(this.btnClearSearch);
             this.Controls.Add(this.txtSearch);
@@ -295,5 +307,6 @@
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Button btnShowSelectedItemsInList;
         private System.Windows.Forms.Button btnClearSearch;
+        private System.Windows.Forms.Button btnUnpin;
     }
 }
