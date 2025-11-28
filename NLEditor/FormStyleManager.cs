@@ -485,6 +485,16 @@ namespace NLEditor
 
         private void SaveStylesList()
         {
+            var result = MessageBox.Show(
+                "Are you sure you want to save the current style list?",
+                "Confirm Save",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result != DialogResult.Yes)
+                return;
+
             if (styles.Count == 0)
             {
                 MessageBox.Show("No styles to save.", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -519,7 +529,7 @@ namespace NLEditor
                 File.WriteAllText(styleFilePath, sb.ToString());
                 MessageBox.Show("List successfully saved to styles.ini");
                 mainForm.RefreshStyles();
-                Close();
+                // Close();
             }
             catch (Exception ex)
             {
