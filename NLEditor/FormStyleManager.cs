@@ -155,21 +155,141 @@ namespace NLEditor
             }
         }
 
+        private void PerformStyleSearch()
+        {
+            string search = txtSearch.Text.Trim().ToLowerInvariant();
+
+            UpdateButtonsAfterSearch(search != string.Empty);
+
+            listStyles.BeginUpdate();
+            listStyles.Items.Clear();
+
+            foreach (var s in styles)
+            {
+                // Match FolderName or DisplayName
+                if (string.IsNullOrEmpty(search) ||
+                    s.FolderName.ToLowerInvariant().Contains(search) ||
+                    s.DisplayName.ToLowerInvariant().Contains(search))
+                {
+                    var item = new ListViewItem(s.FolderName);
+                    item.SubItems.Add(s.DisplayName);
+                    item.SubItems.Add(s.PinnedTop ? "↑" : s.PinnedBottom ? "↓" : "");
+
+                    // Store the reference to the original StyleEntry
+                    item.Tag = s;
+
+                    listStyles.Items.Add(item);
+                }
+            }
+
+            listStyles.EndUpdate();
+        }
+        private void ShowSelectedItemsInList()
+        {
+            if (listStyles.SelectedItems.Count == 0)
+                return;
+
+            // Get all selected StyleEntry objects from tags
+            var selectedStyles = listStyles.SelectedItems
+                .Cast<ListViewItem>()
+                .Select(item => item.Tag as StyleEntry)
+                .Where(s => s != null)
+                .ToList();
+
+            if (selectedStyles.Count == 0)
+                return;
+
+            // Clear search to restore full list
+            txtSearch.Clear();
+
+            // Rebuild ListView with tags
+            listStyles.BeginUpdate();
+            listStyles.Items.Clear();
+            foreach (var s in styles)
+            {
+                var item = new ListViewItem(s.FolderName);
+                item.SubItems.Add(s.DisplayName);
+                item.Tag = s;
+                listStyles.Items.Add(item);
+            }
+            listStyles.EndUpdate();
+
+            // Restore selection
+            foreach (var s in selectedStyles)
+            {
+                int idx = styles.IndexOf(s);
+                if (idx >= 0)
+                    listStyles.Items[idx].Selected = true;
+            }
+
+            // Scroll to the first selected item
+            int firstIndex = styles.IndexOf(selectedStyles[0]);
+            if (firstIndex >= 0)
+                listStyles.Items[firstIndex].EnsureVisible();
+
+            listStyles.Focus();
+        }
+
+        private void UpdateButtonsAfterSearch(bool searchActive)
+        {
+            if (searchActive)
+            {
+                btnClearSearch.Enabled = true;
+                btnShowSelectedItemsInList.Enabled = true;
+                btnShowSelectedItemsInList.Visible = true;
+                btnAddNew.Enabled = false;
+                btnAddNew.Visible = false;
+                btnMoveUp1.Enabled = false;
+                btnMoveUp1.Visible = false;
+                btnMoveUp10.Enabled = false;
+                btnMoveUp10.Visible = false;
+                btnMoveDown1.Enabled = false;
+                btnMoveDown1.Visible = false;
+                btnMoveDown10.Enabled = false;
+                btnMoveDown10.Visible = false;
+                btnPinToTop.Enabled = false;
+                btnPinToTop.Visible = false;
+                btnPinToBottom.Enabled = false;
+                btnPinToBottom.Visible = false;
+            }
+            else
+            {
+                btnClearSearch.Enabled = false;
+                btnShowSelectedItemsInList.Enabled = false;
+                btnShowSelectedItemsInList.Visible = false;
+                btnAddNew.Enabled = true;
+                btnAddNew.Visible = true;
+                btnMoveUp1.Enabled = true;
+                btnMoveUp1.Visible = true;
+                btnMoveUp10.Enabled = true;
+                btnMoveUp10.Visible = true;
+                btnMoveDown1.Enabled = true;
+                btnMoveDown1.Visible = true;
+                btnMoveDown10.Enabled = true;
+                btnMoveDown10.Visible = true;
+                btnPinToTop.Enabled = true;
+                btnPinToTop.Visible = true;
+                btnPinToBottom.Enabled = true;
+                btnPinToBottom.Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// Style renaming
+        /// </summary>
         private void RenameStyle()
         {
-            if (listStyles.SelectedIndices.Count != 1)
+            if (listStyles.SelectedItems.Count != 1)
             {
                 MessageBox.Show("Please select a single style to rename.", "Rename", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            int idx = listStyles.SelectedIndices[0];
-
-            if (idx < 0 || idx >= styles.Count)
+            var selectedItem = listStyles.SelectedItems[0];
+            if (!(selectedItem.Tag is StyleEntry style))
                 return;
 
             string newName = (txtDisplayName.Text ?? string.Empty).Trim();
-
             if (string.IsNullOrWhiteSpace(newName))
             {
                 MessageBox.Show("Display name cannot be empty.", "Rename", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -177,20 +297,46 @@ namespace NLEditor
                 return;
             }
 
-            // Update the data list
-            styles[idx].DisplayName = newName;
+            // Update the master data
+            style.DisplayName = newName;
 
             // Update the ListView
-            if (listStyles.Items[idx].SubItems.Count < 2)
-                listStyles.Items[idx].SubItems.Add(newName);
+            if (selectedItem.SubItems.Count < 2)
+                selectedItem.SubItems.Add(newName);
             else
-                listStyles.Items[idx].SubItems[1].Text = newName;
+                selectedItem.SubItems[1].Text = newName;
 
             // Keep selection and focus consistent
-            listStyles.Items[idx].Selected = true;
+            selectedItem.Selected = true;
             listStyles.Focus();
         }
 
+        private void UpdateDisplayNameTextInput()
+        {
+            if (listStyles.SelectedItems.Count != 1)
+            {
+                txtDisplayName.Text = string.Empty;
+                btnRename.Enabled = false;
+                return;
+            }
+
+            var selectedItem = listStyles.SelectedItems[0];
+            if (!(selectedItem.Tag is StyleEntry style))
+            {
+                txtDisplayName.Text = string.Empty;
+                btnRename.Enabled = false;
+                return;
+            }
+
+            txtDisplayName.Text = style.DisplayName ?? style.FolderName;
+            btnRename.Enabled = true;
+            txtDisplayName.Focus();
+            txtDisplayName.SelectAll();
+        }
+
+        /// <summary>
+        /// Moving styles
+        /// </summary>
         private void MoveStylesUp(object sender)
         {
             if (listStyles.SelectedIndices.Count == 0) return;
@@ -270,33 +416,13 @@ namespace NLEditor
             listStyles.Focus();
         }
 
-        private void UpdateDisplayNameTextInput()
-        {
-            // Check if we need to enable the text input
-            if (listStyles.SelectedIndices.Count != 1)
-            {
-                txtDisplayName.Text = string.Empty;
-                btnRename.Enabled = false;
-                return;
-            }
-
-            int idx = listStyles.SelectedIndices[0];
-
-            if (idx < 0 || idx >= styles.Count)
-            {
-                txtDisplayName.Text = string.Empty;
-                btnRename.Enabled = false;
-                return;
-            }
-
-            txtDisplayName.Text = styles[idx].DisplayName ?? styles[idx].FolderName;
-            btnRename.Enabled = true;
-            txtDisplayName.Focus();
-            txtDisplayName.SelectAll();
-        }
-
+        /// <summary>
+        /// Refreshes the list view
+        /// </summary>
         private void RebuildListView()
         {
+            txtSearch.Clear(); // Just in case
+
             listStyles.BeginUpdate();
             listStyles.Items.Clear();
 
@@ -305,6 +431,7 @@ namespace NLEditor
                 var item = new ListViewItem(s.FolderName);
                 item.SubItems.Add(s.DisplayName);
                 item.SubItems.Add(s.PinnedTop ? "↑" : s.PinnedBottom ? "↓" : "");
+                item.Tag = s;
                 listStyles.Items.Add(item);
             }
 
@@ -312,7 +439,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Moves the selected styles to the top of the list (in selection order)
+        /// Style pinning
         /// </summary>
         private void PinStylesToTopOfList()
         {
@@ -398,6 +525,9 @@ namespace NLEditor
             RebuildListView();
         }
 
+        /// <summary>
+        /// Style adding
+        /// </summary>
         private void AddNewStyle() // TODO - Improve folder browser
         {
             using (var fbd = new FolderBrowserDialog())
@@ -483,6 +613,9 @@ namespace NLEditor
             }
         }
 
+        /// <summary>
+        /// Saves the styles data list to styles.ini
+        /// </summary>
         private void SaveStylesList()
         {
             var result = MessageBox.Show(
@@ -606,6 +739,21 @@ namespace NLEditor
         private void FormStyleManager_Shown(object sender, EventArgs e)
         {
             btnAddNew.Focus();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            PerformStyleSearch();
+        }
+
+        private void btnShowSelectedItemsInList_Click(object sender, EventArgs e)
+        {
+            ShowSelectedItemsInList();
+        }
+
+        private void btnClearSearch_Click(object sender, EventArgs e)
+        {
+            txtSearch.Clear();
         }
     }
 }
