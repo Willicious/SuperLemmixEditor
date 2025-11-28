@@ -59,7 +59,7 @@
             this.btnMoveUp1.TabIndex = 1;
             this.btnMoveUp1.Text = "Move Up 1";
             this.btnMoveUp1.UseVisualStyleBackColor = true;
-            this.btnMoveUp1.Click += new System.EventHandler(this.BtnMoveUp_Click);
+            this.btnMoveUp1.Click += new System.EventHandler(this.BtnMoveStyles_Click);
             // 
             // btnMoveDown1
             // 
@@ -69,7 +69,7 @@
             this.btnMoveDown1.TabIndex = 2;
             this.btnMoveDown1.Text = "Move Down 1";
             this.btnMoveDown1.UseVisualStyleBackColor = true;
-            this.btnMoveDown1.Click += new System.EventHandler(this.BtnMoveDown_Click);
+            this.btnMoveDown1.Click += new System.EventHandler(this.BtnMoveStyles_Click);
             // 
             // btnSave
             // 
@@ -158,7 +158,7 @@
             this.btnMoveUp10.TabIndex = 9;
             this.btnMoveUp10.Text = "Move Up 10";
             this.btnMoveUp10.UseVisualStyleBackColor = true;
-            this.btnMoveUp10.Click += new System.EventHandler(this.BtnMoveUp_Click);
+            this.btnMoveUp10.Click += new System.EventHandler(this.BtnMoveStyles_Click);
             // 
             // btnMoveDown10
             // 
@@ -168,7 +168,7 @@
             this.btnMoveDown10.TabIndex = 10;
             this.btnMoveDown10.Text = "Move Down 10";
             this.btnMoveDown10.UseVisualStyleBackColor = true;
-            this.btnMoveDown10.Click += new System.EventHandler(this.BtnMoveDown_Click);
+            this.btnMoveDown10.Click += new System.EventHandler(this.BtnMoveStyles_Click);
             // 
             // btnSortAlphabetically
             // 

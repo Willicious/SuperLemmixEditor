@@ -338,84 +338,79 @@ namespace NLEditor
         /// <summary>
         /// Moving styles
         /// </summary>
-        private void MoveStylesUp(object sender)
+        private void MoveStyles(object sender)
         {
             if (listStyles.SelectedIndices.Count == 0) return;
 
-            int moveAmount = (sender == btnMoveUp10) ? 10 : 1;
+            int direction = (sender == btnMoveDown10 || sender == btnMoveDown1) ? 1 : -1;
+            int step = (sender == btnMoveDown10 || sender == btnMoveUp10) ? 10 : 1;
 
-            // Sort indices ascending for moving up
-            var indices = listStyles.SelectedIndices.Cast<int>().OrderBy(i => i).ToList();
+            // Get selected indices in proper order for movement
+            var indices = direction == -1
+                ? listStyles.SelectedIndices.Cast<int>().OrderBy(i => i).ToList()
+                : listStyles.SelectedIndices.Cast<int>().OrderByDescending(i => i).ToList();
 
-            foreach (int index in indices)
+            // Collect the styles and ListViewItems
+            var movingStyles = indices.Select(i => styles[i]).ToList();
+            var movingItems = indices.Select(i => listStyles.Items[i]).ToList();
+
+            // Determine allowed boundary based on pinned status
+            int boundaryIndex;
+            if (direction == -1) // Up
             {
-                // Determine top limit depending on pinned status
-                var style = styles[index];
-                int minIndex;
-
-                if (style.PinnedTop)
-                    minIndex = 0;
-                else if (style.PinnedBottom)
-                    minIndex = styles.FindIndex(s => s.PinnedBottom);
-                else
-                    minIndex = styles.FindIndex(s => !s.PinnedTop);
-
-                int targetIndex = Math.Max(index - moveAmount, minIndex);
-                if (targetIndex == index) continue;
-
-                // Move in data list
-                var tmp = styles[index];
-                styles.RemoveAt(index);
-                styles.Insert(targetIndex, tmp);
-
-                // Move in ListView
-                var item = listStyles.Items[index];
-                listStyles.Items.RemoveAt(index);
-                listStyles.Items.Insert(targetIndex, item);
-                item.Selected = true;
+                var firstStyle = movingStyles.First();
+                boundaryIndex = firstStyle.PinnedTop
+                    ? 0
+                    : firstStyle.PinnedBottom
+                        ? styles.FindIndex(s => s.PinnedBottom)
+                        : styles.FindIndex(s => !s.PinnedTop);
             }
+            else // Down
+            {
+                var lastStyle = movingStyles.Last();
+                boundaryIndex = lastStyle.PinnedBottom
+                    ? styles.Count - 1
+                    : lastStyle.PinnedTop
+                        ? styles.FindLastIndex(s => s.PinnedTop)
+                        : styles.FindLastIndex(s => !s.PinnedBottom);
+            }
+
+            // Calculate target index
+            int targetIndex = direction == -1
+                ? Math.Max(indices.First() - step, boundaryIndex)
+                : Math.Min(indices.First() + step, boundaryIndex);
+
+            // Refocus list if there is nothing to move
+            if (targetIndex == indices.First())
+            {
+                listStyles.Focus();
+                return;
+            }
+
+            // Always remove items in descending order to preserve correct indexing
+            foreach (var i in indices.OrderByDescending(i => i))
+            {
+                styles.RemoveAt(i);
+                listStyles.Items.RemoveAt(i);
+            }
+
+            // Determine insert index after removal
+            int insertIndex = direction == -1
+                ? targetIndex
+                : targetIndex - movingStyles.Count + 1;
+
+            // Insert the block back into data list and ListView
+            styles.InsertRange(insertIndex, movingStyles);
+            for (int i = 0; i < movingItems.Count; i++)
+                listStyles.Items.Insert(insertIndex + i, movingItems[i]);
+
+            // Restore selection
+            foreach (var item in movingItems)
+                item.Selected = true;
 
             listStyles.Focus();
         }
-        private void MoveStylesDown(object sender)
-        {
-            if (listStyles.SelectedIndices.Count == 0) return;
 
-            int moveAmount = (sender == btnMoveDown10) ? 10 : 1;
-
-            // Sort indices descending for moving down
-            var indices = listStyles.SelectedIndices.Cast<int>().OrderByDescending(i => i).ToList();
-
-            foreach (int index in indices)
-            {
-                // Determine bottom limit depending on pinned status
-                var style = styles[index];
-                int maxIndex;
-
-                if (style.PinnedBottom)
-                    maxIndex = styles.Count - 1;
-                else if (style.PinnedTop)
-                    maxIndex = styles.FindLastIndex(s => s.PinnedTop);
-                else
-                    maxIndex = styles.FindLastIndex(s => !s.PinnedBottom);
-
-                int targetIndex = Math.Min(index + moveAmount, maxIndex);
-                if (targetIndex == index) continue;
-
-                // Move in data list
-                var tmp = styles[index];
-                styles.RemoveAt(index);
-                styles.Insert(targetIndex, tmp);
-
-                // Move in ListView
-                var item = listStyles.Items[index];
-                listStyles.Items.RemoveAt(index);
-                listStyles.Items.Insert(targetIndex, item);
-                item.Selected = true;
-            }
-
-            listStyles.Focus();
-        }
 
         /// <summary>
         /// Refreshes the list view
@@ -681,14 +676,9 @@ namespace NLEditor
             LoadStylesIntoListView();
         }
 
-        private void BtnMoveUp_Click(object sender, EventArgs e)
+        private void BtnMoveStyles_Click(object sender, EventArgs e)
         {
-            MoveStylesUp(sender);
-        }
-
-        private void BtnMoveDown_Click(object sender, EventArgs e)
-        {
-            MoveStylesDown(sender);
+            MoveStyles(sender);
         }
 
         private void BtnRename_Click(object sender, EventArgs e)
