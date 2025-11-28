@@ -16,7 +16,8 @@ namespace NLEditor
             public string FolderName { get; set; }
             public string DisplayName { get; set; }
             public int Order { get; set; }
-            public bool Pinned { get; set; }
+            public bool PinnedTop { get; set; }
+            public bool PinnedBottom { get; set; }
         }
 
         private List<StyleEntry> styles = new List<StyleEntry>();
@@ -116,9 +117,28 @@ namespace NLEditor
                 if (line.StartsWith("Pinned=") && current != null)
                 {
                     if (int.TryParse(line.Substring(7).Trim(), out int pval))
-                        current.Pinned = (pval == 1);
+                    {
+                        switch (pval)
+                        {
+                            case 1:
+                                current.PinnedTop = true;
+                                current.PinnedBottom = false;
+                                break;
+                            case 2:
+                                current.PinnedTop = false;
+                                current.PinnedBottom = true;
+                                break;
+                            default:
+                                current.PinnedTop = false;
+                                current.PinnedBottom = false;
+                                break;
+                        }
+                    }
                     else
-                        current.Pinned = false;
+                    {
+                        current.PinnedTop = false;
+                        current.PinnedBottom = false;
+                    }
                 }
             }
 
@@ -277,7 +297,10 @@ namespace NLEditor
                 .ToList();
 
             foreach (var s in selectedStyles)
-                s.Pinned = true;
+            {
+                s.PinnedTop = true;
+                s.PinnedBottom = false; // Ensure only one pin type is active
+            }
 
             foreach (var s in selectedStyles)
                 styles.Remove(s);
@@ -299,7 +322,36 @@ namespace NLEditor
 
         private void PinStylesToBottomOfList()
         {
-            // TODO - Implement logic
+            if (listStyles.SelectedIndices.Count == 0)
+                return;
+
+            var selected = listStyles.SelectedIndices
+                .Cast<int>()
+                .OrderBy(i => i)
+                .Select(i => styles[i])
+                .ToList();
+
+            foreach (var s in selected)
+            {
+                s.PinnedBottom = true;
+                s.PinnedTop = false; // Ensure only one pin type is active
+            }
+
+            foreach (var s in selected)
+                styles.Remove(s);
+
+            styles.AddRange(selected);
+
+            RebuildListView();
+
+            foreach (var s in selected)
+            {
+                int idx = styles.IndexOf(s);
+                listStyles.Items[idx].Selected = true;
+            }
+
+            listStyles.EnsureVisible(styles.Count - 1);
+            listStyles.Focus();
         }
 
         /// <summary>
@@ -307,13 +359,13 @@ namespace NLEditor
         /// </summary>
         private void SortAllStylesAlphabetically()
         {
-            var pinned = styles.Where(s => s.Pinned).ToList();
-            var unpinned = styles.Where(s => !s.Pinned)
+            var pinnedTop = styles.Where(s => s.PinnedTop).ToList();
+            var unpinned = styles.Where(s => !s.PinnedTop && !s.PinnedBottom)
                                  .OrderBy(s => s.FolderName, StringComparer.OrdinalIgnoreCase)
                                  .ToList();
-
-            styles = pinned.Concat(unpinned).ToList();
-
+            var pinnedBottom = styles.Where(s => s.PinnedBottom).ToList();
+            
+            styles = pinnedTop.Concat(unpinned).Concat(pinnedBottom).ToList();
             RebuildListView();
         }
 
@@ -358,7 +410,8 @@ namespace NLEditor
                 {
                     FolderName = folderName,
                     DisplayName = folderName,
-                    Pinned = false
+                    PinnedTop = false,
+                    PinnedBottom = false
                 };
 
                 // -------------------------------------------------------------
@@ -368,7 +421,7 @@ namespace NLEditor
                 // -------------------------------------------------------------
 
                 // Count pinned styles
-                int pinnedCount = styles.Count(s => s.Pinned);
+                int pinnedCount = styles.Count(s => s.PinnedTop);
 
                 // Find alphabetical position among unpinned styles
                 int relativeIndex = styles
@@ -421,10 +474,12 @@ namespace NLEditor
 
                 string display = (style.DisplayName ?? folder).Trim();
 
+                int pinnedVal = style.PinnedTop ? 1 : (style.PinnedBottom ? 2 : 0);
+
                 sb.AppendLine($"[{folder}]");
                 sb.AppendLine($"Name={display}");
                 sb.AppendLine($"Order={orderValue}");
-                sb.AppendLine($"Pinned={(style.Pinned ? 1 : 0)}");
+                sb.AppendLine($"Pinned={pinnedVal}");
                 sb.AppendLine("");
 
                 orderValue++;
