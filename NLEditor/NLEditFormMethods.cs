@@ -656,7 +656,7 @@ Ladderer=10";
         /// <summary>
         /// Reloads all styles to keep pieces up-to-date without closing & reopening the Editor
         /// </summary>
-        public void RefreshStyles()
+        public void RefreshStyles(bool refreshedFromStyleManager = false)
         {
             if (CurLevel == null || pieceCurStyle == null)
                 return;
@@ -685,6 +685,12 @@ Ladderer=10";
 
                 this.combo_PieceStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.NameInEditor).ToArray());
                 this.combo_PieceStyle.Text = ValidateStyleList(pieceStyle);
+
+                if (refreshedFromStyleManager)
+                {
+                    combo_MainStyle.SelectedIndex = 0;
+                    combo_PieceStyle.SelectedIndex = 0;
+                }
             }
             else
             {

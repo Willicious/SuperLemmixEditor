@@ -694,7 +694,7 @@ namespace NLEditor
             {
                 File.WriteAllText(styleFilePath, sb.ToString());
                 MessageBox.Show("List successfully saved to styles.ini");
-                mainForm.RefreshStyles();
+                mainForm.RefreshStyles(true);
                 // Close();
             }
             catch (Exception ex)
