@@ -419,7 +419,7 @@ namespace NLEditor
         /// <summary>
         /// Refreshes the list view
         /// </summary>
-        private void RebuildListView()
+        private void RefreshListView()
         {
             txtSearch.Clear(); // Just in case
 
@@ -463,7 +463,7 @@ namespace NLEditor
 
             styles.InsertRange(0, selectedStyles);
 
-            RebuildListView();
+            RefreshListView();
 
             foreach (var s in selectedStyles)
             {
@@ -498,7 +498,7 @@ namespace NLEditor
 
             styles.AddRange(selected);
 
-            RebuildListView();
+            RefreshListView();
 
             foreach (var s in selected)
             {
@@ -527,7 +527,7 @@ namespace NLEditor
                 s.PinnedBottom = false;
             }
 
-            SortAllStylesAlphabetically();
+            RefreshListView();
 
             foreach (var s in selectedStyles)
             {
@@ -555,7 +555,7 @@ namespace NLEditor
             var pinnedBottom = styles.Where(s => s.PinnedBottom).ToList();
             
             styles = pinnedTop.Concat(unpinned).Concat(pinnedBottom).ToList();
-            RebuildListView();
+            RefreshListView();
         }
 
         /// <summary>
