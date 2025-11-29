@@ -564,7 +564,7 @@ namespace NLEditor
             TextWriter textFile = new StreamWriter(filePath, true);
 
             textFile.WriteLine("# ----------------------------- ");
-            textFile.WriteLine("#        SuperLemmix Level        ");
+            textFile.WriteLine($"#        {curLevel.Format} Level      ");
             textFile.WriteLine("#   Created with SLXEditor " + C.Version);
             textFile.WriteLine("# ----------------------------- ");
             textFile.WriteLine(" ");

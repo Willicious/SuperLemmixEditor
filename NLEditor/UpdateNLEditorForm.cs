@@ -398,6 +398,9 @@ namespace NLEditor
         /// </summary>
         public void UpdateLemmixVersionFeatures()
         {
+            if (CurLevel != null)
+                CurLevel.Format = isNeoLemmixOnly ? "NeoLemmix" : "SuperLemmix";
+
             lbl_Skill_Stoner.Enabled = isNeoLemmixOnly;
             lbl_Skill_Stoner.Visible = isNeoLemmixOnly;
             lbl_Skill_Freezer.Enabled = !isNeoLemmixOnly;
