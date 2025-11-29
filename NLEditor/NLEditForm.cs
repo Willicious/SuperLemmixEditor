@@ -93,6 +93,9 @@ namespace NLEditor
             DisplaySettings.SetMenuTabItems(displayTabItems);
 
             curSettings = new Settings(this);
+            InitializeSettings();
+            DetectLemmixVersions();
+            UpdateLemmixVersionFeatures();
 
             CreateStyleList();
             if (StyleList.Count > 0)
@@ -108,9 +111,8 @@ namespace NLEditor
             UpdateFlagsForPieceActions();
             UpdatePieceMetaData();
 
-            InitializeSettings();
-            DetectLemmixVersions();
-            UpdateLemmixVersionFeatures();
+            ResetLevelImage();
+            MoveControlsOnFormResize();
 
             if (!curSettings.UseTooltipBotton)
                 toolTipButton.Active = false;
@@ -273,6 +275,7 @@ namespace NLEditor
 
         private void ResetLevelImage()
         {
+            pic_Level.Image = curRenderer.CombineLayers();
             curRenderer.EnsureScreenPosInLevel();
             pic_Level.SetImage(curRenderer.CreateLevelImage());
         }
@@ -1632,7 +1635,7 @@ namespace NLEditor
 
         private void styleManagerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var styleManagerForm = new FormStyleManager(this))
+            using (var styleManagerForm = new FormStyleManager(this, curSettings))
             {
                 styleManagerForm.ShowDialog(this);
             }

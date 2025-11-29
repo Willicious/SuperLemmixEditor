@@ -25,15 +25,12 @@ namespace NLEditor
         private void InitializeSettings()
         {
             curSettings.ReadSettingsFromFile();
-            pic_Level.Image = curRenderer.CombineLayers();
 
             snapToGridToolStripMenuItem.Checked = curSettings.UseGridForPieces;
             highlightGroupedPiecesToolStripMenuItem.Checked = Properties.Settings.Default.GroupsAreHighlighted;
             highlightEraserPiecesToolStripMenuItem.Checked = Properties.Settings.Default.ErasersAreHighlighted;
 
             UpdateRRSIControls();
-            MoveControlsOnFormResize();
-            ResetLevelImage();
         }
 
         /// <summary>
@@ -70,7 +67,7 @@ namespace NLEditor
             // Create the StyleList from the StyleNameList
             styleNameList.RemoveAll(sty => sty == "default");
             StyleList = styleNameList.ConvertAll(sty => new Style(sty, Backgrounds));
-            StyleList = LoadStylesFromFile.OrderAndRenameStyles(StyleList);
+            StyleList = LoadStylesFromFile.OrderAndRenameStyles(StyleList, curSettings);
 
             Backgrounds.SortBackgrounds();
         }

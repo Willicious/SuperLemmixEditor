@@ -25,11 +25,15 @@ namespace NLEditor
         private string styleFilePath = C.AppPath + "styles" + C.DirSep + "styles.ini";
         
         private NLEditForm mainForm;
+        private Settings curSettings;
 
-        internal FormStyleManager(NLEditForm parentForm)
+        internal FormStyleManager(NLEditForm parentForm, Settings settings)
         {
             InitializeComponent();
             mainForm = parentForm;
+            curSettings = settings;
+
+            checkAutoPinSLXStyles.Checked = curSettings.AutoPinSLXStyles;
         }
 
         private void LoadStylesIntoListView()
@@ -144,6 +148,8 @@ namespace NLEditor
 
             // Sort entries
             styles = styles.OrderBy(s => s.Order).ToList();
+
+            HandleSLXStylePinning();
 
             // Populate list view
             foreach (var s in styles)
@@ -543,6 +549,73 @@ namespace NLEditor
             listStyles.Focus();
         }
 
+        private void HandleSLXStylePinning()
+        {
+            var slxOrder = new List<string>
+            {
+                "slx_crystal",
+                "slx_dirt",
+                "slx_fire",
+                "slx_marble",
+                "slx_pillar",
+                "slx_brick",
+                "slx_bubble",
+                "slx_rock",
+                "slx_snow",
+                "xmas"
+            };
+
+            var slxStyles = slxOrder
+                .Select(name => styles.FirstOrDefault(s =>
+                    s.FolderName.Equals(name, StringComparison.OrdinalIgnoreCase)))
+                .Where(s => s != null)
+                .ToList();
+
+            foreach (var s in slxStyles)
+            {
+                if (curSettings.AutoPinSLXStyles)
+                {
+                    s.PinnedTop = true;
+                    s.PinnedBottom = false;
+                }
+                else
+                {
+                    s.PinnedTop = false;
+                }
+            }
+
+            foreach (var s in slxStyles)
+                styles.Remove(s);
+
+            if (checkAutoPinSLXStyles.Checked)
+                styles.InsertRange(0, slxStyles);
+            else
+            {
+                int insertIndex = styles.FindIndex(s => !s.PinnedTop);
+                if (insertIndex < 0) insertIndex = styles.Count;
+                styles.InsertRange(insertIndex, slxStyles);
+            }
+        }
+
+        private void UpdateSLXStylePinning(object sender)
+        {
+            if (sender != checkAutoPinSLXStyles)
+                return;
+
+            var cb = sender as CheckBox;
+            if (cb == null)
+                return;
+
+            // Update setting
+            curSettings.AutoPinSLXStyles = cb.Checked;
+            curSettings.WriteSettingsToFile();
+
+            // Refresh list view
+            HandleSLXStylePinning();
+            RefreshListView();
+            listStyles.Focus();
+        }
+
         /// <summary>
         /// Sorts all unpinned styles alphabetically
         /// </summary>
@@ -787,6 +860,11 @@ namespace NLEditor
         private void btnUnpin_Click(object sender, EventArgs e)
         {
             UnpinSelectedStyles();
+        }
+
+        private void checkAutoPinSLXStyles_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateSLXStylePinning(sender);
         }
     }
 }

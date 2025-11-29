@@ -101,7 +101,7 @@ namespace NLEditor
         /// Reads the styles.ini file and orders and renames styles accordingly.
         /// </summary>
         /// <param name="styleList"></param>
-        public static List<Style> OrderAndRenameStyles(List<Style> styleList)
+        public static List<Style> OrderAndRenameStyles(List<Style> styleList, Settings settings)
         {
             string filePath = C.AppPath + "styles" + C.DirSep + "styles.ini";
 
@@ -155,26 +155,32 @@ namespace NLEditor
                 }
             }
 
-            // Override "slx_" style names (always applies)
-            foreach (var kvp in slxNameOverrides)
+            // Override slx_ style display names if applicable
+            if (settings.AutoPinSLXStyles)
             {
-                Style curStyle = styleList.Find(sty => sty.NameInDirectory.Equals(kvp.Key));
-                if (curStyle != null)
-                    curStyle.NameInEditor = kvp.Value;
+                foreach (var kvp in slxNameOverrides)
+                {
+                    Style curStyle = styleList.Find(sty => sty.NameInDirectory.Equals(kvp.Key));
+                    if (curStyle != null)
+                        curStyle.NameInEditor = kvp.Value;
+                }
             }
 
             // Sort styles: slx_ first in defined order, then styles.ini, then original order
             styleList.Sort((sty1, sty2) =>
             {
-                int sty1SlxIndex = slxOrder.IndexOf(sty1.NameInDirectory);
-                int sty2SlxIndex = slxOrder.IndexOf(sty2.NameInDirectory);
+                if (settings.AutoPinSLXStyles)
+                {
+                    int sty1SlxIndex = slxOrder.IndexOf(sty1.NameInDirectory);
+                    int sty2SlxIndex = slxOrder.IndexOf(sty2.NameInDirectory);
 
-                if (sty1SlxIndex != -1 && sty2SlxIndex != -1)
-                    return sty1SlxIndex.CompareTo(sty2SlxIndex);
-                if (sty1SlxIndex != -1)
-                    return -1;
-                if (sty2SlxIndex != -1)
-                    return 1;
+                    if (sty1SlxIndex != -1 && sty2SlxIndex != -1)
+                        return sty1SlxIndex.CompareTo(sty2SlxIndex);
+                    if (sty1SlxIndex != -1)
+                        return -1;
+                    if (sty2SlxIndex != -1)
+                        return 1;
+                }
 
                 if (styleOrderDict.ContainsKey(sty1.NameInDirectory) && styleOrderDict.ContainsKey(sty2.NameInDirectory))
                     return styleOrderDict[sty1.NameInDirectory].CompareTo(styleOrderDict[sty2.NameInDirectory]);

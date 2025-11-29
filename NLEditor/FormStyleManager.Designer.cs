@@ -50,6 +50,9 @@
             this.btnShowSelectedItemsInList = new System.Windows.Forms.Button();
             this.btnClearSearch = new System.Windows.Forms.Button();
             this.btnUnpin = new System.Windows.Forms.Button();
+            this.picPadding = new System.Windows.Forms.PictureBox();
+            this.checkAutoPinSLXStyles = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)(this.picPadding)).BeginInit();
             this.SuspendLayout();
             // 
             // btnMoveUp1
@@ -125,7 +128,7 @@
             // 
             // txtDisplayName
             // 
-            this.txtDisplayName.Location = new System.Drawing.Point(575, 404);
+            this.txtDisplayName.Location = new System.Drawing.Point(575, 423);
             this.txtDisplayName.Name = "txtDisplayName";
             this.txtDisplayName.Size = new System.Drawing.Size(277, 26);
             this.txtDisplayName.TabIndex = 6;
@@ -133,7 +136,7 @@
             // 
             // btnRename
             // 
-            this.btnRename.Location = new System.Drawing.Point(575, 436);
+            this.btnRename.Location = new System.Drawing.Point(575, 455);
             this.btnRename.Name = "btnRename";
             this.btnRename.Size = new System.Drawing.Size(277, 55);
             this.btnRename.TabIndex = 7;
@@ -173,7 +176,7 @@
             // 
             // btnSortAlphabetically
             // 
-            this.btnSortAlphabetically.Location = new System.Drawing.Point(575, 554);
+            this.btnSortAlphabetically.Location = new System.Drawing.Point(575, 561);
             this.btnSortAlphabetically.Name = "btnSortAlphabetically";
             this.btnSortAlphabetically.Size = new System.Drawing.Size(277, 55);
             this.btnSortAlphabetically.TabIndex = 11;
@@ -251,11 +254,36 @@
             this.btnUnpin.UseVisualStyleBackColor = true;
             this.btnUnpin.Click += new System.EventHandler(this.btnUnpin_Click);
             // 
+            // picPadding
+            // 
+            this.picPadding.BackColor = System.Drawing.Color.Transparent;
+            this.picPadding.Location = new System.Drawing.Point(-2, 786);
+            this.picPadding.Name = "picPadding";
+            this.picPadding.Size = new System.Drawing.Size(872, 10);
+            this.picPadding.TabIndex = 19;
+            this.picPadding.TabStop = false;
+            // 
+            // checkAutoPinSLXStyles
+            // 
+            this.checkAutoPinSLXStyles.AutoSize = true;
+            this.checkAutoPinSLXStyles.Checked = true;
+            this.checkAutoPinSLXStyles.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkAutoPinSLXStyles.Location = new System.Drawing.Point(596, 353);
+            this.checkAutoPinSLXStyles.Name = "checkAutoPinSLXStyles";
+            this.checkAutoPinSLXStyles.Size = new System.Drawing.Size(239, 24);
+            this.checkAutoPinSLXStyles.TabIndex = 20;
+            this.checkAutoPinSLXStyles.Text = "AutoPin SuperLemmix Styles";
+            this.checkAutoPinSLXStyles.UseVisualStyleBackColor = true;
+            this.checkAutoPinSLXStyles.CheckedChanged += new System.EventHandler(this.checkAutoPinSLXStyles_CheckedChanged);
+            // 
             // FormStyleManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(869, 794);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(869, 800);
+            this.Controls.Add(this.checkAutoPinSLXStyles);
+            this.Controls.Add(this.picPadding);
             this.Controls.Add(this.btnUnpin);
             this.Controls.Add(this.btnShowSelectedItemsInList);
             this.Controls.Add(this.btnClearSearch);
@@ -274,6 +302,7 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnMoveDown1);
             this.Controls.Add(this.btnMoveUp1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormStyleManager";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -281,6 +310,7 @@
             this.Load += new System.EventHandler(this.FormStyleManager_Load);
             this.Shown += new System.EventHandler(this.FormStyleManager_Shown);
             this.Click += new System.EventHandler(this.FormStyleManager_Click);
+            ((System.ComponentModel.ISupportInitialize)(this.picPadding)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -308,5 +338,7 @@
         private System.Windows.Forms.Button btnShowSelectedItemsInList;
         private System.Windows.Forms.Button btnClearSearch;
         private System.Windows.Forms.Button btnUnpin;
+        private System.Windows.Forms.PictureBox picPadding;
+        private System.Windows.Forms.CheckBox checkAutoPinSLXStyles;
     }
 }

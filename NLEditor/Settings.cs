@@ -63,6 +63,7 @@ namespace NLEditor
             ShowData,
         }
 
+        public bool AutoPinSLXStyles { get; set; }
         public bool PreferObjectName { get; private set; }
         public EditorMode CurrentEditorMode { get; private set; }
         public PieceBrowserMode CurrentPieceBrowserMode { get; private set; }
@@ -98,6 +99,7 @@ namespace NLEditor
             CurrentEditorMode = EditorMode.Auto;
             CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
             CurrentTriggerAreaColor = TriggerAreaColor.Pink;
+            AutoPinSLXStyles = true;
             PreferObjectName = false;
             InfiniteScrolling = false;
             UseGridForPieces = false;
@@ -908,6 +910,11 @@ namespace NLEditor
                                     CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
                                 break;
                             }
+                        case "AUTOPINSLXSTYLES":
+                            {
+                                AutoPinSLXStyles = (line.Text.Trim().ToUpper() == "TRUE");
+                                break;
+                            }
                         case "PREFEROBJECTNAME":
                             {
                                 PreferObjectName = (line.Text.Trim().ToUpper() == "TRUE");
@@ -1036,6 +1043,7 @@ namespace NLEditor
                 settingsFile.WriteLine(" AutosaveLimit       " + KeepAutosaveCount.ToString());
                 settingsFile.WriteLine(" EditorMode          " + CurrentEditorMode.ToString());
                 settingsFile.WriteLine(" PieceBrowserMode    " + CurrentPieceBrowserMode.ToString());
+                settingsFile.WriteLine(" AutoPinSLXStyles    " + (AutoPinSLXStyles ? "True" : "False"));
                 settingsFile.WriteLine(" PreferObjectName    " + (PreferObjectName ? "True" : "False"));
                 settingsFile.WriteLine(" InfiniteScrolling   " + (InfiniteScrolling ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
