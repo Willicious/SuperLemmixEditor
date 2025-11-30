@@ -114,6 +114,7 @@
             this.listViewPieceLinks.TabIndex = 6;
             this.listViewPieceLinks.UseCompatibleStateImageBehavior = false;
             this.listViewPieceLinks.View = System.Windows.Forms.View.Details;
+            this.listViewPieceLinks.SelectedIndexChanged += new System.EventHandler(this.listViewPieceLinks_SelectedIndexChanged);
             // 
             // NXLVLevelPieces
             // 
@@ -160,7 +161,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormINIExporter";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormINIConverter";
+            this.Text = "Export to INI";
             this.Load += new System.EventHandler(this.FormINIExporter_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picPiecePreview)).EndInit();
             this.ResumeLayout(false);

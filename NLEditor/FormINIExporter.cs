@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.SqlServer.Server;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -202,7 +203,7 @@ namespace NLEditor
             // Terrain
             foreach (var terrain in level.TerrainList)
             {
-                string key = terrain.Style + "__" + terrain.Name;
+                string key = terrain.Key;
 
                 // Build terrain line for INI
                 if (pieceLinks.TryGetValue(key, out int iniId))
@@ -226,7 +227,7 @@ namespace NLEditor
             // Objects
             foreach (var gadget in level.GadgetList)
             {
-                string key = gadget.Style + "__" + gadget.Name;
+                string key = gadget.Key;
 
                 // Build object line for INI
                 if (pieceLinks.TryGetValue(key, out int iniId))
@@ -447,7 +448,6 @@ namespace NLEditor
 
                 if (inSection)
                 {
-                    // Expected format: piece_style__piece_name:ini_id
                     var parts = line.Split(':');
                     if (parts.Length == 2 && int.TryParse(parts[1], out int iniId))
                     {
@@ -459,37 +459,28 @@ namespace NLEditor
             return links;
         }
 
-        private List<string> GetUniqueLevelPiecesList(Level level)
-        {
-            var pieces = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-            foreach (var terrain in level.TerrainList)
-            {
-                pieces.Add(terrain.Style + "__" + terrain.Name);
-            }
-
-            foreach (var gadget in level.GadgetList)
-            {
-                pieces.Add(gadget.Style + "__" + gadget.Name);
-            }
-
-            return pieces.ToList();
-        }
-
         private void PopulatePieceListView(string selectedStyle)
         {
             listViewPieceLinks.Items.Clear();
 
             var links = LoadStylePieceLinks(selectedStyle);
-            var uniquePieces = GetUniqueLevelPiecesList(curLevel);
+            var allPieces = curLevel.TerrainList.Cast<object>()
+                            .Concat(curLevel.GadgetList.Cast<object>());
 
-            foreach (var pieceKey in uniquePieces)
+            var seenKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (dynamic piece in allPieces) // dynamic to handle Terrain/Gadget
             {
-                string iniIdText = links.TryGetValue(pieceKey, out int iniId)
-                    ? iniId.ToString()
-                    : "Not yet linked";
+                string pieceKey = piece.Key;
+
+                if (seenKeys.Contains(pieceKey))
+                    continue;
+                seenKeys.Add(pieceKey);
+
+                string iniIdText = links.TryGetValue(pieceKey, out int iniId) ? iniId.ToString() : "Not yet linked";
 
                 var item = new ListViewItem(new[] { pieceKey, iniIdText });
+                item.Tag = pieceKey;
                 listViewPieceLinks.Items.Add(item);
             }
         }
@@ -500,7 +491,10 @@ namespace NLEditor
                 return;
 
             var selectedItem = listViewPieceLinks.SelectedItems[0];
-            string pieceKey = selectedItem.Text; // piece_style__piece_name
+            string pieceKey = selectedItem.Tag as string;
+
+            if (string.IsNullOrEmpty(pieceKey))
+                return;
 
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
@@ -511,7 +505,6 @@ namespace NLEditor
                 {
                     string filename = Path.GetFileNameWithoutExtension(ofd.FileName);
 
-                    // Attempt to parse ID number from filename
                     int id = -1;
                     var match = System.Text.RegularExpressions.Regex.Match(filename, @"\d+");
                     if (match.Success)
@@ -519,27 +512,30 @@ namespace NLEditor
 
                     if (id == -1)
                     {
-                        MessageBox.Show("Could not determine ID from filename. Please ensure the filename contains the ID.",
-                                        "Invalid File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(
+                            "Could not determine ID from filename. Please ensure the filename contains the ID.",
+                            "Invalid File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    if (comboStyles.SelectedItem == null || comboStyles.SelectedIndex == 0)
+                    if (comboStyles.SelectedItem == null)
                     {
-                        MessageBox.Show("Please select a style before adding a piece link.", "No Style Selected",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(
+                            "Please select a style before adding a piece link.",
+                            "No Style Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
+
                     string selectedStyle = comboStyles.SelectedItem.ToString();
 
-                    // Save to translation table
+                    // Save to translation table using the internal piece key
                     UpdatePieceLink(selectedStyle, pieceKey, id);
 
-                    // Update list view
                     selectedItem.SubItems[1].Text = id.ToString();
                 }
             }
         }
+
         private void UpdatePieceLink(string styleName, string pieceKey, int iniId)
         {
             List<string> lines = File.Exists(AppPathTranslationTables)
@@ -592,6 +588,7 @@ namespace NLEditor
                 lblChosenOutputStyle.ForeColor = Color.ForestGreen;
                 btnExport.Enabled = true;
                 PopulatePieceListView(comboStyles.SelectedItem.ToString());
+                UpdatePieceListControls();
             }
             else
             {
@@ -599,7 +596,92 @@ namespace NLEditor
                 lblChosenOutputStyle.ForeColor = Color.DarkRed;
                 btnExport.Enabled = false;
                 listViewPieceLinks.Items.Clear();
+                UpdatePieceListControls();
             }
+        }
+
+        private void UpdatePieceListControls()
+        {
+            btnAddPieceLink.Enabled = false;
+            picPiecePreview.Image = null;
+
+            if (listViewPieceLinks.SelectedItems.Count == 1)
+            {
+                btnAddPieceLink.Enabled = true;
+
+                string pieceKey = listViewPieceLinks.SelectedItems[0].Tag as string;
+                if (!string.IsNullOrEmpty(pieceKey))
+                    PreviewPiece(pieceKey, picPiecePreview);
+            }
+        }
+
+        public void PreviewPiece(string pieceKey, PictureBox piecePreview)
+        {
+            if (string.IsNullOrEmpty(pieceKey))
+            {
+                piecePreview.Image = null;
+                return;
+            }
+
+            int frameIndex = (ImageLibrary.GetObjType(pieceKey).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.COLLECTIBLE, C.OBJ.TRAPONCE)) ? 1 : 0;
+            Bitmap pieceImage = ImageLibrary.GetImage(pieceKey, RotateFlipType.RotateNoneFlipNone, frameIndex);
+
+            if (pieceImage == null)
+            {
+                piecePreview.Image = null;
+                return;
+            }
+
+            if (pieceKey.StartsWith("default") && ImageLibrary.GetObjType(pieceKey) == C.OBJ.ONE_WAY_WALL)
+            {
+                Color blendColor = curLevel.MainStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? C.NLColors[C.NLColor.OWWDefault];
+                pieceImage = pieceImage.ApplyThemeColor(blendColor);
+            }
+
+            ZoomImageWithNearestNeighbor(pieceImage);
+        }
+
+        private void ZoomImageWithNearestNeighbor(Bitmap originalImage)
+        {
+            // Add padding to the image before rendering to prevent cropping
+            int padding = 1;
+            Bitmap paddedImage = new Bitmap(originalImage.Width + padding, originalImage.Height + padding);
+
+            using (Graphics g = Graphics.FromImage(paddedImage))
+            {
+                g.Clear(Color.Transparent);
+                g.DrawImage(originalImage, padding, padding);
+            }
+
+            // Get the current size of the PictureBox
+            int maxWidth = picPiecePreview.Width;
+            int maxHeight = picPiecePreview.Height;
+
+            // Start with the original image dimensions
+            int currentWidth = paddedImage.Width;
+            int currentHeight = paddedImage.Height;
+
+            // Keep doubling the image size until it exceeds the PictureBox size
+            while (currentWidth * 2 <= maxWidth && currentHeight * 2 <= maxHeight)
+            {
+                currentWidth *= 2;
+                currentHeight *= 2;
+            }
+
+            // Create a new Bitmap to hold the scaled image
+            Bitmap zoomedImage = new Bitmap(currentWidth, currentHeight);
+
+            // Draw the scaled image with NearestNeighbor interpolation for accuracy
+            using (Graphics g = Graphics.FromImage(zoomedImage))
+            {
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                g.DrawImage(paddedImage, 0, 0, currentWidth, currentHeight);
+            }
+
+            // Set the PictureBox to display the zoomed image
+            picPiecePreview.Image = zoomedImage;
         }
 
         private void FormINIExporter_Load(object sender, EventArgs e)
@@ -633,6 +715,11 @@ namespace NLEditor
         private void btnAddPieceLink_Click(object sender, EventArgs e)
         {
             AddPieceLink();
+        }
+
+        private void listViewPieceLinks_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdatePieceListControls();
         }
     }
 }
