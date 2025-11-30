@@ -34,6 +34,7 @@ namespace NLEditor
         public static string AppPathSettings => AppPath + "settings" + DirSep + "SLXEditorSettings.ini";
         public static string AppPathHotkeys => AppPath + "settings" + DirSep + "SLXEditorHotkeys.ini";
         public static string AppPathCustomSkillsets => AppPath + "settings" + DirSep + "SLXEditorCustomSkillsets.ini";
+        public static string AppPathTranslationTables => AppPath + "settings" + DirSep + "SLXEditorINITranslationTables.ini";
         public static string AppPathPlayerSettings => AppPath + "settings" + DirSep + "settings.ini";
         public static string AppPathPlayerSettingsOld => AppPath + "SuperLemmix147Settings.ini";
         public static string AppPathSuperLemmix => AppPath + "SuperLemmix.exe";

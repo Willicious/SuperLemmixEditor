@@ -1649,5 +1649,13 @@ namespace NLEditor
             if (sender == num_Lvl_RR)
                 num_Lvl_SI.Value = 103 - num_Lvl_RR.Value;
         }
+
+        private void exportToINIToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var iniExporterForm = new FormINIExporter(CurLevel))
+            {
+                iniExporterForm.ShowDialog(this);
+            }
+        }
     }
 }
