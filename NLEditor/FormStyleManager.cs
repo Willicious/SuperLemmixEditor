@@ -631,92 +631,141 @@ namespace NLEditor
             RefreshListView();
         }
 
+        private string ShowFolderSelectionDialog(string parentPath)
+        {
+            if (!Directory.Exists(parentPath))
+                return null;
+
+            // Get list of folder names already in listStyles
+            var existingFolders = listStyles.Items
+                .Cast<ListViewItem>()
+                .Select(i => i.Text) // first column is FolderName
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            // Get all subfolders that are not already in the list
+            var subfolders = Directory.GetDirectories(parentPath)
+                .Select(Path.GetFileName)
+                .Where(name => !existingFolders.Contains(name))
+                .OrderBy(n => n)
+                .ToList();
+
+            if (subfolders.Count == 0)
+            {
+                MessageBox.Show("No new styles available to add.", "Add Style", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return null;
+            }
+
+            // Create temporary form
+            using (var form = new Form())
+            {
+                form.Text = "Select a style folder to add.";
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.Width = 400;
+                form.Height = 500;
+
+                var listBox = new ListBox
+                {
+                    Dock = DockStyle.Fill
+                };
+                form.Controls.Add(listBox);
+
+                var btnOk = new Button
+                {
+                    Text = "OK",
+                    Dock = DockStyle.Bottom,
+                    DialogResult = DialogResult.OK
+                };
+                form.Controls.Add(btnOk);
+                form.AcceptButton = btnOk;
+
+                listBox.Items.AddRange(subfolders.ToArray());
+
+                if (form.ShowDialog() == DialogResult.OK && listBox.SelectedItem != null)
+                {
+                    return Path.Combine(parentPath, listBox.SelectedItem.ToString());
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Style adding
         /// </summary>
-        private void AddNewStyle() // TODO - Improve folder browser
+        private void AddNewStyle()
         {
-            using (var fbd = new FolderBrowserDialog())
+            string selectedFolder = ShowFolderSelectionDialog(C.AppPathPieces);
+            if (string.IsNullOrEmpty(selectedFolder)) return;
+
+            string folderName = Path.GetFileName(selectedFolder);
+
+            if (string.IsNullOrWhiteSpace(folderName))
             {
-                fbd.Description = "Select a new style folder to add";
-                fbd.SelectedPath = Path.Combine(C.AppPath, "styles");
-                fbd.ShowNewFolderButton = true;
-
-                if (fbd.ShowDialog() != DialogResult.OK)
-                    return;
-
-                string selectedFolderPath = fbd.SelectedPath;
-                string folderName = Path.GetFileName(
-                    selectedFolderPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
-
-                if (string.IsNullOrWhiteSpace(folderName))
-                {
-                    MessageBox.Show("Invalid folder selected.", "Add Style",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Check for duplicates
-                int existingIndex = styles.FindIndex(s =>
-                    string.Equals(s.FolderName, folderName, StringComparison.OrdinalIgnoreCase));
-
-                if (existingIndex >= 0)
-                {
-                    // Already exists — select it
-                    listStyles.Items[existingIndex].Selected = true;
-                    listStyles.EnsureVisible(existingIndex);
-                    txtDisplayName.Text = styles[existingIndex].DisplayName;
-                    btnRename.Enabled = true;
-                    return;
-                }
-
-                // Create new style
-                var newStyle = new StyleEntry
-                {
-                    FolderName = folderName,
-                    DisplayName = folderName,
-                    PinnedTop = false,
-                    PinnedBottom = false
-                };
-
-                // -------------------------------------------------------------
-                // INSERTION LOGIC:
-                //   1. Pinned styles stay at top (keep user order).
-                //   2. Insert new style alphabetically *after* the pinned block.
-                // -------------------------------------------------------------
-
-                // Count pinned styles
-                int pinnedCount = styles.Count(s => s.PinnedTop);
-
-                // Find alphabetical position among unpinned styles
-                int relativeIndex = styles
-                    .Skip(pinnedCount)
-                    .ToList()
-                    .FindIndex(s =>
-                        string.Compare(s.FolderName, folderName,
-                        StringComparison.OrdinalIgnoreCase) > 0);
-
-                // Convert to absolute index
-                int insertIndex = (relativeIndex >= 0)
-                    ? pinnedCount + relativeIndex
-                    : styles.Count;
-
-                // Insert into data list
-                styles.Insert(insertIndex, newStyle);
-
-                // Insert into ListView
-                var item = new ListViewItem(newStyle.FolderName);
-                item.SubItems.Add(newStyle.DisplayName);
-                listStyles.Items.Insert(insertIndex, item);
-
-                // Select the new item
-                item.Selected = true;
-                listStyles.EnsureVisible(insertIndex);
-                txtDisplayName.Text = newStyle.DisplayName;
-                btnRename.Enabled = true;
-                txtDisplayName.Focus();
-                txtDisplayName.SelectAll();
+                MessageBox.Show("Invalid folder selected.", "Add Style",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            // Check for duplicates
+            int existingIndex = styles.FindIndex(s =>
+                string.Equals(s.FolderName, folderName, StringComparison.OrdinalIgnoreCase));
+
+            if (existingIndex >= 0)
+            {
+                // Already exists — select it
+                listStyles.Items[existingIndex].Selected = true;
+                listStyles.EnsureVisible(existingIndex);
+                txtDisplayName.Text = styles[existingIndex].DisplayName;
+                btnRename.Enabled = true;
+                return;
+            }
+
+            // Create new style
+            var newStyle = new StyleEntry
+            {
+                FolderName = folderName,
+                DisplayName = folderName,
+                PinnedTop = false,
+                PinnedBottom = false
+            };
+
+            // -------------------------------------------------------------
+            // INSERTION LOGIC:
+            //   1. Pinned styles stay at top (keep user order).
+            //   2. Insert new style alphabetically *after* the pinned block.
+            // -------------------------------------------------------------
+
+            // Count pinned styles
+            int pinnedCount = styles.Count(s => s.PinnedTop);
+
+            // Find alphabetical position among unpinned styles
+            int relativeIndex = styles
+                .Skip(pinnedCount)
+                .ToList()
+                .FindIndex(s =>
+                    string.Compare(s.FolderName, folderName,
+                    StringComparison.OrdinalIgnoreCase) > 0);
+
+            // Convert to absolute index
+            int insertIndex = (relativeIndex >= 0)
+                ? pinnedCount + relativeIndex
+                : styles.Count;
+
+            // Insert into data list
+            styles.Insert(insertIndex, newStyle);
+
+            // Insert into ListView
+            var item = new ListViewItem(newStyle.FolderName);
+            item.SubItems.Add(newStyle.DisplayName);
+            listStyles.Items.Insert(insertIndex, item);
+
+            // Select the new item
+            item.Selected = true;
+            listStyles.EnsureVisible(insertIndex);
+            txtDisplayName.Text = newStyle.DisplayName;
+            btnRename.Enabled = true;
+            txtDisplayName.Focus();
+            txtDisplayName.SelectAll();
         }
 
         /// <summary>
