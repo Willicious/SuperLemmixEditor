@@ -332,12 +332,7 @@ namespace NLEditor
             }
 
             var selectedItem = listStyles.SelectedItems[0];
-            if (!(selectedItem.Tag is StyleEntry style))
-            {
-                txtDisplayName.Text = string.Empty;
-                btnRename.Enabled = false;
-                return;
-            }
+            var style = (StyleEntry)selectedItem.Tag;
 
             txtDisplayName.Text = style.DisplayName ?? style.FolderName;
             btnRename.Enabled = true;
@@ -755,8 +750,8 @@ namespace NLEditor
             styles.Insert(insertIndex, newStyle);
 
             // Insert into ListView
-            var item = new ListViewItem(newStyle.FolderName);
-            item.SubItems.Add(newStyle.DisplayName);
+            var item = new ListViewItem(new[] { newStyle.FolderName, newStyle.DisplayName });
+            item.Tag = newStyle;
             listStyles.Items.Insert(insertIndex, item);
 
             // Select the new item
