@@ -225,7 +225,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Writes all pieces in AppPath/StyleName/backgrounds to the list of BackgroundNames.
+        /// Writes all pieces in Sketches to the list of Sketches.
         /// </summary>
         private static void SearchDirectoryForSketches()
         {
