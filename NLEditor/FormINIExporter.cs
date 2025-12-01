@@ -486,6 +486,44 @@ namespace NLEditor
             }
         }
 
+        private void SelectNextUnlinkedPiece(int startIndex)
+        {
+            if (listViewPieceLinks.Items.Count == 0)
+                return;
+
+            listViewPieceLinks.SelectedItems.Clear();
+
+            // Look forward from the next item
+            for (int i = startIndex + 1; i < listViewPieceLinks.Items.Count; i++)
+            {
+                var idText = listViewPieceLinks.Items[i].SubItems[1].Text;
+
+                if (string.IsNullOrWhiteSpace(idText) || idText == "Not yet linked")
+                {
+                    listViewPieceLinks.Items[i].Selected = true;
+                    listViewPieceLinks.Items[i].Focused = true;
+                    listViewPieceLinks.EnsureVisible(i);
+                    listViewPieceLinks.Focus();
+                    return;
+                }
+            }
+
+            // If not found ahead, wrap around to the beginning
+            for (int i = 0; i <= startIndex; i++)
+            {
+                var idText = listViewPieceLinks.Items[i].SubItems[1].Text;
+
+                if (string.IsNullOrWhiteSpace(idText) || idText == "Not yet linked")
+                {
+                    listViewPieceLinks.Items[i].Selected = true;
+                    listViewPieceLinks.Items[i].Focused = true;
+                    listViewPieceLinks.EnsureVisible(i);
+                    listViewPieceLinks.Focus();
+                    return;
+                }
+            }
+        }
+
         private void AddPieceLink()
         {
             int id = Decimal.ToInt32(numLinkedPieceID.Value);
@@ -504,7 +542,9 @@ namespace NLEditor
             // Save to translation table using the internal piece key
             UpdatePieceLink(selectedStyle, pieceKey, id);
 
+            // Update list view and move to the next unlinked piece
             selectedItem.SubItems[1].Text = id.ToString();
+            SelectNextUnlinkedPiece(selectedItem.Index);
         }
 
         private void BrowseForPieceLink()
@@ -553,7 +593,9 @@ namespace NLEditor
                     // Save to translation table using the internal piece key
                     UpdatePieceLink(selectedStyle, pieceKey, id);
 
+                    // Update list view and move to the next unlinked piece
                     selectedItem.SubItems[1].Text = id.ToString();
+                    SelectNextUnlinkedPiece(selectedItem.Index);
                 }
             }
         }
@@ -754,18 +796,23 @@ namespace NLEditor
         }
     }
 }
-        // TODO:
-        // ID 000 > # NXLV ID 000 (reference only)
-        // VERSION 000 > # NXLV VERSION 000 (reference only)
-        // SUPERLEMMING > superlemming = true
-        // forceNormalTimerSpeed = true
+// TODO:
+// ID 000 > # NXLV ID 000 (reference only)
+// VERSION 000 > # NXLV VERSION 000 (reference only)
+// SUPERLEMMING > superlemming = true
+// forceNormalTimerSpeed = true
 
-        // TODO:
-        // Print:
-        // # Steel
-        // # X position, Y position, width, height, flags (optional)
-        // # Flags: 1 = remove existing steel
-        // Here, we need the translation table to mark steel terrain pieces as steel
-        // Then, for each steel piece, we print the following:
-        // > steel_n++ = 2n (X position of terrain piece), 2n (Y position of terrain piece),
-        // 2n (width of terrain piece without empty pixels), 2n (height, same), 0 (no flags)
+// TODO:
+// Print:
+// # Steel
+// # X position, Y position, width, height, flags (optional)
+// # Flags: 1 = remove existing steel
+// Here, we need the translation table to mark steel terrain pieces as steel
+// Then, for each steel piece, we print the following:
+// > steel_n++ = 2n (X position of terrain piece), 2n (Y position of terrain piece),
+// 2n (width of terrain piece without empty pixels), 2n (height, same), 0 (no flags)
+
+// TODO - we need to calculate x and y offsets based on transparent margins
+// (including for flipped/inverted pieces)
+// This will require analyzing each image and updating the translation table accordingly
+// For safety, we'll perform this every time we run the exporter (in case images have been updated)

@@ -134,6 +134,7 @@
     <Compile Include="FormAboutSLXEditor.Designer.cs">
       <DependentUpon>FormAboutSLXEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="INITranslationTables.cs" />
     <Compile Include="LevelPieceBase.cs" />
     <Compile Include="LevelPieceGadget.cs" />
     <Compile Include="LevelPieceTerrain.cs" />
