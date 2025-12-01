@@ -271,6 +271,7 @@ namespace NLEditor
 
                 using (SaveFileDialog saveDialog = new SaveFileDialog())
                 {
+                    saveDialog.InitialDirectory = AppPathLevels;
                     saveDialog.Filter = "INI files (*.ini)|*.ini";
                     saveDialog.Title = "Export Level to .INI";
                     saveDialog.FileName = $"{curLevel.Title}.ini";
@@ -487,6 +488,27 @@ namespace NLEditor
 
         private void AddPieceLink()
         {
+            int id = Decimal.ToInt32(numLinkedPieceID.Value);
+
+            if (listViewPieceLinks.SelectedItems.Count == 0)
+                return;
+
+            var selectedItem = listViewPieceLinks.SelectedItems[0];
+            string pieceKey = selectedItem.Tag as string;
+
+            if (string.IsNullOrEmpty(pieceKey))
+                return;
+
+            string selectedStyle = comboStyles.SelectedItem.ToString();
+
+            // Save to translation table using the internal piece key
+            UpdatePieceLink(selectedStyle, pieceKey, id);
+
+            selectedItem.SubItems[1].Text = id.ToString();
+        }
+
+        private void BrowseForPieceLink()
+        {
             if (listViewPieceLinks.SelectedItems.Count == 0)
                 return;
 
@@ -602,12 +624,16 @@ namespace NLEditor
 
         private void UpdatePieceListControls()
         {
-            btnAddPieceLink.Enabled = false;
+            numLinkedPieceID.Enabled = false;
+            btnAddLinkedPieceID.Enabled = false;
+            btnBrowseForPieceLink.Enabled = false;
             picPiecePreview.Image = null;
 
             if (listViewPieceLinks.SelectedItems.Count == 1)
             {
-                btnAddPieceLink.Enabled = true;
+                numLinkedPieceID.Enabled = true;
+                btnAddLinkedPieceID.Enabled = true;
+                btnBrowseForPieceLink.Enabled = true;
 
                 string pieceKey = listViewPieceLinks.SelectedItems[0].Tag as string;
                 if (!string.IsNullOrEmpty(pieceKey))
@@ -712,14 +738,19 @@ namespace NLEditor
             UpdateControls();
         }
 
-        private void btnAddPieceLink_Click(object sender, EventArgs e)
+        private void btnBrowseForPieceLink_Click(object sender, EventArgs e)
         {
-            AddPieceLink();
+            BrowseForPieceLink();
         }
 
         private void listViewPieceLinks_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdatePieceListControls();
+        }
+
+        private void btnAddLinkedPieceID_Click(object sender, EventArgs e)
+        {
+            AddPieceLink();
         }
     }
 }

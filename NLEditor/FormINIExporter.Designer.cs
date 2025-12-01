@@ -39,15 +39,18 @@
             this.NXLVLevelPieces = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.INILinkedPieceID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.picPiecePreview = new System.Windows.Forms.PictureBox();
-            this.btnAddPieceLink = new System.Windows.Forms.Button();
+            this.btnBrowseForPieceLink = new System.Windows.Forms.Button();
+            this.btnAddLinkedPieceID = new System.Windows.Forms.Button();
+            this.numLinkedPieceID = new NLEditor.NumUpDownOverwrite();
             ((System.ComponentModel.ISupportInitialize)(this.picPiecePreview)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numLinkedPieceID)).BeginInit();
             this.SuspendLayout();
             // 
             // btnExport
             // 
             this.btnExport.Location = new System.Drawing.Point(28, 568);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(735, 54);
+            this.btnExport.Size = new System.Drawing.Size(770, 54);
             this.btnExport.TabIndex = 0;
             this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
@@ -67,7 +70,7 @@
             // 
             this.btnAddStyle.Location = new System.Drawing.Point(633, 17);
             this.btnAddStyle.Name = "btnAddStyle";
-            this.btnAddStyle.Size = new System.Drawing.Size(130, 36);
+            this.btnAddStyle.Size = new System.Drawing.Size(130, 40);
             this.btnAddStyle.TabIndex = 2;
             this.btnAddStyle.Text = "Add Style";
             this.btnAddStyle.UseVisualStyleBackColor = true;
@@ -128,28 +131,47 @@
             // 
             // picPiecePreview
             // 
-            this.picPiecePreview.Location = new System.Drawing.Point(555, 187);
+            this.picPiecePreview.Location = new System.Drawing.Point(547, 228);
             this.picPiecePreview.Name = "picPiecePreview";
-            this.picPiecePreview.Size = new System.Drawing.Size(208, 202);
+            this.picPiecePreview.Size = new System.Drawing.Size(251, 243);
             this.picPiecePreview.TabIndex = 7;
             this.picPiecePreview.TabStop = false;
             // 
-            // btnAddPieceLink
+            // btnBrowseForPieceLink
             // 
-            this.btnAddPieceLink.Location = new System.Drawing.Point(555, 117);
-            this.btnAddPieceLink.Name = "btnAddPieceLink";
-            this.btnAddPieceLink.Size = new System.Drawing.Size(208, 53);
-            this.btnAddPieceLink.TabIndex = 8;
-            this.btnAddPieceLink.Text = "Add Piece Link";
-            this.btnAddPieceLink.UseVisualStyleBackColor = true;
-            this.btnAddPieceLink.Click += new System.EventHandler(this.btnAddPieceLink_Click);
+            this.btnBrowseForPieceLink.Location = new System.Drawing.Point(547, 490);
+            this.btnBrowseForPieceLink.Name = "btnBrowseForPieceLink";
+            this.btnBrowseForPieceLink.Size = new System.Drawing.Size(251, 54);
+            this.btnBrowseForPieceLink.TabIndex = 8;
+            this.btnBrowseForPieceLink.Text = "Browse For Linked Piece";
+            this.btnBrowseForPieceLink.UseVisualStyleBackColor = true;
+            this.btnBrowseForPieceLink.Click += new System.EventHandler(this.btnBrowseForPieceLink_Click);
+            // 
+            // btnAddLinkedPieceID
+            // 
+            this.btnAddLinkedPieceID.Location = new System.Drawing.Point(629, 121);
+            this.btnAddLinkedPieceID.Name = "btnAddLinkedPieceID";
+            this.btnAddLinkedPieceID.Size = new System.Drawing.Size(169, 40);
+            this.btnAddLinkedPieceID.TabIndex = 9;
+            this.btnAddLinkedPieceID.Text = "Add Linked Piece ID";
+            this.btnAddLinkedPieceID.UseVisualStyleBackColor = true;
+            this.btnAddLinkedPieceID.Click += new System.EventHandler(this.btnAddLinkedPieceID_Click);
+            // 
+            // numLinkedPieceID
+            // 
+            this.numLinkedPieceID.Location = new System.Drawing.Point(547, 129);
+            this.numLinkedPieceID.Name = "numLinkedPieceID";
+            this.numLinkedPieceID.Size = new System.Drawing.Size(67, 26);
+            this.numLinkedPieceID.TabIndex = 10;
             // 
             // FormINIExporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(788, 634);
-            this.Controls.Add(this.btnAddPieceLink);
+            this.ClientSize = new System.Drawing.Size(810, 634);
+            this.Controls.Add(this.numLinkedPieceID);
+            this.Controls.Add(this.btnAddLinkedPieceID);
+            this.Controls.Add(this.btnBrowseForPieceLink);
             this.Controls.Add(this.picPiecePreview);
             this.Controls.Add(this.listViewPieceLinks);
             this.Controls.Add(this.lblChosenOutputStyle);
@@ -164,6 +186,7 @@
             this.Text = "Export to INI";
             this.Load += new System.EventHandler(this.FormINIExporter_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picPiecePreview)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numLinkedPieceID)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,6 +204,8 @@
         private System.Windows.Forms.ColumnHeader NXLVLevelPieces;
         private System.Windows.Forms.ColumnHeader INILinkedPieceID;
         private System.Windows.Forms.PictureBox picPiecePreview;
-        private System.Windows.Forms.Button btnAddPieceLink;
+        private System.Windows.Forms.Button btnBrowseForPieceLink;
+        private System.Windows.Forms.Button btnAddLinkedPieceID;
+        private NumUpDownOverwrite numLinkedPieceID;
     }
 }
