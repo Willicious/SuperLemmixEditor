@@ -55,6 +55,8 @@ namespace NLEditor
 
         const int BytesPerPixel = 4;
 
+        private static bool _eraserHighlightCached;
+
         private static readonly byte[] COLOR_ERASE = { 0, 0, 0, 0 };
         private static readonly byte[] COLOR_ERASE_SOLID = { 100, 0, 100, 255 };
         private static readonly byte[] COLOR_CLEAR_PHYSICS_LIGHT = { 200, 200, 200, 254 };
@@ -73,13 +75,9 @@ namespace NLEditor
             colorFuncDict[C.CustDrawMode.Custom] = colorFunc;
             doDrawThisPixelDict[C.CustDrawMode.Custom] = (drawTypeFunc != null) ? drawTypeFunc : DoDrawThisPixel_DrawNew;
         }
-
         private static byte[] ColorFunc_Erase(int posX, int posY)
         {
-            if (Properties.Settings.Default.ErasersAreHighlighted)
-                return COLOR_ERASE_SOLID;
-            else
-                return COLOR_ERASE;
+            return _eraserHighlightCached ? COLOR_ERASE_SOLID : COLOR_ERASE;
         }
 
         private static byte[] ColorFunc_ClearPhysics(int posX, int posY)
@@ -339,6 +337,8 @@ namespace NLEditor
             var colorFunc = colorFuncDict[colorSelect];
             var doDrawThisPixel = doDrawThisPixelDict[colorSelect];
 
+            _eraserHighlightCached = Properties.Settings.Default.ErasersAreHighlighted;
+
             if (colorFunc == null)
             {
                 if (colorSelect.In(C.CustDrawMode.DefaultOWW, C.CustDrawMode.NoOverwriteOWW))
@@ -368,6 +368,8 @@ namespace NLEditor
         {
             var colorFunc = colorFuncDict[colorSelect];
             var doDrawThisPixel = doDrawThisPixelDict[colorSelect];
+
+            _eraserHighlightCached = Properties.Settings.Default.ErasersAreHighlighted;
 
             if (colorFunc == null)
             {
