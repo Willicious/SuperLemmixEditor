@@ -41,6 +41,8 @@
             this.picPiecePreview = new System.Windows.Forms.PictureBox();
             this.btnBrowseForPieceLink = new System.Windows.Forms.Button();
             this.btnAddLinkedPieceID = new System.Windows.Forms.Button();
+            this.lblOr = new System.Windows.Forms.Label();
+            this.lblUnlinkedPieces = new System.Windows.Forms.Label();
             this.numLinkedPieceID = new NLEditor.NumUpDownOverwrite();
             ((System.ComponentModel.ISupportInitialize)(this.picPiecePreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLinkedPieceID)).BeginInit();
@@ -48,9 +50,9 @@
             // 
             // btnExport
             // 
-            this.btnExport.Location = new System.Drawing.Point(28, 568);
+            this.btnExport.Location = new System.Drawing.Point(28, 624);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(770, 54);
+            this.btnExport.Size = new System.Drawing.Size(816, 54);
             this.btnExport.TabIndex = 0;
             this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
@@ -62,13 +64,13 @@
             this.comboStyles.FormattingEnabled = true;
             this.comboStyles.Location = new System.Drawing.Point(319, 22);
             this.comboStyles.Name = "comboStyles";
-            this.comboStyles.Size = new System.Drawing.Size(291, 28);
+            this.comboStyles.Size = new System.Drawing.Size(360, 28);
             this.comboStyles.TabIndex = 1;
             this.comboStyles.SelectedIndexChanged += new System.EventHandler(this.comboStyles_SelectedIndexChanged);
             // 
             // btnAddStyle
             // 
-            this.btnAddStyle.Location = new System.Drawing.Point(633, 17);
+            this.btnAddStyle.Location = new System.Drawing.Point(714, 15);
             this.btnAddStyle.Name = "btnAddStyle";
             this.btnAddStyle.Size = new System.Drawing.Size(130, 40);
             this.btnAddStyle.TabIndex = 2;
@@ -113,7 +115,7 @@
             this.listViewPieceLinks.HideSelection = false;
             this.listViewPieceLinks.Location = new System.Drawing.Point(28, 117);
             this.listViewPieceLinks.Name = "listViewPieceLinks";
-            this.listViewPieceLinks.Size = new System.Drawing.Size(498, 426);
+            this.listViewPieceLinks.Size = new System.Drawing.Size(498, 451);
             this.listViewPieceLinks.TabIndex = 6;
             this.listViewPieceLinks.UseCompatibleStateImageBehavior = false;
             this.listViewPieceLinks.View = System.Windows.Forms.View.Details;
@@ -131,17 +133,17 @@
             // 
             // picPiecePreview
             // 
-            this.picPiecePreview.Location = new System.Drawing.Point(547, 228);
+            this.picPiecePreview.Location = new System.Drawing.Point(547, 182);
             this.picPiecePreview.Name = "picPiecePreview";
-            this.picPiecePreview.Size = new System.Drawing.Size(251, 243);
+            this.picPiecePreview.Size = new System.Drawing.Size(297, 318);
             this.picPiecePreview.TabIndex = 7;
             this.picPiecePreview.TabStop = false;
             // 
             // btnBrowseForPieceLink
             // 
-            this.btnBrowseForPieceLink.Location = new System.Drawing.Point(547, 490);
+            this.btnBrowseForPieceLink.Location = new System.Drawing.Point(547, 518);
             this.btnBrowseForPieceLink.Name = "btnBrowseForPieceLink";
-            this.btnBrowseForPieceLink.Size = new System.Drawing.Size(251, 54);
+            this.btnBrowseForPieceLink.Size = new System.Drawing.Size(297, 50);
             this.btnBrowseForPieceLink.TabIndex = 8;
             this.btnBrowseForPieceLink.Text = "Browse For Linked Piece";
             this.btnBrowseForPieceLink.UseVisualStyleBackColor = true;
@@ -149,26 +151,49 @@
             // 
             // btnAddLinkedPieceID
             // 
-            this.btnAddLinkedPieceID.Location = new System.Drawing.Point(629, 121);
+            this.btnAddLinkedPieceID.Location = new System.Drawing.Point(547, 117);
             this.btnAddLinkedPieceID.Name = "btnAddLinkedPieceID";
-            this.btnAddLinkedPieceID.Size = new System.Drawing.Size(169, 40);
+            this.btnAddLinkedPieceID.Size = new System.Drawing.Size(213, 50);
             this.btnAddLinkedPieceID.TabIndex = 9;
-            this.btnAddLinkedPieceID.Text = "Add Linked Piece ID";
+            this.btnAddLinkedPieceID.Text = "Add Linked Piece ID:";
             this.btnAddLinkedPieceID.UseVisualStyleBackColor = true;
             this.btnAddLinkedPieceID.Click += new System.EventHandler(this.btnAddLinkedPieceID_Click);
             // 
+            // lblOr
+            // 
+            this.lblOr.AutoSize = true;
+            this.lblOr.Location = new System.Drawing.Point(685, 25);
+            this.lblOr.Name = "lblOr";
+            this.lblOr.Size = new System.Drawing.Size(23, 20);
+            this.lblOr.TabIndex = 11;
+            this.lblOr.Text = "or";
+            // 
+            // lblUnlinkedPieces
+            // 
+            this.lblUnlinkedPieces.AutoSize = true;
+            this.lblUnlinkedPieces.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblUnlinkedPieces.Location = new System.Drawing.Point(24, 587);
+            this.lblUnlinkedPieces.Name = "lblUnlinkedPieces";
+            this.lblUnlinkedPieces.Size = new System.Drawing.Size(579, 20);
+            this.lblUnlinkedPieces.TabIndex = 12;
+            this.lblUnlinkedPieces.Text = "Some pieces are unlinked. For best results, please link all pieces before exporti" +
+    "ng";
+            this.lblUnlinkedPieces.Visible = false;
+            // 
             // numLinkedPieceID
             // 
-            this.numLinkedPieceID.Location = new System.Drawing.Point(547, 129);
+            this.numLinkedPieceID.Location = new System.Drawing.Point(766, 130);
             this.numLinkedPieceID.Name = "numLinkedPieceID";
-            this.numLinkedPieceID.Size = new System.Drawing.Size(67, 26);
+            this.numLinkedPieceID.Size = new System.Drawing.Size(78, 26);
             this.numLinkedPieceID.TabIndex = 10;
             // 
             // FormINIExporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(810, 634);
+            this.ClientSize = new System.Drawing.Size(856, 693);
+            this.Controls.Add(this.lblUnlinkedPieces);
+            this.Controls.Add(this.lblOr);
             this.Controls.Add(this.numLinkedPieceID);
             this.Controls.Add(this.btnAddLinkedPieceID);
             this.Controls.Add(this.btnBrowseForPieceLink);
@@ -180,6 +205,7 @@
             this.Controls.Add(this.btnAddStyle);
             this.Controls.Add(this.comboStyles);
             this.Controls.Add(this.btnExport);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormINIExporter";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -207,5 +233,7 @@
         private System.Windows.Forms.Button btnBrowseForPieceLink;
         private System.Windows.Forms.Button btnAddLinkedPieceID;
         private NumUpDownOverwrite numLinkedPieceID;
+        private System.Windows.Forms.Label lblOr;
+        private System.Windows.Forms.Label lblUnlinkedPieces;
     }
 }

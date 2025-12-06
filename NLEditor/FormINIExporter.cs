@@ -1,11 +1,11 @@
-﻿using Microsoft.SqlServer.Server;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using static NLEditor.C;
 
@@ -19,6 +19,18 @@ namespace NLEditor
         {
             InitializeComponent();
             this.curLevel = level;
+            comboStyles.DisplayMember = "Name";
+
+        }
+
+        private Dictionary<string, INIStyleInfo> LoadedStyles = new Dictionary<string, INIStyleInfo>();
+
+        private class INIStyleInfo
+        {
+            public string Name { get; set; }
+            public string FolderPath { get; set; }
+
+            public override string ToString() => Name;
         }
 
         // ───────────────────────────────────────────────
@@ -125,8 +137,8 @@ namespace NLEditor
             sb.AppendLine("# ---------------------------------------");
             sb.AppendLine();
             sb.AppendLine("# Level stats");
-            sb.AppendLine($"name = {Escape(ini.Name)}");
-            sb.AppendLine($"author = {Escape(ini.Author)}");
+            sb.AppendLine($"name = {GetSafeString(ini.Name)}");
+            sb.AppendLine($"author = {GetSafeString(ini.Author)}");
             sb.AppendLine($"releaseRate = {ini.ReleaseRate}");
             sb.AppendLine($"numLemmings = {ini.NumLemmings}");
             sb.AppendLine($"numToRescue = {ini.NumToRescue}");
@@ -175,7 +187,10 @@ namespace NLEditor
             File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
         }
 
-        private string Escape(string text)
+        /// <summary>
+        /// A helper method to generate INI-safe strings for level title and author
+        /// </summary>
+        private string GetSafeString(string text)
         {
             if (string.IsNullOrEmpty(text))
                 return "";
@@ -187,9 +202,139 @@ namespace NLEditor
             return text;
         }
 
-        private (List<string> terrainLines,
-                 List<string> objectLines,
-                 List<string> unlinkedPieces) GetPieceLinks(Level level, string selectedStyle)
+        /// <summary>
+        /// Returns the number of fully transparent pixels on each side of the image.
+        /// </summary>
+        public static (int left, int right, int top, int bottom) GetBlankEdges(Bitmap img)
+        {
+            int width = img.Width;
+            int height = img.Height;
+
+            int left = 0;
+            int right = 0;
+            int top = 0;
+            int bottom = 0;
+
+            // Left
+            for (int x = 0; x < width; x++)
+            {
+                bool isBlank = true;
+                for (int y = 0; y < height; y++)
+                {
+                    if (img.GetPixel(x, y).A != 0)
+                    {
+                        isBlank = false;
+                        break;
+                    }
+                }
+                if (!isBlank) break;
+                left++;
+            }
+
+            // Right
+            for (int x = width - 1; x >= 0; x--)
+            {
+                bool isBlank = true;
+                for (int y = 0; y < height; y++)
+                {
+                    if (img.GetPixel(x, y).A != 0)
+                    {
+                        isBlank = false;
+                        break;
+                    }
+                }
+                if (!isBlank) break;
+                right++;
+            }
+
+            // Top
+            for (int y = 0; y < height; y++)
+            {
+                bool isBlank = true;
+                for (int x = 0; x < width; x++)
+                {
+                    if (img.GetPixel(x, y).A != 0)
+                    {
+                        isBlank = false;
+                        break;
+                    }
+                }
+                if (!isBlank) break;
+                top++;
+            }
+
+            // Bottom
+            for (int y = height - 1; y >= 0; y--)
+            {
+                bool isBlank = true;
+                for (int x = 0; x < width; x++)
+                {
+                    if (img.GetPixel(x, y).A != 0)
+                    {
+                        isBlank = false;
+                        break;
+                    }
+                }
+                if (!isBlank) break;
+                bottom++;
+            }
+
+            return (left, right, top, bottom);
+        }
+
+        /// <summary>
+        /// Computes transparency offsets to align pieces between .nxlv and .ini
+        /// </summary>
+        public static (int xo, int yo, int xio, int yio) ComputeOffsets(
+            (int left, int right, int top, int bottom) nxlvEdges,
+            (int left, int right, int top, int bottom) iniEdges,
+            int scale = 2)
+        {
+            int xo = nxlvEdges.left * scale - iniEdges.left;
+            int yo = nxlvEdges.top * scale - iniEdges.top;
+            int xio = nxlvEdges.right * scale - iniEdges.right;
+            int yio = nxlvEdges.bottom * scale - iniEdges.bottom;
+
+            return (xo, yo, xio, yio);
+        }
+
+        public static void AnalyzePieceOffsets(string styleName,
+                                               string nxlvPiecePath,
+                                               int iniId,
+                                               string iniFolder,
+                                               string translationTablePath)
+        {
+            if (!File.Exists(nxlvPiecePath))
+                throw new FileNotFoundException("NXLV piece not found", nxlvPiecePath);
+
+            string iniPiecePath = Path.Combine(iniFolder, $"{iniId}.png");
+            if (!File.Exists(iniPiecePath))
+                throw new FileNotFoundException("INI piece not found", iniPiecePath);
+
+            using (var nxlvImg = new Bitmap(nxlvPiecePath))
+            using (var iniImg = new Bitmap(iniPiecePath))
+            {
+                var nxlvEdges = GetBlankEdges(nxlvImg);
+                var iniEdges = GetBlankEdges(iniImg);
+
+                var offsets = ComputeOffsets(nxlvEdges, iniEdges);
+
+                string pieceKey = Path.GetFileNameWithoutExtension(nxlvPiecePath);
+
+                // Format line
+                string line = string.Format("{0}\\{1}:{2},xo{3},yo{4},xio{5},yio{6}",
+                    styleName, pieceKey, iniId, offsets.xo, offsets.yo, offsets.xio, offsets.yio);
+
+                // Append to translation table file
+                File.AppendAllLines(translationTablePath, new[] { line });
+            }
+        }
+
+        /// <summary>
+        /// Gets piece links between .nxlv style and corresponding .ini style,
+        /// applying precomputed offsets from the translation table.
+        private (List<string> terrainLines, List<string> objectLines, List<string> unlinkedPieces)
+                GetPieceLinks(Level level, string selectedStyle)
         {
             var pieceLinks = LoadStylePieceLinks(selectedStyle);
 
@@ -205,17 +350,15 @@ namespace NLEditor
             {
                 string key = terrain.Key;
 
-                // Build terrain line for INI
                 if (pieceLinks.TryGetValue(key, out int iniId))
                 {
-                    // Format: terrain_0 = ID, X, Y, modifier
+                    var offsets = GetPieceOffsets(selectedStyle, key);
+
+                    int x = terrain.PosX * 2 - offsets.xo;
+                    int y = terrain.PosY * 2 - offsets.yo;
+
                     int modifier = 0; // TODO: set based on flags like ONE_WAY, INVISIBLE, etc.
-                    string line = 
-                        $"terrain_{terrainIndex} = {iniId}," +
-                        $"{terrain.PosX * 2}," +
-                        $"{terrain.PosY * 2}," +
-                        $"{modifier}";
-                    terrainLines.Add(line);
+                    terrainLines.Add($"terrain_{terrainIndex} = {iniId},{x},{y},{modifier}");
                     terrainIndex++;
                 }
                 else
@@ -229,20 +372,18 @@ namespace NLEditor
             {
                 string key = gadget.Key;
 
-                // Build object line for INI
                 if (pieceLinks.TryGetValue(key, out int iniId))
                 {
-                    // Format: object_0 = ID, X, Y, paintMode, flags, optionalModifier
-                    int paintMode = 4; // TODO: set based on gadget properties - default = don't overwrite
-                    int flags = 0;     // TODO: set based on gadget properties - flags
-                    int optional = 0;  // TODO: set based on gadget properties - optional modifier
-                    string line =
-                        $"object_{objectIndex} = {iniId}," +
-                        $"{gadget.PosX * 2}, {gadget.PosY * 2}," +
-                        $"{paintMode}," +
-                        $"{flags}," +
-                        $"{optional}";
-                    objectLines.Add(line);
+                    var offsets = GetPieceOffsets(selectedStyle, key);
+
+                    int x = gadget.PosX * 2 - offsets.xo;
+                    int y = gadget.PosY * 2 - offsets.yo;
+
+                    int paintMode = 4; // default = don't overwrite
+                    int flags = 0;     // TODO: set based on gadget properties
+                    int optional = 0;  // optional modifier
+
+                    objectLines.Add($"object_{objectIndex} = {iniId},{x},{y},{paintMode},{flags},{optional}");
                     objectIndex++;
                 }
                 else
@@ -254,21 +395,79 @@ namespace NLEditor
             return (terrainLines, objectLines, unlinkedPieces);
         }
 
+
+        private (int xo, int yo, int xio, int yio) GetPieceOffsets(string styleName, string pieceKey)
+        {
+            if (!File.Exists(AppPathTranslationTables))
+                return (0, 0, 0, 0);
+
+            var lines = File.ReadAllLines(AppPathTranslationTables);
+            bool inSection = false;
+
+            foreach (var rawLine in lines)
+            {
+                string line = rawLine.Trim();
+                if (string.IsNullOrEmpty(line)) continue;
+
+                if (line.StartsWith("[") && line.EndsWith("]"))
+                {
+                    inSection = line.Substring(1, line.Length - 2)
+                                  .Equals(styleName, StringComparison.OrdinalIgnoreCase);
+                    continue;
+                }
+
+                if (inSection && (line.StartsWith(pieceKey + ",", StringComparison.OrdinalIgnoreCase) ||
+                                  line.StartsWith(pieceKey + ":", StringComparison.OrdinalIgnoreCase)))
+                {
+                    var match = Regex.Match(line, @"\((?:xo(-?\d+),yo(-?\d+),xio(-?\d+),yio(-?\d+))\)");
+                    if (match.Success)
+                    {
+                        return (
+                            int.Parse(match.Groups[1].Value),
+                            int.Parse(match.Groups[2].Value),
+                            int.Parse(match.Groups[3].Value),
+                            int.Parse(match.Groups[4].Value)
+                        );
+                    }
+                }
+            }
+
+            return (0, 0, 0, 0);
+        }
+
         private void ExportLevel()
         {
             try
             {
+                // Ensure a style is selected
                 if (comboStyles.SelectedItem == null || comboStyles.SelectedIndex == 0)
                 {
                     MessageBox.Show("Please select a style before exporting.", "No Style Selected",
                                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
                 string selectedStyle = comboStyles.SelectedItem.ToString();
 
+                // Convert level to INI structure
                 IniLevel ini = ConvertToIni(curLevel, selectedStyle);
-                GetPieceLinks(curLevel, selectedStyle);
 
+                // Get terrain/object lines with offsets applied
+                var (terrainLines, objectLines, unlinkedPieces) = GetPieceLinks(curLevel, selectedStyle);
+
+                // Warn if some pieces are unlinked
+                if (unlinkedPieces.Count > 0)
+                {
+                    MessageBox.Show(
+                        $"Warning: Some pieces are not linked to a corresponding piece in '{selectedStyle}':\n\n" +
+                        string.Join(Environment.NewLine, unlinkedPieces) + "\n\n" +
+                        "Please ensure these pieces are linked in SLXEditorINITranslationTables.ini",
+                        "Unlinked Pieces",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+
+                // Prompt for export location
                 using (SaveFileDialog saveDialog = new SaveFileDialog())
                 {
                     saveDialog.InitialDirectory = AppPathLevels;
@@ -278,36 +477,21 @@ namespace NLEditor
 
                     if (saveDialog.ShowDialog() == DialogResult.OK)
                     {
-                        var (terrainLines, objectLines, unlinkedPieces) = GetPieceLinks(curLevel, selectedStyle);
-
-                        // Warn user if any pieces are missing
-                        if (unlinkedPieces.Count > 0)
-                        {
-                            MessageBox.Show(
-                                $"Warning: Some pieces are not linked to a corresponding piece in '{selectedStyle}':\n\n" +
-                                string.Join(Environment.NewLine, unlinkedPieces) + "\n\n" +
-                                "Please ensure these pieces are linked in SLXEditorINITranslationTables.ini",
-                                "Unlinked Pieces",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
-                        }
-
-                        // Pass these lists to WriteIniFile
                         WriteIniFile(ini, saveDialog.FileName, terrainLines, objectLines);
 
                         MessageBox.Show($"Level exported successfully!\n\n{saveDialog.FileName}",
-                            "Export Complete",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
+                                        "Export Complete",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
                     }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error exporting level: {ex.Message}",
-                    "Export Failed",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                                "Export Failed",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
             }
         }
 
@@ -324,48 +508,52 @@ namespace NLEditor
             if (string.IsNullOrWhiteSpace(newStyle))
                 return;
 
-            newStyle = newStyle.Trim();
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                fbd.Description = $"Select folder containing .ini style pieces for {newStyle.Trim()}";
+                if (fbd.ShowDialog() != DialogResult.OK)
+                    return;
 
-            var lines = File.ReadAllLines(AppPathTranslationTables).ToList();
+                var styleInfo = new INIStyleInfo { Name = newStyle.Trim(), FolderPath = fbd.SelectedPath };
 
-            // Find index of [Styles] section
+                // Add to combo and select
+                comboStyles.Items.Add(styleInfo);
+                comboStyles.SelectedItem = styleInfo;
+
+                // Also add to translation table if necessary
+                AddStyleToTranslationTable(styleInfo.Name);
+            }
+        }
+
+        private void AddStyleToTranslationTable(string styleName)
+        {
+            // Ensure the file exists
+            List<string> lines = File.Exists(AppPathTranslationTables)
+                ? File.ReadAllLines(AppPathTranslationTables).ToList()
+                : new List<string> { "[Styles]" };
+
+            // Find [Styles] section
             int stylesIndex = lines.FindIndex(l => l.Trim().Equals("[Styles]", StringComparison.OrdinalIgnoreCase));
 
             if (stylesIndex == -1)
             {
-                // If header missing, add it at the top
+                // Add [Styles] header if missing
                 lines.Insert(0, "[Styles]");
                 stylesIndex = 0;
             }
 
-            // Check if style already exists
+            // Check if the style already exists
             bool exists = lines.Skip(stylesIndex + 1)
-                               .Any(l => l.Trim().Equals(newStyle, StringComparison.OrdinalIgnoreCase));
+                               .Any(l => l.Trim().Equals(styleName, StringComparison.OrdinalIgnoreCase));
 
-            if (exists)
+            if (!exists)
             {
-                MessageBox.Show("Style already exists in the translation table.", "Duplicate Style",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                // Insert style after the [Styles] header
+                lines.Insert(stylesIndex + 1, styleName);
+                File.WriteAllLines(AppPathTranslationTables, lines);
             }
-
-            // Insert new style into the list alphabetically
-            var existingStyles = lines.Skip(stylesIndex + 1)
-                                      .Where(l => !string.IsNullOrWhiteSpace(l))
-                                      .Select(l => l.Trim())
-                                      .ToList();
-            existingStyles.Add(newStyle);
-            existingStyles.Sort(StringComparer.OrdinalIgnoreCase);
-            var newLines = lines.Take(stylesIndex + 1).ToList();
-            newLines.AddRange(existingStyles);
-
-            // Update the translation table .ini
-            File.WriteAllLines(AppPathTranslationTables, newLines);
-
-            // Update the combo
-            comboStyles.Items.Add(newStyle);
-            comboStyles.SelectedItem = newStyle;
         }
+
 
         private List<string> LoadTranslationStyles()
         {
@@ -450,9 +638,14 @@ namespace NLEditor
                 if (inSection)
                 {
                     var parts = line.Split(':');
-                    if (parts.Length == 2 && int.TryParse(parts[1], out int iniId))
+                    if (parts.Length == 2)
                     {
-                        links[parts[0].Trim()] = iniId;
+                        var iniPart = parts[1].Trim();
+                        var iniIdString = iniPart.Split('(')[0];
+                        if (int.TryParse(iniIdString, out int id))
+                        {
+                            links[parts[0].Trim()] = id;
+                        }
                     }
                 }
             }
@@ -524,114 +717,124 @@ namespace NLEditor
             }
         }
 
-        private void AddPieceLink()
+        private void LinkPiece(string pieceKey, string styleName, int iniId, string pieceFolder = null, string iniPiecePath = null)
         {
-            int id = Decimal.ToInt32(numLinkedPieceID.Value);
-
-            if (listViewPieceLinks.SelectedItems.Count == 0)
+            if (string.IsNullOrEmpty(pieceKey) || string.IsNullOrEmpty(styleName))
                 return;
 
-            var selectedItem = listViewPieceLinks.SelectedItems[0];
-            string pieceKey = selectedItem.Tag as string;
-
-            if (string.IsNullOrEmpty(pieceKey))
-                return;
-
-            string selectedStyle = comboStyles.SelectedItem.ToString();
-
-            // Save to translation table using the internal piece key
-            UpdatePieceLink(selectedStyle, pieceKey, id);
-
-            // Update list view and move to the next unlinked piece
-            selectedItem.SubItems[1].Text = id.ToString();
-            SelectNextUnlinkedPiece(selectedItem.Index);
-        }
-
-        private void BrowseForPieceLink()
-        {
-            if (listViewPieceLinks.SelectedItems.Count == 0)
-                return;
-
-            var selectedItem = listViewPieceLinks.SelectedItems[0];
-            string pieceKey = selectedItem.Tag as string;
-
-            if (string.IsNullOrEmpty(pieceKey))
-                return;
-
-            using (OpenFileDialog ofd = new OpenFileDialog())
+            if (!LoadedStyles.TryGetValue(styleName, out var styleInfo) || string.IsNullOrEmpty(styleInfo.FolderPath))
             {
-                ofd.Title = "Select corresponding .ini piece file";
-                ofd.Filter = "Image files|*.png;*.jpg;*.bmp|All files|*.*";
-
-                if (ofd.ShowDialog() == DialogResult.OK)
+                if (!string.IsNullOrEmpty(pieceFolder))
                 {
-                    string filename = Path.GetFileNameWithoutExtension(ofd.FileName);
-
-                    int id = -1;
-                    var match = System.Text.RegularExpressions.Regex.Match(filename, @"\d+");
-                    if (match.Success)
-                        id = int.Parse(match.Value);
-
-                    if (id == -1)
+                    styleInfo = new INIStyleInfo
                     {
-                        MessageBox.Show(
-                            "Could not determine ID from filename. Please ensure the filename contains the ID.",
-                            "Invalid File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    if (comboStyles.SelectedItem == null)
-                    {
-                        MessageBox.Show(
-                            "Please select a style before adding a piece link.",
-                            "No Style Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    string selectedStyle = comboStyles.SelectedItem.ToString();
-
-                    // Save to translation table using the internal piece key
-                    UpdatePieceLink(selectedStyle, pieceKey, id);
-
-                    // Update list view and move to the next unlinked piece
-                    selectedItem.SubItems[1].Text = id.ToString();
-                    SelectNextUnlinkedPiece(selectedItem.Index);
+                        Name = styleName,
+                        FolderPath = pieceFolder
+                    };
+                    LoadedStyles[styleName] = styleInfo;
                 }
+                else
+                {
+                    using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+                    {
+                        fbd.Description = $"Select folder containing .ini pieces for style '{styleName}'";
+                        if (fbd.ShowDialog() != DialogResult.OK)
+                            return;
+
+                        styleInfo = new INIStyleInfo
+                        {
+                            Name = styleName,
+                            FolderPath = fbd.SelectedPath
+                        };
+                        LoadedStyles[styleName] = styleInfo;
+                    }
+                }
+            }
+
+            UpdatePieceLink(styleName, pieceKey, iniId, styleInfo.FolderPath);
+            UpdateUnlinkedPieceLabel();
+
+            if (listViewPieceLinks.SelectedItems.Count > 0)
+            {
+                var selectedItem = listViewPieceLinks.SelectedItems[0];
+                selectedItem.SubItems[1].Text = iniId.ToString();
+
+                SelectNextUnlinkedPiece(selectedItem.Index);
             }
         }
 
-        private void UpdatePieceLink(string styleName, string pieceKey, int iniId)
+        private string ResolveIniPiecePath(string styleName, string iniFolder, int iniId, bool isGadget)
         {
+            string baseName = styleName.ToLowerInvariant();
+            var candidates = isGadget
+                ? new[] { Path.Combine(iniFolder, $"{baseName}o_{iniId}.png") }
+                : new[] { Path.Combine(iniFolder, $"{baseName}_{iniId}.png") };
+
+            return candidates.FirstOrDefault(File.Exists);
+        }
+
+        private void UpdatePieceLink(string styleName, string pieceKey, int iniId, string iniFolder)
+        {
+            if (string.IsNullOrEmpty(iniFolder))
+                throw new ArgumentException("INI folder path must be specified.", nameof(iniFolder));
+
             List<string> lines = File.Exists(AppPathTranslationTables)
                 ? File.ReadAllLines(AppPathTranslationTables).ToList()
                 : new List<string> { "[Styles]" };
 
+            // Locate or create style section
             int sectionIndex = lines.FindIndex(l => l.Trim().Equals($"[{styleName}]", StringComparison.OrdinalIgnoreCase));
-
             if (sectionIndex == -1)
             {
-                // Add new style section if it doesn't exist
                 lines.Add("");
                 lines.Add($"[{styleName}]");
                 sectionIndex = lines.Count - 1;
             }
 
-            // Check if the piece is already defined
+            int xo = 0, yo = 0, xio = 0, yio = 0;
+
+            try
+            {
+                bool isGadget = pieceKey.IndexOf($"{styleName}\\objects\\", StringComparison.OrdinalIgnoreCase) >= 0;
+                string iniPiecePath = ResolveIniPiecePath(styleName, iniFolder, iniId, isGadget);
+                string nxlvPath = Path.Combine(AppPathPieces, pieceKey + ".png");
+
+                if (!string.IsNullOrEmpty(iniPiecePath) && File.Exists(nxlvPath) && File.Exists(iniPiecePath))
+                {
+                    using (var nxlvImg = new Bitmap(nxlvPath))
+                    using (var iniImg = new Bitmap(iniPiecePath))
+                    {
+                        var nxlvEdges = GetBlankEdges(nxlvImg);
+                        var iniEdges = GetBlankEdges(iniImg);
+                        var offsets = ComputeOffsets(nxlvEdges, iniEdges);
+                        xo = offsets.xo;
+                        yo = offsets.yo;
+                        xio = offsets.xio;
+                        yio = offsets.yio;
+                    }
+                }
+            }
+            catch
+            {
+                // Ignore errors in offset calculation
+            }
+
+            // Format for translation table: pieceKey:iniId(xo#,yo#,xio#,yio#)
+            string newLine = $"{pieceKey}:{iniId}(xo{xo},yo{yo},xio{xio},yio{yio})";
+
+            // Replace existing or insert
             int pieceIndex = -1;
             for (int i = sectionIndex + 1; i < lines.Count; i++)
             {
                 string line = lines[i].Trim();
-                if (line.StartsWith("[") && line.EndsWith("]"))
-                    break;
-
-                if (line.StartsWith(pieceKey + ":", StringComparison.OrdinalIgnoreCase))
+                if (line.StartsWith("[") && line.EndsWith("]")) break;
+                if (line.StartsWith(pieceKey + ",", StringComparison.OrdinalIgnoreCase) ||
+                    line.StartsWith(pieceKey + ":", StringComparison.OrdinalIgnoreCase))
                 {
                     pieceIndex = i;
                     break;
                 }
             }
-
-            string newLine = $"{pieceKey}:{iniId}";
 
             if (pieceIndex >= 0)
                 lines[pieceIndex] = newLine;
@@ -640,6 +843,57 @@ namespace NLEditor
 
             File.WriteAllLines(AppPathTranslationTables, lines);
         }
+
+        private void AddPieceLink()
+        {
+            if (listViewPieceLinks.SelectedItems.Count == 0) return;
+
+            var selectedItem = listViewPieceLinks.SelectedItems[0];
+            string pieceKey = selectedItem.Tag as string;
+            if (string.IsNullOrEmpty(pieceKey)) return;
+
+            if (comboStyles.SelectedItem == null) return;
+            string styleName = comboStyles.SelectedItem.ToString();
+            int iniId = Decimal.ToInt32(numLinkedPieceID.Value);
+
+            LinkPiece(pieceKey, styleName, iniId);
+        }
+
+        private void BrowseForPieceLink()
+        {
+            if (listViewPieceLinks.SelectedItems.Count == 0) return;
+
+            var selectedItem = listViewPieceLinks.SelectedItems[0];
+            string pieceKey = selectedItem.Tag as string;
+            if (string.IsNullOrEmpty(pieceKey)) return;
+
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Title = "Select corresponding .ini piece file";
+                ofd.Filter = "Image files|*.png;*.jpg;*.bmp|All files|*.*";
+
+                if (ofd.ShowDialog() != DialogResult.OK) return;
+
+                string filename = Path.GetFileNameWithoutExtension(ofd.FileName);
+                var match = System.Text.RegularExpressions.Regex.Match(filename, @"\d+");
+                if (!match.Success)
+                {
+                    MessageBox.Show("Could not determine ID from filename.", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                int iniId = int.Parse(match.Value);
+
+                if (comboStyles.SelectedItem == null) return;
+                string styleName = comboStyles.SelectedItem.ToString();
+
+                string pieceFolder = Path.GetDirectoryName(ofd.FileName);
+                string iniPiecePath = ofd.FileName;
+                LinkPiece(pieceKey, styleName, iniId, pieceFolder, iniPiecePath);
+            }
+        }
+
 
         private void UpdateControls()
         {
@@ -652,7 +906,6 @@ namespace NLEditor
                 lblChosenOutputStyle.ForeColor = Color.ForestGreen;
                 btnExport.Enabled = true;
                 PopulatePieceListView(comboStyles.SelectedItem.ToString());
-                UpdatePieceListControls();
             }
             else
             {
@@ -660,8 +913,10 @@ namespace NLEditor
                 lblChosenOutputStyle.ForeColor = Color.DarkRed;
                 btnExport.Enabled = false;
                 listViewPieceLinks.Items.Clear();
-                UpdatePieceListControls();
             }
+
+            UpdatePieceListControls();
+            UpdateUnlinkedPieceLabel();
         }
 
         private void UpdatePieceListControls()
@@ -683,8 +938,44 @@ namespace NLEditor
             }
         }
 
+        private void UpdateUnlinkedPieceLabel()
+        {
+            if (listViewPieceLinks.Items.Count == 0)
+            {
+                lblUnlinkedPieces.Visible = false;
+                return;
+            }
+
+            int unlinkedPieces = 0;
+
+            foreach (ListViewItem item in listViewPieceLinks.Items)
+            {
+                string idText = item.SubItems[1].Text;
+                if (string.IsNullOrWhiteSpace(idText) || idText == "Not yet linked")
+                {
+                    unlinkedPieces++;
+                }
+            }
+
+            if (unlinkedPieces > 0)
+            {
+                string text = unlinkedPieces == 1 ? "1 piece is" : $"{unlinkedPieces} pieces are";
+                lblUnlinkedPieces.Text = text + " unlinked. For best results, please link all pieces before exporting";
+                lblUnlinkedPieces.ForeColor = Color.DarkRed;
+                lblUnlinkedPieces.Visible = true;
+            }
+            else
+            {
+                lblUnlinkedPieces.Text = "All pieces are linked! The level can now be fully exported";
+                lblUnlinkedPieces.ForeColor = Color.ForestGreen;
+                lblUnlinkedPieces.Visible = true;
+            }
+        }
+
         public void PreviewPiece(string pieceKey, PictureBox piecePreview)
         {
+            picPiecePreview.Image?.Dispose();
+
             if (string.IsNullOrEmpty(pieceKey))
             {
                 piecePreview.Image = null;
@@ -780,11 +1071,6 @@ namespace NLEditor
             UpdateControls();
         }
 
-        private void btnBrowseForPieceLink_Click(object sender, EventArgs e)
-        {
-            BrowseForPieceLink();
-        }
-
         private void listViewPieceLinks_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdatePieceListControls();
@@ -793,6 +1079,11 @@ namespace NLEditor
         private void btnAddLinkedPieceID_Click(object sender, EventArgs e)
         {
             AddPieceLink();
+        }
+
+        private void btnBrowseForPieceLink_Click(object sender, EventArgs e)
+        {
+            BrowseForPieceLink();
         }
     }
 }
@@ -812,7 +1103,6 @@ namespace NLEditor
 // > steel_n++ = 2n (X position of terrain piece), 2n (Y position of terrain piece),
 // 2n (width of terrain piece without empty pixels), 2n (height, same), 0 (no flags)
 
-// TODO - we need to calculate x and y offsets based on transparent margins
-// (including for flipped/inverted pieces)
-// This will require analyzing each image and updating the translation table accordingly
-// For safety, we'll perform this every time we run the exporter (in case images have been updated)
+// TODO
+// Ensure correct xo, yo, xio and yio are being used (i.e. for flipped/inverted pieces)
+// Double-check transparency offset values every session (in case images have changed)
