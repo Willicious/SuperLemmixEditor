@@ -138,7 +138,7 @@ namespace NLEditor
         // ───────────────────────────────────────────────
         // WRITER: Outputs a RetroLemmini-compatible .ini file
         // ───────────────────────────────────────────────
-        private void WriteIniFile(IniLevel ini, string filePath, List<string> terrainLines, List<string> objectLines)
+        private void WriteIniFile(IniLevel ini, string filePath, List<string> objectLines, List<string> terrainLines, List<string> steelLines)
         {
             var sb = new StringBuilder();
 
@@ -196,6 +196,13 @@ namespace NLEditor
                 sb.AppendLine(line);
 
             sb.AppendLine();
+
+            // Add steel
+            sb.AppendLine("# Steel");
+            sb.AppendLine("# X position, Y position, width, height, flags (optional)");
+            sb.AppendLine("# Flags: 1 = remove existing steel");
+            foreach (var line in steelLines)
+                sb.AppendLine(line);
 
             // Write all to .ini
             File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
@@ -368,8 +375,8 @@ namespace NLEditor
                 {
                     var offsets = GetPieceOffsets(selectedStyle, key);
 
-                    int x = terrain.PosX * 2 - offsets.xo;
-                    int y = terrain.PosY * 2 - offsets.yo;
+                    int x = terrain.PosX * 2 - offsets.xo; // TODO - check for flipped/rotated/inverted
+                    int y = terrain.PosY * 2 - offsets.yo; // TODO - ditto
 
                     int modifier = 0; // TODO: set based on flags like ONE_WAY, INVISIBLE, etc.
                     terrainLines.Add($"terrain_{terrainIndex} = {iniId},{x},{y},{modifier}");
@@ -390,8 +397,8 @@ namespace NLEditor
                 {
                     var offsets = GetPieceOffsets(selectedStyle, key);
 
-                    int x = gadget.PosX * 2 - offsets.xo;
-                    int y = gadget.PosY * 2 - offsets.yo;
+                    int x = gadget.PosX * 2 - offsets.xo; // TODO - check for flipped/rotated/inverted
+                    int y = gadget.PosY * 2 - offsets.yo; // ditto
 
                     int paintMode = 4; // default = don't overwrite
                     int flags = 0;     // TODO: set based on gadget properties
@@ -449,6 +456,32 @@ namespace NLEditor
             return (0, 0, 0, 0);
         }
 
+        private List<string> GetSteelLines(Level level, string selectedStyle)
+        {
+            var steelLines = new List<string>();
+            int steelIndex = 0;
+
+            foreach (var terrain in level.TerrainList)
+            {
+                string key = terrain.Key;
+
+                if (terrain.IsSteel)
+                {
+                    var offsets = GetPieceOffsets(selectedStyle, key);
+
+                    int x = terrain.PosX * 2 - offsets.xo; // TODO - check for flipped/rotated/inverted
+                    int y = terrain.PosY * 2 - offsets.yo; // TODO - ditto
+                    int width = terrain.Width * 2;
+                    int height = terrain.Height * 2;
+
+                    steelLines.Add($"steel_{steelIndex} = {x},{y},{width},{height}");
+                    steelIndex++;
+                }
+            }
+
+            return steelLines;
+        }
+
         private void ExportLevel()
         {
             try
@@ -468,6 +501,9 @@ namespace NLEditor
 
                 // Get terrain/object lines with offsets applied
                 var (terrainLines, objectLines, unlinkedPieces) = GetPieceLinks(curLevel, selectedStyle);
+
+                // Get steel lines
+                var steelLines = GetSteelLines(curLevel, selectedStyle);
 
                 // Warn if some pieces are unlinked
                 if (unlinkedPieces.Count > 0)
@@ -491,7 +527,7 @@ namespace NLEditor
 
                     if (saveDialog.ShowDialog() == DialogResult.OK)
                     {
-                        WriteIniFile(ini, saveDialog.FileName, terrainLines, objectLines);
+                        WriteIniFile(ini, saveDialog.FileName, objectLines, terrainLines, steelLines);
 
                         MessageBox.Show($"Level exported successfully!\n\n{saveDialog.FileName}",
                                         "Export Complete",
@@ -1101,15 +1137,6 @@ namespace NLEditor
         }
     }
 }
-// TODO:
-// Print:
-// # Steel
-// # X position, Y position, width, height, flags (optional)
-// # Flags: 1 = remove existing steel
-// Here, we need the translation table to mark steel terrain pieces as steel
-// Then, for each steel piece, we print the following:
-// > steel_n++ = 2n (X position of terrain piece), 2n (Y position of terrain piece),
-// 2n (width of terrain piece without empty pixels), 2n (height, same), 0 (no flags)
 
 // TODO
 // Ensure correct xo, yo, xio and yio are being used (i.e. for flipped/inverted pieces)
