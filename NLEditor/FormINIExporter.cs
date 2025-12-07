@@ -131,10 +131,9 @@ namespace NLEditor
             var sb = new StringBuilder();
 
             // Add level stats
-            sb.AppendLine("# ---------------------------------------");
-            sb.AppendLine("# RetroLemmini Level");
+            sb.AppendLine($"# LVL {Path.GetFileName(filePath)}");
             sb.AppendLine($"# Exported from SuperLemmix Editor Version {C.Version}");
-            sb.AppendLine("# ---------------------------------------");
+            sb.AppendLine("# RetroLemmini Level");
             sb.AppendLine();
             sb.AppendLine("# Level stats");
             sb.AppendLine($"name = {GetSafeString(ini.Name)}");
