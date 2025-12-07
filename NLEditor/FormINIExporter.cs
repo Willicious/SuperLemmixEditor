@@ -38,6 +38,8 @@ namespace NLEditor
         // ───────────────────────────────────────────────
         private class IniLevel
         {
+            public string ID { get; set; }
+            public string Version { get; set; }
             public string Name { get; set; }
             public string Author { get; set; }
             public int ReleaseRate { get; set; }
@@ -71,6 +73,10 @@ namespace NLEditor
         private IniLevel ConvertToIni(Level level, string selectedStyle)
         {
             var ini = new IniLevel();
+
+            // NXLV ID and Version (for reference)
+            ini.ID = level.LevelID.ToString("X16");
+            ini.Version = level.LevelVersion.ToString();
 
             // Title & Author
             ini.Name = level.Title;
@@ -133,6 +139,7 @@ namespace NLEditor
             // Add level stats
             sb.AppendLine($"# LVL {Path.GetFileName(filePath)}");
             sb.AppendLine($"# Exported from SuperLemmix Editor Version {C.Version}");
+            sb.AppendLine($"# Original .nxlv ID {ini.ID} Version {ini.Version}");
             sb.AppendLine("# RetroLemmini Level");
             sb.AppendLine();
             sb.AppendLine("# Level stats");
@@ -1087,8 +1094,6 @@ namespace NLEditor
     }
 }
 // TODO:
-// ID 000 > # NXLV ID 000 (reference only)
-// VERSION 000 > # NXLV VERSION 000 (reference only)
 // SUPERLEMMING > superlemming = true
 // forceNormalTimerSpeed = true
 
