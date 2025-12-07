@@ -65,6 +65,8 @@ namespace NLEditor
             public int BottomBoundary { get; set; }
             public int LeftBoundary { get; set; }
             public int RightBoundary { get; set; }
+            public string Superlemming { get; set; }
+            public string ForceNormalTimerSpeed { get; set; }
         }
 
         // ───────────────────────────────────────────────
@@ -118,6 +120,10 @@ namespace NLEditor
             ini.LeftBoundary = 0;
             ini.RightBoundary = -16;
 
+            // Speed
+            ini.Superlemming = level.IsSuperlemming ? "true" : "false";
+            ini.ForceNormalTimerSpeed = "true";
+
             return ini;
         }
 
@@ -168,6 +174,8 @@ namespace NLEditor
             sb.AppendLine($"bottomBoundary = {ini.BottomBoundary}");
             sb.AppendLine($"leftBoundary = {ini.LeftBoundary}");
             sb.AppendLine($"rightBoundary = {ini.RightBoundary}");
+            sb.AppendLine($"superlemming = {ini.Superlemming}");
+            sb.AppendLine($"forceNormalTimerSpeed = {ini.ForceNormalTimerSpeed}");
             sb.AppendLine();
 
             // Add objects
@@ -1093,10 +1101,6 @@ namespace NLEditor
         }
     }
 }
-// TODO:
-// SUPERLEMMING > superlemming = true
-// forceNormalTimerSpeed = true
-
 // TODO:
 // Print:
 // # Steel
