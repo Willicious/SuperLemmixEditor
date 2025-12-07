@@ -180,9 +180,9 @@ namespace NLEditor
 
             // Add objects
             sb.AppendLine("# Objects");
-            sb.AppendLine("# ID, X position, Y position, paint mode, flags, object-specific modifier (optional)");
-            sb.AppendLine("# Paint modes: 0 = full, 2 = invisible, 4 = don't overwrite, 8 = visible only on terrain (only one value possible)");
-            sb.AppendLine("# Flags: 1 = upside down, 2 = fake, 4 = upside-down mask, 8 = horizontally flipped (combining allowed)");
+            sb.AppendLine("# ID, X pos, Y pos, paint mode, flags, (optional) object-specific modifier");
+            sb.AppendLine("# Paint modes (one value only): 0 = full, 2 = invisible, 4 = no overwrite, 8 = only on terrain");
+            sb.AppendLine("# Flags (combining allowed): 1 = inverted, 2 = fake, 4 = inverted trigger mask, 8 = flipped, 16 = rotated");
             foreach (var line in objectLines)
                 sb.AppendLine(line);
 
@@ -190,8 +190,8 @@ namespace NLEditor
 
             // Add terrain
             sb.AppendLine("# Terrain");
-            sb.AppendLine("# ID, X position, Y position, modifier");
-            sb.AppendLine("# Modifier: 1 = invisible, 2 = remove, 4 = upside down, 8 = don't overwrite, 16 = fake, 32 = horizontally flipped, 64 = no one-way arrows (combining allowed)");
+            sb.AppendLine("# ID, X pos, Y pos, flags");
+            sb.AppendLine("# Flags (combining allowed): 1 = invisible, 2 = eraser, 4 = inverted, 8 = no overwrite, 16 = fake, 32 = flipped, 64 = no one-way");
             foreach (var line in terrainLines)
                 sb.AppendLine(line);
 
@@ -199,8 +199,8 @@ namespace NLEditor
 
             // Add steel
             sb.AppendLine("# Steel");
-            sb.AppendLine("# X position, Y position, width, height, flags (optional)");
-            sb.AppendLine("# Flags: 1 = remove existing steel");
+            sb.AppendLine("# X pos, Y pos, width, height, (optional) flags");
+            sb.AppendLine("# Flags (optional): 1 = remove existing steel");
             foreach (var line in steelLines)
                 sb.AppendLine(line);
 
@@ -379,8 +379,15 @@ namespace NLEditor
                     int x = terrain.PosX * 2 - ox;
                     int y = terrain.PosY * 2 - oy;
 
-                    int modifier = 0; // TODO: set based on flags like ONE_WAY, INVISIBLE, etc.
-                    terrainLines.Add($"terrain_{terrainIndex} = {iniId},{x},{y},{modifier}");
+                    int flags = 0;
+                    if (terrain.IsErase)            flags |= 2;
+                    if (terrain.IsInvertedInPlayer) flags |= 4;
+                    if (terrain.IsNoOverwrite)      flags |= 8;
+                    if (terrain.IsFlippedInPlayer)  flags |= 32;
+                    if (!terrain.IsOneWay)          flags |= 64;
+                    if (terrain.IsRotatedInPlayer)  flags |= 128;
+
+                    terrainLines.Add($"terrain_{terrainIndex} = {iniId},{x},{y},{flags}");
                     terrainIndex++;
                 }
                 else
@@ -402,14 +409,14 @@ namespace NLEditor
                     int x = gadget.PosX * 2 - ox;
                     int y = gadget.PosY * 2 - oy;
 
-                    int x = gadget.PosX * 2 - offsets.xo; // TODO - check for flipped/rotated/inverted
-                    int y = gadget.PosY * 2 - offsets.yo; // ditto
+                    int paintMode = gadget.IsNoOverwrite ? 4 : (gadget.IsOnlyOnTerrain ? 8 : 0);
 
-                    int paintMode = 4; // default = don't overwrite
-                    int flags = 0;     // TODO: set based on gadget properties
-                    int optional = 0;  // optional modifier
+                    int flags = 0;
+                    if (gadget.IsInvertedInPlayer) { flags |= 1; flags |= 4; } // Also invert the mask
+                    if (gadget.IsFlippedInPlayer)    flags |= 8;
+                    if (gadget.IsRotatedInPlayer)    flags |= 16;
 
-                    objectLines.Add($"object_{objectIndex} = {iniId},{x},{y},{paintMode},{flags},{optional}");
+                    objectLines.Add($"object_{objectIndex} = {iniId},{x},{y},{paintMode},{flags}");
                     objectIndex++;
                 }
                 else
