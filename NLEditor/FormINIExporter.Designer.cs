@@ -191,7 +191,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(856, 693);
+            this.ClientSize = new System.Drawing.Size(870, 693);
             this.Controls.Add(this.lblUnlinkedPieces);
             this.Controls.Add(this.lblOr);
             this.Controls.Add(this.numLinkedPieceID);

@@ -36,7 +36,9 @@
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.playLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +57,9 @@
             this.ungroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openLevelWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openPieceBrowserWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.expandAllTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.highlightGroupedPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.highlightEraserPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearPhysicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,9 +78,6 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshStylesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openLevelWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openPieceBrowserWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.expandAllTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -301,7 +303,10 @@
             this.txt_FocusPieceBrowser = new NLEditor.FocusTextBox();
             this.pic_DragNewPiece = new System.Windows.Forms.PictureBox();
             this.txt_Focus = new NLEditor.FocusTextBox();
-            this.exportToINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).BeginInit();
             this.tabLvlProperties.SuspendLayout();
@@ -393,12 +398,12 @@
             this.loadToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
-            this.saveAsImageToolStripMenuItem,
-            this.exportToINIToolStripMenuItem,
+            this.exportAsToolStripMenuItem,
             this.exitToolStripMenuItem,
             this.toolStripSeparator1,
             this.playLevelToolStripMenuItem,
             this.validateLevelToolStripMenuItem,
+            this.toolStripSeparator9,
             this.cleanseLevelsToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
@@ -436,13 +441,29 @@
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
+            // exportAsToolStripMenuItem
+            // 
+            this.exportAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveAsImageToolStripMenuItem,
+            this.exportToINIToolStripMenuItem});
+            this.exportAsToolStripMenuItem.Name = "exportAsToolStripMenuItem";
+            this.exportAsToolStripMenuItem.Size = new System.Drawing.Size(354, 34);
+            this.exportAsToolStripMenuItem.Text = "Export As...";
+            // 
             // saveAsImageToolStripMenuItem
             // 
             this.saveAsImageToolStripMenuItem.Name = "saveAsImageToolStripMenuItem";
             this.saveAsImageToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Alt+S";
-            this.saveAsImageToolStripMenuItem.Size = new System.Drawing.Size(354, 34);
-            this.saveAsImageToolStripMenuItem.Text = "Save As Image";
+            this.saveAsImageToolStripMenuItem.Size = new System.Drawing.Size(310, 34);
+            this.saveAsImageToolStripMenuItem.Text = "Image (.png)";
             this.saveAsImageToolStripMenuItem.Click += new System.EventHandler(this.saveAsImageToolStripMenuItem_Click);
+            // 
+            // exportToINIToolStripMenuItem
+            // 
+            this.exportToINIToolStripMenuItem.Name = "exportToINIToolStripMenuItem";
+            this.exportToINIToolStripMenuItem.Size = new System.Drawing.Size(310, 34);
+            this.exportToINIToolStripMenuItem.Text = "RetroLemmini Level (.ini)";
+            this.exportToINIToolStripMenuItem.Click += new System.EventHandler(this.exportToINIToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -587,9 +608,15 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openLevelWindowToolStripMenuItem,
+            this.openPieceBrowserWindowToolStripMenuItem,
+            this.expandAllTabsToolStripMenuItem,
+            this.toolStripSeparator6,
             this.highlightGroupedPiecesToolStripMenuItem,
             this.highlightEraserPiecesToolStripMenuItem,
+            this.toolStripSeparator7,
             this.clearPhysicsToolStripMenuItem,
+            this.toolStripSeparator8,
             this.terrainToolStripMenuItem,
             this.objectToolStripMenuItem,
             this.triggerAreasToolStripMenuItem,
@@ -599,173 +626,6 @@
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
             this.viewToolStripMenuItem.Text = "View";
-            // 
-            // highlightGroupedPiecesToolStripMenuItem
-            // 
-            this.highlightGroupedPiecesToolStripMenuItem.CheckOnClick = true;
-            this.highlightGroupedPiecesToolStripMenuItem.Name = "highlightGroupedPiecesToolStripMenuItem";
-            this.highlightGroupedPiecesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+G";
-            this.highlightGroupedPiecesToolStripMenuItem.Size = new System.Drawing.Size(378, 34);
-            this.highlightGroupedPiecesToolStripMenuItem.Text = "Highlight Grouped Pieces";
-            this.highlightGroupedPiecesToolStripMenuItem.Click += new System.EventHandler(this.highlightGroupedPiecesToolStripMenuItem_Click);
-            // 
-            // highlightEraserPiecesToolStripMenuItem
-            // 
-            this.highlightEraserPiecesToolStripMenuItem.CheckOnClick = true;
-            this.highlightEraserPiecesToolStripMenuItem.Name = "highlightEraserPiecesToolStripMenuItem";
-            this.highlightEraserPiecesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+E";
-            this.highlightEraserPiecesToolStripMenuItem.Size = new System.Drawing.Size(378, 34);
-            this.highlightEraserPiecesToolStripMenuItem.Text = "Highlight Eraser Pieces";
-            this.highlightEraserPiecesToolStripMenuItem.Click += new System.EventHandler(this.highlightEraserPiecesToolStripMenuItem_Click);
-            // 
-            // clearPhysicsToolStripMenuItem
-            // 
-            this.clearPhysicsToolStripMenuItem.CheckOnClick = true;
-            this.clearPhysicsToolStripMenuItem.Name = "clearPhysicsToolStripMenuItem";
-            this.clearPhysicsToolStripMenuItem.ShortcutKeyDisplayString = "F1";
-            this.clearPhysicsToolStripMenuItem.Size = new System.Drawing.Size(378, 34);
-            this.clearPhysicsToolStripMenuItem.Text = "Clear Physics Mode";
-            this.clearPhysicsToolStripMenuItem.Click += new System.EventHandler(this.clearPhysicsToolStripMenuItem_Click);
-            // 
-            // terrainToolStripMenuItem
-            // 
-            this.terrainToolStripMenuItem.Checked = true;
-            this.terrainToolStripMenuItem.CheckOnClick = true;
-            this.terrainToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
-            this.terrainToolStripMenuItem.ShortcutKeyDisplayString = "F2";
-            this.terrainToolStripMenuItem.Size = new System.Drawing.Size(378, 34);
-            this.terrainToolStripMenuItem.Text = "Show/Hide Terrain";
-            this.terrainToolStripMenuItem.Click += new System.EventHandler(this.terrainToolStripMenuItem_Click);
-            // 
-            // objectToolStripMenuItem
-            // 
-            this.objectToolStripMenuItem.Checked = true;
-            this.objectToolStripMenuItem.CheckOnClick = true;
-            this.objectToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.objectToolStripMenuItem.Name = "objectToolStripMenuItem";
-            this.objectToolStripMenuItem.ShortcutKeyDisplayString = "F3";
-            this.objectToolStripMenuItem.Size = new System.Drawing.Size(378, 34);
-            this.objectToolStripMenuItem.Text = "Show/Hide Objects";
-            this.objectToolStripMenuItem.Click += new System.EventHandler(this.objectToolStripMenuItem_Click);
-            // 
-            // triggerAreasToolStripMenuItem
-            // 
-            this.triggerAreasToolStripMenuItem.CheckOnClick = true;
-            this.triggerAreasToolStripMenuItem.Name = "triggerAreasToolStripMenuItem";
-            this.triggerAreasToolStripMenuItem.ShortcutKeyDisplayString = "F4";
-            this.triggerAreasToolStripMenuItem.Size = new System.Drawing.Size(378, 34);
-            this.triggerAreasToolStripMenuItem.Text = "Show/Hide Triggers";
-            this.triggerAreasToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.triggerAreasToolStripMenuItem.Click += new System.EventHandler(this.triggerAreasToolStripMenuItem_Click);
-            // 
-            // screenStartToolStripMenuItem
-            // 
-            this.screenStartToolStripMenuItem.CheckOnClick = true;
-            this.screenStartToolStripMenuItem.Name = "screenStartToolStripMenuItem";
-            this.screenStartToolStripMenuItem.ShortcutKeyDisplayString = "F5";
-            this.screenStartToolStripMenuItem.Size = new System.Drawing.Size(378, 34);
-            this.screenStartToolStripMenuItem.Text = "Show/Hide Screen Start";
-            this.screenStartToolStripMenuItem.Click += new System.EventHandler(this.screenStartToolStripMenuItem_Click);
-            // 
-            // backgroundToolStripMenuItem
-            // 
-            this.backgroundToolStripMenuItem.CheckOnClick = true;
-            this.backgroundToolStripMenuItem.Name = "backgroundToolStripMenuItem";
-            this.backgroundToolStripMenuItem.ShortcutKeyDisplayString = "F6";
-            this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(378, 34);
-            this.backgroundToolStripMenuItem.Text = "Show/Hide Background";
-            this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
-            // 
-            // deprecatedPiecesToolStripMenuItem
-            // 
-            this.deprecatedPiecesToolStripMenuItem.CheckOnClick = true;
-            this.deprecatedPiecesToolStripMenuItem.Name = "deprecatedPiecesToolStripMenuItem";
-            this.deprecatedPiecesToolStripMenuItem.ShortcutKeyDisplayString = "F7";
-            this.deprecatedPiecesToolStripMenuItem.Size = new System.Drawing.Size(378, 34);
-            this.deprecatedPiecesToolStripMenuItem.Text = "Show/Hide Deprecated";
-            this.deprecatedPiecesToolStripMenuItem.Click += new System.EventHandler(this.deprecatedPiecesToolStripMenuItem_Click);
-            // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.searchPiecesToolStripMenuItem,
-            this.snapToGridToolStripMenuItem,
-            this.settingsToolStripMenuItem,
-            this.hotkeysToolStripMenuItem,
-            this.styleManagerToolStripMenuItem,
-            this.toolStripSeparator5,
-            this.showMissingPiecesToolStripMenuItem,
-            this.refreshStylesToolStripMenuItem,
-            this.openLevelWindowToolStripMenuItem,
-            this.openPieceBrowserWindowToolStripMenuItem,
-            this.expandAllTabsToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.aboutToolStripMenuItem,
-            this.toolStripSeparator4});
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(69, 29);
-            this.optionsToolStripMenuItem.Text = "Tools";
-            // 
-            // searchPiecesToolStripMenuItem
-            // 
-            this.searchPiecesToolStripMenuItem.Name = "searchPiecesToolStripMenuItem";
-            this.searchPiecesToolStripMenuItem.ShortcutKeyDisplayString = "F8";
-            this.searchPiecesToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.searchPiecesToolStripMenuItem.Text = "Search Pieces";
-            this.searchPiecesToolStripMenuItem.Click += new System.EventHandler(this.searchPiecesToolStripMenuItem_Click);
-            // 
-            // snapToGridToolStripMenuItem
-            // 
-            this.snapToGridToolStripMenuItem.Name = "snapToGridToolStripMenuItem";
-            this.snapToGridToolStripMenuItem.ShortcutKeyDisplayString = "F9";
-            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.snapToGridToolStripMenuItem.Text = "Snap to Grid";
-            this.snapToGridToolStripMenuItem.Click += new System.EventHandler(this.snapToGridToolStripMenuItem_Click);
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.ShortcutKeyDisplayString = "F10";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
-            // 
-            // hotkeysToolStripMenuItem
-            // 
-            this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.ShortcutKeyDisplayString = "F11";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.hotkeysToolStripMenuItem.Text = "Configure Hotkeys";
-            this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
-            // 
-            // styleManagerToolStripMenuItem
-            // 
-            this.styleManagerToolStripMenuItem.Name = "styleManagerToolStripMenuItem";
-            this.styleManagerToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.styleManagerToolStripMenuItem.Text = "Style Manager";
-            this.styleManagerToolStripMenuItem.Click += new System.EventHandler(this.styleManagerToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(457, 6);
-            // 
-            // showMissingPiecesToolStripMenuItem
-            // 
-            this.showMissingPiecesToolStripMenuItem.Name = "showMissingPiecesToolStripMenuItem";
-            this.showMissingPiecesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F8";
-            this.showMissingPiecesToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.showMissingPiecesToolStripMenuItem.Text = "Show Missing Pieces";
-            this.showMissingPiecesToolStripMenuItem.Click += new System.EventHandler(this.showMissingPiecesToolStripMenuItem_Click);
-            // 
-            // refreshStylesToolStripMenuItem
-            // 
-            this.refreshStylesToolStripMenuItem.Name = "refreshStylesToolStripMenuItem";
-            this.refreshStylesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+F8";
-            this.refreshStylesToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.refreshStylesToolStripMenuItem.Text = "Refresh Styles";
-            this.refreshStylesToolStripMenuItem.Click += new System.EventHandler(this.refreshStylesToolStripMenuItem_Click);
             // 
             // openLevelWindowToolStripMenuItem
             // 
@@ -791,23 +651,187 @@
             this.expandAllTabsToolStripMenuItem.Text = "Expand All Tabs";
             this.expandAllTabsToolStripMenuItem.Click += new System.EventHandler(this.expandAllTabsToolStripMenuItem_Click);
             // 
+            // highlightGroupedPiecesToolStripMenuItem
+            // 
+            this.highlightGroupedPiecesToolStripMenuItem.CheckOnClick = true;
+            this.highlightGroupedPiecesToolStripMenuItem.Name = "highlightGroupedPiecesToolStripMenuItem";
+            this.highlightGroupedPiecesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+G";
+            this.highlightGroupedPiecesToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.highlightGroupedPiecesToolStripMenuItem.Text = "Highlight Grouped Pieces";
+            this.highlightGroupedPiecesToolStripMenuItem.Click += new System.EventHandler(this.highlightGroupedPiecesToolStripMenuItem_Click);
+            // 
+            // highlightEraserPiecesToolStripMenuItem
+            // 
+            this.highlightEraserPiecesToolStripMenuItem.CheckOnClick = true;
+            this.highlightEraserPiecesToolStripMenuItem.Name = "highlightEraserPiecesToolStripMenuItem";
+            this.highlightEraserPiecesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+E";
+            this.highlightEraserPiecesToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.highlightEraserPiecesToolStripMenuItem.Text = "Highlight Eraser Pieces";
+            this.highlightEraserPiecesToolStripMenuItem.Click += new System.EventHandler(this.highlightEraserPiecesToolStripMenuItem_Click);
+            // 
+            // clearPhysicsToolStripMenuItem
+            // 
+            this.clearPhysicsToolStripMenuItem.CheckOnClick = true;
+            this.clearPhysicsToolStripMenuItem.Name = "clearPhysicsToolStripMenuItem";
+            this.clearPhysicsToolStripMenuItem.ShortcutKeyDisplayString = "F1";
+            this.clearPhysicsToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.clearPhysicsToolStripMenuItem.Text = "Clear Physics Mode";
+            this.clearPhysicsToolStripMenuItem.Click += new System.EventHandler(this.clearPhysicsToolStripMenuItem_Click);
+            // 
+            // terrainToolStripMenuItem
+            // 
+            this.terrainToolStripMenuItem.Checked = true;
+            this.terrainToolStripMenuItem.CheckOnClick = true;
+            this.terrainToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
+            this.terrainToolStripMenuItem.ShortcutKeyDisplayString = "F2";
+            this.terrainToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.terrainToolStripMenuItem.Text = "Show/Hide Terrain";
+            this.terrainToolStripMenuItem.Click += new System.EventHandler(this.terrainToolStripMenuItem_Click);
+            // 
+            // objectToolStripMenuItem
+            // 
+            this.objectToolStripMenuItem.Checked = true;
+            this.objectToolStripMenuItem.CheckOnClick = true;
+            this.objectToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.objectToolStripMenuItem.Name = "objectToolStripMenuItem";
+            this.objectToolStripMenuItem.ShortcutKeyDisplayString = "F3";
+            this.objectToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.objectToolStripMenuItem.Text = "Show/Hide Objects";
+            this.objectToolStripMenuItem.Click += new System.EventHandler(this.objectToolStripMenuItem_Click);
+            // 
+            // triggerAreasToolStripMenuItem
+            // 
+            this.triggerAreasToolStripMenuItem.CheckOnClick = true;
+            this.triggerAreasToolStripMenuItem.Name = "triggerAreasToolStripMenuItem";
+            this.triggerAreasToolStripMenuItem.ShortcutKeyDisplayString = "F4";
+            this.triggerAreasToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.triggerAreasToolStripMenuItem.Text = "Show/Hide Triggers";
+            this.triggerAreasToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.triggerAreasToolStripMenuItem.Click += new System.EventHandler(this.triggerAreasToolStripMenuItem_Click);
+            // 
+            // screenStartToolStripMenuItem
+            // 
+            this.screenStartToolStripMenuItem.CheckOnClick = true;
+            this.screenStartToolStripMenuItem.Name = "screenStartToolStripMenuItem";
+            this.screenStartToolStripMenuItem.ShortcutKeyDisplayString = "F5";
+            this.screenStartToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.screenStartToolStripMenuItem.Text = "Show/Hide Screen Start";
+            this.screenStartToolStripMenuItem.Click += new System.EventHandler(this.screenStartToolStripMenuItem_Click);
+            // 
+            // backgroundToolStripMenuItem
+            // 
+            this.backgroundToolStripMenuItem.CheckOnClick = true;
+            this.backgroundToolStripMenuItem.Name = "backgroundToolStripMenuItem";
+            this.backgroundToolStripMenuItem.ShortcutKeyDisplayString = "F6";
+            this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.backgroundToolStripMenuItem.Text = "Show/Hide Background";
+            this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
+            // 
+            // deprecatedPiecesToolStripMenuItem
+            // 
+            this.deprecatedPiecesToolStripMenuItem.CheckOnClick = true;
+            this.deprecatedPiecesToolStripMenuItem.Name = "deprecatedPiecesToolStripMenuItem";
+            this.deprecatedPiecesToolStripMenuItem.ShortcutKeyDisplayString = "F7";
+            this.deprecatedPiecesToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.deprecatedPiecesToolStripMenuItem.Text = "Show/Hide Deprecated";
+            this.deprecatedPiecesToolStripMenuItem.Click += new System.EventHandler(this.deprecatedPiecesToolStripMenuItem_Click);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.searchPiecesToolStripMenuItem,
+            this.snapToGridToolStripMenuItem,
+            this.settingsToolStripMenuItem,
+            this.hotkeysToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.showMissingPiecesToolStripMenuItem,
+            this.refreshStylesToolStripMenuItem,
+            this.styleManagerToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.aboutToolStripMenuItem,
+            this.toolStripSeparator4});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(69, 29);
+            this.optionsToolStripMenuItem.Text = "Tools";
+            // 
+            // searchPiecesToolStripMenuItem
+            // 
+            this.searchPiecesToolStripMenuItem.Name = "searchPiecesToolStripMenuItem";
+            this.searchPiecesToolStripMenuItem.ShortcutKeyDisplayString = "F8";
+            this.searchPiecesToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
+            this.searchPiecesToolStripMenuItem.Text = "Search Pieces";
+            this.searchPiecesToolStripMenuItem.Click += new System.EventHandler(this.searchPiecesToolStripMenuItem_Click);
+            // 
+            // snapToGridToolStripMenuItem
+            // 
+            this.snapToGridToolStripMenuItem.Name = "snapToGridToolStripMenuItem";
+            this.snapToGridToolStripMenuItem.ShortcutKeyDisplayString = "F9";
+            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
+            this.snapToGridToolStripMenuItem.Text = "Snap to Grid";
+            this.snapToGridToolStripMenuItem.Click += new System.EventHandler(this.snapToGridToolStripMenuItem_Click);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.ShortcutKeyDisplayString = "F10";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // hotkeysToolStripMenuItem
+            // 
+            this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
+            this.hotkeysToolStripMenuItem.ShortcutKeyDisplayString = "F11";
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
+            this.hotkeysToolStripMenuItem.Text = "Configure Hotkeys";
+            this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
+            // 
+            // styleManagerToolStripMenuItem
+            // 
+            this.styleManagerToolStripMenuItem.Name = "styleManagerToolStripMenuItem";
+            this.styleManagerToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
+            this.styleManagerToolStripMenuItem.Text = "Style Manager";
+            this.styleManagerToolStripMenuItem.Click += new System.EventHandler(this.styleManagerToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(405, 6);
+            // 
+            // showMissingPiecesToolStripMenuItem
+            // 
+            this.showMissingPiecesToolStripMenuItem.Name = "showMissingPiecesToolStripMenuItem";
+            this.showMissingPiecesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F8";
+            this.showMissingPiecesToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
+            this.showMissingPiecesToolStripMenuItem.Text = "Show Missing Pieces";
+            this.showMissingPiecesToolStripMenuItem.Click += new System.EventHandler(this.showMissingPiecesToolStripMenuItem_Click);
+            // 
+            // refreshStylesToolStripMenuItem
+            // 
+            this.refreshStylesToolStripMenuItem.Name = "refreshStylesToolStripMenuItem";
+            this.refreshStylesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+F8";
+            this.refreshStylesToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
+            this.refreshStylesToolStripMenuItem.Text = "Refresh Styles";
+            this.refreshStylesToolStripMenuItem.Click += new System.EventHandler(this.refreshStylesToolStripMenuItem_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(457, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(405, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F11";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
             this.aboutToolStripMenuItem.Text = "About SuperLemmix Editor";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(457, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(405, 6);
             // 
             // pic_Level
             // 
@@ -3682,12 +3706,25 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
-            // exportToINIToolStripMenuItem
+            // toolStripSeparator6
             // 
-            this.exportToINIToolStripMenuItem.Name = "exportToINIToolStripMenuItem";
-            this.exportToINIToolStripMenuItem.Size = new System.Drawing.Size(354, 34);
-            this.exportToINIToolStripMenuItem.Text = "Export To .INI";
-            this.exportToINIToolStripMenuItem.Click += new System.EventHandler(this.exportToINIToolStripMenuItem_Click);
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(457, 6);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(457, 6);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(457, 6);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(351, 6);
             // 
             // NLEditForm
             // 
@@ -4017,7 +4054,6 @@
         private System.Windows.Forms.ToolStripMenuItem showMissingPiecesToolStripMenuItem;
         private System.Windows.Forms.CheckBox check_Lvl_Invincibility;
         private System.Windows.Forms.ToolStripMenuItem cleanseLevelsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsImageToolStripMenuItem;
         private System.Windows.Forms.Button btnAllNonZeroSkillsToN;
         private NumUpDownOverwrite num_RandomMaxLimit;
         private NumUpDownOverwrite num_RandomMinLimit;
@@ -4080,7 +4116,13 @@
         private System.Windows.Forms.ToolStripMenuItem deleteMissingPiecesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem styleManagerToolStripMenuItem;
         private NumUpDownOverwrite num_Lvl_SI;
+        private System.Windows.Forms.ToolStripMenuItem exportAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsImageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToINIToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
     }
 }
 
