@@ -373,10 +373,11 @@ namespace NLEditor
 
                 if (pieceLinks.TryGetValue(key, out int iniId))
                 {
-                    var offsets = GetPieceOffsets(selectedStyle, key);
+                    var o= GetPieceOffsets(selectedStyle, key);
+                    var (ox, oy) = ComputeFinalOffsets(terrain, o.xo, o.yo, o.xio, o.yio);
 
-                    int x = terrain.PosX * 2 - offsets.xo; // TODO - check for flipped/rotated/inverted
-                    int y = terrain.PosY * 2 - offsets.yo; // TODO - ditto
+                    int x = terrain.PosX * 2 - ox;
+                    int y = terrain.PosY * 2 - oy;
 
                     int modifier = 0; // TODO: set based on flags like ONE_WAY, INVISIBLE, etc.
                     terrainLines.Add($"terrain_{terrainIndex} = {iniId},{x},{y},{modifier}");
@@ -395,7 +396,11 @@ namespace NLEditor
 
                 if (pieceLinks.TryGetValue(key, out int iniId))
                 {
-                    var offsets = GetPieceOffsets(selectedStyle, key);
+                    var o = GetPieceOffsets(selectedStyle, key);
+                    var (ox, oy) = ComputeFinalOffsets(gadget, o.xo, o.yo, o.xio, o.yio);
+
+                    int x = gadget.PosX * 2 - ox;
+                    int y = gadget.PosY * 2 - oy;
 
                     int x = gadget.PosX * 2 - offsets.xo; // TODO - check for flipped/rotated/inverted
                     int y = gadget.PosY * 2 - offsets.yo; // ditto
@@ -456,6 +461,44 @@ namespace NLEditor
             return (0, 0, 0, 0);
         }
 
+        private (int ox, int oy) ComputeFinalOffsets(dynamic piece, int xo, int yo, int xio, int yio)
+        {
+            int r = piece.GetRotation();
+            bool inv = piece.IsInvertedInPlayer;
+            bool flip = piece.IsFlippedInPlayer;
+
+            // Base offset (normal or inverted)
+            int ox = inv ? xio : xo;
+            int oy = inv ? yio : yo;
+
+            // Apply rotation (clockwise)
+            switch (r)
+            {
+                case 0: // No rotation
+                    break;
+
+                case 1: // 90
+                    (ox, oy) = (oy, -ox);
+                    break;
+
+                case 2: // 180
+                    ox = -ox;
+                    oy = -oy;
+                    break;
+
+                case 3: // 270
+                    (ox, oy) = (-oy, ox);
+                    break;
+            }
+
+            // Apply horizontal flip AFTER rotation (important!)
+            if (flip)
+                ox = -ox;
+
+            return (ox, oy);
+        }
+
+
         private List<string> GetSteelLines(Level level, string selectedStyle)
         {
             var steelLines = new List<string>();
@@ -463,14 +506,13 @@ namespace NLEditor
 
             foreach (var terrain in level.TerrainList)
             {
-                string key = terrain.Key;
-
                 if (terrain.IsSteel)
                 {
-                    var offsets = GetPieceOffsets(selectedStyle, key);
+                    var offsets = GetPieceOffsets(selectedStyle, terrain.Key);
+                    var (ox, oy) = ComputeFinalOffsets(terrain, offsets.xo, offsets.yo, offsets.xio, offsets.yio);
 
-                    int x = terrain.PosX * 2 - offsets.xo; // TODO - check for flipped/rotated/inverted
-                    int y = terrain.PosY * 2 - offsets.yo; // TODO - ditto
+                    int x = terrain.PosX * 2 - ox;
+                    int y = terrain.PosY * 2 - oy;
                     int width = terrain.Width * 2;
                     int height = terrain.Height * 2;
 
@@ -1139,5 +1181,4 @@ namespace NLEditor
 }
 
 // TODO
-// Ensure correct xo, yo, xio and yio are being used (i.e. for flipped/inverted pieces)
 // Double-check transparency offset values every session (in case images have changed)

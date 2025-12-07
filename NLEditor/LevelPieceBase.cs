@@ -63,6 +63,7 @@ namespace NLEditor
         // RULE: FIRST ROTATE CLOCKWISE - THEN INVERT
         protected int Rotation { get; private set; }
         protected bool IsInvert { get; private set; }
+        public int GetRotation() => Rotation;
 
         // For calculating the flip offset
         public int MarginLeft => ImageLibrary.GetMargins(Key).Left;
