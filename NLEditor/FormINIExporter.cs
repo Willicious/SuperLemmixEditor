@@ -351,84 +351,6 @@ namespace NLEditor
             }
         }
 
-        /// <summary>
-        /// Gets piece links between .nxlv style and corresponding .ini style,
-        /// applying precomputed offsets from the translation table.
-        private (List<string> terrainLines, List<string> objectLines, List<string> unlinkedPieces)
-                GetPieceLinks(Level level, string selectedStyle)
-        {
-            var pieceLinks = LoadStylePieceLinks(selectedStyle);
-
-            var terrainLines = new List<string>();
-            var objectLines = new List<string>();
-            var unlinkedPieces = new List<string>();
-
-            int terrainIndex = 0;
-            int objectIndex = 0;
-
-            // Terrain
-            foreach (var terrain in level.TerrainList)
-            {
-                string key = terrain.Key;
-
-                if (pieceLinks.TryGetValue(key, out int iniId))
-                {
-                    var o= GetPieceOffsets(selectedStyle, key);
-                    var (ox, oy) = ComputeFinalOffsets(terrain, o.xo, o.yo, o.xio, o.yio);
-
-                    int x = terrain.PosX * 2 - ox;
-                    int y = terrain.PosY * 2 - oy;
-
-                    int flags = 0;
-                    if (terrain.IsErase)            flags |= 2;
-                    if (terrain.IsInvertedInPlayer) flags |= 4;
-                    if (terrain.IsNoOverwrite)      flags |= 8;
-                    if (terrain.IsFlippedInPlayer)  flags |= 32;
-                    if (!terrain.IsOneWay)          flags |= 64;
-                    if (terrain.IsRotatedInPlayer)  flags |= 128;
-
-                    terrainLines.Add($"terrain_{terrainIndex} = {iniId},{x},{y},{flags}");
-                    terrainIndex++;
-                }
-                else
-                {
-                    unlinkedPieces.Add(key);
-                }
-            }
-
-            // Objects
-            foreach (var gadget in level.GadgetList)
-            {
-                string key = gadget.Key;
-
-                if (pieceLinks.TryGetValue(key, out int iniId))
-                {
-                    var o = GetPieceOffsets(selectedStyle, key);
-                    var (ox, oy) = ComputeFinalOffsets(gadget, o.xo, o.yo, o.xio, o.yio);
-
-                    int x = gadget.PosX * 2 - ox;
-                    int y = gadget.PosY * 2 - oy;
-
-                    int paintMode = gadget.IsNoOverwrite ? 4 : (gadget.IsOnlyOnTerrain ? 8 : 0);
-
-                    int flags = 0;
-                    if (gadget.IsInvertedInPlayer) { flags |= 1; flags |= 4; } // Also invert the mask
-                    if (gadget.IsFlippedInPlayer)    flags |= 8;
-                    if (gadget.IsRotatedInPlayer)    flags |= 16;
-
-                    objectLines.Add($"object_{objectIndex} = {iniId},{x},{y},{paintMode},{flags}");
-                    objectIndex++;
-                }
-                else
-                {
-                    unlinkedPieces.Add(key);
-                }
-            }
-
-            return (terrainLines, objectLines, unlinkedPieces);
-        }
-
-
         private (int xo, int yo, int xio, int yio) GetPieceOffsets(string styleName, string pieceKey)
         {
             if (!File.Exists(AppPathTranslationTables))
@@ -468,43 +390,135 @@ namespace NLEditor
             return (0, 0, 0, 0);
         }
 
-        private (int ox, int oy) ComputeFinalOffsets(dynamic piece, int xo, int yo, int xio, int yio)
+        private static (int left, int top) GetExportOffsets(
+            int xo, int yo, int xio, int yio,
+            bool flip, bool invert, bool rotate, int rotation)
         {
-            int r = piece.GetRotation();
-            bool inv = piece.IsInvertedInPlayer;
-            bool flip = piece.IsFlippedInPlayer;
+            if (!flip && !invert && !rotate)
+                return (xo, yo); // left = xo / top = yo
 
-            // Base offset (normal or inverted)
-            int ox = inv ? xio : xo;
-            int oy = inv ? yio : yo;
+            if (!flip && !invert && rotation == 1)
+                return (yio, xo); // left = yio / top = xo
 
-            // Apply rotation (clockwise)
-            switch (r)
-            {
-                case 0: // No rotation
-                    break;
+            if (flip && invert && !rotate)
+                return (xio, yio); // left = xio / top = yio
 
-                case 1: // 90
-                    (ox, oy) = (oy, -ox);
-                    break;
+            if (flip && invert && rotation == 3)
+                return (yo, xio); // left = yo / Top = xio
 
-                case 2: // 180
-                    ox = -ox;
-                    oy = -oy;
-                    break;
+            if (flip & !invert && !rotate)
+                return (xio, yo); // left = xio / top = yo
 
-                case 3: // 270
-                    (ox, oy) = (-oy, ox);
-                    break;
-            }
+            if (!flip && invert && rotation == 1)
+                return (yio, xio); // left = yio / top = xio
 
-            // Apply horizontal flip AFTER rotation (important!)
-            if (flip)
-                ox = -ox;
+            if (!flip && invert && !rotate)
+                return (xo, yio); // left = xo / top = yio
 
-            return (ox, oy);
+            if (flip & !invert && rotation == 3)
+                return (yo, xo); // left = yo / top = xo
+
+            else
+                return (0, 0); // default fallback
         }
 
+
+        /// <summary>
+        /// Gets piece links between .nxlv style and corresponding .ini style,
+        /// applying precomputed offsets from the translation table.
+        private (List<string> terrainLines, List<string> objectLines, List<string> unlinkedPieces)
+                GetPieceLinks(Level level, string selectedStyle)
+        {
+            var pieceLinks = LoadStylePieceLinks(selectedStyle);
+
+            var terrainLines = new List<string>();
+            var objectLines = new List<string>();
+            var unlinkedPieces = new List<string>();
+
+            int terrainIndex = 0;
+            int objectIndex = 0;
+
+            // Terrain
+            foreach (var terrain in level.TerrainList)
+            {
+                string key = terrain.Key;
+
+                if (pieceLinks.TryGetValue(key, out int iniId))
+                {
+                    var o= GetPieceOffsets(selectedStyle, key);
+
+                    (bool flip, bool invert, bool rotate, int rotation) =
+                        (terrain.IsFlippedInPlayer,
+                         terrain.IsInvertedInPlayer,
+                         terrain.IsRotatedInPlayer,
+                         terrain.GetRotation());
+
+                    (int ox, int oy) = GetExportOffsets(
+                        o.xo, o.yo, o.xio, o.yio,
+                        flip, invert, rotate, rotation
+                    );
+
+                    int x = terrain.PosX * 2 - ox;
+                    int y = terrain.PosY * 2 - oy;
+
+                    int flags = 0;
+                    if (terrain.IsErase)            flags |= 2;
+                    if (terrain.IsInvertedInPlayer) flags |= 4;
+                    if (terrain.IsNoOverwrite)      flags |= 8;
+                    if (terrain.IsFlippedInPlayer)  flags |= 32;
+                    if (!terrain.IsOneWay)          flags |= 64;
+                    if (terrain.IsRotatedInPlayer)  flags |= 128;
+
+                    terrainLines.Add($"terrain_{terrainIndex} = {iniId},{x},{y},{flags}");
+                    terrainIndex++;
+                }
+                else
+                {
+                    unlinkedPieces.Add(key);
+                }
+            }
+
+            // Objects
+            foreach (var gadget in level.GadgetList)
+            {
+                string key = gadget.Key;
+
+                if (pieceLinks.TryGetValue(key, out int iniId))
+                {
+                    var o = GetPieceOffsets(selectedStyle, key);
+
+                    (bool flip, bool invert, bool rotate, int rotation) =
+                        (gadget.IsFlippedInPlayer,
+                         gadget.IsInvertedInPlayer,
+                         gadget.IsRotatedInPlayer,
+                         gadget.GetRotation());
+
+                    (int ox, int oy) = GetExportOffsets(
+                        o.xo, o.yo, o.xio, o.yio,
+                        flip, invert, rotate, rotation
+                    );
+
+                    int x = gadget.PosX * 2 - ox;
+                    int y = gadget.PosY * 2 - oy;
+
+                    int paintMode = gadget.IsNoOverwrite ? 4 : (gadget.IsOnlyOnTerrain ? 8 : 0);
+
+                    int flags = 0;
+                    if (gadget.IsInvertedInPlayer) { flags |= 1; flags |= 4; } // Also invert the mask
+                    if (gadget.IsFlippedInPlayer)    flags |= 8;
+                    if (gadget.IsRotatedInPlayer)    flags |= 16;
+
+                    objectLines.Add($"object_{objectIndex} = {iniId},{x},{y},{paintMode},{flags}");
+                    objectIndex++;
+                }
+                else
+                {
+                    unlinkedPieces.Add(key);
+                }
+            }
+
+            return (terrainLines, objectLines, unlinkedPieces);
+        }
 
         private List<string> GetSteelLines(Level level, string selectedStyle)
         {
@@ -515,11 +529,22 @@ namespace NLEditor
             {
                 if (terrain.IsSteel)
                 {
-                    var offsets = GetPieceOffsets(selectedStyle, terrain.Key);
-                    var (ox, oy) = ComputeFinalOffsets(terrain, offsets.xo, offsets.yo, offsets.xio, offsets.yio);
+                    var o = GetPieceOffsets(selectedStyle, terrain.Key);
+
+                    (bool flip, bool invert, bool rotate, int rotation) =
+                        (terrain.IsFlippedInPlayer,
+                         terrain.IsInvertedInPlayer,
+                         terrain.IsRotatedInPlayer,
+                         terrain.GetRotation());
+
+                    (int ox, int oy) = GetExportOffsets(
+                        o.xo, o.yo, o.xio, o.yio,
+                        flip, invert, rotate, rotation
+                    );
 
                     int x = terrain.PosX * 2 - ox;
                     int y = terrain.PosY * 2 - oy;
+
                     int width = terrain.Width * 2;
                     int height = terrain.Height * 2;
 
@@ -530,6 +555,7 @@ namespace NLEditor
 
             return steelLines;
         }
+
 
         private void ExportLevel()
         {
