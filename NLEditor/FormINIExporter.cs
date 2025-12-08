@@ -311,10 +311,10 @@ namespace NLEditor
             (int left, int right, int top, int bottom) iniEdges,
             int scale = 2)
         {
-            int xo = nxlvEdges.left * scale - iniEdges.left;
-            int yo = nxlvEdges.top * scale - iniEdges.top;
-            int xio = nxlvEdges.right * scale - iniEdges.right;
-            int yio = nxlvEdges.bottom * scale - iniEdges.bottom;
+            int xo = Math.Abs(nxlvEdges.left * scale - iniEdges.left);
+            int yo = Math.Abs(nxlvEdges.top * scale - iniEdges.top);
+            int xio = Math.Abs(nxlvEdges.right * scale - iniEdges.right);
+            int yio = Math.Abs(nxlvEdges.bottom * scale - iniEdges.bottom);
 
             return (xo, yo, xio, yio);
         }
