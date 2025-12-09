@@ -686,27 +686,13 @@ namespace NLEditor
 
             string filePath = AppPathTranslationTables;
 
-            // Ensure the file exists
-            if (!File.Exists(AppPathTranslationTables))
+            // Ensure the file exists - if not, create it with default styles added
+            if (!File.Exists(filePath))
             {
-                // If not, create file with [Styles] header and default styles
-                var defaultStyles = new List<string>
-                {
-                    "Brick",
-                    "Bubble",
-                    "Crystal",
-                    "Dirt",
-                    "Fire",
-                    "Marble",
-                    "Pillar",
-                    "Rock",
-                    "Snow"
-                };
-
-                var linesToWrite = new List<string> { "[Styles]" };
-                linesToWrite.AddRange(defaultStyles);
-
-                File.WriteAllLines(AppPathTranslationTables, linesToWrite);
+                File.WriteAllText(AppPathTranslationTables,
+                INITranslationTables.DefaultContent,
+                Encoding.UTF8
+                );
             }
 
             var lines = File.ReadAllLines(filePath);
