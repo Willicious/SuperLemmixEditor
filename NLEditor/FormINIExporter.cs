@@ -1019,6 +1019,48 @@ namespace NLEditor
             }
         }
 
+        private void UpdateTransparencyOffsets()
+        {
+            if (comboStyles.SelectedIndex == 0)
+                return;
+
+            INIStyleInfo styleInfo;
+            string styleName = comboStyles.Text;
+
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                fbd.Description = $"Select folder containing .ini pieces for style '{styleName}'";
+                if (fbd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                styleInfo = new INIStyleInfo
+                {
+                    Name = styleName,
+                    FolderPath = fbd.SelectedPath
+                };
+            }
+
+            if (styleInfo == null)
+                return;
+
+            var allPieces = curLevel.TerrainList.Cast<object>()
+                .Concat(curLevel.GadgetList.Cast<object>());
+
+            var pieceLinks = LoadStylePieceLinks(styleName);
+
+            foreach (dynamic piece in allPieces) // dynamic to handle Terrain/Gadget
+            {
+                string key = piece.Key;
+
+                if (pieceLinks.TryGetValue(key, out int iniId))
+                    UpdatePieceLink(styleName, key, iniId, styleInfo.FolderPath);
+                else
+                    MessageBox.Show("Could not update transparency offsets.\n" +
+                                    $"Invalid ID for piece: {key}");
+            }
+
+            MessageBox.Show("Transparency offsets updated successfully!");
+        }
 
         private void UpdateControls()
         {
@@ -1088,12 +1130,17 @@ namespace NLEditor
                 lblUnlinkedPieces.Text = text + " unlinked. For best results, please link all pieces before exporting";
                 lblUnlinkedPieces.ForeColor = Color.DarkRed;
                 lblUnlinkedPieces.Visible = true;
+                lblTransparencyOffsetHint.Visible = false;
             }
             else
             {
                 lblUnlinkedPieces.Text = "All pieces are linked! The level can now be fully exported";
                 lblUnlinkedPieces.ForeColor = Color.ForestGreen;
                 lblUnlinkedPieces.Visible = true;
+                lblTransparencyOffsetHint.Text = 
+                    $"HINT: Press F1 if you need to update transparent edge offsets " +
+                    $"(recommended if {comboStyles.Text} has been recently updated)";
+                lblTransparencyOffsetHint.Visible = true;
             }
         }
 
@@ -1210,8 +1257,10 @@ namespace NLEditor
         {
             BrowseForPieceLink();
         }
+
+        private void FormINIExporter_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1) UpdateTransparencyOffsets();
+        }
     }
 }
-
-// TODO
-// Double-check transparency offset values every session (in case images have changed)
