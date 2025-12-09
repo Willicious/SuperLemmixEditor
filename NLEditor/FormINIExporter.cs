@@ -877,7 +877,6 @@ namespace NLEditor
             }
 
             UpdatePieceLink(styleName, pieceKey, iniId, styleInfo.FolderPath);
-            UpdateUnlinkedPieceLabel();
 
             if (listViewPieceLinks.SelectedItems.Count > 0)
             {
@@ -886,6 +885,8 @@ namespace NLEditor
 
                 SelectNextUnlinkedPiece(selectedItem.Index);
             }
+
+            UpdateUnlinkedPieceLabel();
         }
 
         private string ResolveIniPiecePath(string styleName, string iniFolder, int iniId, bool isGadget)
