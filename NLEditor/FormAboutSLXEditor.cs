@@ -104,6 +104,10 @@ namespace NLEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
+            //// Test version text
+            //WriteBoldText(richTextBox, "This version of the Editor is for test purposes only!\n");
+            //richTextBox.AppendText("Please do not distribute it publicly as stability cannot be guaranteed. Thanks\n");
+
             // Version 2.9.2 features
             WriteBoldText(richTextBox, "Version 2.9.2\n");
             WriteBoldText(richTextBox, "• Refresh Styles");
