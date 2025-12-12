@@ -330,6 +330,8 @@ namespace NLEditor
 
                 if (issuesList[0].StartsWith("Piece outside"))
                     butFixIssues.Text = "Delete Pieces Outside Level";
+                else if (issuesList[0].StartsWith("Deprecated"))
+                    butFixIssues.Text = "Delete Deprecated Pieces";
 
                 if (isCleansing && butFixIssues.Text == "Edit Level")
                 {
@@ -356,7 +358,12 @@ namespace NLEditor
                 return;
             }
 
-            RemovePiecesOutsideBoundary();
+            if (butFixIssues.Text == "Delete Pieces Outside Level")
+                RemovePiecesOutsideBoundary();
+
+            if (butFixIssues.Text == "Delete Deprecated Pieces")
+                RemoveDeprecatedPieces();
+
             Validate(true, false, isCleansing);
 
             if (issuesList.Count <= 0)
@@ -384,6 +391,12 @@ namespace NLEditor
             System.Drawing.Rectangle levelRect = new System.Drawing.Rectangle(0, 0, level.Width, level.Height);
             level.TerrainList.RemoveAll(ter => !ter.ImageRectangle.IntersectsWith(levelRect));
             level.GadgetList.RemoveAll(obj => !obj.ImageRectangle.IntersectsWith(levelRect));
+        }
+
+        private void RemoveDeprecatedPieces()
+        {
+            level.TerrainList.RemoveAll(ter => ImageLibrary.GetDeprecated(ter.Key));
+            level.GadgetList.RemoveAll(obj => ImageLibrary.GetDeprecated(obj.Key));
         }
     }
 }
