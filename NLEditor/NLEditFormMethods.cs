@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -744,11 +743,25 @@ Ladderer=10";
             UpdateMissingPiecesList();
             UpdateStatusBar();
 
+            // If cleansing, search for more piece information and populate lists
+            if (!cleansingLevels)
+                return;
+
             if (missingPieces.Count > 0)
-            {
-                // Store the filename of the level with missing pieces
                 levelsWithMissingPieces.Add(CurLevel.FilePathToSave);
-            }
+
+            int deprecatedPieces =
+                CurLevel.TerrainList.Count(ter => ImageLibrary.GetDeprecated(ter.Key)) +
+                CurLevel.GadgetList.Count(obj => ImageLibrary.GetDeprecated(obj.Key));
+
+            if (deprecatedPieces > 0)
+                levelsWithDeprecatedPieces.Add(CurLevel.FilePathToSave);
+
+            if (!CurLevel.GadgetList.Exists(obj => obj.ObjType.In(C.OBJ.HATCH, C.OBJ.LEMMING)))
+                levelsWithNoLemmings.Add(CurLevel.FilePathToSave);
+
+            if (!CurLevel.GadgetList.Exists(obj => obj.ObjType.In(C.OBJ.EXIT, C.OBJ.EXIT_LOCKED)))
+                levelsWithNoExits.Add(CurLevel.FilePathToSave);
         }
 
         /// <summary>
@@ -1124,6 +1137,9 @@ Ladderer=10";
 
         // Store filenames of levels with missing pieces
         List<string> levelsWithMissingPieces = new List<string>();
+        List<string> levelsWithDeprecatedPieces = new List<string>();
+        List<string> levelsWithNoLemmings = new List<string>();
+        List<string> levelsWithNoExits = new List<string>();
         private bool cleansingLevels;
 
         /// <summary>
@@ -1141,6 +1157,9 @@ Ladderer=10";
 
             // Initialise list
             levelsWithMissingPieces.Clear();
+            levelsWithDeprecatedPieces.Clear();
+            levelsWithNoLemmings.Clear();
+            levelsWithNoExits.Clear();
 
             // Get all .nxlv files in the target folder and its subdirectories
             string[] files = Directory.GetFiles(targetFolder, "*.nxlv", SearchOption.AllDirectories);
@@ -1171,16 +1190,43 @@ Ladderer=10";
                 statusBar.Visible = false;
 
                 // Display completion message
-                string completionMessage = "All .nxlv files have been cleansed successfully.";
+                string cleanseMsg = "All .nxlv files cleansed successfully.";
                 
                 if (levelsWithMissingPieces.Count > 0)
                 {
-                    completionMessage += "\n\nLevels with missing pieces:\n\n";
-                    completionMessage += string.Join("\n", levelsWithMissingPieces.Select(Path.GetFileName));
-                    completionMessage += "\n\nThese levels contain missing or invalid style pieces.";
-
+                    cleanseMsg += "\n\nLevels with missing pieces:\n\n";
+                    cleanseMsg += string.Join("\n", levelsWithMissingPieces.Select(Path.GetFileName));
                 }
-                MessageBox.Show(completionMessage, "Cleanse Levels Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (levelsWithDeprecatedPieces.Count > 0)
+                {
+                    cleanseMsg += "\n\nLevels with deprecated pieces:\n\n";
+                    cleanseMsg += string.Join("\n", levelsWithDeprecatedPieces.Select(Path.GetFileName));
+                }
+                if (levelsWithNoLemmings.Count > 0)
+                {
+                    cleanseMsg += "\n\nLevels with no lemmings:\n\n";
+                    cleanseMsg += string.Join("\n", levelsWithNoLemmings.Select(Path.GetFileName));
+                }
+                if (levelsWithNoExits.Count > 0)
+                {
+                    cleanseMsg += "\n\nLevels with no exits:\n\n";
+                    cleanseMsg += string.Join("\n", levelsWithNoExits.Select(Path.GetFileName));
+                }
+                string reportPath = Path.Combine(targetFolder, "SLXEditorCleanseReport.txt");
+
+                // Save report and show message
+                string fullReport =
+                    "Cleanse Report for:\n" + targetFolder + "\n\n" + 
+                    cleanseMsg;
+
+                File.WriteAllText(reportPath, fullReport);
+
+                MessageBox.Show(
+                    $"{cleanseMsg}\n\nReport saved to:\n{reportPath}",
+                    "Cleanse Levels Complete",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
                 cleansingLevels = false;
             }
         }
