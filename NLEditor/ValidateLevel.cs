@@ -34,12 +34,14 @@ namespace NLEditor
         Button butClose;
 
         public static bool validationPassed = true;
+        public static bool isCleansing = false;
 
         /// <summary>
         /// Finds all issues in a level, creates a new form and displays the issues there.
         /// </summary>
-        public void Validate(bool reuseValidatorForm, bool openedViaSave)
+        public void Validate(bool reuseValidatorForm, bool openedViaSave = false, bool cleansingLevels = false)
         {
+            isCleansing = cleansingLevels;
             FindIssues();
 
             if (openedViaSave)
@@ -325,8 +327,17 @@ namespace NLEditor
             else
             {
                 txtIssuesList.Text = string.Join(C.NewLine, issuesList);
+
                 if (issuesList[0].StartsWith("Piece outside"))
                     butFixIssues.Text = "Delete Pieces Outside Level";
+
+                if (isCleansing && butFixIssues.Text == "Edit Level")
+                {
+                    butFixIssues.Enabled = false;
+                    butFixIssues.Visible = false;
+                    return;
+                }
+
                 butFixIssues.Enabled = true;
             }
         }
@@ -346,7 +357,7 @@ namespace NLEditor
             }
 
             RemovePiecesOutsideBoundary();
-            Validate(true, false);
+            Validate(true, false, isCleansing);
 
             if (issuesList.Count <= 0)
             {

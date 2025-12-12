@@ -446,7 +446,7 @@ namespace NLEditor
 
         private void validateLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ValidateLevel(false);
+            ValidateLevel(false, false);
         }
 
         private void cleanseLevelsToolStripMenuItem_Click(object sender, EventArgs e)

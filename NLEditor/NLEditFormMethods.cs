@@ -1072,7 +1072,7 @@ Ladderer=10";
         {
             if (curSettings.ValidateWhenSaving)
             {
-                ValidateLevel(true);
+                ValidateLevel(true, cleansingLevels);
 
                 if (!LevelValidator.validationPassed)
                     return;
@@ -1124,6 +1124,7 @@ Ladderer=10";
 
         // Store filenames of levels with missing pieces
         List<string> levelsWithMissingPieces = new List<string>();
+        private bool cleansingLevels;
 
         /// <summary>
         /// Opens and saves all .nxlv files in a directory in order to ensure compatibility and update the file
@@ -1135,6 +1136,8 @@ Ladderer=10";
                 MessageBox.Show("Please select a target folder.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            cleansingLevels = true;
 
             // Initialise list
             levelsWithMissingPieces.Clear();
@@ -1178,6 +1181,7 @@ Ladderer=10";
 
                 }
                 MessageBox.Show(completionMessage, "Cleanse Levels Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cleansingLevels = false;
             }
         }
 
@@ -1247,11 +1251,11 @@ Ladderer=10";
         /// <summary>
         /// Creates a new LevelValidator, runs the validation and displays the result in a new form.
         /// </summary>
-        private void ValidateLevel(bool openedViaSave)
+        private void ValidateLevel(bool openedViaSave, bool cleansingLevels)
         {
             ReadLevelInfoFromForm(true);
             var validator = new LevelValidator(CurLevel);
-            validator.Validate(false, openedViaSave);
+            validator.Validate(false, openedViaSave, cleansingLevels);
         }
 
 
@@ -2518,7 +2522,7 @@ Ladderer=10";
             AddHotkey(HotkeyConfig.HotkeySaveLevelAs, () => SaveLevelAsNewFile());
             AddHotkey(HotkeyConfig.HotkeySaveLevelAsImage, () => SaveLevelAsImage());
             AddHotkey(HotkeyConfig.HotkeyPlaytestLevel, () => PlaytestLevel());
-            AddHotkey(HotkeyConfig.HotkeyValidateLevel, () => ValidateLevel(false));
+            AddHotkey(HotkeyConfig.HotkeyValidateLevel, () => ValidateLevel(false, false));
             AddHotkey(HotkeyConfig.HotkeyCleanseLevels, () => ShowCleanseLevelsDialog());
             AddHotkey(HotkeyConfig.HotkeyHighlightGroupedPieces, () => HighlightGroupedPieces());
             AddHotkey(HotkeyConfig.HotkeyHighlightEraserPieces, () => HighlightEraserPieces());
