@@ -672,8 +672,10 @@ Ladderer=10";
 
             ImageLibrary.Clear();
             LoadStylesFromFile.AddInitialImagesToLibrary();
+            Style.ReloadSketches();
 
             CreateStyleList();
+
             if (StyleList.Count > 0)
             {
                 this.combo_MainStyle.Items.AddRange(StyleList.Where(sty => File.Exists(C.AppPathThemeInfo(sty.NameInDirectory))).Select(sty => sty.NameInEditor).ToArray());

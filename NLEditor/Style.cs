@@ -243,6 +243,11 @@ namespace NLEditor
             }
         }
 
+        public static void ReloadSketches()
+        {
+            sketchKeys = null;
+        }
+
 
         /// <summary>
         /// Removes all default objects, that are already present in the actual style.
