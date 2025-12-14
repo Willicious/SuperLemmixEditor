@@ -139,7 +139,7 @@ namespace NLEditor
         // ───────────────────────────────────────────────
         // WRITER: Outputs a RetroLemmini-compatible .ini file
         // ───────────────────────────────────────────────
-        private void WriteIniFile(IniLevel ini, string filePath, List<string> objectLines, List<string> terrainLines, List<string> steelLines)
+        private void WriteIniFile(IniLevel ini, string filePath, List<string> objectLines, List<string> terrainLines)
         {
             var sb = new StringBuilder();
 
@@ -197,13 +197,6 @@ namespace NLEditor
                 sb.AppendLine(line);
 
             sb.AppendLine();
-
-            // Add steel
-            sb.AppendLine("# Steel");
-            sb.AppendLine("# X pos, Y pos, width, height, (optional) flags");
-            sb.AppendLine("# Flags (optional): 1 = remove existing steel");
-            foreach (var line in steelLines)
-                sb.AppendLine(line);
 
             // Write all to .ini
             File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
@@ -521,42 +514,6 @@ namespace NLEditor
             return (terrainLines, objectLines, unlinkedPieces);
         }
 
-        private List<string> GetSteelLines(Level level, string selectedStyle)
-        {
-            var steelLines = new List<string>();
-            int steelIndex = 0;
-
-            foreach (var terrain in level.TerrainList)
-            {
-                if (terrain.IsSteel)
-                {
-                    var o = GetPieceOffsets(selectedStyle, terrain.Key);
-
-                    (bool flip, bool invert, bool rotate, int rotation) =
-                        (terrain.IsFlippedInPlayer,
-                         terrain.IsInvertedInPlayer,
-                         terrain.IsRotatedInPlayer,
-                         terrain.GetRotation());
-
-                    (int ox, int oy) = GetExportOffsets(
-                        o.xo, o.yo, o.xio, o.yio,
-                        flip, invert, rotate, rotation
-                    );
-
-                    int x = terrain.PosX * 2 - ox;
-                    int y = terrain.PosY * 2 - oy;
-
-                    int width = terrain.Width * 2;
-                    int height = terrain.Height * 2;
-
-                    steelLines.Add($"steel_{steelIndex} = {x},{y},{width},{height}");
-                    steelIndex++;
-                }
-            }
-
-            return steelLines;
-        }
-
         private void ShowWarnings()
         {
             if (LevelContainsGroups)
@@ -612,9 +569,6 @@ namespace NLEditor
                 // Get terrain/object lines with offsets applied
                 var (terrainLines, objectLines, unlinkedPieces) = GetPieceLinks(curLevel, selectedStyle);
 
-                // Get steel lines
-                var steelLines = GetSteelLines(curLevel, selectedStyle);
-
                 // Warn if some pieces are unlinked
                 if (unlinkedPieces.Count > 0)
                 {
@@ -637,7 +591,7 @@ namespace NLEditor
 
                     if (saveDialog.ShowDialog() == DialogResult.OK)
                     {
-                        WriteIniFile(ini, saveDialog.FileName, objectLines, terrainLines, steelLines);
+                        WriteIniFile(ini, saveDialog.FileName, objectLines, terrainLines);
 
                         MessageBox.Show($"Level exported successfully!\n\n{saveDialog.FileName}",
                                         "Export Complete",
