@@ -557,8 +557,7 @@ namespace NLEditor
             return steelLines;
         }
 
-
-        private void ExportLevel()
+        private void ShowWarnings()
         {
             if (LevelContainsGroups)
                 MessageBox.Show(
@@ -568,6 +567,32 @@ namespace NLEditor
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
+
+            bool levelContainsResizedPieces =
+                curLevel.TerrainList.OfType<TerrainPiece>()
+                    .Any(p => p.DefaultWidth > 0 && p.DefaultHeight > 0 &&
+                              (p.Width != p.DefaultWidth || p.Height != p.DefaultHeight))
+                ||
+                curLevel.GadgetList.OfType<GadgetPiece>()
+                    .Any(p => p.DefaultWidth > 0 && p.DefaultHeight > 0 &&
+                              (p.Width != p.DefaultWidth || p.Height != p.DefaultHeight));
+
+
+            if (levelContainsResizedPieces)
+            {
+                MessageBox.Show(
+                    "This level contains resized pieces.\n" +
+                    "These pieces will be at their original size in the exported level.",
+                    "Resized Pieces Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+            }
+        }
+
+        private void ExportLevel()
+        {
+            ShowWarnings();
 
             try
             {
