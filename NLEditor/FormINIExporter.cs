@@ -15,15 +15,16 @@ namespace NLEditor
     {
         private Level curLevel;
 
+        private bool LevelContainsGroups = false;
+
+        private Dictionary<string, INIStyleInfo> LoadedStyles = new Dictionary<string, INIStyleInfo>();
+
         internal FormINIExporter(Level level)
         {
             InitializeComponent();
-            this.curLevel = level;
+            curLevel = level.Clone();
             comboStyles.DisplayMember = "Name";
-
         }
-
-        private Dictionary<string, INIStyleInfo> LoadedStyles = new Dictionary<string, INIStyleInfo>();
 
         private class INIStyleInfo
         {
@@ -559,6 +560,15 @@ namespace NLEditor
 
         private void ExportLevel()
         {
+            if (LevelContainsGroups)
+                MessageBox.Show(
+                    "This level contains grouped pieces.\n" +
+                    "The grouping may not be fully preserved in the exported level.",
+                    "Grouped Pieces Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
             try
             {
                 // Ensure a style is selected
@@ -1202,6 +1212,32 @@ namespace NLEditor
             picPiecePreview.Image = zoomedImage;
         }
 
+        /// <summary>
+        /// Ungroups all grouped pieces in the export copy.
+        /// </summary>
+        private void UngroupAllPiecesForExport()
+        {
+            var groupsToUngroup = curLevel.TerrainList
+                .OfType<GroupPiece>()
+                .ToList();
+
+            if (groupsToUngroup.Count != 0)
+                LevelContainsGroups = true;
+            else
+                return;
+
+            foreach (var group in groupsToUngroup)
+            {
+                curLevel.UnselectAll();
+                group.IsSelected = true;
+
+                if (curLevel.MayUngroupSelection())
+                    curLevel.UngroupSelection();
+            }
+
+            curLevel.UnselectAll();
+        }
+
         private void FormINIExporter_Load(object sender, EventArgs e)
         {
             var styles = LoadTranslationStyles();
@@ -1213,6 +1249,7 @@ namespace NLEditor
                 comboStyles.SelectedIndex = 0;
 
             UpdateControls();
+            UngroupAllPiecesForExport();
         }
 
         private void btnAddStyle_Click(object sender, EventArgs e)
