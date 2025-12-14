@@ -38,6 +38,7 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(578, 244);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "FormLevelArranger";
             this.Text = "SuperLemmix Editor - Level Arranger";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormLevelArranger_FormClosing);
