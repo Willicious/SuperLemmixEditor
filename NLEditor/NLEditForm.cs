@@ -1657,5 +1657,26 @@ namespace NLEditor
                 iniExporterForm.ShowDialog(this);
             }
         }
+
+        private void btnLemCount_Click(object sender, EventArgs e)
+        {
+            CurLevel.GetLemmingTypeCounts(out int normalCount, out int zombieCount, out int rivalCount, out int neutralCount);
+
+            int totalCount = normalCount + zombieCount + rivalCount + neutralCount;
+            int possibleSaveCount = normalCount + rivalCount + neutralCount;
+
+            if (totalCount == 0 || possibleSaveCount == 0)
+            {
+                MessageBox.Show("To use Automatic Lemming Count, please add at least 1 Entrance Hatch or Pre-placed Lemming to the level.",
+                                "Automatic Lemming Count");
+                return;
+            }
+
+            if (totalCount != num_Lvl_Lems.Value)
+                num_Lvl_Lems.Value = totalCount;
+
+            if (possibleSaveCount < num_Lvl_Rescue.Value)
+                num_Lvl_Rescue.Value = possibleSaveCount;
+        }
     }
 }

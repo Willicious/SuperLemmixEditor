@@ -2000,7 +2000,7 @@ Ladderer=10";
             if (neutralCount > 0)
                 newText += ", " + neutralCount.ToString() + " Neutral";
 
-            lbl_Global_LemmingTypes.Text = newText;
+            btnLemCount.Text = newText;
         }
 
         /// <summary>

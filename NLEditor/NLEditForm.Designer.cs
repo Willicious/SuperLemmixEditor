@@ -43,6 +43,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.playLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.validateLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.cleanseLevelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,9 +61,12 @@
             this.openLevelWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openPieceBrowserWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.expandAllTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.highlightGroupedPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.highlightEraserPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.clearPhysicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.terrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.triggerAreasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,19 +78,19 @@
             this.snapToGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.styleManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshStylesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.styleManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.pic_Level = new System.Windows.Forms.PictureBox();
             this.tabLvlProperties = new System.Windows.Forms.TabControl();
             this.tabGlobalInfo = new System.Windows.Forms.TabPage();
+            this.btnLemCount = new System.Windows.Forms.Button();
             this.chk_Lvl_AutoStart = new System.Windows.Forms.CheckBox();
             this.lbl_Global_Version = new System.Windows.Forms.Label();
-            this.lbl_Global_LemmingTypes = new System.Windows.Forms.Label();
             this.but_RandomID = new System.Windows.Forms.Button();
             this.txt_LevelID = new System.Windows.Forms.TextBox();
             this.lbl_Global_ID = new System.Windows.Forms.Label();
@@ -303,10 +307,6 @@
             this.txt_FocusPieceBrowser = new NLEditor.FocusTextBox();
             this.pic_DragNewPiece = new System.Windows.Forms.PictureBox();
             this.txt_Focus = new NLEditor.FocusTextBox();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).BeginInit();
             this.tabLvlProperties.SuspendLayout();
@@ -494,6 +494,11 @@
             this.validateLevelToolStripMenuItem.Text = "Validate Level";
             this.validateLevelToolStripMenuItem.Click += new System.EventHandler(this.validateLevelToolStripMenuItem_Click);
             // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(351, 6);
+            // 
             // cleanseLevelsToolStripMenuItem
             // 
             this.cleanseLevelsToolStripMenuItem.Name = "cleanseLevelsToolStripMenuItem";
@@ -651,6 +656,11 @@
             this.expandAllTabsToolStripMenuItem.Text = "Expand All Tabs";
             this.expandAllTabsToolStripMenuItem.Click += new System.EventHandler(this.expandAllTabsToolStripMenuItem_Click);
             // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(457, 6);
+            // 
             // highlightGroupedPiecesToolStripMenuItem
             // 
             this.highlightGroupedPiecesToolStripMenuItem.CheckOnClick = true;
@@ -669,6 +679,11 @@
             this.highlightEraserPiecesToolStripMenuItem.Text = "Highlight Eraser Pieces";
             this.highlightEraserPiecesToolStripMenuItem.Click += new System.EventHandler(this.highlightEraserPiecesToolStripMenuItem_Click);
             // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(457, 6);
+            // 
             // clearPhysicsToolStripMenuItem
             // 
             this.clearPhysicsToolStripMenuItem.CheckOnClick = true;
@@ -677,6 +692,11 @@
             this.clearPhysicsToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
             this.clearPhysicsToolStripMenuItem.Text = "Clear Physics Mode";
             this.clearPhysicsToolStripMenuItem.Click += new System.EventHandler(this.clearPhysicsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(457, 6);
             // 
             // terrainToolStripMenuItem
             // 
@@ -787,13 +807,6 @@
             this.hotkeysToolStripMenuItem.Text = "Configure Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
-            // styleManagerToolStripMenuItem
-            // 
-            this.styleManagerToolStripMenuItem.Name = "styleManagerToolStripMenuItem";
-            this.styleManagerToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
-            this.styleManagerToolStripMenuItem.Text = "Style Manager";
-            this.styleManagerToolStripMenuItem.Click += new System.EventHandler(this.styleManagerToolStripMenuItem_Click);
-            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
@@ -814,6 +827,13 @@
             this.refreshStylesToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
             this.refreshStylesToolStripMenuItem.Text = "Refresh Styles";
             this.refreshStylesToolStripMenuItem.Click += new System.EventHandler(this.refreshStylesToolStripMenuItem_Click);
+            // 
+            // styleManagerToolStripMenuItem
+            // 
+            this.styleManagerToolStripMenuItem.Name = "styleManagerToolStripMenuItem";
+            this.styleManagerToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
+            this.styleManagerToolStripMenuItem.Text = "Style Manager";
+            this.styleManagerToolStripMenuItem.Click += new System.EventHandler(this.styleManagerToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -865,9 +885,9 @@
             // 
             // tabGlobalInfo
             // 
+            this.tabGlobalInfo.Controls.Add(this.btnLemCount);
             this.tabGlobalInfo.Controls.Add(this.chk_Lvl_AutoStart);
             this.tabGlobalInfo.Controls.Add(this.lbl_Global_Version);
-            this.tabGlobalInfo.Controls.Add(this.lbl_Global_LemmingTypes);
             this.tabGlobalInfo.Controls.Add(this.but_RandomID);
             this.tabGlobalInfo.Controls.Add(this.txt_LevelID);
             this.tabGlobalInfo.Controls.Add(this.lbl_Global_ID);
@@ -908,6 +928,17 @@
             this.tabGlobalInfo.Text = "Globals";
             this.tabGlobalInfo.UseVisualStyleBackColor = true;
             // 
+            // btnLemCount
+            // 
+            this.btnLemCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLemCount.Location = new System.Drawing.Point(67, 314);
+            this.btnLemCount.Name = "btnLemCount";
+            this.btnLemCount.Size = new System.Drawing.Size(259, 41);
+            this.btnLemCount.TabIndex = 33;
+            this.btnLemCount.Text = "0 Normal, 0 Zombie, 0 Rival, 0 Neutral";
+            this.btnLemCount.UseVisualStyleBackColor = true;
+            this.btnLemCount.Click += new System.EventHandler(this.btnLemCount_Click);
+            // 
             // chk_Lvl_AutoStart
             // 
             this.chk_Lvl_AutoStart.AutoSize = true;
@@ -924,27 +955,17 @@
             // lbl_Global_Version
             // 
             this.lbl_Global_Version.AutoSize = true;
-            this.lbl_Global_Version.Location = new System.Drawing.Point(68, 684);
+            this.lbl_Global_Version.Location = new System.Drawing.Point(79, 737);
             this.lbl_Global_Version.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Global_Version.Name = "lbl_Global_Version";
             this.lbl_Global_Version.Size = new System.Drawing.Size(215, 20);
             this.lbl_Global_Version.TabIndex = 31;
             this.lbl_Global_Version.Text = "Version: 0000000000000000";
-            // 
-            // lbl_Global_LemmingTypes
-            // 
-            this.lbl_Global_LemmingTypes.AutoSize = true;
-            this.lbl_Global_LemmingTypes.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Global_LemmingTypes.Location = new System.Drawing.Point(87, 345);
-            this.lbl_Global_LemmingTypes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lbl_Global_LemmingTypes.Name = "lbl_Global_LemmingTypes";
-            this.lbl_Global_LemmingTypes.Size = new System.Drawing.Size(229, 16);
-            this.lbl_Global_LemmingTypes.TabIndex = 19;
-            this.lbl_Global_LemmingTypes.Text = "0 Normal, 0 Zombie, 0 Rival, 0 Neutral";
+            this.lbl_Global_Version.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // but_RandomID
             // 
-            this.but_RandomID.Location = new System.Drawing.Point(68, 638);
+            this.but_RandomID.Location = new System.Drawing.Point(68, 686);
             this.but_RandomID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_RandomID.Name = "but_RandomID";
             this.but_RandomID.Size = new System.Drawing.Size(238, 35);
@@ -955,7 +976,7 @@
             // 
             // txt_LevelID
             // 
-            this.txt_LevelID.Location = new System.Drawing.Point(122, 601);
+            this.txt_LevelID.Location = new System.Drawing.Point(122, 649);
             this.txt_LevelID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txt_LevelID.MaxLength = 40;
             this.txt_LevelID.Name = "txt_LevelID";
@@ -965,52 +986,57 @@
             // 
             // lbl_Global_ID
             // 
-            this.lbl_Global_ID.Location = new System.Drawing.Point(44, 606);
+            this.lbl_Global_ID.Location = new System.Drawing.Point(13, 649);
             this.lbl_Global_ID.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Global_ID.Name = "lbl_Global_ID";
-            this.lbl_Global_ID.Size = new System.Drawing.Size(74, 23);
+            this.lbl_Global_ID.Size = new System.Drawing.Size(101, 23);
             this.lbl_Global_ID.TabIndex = 28;
             this.lbl_Global_ID.Text = "Level ID";
+            this.lbl_Global_ID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbStartY
             // 
             this.lbStartY.AutoSize = true;
-            this.lbStartY.Location = new System.Drawing.Point(272, 268);
+            this.lbStartY.Location = new System.Drawing.Point(274, 268);
             this.lbStartY.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbStartY.Name = "lbStartY";
             this.lbStartY.Size = new System.Drawing.Size(59, 20);
             this.lbStartY.TabIndex = 16;
             this.lbStartY.Text = "Start Y";
+            this.lbStartY.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbStartX
             // 
             this.lbStartX.AutoSize = true;
-            this.lbStartX.Location = new System.Drawing.Point(63, 268);
+            this.lbStartX.Location = new System.Drawing.Point(55, 268);
             this.lbStartX.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbStartX.Name = "lbStartX";
             this.lbStartX.Size = new System.Drawing.Size(59, 20);
             this.lbStartX.TabIndex = 13;
             this.lbStartX.Text = "Start X";
+            this.lbStartX.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbSizeH
             // 
             this.lbSizeH.AutoSize = true;
-            this.lbSizeH.Location = new System.Drawing.Point(273, 192);
+            this.lbSizeH.Location = new System.Drawing.Point(274, 191);
             this.lbSizeH.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbSizeH.Name = "lbSizeH";
             this.lbSizeH.Size = new System.Drawing.Size(56, 20);
             this.lbSizeH.TabIndex = 11;
             this.lbSizeH.Text = "Height";
+            this.lbSizeH.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbSizeW
             // 
             this.lbSizeW.AutoSize = true;
-            this.lbSizeW.Location = new System.Drawing.Point(63, 192);
+            this.lbSizeW.Location = new System.Drawing.Point(64, 192);
             this.lbSizeW.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbSizeW.Name = "lbSizeW";
             this.lbSizeW.Size = new System.Drawing.Size(50, 20);
             this.lbSizeW.TabIndex = 8;
             this.lbSizeW.Text = "Width";
+            this.lbSizeW.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // check_Lvl_InfTime
             // 
@@ -1018,7 +1044,7 @@
             this.check_Lvl_InfTime.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.check_Lvl_InfTime.Checked = true;
             this.check_Lvl_InfTime.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.check_Lvl_InfTime.Location = new System.Drawing.Point(130, 506);
+            this.check_Lvl_InfTime.Location = new System.Drawing.Point(130, 545);
             this.check_Lvl_InfTime.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Lvl_InfTime.Name = "check_Lvl_InfTime";
             this.check_Lvl_InfTime.Size = new System.Drawing.Size(121, 24);
@@ -1043,7 +1069,7 @@
             // 
             // num_Lvl_TimeSec
             // 
-            this.num_Lvl_TimeSec.Location = new System.Drawing.Point(226, 536);
+            this.num_Lvl_TimeSec.Location = new System.Drawing.Point(226, 575);
             this.num_Lvl_TimeSec.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Lvl_TimeSec.Maximum = new decimal(new int[] {
             59,
@@ -1058,7 +1084,7 @@
             // 
             // num_Lvl_TimeMin
             // 
-            this.num_Lvl_TimeMin.Location = new System.Drawing.Point(148, 536);
+            this.num_Lvl_TimeMin.Location = new System.Drawing.Point(148, 575);
             this.num_Lvl_TimeMin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Lvl_TimeMin.Maximum = new decimal(new int[] {
             99,
@@ -1073,18 +1099,19 @@
             // 
             // lbl_Global_TimeLimit
             // 
-            this.lbl_Global_TimeLimit.Location = new System.Drawing.Point(63, 539);
+            this.lbl_Global_TimeLimit.Location = new System.Drawing.Point(37, 576);
             this.lbl_Global_TimeLimit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Global_TimeLimit.Name = "lbl_Global_TimeLimit";
-            this.lbl_Global_TimeLimit.Size = new System.Drawing.Size(84, 23);
+            this.lbl_Global_TimeLimit.Size = new System.Drawing.Size(103, 23);
             this.lbl_Global_TimeLimit.TabIndex = 25;
             this.lbl_Global_TimeLimit.Text = "Time Limit";
+            this.lbl_Global_TimeLimit.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // check_Lvl_LockSR
             // 
             this.check_Lvl_LockSR.AutoSize = true;
             this.check_Lvl_LockSR.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_Lvl_LockSR.Location = new System.Drawing.Point(104, 429);
+            this.check_Lvl_LockSR.Location = new System.Drawing.Point(103, 451);
             this.check_Lvl_LockSR.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.check_Lvl_LockSR.Name = "check_Lvl_LockSR";
             this.check_Lvl_LockSR.Size = new System.Drawing.Size(171, 24);
@@ -1095,7 +1122,7 @@
             // 
             // num_Lvl_RR
             // 
-            this.num_Lvl_RR.Location = new System.Drawing.Point(212, 457);
+            this.num_Lvl_RR.Location = new System.Drawing.Point(213, 483);
             this.num_Lvl_RR.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Lvl_RR.Maximum = new decimal(new int[] {
             99,
@@ -1121,17 +1148,17 @@
             // 
             // lbl_Global_SR
             // 
-            this.lbl_Global_SR.Location = new System.Drawing.Point(72, 459);
+            this.lbl_Global_SR.Location = new System.Drawing.Point(68, 482);
             this.lbl_Global_SR.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Global_SR.Name = "lbl_Global_SR";
             this.lbl_Global_SR.Size = new System.Drawing.Size(138, 26);
             this.lbl_Global_SR.TabIndex = 23;
             this.lbl_Global_SR.Text = "Release Rate";
-            this.lbl_Global_SR.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lbl_Global_SR.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // num_Lvl_Rescue
             // 
-            this.num_Lvl_Rescue.Location = new System.Drawing.Point(212, 379);
+            this.num_Lvl_Rescue.Location = new System.Drawing.Point(235, 395);
             this.num_Lvl_Rescue.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Lvl_Rescue.Maximum = new decimal(new int[] {
             999,
@@ -1156,16 +1183,17 @@
             // 
             // lbl_Global_Rescue
             // 
-            this.lbl_Global_Rescue.Location = new System.Drawing.Point(68, 381);
+            this.lbl_Global_Rescue.Location = new System.Drawing.Point(66, 393);
             this.lbl_Global_Rescue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Global_Rescue.Name = "lbl_Global_Rescue";
-            this.lbl_Global_Rescue.Size = new System.Drawing.Size(142, 23);
+            this.lbl_Global_Rescue.Size = new System.Drawing.Size(162, 28);
             this.lbl_Global_Rescue.TabIndex = 20;
             this.lbl_Global_Rescue.Text = "Save Requirement";
+            this.lbl_Global_Rescue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // num_Lvl_Lems
             // 
-            this.num_Lvl_Lems.Location = new System.Drawing.Point(212, 314);
+            this.num_Lvl_Lems.Location = new System.Drawing.Point(235, 360);
             this.num_Lvl_Lems.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Lvl_Lems.Maximum = new decimal(new int[] {
             999,
@@ -1190,12 +1218,13 @@
             // 
             // lbl_Global_Lemmings
             // 
-            this.lbl_Global_Lemmings.Location = new System.Drawing.Point(126, 316);
+            this.lbl_Global_Lemmings.Location = new System.Drawing.Point(70, 358);
             this.lbl_Global_Lemmings.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Global_Lemmings.Name = "lbl_Global_Lemmings";
-            this.lbl_Global_Lemmings.Size = new System.Drawing.Size(84, 23);
+            this.lbl_Global_Lemmings.Size = new System.Drawing.Size(158, 29);
             this.lbl_Global_Lemmings.TabIndex = 17;
-            this.lbl_Global_Lemmings.Text = "Lemmings";
+            this.lbl_Global_Lemmings.Text = "Total Lemmings";
+            this.lbl_Global_Lemmings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // num_Lvl_StartY
             // 
@@ -1329,21 +1358,23 @@
             // 
             // lbl_Global_Style
             // 
-            this.lbl_Global_Style.Location = new System.Drawing.Point(9, 134);
+            this.lbl_Global_Style.Location = new System.Drawing.Point(9, 131);
             this.lbl_Global_Style.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Global_Style.Name = "lbl_Global_Style";
             this.lbl_Global_Style.Size = new System.Drawing.Size(69, 23);
             this.lbl_Global_Style.TabIndex = 6;
             this.lbl_Global_Style.Text = "Theme";
+            this.lbl_Global_Style.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbl_Global_Music
             // 
-            this.lbl_Global_Music.Location = new System.Drawing.Point(9, 92);
+            this.lbl_Global_Music.Location = new System.Drawing.Point(9, 90);
             this.lbl_Global_Music.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Global_Music.Name = "lbl_Global_Music";
             this.lbl_Global_Music.Size = new System.Drawing.Size(69, 23);
             this.lbl_Global_Music.TabIndex = 4;
             this.lbl_Global_Music.Text = "Music";
+            this.lbl_Global_Music.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txt_LevelAuthor
             // 
@@ -1357,12 +1388,13 @@
             // 
             // lbl_Global_Author
             // 
-            this.lbl_Global_Author.Location = new System.Drawing.Point(9, 54);
+            this.lbl_Global_Author.Location = new System.Drawing.Point(9, 53);
             this.lbl_Global_Author.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Global_Author.Name = "lbl_Global_Author";
             this.lbl_Global_Author.Size = new System.Drawing.Size(66, 23);
             this.lbl_Global_Author.TabIndex = 2;
             this.lbl_Global_Author.Text = "Author";
+            this.lbl_Global_Author.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txt_LevelTitle
             // 
@@ -1376,16 +1408,17 @@
             // 
             // lbl_Global_Title
             // 
-            this.lbl_Global_Title.Location = new System.Drawing.Point(9, 14);
+            this.lbl_Global_Title.Location = new System.Drawing.Point(9, 13);
             this.lbl_Global_Title.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Global_Title.Name = "lbl_Global_Title";
             this.lbl_Global_Title.Size = new System.Drawing.Size(69, 23);
             this.lbl_Global_Title.TabIndex = 0;
             this.lbl_Global_Title.Text = "Title";
+            this.lbl_Global_Title.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // num_Lvl_SI
             // 
-            this.num_Lvl_SI.Location = new System.Drawing.Point(212, 457);
+            this.num_Lvl_SI.Location = new System.Drawing.Point(212, 483);
             this.num_Lvl_SI.Maximum = new decimal(new int[] {
             102,
             0,
@@ -3706,26 +3739,6 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(457, 6);
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(457, 6);
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(457, 6);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(351, 6);
-            // 
             // NLEditForm
             // 
             this.AllowDrop = true;
@@ -4008,7 +4021,6 @@
         private System.Windows.Forms.Button but_RandomID;
         private System.Windows.Forms.ToolStripMenuItem pasteInPlaceToolStripMenuItem;
         private System.Windows.Forms.Timer timerAutosave;
-        private System.Windows.Forms.Label lbl_Global_LemmingTypes;
         private System.Windows.Forms.Label lbl_Decoration_Speed;
         private NumUpDownOverwrite num_Decoration_Speed;
         private System.Windows.Forms.ComboBox cb_Decoration_Direction;
@@ -4123,6 +4135,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.Button btnLemCount;
     }
 }
 
