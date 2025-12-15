@@ -220,7 +220,7 @@ namespace NLEditor
             // Read in skill information
             foreach (C.Skill skill in C.SkillArray)
             {
-                if (newGadget.ObjType.In(C.OBJ.PICKUP, C.OBJ.SKILL_ADD))
+                if (newGadget.ObjType.In(C.OBJ.PICKUP, C.OBJ.SKILL_ADD, C.OBJ.SKILL_ASSIGNER))
                 {
                     if (node["SKILL"].ValueTrimUpper == SkillString(skill))
                         newGadget.SetSkillFlag(skill, true);
@@ -880,7 +880,7 @@ namespace NLEditor
                     textFile.WriteLine("   SKILL_COUNT " + gadget.Val_L.ToString());
                 }
             }
-            else if (gadget.ObjType.In(C.OBJ.SKILL_ADD))
+            else if (gadget.ObjType.In(C.OBJ.SKILL_ADD, C.OBJ.SKILL_ASSIGNER))
             {
                 foreach (C.Skill skill in gadget.SkillFlags)
                 {

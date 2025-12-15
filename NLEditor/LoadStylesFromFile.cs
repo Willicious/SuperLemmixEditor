@@ -482,11 +482,17 @@ namespace NLEditor
                                 case "DENEUTRALIZER":
                                     objType = C.OBJ.DENEUTRALIZER;
                                     break;
+                                case "NORMALIZER":
+                                    objType = C.OBJ.DENEUTRALIZER;
+                                    break;
                                 case "ADDSKILL":
                                     objType = C.OBJ.SKILL_ADD;
                                     break;
                                 case "REMOVESKILLS":
                                     objType = C.OBJ.SKILL_REMOVE;
+                                    break;
+                                case "SKILLASSIGNER":
+                                    objType = C.OBJ.SKILL_ASSIGNER;
                                     break;
                             }
                             break;

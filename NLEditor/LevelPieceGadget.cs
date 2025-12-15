@@ -196,7 +196,7 @@ namespace NLEditor
         /// </summary>
         protected override int GetFrameIndex()
         {
-            if (ObjType.In(C.OBJ.PICKUP, C.OBJ.SKILL_ADD))
+            if (ObjType.In(C.OBJ.PICKUP, C.OBJ.SKILL_ADD, C.OBJ.SKILL_ASSIGNER))
             {
                 // Return the index of the skill + 1 or return 0 if no skill is selected
                 foreach (C.Skill skill in C.SkillArray)
@@ -236,30 +236,34 @@ namespace NLEditor
             {
                 case C.OBJ.HATCH:
                     {
-                        return skill.In(C.Skill.Slider, C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
-                                        C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Zombie, C.Skill.Neutral)
+                        return C.PermaSkills.Contains(skill)
+
+                            || skill.In(C.Skill.Zombie, C.Skill.Neutral)
 
                             || skill.In(C.Skill.Rival) && !NLEditForm.isNeoLemmixOnly;
                     }
                 case C.OBJ.LEMMING:
                     {
-                        return skill.In(C.Skill.Slider, C.Skill.Climber, C.Skill.Floater, C.Skill.Glider,
-                                        C.Skill.Disarmer, C.Skill.Swimmer, C.Skill.Blocker,
-                                        C.Skill.Shimmier, C.Skill.Zombie, C.Skill.Neutral)
+                        return C.PermaSkills.Contains(skill)
+
+                            || skill.In(C.Skill.Blocker, C.Skill.Shimmier, C.Skill.Zombie, C.Skill.Neutral)
 
                             || skill.In(C.Skill.Ballooner, C.Skill.Rival) && !NLEditForm.isNeoLemmixOnly;
                     }
                 case C.OBJ.PICKUP:
+                case C.OBJ.SKILL_ASSIGNER:
                     {
                         return !skill.In(C.Skill.Zombie, C.Skill.Rival, C.Skill.Neutral)
 
-                           && (!skill.In(C.Skill.Ballooner, C.Skill.Freezer, C.Skill.Grenader,
-                                         C.Skill.Spearer, C.Skill.Timebomber, C.Skill.Ladderer)
-                                      || !NLEditForm.isNeoLemmixOnly)
+                           && (!C.SuperLemmixSkills.Contains(skill) || !NLEditForm.isNeoLemmixOnly)
 
-                           && (!skill.In(C.Skill.Stoner) || NLEditForm.isNeoLemmixOnly);
+                           && (!skill.In(C.Skill.Stoner) || NLEditForm.isNeoLemmixOnly)
+
+                           && (!(ObjType == C.OBJ.SKILL_ASSIGNER) || C.PermaSkills.Contains(skill) ||
+                               skill.In(C.Skill.Walker, C.Skill.Jumper, C.Skill.Shimmier, C.Skill.Ballooner,
+                                        C.Skill.Blocker, C.Skill.Spearer, C.Skill.Laserer, C.Skill.Grenader,
+                                        C.Skill.Cloner));
                     }
-
                 case C.OBJ.EXIT:
                 case C.OBJ.EXIT_LOCKED:
                     {
@@ -267,7 +271,7 @@ namespace NLEditor
                     }
                 case C.OBJ.SKILL_ADD:
                     {
-                        return skill.In(C.Skill.Slider, C.Skill.Climber, C.Skill.Floater, C.Skill.Glider, C.Skill.Disarmer, C.Skill.Swimmer);
+                        return C.PermaSkills.Contains(skill);
                     }
                 default:
                     return false;
@@ -335,6 +339,7 @@ namespace NLEditor
                 case C.OBJ.EXIT:
                 case C.OBJ.EXIT_LOCKED:
                 case C.OBJ.SKILL_ADD:
+                case C.OBJ.SKILL_ASSIGNER:
                     {
                         SkillFlags.Clear();
                         if (doAdd)

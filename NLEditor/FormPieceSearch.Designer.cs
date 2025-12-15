@@ -224,7 +224,9 @@
             "OneWay",
             "Neutralizer",
             "DeNeutralizer",
+            "Normalizer",
             "AddSkill",
+            "SkillAssigner",
             "RemoveSkills",
             "Decoration"});
             this.cbTriggerEffect.Location = new System.Drawing.Point(131, 180);

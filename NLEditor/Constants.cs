@@ -88,6 +88,7 @@ namespace NLEditor
             PORTAL = 26,
             NEUTRALIZER = 27, DENEUTRALIZER = 28,
             SKILL_ADD = 29, SKILL_REMOVE = 30,
+            SKILL_ASSIGNER = 31,
             NONE = 100, NULL
         }
 
@@ -123,8 +124,8 @@ namespace NLEditor
           {OBJ.COLLECTIBLE, "Collectible"}, {OBJ.UPDRAFT, "Updraft"},
           {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
           {OBJ.SPLAT, "Splat Pad"}, {OBJ.DECORATION, "Decoration"}, {OBJ.TRAPONCE, "Single Trap"},
-          {OBJ.PORTAL, "Portal" }, {OBJ.NEUTRALIZER, "Neutralizer" }, {OBJ.SKILL_ADD, "Skill Assigner" },
-          {OBJ.DENEUTRALIZER, "Deneutralizer" }, {OBJ.SKILL_REMOVE, "Skill Remover" }
+          {OBJ.PORTAL, "Portal" }, {OBJ.NEUTRALIZER, "Neutralizer" }, {OBJ.SKILL_ADD, "Permaskill Assigner" },
+          {OBJ.DENEUTRALIZER, "Deneutralizer" }, {OBJ.SKILL_REMOVE, "Skill Remover" }, {OBJ.SKILL_ASSIGNER, "Skill Assigner"}
         };
 
         public enum DragActions
@@ -166,6 +167,26 @@ namespace NLEditor
             Cloner = 53
         };
         public static Array SkillArray => Enum.GetValues(typeof(C.Skill));
+
+        public static readonly HashSet<Skill> PermaSkills = new HashSet<Skill>
+        {
+            Skill.Slider,
+            Skill.Climber,
+            Skill.Swimmer,
+            Skill.Floater,
+            Skill.Glider,
+            Skill.Disarmer
+        };
+
+        public static readonly HashSet<Skill> SuperLemmixSkills = new HashSet<Skill>
+        {
+            Skill.Ballooner,
+            Skill.Timebomber,
+            Skill.Freezer,
+            Skill.Grenader,
+            Skill.Spearer,
+            Skill.Ladderer
+        };
 
         public static readonly int ZOOM_MIN = -2;
         public static readonly int ZOOM_MAX = 10;
