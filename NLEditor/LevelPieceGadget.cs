@@ -196,7 +196,7 @@ namespace NLEditor
         /// </summary>
         protected override int GetFrameIndex()
         {
-            if (ObjType.In(C.OBJ.PICKUP, C.OBJ.SKILL_ADD, C.OBJ.SKILL_ASSIGNER))
+            if (ObjType.In(C.OBJ.PICKUP, C.OBJ.PERMASKILL_ADD, C.OBJ.SKILL_ASSIGNER))
             {
                 // Return the index of the skill + 1 or return 0 if no skill is selected
                 foreach (C.Skill skill in C.SkillArray)
@@ -269,7 +269,7 @@ namespace NLEditor
                     {
                         return skill == C.Skill.Rival && !NLEditForm.isNeoLemmixOnly;
                     }
-                case C.OBJ.SKILL_ADD:
+                case C.OBJ.PERMASKILL_ADD:
                     {
                         return C.PermaSkills.Contains(skill);
                     }
@@ -338,7 +338,7 @@ namespace NLEditor
                 case C.OBJ.PICKUP:
                 case C.OBJ.EXIT:
                 case C.OBJ.EXIT_LOCKED:
-                case C.OBJ.SKILL_ADD:
+                case C.OBJ.PERMASKILL_ADD:
                 case C.OBJ.SKILL_ASSIGNER:
                     {
                         SkillFlags.Clear();

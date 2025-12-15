@@ -87,7 +87,7 @@ namespace NLEditor
             DECORATION = 24, PAINT = 25,
             PORTAL = 26,
             NEUTRALIZER = 27, DENEUTRALIZER = 28,
-            SKILL_ADD = 29, SKILL_REMOVE = 30,
+            PERMASKILL_ADD = 29, PERMASKILL_REMOVE = 30,
             SKILL_ASSIGNER = 31,
             NONE = 100, NULL
         }
@@ -124,8 +124,8 @@ namespace NLEditor
           {OBJ.COLLECTIBLE, "Collectible"}, {OBJ.UPDRAFT, "Updraft"},
           {OBJ.SPLITTER, "Splitter"}, {OBJ.HATCH, "Hatch"},
           {OBJ.SPLAT, "Splat Pad"}, {OBJ.DECORATION, "Decoration"}, {OBJ.TRAPONCE, "Single Trap"},
-          {OBJ.PORTAL, "Portal" }, {OBJ.NEUTRALIZER, "Neutralizer" }, {OBJ.SKILL_ADD, "Permaskill Assigner" },
-          {OBJ.DENEUTRALIZER, "Deneutralizer" }, {OBJ.SKILL_REMOVE, "Skill Remover" }, {OBJ.SKILL_ASSIGNER, "Skill Assigner"}
+          {OBJ.PORTAL, "Portal" }, {OBJ.NEUTRALIZER, "Neutralizer" }, {OBJ.PERMASKILL_ADD, "PermaSkill Assigner" },
+          {OBJ.DENEUTRALIZER, "Deneutralizer" }, {OBJ.PERMASKILL_REMOVE, "PermaSkill Remover" }, {OBJ.SKILL_ASSIGNER, "Skill Assigner"}
         };
 
         public enum DragActions

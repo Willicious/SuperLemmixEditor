@@ -486,10 +486,10 @@ namespace NLEditor
                                     objType = C.OBJ.DENEUTRALIZER;
                                     break;
                                 case "ADDSKILL":
-                                    objType = C.OBJ.SKILL_ADD;
+                                    objType = C.OBJ.PERMASKILL_ADD;
                                     break;
                                 case "REMOVESKILLS":
-                                    objType = C.OBJ.SKILL_REMOVE;
+                                    objType = C.OBJ.PERMASKILL_REMOVE;
                                     break;
                                 case "SKILLASSIGNER":
                                     objType = C.OBJ.SKILL_ASSIGNER;

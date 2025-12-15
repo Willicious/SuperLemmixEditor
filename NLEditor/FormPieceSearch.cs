@@ -241,7 +241,9 @@ namespace NLEditor
                             case "ONEWAYLEFT":
                             case "ONEWAYRIGHT": triggerEffect = "ONEWAY"; break;
                             case "FORCELEFT":
-                            case "FORCERIGHT": triggerEffect = "FORCE"; break;
+                            case "FORCERIGHT": triggerEffect = "FORCEFIELD"; break;
+                            case "ADDSKILL": triggerEffect = "PERMASKILLASSIGNER"; break;
+                            case "REMOVESKILLS": triggerEffect = "PERMASKILLREMOVER"; break;
                         }
                     }
 

@@ -220,14 +220,14 @@
             "Collectible",
             "SplatPad",
             "AntiSplatPad",
-            "Force",
+            "ForceField",
             "OneWay",
             "Neutralizer",
             "DeNeutralizer",
             "Normalizer",
-            "AddSkill",
             "SkillAssigner",
-            "RemoveSkills",
+            "PermaSkillAssigner",
+            "PermaSkillRemover",
             "Decoration"});
             this.cbTriggerEffect.Location = new System.Drawing.Point(131, 180);
             this.cbTriggerEffect.Name = "cbTriggerEffect";
