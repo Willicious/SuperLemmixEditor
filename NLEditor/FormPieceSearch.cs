@@ -141,20 +141,30 @@ namespace NLEditor
 
             try
             {
-                // Get all PNG files first
-                string[] files = Directory.GetFiles(searchPath, "*.png", SearchOption.AllDirectories);
+                // Get all PNG and NXMO files
+                var pngFiles = Directory.GetFiles(searchPath, "*.png", SearchOption.AllDirectories);
+                var nxmoFiles = Directory.GetFiles(searchPath, "*.nxmo", SearchOption.AllDirectories);
 
-                foreach (string file in files)
+                // --- TERRAIN: PNG is authoritative ---
+                foreach (string png in pngFiles)
                 {
-                    string fileName = Path.GetFileNameWithoutExtension(file);
-                    string relativePath = GetRelativePath(Path.Combine(rootPath, "styles"), file);
+                    string relativePath = GetRelativePath(Path.Combine(rootPath, "styles"), png);
 
-                    // Extract style name from the relative path
-                    string[] pathParts = relativePath.Split(Path.DirectorySeparatorChar);
-                    string styleName = pathParts.Length > 0 ? pathParts[0] : "";
+                    if (relativePath.IndexOf("\\terrain\\", StringComparison.OrdinalIgnoreCase) < 0)
+                        continue;
 
-                    results.Add(relativePath.Replace(Path.DirectorySeparatorChar, '\\')
-                                            .Replace(Path.GetExtension(relativePath), ""));
+                    results.Add(relativePath.Replace(".png", ""));
+                }
+
+                // --- OBJECTS: NXMO is authoritative ---
+                foreach (string nxmo in nxmoFiles)
+                {
+                    string relativePath = GetRelativePath(Path.Combine(rootPath, "styles"), nxmo);
+
+                    if (relativePath.IndexOf("\\objects\\", StringComparison.OrdinalIgnoreCase) < 0)
+                        continue;
+
+                    results.Add(relativePath.Replace(".nxmo", ""));
                 }
             }
             catch (Exception ex)
@@ -162,6 +172,7 @@ namespace NLEditor
                 MessageBox.Show($"An error occurred while searching: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+            results.Sort(StringComparer.OrdinalIgnoreCase);
             return results;
         }
 
@@ -188,10 +199,6 @@ namespace NLEditor
 
             bool isTerrain = relativePath.IndexOf("\\terrain\\", StringComparison.OrdinalIgnoreCase) >= 0;
             bool isObject = relativePath.IndexOf("\\objects\\", StringComparison.OrdinalIgnoreCase) >= 0;
-
-            // Skip objects that don't have an associated .nxmo file
-            if (isObject && !File.Exists(nxmoFilePath))
-                return false;
 
             bool passesFilters = false;
             bool passesTriggerFilter = false;
@@ -351,7 +358,10 @@ namespace NLEditor
             string subfolder = parts[1];
             string piece = parts[2];
 
-            string size = $"{ImageLibrary.GetWidth(selectedResult)} x {ImageLibrary.GetHeight(selectedResult)}";
+            string pngPath = Path.Combine("styles", selectedResult + ".png");
+            string size = File.Exists(pngPath)
+                ? $"{ImageLibrary.GetWidth(selectedResult)} x {ImageLibrary.GetHeight(selectedResult)}"
+                : "N/A";
 
             lblMetaData.Text = $"Style: {style}\nSubfolder: {subfolder}\nPiece: {piece}\nSize: {size}";
         }
@@ -362,6 +372,14 @@ namespace NLEditor
             {
                 previewPictureBox.Image = null;
                 lblMetaData.Text = "No piece selected";
+                return;
+            }
+
+            string pngPath = Path.Combine("styles", pieceKey + ".png");
+            if (!File.Exists(pngPath))
+            {
+                previewPictureBox.Image = null;
+                lblMetaData.Text = "No preview available.";
                 return;
             }
 
