@@ -499,7 +499,7 @@ namespace NLEditor
         {
             Style newStyle = ValidateStyleName(combo_MainStyle.Text);
 
-            if (newStyle == null || CurLevel == null || newStyle == CurLevel.MainStyle)
+            if (newStyle == null || CurLevel == null)
                 return;
 
             CurLevel.MainStyle = newStyle;
