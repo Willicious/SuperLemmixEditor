@@ -1618,7 +1618,7 @@ namespace NLEditor
             PullFocusFromTextInputs();
         }
 
-        private void btnCustomSkillset_Click(object sender, EventArgs e)
+        private void combo_CustomSkillset_SelectedIndexChanged(object sender, EventArgs e)
         {
             ApplyCustomSkillset();
         }
@@ -1626,6 +1626,11 @@ namespace NLEditor
         private void btnSaveAsCustomSkillset_Click(object sender, EventArgs e)
         {
             SaveSkillsetAsCustom();
+        }
+
+        private void btnClearAllSkills_Click(object sender, EventArgs e)
+        {
+            SetAllSkillsToZero();
         }
 
         private void refreshStylesToolStripMenuItem_Click(object sender, EventArgs e)
