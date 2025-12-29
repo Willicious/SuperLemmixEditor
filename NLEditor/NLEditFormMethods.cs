@@ -1602,6 +1602,7 @@ Ladderer=10";
                 lblPieceName.Text = string.Empty;
                 lblPieceStyle.Text = string.Empty;
                 lblPieceType.Text = string.Empty;
+                lblPieceSize.Text = string.Empty;
                 but_LoadStyle.Visible = false;
 
                 return;
