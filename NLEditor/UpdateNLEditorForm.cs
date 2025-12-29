@@ -37,7 +37,6 @@ namespace NLEditor
         public void UpdateRRSIControls()
         {
             lbl_Global_SR.Text = curSettings.UseSpawnInterval ? "Spawn Interval" : "Release Rate";
-            check_Lvl_LockSR.Text = curSettings.UseSpawnInterval ? "Lock Spawn Interval" : "Lock Release Rate";
             num_Lvl_RR.Visible = !curSettings.UseSpawnInterval;
             num_Lvl_SI.Visible = curSettings.UseSpawnInterval;
         }
