@@ -2419,7 +2419,10 @@ Ladderer=10";
 
             // List and shuffle the numeric controls on tabSkills (excluding the randomizer limits and disabled controls)
             List<NumericUpDown> numericUpDowns = tabSkills.Controls.OfType<NumericUpDown>()
-                .Where(n => n != num_RandomMinLimit && n != num_RandomMaxLimit && n.Enabled)
+                .Where(n => n != num_RandomMinLimit &&
+                            n != num_RandomMaxLimit &&
+                            n != num_AllNonZeroSkillsToN &&
+                            n.Enabled)
                 .ToList();
             numericUpDowns = numericUpDowns.OrderBy(x => random.Next()).ToList();
 
