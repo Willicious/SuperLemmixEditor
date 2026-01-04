@@ -822,6 +822,28 @@ Ladderer=10";
         }
 
         /// <summary>
+        /// Opens the Export As INI dialog
+        /// </summary>
+        private void OpenExportAsINI()
+        {
+            using (var iniExporterForm = new FormINIExporter(CurLevel))
+            {
+                iniExporterForm.ShowDialog(this);
+            }
+        }
+
+        /// <summary>
+        /// Opens the Style Manager dialog
+        /// </summary>
+        private void OpenStyleManager()
+        {
+            using (var styleManagerForm = new FormStyleManager(this, curSettings))
+            {
+                styleManagerForm.ShowDialog(this);
+            }
+        }
+
+        /// <summary>
         /// Performs a search for pieces throughout the full styles folder
         /// </summary>
         private void OpenPieceSearch()
@@ -2575,6 +2597,7 @@ Ladderer=10";
             AddHotkey(HotkeyConfig.HotkeySaveLevel, () => SaveLevel());
             AddHotkey(HotkeyConfig.HotkeySaveLevelAs, () => SaveLevelAsNewFile());
             AddHotkey(HotkeyConfig.HotkeySaveLevelAsImage, () => SaveLevelAsImage());
+            AddHotkey(HotkeyConfig.HotkeyExportLevelAsINI, () => OpenExportAsINI());
             AddHotkey(HotkeyConfig.HotkeyPlaytestLevel, () => PlaytestLevel());
             AddHotkey(HotkeyConfig.HotkeyValidateLevel, () => ValidateLevel(false, false));
             AddHotkey(HotkeyConfig.HotkeyCleanseLevels, () => ShowCleanseLevelsDialog());
@@ -2589,6 +2612,7 @@ Ladderer=10";
             AddHotkey(HotkeyConfig.HotkeyToggleDeprecatedPieces, () => ToggleDeprecatedPieces());
             AddHotkey(HotkeyConfig.HotkeyShowMissingPieces, () => ShowMissingPiecesDialog());
             AddHotkey(HotkeyConfig.HotkeyRefreshStyles, () => RefreshStyles());
+            AddHotkey(HotkeyConfig.HotkeyOpenStyleManager, () => OpenStyleManager());
             AddHotkey(HotkeyConfig.HotkeyPieceSearch, () => OpenPieceSearch());
             AddHotkey(HotkeyConfig.HotkeyToggleSnapToGrid, () => ToggleSnapToGrid(true));
             AddHotkey(HotkeyConfig.HotkeyOpenLevelArrangerWindow, () => OpenLevelArrangerWindow());
@@ -2692,6 +2716,9 @@ Ladderer=10";
             saveAsImageToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeySaveLevelAsImage);
 
+            exportAsINIToolStripMenuItem.ShortcutKeyDisplayString =
+                HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyExportLevelAsINI);
+
             exitToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyCloseEditor);
 
@@ -2766,6 +2793,9 @@ Ladderer=10";
 
             refreshStylesToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyRefreshStyles);
+
+            styleManagerToolStripMenuItem.ShortcutKeyDisplayString =
+                HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyOpenStyleManager);
 
             searchPiecesToolStripMenuItem.ShortcutKeyDisplayString =
                 HotkeyConfig.FormatHotkeyString(HotkeyConfig.HotkeyPieceSearch);

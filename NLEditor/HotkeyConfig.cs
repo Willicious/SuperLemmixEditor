@@ -15,6 +15,7 @@ namespace NLEditor
         public static Keys HotkeySaveLevel;
         public static Keys HotkeySaveLevelAs;
         public static Keys HotkeySaveLevelAsImage;
+        public static Keys HotkeyExportLevelAsINI;
         public static Keys HotkeyPlaytestLevel;
         public static Keys HotkeyValidateLevel;
         public static Keys HotkeyCleanseLevels;
@@ -30,6 +31,7 @@ namespace NLEditor
         public static Keys HotkeyPieceSearch;
         public static Keys HotkeyShowMissingPieces;
         public static Keys HotkeyRefreshStyles;
+        public static Keys HotkeyOpenStyleManager;
         public static Keys HotkeyToggleSnapToGrid;
         public static Keys HotkeyOpenLevelArrangerWindow;
         public static Keys HotkeyOpenPieceBrowserWindow;
@@ -344,6 +346,8 @@ namespace NLEditor
                     HotkeySaveLevelAs = ParseHotkeyString(line.Substring("HotkeySaveLevelAs=".Length));
                 if (line.StartsWith("HotkeySaveLevelAsImage="))
                     HotkeySaveLevelAsImage = ParseHotkeyString(line.Substring("HotkeySaveLevelAsImage=".Length));
+                if (line.StartsWith("HotkeyExportLevelAsINI="))
+                    HotkeyExportLevelAsINI = ParseHotkeyString(line.Substring("HotkeyExportLevelAsINI=".Length));
                 if (line.StartsWith("HotkeyPlaytestLevel="))
                     HotkeyPlaytestLevel = ParseHotkeyString(line.Substring("HotkeyPlaytestLevel=".Length));
                 if (line.StartsWith("HotkeyValidateLevel="))
@@ -374,6 +378,8 @@ namespace NLEditor
                     HotkeyShowMissingPieces = ParseHotkeyString(line.Substring("HotkeyShowMissingPieces=".Length));
                 if (line.StartsWith("HotkeyRefreshStyles="))
                     HotkeyRefreshStyles = ParseHotkeyString(line.Substring("HotkeyRefreshStyles=".Length));
+                if (line.StartsWith("HotkeyOpenStyleManager="))
+                    HotkeyOpenStyleManager = ParseHotkeyString(line.Substring("HotkeyOpenStyleManager=".Length));
                 if (line.StartsWith("HotkeyToggleSnapToGrid="))
                     HotkeyToggleSnapToGrid = ParseHotkeyString(line.Substring("HotkeyToggleSnapToGrid=".Length));
                 if (line.StartsWith("HotkeyOpenLevelArrangerWindow="))
@@ -562,6 +568,7 @@ namespace NLEditor
                 $"HotkeySaveLevel={FormatHotkeyString(HotkeySaveLevel)}",
                 $"HotkeySaveLevelAs={FormatHotkeyString(HotkeySaveLevelAs)}",
                 $"HotkeySaveLevelAsImage={FormatHotkeyString(HotkeySaveLevelAsImage)}",
+                $"HotkeyExportLevelAsINI={FormatHotkeyString(HotkeyExportLevelAsINI)}",
                 $"HotkeyPlaytestLevel={FormatHotkeyString(HotkeyPlaytestLevel)}",
                 $"HotkeyValidateLevel={FormatHotkeyString(HotkeyValidateLevel)}",
                 $"HotkeyCleanseLevels={FormatHotkeyString(HotkeyCleanseLevels)}",
@@ -577,6 +584,7 @@ namespace NLEditor
                 $"HotkeyPieceSearch={FormatHotkeyString(HotkeyPieceSearch)}",
                 $"HotkeyShowMissingPieces={FormatHotkeyString(HotkeyShowMissingPieces)}",
                 $"HotkeyRefreshStyles={FormatHotkeyString(HotkeyRefreshStyles)}",
+                $"HotkeyOpenStyleManager={FormatHotkeyString(HotkeyOpenStyleManager)}",
                 $"HotkeyToggleSnapToGrid={FormatHotkeyString(HotkeyToggleSnapToGrid)}",
                 $"HotkeyOpenLevelArrangerWindow={FormatHotkeyString(HotkeyOpenLevelArrangerWindow)}",
                 $"HotkeyOpenPieceBrowserWindow={FormatHotkeyString(HotkeyOpenPieceBrowserWindow)}",
@@ -674,6 +682,7 @@ namespace NLEditor
             HotkeySaveLevel = Keys.Control | Keys.S;
             HotkeySaveLevelAs = Keys.Control | Keys.Shift | Keys.S;
             HotkeySaveLevelAsImage = Keys.Control | Keys.Alt | Keys.S;
+            HotkeyExportLevelAsINI = Keys.Control | Keys.I;
             HotkeyPlaytestLevel = Keys.F12;
             HotkeyValidateLevel = Keys.Control | Keys.F12;
             HotkeyCleanseLevels = Keys.Control | Keys.Shift | Keys.F12;
@@ -689,6 +698,7 @@ namespace NLEditor
             HotkeyPieceSearch = Keys.F8;
             HotkeyShowMissingPieces = Keys.Control | Keys.F8;
             HotkeyRefreshStyles = Keys.Control | Keys.Shift | Keys.F8;
+            HotkeyOpenStyleManager = Keys.Control | Keys.Alt | Keys.F8;
             HotkeyToggleSnapToGrid = Keys.F9;
             HotkeyOpenLevelArrangerWindow = Keys.Control | Keys.F9;
             HotkeyOpenPieceBrowserWindow = Keys.Control | Keys.Shift | Keys.F9;
@@ -777,6 +787,7 @@ namespace NLEditor
             HotkeySaveLevel = Keys.Control | Keys.S;
             HotkeySaveLevelAs = Keys.Control | Keys.Shift | Keys.S;
             HotkeySaveLevelAsImage = Keys.Control | Keys.Alt | Keys.S;
+            HotkeyExportLevelAsINI = Keys.Control | Keys.I;
             HotkeyPlaytestLevel = Keys.F12;
             HotkeyValidateLevel = Keys.Control | Keys.F12;
             HotkeyCleanseLevels = Keys.Control | Keys.Shift | Keys.F12;
@@ -792,6 +803,7 @@ namespace NLEditor
             HotkeyPieceSearch = Keys.F8;
             HotkeyShowMissingPieces = Keys.Control | Keys.F8;
             HotkeyRefreshStyles = Keys.Control | Keys.Shift | Keys.F8;
+            HotkeyOpenStyleManager = Keys.Control | Keys.Alt | Keys.F8;
             HotkeyToggleSnapToGrid = Keys.F9;
             HotkeyOpenLevelArrangerWindow = Keys.Control | Keys.F9;
             HotkeyOpenPieceBrowserWindow = Keys.Control | Keys.Shift | Keys.F9;

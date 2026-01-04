@@ -677,6 +677,9 @@ namespace NLEditor
                     case "HotkeySaveLevelAsImage":
                         HotkeyConfig.HotkeySaveLevelAsImage = parsedKey;
                         break;
+                    case "ExportLevelAsINI":
+                        HotkeyConfig.HotkeyExportLevelAsINI = parsedKey;
+                        break;
                     case "HotkeyPlaytestLevel":
                         HotkeyConfig.HotkeyPlaytestLevel = parsedKey;
                         break;
@@ -721,6 +724,9 @@ namespace NLEditor
                         break;
                     case "HotkeyRefreshStyles":
                         HotkeyConfig.HotkeyRefreshStyles = parsedKey;
+                        break;
+                    case "HotkeyOpenStyleManager":
+                        HotkeyConfig.HotkeyOpenStyleManager = parsedKey;
                         break;
                     case "HotkeyToggleSnapToGrid":
                         HotkeyConfig.HotkeyToggleSnapToGrid = parsedKey;

@@ -224,7 +224,7 @@
             this.KeyPreview = true;
             this.Name = "FormINIExporter";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Export to INI";
+            this.Text = "Export as INI";
             this.Load += new System.EventHandler(this.FormINIExporter_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormINIExporter_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.picPiecePreview)).EndInit();

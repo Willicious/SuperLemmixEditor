@@ -38,7 +38,7 @@
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportAsINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.playLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -441,7 +441,7 @@
             // 
             this.exportAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveAsImageToolStripMenuItem,
-            this.exportToINIToolStripMenuItem});
+            this.exportAsINIToolStripMenuItem});
             this.exportAsToolStripMenuItem.Name = "exportAsToolStripMenuItem";
             this.exportAsToolStripMenuItem.Size = new System.Drawing.Size(354, 34);
             this.exportAsToolStripMenuItem.Text = "Export As...";
@@ -450,16 +450,17 @@
             // 
             this.saveAsImageToolStripMenuItem.Name = "saveAsImageToolStripMenuItem";
             this.saveAsImageToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Alt+S";
-            this.saveAsImageToolStripMenuItem.Size = new System.Drawing.Size(310, 34);
+            this.saveAsImageToolStripMenuItem.Size = new System.Drawing.Size(360, 34);
             this.saveAsImageToolStripMenuItem.Text = "Image (.png)";
             this.saveAsImageToolStripMenuItem.Click += new System.EventHandler(this.saveAsImageToolStripMenuItem_Click);
             // 
-            // exportToINIToolStripMenuItem
+            // exportAsINIToolStripMenuItem
             // 
-            this.exportToINIToolStripMenuItem.Name = "exportToINIToolStripMenuItem";
-            this.exportToINIToolStripMenuItem.Size = new System.Drawing.Size(310, 34);
-            this.exportToINIToolStripMenuItem.Text = "RetroLemmini Level (.ini)";
-            this.exportToINIToolStripMenuItem.Click += new System.EventHandler(this.exportToINIToolStripMenuItem_Click);
+            this.exportAsINIToolStripMenuItem.Name = "exportAsINIToolStripMenuItem";
+            this.exportAsINIToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+I";
+            this.exportAsINIToolStripMenuItem.Size = new System.Drawing.Size(360, 34);
+            this.exportAsINIToolStripMenuItem.Text = "RetroLemmini Level (.ini)";
+            this.exportAsINIToolStripMenuItem.Click += new System.EventHandler(this.exportAsINIToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -827,6 +828,7 @@
             // styleManagerToolStripMenuItem
             // 
             this.styleManagerToolStripMenuItem.Name = "styleManagerToolStripMenuItem";
+            this.styleManagerToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Alt+F8";
             this.styleManagerToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
             this.styleManagerToolStripMenuItem.Text = "Style Manager";
             this.styleManagerToolStripMenuItem.Click += new System.EventHandler(this.styleManagerToolStripMenuItem_Click);
@@ -4087,7 +4089,7 @@
         private NumUpDownOverwrite num_Lvl_SI;
         private System.Windows.Forms.ToolStripMenuItem exportAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsImageToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportToINIToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportAsINIToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;

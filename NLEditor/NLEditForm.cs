@@ -1640,10 +1640,7 @@ namespace NLEditor
 
         private void styleManagerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var styleManagerForm = new FormStyleManager(this, curSettings))
-            {
-                styleManagerForm.ShowDialog(this);
-            }
+            OpenStyleManager();
         }
 
         private void HandleSpawnIntervalNumerics(object sender, EventArgs e)
@@ -1655,12 +1652,9 @@ namespace NLEditor
                 num_Lvl_SI.Value = 103 - num_Lvl_RR.Value;
         }
 
-        private void exportToINIToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exportAsINIToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var iniExporterForm = new FormINIExporter(CurLevel))
-            {
-                iniExporterForm.ShowDialog(this);
-            }
+            OpenExportAsINI();
         }
 
         private void btnLemCount_Click(object sender, EventArgs e)
