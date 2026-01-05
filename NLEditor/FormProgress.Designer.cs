@@ -32,6 +32,7 @@ namespace NLEditor
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormProgress));
             this.labelStatus = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
@@ -60,12 +61,13 @@ namespace NLEditor
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.labelStatus);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormProgress";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormProgress";
+            this.Text = "Progress";
             this.ResumeLayout(false);
             this.PerformLayout();
 
