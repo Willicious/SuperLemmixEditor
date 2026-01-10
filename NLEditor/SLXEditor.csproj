@@ -91,6 +91,12 @@
     <Compile Include="Aliases.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="BmpModify.cs" />
+    <Compile Include="FormLevelFormat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLevelFormat.Designer.cs">
+      <DependentUpon>FormLevelFormat.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormINIExporter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -204,6 +210,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormLevelArranger.resx">
       <DependentUpon>FormLevelArranger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLevelFormat.resx">
+      <DependentUpon>FormLevelFormat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPieceBrowser.resx">
       <DependentUpon>FormPieceBrowser.cs</DependentUpon>

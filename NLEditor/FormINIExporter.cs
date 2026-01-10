@@ -71,13 +71,13 @@ namespace NLEditor
         }
 
         // ───────────────────────────────────────────────
-        // CONVERTER: Creates an IniLevel from the .nxlv data
+        // CONVERTER: Creates an IniLevel from the level data
         // ───────────────────────────────────────────────
         private IniLevel ConvertToIni(Level level, string selectedStyle)
         {
             var ini = new IniLevel();
 
-            // NXLV ID and Version (for reference)
+            // Level ID and Version (for reference)
             ini.ID = level.LevelID.ToString("X16");
             ini.Version = level.LevelVersion.ToString();
 
@@ -146,7 +146,7 @@ namespace NLEditor
             // Add level stats
             sb.AppendLine($"# LVL {Path.GetFileName(filePath)}");
             sb.AppendLine($"# Exported from SuperLemmix Editor Version {C.Version}");
-            sb.AppendLine($"# Original .nxlv ID {ini.ID} Version {ini.Version}");
+            sb.AppendLine($"# Original level ID {ini.ID} Version {ini.Version}");
             sb.AppendLine("# RetroLemmini Level");
             sb.AppendLine();
             sb.AppendLine("# Level stats");
@@ -298,43 +298,43 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Computes transparency offsets to align pieces between .nxlv and .ini
+        /// Computes transparency offsets to align pieces between .*xlv and .ini
         /// </summary>
         public static (int xo, int yo, int xio, int yio) ComputeOffsets(
-            (int left, int right, int top, int bottom) nxlvEdges,
+            (int left, int right, int top, int bottom) xlvEdges,
             (int left, int right, int top, int bottom) iniEdges,
             int scale = 2)
         {
-            int xo = Math.Abs(nxlvEdges.left * scale - iniEdges.left);
-            int yo = Math.Abs(nxlvEdges.top * scale - iniEdges.top);
-            int xio = Math.Abs(nxlvEdges.right * scale - iniEdges.right);
-            int yio = Math.Abs(nxlvEdges.bottom * scale - iniEdges.bottom);
+            int xo = Math.Abs(xlvEdges.left * scale - iniEdges.left);
+            int yo = Math.Abs(xlvEdges.top * scale - iniEdges.top);
+            int xio = Math.Abs(xlvEdges.right * scale - iniEdges.right);
+            int yio = Math.Abs(xlvEdges.bottom * scale - iniEdges.bottom);
 
             return (xo, yo, xio, yio);
         }
 
         public static void AnalyzePieceOffsets(string styleName,
-                                               string nxlvPiecePath,
+                                               string xlvPiecePath,
                                                int iniId,
                                                string iniFolder,
                                                string translationTablePath)
         {
-            if (!File.Exists(nxlvPiecePath))
-                throw new FileNotFoundException("NXLV piece not found", nxlvPiecePath);
+            if (!File.Exists(xlvPiecePath))
+                throw new FileNotFoundException("Original piece not found", xlvPiecePath);
 
             string iniPiecePath = Path.Combine(iniFolder, $"{iniId}.png");
             if (!File.Exists(iniPiecePath))
                 throw new FileNotFoundException("INI piece not found", iniPiecePath);
 
-            using (var nxlvImg = new Bitmap(nxlvPiecePath))
+            using (var xlvImg = new Bitmap(xlvPiecePath))
             using (var iniImg = new Bitmap(iniPiecePath))
             {
-                var nxlvEdges = GetBlankEdges(nxlvImg);
+                var xlvEdges = GetBlankEdges(xlvImg);
                 var iniEdges = GetBlankEdges(iniImg);
 
-                var offsets = ComputeOffsets(nxlvEdges, iniEdges);
+                var offsets = ComputeOffsets(xlvEdges, iniEdges);
 
-                string pieceKey = Path.GetFileNameWithoutExtension(nxlvPiecePath);
+                string pieceKey = Path.GetFileNameWithoutExtension(xlvPiecePath);
 
                 // Format line
                 string line = string.Format("{0}\\{1}:{2},xo{3},yo{4},xio{5},yio{6}",
@@ -418,7 +418,7 @@ namespace NLEditor
 
 
         /// <summary>
-        /// Gets piece links between .nxlv style and corresponding .ini style,
+        /// Gets piece links between .*xlv style and corresponding .ini style,
         /// applying precomputed offsets from the translation table.
         private (List<string> terrainLines, List<string> objectLines, List<string> unlinkedPieces)
                 GetPieceLinks(Level level, string selectedStyle)
@@ -898,16 +898,16 @@ namespace NLEditor
             {
                 bool isGadget = pieceKey.IndexOf($"{styleName}\\objects\\", StringComparison.OrdinalIgnoreCase) >= 0;
                 string iniPiecePath = ResolveIniPiecePath(styleName, iniFolder, iniId, isGadget);
-                string nxlvPath = Path.Combine(AppPathPieces, pieceKey + ".png");
+                string xlvPath = Path.Combine(AppPathPieces, pieceKey + ".png");
 
-                if (!string.IsNullOrEmpty(iniPiecePath) && File.Exists(nxlvPath) && File.Exists(iniPiecePath))
+                if (!string.IsNullOrEmpty(iniPiecePath) && File.Exists(xlvPath) && File.Exists(iniPiecePath))
                 {
-                    using (var nxlvImg = new Bitmap(nxlvPath))
+                    using (var xlvImg = new Bitmap(xlvPath))
                     using (var iniImg = new Bitmap(iniPiecePath))
                     {
-                        var nxlvEdges = GetBlankEdges(nxlvImg);
+                        var xlvEdges = GetBlankEdges(xlvImg);
                         var iniEdges = GetBlankEdges(iniImg);
-                        var offsets = ComputeOffsets(nxlvEdges, iniEdges);
+                        var offsets = ComputeOffsets(xlvEdges, iniEdges);
                         xo = offsets.xo;
                         yo = offsets.yo;
                         xio = offsets.xio;

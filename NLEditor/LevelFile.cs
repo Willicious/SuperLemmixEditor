@@ -14,10 +14,9 @@ namespace NLEditor
     static class LevelFile
     {
         /// <summary>
-        /// Opens file browser and creates level from a .nxlv file.
+        /// Opens file browser and creates level from file.
         /// <para> Returns null if process is aborted or file is corrupt. </para>
         /// </summary>
-        /// <param name="styleList"></param>
         static public Level LoadLevel(List<Style> styleList, BackgroundList backgrounds, string levelDirectory)
         {
             var openFileDialog = new OpenFileDialog();
@@ -31,7 +30,7 @@ namespace NLEditor
                 openFileDialog.InitialDirectory = Directory.Exists(C.AppPathLevels) ? C.AppPathLevels : C.AppPath;
             }
             openFileDialog.Multiselect = false;
-            openFileDialog.Filter = "SuperLemmix level files (*.nxlv)|*.nxlv";
+            openFileDialog.Filter = "SuperLemmix (.sxlv)|*.sxlv|NeoLemmix (.nxlv)|*.nxlv|All Levels|*.sxlv;*.nxlv";
             openFileDialog.RestoreDirectory = true;
             openFileDialog.CheckFileExists = true;
 
@@ -492,10 +491,10 @@ namespace NLEditor
 
 
         /// <summary>
-        /// Opens file browser and saves the current level to a .nxlv file.
+        /// Opens file browser and saves the current level to a specified file.
         /// </summary>
         /// <param name="curLevel"></param>
-        static public void SaveLevel(Level curLevel, string levelDirectory)
+        static public void SaveLevel(Level curLevel, string levelDirectory, bool useBothFormats)
         {
             var saveFileDialog = new SaveFileDialog();
 
@@ -508,8 +507,14 @@ namespace NLEditor
             {
                 saveFileDialog.InitialDirectory = Directory.Exists(C.AppPathLevels) ? C.AppPathLevels : C.AppPath;
             }
+
+            if (useBothFormats)
+                saveFileDialog.Filter = "SuperLemmix level files (*.sxlv)|*.sxlv|" + "NeoLemmix level files (*.nxlv)|*.nxlv";
+            else
+                saveFileDialog.Filter = "SuperLemmix level files (*.sxlv)|*.sxlv";
+
+            saveFileDialog.DefaultExt = "sxlv";
             saveFileDialog.OverwritePrompt = true;
-            saveFileDialog.Filter = "SuperLemmix level files (*.nxlv)|*.nxlv";
             saveFileDialog.RestoreDirectory = true;
 
             try
@@ -1039,12 +1044,11 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Converts an old .lvl level file to the current .nxlv type.
+        /// Converts an old .lvl level file to the current format (sxlv/nxlv - we'll need to know the fileExt).
         /// Not currently used, but the code remains here because it may be useful for an auto-cleanse feature in the future.
         /// <para> This calls SuperLemmix.exe written in Delphi. </para>
         /// </summary>
-        /// <param name="filePath"></param>
-        static bool ConvertWithSuperLemmix(string filePath)
+        static bool ConvertWithSuperLemmix(string filePath, string fileExt)
         {
             if (!File.Exists(C.AppPathSuperLemmix))
                 return false;
@@ -1063,22 +1067,21 @@ namespace NLEditor
 
             try
             {
-                Utility.DeleteFile(C.AppPathTempLevel);
+                Utility.DeleteFile(C.AppPathTempLevel + fileExt);
 
                 var converterStartInfo = new System.Diagnostics.ProcessStartInfo();
                 converterStartInfo.FileName = C.AppPathSuperLemmix;
-                converterStartInfo.Arguments = "convert \"" + filePath + "\" \"" + C.AppPathTempLevel + "\"";
+                converterStartInfo.Arguments = "convert \"" + filePath + "\" \"" + C.AppPathTempLevel + fileExt + "\"";
 
                 var converterProcess = System.Diagnostics.Process.Start(converterStartInfo);
                 converterProcess.WaitForExit();
 
-                return File.Exists(C.AppPathTempLevel);
+                return File.Exists(C.AppPathTempLevel + fileExt);
             }
             catch
             {
                 return false;
             }
         }
-
     }
 }

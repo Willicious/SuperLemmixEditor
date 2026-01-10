@@ -29,7 +29,7 @@ namespace NLEditor
         public static string AppPathPieces => AppPath + "styles" + DirSep;
         public static string AppPathMusic => AppPath + "music" + DirSep;
         public static string AppPathLevels => AppPath + "levels" + DirSep;
-        public static string AppPathTempLevel => AppPath + "TempTestLevel.nxlv";
+        public static string AppPathTempLevel => AppPath + "TempTestLevel";
         public static string AppPathThemeInfo(string styleName) => AppPathPieces + styleName + C.DirSep + "theme.nxtm";
         public static string AppPathSettings => AppPath + "settings" + DirSep + "SLXEditorSettings.ini";
         public static string AppPathHotkeys => AppPath + "settings" + DirSep + "SLXEditorHotkeys.ini";
@@ -92,6 +92,7 @@ namespace NLEditor
             NONE = 100, NULL
         }
 
+        public static OBJ[] SuperLemmixObjects = new OBJ[] { OBJ.BLASTICINE, OBJ.VINEWATER, OBJ.LAVA, OBJ.POISON, OBJ.RADIATION, OBJ.SLOWFREEZE, OBJ.COLLECTIBLE };
         public static OBJ[] HideTriggerObjects = new OBJ[] { OBJ.TERRAIN, OBJ.STEEL, OBJ.NONE, OBJ.DECORATION, OBJ.NULL, OBJ.PAINT };
         public static OBJ[] TriggerPointObjects = new OBJ[] { OBJ.HATCH, OBJ.RECEIVER };
 
@@ -321,7 +322,7 @@ namespace NLEditor
 
         public static readonly Dictionary<int, string> FileConverterErrorMsg = new Dictionary<int, string>()
         {
-          { 2, "Warning: Could not convert some object properties to the nxlv. format due to missing .nxmo files." },
+          { 2, "Warning: Could not convert some object properties to the output format due to missing .nxmo files." },
           { 90, "Error: Level converter got passed invalid file paths." },
           { 92, "Error: Level converter could not find the translation table .nxtt for the graphic style used in the level." },
           { 99, "Error: Level converter encountered an unknown error." }

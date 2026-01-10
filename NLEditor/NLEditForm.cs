@@ -230,8 +230,8 @@ namespace NLEditor
             {
                 curSettings.WriteSettingsToFile();
 
-                Utility.DeleteFile(C.AppPathTempLevel);
-                Utility.DeleteFile(System.IO.Path.ChangeExtension(C.AppPathTempLevel, ".nxsv"));
+                Utility.DeleteFile(C.AppPathTempLevel + LevelFileExtension());
+                Utility.DeleteFile(Path.ChangeExtension(C.AppPathTempLevel, ".nxsv"));
 
                 if (e.CloseReason.In(CloseReason.UserClosing, CloseReason.ApplicationExitCall))
                 {

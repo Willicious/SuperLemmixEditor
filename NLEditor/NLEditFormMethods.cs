@@ -1095,7 +1095,7 @@ Ladderer=10";
             // get most up-to-date global info
             ReadLevelInfoFromForm(true);
 
-            LevelFile.SaveLevel(CurLevel, levelDirectory);
+            LevelFile.SaveLevel(CurLevel, levelDirectory, CanSaveToEitherFormat());
             SaveChangesToOldLevelList();
             levelDirectory = System.IO.Path.GetDirectoryName(CurLevel.FilePathToSave);
             if (!isPlaytest)
@@ -1168,8 +1168,33 @@ Ladderer=10";
         List<string> levelsWithNoExits = new List<string>();
         private bool cleansingLevels;
 
+        public string LevelFileExtension()
+        {
+            return isNeoLemmixOnly ? ".nxlv" : ".sxlv";
+        }
+
+        public bool CanSaveToEitherFormat()
+        {
+            if (CurLevel.IsSuperlemming)
+                return false;
+
+            foreach (C.Skill skill in C.SuperLemmixSkills)
+                if (LevelFile.IsSkillRequired(CurLevel, skill))
+                    return false;
+
+            if (CurLevel.GadgetList.Exists(obj => obj.ObjType.In(C.SuperLemmixObjects)))
+                return false;
+
+            var rivalObj = CurLevel.GadgetList
+                .FirstOrDefault(obj => obj.ObjType.In(C.OBJ.LEMMING, C.OBJ.HATCH, C.OBJ.EXIT) && obj.IsRival);
+            if (rivalObj != null)
+                return false;
+
+            return true;
+        }
+
         /// <summary>
-        /// Opens and saves all .nxlv files in a directory in order to ensure compatibility and update the file
+        /// Opens and saves all level files in a directory in order to ensure compatibility and update the file
         /// </summary>
         private async void CleanseLevels()
         {
@@ -1187,25 +1212,51 @@ Ladderer=10";
             levelsWithNoLemmings.Clear();
             levelsWithNoExits.Clear();
 
-            // Get all .nxlv files in the target folder and its subdirectories
-            string[] files = Directory.GetFiles(targetFolder, "*.nxlv", SearchOption.AllDirectories);
+            // Get all .sxlv and .nxlv files in the target folder and its subdirectories
+            string[] filesSXLV = Directory.GetFiles(targetFolder, "*.sxlv", SearchOption.AllDirectories);
+            string[] filesNXLV = Directory.GetFiles(targetFolder, "*.nxlv", SearchOption.AllDirectories);
 
-            // Show progress bar
+            // Combine both arrays
+            string[] files = filesSXLV.Concat(filesNXLV).ToArray();
+
+            // Ask the user to choose an output extension
+            string chosenExt = null;
+            using (var dlg = new FormLevelFormat())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                    chosenExt = dlg.SelectedExtension;
+                else
+                    return; // User cancelled
+            }
+
             using (FormProgress progressForm = new FormProgress())
             {
                 progressForm.ProgressBar.Maximum = files.Length;
                 progressForm.Show();
 
-                foreach (string file in files)
+                for (int index = 0; index < files.Length; index++)
                 {
+                    string file = files[index];
+
+                    // Load and save the file with the chosen extension
                     LoadNewLevel(file);
+                    if (chosenExt != null)
+                    {
+                        CurLevel.FilePathToSave = Path.Combine(
+                            Path.GetDirectoryName(file),
+                            Path.GetFileNameWithoutExtension(file) + chosenExt
+                        );
+                    }
                     SaveLevel(false);
 
                     // Update the progress bar
-                    int progressPercentage = (Array.IndexOf(files, file) + 1) * 100 / files.Length;
-                    progressForm.UpdateProgress(progressPercentage, $"Processing file {Array.IndexOf(files, file) + 1} of {files.Length}: {Path.GetFileName(file)}");
+                    int progressPercentage = (index + 1) * 100 / files.Length;
+                    progressForm.UpdateProgress(
+                        progressPercentage,
+                        $"Processing file {index + 1} of {files.Length}: {Path.GetFileName(file)}"
+                    );
 
-                    // Give a short delay to allow status to update
+                    // Allow UI to update
                     await Task.Delay(10);
                 }
 
@@ -1216,8 +1267,8 @@ Ladderer=10";
                 statusBar.Visible = false;
 
                 // Display completion message
-                string cleanseMsg = "All .nxlv files cleansed successfully.";
-                
+                string cleanseMsg = "All .sxlv and .nxlv files cleansed successfully.";
+
                 if (levelsWithMissingPieces.Count > 0)
                 {
                     cleanseMsg += "\n\nLevels with missing pieces:\n\n";
@@ -1258,16 +1309,16 @@ Ladderer=10";
         }
 
         /// <summary>
-        /// Saves the level as TempTestLevel.nxlv and loads this level in the Neo/SuperLemmix player.
+        /// Saves the level as TempTestLevel and loads this level in the Neo/SuperLemmix player.
         /// </summary>
         private void PlaytestLevel()
         {
             ReadLevelInfoFromForm(true);
             SaveChangesToOldLevelList();
 
-            // Save the level as TempTestLevel.nxlv.
+            // Save the level as TempTestLevel with correct file extension
             string origFilePath = CurLevel.FilePathToSave;
-            CurLevel.FilePathToSave = C.AppPathTempLevel;
+            CurLevel.FilePathToSave = C.AppPathTempLevel + LevelFileExtension();
             SaveLevel(true);
             CurLevel.FilePathToSave = origFilePath;
 
@@ -1308,7 +1359,7 @@ Ladderer=10";
                     // Start the SuperLemmix player.
                     var playerStartInfo = new System.Diagnostics.ProcessStartInfo();
                     playerStartInfo.FileName = enginePath;
-                    playerStartInfo.Arguments = "test " + "\"" + C.AppPathTempLevel + "\"";
+                    playerStartInfo.Arguments = "test " + "\"" + C.AppPathTempLevel + LevelFileExtension() + "\"";
 
                     System.Diagnostics.Process.Start(playerStartInfo);
                 }
@@ -2351,7 +2402,7 @@ Ladderer=10";
                     filename = filename.Replace(c, '_');
 
                 Level tempLevel = CurLevel.Clone();
-                LevelFile.SaveLevelToFile(C.AppPathAutosave + filename + ".nxlv", tempLevel);
+                LevelFile.SaveLevelToFile(C.AppPathAutosave + filename + LevelFileExtension(), tempLevel);
 
                 ClearOldAutosaves();
             }
@@ -2365,7 +2416,7 @@ Ladderer=10";
         {
             if (curSettings.KeepAutosaveCount > 0)
             {
-                string[] files = Directory.GetFiles(C.AppPathAutosave, "*.nxlv");
+                string[] files = Directory.GetFiles(C.AppPathAutosave, "*" + LevelFileExtension());
                 if (files.Length > curSettings.KeepAutosaveCount)
                 {
                     List<KeyValuePair<string, long>> fileTimes = new List<KeyValuePair<string, long>>();

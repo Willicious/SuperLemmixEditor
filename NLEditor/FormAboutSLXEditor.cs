@@ -41,7 +41,7 @@ namespace NLEditor
             lblPreviousUpdates.Left = GetCenter(lblPreviousUpdates);
             WritePreviousUpdatesText();
 
-            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + ")";
+            lblSuperLemmixEditor.Text = "SuperLemmix Editor (Version " + C.Version + "-A)";
             lblSuperLemmixEditor.Top = richTextBox_PreviousUpdates.Bottom + padding;
             lblSuperLemmixEditor.Left = GetCenter(lblSuperLemmixEditor);
 
@@ -211,7 +211,7 @@ namespace NLEditor
             richTextBox.AppendText(" - Validate Level dialog now alerts the user that the lem count is higher than the pre-placed lem count (where relevant) rather than just showing \"missing hatch\"\n");
 
             WriteBoldText(richTextBox, "• Bugfix - Piece Search");
-            richTextBox.AppendText(" - Working directory is now always set to that of the .exe, so pieces will always be correctly found even if opening the Editor via a .nxlv level file\n");
+            richTextBox.AppendText(" - Working directory is now always set to that of the .exe, so pieces will always be correctly found even if opening the Editor via a level file\n");
 
             WriteBoldText(richTextBox, "• Bugfix - Level Validation");
             richTextBox.AppendText(" -  Validate Level now shows correct skill limit amount depending on Editor mode (10 for NeoLemmix, 14 for SuperLemmix)\n");

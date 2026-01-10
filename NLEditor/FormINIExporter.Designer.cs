@@ -36,7 +36,7 @@
             this.lblChosenStyle = new System.Windows.Forms.Label();
             this.lblChosenOutputStyle = new System.Windows.Forms.Label();
             this.listViewPieceLinks = new System.Windows.Forms.ListView();
-            this.NXLVLevelPieces = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.XLVLevelPieces = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.INILinkedPieceID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.picPiecePreview = new System.Windows.Forms.PictureBox();
             this.btnBrowseForPieceLink = new System.Windows.Forms.Button();
@@ -111,7 +111,7 @@
             // listViewPieceLinks
             // 
             this.listViewPieceLinks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.NXLVLevelPieces,
+            this.XLVLevelPieces,
             this.INILinkedPieceID});
             this.listViewPieceLinks.HideSelection = false;
             this.listViewPieceLinks.Location = new System.Drawing.Point(28, 117);
@@ -122,10 +122,10 @@
             this.listViewPieceLinks.View = System.Windows.Forms.View.Details;
             this.listViewPieceLinks.SelectedIndexChanged += new System.EventHandler(this.listViewPieceLinks_SelectedIndexChanged);
             // 
-            // NXLVLevelPieces
+            // XLVLevelPieces
             // 
-            this.NXLVLevelPieces.Text = "NXLV Level Pieces";
-            this.NXLVLevelPieces.Width = 200;
+            this.XLVLevelPieces.Text = "Level Pieces";
+            this.XLVLevelPieces.Width = 200;
             // 
             // INILinkedPieceID
             // 
@@ -243,7 +243,7 @@
         private System.Windows.Forms.Label lblChosenStyle;
         private System.Windows.Forms.Label lblChosenOutputStyle;
         private System.Windows.Forms.ListView listViewPieceLinks;
-        private System.Windows.Forms.ColumnHeader NXLVLevelPieces;
+        private System.Windows.Forms.ColumnHeader XLVLevelPieces;
         private System.Windows.Forms.ColumnHeader INILinkedPieceID;
         private System.Windows.Forms.PictureBox picPiecePreview;
         private System.Windows.Forms.Button btnBrowseForPieceLink;
