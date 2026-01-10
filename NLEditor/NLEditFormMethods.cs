@@ -1240,6 +1240,7 @@ Ladderer=10";
 
                     // Load and save the file with the chosen extension
                     LoadNewLevel(file);
+                    if (!CanSaveToEitherFormat()) chosenExt = ".sxlv"; // Override if the level contains SuperLemmix-specific features
                     if (chosenExt != null)
                     {
                         CurLevel.FilePathToSave = Path.Combine(
