@@ -170,10 +170,8 @@ namespace SLXEditor
         /// </summary>
         private void FindIssuesTimeLimit()
         {
-            if (!level.IsNoTimeLimit && level.TimeLimit < 1)
-            {
+            if (level.HasTimeLimit && level.TimeLimit < 1)
                 issuesList.Add("Time limit must be at least 1 second or set to infinite. " + level.TimeLimit.ToString() + " seconds available.");
-            }
         }
 
         /// <summary>

@@ -43,7 +43,7 @@ namespace SLXEditor
             this.SpawnInterval = 53;
             this.IsSpawnRateFix = false;
             this.TimeLimit = 0;
-            this.IsNoTimeLimit = true;
+            this.HasTimeLimit = false;
             this.IsSuperlemming = false;
             this.IsInvincibility = true;
 
@@ -102,7 +102,7 @@ namespace SLXEditor
         public int ReleaseRate { get; set; }
         public bool IsSpawnRateFix { get; set; }
         public int TimeLimit { get; set; }
-        public bool IsNoTimeLimit { get; set; }
+        public bool HasTimeLimit { get; set; }
         public bool IsSuperlemming { get; set; }
         public bool IsInvincibility { get; set; }
 
@@ -148,7 +148,7 @@ namespace SLXEditor
             newLevel.ReleaseRate = this.ReleaseRate;
             newLevel.IsSpawnRateFix = this.IsSpawnRateFix;
             newLevel.TimeLimit = this.TimeLimit;
-            newLevel.IsNoTimeLimit = this.IsNoTimeLimit;
+            newLevel.HasTimeLimit = this.HasTimeLimit;
             newLevel.IsSuperlemming = this.IsSuperlemming;
             newLevel.IsInvincibility = this.IsInvincibility;
 
@@ -196,8 +196,8 @@ namespace SLXEditor
                 || this.IsSpawnRateFix != otherLevel.IsSpawnRateFix
                 || this.IsSuperlemming != otherLevel.IsSuperlemming
                 || this.IsInvincibility != otherLevel.IsInvincibility
-                || this.IsNoTimeLimit != otherLevel.IsNoTimeLimit
-                || (this.TimeLimit != otherLevel.TimeLimit && !this.IsNoTimeLimit)
+                || this.HasTimeLimit != otherLevel.HasTimeLimit
+                || (this.TimeLimit != otherLevel.TimeLimit && this.HasTimeLimit)
                 || this.Talismans.Count != otherLevel.Talismans.Count
                 || !this.PreviewText.ToString().Equals(otherLevel.PreviewText.ToString())
                 || !this.PostviewText.ToString().Equals(otherLevel.PostviewText.ToString()))
