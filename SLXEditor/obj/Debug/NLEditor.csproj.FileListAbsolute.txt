@@ -1,0 +1,14 @@
+C:\Users\will3\Documents\superlemmixeditor\Test\NLEditor.exe.config
+C:\Users\will3\Documents\superlemmixeditor\Test\NLEditor.exe
+C:\Users\will3\Documents\superlemmixeditor\Test\NLEditor.pdb
+C:\Users\will3\Documents\superlemmixeditor\NLEditor\obj\Debug\NLEditor.csproj.AssemblyReference.cache
+C:\Users\will3\Documents\superlemmixeditor\NLEditor\obj\Debug\NLEditor.csproj.SuggestedBindingRedirects.cache
+C:\Users\will3\Documents\superlemmixeditor\NLEditor\obj\Debug\NLEditor.Properties.Resources.resources
+C:\Users\will3\Documents\superlemmixeditor\NLEditor\obj\Debug\NLEditor.csproj.GenerateResource.cache
+C:\Users\will3\Documents\superlemmixeditor\NLEditor\obj\Debug\NLEditor.csproj.CoreCompileInputs.cache
+C:\Users\will3\Documents\superlemmixeditor\NLEditor\obj\Debug\NLEditor.exe
+C:\Users\will3\Documents\superlemmixeditor\NLEditor\obj\Debug\NLEditor.pdb
+C:\Users\will3\Documents\superlemmixeditor\NLEditor\obj\Debug\SLXEditor.FormPieceSelection.resources
+C:\Users\will3\Documents\superlemmixeditor\NLEditor\obj\Debug\SLXEditor.FormPrePostText.resources
+C:\Users\will3\Documents\superlemmixeditor\NLEditor\obj\Debug\SLXEditor.FormTalisman.resources
+C:\Users\will3\Documents\superlemmixeditor\NLEditor\obj\Debug\SLXEditor.NLEditForm.resources
