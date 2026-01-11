@@ -36,7 +36,7 @@ namespace SLXEditor
         /// </summary>
         public void UpdateRRSIControls()
         {
-            lbl_Global_SR.Text = curSettings.UseSpawnInterval ? "Spawn Interval" : "Release Rate";
+            check_Lvl_LockRRSR.Text = curSettings.UseSpawnInterval ? "Lock Spawn Interval" : "Lock Release Rate";
             num_Lvl_RR.Visible = !curSettings.UseSpawnInterval;
             num_Lvl_SI.Visible = curSettings.UseSpawnInterval;
         }
