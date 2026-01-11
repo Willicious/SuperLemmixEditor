@@ -88,6 +88,7 @@
             this.Controls.Add(this.lblChooseOutputFormat);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormLevelFormat";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cleanse Levels";
             this.ResumeLayout(false);
             this.PerformLayout();
