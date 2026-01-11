@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using static NLEditor.C;
+using static SLXEditor.C;
 
-namespace NLEditor
+namespace SLXEditor
 {
     public partial class FormINIExporter : Form
     {

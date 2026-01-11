@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using static NLEditor.FormStyleManager;
+using static SLXEditor.FormStyleManager;
 
-namespace NLEditor
+namespace SLXEditor
 {
     public partial class FormStyleManager : Form
     {
@@ -24,10 +24,10 @@ namespace NLEditor
         
         private string styleFilePath = C.AppPath + "styles" + C.DirSep + "styles.ini";
         
-        private NLEditForm mainForm;
+        private SLXEditForm mainForm;
         private Settings curSettings;
 
-        internal FormStyleManager(NLEditForm parentForm, Settings settings)
+        internal FormStyleManager(SLXEditForm parentForm, Settings settings)
         {
             InitializeComponent();
             mainForm = parentForm;

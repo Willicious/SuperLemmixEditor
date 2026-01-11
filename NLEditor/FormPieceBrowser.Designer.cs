@@ -1,4 +1,4 @@
-﻿namespace NLEditor
+﻿namespace SLXEditor
 {
     partial class FormPieceBrowser
     {

@@ -4,7 +4,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// A NumericUpDown that selects the whole number every time the user enters the control.

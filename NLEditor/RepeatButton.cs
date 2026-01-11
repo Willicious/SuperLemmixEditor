@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// Button that has reduced padding around the text

@@ -2,11 +2,11 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
     public partial class FormPieceBrowser : Form
     {
-        private NLEditForm mainForm;
+        private SLXEditForm mainForm;
         readonly Panel panelPieceBrowser;
 
         private int fixedHeight;
@@ -14,7 +14,7 @@ namespace NLEditor
 
         public event Action PieceBrowserReturned;
 
-        internal FormPieceBrowser(Panel panelPieceBrowserFromMain, NLEditForm parentForm)
+        internal FormPieceBrowser(Panel panelPieceBrowserFromMain, SLXEditForm parentForm)
         {
             InitializeComponent();
 

@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// This class contains all methods to modify bitmaps

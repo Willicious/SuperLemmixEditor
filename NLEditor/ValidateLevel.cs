@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// This class can check whether a level has playability issues and display these on a separate form.
@@ -192,7 +192,7 @@ namespace NLEditor
                 }
             }
 
-            int editorModeLimit = NLEditForm.isNeoLemmixOnly ? 10 : 14;
+            int editorModeLimit = SLXEditForm.isNeoLemmixOnly ? 10 : 14;
 
             if (numSkillsUsed > editorModeLimit)
             {

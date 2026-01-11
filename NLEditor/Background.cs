@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NLEditor
+namespace SLXEditor
 {
     public class Background
     {

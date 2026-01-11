@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
     class EscExitForm : Form
     {

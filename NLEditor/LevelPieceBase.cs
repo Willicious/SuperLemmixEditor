@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// Abstract class for all pieces.

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace NLEditor
+namespace SLXEditor
 {
     // This is NOT a correct implementation. It's bare minimum to get sane results in the editor.
 

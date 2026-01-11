@@ -2,11 +2,11 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
     public partial class FormLevelArranger : Form
     {
-        private NLEditForm mainForm;
+        private SLXEditForm mainForm;
         readonly PictureBox picLevel;
         readonly Renderer curRenderer;
 
@@ -18,7 +18,7 @@ namespace NLEditor
         public event Action PicLevelReturned;
 
         internal FormLevelArranger(PictureBox picLevelFromMain,
-                                   NLEditForm parentForm,
+                                   SLXEditForm parentForm,
                                    Renderer parentRenderer)
         {
             InitializeComponent();
@@ -75,7 +75,7 @@ namespace NLEditor
         }
 
         /// <summary>
-        /// Much of this is duplicated from UpdateNLEditorForm's CheckEnableLevelScrollbars,
+        /// Much of this is duplicated from UpdateSLXEditorForm's CheckEnableLevelScrollbars,
         /// but it's necessary to make the scrollbars work properly!
         /// </summary>
         private void UpdateScrollbars()

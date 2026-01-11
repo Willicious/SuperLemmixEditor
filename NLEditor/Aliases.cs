@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace NLEditor
+namespace SLXEditor
 {
     enum AliasKind { Style, Gadget, Terrain, Background, Lemmings }
 
@@ -87,9 +87,9 @@ namespace NLEditor
 
                 if (File.Exists(C.AppPathPieces + style + C.DirSep + "alias.nxmi"))
                 {
-                    NLTextDataNode aliasFile = NLTextParser.LoadFile(C.AppPathPieces + style + C.DirSep + "alias.nxmi");
+                    SLXTextDataNode aliasFile = NLTextParser.LoadFile(C.AppPathPieces + style + C.DirSep + "alias.nxmi");
 
-                    foreach (NLTextDataNode entry in aliasFile.Children)
+                    foreach (SLXTextDataNode entry in aliasFile.Children)
                     {
                         AliasKind kind;
                         switch (entry.Key)

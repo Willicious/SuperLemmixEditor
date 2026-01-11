@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// This stored all data of a terrain group. Inherits from LevelPiece.

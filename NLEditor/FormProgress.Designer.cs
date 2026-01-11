@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
     public partial class FormProgress : Form
     {

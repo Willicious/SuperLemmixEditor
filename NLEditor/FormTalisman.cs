@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
     partial class FormTalisman : Form
     {
@@ -61,7 +61,7 @@ namespace NLEditor
                 filteredRequirements.Remove(C.TalismanReq.UseOnlySkill);
             }
 
-            if (NLEditForm.isNeoLemmixOnly)
+            if (SLXEditForm.isNeoLemmixOnly)
             {
                 filteredRequirements.Remove(C.TalismanReq.ClassicMode);
                 filteredRequirements.Remove(C.TalismanReq.KillZombies);

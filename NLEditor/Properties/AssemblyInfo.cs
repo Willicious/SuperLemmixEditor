@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("SLXEditor")]
 [assembly: AssemblyDescription("An editor for SuperLemmix.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Stephan Neupert, Namida Verasche & William James")]
+[assembly: AssemblyCompany("LemmingsForums")]
 [assembly: AssemblyProduct("SLXEditor")]
 [assembly: AssemblyCopyright("CC BY-NC 4.0 (2017-2020)")]
 [assembly: AssemblyTrademark("")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.9.2.0")]
-[assembly: AssemblyFileVersion("2.9.2.0")]
+[assembly: AssemblyVersion("2.9.4.0")]
+[assembly: AssemblyFileVersion("2.9.4.0")]

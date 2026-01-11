@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// Stores content of one line in a text file.
@@ -9,7 +9,7 @@ namespace NLEditor
     class FileLine
     {
         /// <summary>
-        /// Initializes a new instance of the NLEditor.FileLine class.
+        /// Initializes a new instance of the SLXEditor.FileLine class.
         /// </summary>
         /// <param name="key"></param>
         /// <param name="text"></param>
@@ -43,7 +43,7 @@ namespace NLEditor
     class FileParser
     {
         /// <summary>
-        /// Initializes a new instance of the NLEditor.FileParser class and opens the text file to be parsed. 
+        /// Initializes a new instance of the SLXEditor.FileParser class and opens the text file to be parsed. 
         /// <para> You have to catch exceptions in the method creating the FileParser. </para>
         /// </summary>
         /// <param name="filePath"></param>

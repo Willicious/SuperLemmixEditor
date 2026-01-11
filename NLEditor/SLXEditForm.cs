@@ -8,19 +8,19 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// Main editor form: Receives user input.
     /// </summary>
-    partial class NLEditForm : Form
+    partial class SLXEditForm : Form
     {
         public static bool isNeoLemmixOnly { get; private set; }
 
         /// <summary>
         /// Initializes all important components and load an empty level.
         /// </summary>
-        public NLEditForm()
+        public SLXEditForm()
         {
             InitializeComponent();
             UpdateExpandedTabs();

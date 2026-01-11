@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// This stored all data of a terrain piece. Inherits from LevelPiece.

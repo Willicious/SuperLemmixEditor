@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NLEditor
+namespace SLXEditor
 {
     public static class INITranslationTables
     {

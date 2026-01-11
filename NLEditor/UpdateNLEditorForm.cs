@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using static NLEditor.Settings;
+using static SLXEditor.Settings;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// Main Form: This part defines the methods updating the form members
     /// </summary>
-    partial class NLEditForm
+    partial class SLXEditForm
     {
         public EditorMode previousEditorMode;
         private int pieceBrowserTop = 26;

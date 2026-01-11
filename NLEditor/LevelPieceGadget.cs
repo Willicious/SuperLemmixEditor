@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// This stored all data of a gadget. Inherits from LevelPiece.
@@ -240,7 +240,7 @@ namespace NLEditor
 
                             || skill.In(C.Skill.Zombie, C.Skill.Neutral)
 
-                            || skill.In(C.Skill.Rival) && !NLEditForm.isNeoLemmixOnly;
+                            || skill.In(C.Skill.Rival) && !SLXEditForm.isNeoLemmixOnly;
                     }
                 case C.OBJ.LEMMING:
                     {
@@ -248,16 +248,16 @@ namespace NLEditor
 
                             || skill.In(C.Skill.Blocker, C.Skill.Shimmier, C.Skill.Zombie, C.Skill.Neutral)
 
-                            || skill.In(C.Skill.Ballooner, C.Skill.Rival) && !NLEditForm.isNeoLemmixOnly;
+                            || skill.In(C.Skill.Ballooner, C.Skill.Rival) && !SLXEditForm.isNeoLemmixOnly;
                     }
                 case C.OBJ.PICKUP:
                 case C.OBJ.SKILL_ASSIGNER:
                     {
                         return !skill.In(C.Skill.Zombie, C.Skill.Rival, C.Skill.Neutral)
 
-                           && (!C.SuperLemmixSkills.Contains(skill) || !NLEditForm.isNeoLemmixOnly)
+                           && (!C.SuperLemmixSkills.Contains(skill) || !SLXEditForm.isNeoLemmixOnly)
 
-                           && (!skill.In(C.Skill.Stoner) || NLEditForm.isNeoLemmixOnly)
+                           && (!skill.In(C.Skill.Stoner) || SLXEditForm.isNeoLemmixOnly)
 
                            && (!(ObjType == C.OBJ.SKILL_ASSIGNER) || C.PermaSkills.Contains(skill) ||
                                skill.In(C.Skill.Walker, C.Skill.Jumper, C.Skill.Shimmier, C.Skill.Ballooner,
@@ -267,7 +267,7 @@ namespace NLEditor
                 case C.OBJ.EXIT:
                 case C.OBJ.EXIT_LOCKED:
                     {
-                        return skill == C.Skill.Rival && !NLEditForm.isNeoLemmixOnly;
+                        return skill == C.Skill.Rival && !SLXEditForm.isNeoLemmixOnly;
                     }
                 case C.OBJ.PERMASKILL_ADD:
                     {

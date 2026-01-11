@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
     public partial class FormPieceSearch : Form
     {

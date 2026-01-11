@@ -6,17 +6,17 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
     class Settings
     {
-        public Settings(NLEditForm editorForm)
+        public Settings(SLXEditForm editorForm)
         {
             this.editorForm = editorForm;
             SetDefault();
         }
 
-        NLEditForm editorForm;
+        SLXEditForm editorForm;
         Form settingsForm;
         Button btnSaveAndClose;
         Button btnCancel;

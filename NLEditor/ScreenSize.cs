@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.IO;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// This class reads the SuperLemmix player's settings

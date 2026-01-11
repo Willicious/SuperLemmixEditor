@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using static System.Windows.Forms.LinkLabel;
 
-namespace NLEditor
+namespace SLXEditor
 {
     partial class FormPrePostText : Form
     {

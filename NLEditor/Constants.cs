@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
     public static class C // for Constants
     {

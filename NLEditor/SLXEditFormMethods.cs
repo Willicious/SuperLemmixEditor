@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
-    partial class NLEditForm
+    partial class SLXEditForm
     {
         /*---------------------------------------------------------
          *   Main Form: This part defines the methods

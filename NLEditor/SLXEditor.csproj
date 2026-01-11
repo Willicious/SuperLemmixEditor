@@ -7,7 +7,7 @@
     <ProjectGuid>{55FACBA7-BEAB-4E2C-84AB-D25C5BE75795}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NLEditor</RootNamespace>
+    <RootNamespace>SLXEditor</RootNamespace>
     <AssemblyName>SLXEditor</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -145,7 +145,7 @@
     <Compile Include="LevelPieceGadget.cs" />
     <Compile Include="LevelPieceTerrain.cs" />
     <Compile Include="LevelPieceTerrainGroup.cs" />
-    <Compile Include="NLTextDataNode.cs" />
+    <Compile Include="SLXTextDataNode.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DisplaySettings.cs" />
     <Compile Include="EscExitForm.cs">
@@ -172,13 +172,13 @@
     <Compile Include="LevelFile.cs" />
     <Compile Include="LoadStyleAnimData.cs" />
     <Compile Include="LoadStylesFromFile.cs" />
-    <Compile Include="NLEditForm.cs">
+    <Compile Include="SLXEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NLEditForm.Designer.cs">
-      <DependentUpon>NLEditForm.cs</DependentUpon>
+    <Compile Include="SLXEditForm.Designer.cs">
+      <DependentUpon>SLXEditForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NLEditFormMethods.cs">
+    <Compile Include="SLXEditFormMethods.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="NumUpDownOverwrite.cs">
@@ -237,8 +237,8 @@
     <EmbeddedResource Include="FormAboutSLXEditor.resx">
       <DependentUpon>FormAboutSLXEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NLEditForm.resx">
-      <DependentUpon>NLEditForm.cs</DependentUpon>
+    <EmbeddedResource Include="SLXEditForm.resx">
+      <DependentUpon>SLXEditForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FormProgress.resx">

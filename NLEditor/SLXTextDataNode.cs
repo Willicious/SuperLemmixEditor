@@ -4,19 +4,19 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-namespace NLEditor
+namespace SLXEditor
 {
     static class NLTextParser
     {
-        public static NLTextDataNode LoadFile(string filename)
+        public static SLXTextDataNode LoadFile(string filename)
         {
             return LoadStrings(File.ReadAllText(filename).Replace("\r\n", "\n").Replace("\r", "\n").Split('\n'));
         }
 
-        public static NLTextDataNode LoadStrings(string[] lines)
+        public static SLXTextDataNode LoadStrings(string[] lines)
         {
-            List<NLTextDataNode> stack = new List<NLTextDataNode>();
-            NLTextDataNode result = new NLTextDataNode();
+            List<SLXTextDataNode> stack = new List<SLXTextDataNode>();
+            SLXTextDataNode result = new SLXTextDataNode();
 
             stack.Add(result);
 
@@ -39,7 +39,7 @@ namespace NLEditor
                 bool isSection = (line[0] == '$');
                 int sepPos = line.IndexOf(' ');
 
-                NLTextDataNode newChild = new NLTextDataNode();
+                SLXTextDataNode newChild = new SLXTextDataNode();
                 stack[stack.Count - 1].AddChild(newChild);
 
                 if (sepPos < 0)
@@ -63,11 +63,11 @@ namespace NLEditor
         }
     }
 
-    class NLTextDataNode : IEnumerable<NLTextDataNode>
+    class SLXTextDataNode : IEnumerable<SLXTextDataNode>
     {
-        public readonly List<NLTextDataNode> Children = new List<NLTextDataNode>();
+        public readonly List<SLXTextDataNode> Children = new List<SLXTextDataNode>();
 
-        public void AddChild(NLTextDataNode node)
+        public void AddChild(SLXTextDataNode node)
         {
             Children.Add(node);
         }
@@ -161,15 +161,15 @@ namespace NLEditor
             return Children.Count(child => child.Key == key.Trim().ToUpperInvariant()) > 0;
         }
 
-        public NLTextDataNode this[string key]
+        public SLXTextDataNode this[string key]
         {
             get
             {
-                NLTextDataNode result = Children.LastOrDefault(child => child.Key == key.Trim().ToUpperInvariant());
+                SLXTextDataNode result = Children.LastOrDefault(child => child.Key == key.Trim().ToUpperInvariant());
 
                 if (result == null)
                 {
-                    result = new NLTextDataNode();
+                    result = new SLXTextDataNode();
                     result.Key = key;
                     AddChild(result);
                 }
@@ -178,7 +178,7 @@ namespace NLEditor
             }
         }
 
-        public IEnumerator<NLTextDataNode> GetEnumerator()
+        public IEnumerator<SLXTextDataNode> GetEnumerator()
         {
             foreach (var item in Children)
                 yield return item;

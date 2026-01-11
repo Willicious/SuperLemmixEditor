@@ -1,4 +1,4 @@
-﻿namespace NLEditor
+﻿namespace SLXEditor
 {
     partial class FormINIExporter
     {
@@ -44,7 +44,7 @@
             this.lblOr = new System.Windows.Forms.Label();
             this.lblUnlinkedPieces = new System.Windows.Forms.Label();
             this.lblTransparencyOffsetHint = new System.Windows.Forms.Label();
-            this.numLinkedPieceID = new NLEditor.NumUpDownOverwrite();
+            this.numLinkedPieceID = new SLXEditor.NumUpDownOverwrite();
             ((System.ComponentModel.ISupportInitialize)(this.picPiecePreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLinkedPieceID)).BeginInit();
             this.SuspendLayout();

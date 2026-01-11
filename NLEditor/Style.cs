@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// Stores all data of a graphics style, except the images themselves.

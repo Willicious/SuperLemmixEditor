@@ -8,7 +8,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
     static class Program
     {
@@ -31,7 +31,7 @@ namespace NLEditor
 #endif
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new NLEditForm());
+            Application.Run(new SLXEditForm());
 #if !DEBUG
       }
       catch (Exception Ex)

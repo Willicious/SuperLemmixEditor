@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Windows.Forms;
 
-namespace NLEditor
+namespace SLXEditor
 {
     /// <summary>
     /// Contains static methods to load and save levels.
@@ -77,7 +77,7 @@ namespace NLEditor
         static private Level DoLoadLevelFromFile(string filePath, List<Style> styleList, BackgroundList backgrounds)
         {
             Level newLevel = new Level();
-            NLTextDataNode file = NLTextParser.LoadFile(filePath);
+            SLXTextDataNode file = NLTextParser.LoadFile(filePath);
 
             newLevel.Title = file["TITLE"].Value;
             newLevel.Author = file["AUTHOR"].Value;
@@ -163,16 +163,16 @@ namespace NLEditor
                 return null;
         }
 
-        private static void LoadSkillset(Level level, NLTextDataNode node)
+        private static void LoadSkillset(Level level, SLXTextDataNode node)
         {
             foreach (C.Skill skill in C.SkillArray)
             {
-                NLTextDataNode subnode = node[SkillString(skill)];
+                SLXTextDataNode subnode = node[SkillString(skill)];
                 level.SkillSet[skill] = subnode.ValueTrimUpper == "INFINITE" ? 100 : subnode.ValueInt;
             }
         }
 
-        private static void LoadGadget(Level level, NLTextDataNode node)
+        private static void LoadGadget(Level level, SLXTextDataNode node)
         {
             // First read in all infos
             string styleName = node["STYLE"].Value;
@@ -260,7 +260,7 @@ namespace NLEditor
             level.GadgetList.Add(newGadget);
         }
 
-        private static void LoadLemming(Level level, NLTextDataNode node)
+        private static void LoadLemming(Level level, SLXTextDataNode node)
         {
             // First read in all infos 
             int posX = node["X"].ValueInt;
@@ -297,7 +297,7 @@ namespace NLEditor
             level.GadgetList.Add(newLemming);
         }
 
-        private static void LoadTerrainGroup(List<GroupPiece> samples, NLTextDataNode node)
+        private static void LoadTerrainGroup(List<GroupPiece> samples, SLXTextDataNode node)
         {
             List<TerrainPiece> pieceList = new List<TerrainPiece>();
 
@@ -307,12 +307,12 @@ namespace NLEditor
             samples.Add(new GroupPiece(pieceList, node["NAME"].Value));
         }
 
-        private static void LoadTerrain(Level level, List<GroupPiece> groupPieceSamples, NLTextDataNode node)
+        private static void LoadTerrain(Level level, List<GroupPiece> groupPieceSamples, SLXTextDataNode node)
         {
             level.TerrainList.Add(LoadTerrainData(groupPieceSamples, node));
         }
 
-        private static TerrainPiece LoadTerrainData(List<GroupPiece> groupPieceSamples, NLTextDataNode node)
+        private static TerrainPiece LoadTerrainData(List<GroupPiece> groupPieceSamples, SLXTextDataNode node)
         {
             // First read in all infos
             string styleName = node["STYLE"].Value;
@@ -391,7 +391,7 @@ namespace NLEditor
             return newTerrain;
         }
 
-        private static void LoadSketch(Level level, NLTextDataNode node)
+        private static void LoadSketch(Level level, SLXTextDataNode node)
         {
             // First read in all infos
             string pieceName = node["PIECE"].Value;
@@ -433,7 +433,7 @@ namespace NLEditor
             return curLevel.GadgetList.Count(gad => gad.ObjType == C.OBJ.COLLECTIBLE);
         }
 
-        private static void LoadTalisman(Level level, NLTextDataNode node)
+        private static void LoadTalisman(Level level, SLXTextDataNode node)
         {
             Talisman talisman = new Talisman();
 

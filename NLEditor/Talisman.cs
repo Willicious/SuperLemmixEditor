@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NLEditor
+namespace SLXEditor
 {
     class Talisman : IEquatable<Talisman>
     {
