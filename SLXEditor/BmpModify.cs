@@ -186,63 +186,13 @@ namespace SLXEditor
         /// <summary>
         /// Copies the bytes of the NewPixel to the pixel pointed to in the first argument using swapped alpha blending.
         /// </summary>
-        /// <param name="ptrToPixel"></param>
-        /// <param name="ptrToNewPixel"></param>
-        private static unsafe void ChangePixelBlend(byte* ptrToPixel, byte* ptrToNewPixel, Settings.TriggerAreaColor triggerAreaColor)
+        private static unsafe void ChangePixelBlend(byte* ptrToPixel, byte* ptrToNewPixel)
         {
-            int newAlpha = ptrToNewPixel[3];
-            int origAlpha = (255 - newAlpha) / 2;
-
-            byte newB, newG, newR;
-
-            byte srcB = ptrToNewPixel[0];
-            byte srcG = ptrToNewPixel[1];
-            byte srcR = ptrToNewPixel[2];
-
-            switch (triggerAreaColor)
-            {
-                case Settings.TriggerAreaColor.Green:
-                    newB = 128;  // 128;
-                    newG = 255;  // srcB;
-                    newR = srcG; // 128;
-                    break;
-
-                case Settings.TriggerAreaColor.Pink:
-                    newB = srcB;
-                    newG = srcG;
-                    newR = srcR;
-                    break;
-
-                case Settings.TriggerAreaColor.Blue:
-                    newB = 255;  // 255;
-                    newG = srcB; // srcG;
-                    newR = srcG; // 128;
-                    break;
-
-                case Settings.TriggerAreaColor.Yellow:
-                    newB = 0;
-                    newG = 255;
-                    newR = srcB;
-                    break;
-
-                case Settings.TriggerAreaColor.Purple:
-                    newB = 255;
-                    newG = 0;
-                    newR = 192;
-                    break;
-
-                default: // Fallback (same as Pink)
-                    newB = srcB;
-                    newG = srcG;
-                    newR = srcR;
-                    break;
-            }
-
-            int totalAlpha = origAlpha + newAlpha;
-
-            ptrToPixel[0] = (byte)((ptrToPixel[0] * origAlpha + newB * newAlpha) / totalAlpha);
-            ptrToPixel[1] = (byte)((ptrToPixel[1] * origAlpha + newG * newAlpha) / totalAlpha);
-            ptrToPixel[2] = (byte)((ptrToPixel[2] * origAlpha + newR * newAlpha) / totalAlpha);
+            int NewAlphaFact = ptrToNewPixel[3];
+            int OrigAlphaFact = (255 - NewAlphaFact) / 4; // because the orig bitmap has alpha 25%
+            ptrToPixel[0] = (byte)((ptrToPixel[0] * OrigAlphaFact + ptrToNewPixel[0] * NewAlphaFact) / (OrigAlphaFact + NewAlphaFact));
+            ptrToPixel[1] = (byte)((ptrToPixel[1] * OrigAlphaFact + ptrToNewPixel[1] * NewAlphaFact) / (OrigAlphaFact + NewAlphaFact));
+            ptrToPixel[2] = (byte)((ptrToPixel[2] * OrigAlphaFact + ptrToNewPixel[2] * NewAlphaFact) / (OrigAlphaFact + NewAlphaFact));
             ptrToPixel[3] = 255;
         }
 
@@ -621,9 +571,9 @@ namespace SLXEditor
         /// </summary>
         /// <param name="origBmp"></param>
         /// <param name="newBmp"></param>
-        public static void DrawOnWithAlpha(this Bitmap origBmp, Bitmap newBmp, Settings.TriggerAreaColor triggerAreaColor)
+        public static void DrawOnWithAlpha(this Bitmap origBmp, Bitmap newBmp)
         {
-            origBmp.DrawOnWithAlpha(newBmp, new Point(0, 0), triggerAreaColor);
+            origBmp.DrawOnWithAlpha(newBmp, new Point(0, 0));
         }
 
 
@@ -634,7 +584,7 @@ namespace SLXEditor
         /// <param name="origBmp"></param>
         /// <param name="newBmp"></param>
         /// <param name="pos"></param>
-        public static void DrawOnWithAlpha(this Bitmap origBmp, Bitmap newBmp, Point pos, Settings.TriggerAreaColor triggerAreaColor)
+        public static void DrawOnWithAlpha(this Bitmap origBmp, Bitmap newBmp, Point pos)
         {
             if (newBmp == null)
                 return;
@@ -667,7 +617,7 @@ namespace SLXEditor
                     {
                         if (curNewLine[x + 3] > 0)
                         {
-                            ChangePixelBlend(curOrigLine + x, curNewLine + x, triggerAreaColor);
+                            ChangePixelBlend(curOrigLine + x, curNewLine + x);
                         }
                     }
                 });

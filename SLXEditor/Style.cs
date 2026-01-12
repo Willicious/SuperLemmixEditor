@@ -118,7 +118,7 @@ namespace SLXEditor
             if (colorDict.ContainsKey(colorType))
                 return colorDict[colorType];
             else
-                return C.NLColors[(colorType == C.StyleColor.BACKGROUND) ? C.NLColor.BackDefault : C.NLColor.OWWDefault];
+                return C.SLXColors[(colorType == C.StyleColor.BACKGROUND) ? C.SLXColor.BackDefault : C.SLXColor.OWWDefault];
         }
 
         /// <summary>

@@ -189,7 +189,7 @@ namespace SLXEditor
         {
             if (CurLevel.MainStyle == null)
                 return;
-            Color backColor = CurLevel.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.NLColors[C.NLColor.BackDefault];
+            Color backColor = CurLevel.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.SLXColors[C.SLXColor.BackDefault];
 
             picPieceList.ForEach(pic => pic.BackColor = backColor);
             curRenderer?.CreateBackgroundLayer();

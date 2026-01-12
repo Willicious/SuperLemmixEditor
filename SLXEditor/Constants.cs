@@ -100,16 +100,16 @@ namespace SLXEditor
         {
             BACKGROUND, ONE_WAY_WALL, MASK, PICKUP_BORDER, PICKUP_INSIDE
         }
-        public static NLColor ToNLColor(this StyleColor styleColor)
+        public static SLXColor ToSLXColor(this StyleColor styleColor)
         {
             switch (styleColor)
             {
                 case StyleColor.BACKGROUND:
-                    return NLColor.BackDefault;
+                    return SLXColor.BackDefault;
                 case StyleColor.ONE_WAY_WALL:
-                    return NLColor.OWWDefault;
+                    return SLXColor.OWWDefault;
                 default:
-                    return NLColor.BackDefault;
+                    return SLXColor.BackDefault;
             }
         }
 
@@ -196,20 +196,27 @@ namespace SLXEditor
         public static readonly int LEM_OFFSET_Y = 9;
 
         // Other colors are specified directly in BmpModify to speed up rendering.
-        public enum NLColor
+        public enum SLXColor
         {
-            Text, OWWDefault, BackDefault,
-            Trigger, ScreenStart, SelRectGadget, SelRectTerrain
+            Text, OWWDefault, BackDefault, ScreenStart, SelRectGadget, SelRectTerrain,
+            TriggerPink, TriggerYellow, TriggerGreen, TriggerBlue, TriggerPurple
         }
-        public static readonly Dictionary<NLColor, Color> NLColors = new Dictionary<NLColor, Color>()
+        public static readonly Dictionary<SLXColor, Color> TriggerColors = new Dictionary<SLXColor, Color>()
         {
-          { NLColor.Text, Utility.HexToColor("FEF5F5F5") }, // Color.WhiteSmoke with slightly reduced alpha
-          { NLColor.OWWDefault, Color.Linen },
-          { NLColor.BackDefault, Color.Black },
-          { NLColor.Trigger, Utility.HexToColor("80EE82EE") }, // Color.Violet with reduced alpha
-          { NLColor.ScreenStart, Color.AliceBlue },
-          { NLColor.SelRectGadget, Color.Chartreuse },
-          { NLColor.SelRectTerrain, Color.Gold }
+          { SLXColor.TriggerPink, Utility.HexToColor("55EE88EE") }, // Pink with reduced alpha
+          { SLXColor.TriggerYellow, Utility.HexToColor("44FFDD00") }, // Banana with reduced alpha
+          { SLXColor.TriggerGreen, Utility.HexToColor("4411FFAA") }, // Mint with reduced alpha
+          { SLXColor.TriggerBlue, Utility.HexToColor("4400FFFF") }, // Cyan with reduced alpha
+          { SLXColor.TriggerPurple, Utility.HexToColor("44AA00FF") }, // Indigo with reduced alpha
+        };
+        public static readonly Dictionary<SLXColor, Color> SLXColors = new Dictionary<SLXColor, Color>()
+        {
+          { SLXColor.Text, Utility.HexToColor("FEF5F5F5") }, // Color.WhiteSmoke with slightly reduced alpha
+          { SLXColor.OWWDefault, Color.Linen },
+          { SLXColor.BackDefault, Color.Black },
+          { SLXColor.ScreenStart, Color.AliceBlue },
+          { SLXColor.SelRectGadget, Color.Chartreuse },
+          { SLXColor.SelRectTerrain, Color.Gold }
         };
 
         public enum TalismanType { Bronze, Silver, Gold }

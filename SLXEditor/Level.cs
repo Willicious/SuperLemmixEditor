@@ -241,7 +241,7 @@ namespace SLXEditor
         /// <param name="styleColor"></param>
         public Color GetThemeColor(C.StyleColor styleColor)
         {
-            return MainStyle?.GetColor(styleColor) ?? C.NLColors[styleColor.ToNLColor()];
+            return MainStyle?.GetColor(styleColor) ?? C.SLXColors[styleColor.ToSLXColor()];
         }
 
         /// <summary>

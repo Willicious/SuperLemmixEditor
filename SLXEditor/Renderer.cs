@@ -151,7 +151,7 @@ namespace SLXEditor
             {
                 // Still use background color
                 baseLevelImage = new Bitmap(level.Width, level.Height);
-                baseLevelImage.Clear(level.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.NLColors[C.NLColor.BackDefault]);
+                baseLevelImage.Clear(level.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.SLXColors[C.SLXColor.BackDefault]);
             }
 
             // Draw all the layers
@@ -178,7 +178,7 @@ namespace SLXEditor
 
             if (IsTriggerLayer)
             {
-                baseLevelImage.DrawOnWithAlpha(layerImages[C.Layer.Trigger], curSettings.CurrentTriggerAreaColor);
+                baseLevelImage.DrawOnWithAlpha(layerImages[C.Layer.Trigger]);
             }
         }
 
@@ -453,7 +453,7 @@ namespace SLXEditor
         public void CreateBackgroundLayer()
         {
             // Set background color
-            layerImages[C.Layer.Background].Clear(level.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.NLColors[C.NLColor.BackDefault]);
+            layerImages[C.Layer.Background].Clear(level.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.SLXColors[C.SLXColor.BackDefault]);
 
             // Display background images, if selected
             if (level.Background != null)
@@ -675,7 +675,25 @@ namespace SLXEditor
                 .Where(obj => !C.HideTriggerObjects.Contains(obj.ObjType))
                 .Select(obj => C.TriggerPointObjects.Contains(obj.ObjType) ? new Rectangle(obj.TriggerRect.X, obj.TriggerRect.Y, 1, 1) : obj.TriggerRect)
                 .ToList();
-            layerImages[C.Layer.Trigger].DrawOnFilledRectangles(triggerRectangles, C.NLColors[C.NLColor.Trigger]);
+            layerImages[C.Layer.Trigger].DrawOnFilledRectangles(triggerRectangles, GetTriggerColor());
+        }
+
+        /// <summary>
+        /// Gets the trigger color from settings
+        /// </summary>
+        private Color GetTriggerColor()
+        {
+            var color = curSettings.CurrentTriggerAreaColor;
+            if (color == Settings.TriggerAreaColor.Yellow)
+                return C.TriggerColors[C.SLXColor.TriggerYellow];
+            else if (color == Settings.TriggerAreaColor.Green)
+                return C.TriggerColors[C.SLXColor.TriggerGreen];
+            else if (color == Settings.TriggerAreaColor.Blue)
+                return C.TriggerColors[C.SLXColor.TriggerBlue];
+            else if (color == Settings.TriggerAreaColor.Purple)
+                return C.TriggerColors[C.SLXColor.TriggerPurple];
+            else
+                return C.TriggerColors[C.SLXColor.TriggerPink]; // Default
         }
 
         /// <summary>
@@ -747,7 +765,7 @@ namespace SLXEditor
             Rectangle screenCenterRect2 = new Rectangle(screenCenterPos.X - 3, screenCenterPos.Y - 3, 7, 7);
 
             levelBmp.DrawOnRectangles(new List<Rectangle>() { screenStartRect, screenCenterRect1, screenCenterRect2 },
-                                      C.NLColors[C.NLColor.ScreenStart]);
+                                      C.SLXColors[C.SLXColor.ScreenStart]);
         }
 
         /// <summary>
@@ -769,7 +787,7 @@ namespace SLXEditor
 
                 screenTextCenterPos.Y -= fontSize;
 
-                levelBmp.WriteText(text, screenTextCenterPos, C.NLColors[C.NLColor.Text], fontSize);
+                levelBmp.WriteText(text, screenTextCenterPos, C.SLXColors[C.SLXColor.Text], fontSize);
             }
         }
 
@@ -877,7 +895,7 @@ namespace SLXEditor
             }
 
             // Set color
-            Color color = C.NLColors[C.NLColor.Text];
+            Color color = C.SLXColors[C.SLXColor.Text];
 
             fullBmp.WriteText(text, textPos, color, 12, ContentAlignment.BottomRight);
         }
@@ -891,11 +909,11 @@ namespace SLXEditor
             // First get a list of all Rectangled to draw (in image coordinates)
             var gadgetRectangles = level.GadgetList.FindAll(gad => gad.IsSelected)
                                                    .ConvertAll(gad => GetPicRectFromLevelRect(gad.ImageRectangle));
-            levelBmp.DrawOnRectangles(gadgetRectangles, C.NLColors[C.NLColor.SelRectGadget]);
+            levelBmp.DrawOnRectangles(gadgetRectangles, C.SLXColors[C.SLXColor.SelRectGadget]);
 
             var terrRectangles = level.TerrainList.FindAll(ter => ter.IsSelected)
                                                   .ConvertAll(ter => GetPicRectFromLevelRect(ter.ImageRectangle));
-            levelBmp.DrawOnRectangles(terrRectangles, C.NLColors[C.NLColor.SelRectTerrain]);
+            levelBmp.DrawOnRectangles(terrRectangles, C.SLXColors[C.SLXColor.SelRectTerrain]);
         }
 
         /// <summary>

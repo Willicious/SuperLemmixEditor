@@ -101,7 +101,7 @@ namespace SLXEditor
             bool isFlipped = rotFlipType.In(RotateFlipType.RotateNoneFlipX, RotateFlipType.RotateNoneFlipXY, RotateFlipType.Rotate90FlipY, RotateFlipType.Rotate90FlipXY);
             string directionString = isFlipped ? "←" : "→";
             Point bottomRightCorner = new Point(image.Width, image.Height);
-            image.WriteText(directionString, bottomRightCorner, C.NLColors[C.NLColor.Text], 7, ContentAlignment.BottomRight, new Size(12, 9));
+            image.WriteText(directionString, bottomRightCorner, C.SLXColors[C.SLXColor.Text], 7, ContentAlignment.BottomRight, new Size(12, 9));
             return image;
         }
         public int Width { get; private set; }
@@ -189,7 +189,7 @@ namespace SLXEditor
                 if (ObjectType == C.OBJ.TERRAIN || ObjectType == C.OBJ.STEEL)
                     pieceDesc = System.IO.Path.GetFileNameWithoutExtension(pieceKey);
 
-                DrawDataString(newImage, pieceDesc, 0, 0, C.NLColors[C.NLColor.Text], 8);
+                DrawDataString(newImage, pieceDesc, 0, 0, C.SLXColors[C.SLXColor.Text], 8);
 
                 imagesWithDescriptions.Add(newImage);
             }
@@ -211,7 +211,7 @@ namespace SLXEditor
 
                 string pieceDesc = System.IO.Path.GetFileNameWithoutExtension(pieceKey);
 
-                DrawDataString(newImage, pieceDesc, 0, 0, C.NLColors[C.NLColor.Text], 8);
+                DrawDataString(newImage, pieceDesc, 0, 0, C.SLXColors[C.SLXColor.Text], 8);
 
                 imagesWithNames.Add(newImage);
             }
@@ -277,7 +277,7 @@ namespace SLXEditor
                         nineSlice = "9S";
                 }
 
-                DrawDataString(newImage, pieceDesc, 0, 0, C.NLColors[C.NLColor.Text], 8);
+                DrawDataString(newImage, pieceDesc, 0, 0, C.SLXColors[C.SLXColor.Text], 8);
                 DrawDataString(newImage, pieceSize, 0, 64, Color.SkyBlue, 8);
                 DrawDataString(newImage, nineSlice, 44, 64, Color.MediumSpringGreen, 8);
 
@@ -339,7 +339,7 @@ namespace SLXEditor
                         nineSlice = "9S";
                 }
 
-                DrawDataString(newImage, pieceDesc, 0, 0, C.NLColors[C.NLColor.Text], 8);
+                DrawDataString(newImage, pieceDesc, 0, 0, C.SLXColors[C.SLXColor.Text], 8);
                 DrawDataString(newImage, pieceSize, 0, 64, Color.SkyBlue, 8);
                 DrawDataString(newImage, nineSlice, 44, 64, Color.MediumSpringGreen, 8);
 
