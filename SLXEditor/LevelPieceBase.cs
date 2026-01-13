@@ -257,5 +257,4 @@ namespace SLXEditor
             return 0;
         }
     }
-
 }
