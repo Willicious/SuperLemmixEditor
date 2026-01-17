@@ -404,12 +404,10 @@ namespace SLXEditor
             bool doInvert = node.HasChildWithKey("FLIP_VERTICAL");
             bool doFlip = node.HasChildWithKey("FLIP_HORIZONTAL");
 
-            int index = node.HasChildWithKey("INDEX") ? node["INDEX"].ValueInt : -1;
-
             // ... then create the correct ruler
             string key = $"rulers\\" + pieceName;
             Point pos = new Point(posX, posY);
-            GadgetPiece newRuler = new GadgetPiece(key, pos, 0, false, false, false, 0, null);
+            GadgetPiece newRuler = new GadgetPiece(key, pos);
 
             if (doRotate)
                 newRuler.RotateInRect(newRuler.ImageRectangle);
@@ -423,10 +421,7 @@ namespace SLXEditor
 
             newRuler.IsSelected = false;
 
-            if (index < 0 || index >= level.GadgetList.Count)
-                level.GadgetList.Add(newRuler);
-            else
-                level.GadgetList.Insert(index, newRuler);
+            level.GadgetList.Add(newRuler);
         }
 
         // Counts the number of collectibles in the level

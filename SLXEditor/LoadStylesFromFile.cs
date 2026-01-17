@@ -312,31 +312,25 @@ namespace SLXEditor
         }
 
         /// <summary>
-        /// Reads further piece infos from a .nxob resp. nxtp file.
-        /// <para> Returns a finished BaseImageInfo containing both the image and the further info. <\para> 
+        /// Reads further piece infos from a .nxmo/.nxmt file.
+        /// Returns a finished BaseImageInfo containing both the image and the further info. <\para> 
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="imageName"></param>
         public static BaseImageInfo ImageInfo(string imageName)
         {
-            string imagePath = C.AppPathPieces + imageName;
-
             if (imageName.Contains("rulers\\"))
-            {
-                // create a new ruler
-                imagePath = C.AppPath + imageName;
-                return CreateNewRulerInfo(imagePath);
-            }
+                return null; // rulers don't have additional info
+
+            string imagePath = C.AppPathPieces + imageName;
 
             if (File.Exists(imagePath + ".nxmo"))
             {
-                // create a new object piece
+                // get object-specific info (needs .nxmo)
                 return CreateNewObjectInfo(imagePath);
             }
             else
             {
-                // create a new terrain piece
-                return CreateNewTerrainInfo(imagePath); // This can handle the NXMT file not existing.
+                // get terrain-specific info (can handle missing .nxmt)
+                return CreateNewTerrainInfo(imagePath);
             }
         }
 
@@ -913,15 +907,6 @@ namespace SLXEditor
             Rectangle nineSliceRect = new Rectangle(nineSliceLeft, nineSliceTop, newBitmap.Width - nineSliceLeft - nineSliceRight, newBitmap.Height - nineSliceTop - nineSliceBottom);
 
             return new BaseImageInfo(newBitmap, IsSteel, Resize, isDeprecated, nineSliceRect, defaultWidth, defaultHeight);
-        }
-
-        /// <summary>
-        /// Adds the correct ruler to the level.
-        /// </summary>
-        private static BaseImageInfo CreateNewRulerInfo(string filePath)
-        {
-            Bitmap newBitmap = Image(filePath);
-            return new BaseImageInfo(newBitmap, false, C.Resize.None, false, null, 0, 0);
         }
     }
 }
