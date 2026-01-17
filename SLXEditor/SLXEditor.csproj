@@ -200,7 +200,7 @@
     <Compile Include="Renderer.cs" />
     <Compile Include="Style.cs" />
     <Compile Include="Talisman.cs" />
-    <Compile Include="UpdateNLEditorForm.cs">
+    <Compile Include="UpdateSLXEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Utility.cs" />
