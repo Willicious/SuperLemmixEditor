@@ -25,6 +25,7 @@ namespace SLXEditor
         public static Keys HotkeyToggleTerrain;
         public static Keys HotkeyToggleObjects;
         public static Keys HotkeyToggleTriggerAreas;
+        public static Keys HotkeyToggleRulers;
         public static Keys HotkeyToggleScreenStart;
         public static Keys HotkeyToggleBackground;
         public static Keys HotkeyToggleDeprecatedPieces;
@@ -366,6 +367,8 @@ namespace SLXEditor
                     HotkeyToggleObjects = ParseHotkeyString(line.Substring("HotkeyToggleObjects=".Length));
                 if (line.StartsWith("HotkeyToggleTriggerAreas="))
                     HotkeyToggleTriggerAreas = ParseHotkeyString(line.Substring("HotkeyToggleTriggerAreas=".Length));
+                if (line.StartsWith("HotkeyToggleRulers="))
+                    HotkeyToggleRulers = ParseHotkeyString(line.Substring("HotkeyToggleRulers=".Length));
                 if (line.StartsWith("HotkeyToggleScreenStart="))
                     HotkeyToggleScreenStart = ParseHotkeyString(line.Substring("HotkeyToggleScreenStart=".Length));
                 if (line.StartsWith("HotkeyToggleBackground="))
@@ -578,6 +581,7 @@ namespace SLXEditor
                 $"HotkeyToggleTerrain={FormatHotkeyString(HotkeyToggleTerrain)}",
                 $"HotkeyToggleObjects={FormatHotkeyString(HotkeyToggleObjects)}",
                 $"HotkeyToggleTriggerAreas={FormatHotkeyString(HotkeyToggleTriggerAreas)}",
+                $"HotkeyToggleRulers={FormatHotkeyString(HotkeyToggleRulers)}",
                 $"HotkeyToggleScreenStart={FormatHotkeyString(HotkeyToggleScreenStart)}",
                 $"HotkeyToggleBackground={FormatHotkeyString(HotkeyToggleBackground)}",
                 $"HotkeyToggleDeprecatedPieces={FormatHotkeyString(HotkeyToggleDeprecatedPieces)}",
@@ -692,6 +696,7 @@ namespace SLXEditor
             HotkeyToggleTerrain = Keys.F2;
             HotkeyToggleObjects = Keys.F3;
             HotkeyToggleTriggerAreas = Keys.F4;
+            HotkeyToggleRulers = Keys.Control | Keys.F4;
             HotkeyToggleScreenStart = Keys.F5;
             HotkeyToggleBackground = Keys.F6;
             HotkeyToggleDeprecatedPieces = Keys.F7;
@@ -797,6 +802,7 @@ namespace SLXEditor
             HotkeyToggleTerrain = Keys.F2;
             HotkeyToggleObjects = Keys.F3;
             HotkeyToggleTriggerAreas = Keys.F4;
+            HotkeyToggleRulers = Keys.Control | Keys.F4;
             HotkeyToggleScreenStart = Keys.F5;
             HotkeyToggleBackground = Keys.F6;
             HotkeyToggleDeprecatedPieces = Keys.F7;

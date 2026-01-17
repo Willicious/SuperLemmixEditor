@@ -707,6 +707,9 @@ namespace SLXEditor
                     case "HotkeyToggleTriggerAreas":
                         HotkeyConfig.HotkeyToggleTriggerAreas = parsedKey;
                         break;
+                    case "HotkeyToggleRulers":
+                        HotkeyConfig.HotkeyToggleRulers = parsedKey;
+                        break;
                     case "HotkeyToggleScreenStart":
                         HotkeyConfig.HotkeyToggleScreenStart = parsedKey;
                         break;
