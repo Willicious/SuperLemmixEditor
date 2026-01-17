@@ -283,7 +283,7 @@ namespace SLXEditor
             int piecePosY = (centerPos.Y - ImageLibrary.GetHeight(pieceKey) / 2).RoundToMultiple(gridSize);
             Point piecePos = new Point(piecePosX, piecePosY);
 
-            if (pieceKey.Contains("object") || pieceKey.Contains("ruler"))
+            if (pieceKey.Contains("objects\\") || pieceKey.Contains("rulers\\"))
             {
                 GadgetList.Add(new GadgetPiece(pieceKey, piecePos));
             }

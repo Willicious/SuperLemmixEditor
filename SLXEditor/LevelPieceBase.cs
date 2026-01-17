@@ -14,7 +14,12 @@ namespace SLXEditor
         {
             this.Key = key;
 
-            if (this.Key.Substring(0, 7).ToUpperInvariant() == "*GROUP:")
+            if (this.Key.Contains("rulers\\"))
+            {
+                this.Name = System.IO.Path.GetFileName(key);
+                this.Style = "rulers";
+            }
+            else if (this.Key.Substring(0, 7).ToUpperInvariant() == "*GROUP:")
             {
                 this.Name = this.Key.Substring(7);
                 this.Style = "default";
@@ -23,7 +28,6 @@ namespace SLXEditor
             {
                 this.Name = System.IO.Path.GetFileName(key);
                 this.Style = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(key));
-
                 System.Diagnostics.Debug.Assert(ImageLibrary.CreatePieceKey(Style, Name, isObj) == Key, "Style and name of level piece incompatible with key.");
             }
 

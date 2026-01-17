@@ -51,7 +51,7 @@ namespace SLXEditor
 
                 using (Bitmap img = new Bitmap(file))
                 {
-                    string key = ImageLibrary.CreatePieceKey("Rulers", name, true);
+                    string key = "rulers\\" + name;
                     ImageLibrary.AddNewImage(key, img, C.OBJ.RULER, triggerArea, C.Resize.None);
                     ImageLibrary.RegisterRuler(key);
                 }
@@ -321,6 +321,13 @@ namespace SLXEditor
         {
             string imagePath = C.AppPathPieces + imageName;
 
+            if (imageName.Contains("rulers\\"))
+            {
+                // create a new ruler
+                imagePath = C.AppPath + imageName;
+                return CreateNewRulerInfo(imagePath);
+            }
+
             if (File.Exists(imagePath + ".nxmo"))
             {
                 // create a new object piece
@@ -334,13 +341,8 @@ namespace SLXEditor
         }
 
         /// <summary>
-        /// Reads further object infos from a .nxob file. Default values:
-        /// <para> NumFrames = 1 </para>
-        /// <para> ObjType = C.OBJ.NONE </para>
-        /// <para> TriggerRect = Rectangle(0, 0, 0, 0) </para>
+        /// Reads further object infos from a .nxmo file.
         /// </summary>
-        /// <param name="newBitmap"></param>
-        /// <param name="FilePathInfo"></param>
         private static BaseImageInfo CreateNewObjectInfo(string filePath)
         {
             C.OBJ objType = C.OBJ.NONE;
@@ -830,11 +832,8 @@ namespace SLXEditor
         }
 
         /// <summary>
-        /// Reads further terrain infos from a .nxtp file. Default values:
-        /// <para> IsSteel = false </para>
+        /// Reads further terrain infos from a .nxmt file.
         /// </summary>
-        /// <param name="newBitmap"></param>
-        /// <param name="FilePathInfo"></param>
         private static BaseImageInfo CreateNewTerrainInfo(string filePath)
         {
             bool IsSteel = false;
@@ -914,6 +913,15 @@ namespace SLXEditor
             Rectangle nineSliceRect = new Rectangle(nineSliceLeft, nineSliceTop, newBitmap.Width - nineSliceLeft - nineSliceRight, newBitmap.Height - nineSliceTop - nineSliceBottom);
 
             return new BaseImageInfo(newBitmap, IsSteel, Resize, isDeprecated, nineSliceRect, defaultWidth, defaultHeight);
+        }
+
+        /// <summary>
+        /// Adds the correct ruler to the level.
+        /// </summary>
+        private static BaseImageInfo CreateNewRulerInfo(string filePath)
+        {
+            Bitmap newBitmap = Image(filePath);
+            return new BaseImageInfo(newBitmap, false, C.Resize.None, false, null, 0, 0);
         }
     }
 }

@@ -406,8 +406,8 @@ namespace SLXEditor
 
             int index = node.HasChildWithKey("INDEX") ? node["INDEX"].ValueInt : -1;
 
-            // ... then create the correct Terrain piece
-            string key = "ruler\\" + pieceName;
+            // ... then create the correct ruler
+            string key = $"rulers\\" + pieceName;
             Point pos = new Point(posX, posY);
             GadgetPiece newRuler = new GadgetPiece(key, pos, 0, false, false, false, 0, null);
 
@@ -816,6 +816,7 @@ namespace SLXEditor
             else if (gadget.ObjType == C.OBJ.RULER)
             {
                 textFile.WriteLine(" $RULER");
+                textFile.WriteLine("   PIECE " + gadget.Name);
             }
             else
             {
