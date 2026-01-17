@@ -283,7 +283,7 @@ namespace SLXEditor
             int piecePosY = (centerPos.Y - ImageLibrary.GetHeight(pieceKey) / 2).RoundToMultiple(gridSize);
             Point piecePos = new Point(piecePosX, piecePosY);
 
-            if (pieceKey.Contains("object"))
+            if (pieceKey.Contains("object") || pieceKey.Contains("ruler"))
             {
                 GadgetList.Add(new GadgetPiece(pieceKey, piecePos));
             }
@@ -502,9 +502,9 @@ namespace SLXEditor
         /// <param name="doAdd"></param>
         public void SetNoOverwrite(bool doAdd)
         {
-            TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSketch)
+            TerrainList.FindAll(ter => ter.IsSelected)
                        .ForEach(ter => { ter.IsNoOverwrite = doAdd; if (doAdd) ter.IsErase = false; });
-            GadgetList.FindAll(gad => gad.IsSelected)
+            GadgetList.FindAll(gad => gad.IsSelected && gad.ObjType != C.OBJ.RULER)
                       .ForEach(gad => { gad.IsNoOverwrite = doAdd; if (doAdd) gad.IsOnlyOnTerrain = false; });
         }
 
@@ -514,7 +514,7 @@ namespace SLXEditor
         /// <param name="doAdd"></param>
         public void SetErase(bool doAdd)
         {
-            TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSketch)
+            TerrainList.FindAll(ter => ter.IsSelected)
                        .ForEach(ter => { ter.IsErase = doAdd; if (doAdd) ter.IsNoOverwrite = false; });
         }
 
@@ -534,7 +534,7 @@ namespace SLXEditor
         /// <param name="doAdd"></param>
         public void SetOneWay(bool doAdd)
         {
-            TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSteel && !ter.IsSketch)
+            TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSteel)
                        .ForEach(ter => ter.IsOneWay = doAdd);
         }
 
@@ -774,7 +774,7 @@ namespace SLXEditor
         /// </summary>
         public bool MayGroupSelection()
         {
-            var selection = TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSketch);
+            var selection = TerrainList.FindAll(ter => ter.IsSelected);
             var selectionVisible = selection.FindAll(ter => !ter.IsErase);
 
             return selection.Count > 1 && selectionVisible.Count > 0
@@ -794,9 +794,9 @@ namespace SLXEditor
         /// </summary>
         public void GroupSelection()
         {
-            int insertIndex = TerrainList.FindIndex(ter => ter.IsSelected && !ter.IsSketch);
-            var selection = TerrainList.FindAll(ter => ter.IsSelected && !ter.IsSketch);
-            TerrainList.RemoveAll(ter => ter.IsSelected && !ter.IsSketch);
+            int insertIndex = TerrainList.FindIndex(ter => ter.IsSelected);
+            var selection = TerrainList.FindAll(ter => ter.IsSelected);
+            TerrainList.RemoveAll(ter => ter.IsSelected);
             GroupPiece group = null;
             try
             {

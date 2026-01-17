@@ -15,11 +15,47 @@ namespace SLXEditor
     {
         public static void AddInitialImagesToLibrary()
         {
-            // preplaced lemming
+            // Preplaced lemming
             string imageKey = ImageLibrary.CreatePieceKey("default", "lemming", true);
             Bitmap image = Properties.Resources.Lemming;
             Rectangle triggerArea = new Rectangle(C.LEM_OFFSET_X, C.LEM_OFFSET_Y, 1, 1);
             ImageLibrary.AddNewImage(imageKey, image, C.OBJ.LEMMING, triggerArea, C.Resize.None);
+        }
+        public static void AddRulersToLibrary()
+        {
+            Rectangle triggerArea = new Rectangle(0, 0, 0, 0);
+
+            if (!Directory.Exists(C.AppPathRulers))
+            {
+                if (Directory.Exists(C.AppPath + "\\sketches\\")) // Backwards compatibility
+                {
+                    string parentPath = C.AppPath;
+                    string oldName = "sketches";
+                    string newName = "rulers";
+
+                    string oldPath = Path.Combine(parentPath, oldName);
+                    string newPath = Path.Combine(parentPath, newName);
+
+                    Directory.Move(oldPath, newPath); // Rename the folder to "rulers"
+                }
+                else
+                {
+                    MessageBox.Show("Rulers directory not found!");
+                    return;
+                }
+            }
+
+            foreach (string file in Directory.EnumerateFiles(C.AppPathRulers))
+            {
+                string name = Path.GetFileNameWithoutExtension(file);
+
+                using (Bitmap img = new Bitmap(file))
+                {
+                    string key = ImageLibrary.CreatePieceKey("Rulers", name, true);
+                    ImageLibrary.AddNewImage(key, img, C.OBJ.RULER, triggerArea, C.Resize.None);
+                    ImageLibrary.RegisterRuler(key);
+                }
+            }
         }
 
         static readonly Dictionary<string, C.StyleColor> KeyToStyleColorDict = new Dictionary<string, C.StyleColor>
@@ -283,24 +319,17 @@ namespace SLXEditor
         /// <param name="imageName"></param>
         public static BaseImageInfo ImageInfo(string imageName)
         {
-            if (imageName.Substring(0, 8) == "*sketch:")
+            string imagePath = C.AppPathPieces + imageName;
+
+            if (File.Exists(imagePath + ".nxmo"))
             {
-                return CreateNewTerrainInfo(C.AppPath + "sketches" + C.DirSep + imageName.Substring(8));
+                // create a new object piece
+                return CreateNewObjectInfo(imagePath);
             }
             else
             {
-                string imagePath = C.AppPathPieces + imageName;
-
-                if (File.Exists(imagePath + ".nxmo"))
-                {
-                    // create a new object piece
-                    return CreateNewObjectInfo(imagePath);
-                }
-                else
-                {
-                    // create a new terrain piece
-                    return CreateNewTerrainInfo(imagePath); // This can handle the NXMT file not existing.
-                }
+                // create a new terrain piece
+                return CreateNewTerrainInfo(imagePath); // This can handle the NXMT file not existing.
             }
         }
 

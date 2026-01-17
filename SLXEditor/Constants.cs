@@ -27,6 +27,7 @@ namespace SLXEditor
         public static string AppPath => System.Windows.Forms.Application.StartupPath + DirSep;
         public static string AppPathAutosave => AppPath + "autosave" + DirSep;
         public static string AppPathPieces => AppPath + "styles" + DirSep;
+        public static string AppPathRulers => AppPath + "rulers" + DirSep;
         public static string AppPathMusic => AppPath + "music" + DirSep;
         public static string AppPathLevels => AppPath + "levels" + DirSep;
         public static string AppPathTempLevel => AppPath + "TempTestLevel";
@@ -50,12 +51,13 @@ namespace SLXEditor
 
         public enum SelectPieceType
         {
-            Terrain, Steel, Objects, Backgrounds, Sketches
+            Terrain, Steel, Objects, Backgrounds, Rulers
         }
 
         public enum DisplayType
         {
-            Terrain, Objects, Trigger, ScreenStart, Background, ClearPhysics, Deprecated
+            Terrain, Objects, Triggers, Rulers, ScreenStart,
+            Background, ClearPhysics, Deprecated
         }
 
         public enum CustDrawMode
@@ -75,7 +77,7 @@ namespace SLXEditor
         /// </summary>
         public enum OBJ
         {
-            TERRAIN = -1, STEEL = -2,
+            TERRAIN = -1, STEEL = -2, RULER = -3,
             LEMMING = 0, HATCH = 1, EXIT = 2, EXIT_LOCKED = 3,
             TRAP = 4, TRAPONCE = 5, FIRE = 6,
             WATER = 7, BLASTICINE = 8, VINEWATER = 9, POISON = 10, LAVA = 11,
@@ -93,7 +95,7 @@ namespace SLXEditor
         }
 
         public static OBJ[] SuperLemmixObjects = new OBJ[] { OBJ.BLASTICINE, OBJ.VINEWATER, OBJ.LAVA, OBJ.POISON, OBJ.RADIATION, OBJ.SLOWFREEZE, OBJ.COLLECTIBLE };
-        public static OBJ[] HideTriggerObjects = new OBJ[] { OBJ.TERRAIN, OBJ.STEEL, OBJ.NONE, OBJ.DECORATION, OBJ.NULL, OBJ.PAINT };
+        public static OBJ[] HideTriggerObjects = new OBJ[] { OBJ.TERRAIN, OBJ.STEEL, OBJ.RULER, OBJ.NONE, OBJ.DECORATION, OBJ.NULL, OBJ.PAINT };
         public static OBJ[] TriggerPointObjects = new OBJ[] { OBJ.HATCH, OBJ.RECEIVER };
 
         public enum StyleColor
@@ -115,7 +117,7 @@ namespace SLXEditor
 
         public static readonly Dictionary<OBJ, string> ObjectDescriptions = new Dictionary<OBJ, string>
         {
-          {OBJ.TERRAIN, "Terrain"}, {OBJ.STEEL, "Steel"}, {OBJ.NONE, "No Effect"},
+          {OBJ.TERRAIN, "Terrain"}, {OBJ.STEEL, "Steel"}, {OBJ.RULER, "Ruler"}, {OBJ.NONE, "No Effect"},
           {OBJ.EXIT, "Exit"}, {OBJ.FORCE_FIELD, "Force-Field"}, {OBJ.ONE_WAY_WALL, "One-Way"}, {OBJ.PAINT, "Paint"},
           {OBJ.TRAP, "Trap"}, {OBJ.WATER, "Water"}, {OBJ.FIRE, "Fire"},
           {OBJ.BLASTICINE, "Blasticine"}, {OBJ.VINEWATER, "Vinewater"}, {OBJ.POISON, "Poison"}, {OBJ.LAVA, "Lava"},
@@ -141,10 +143,10 @@ namespace SLXEditor
         public static readonly byte ALPHA_OWW = 255;
         public static readonly byte ALPHA_NOOWW = 254;
 
-        public enum Layer { Background, ObjBack, Terrain, ObjTop, Trigger }
+        public enum Layer { Background, ObjBack, Terrain, ObjTop, Triggers, Rulers }
         public static readonly List<Layer> LayerList = new List<Layer>()
     {
-      Layer.Background, Layer.ObjBack, Layer.Terrain, Layer.ObjTop, Layer.Trigger
+      Layer.Background, Layer.ObjBack, Layer.Terrain, Layer.ObjTop, Layer.Triggers, Layer.Rulers
     };
 
         // The integer values here are only used to pick the correct frame of pickupanim.png
@@ -198,7 +200,8 @@ namespace SLXEditor
         // Other colors are specified directly in BmpModify to speed up rendering.
         public enum SLXColor
         {
-            Text, OWWDefault, BackDefault, ScreenStart, SelRectGadget, SelRectTerrain,
+            Text, OWWDefault, BackDefault, ScreenStart,
+            SelRectGadget, SelRectTerrain, SelRectSteel, SelRectRulers,
             TriggerPink, TriggerYellow, TriggerGreen, TriggerBlue, TriggerPurple
         }
         public static readonly Dictionary<SLXColor, Color> TriggerColors = new Dictionary<SLXColor, Color>()
@@ -216,7 +219,9 @@ namespace SLXEditor
           { SLXColor.BackDefault, Color.Black },
           { SLXColor.ScreenStart, Color.AliceBlue },
           { SLXColor.SelRectGadget, Color.Chartreuse },
-          { SLXColor.SelRectTerrain, Color.Gold }
+          { SLXColor.SelRectTerrain, Color.Gold },
+          { SLXColor.SelRectSteel, Color.LightSteelBlue },
+          { SLXColor.SelRectRulers, Color.Violet }
         };
 
         public enum TalismanType { Bronze, Silver, Gold }

@@ -185,8 +185,8 @@ namespace SLXEditor
                                    ? displayName
                                    : ObjectType.ToString();
 
-                // Show Name instead of Type when in Terrain/Steel tab
-                if (ObjectType == C.OBJ.TERRAIN || ObjectType == C.OBJ.STEEL)
+                // Show Name instead of Type when in Terrain/Steel/Rulers tab
+                if (ObjectType.In(C.OBJ.TERRAIN, C.OBJ.STEEL, C.OBJ.RULER))
                     pieceDesc = System.IO.Path.GetFileNameWithoutExtension(pieceKey);
 
                 DrawDataString(newImage, pieceDesc, 0, 0, C.SLXColors[C.SLXColor.Text], 8);
@@ -236,8 +236,8 @@ namespace SLXEditor
                                    ? displayName
                                    : ObjectType.ToString();
 
-                // Show Name instead of Type when in Terrain/Steel tab
-                if (ObjectType == C.OBJ.TERRAIN || ObjectType == C.OBJ.STEEL)
+                // Show Name instead of Type when in Terrain/Steel/Rulers tab
+                if (ObjectType.In(C.OBJ.TERRAIN, C.OBJ.STEEL, C.OBJ.RULER))
                     pieceDesc = System.IO.Path.GetFileNameWithoutExtension(pieceKey);
 
                 // Size
@@ -847,14 +847,14 @@ namespace SLXEditor
         }
 
         /// <summary>
-        /// Creates the sketch image key from a file path (relative or absolute). 
+        /// Registers the ruler key to the library. 
         /// </summary>
-        /// <param name="filePath"></param>
-        public static string CreateSketchKey(string filePath)
+        private static readonly List<string> rulerKeys = new List<string>();
+        public static IReadOnlyList<string> RulerKeys => rulerKeys;
+        public static void RegisterRuler(string key)
         {
-            string fullPath = System.IO.Path.GetFullPath(filePath);
-            string relativePath = fullPath.Remove(0, (C.AppPath + "sketches\\").Length);
-            return "*sketch:" + System.IO.Path.ChangeExtension(relativePath, null);
+            if (!rulerKeys.Contains(key))
+                rulerKeys.Add(key);
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using static SLXEditor.Settings;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace SLXEditor
 {
@@ -69,8 +70,8 @@ namespace SLXEditor
                 case C.SelectPieceType.Backgrounds:
                     pieceKeys = pieceCurStyle?.BackgroundKeys;
                     break;
-                case C.SelectPieceType.Sketches:
-                    pieceKeys = Style.SketchKeys;
+                case C.SelectPieceType.Rulers:
+                    pieceKeys = new List<string>(ImageLibrary.RulerKeys);
                     break;
                 default:
                     throw new ArgumentException();
@@ -211,26 +212,28 @@ namespace SLXEditor
             but_MoveBackOne.Enabled = (selectionList.Count > 0);
             but_MoveFrontOne.Enabled = (selectionList.Count > 0);
 
-            check_Pieces_NoOv.Enabled = selectionList.Exists(p => !(p is TerrainPiece) || !(p as TerrainPiece).IsSketch);
+            bool isRuler = selectionList.Exists(p => p.ObjType == C.OBJ.RULER);
+
+            check_Pieces_NoOv.Enabled = selectionList.Exists(p => !(p is TerrainPiece) && !isRuler);
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_NoOv.CheckedChanged -= check_Pieces_NoOv_CheckedChanged;
             check_Pieces_NoOv.Checked = selectionList.Exists(p => (p is GadgetPiece && (p as GadgetPiece).IsNoOverwrite)
                                                                || (p is TerrainPiece && (p as TerrainPiece).IsNoOverwrite));
             check_Pieces_NoOv.CheckedChanged += check_Pieces_NoOv_CheckedChanged;
 
-            check_Pieces_Erase.Enabled = selectionList.Exists(p => (p is TerrainPiece tp) && (!tp.IsSketch));
+            check_Pieces_Erase.Enabled = selectionList.Exists(p => p is TerrainPiece tp);
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_Erase.CheckedChanged -= check_Pieces_Erase_CheckedChanged;
             check_Pieces_Erase.Checked = selectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsErase);
             check_Pieces_Erase.CheckedChanged += check_Pieces_Erase_CheckedChanged;
 
-            check_Pieces_OneWay.Enabled = selectionList.Exists(p => (p is TerrainPiece tp) && !tp.IsSteel && !tp.IsSketch);
+            check_Pieces_OneWay.Enabled = selectionList.Exists(p => (p is TerrainPiece tp) && !tp.IsSteel);
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_OneWay.CheckedChanged -= check_Pieces_OneWay_CheckedChanged;
             check_Pieces_OneWay.Checked = selectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsOneWay);
             check_Pieces_OneWay.CheckedChanged += check_Pieces_OneWay_CheckedChanged;
 
-            check_Pieces_OnlyOnTerrain.Enabled = selectionList.Exists(p => p is GadgetPiece);
+            check_Pieces_OnlyOnTerrain.Enabled = selectionList.Exists(p => p is GadgetPiece && !isRuler);
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_OnlyOnTerrain.CheckedChanged -= check_Pieces_OnlyOnTerrain_CheckedChanged;
             check_Pieces_OnlyOnTerrain.Checked = selectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).IsOnlyOnTerrain);
@@ -496,7 +499,7 @@ namespace SLXEditor
             but_PieceTerr.Top = 0;
             but_PieceSteel.Top = 0;
             but_PieceObj.Top = 0;
-            but_PieceSketches.Top = 0;
+            but_PieceRulers.Top = 0;
             but_PieceBackground.Top = 0;
 
             but_PieceLeft.Top = pieceBrowserTop;

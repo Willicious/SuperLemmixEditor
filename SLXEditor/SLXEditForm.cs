@@ -33,6 +33,7 @@ namespace SLXEditor
             C.ScreenSize.InizializeSettings();
 
             LoadStylesFromFile.AddInitialImagesToLibrary();
+            LoadStylesFromFile.AddRulersToLibrary();
 
             ImageLibrary.SetEditorForm(this);
 
@@ -87,7 +88,8 @@ namespace SLXEditor
                     { C.DisplayType.Objects, objectToolStripMenuItem },
                     { C.DisplayType.ScreenStart, screenStartToolStripMenuItem },
                     { C.DisplayType.Terrain, terrainToolStripMenuItem },
-                    { C.DisplayType.Trigger, triggerAreasToolStripMenuItem },
+                    { C.DisplayType.Triggers, triggerAreasToolStripMenuItem },
+                    { C.DisplayType.Rulers, rulersToolStripMenuItem },
                     { C.DisplayType.Deprecated, deprecatedPiecesToolStripMenuItem }
                 };
             DisplaySettings.SetMenuTabItems(displayTabItems);
@@ -372,6 +374,11 @@ namespace SLXEditor
         private void triggerAreasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToggleTriggerAreas();
+        }
+
+        private void rulersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToggleRulers();
         }
 
         private void screenStartToolStripMenuItem_Click(object sender, EventArgs e)
@@ -833,9 +840,9 @@ namespace SLXEditor
             PullFocusFromTextInputs();
         }
 
-        private void but_PieceSketch_Click(object sender, EventArgs e)
+        private void but_PieceRuler_Click(object sender, EventArgs e)
         {
-            CyclePieceBrowserDisplay(C.SelectPieceType.Sketches);
+            CyclePieceBrowserDisplay(C.SelectPieceType.Rulers);
             PullFocusFromTextInputs();
         }
 

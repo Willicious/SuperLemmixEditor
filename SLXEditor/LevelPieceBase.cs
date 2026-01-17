@@ -14,23 +14,15 @@ namespace SLXEditor
         {
             this.Key = key;
 
-            if (this.Key.Substring(0, 8).ToUpperInvariant() == "*SKETCH:")
-            {
-                this.Name = this.Key.Substring(8);
-                this.Style = "*sketch";
-                this.IsSketch = true;
-            }
-            else if (this.Key.Substring(0, 7).ToUpperInvariant() == "*GROUP:")
+            if (this.Key.Substring(0, 7).ToUpperInvariant() == "*GROUP:")
             {
                 this.Name = this.Key.Substring(7);
                 this.Style = "default";
-                this.IsSketch = false;
             }
             else
             {
                 this.Name = System.IO.Path.GetFileName(key);
                 this.Style = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(key));
-                this.IsSketch = false;
 
                 System.Diagnostics.Debug.Assert(ImageLibrary.CreatePieceKey(Style, Name, isObj) == Key, "Style and name of level piece incompatible with key.");
             }
@@ -42,8 +34,6 @@ namespace SLXEditor
             this.IsInvert = isInvert;
             this.IsSelected = true;
         }
-
-        public bool IsSketch { get; private set; }
 
         public int PosX { get; set; }
         public int PosY { get; set; }

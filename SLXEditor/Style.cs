@@ -29,7 +29,6 @@ namespace SLXEditor
         List<string> steelKeys;
         List<string> objectKeys;
         List<string> backgroundKeys;
-        static List<string> sketchKeys;
 
         public string NameInDirectory { get; private set; }
         public string NameInEditor { get; set; }
@@ -73,17 +72,6 @@ namespace SLXEditor
                 return backgroundKeys;
             }
         }
-
-        public static List<string> SketchKeys
-        {
-            get
-            {
-                if (sketchKeys == null)
-                    SearchDirectoryForSketches();
-                return sketchKeys;
-            }
-        }
-
 
         /// <summary>
         /// Checks for equality of the style's FileName.
@@ -223,31 +211,6 @@ namespace SLXEditor
                 }
             }
         }
-
-        /// <summary>
-        /// Writes all pieces in Sketches to the list of Sketches.
-        /// </summary>
-        private static void SearchDirectoryForSketches()
-        {
-            string directoryPath = C.AppPath + "sketches";
-
-            if (Directory.Exists(directoryPath))
-            {
-                sketchKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                       .Select(file => ImageLibrary.CreateSketchKey(file))
-                                       .ToList();
-            }
-            else // use empty list
-            {
-                sketchKeys = new List<string>();
-            }
-        }
-
-        public static void ReloadSketches()
-        {
-            sketchKeys = null;
-        }
-
 
         /// <summary>
         /// Removes all default objects, that are already present in the actual style.

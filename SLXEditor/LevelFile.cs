@@ -131,8 +131,10 @@ namespace SLXEditor
             foreach (var node in file.Children.FindAll(child => child.Key == "LEMMING"))
                 LoadLemming(newLevel, node);
 
-            foreach (var node in file.Children.FindAll(child => child.Key == "SKETCH"))
-                LoadSketch(newLevel, node);
+            foreach (var node in file.Children.FindAll(child => child.Key == "SKETCH")) // Backwards compatibility
+                LoadRulers(newLevel, node);
+            foreach (var node in file.Children.FindAll(child => child.Key == "RULER"))
+                LoadRulers(newLevel, node);
 
             foreach (var node in file.Children.FindAll(child => child.Key == "TALISMAN"))
                 LoadTalisman(newLevel, node);
@@ -391,7 +393,7 @@ namespace SLXEditor
             return newTerrain;
         }
 
-        private static void LoadSketch(Level level, SLXTextDataNode node)
+        private static void LoadRulers(Level level, SLXTextDataNode node)
         {
             // First read in all infos
             string pieceName = node["PIECE"].Value;
@@ -405,26 +407,26 @@ namespace SLXEditor
             int index = node.HasChildWithKey("INDEX") ? node["INDEX"].ValueInt : -1;
 
             // ... then create the correct Terrain piece
-            string key = "*sketch:" + pieceName;
+            string key = "ruler\\" + pieceName;
             Point pos = new Point(posX, posY);
-            TerrainPiece newSketch = new TerrainPiece(key, pos, 0, false, false, false, false, 0, 0);
+            GadgetPiece newRuler = new GadgetPiece(key, pos, 0, false, false, false, 0, null);
 
             if (doRotate)
-                newSketch.RotateInRect(newSketch.ImageRectangle);
+                newRuler.RotateInRect(newRuler.ImageRectangle);
             if (doFlip)
-                newSketch.FlipInRect(newSketch.ImageRectangle);
+                newRuler.FlipInRect(newRuler.ImageRectangle);
             if (doInvert)
-                newSketch.InvertInRect(newSketch.ImageRectangle);
+                newRuler.InvertInRect(newRuler.ImageRectangle);
             //Reposition terrain piece to be sure...
-            newSketch.PosX = pos.X;
-            newSketch.PosY = pos.Y;
+            newRuler.PosX = pos.X;
+            newRuler.PosY = pos.Y;
 
-            newSketch.IsSelected = false;
+            newRuler.IsSelected = false;
 
-            if (index < 0 || index >= level.TerrainList.Count)
-                level.TerrainList.Add(newSketch);
+            if (index < 0 || index >= level.GadgetList.Count)
+                level.GadgetList.Add(newRuler);
             else
-                level.TerrainList.Insert(index, newSketch);
+                level.GadgetList.Insert(index, newRuler);
         }
 
         // Counts the number of collectibles in the level
@@ -664,7 +666,13 @@ namespace SLXEditor
 
             textFile.WriteLine("#     Interactive objects       ");
             textFile.WriteLine("# ----------------------------- ");
-            curLevel.GadgetList.FindAll(gad => gad.ObjType != C.OBJ.LEMMING)
+            curLevel.GadgetList.FindAll(gad => !gad.ObjType.In(C.OBJ.LEMMING, C.OBJ.RULER))
+                               .ForEach(gad => WriteObject(textFile, gad));
+            textFile.WriteLine(" ");
+
+            textFile.WriteLine("#           Rulers              ");
+            textFile.WriteLine("# ----------------------------- ");
+            curLevel.GadgetList.FindAll(gad => gad.ObjType == C.OBJ.RULER)
                                .ForEach(gad => WriteObject(textFile, gad));
             textFile.WriteLine(" ");
 
@@ -697,7 +705,7 @@ namespace SLXEditor
 
             textFile.WriteLine("#        Terrain pieces         ");
             textFile.WriteLine("# ----------------------------- ");
-            curLevel.TerrainList.FindAll(ter => !ter.IsSketch).ForEach(ter => WriteTerrain(textFile, ter, curLevel.TerrainList.IndexOf(ter), false));
+            curLevel.TerrainList.ForEach(ter => WriteTerrain(textFile, ter, curLevel.TerrainList.IndexOf(ter)));
             textFile.WriteLine(" ");
 
             if (curLevel.GadgetList.Exists(gad => gad.ObjType == C.OBJ.LEMMING))
@@ -707,14 +715,6 @@ namespace SLXEditor
                 curLevel.GadgetList.FindAll(gad => gad.ObjType == C.OBJ.LEMMING)
                                    .ForEach(lem => WriteObject(textFile, lem));
 
-                textFile.WriteLine(" ");
-            }
-
-            if (curLevel.TerrainList.Exists(ter => ter.IsSketch))
-            {
-                textFile.WriteLine("#           Sketches            ");
-                textFile.WriteLine("# ----------------------------- ");
-                curLevel.TerrainList.FindAll(ter => ter.IsSketch).ForEach(ske => WriteTerrain(textFile, ske, curLevel.TerrainList.IndexOf(ske), true));
                 textFile.WriteLine(" ");
             }
 
@@ -812,6 +812,10 @@ namespace SLXEditor
             if (gadget.ObjType == C.OBJ.LEMMING)
             {
                 textFile.WriteLine(" $LEMMING");
+            }
+            else if (gadget.ObjType == C.OBJ.RULER)
+            {
+                textFile.WriteLine(" $RULER");
             }
             else
             {
@@ -933,7 +937,7 @@ namespace SLXEditor
 
         private static void WriteTerrain(TextWriter textFile, TerrainPiece terrain, int extraIndent)
         {
-            WriteTerrain(textFile, terrain, -1, false, extraIndent);
+            WriteTerrain(textFile, terrain, -1, extraIndent);
         }
 
         /// <summary>
@@ -941,32 +945,25 @@ namespace SLXEditor
         /// </summary>
         /// <param name="textFile"></param>
         /// <param name="terrain"></param>
-        static private void WriteTerrain(TextWriter textFile, TerrainPiece terrain, int index, bool writingSketch, int extraIndent = 0)
+        static private void WriteTerrain(TextWriter textFile, TerrainPiece terrain, int index, int extraIndent = 0)
         {
             string prefix = new string(' ', extraIndent * 2);
 
-            if (!writingSketch)
-            {
-                textFile.WriteLine(prefix + " $TERRAIN");
+            textFile.WriteLine(prefix + " $TERRAIN");
 
-                if (terrain is GroupPiece)
-                    textFile.WriteLine(prefix + "   STYLE *group");
-                else
-                    textFile.WriteLine(prefix + "   STYLE " + terrain.Style);
-            }
+            if (terrain is GroupPiece)
+                textFile.WriteLine(prefix + "   STYLE *group");
             else
-            {
-                textFile.WriteLine(prefix + " $SKETCH");
-                textFile.WriteLine(prefix + "   INDEX " + index.ToString());
-            }
+                textFile.WriteLine(prefix + "   STYLE " + terrain.Style);
+
             textFile.WriteLine(prefix + "   PIECE " + terrain.Name);
             textFile.WriteLine(prefix + "   X " + terrain.PosX.ToString());
             textFile.WriteLine(prefix + "   Y " + terrain.PosY.ToString());
-            if (terrain.IsNoOverwrite && !writingSketch)
+            if (terrain.IsNoOverwrite)
             {
                 textFile.WriteLine(prefix + "   NO_OVERWRITE");
             }
-            if (terrain.IsErase && !writingSketch)
+            if (terrain.IsErase)
             {
                 textFile.WriteLine(prefix + "   ERASE");
             }
@@ -982,15 +979,15 @@ namespace SLXEditor
             {
                 textFile.WriteLine(prefix + "   FLIP_HORIZONTAL");
             }
-            if (terrain.IsOneWay && !writingSketch)
+            if (terrain.IsOneWay)
             {
                 textFile.WriteLine(prefix + "   ONE_WAY");
             }
-            if (terrain.MayResizeHoriz() && !writingSketch)
+            if (terrain.MayResizeHoriz())
             {
                 textFile.WriteLine(prefix + "   WIDTH " + terrain.Width.ToString());
             }
-            if (terrain.MayResizeVert() && !writingSketch)
+            if (terrain.MayResizeVert())
             {
                 textFile.WriteLine(prefix + "   HEIGHT " + terrain.Height.ToString());
             }

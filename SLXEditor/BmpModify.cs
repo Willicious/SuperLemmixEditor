@@ -727,6 +727,61 @@ namespace SLXEditor
             return newBmp;
         }
 
+        /// <summary>
+        /// Blends a sprite image with a given color, recoloring only pixels of a specific target color.
+        /// </summary>
+        public static Bitmap ApplyThemeColorToTarget(this Bitmap origBmp, Color blendColor, Color targetColor)
+        {
+            byte[] blendColorBytes = new byte[] { blendColor.B, blendColor.G, blendColor.R, 255 };
+            byte[] targetColorBytes = new byte[] { targetColor.B, targetColor.G, targetColor.R, targetColor.A };
+
+            Rectangle rect = new Rectangle(0, 0, origBmp.Width, origBmp.Height);
+            Bitmap newBmp = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
+
+            unsafe
+            {
+                BitmapData origData = origBmp.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                BitmapData newData = newBmp.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+
+                byte* origPtr = (byte*)origData.Scan0;
+                byte* newPtr = (byte*)newData.Scan0;
+
+                Parallel.For(0, rect.Height, y =>
+                {
+                    byte* origLine = origPtr + y * origData.Stride;
+                    byte* newLine = newPtr + y * newData.Stride;
+
+                    for (int x = 0; x < rect.Width; x++)
+                    {
+                        byte* src = origLine + x * BytesPerPixel;
+                        byte* dst = newLine + x * BytesPerPixel;
+
+                        if (src[0] == targetColorBytes[0] &&
+                            src[1] == targetColorBytes[1] &&
+                            src[2] == targetColorBytes[2] &&
+                            src[3] == targetColorBytes[3])
+                        {
+                            dst[0] = blendColorBytes[0]; // Blue
+                            dst[1] = blendColorBytes[1]; // Green
+                            dst[2] = blendColorBytes[2]; // Red
+                            dst[3] = blendColorBytes[3]; // Alpha
+                        }
+                        else
+                        {
+                            dst[0] = src[0];
+                            dst[1] = src[1];
+                            dst[2] = src[2];
+                            dst[3] = src[3];
+                        }
+                    }
+                });
+
+                origBmp.UnlockBits(origData);
+                newBmp.UnlockBits(newData);
+            }
+
+            return newBmp;
+        }
 
         /// <summary>
         /// Zooms a bitmap.
