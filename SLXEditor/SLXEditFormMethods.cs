@@ -379,6 +379,7 @@ Ladderer=10";
             }
 
             combo_Music.Items.Clear();
+            combo_Music.Items.Add("");
             musicNames.ForEach(music => combo_Music.Items.Add(music));
         }
 
@@ -432,7 +433,7 @@ Ladderer=10";
         {
             CurLevel.Author = txt_LevelAuthor.Text;
             CurLevel.Title = txt_LevelTitle.Text;
-            CurLevel.MusicFile = System.IO.Path.ChangeExtension(combo_Music.Text, null);
+            CurLevel.MusicFile = Path.ChangeExtension(combo_Music.Text, null);
             CurLevel.MainStyle = ValidateStyleName(combo_MainStyle.Text);
             CurLevel.Width = decimal.ToInt32(num_Lvl_SizeX.Value);
             CurLevel.Height = decimal.ToInt32(num_Lvl_SizeY.Value);
@@ -484,8 +485,16 @@ Ladderer=10";
             {
                 txt_LevelAuthor.Text = CurLevel.Author;
                 txt_LevelTitle.Text = CurLevel.Title;
-                combo_Music.Text = CurLevel.MusicFile;
-                combo_MainStyle.Text = (CurLevel.MainStyle != null) ? CurLevel.MainStyle.NameInEditor : "";
+
+                if (!string.IsNullOrEmpty(CurLevel.MusicFile) && combo_Music.Items.Contains(CurLevel.MusicFile))
+                    combo_Music.SelectedItem = CurLevel.MusicFile;
+                else
+                    combo_Music.SelectedIndex = 0;
+
+                if ((CurLevel.MainStyle != null) && combo_MainStyle.Items.Contains(CurLevel.MainStyle.NameInEditor))
+                    combo_MainStyle.SelectedItem = CurLevel.MainStyle.NameInEditor;
+                else
+                    combo_MainStyle.SelectedIndex = 0;
 
                 // Set size and start position, but without calling the Value_Changed methods,
                 // because they automatically call validation of the start position resp. render the level again.
