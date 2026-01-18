@@ -709,7 +709,11 @@ Ladderer=10";
 
                 if (refreshedFromStyleManager)
                 {
-                    combo_MainStyle.SelectedIndex = 0;
+                    if ((CurLevel.MainStyle != null) && combo_MainStyle.Items.Contains(CurLevel.MainStyle.NameInEditor))
+                        combo_MainStyle.SelectedItem = CurLevel.MainStyle.NameInEditor;
+                    else
+                        combo_MainStyle.SelectedIndex = 0;
+
                     combo_PieceStyle.SelectedIndex = 0;
                 }
             }
