@@ -326,10 +326,20 @@ namespace SLXEditor
 
         public static readonly List<string> MusicNames = new List<string>()
         {
-          "orig_01", "orig_02", "orig_03", "orig_04", "orig_05", "orig_06", "orig_07", "orig_08", "orig_09", "orig_10",
-          "orig_11", "orig_12", "orig_13", "orig_14", "orig_15", "orig_16", "orig_17",
-          "ohno_01", "ohno_02", "ohno_03", "ohno_04", "ohno_05", "ohno_06",
-          "xmas_01", "xmas_02", "xmas_03"
+          "orig_01_cancan_amiga", "orig_02_lemming1_amiga", "orig_03_tim2_amiga",
+          "orig_04_lemming2_amiga", "orig_05_tim8_amiga", "orig_06_tim3_amiga",
+          "orig_07_tim5_amiga", "orig_08_doggie_amiga", "orig_09_tim6_amiga",
+          "orig_10_lemming3_amiga", "orig_11_tim7_amiga", "orig_12_tim9_amiga",
+          "orig_13_tim1_amiga", "orig_14_tim10_amiga", "orig_15_tim4_amiga",
+          "orig_16_tenlemms_amiga", "orig_17_mountain_amiga",
+          "awesome_amiga", "beasti_amiga", "beastii_amiga", "menace_amiga",
+          "ohno_tune1_amiga", "ohno_tune2_amiga", "ohno_tune3_amiga",
+          "ohno_tune4_amiga", "ohno_tune5_amiga", "ohno_tune6_amiga",
+          "WillLem_Xmas_Music/WL_Ding_Dong", "WillLem_Xmas_Music/WL_Hark_Angels",
+          "WillLem_Xmas_Music/WL_Jingle_Bells", "WillLem_Xmas_Music/WL_O_Holy_Night",
+          "WillLem_Xmas_Music/WL_Rockin_Around", "WillLem_Xmas_Music/WL_Rudolph",
+          "WillLem_Xmas_Music/WL_Twelve_Days", "WillLem_Xmas_Music/WL_Winter_Wonderland",
+          "xmas_01", "xmas_02", "xmas_03",
         };
 
         public static readonly Dictionary<int, string> FileConverterErrorMsg = new Dictionary<int, string>()

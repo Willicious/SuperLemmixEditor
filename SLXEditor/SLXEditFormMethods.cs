@@ -368,10 +368,22 @@ Ladderer=10";
             List<string> musicNames = null;
             if (System.IO.Directory.Exists(C.AppPathMusic))
             {
-                musicNames = System.IO.Directory.GetFiles(C.AppPathMusic)
-                                                .ToList()
-                                                .FindAll(dir => System.IO.Path.GetExtension(dir).In(C.MusicExtensions))
-                                                .ConvertAll(dir => System.IO.Path.GetFileNameWithoutExtension(dir));
+                string root = Path.GetFullPath(C.AppPathMusic)
+                                  .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                                  + Path.DirectorySeparatorChar;
+
+                musicNames = Directory
+                    .GetFiles(root, "*.*", SearchOption.AllDirectories)
+                    .Where(f => Path.GetExtension(f).In(C.MusicExtensions))
+                    .Select(f =>
+                    {
+                        string fullPath = Path.GetFullPath(f);
+                        string relativePath = fullPath.Substring(root.Length);
+                        string noExt = Path.ChangeExtension(relativePath, null);
+
+                        return noExt.Replace('\\', '/');
+                    })
+                    .ToList();
             }
             else
             {
