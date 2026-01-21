@@ -122,16 +122,12 @@
             this.lbl_Global_Title = new System.Windows.Forms.Label();
             this.num_Lvl_SI = new SLXEditor.NumUpDownOverwrite();
             this.tabPieces = new System.Windows.Forms.TabPage();
-            this.gbPieceMetaData = new System.Windows.Forms.GroupBox();
+            this.panelPieceMetaData = new System.Windows.Forms.Panel();
             this.lblPieceSize = new System.Windows.Forms.Label();
-            this.lblSize = new System.Windows.Forms.Label();
-            this.but_LoadStyle = new System.Windows.Forms.Button();
-            this.lblName = new System.Windows.Forms.Label();
             this.lblPieceType = new System.Windows.Forms.Label();
-            this.lblStyle = new System.Windows.Forms.Label();
             this.lblPieceStyle = new System.Windows.Forms.Label();
-            this.lblType = new System.Windows.Forms.Label();
             this.lblPieceName = new System.Windows.Forms.Label();
+            this.but_LoadStyle = new System.Windows.Forms.Button();
             this.check_Piece_Rival = new System.Windows.Forms.CheckBox();
             this.check_Lvl_Invincibility = new System.Windows.Forms.CheckBox();
             this.check_Piece_Digger = new System.Windows.Forms.CheckBox();
@@ -319,7 +315,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SizeX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SI)).BeginInit();
             this.tabPieces.SuspendLayout();
-            this.gbPieceMetaData.SuspendLayout();
+            this.panelPieceMetaData.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_SR_Countdown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Decoration_Speed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_PickupSkillCount)).BeginInit();
@@ -1422,7 +1418,8 @@
             // 
             // tabPieces
             // 
-            this.tabPieces.Controls.Add(this.gbPieceMetaData);
+            this.tabPieces.Controls.Add(this.panelPieceMetaData);
+            this.tabPieces.Controls.Add(this.but_LoadStyle);
             this.tabPieces.Controls.Add(this.check_Piece_Rival);
             this.tabPieces.Controls.Add(this.check_Lvl_Invincibility);
             this.tabPieces.Controls.Add(this.check_Piece_Digger);
@@ -1491,110 +1488,67 @@
             this.tabPieces.Text = "Pieces";
             this.tabPieces.UseVisualStyleBackColor = true;
             // 
-            // gbPieceMetaData
+            // panelPieceMetaData
             // 
-            this.gbPieceMetaData.Controls.Add(this.lblPieceSize);
-            this.gbPieceMetaData.Controls.Add(this.lblSize);
-            this.gbPieceMetaData.Controls.Add(this.but_LoadStyle);
-            this.gbPieceMetaData.Controls.Add(this.lblName);
-            this.gbPieceMetaData.Controls.Add(this.lblPieceType);
-            this.gbPieceMetaData.Controls.Add(this.lblStyle);
-            this.gbPieceMetaData.Controls.Add(this.lblPieceStyle);
-            this.gbPieceMetaData.Controls.Add(this.lblType);
-            this.gbPieceMetaData.Controls.Add(this.lblPieceName);
-            this.gbPieceMetaData.Location = new System.Drawing.Point(0, 661);
-            this.gbPieceMetaData.Name = "gbPieceMetaData";
-            this.gbPieceMetaData.Size = new System.Drawing.Size(388, 116);
-            this.gbPieceMetaData.TabIndex = 58;
-            this.gbPieceMetaData.TabStop = false;
-            this.gbPieceMetaData.Text = " Piece Data";
+            this.panelPieceMetaData.Controls.Add(this.lblPieceSize);
+            this.panelPieceMetaData.Controls.Add(this.lblPieceType);
+            this.panelPieceMetaData.Controls.Add(this.lblPieceStyle);
+            this.panelPieceMetaData.Controls.Add(this.lblPieceName);
+            this.panelPieceMetaData.Location = new System.Drawing.Point(0, 687);
+            this.panelPieceMetaData.Name = "panelPieceMetaData";
+            this.panelPieceMetaData.Size = new System.Drawing.Size(392, 54);
+            this.panelPieceMetaData.TabIndex = 60;
             // 
             // lblPieceSize
             // 
             this.lblPieceSize.AutoSize = true;
-            this.lblPieceSize.Location = new System.Drawing.Point(75, 84);
+            this.lblPieceSize.Location = new System.Drawing.Point(285, 26);
             this.lblPieceSize.Name = "lblPieceSize";
             this.lblPieceSize.Size = new System.Drawing.Size(84, 20);
-            this.lblPieceSize.TabIndex = 8;
+            this.lblPieceSize.TabIndex = 12;
             this.lblPieceSize.Text = "piece_size";
-            // 
-            // lblSize
-            // 
-            this.lblSize.AutoSize = true;
-            this.lblSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSize.Location = new System.Drawing.Point(12, 84);
-            this.lblSize.Name = "lblSize";
-            this.lblSize.Size = new System.Drawing.Size(44, 20);
-            this.lblSize.TabIndex = 7;
-            this.lblSize.Text = "Size:";
-            // 
-            // but_LoadStyle
-            // 
-            this.but_LoadStyle.Location = new System.Drawing.Point(293, 26);
-            this.but_LoadStyle.Name = "but_LoadStyle";
-            this.but_LoadStyle.Size = new System.Drawing.Size(80, 76);
-            this.but_LoadStyle.TabIndex = 6;
-            this.but_LoadStyle.Text = "Load Style";
-            this.but_LoadStyle.UseVisualStyleBackColor = true;
-            this.but_LoadStyle.Visible = false;
-            this.but_LoadStyle.Click += new System.EventHandler(this.but_LoadStyle_Click);
-            // 
-            // lblName
-            // 
-            this.lblName.AutoSize = true;
-            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblName.Location = new System.Drawing.Point(12, 24);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(55, 20);
-            this.lblName.TabIndex = 0;
-            this.lblName.Text = "Name:";
+            this.lblPieceSize.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblPieceType
             // 
             this.lblPieceType.AutoSize = true;
-            this.lblPieceType.Location = new System.Drawing.Point(75, 64);
+            this.lblPieceType.Location = new System.Drawing.Point(283, 6);
             this.lblPieceType.Name = "lblPieceType";
             this.lblPieceType.Size = new System.Drawing.Size(86, 20);
-            this.lblPieceType.TabIndex = 5;
+            this.lblPieceType.TabIndex = 11;
             this.lblPieceType.Text = "piece_type";
-            // 
-            // lblStyle
-            // 
-            this.lblStyle.AutoSize = true;
-            this.lblStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStyle.Location = new System.Drawing.Point(12, 44);
-            this.lblStyle.Name = "lblStyle";
-            this.lblStyle.Size = new System.Drawing.Size(48, 20);
-            this.lblStyle.TabIndex = 1;
-            this.lblStyle.Text = "Style:";
+            this.lblPieceType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblPieceStyle
             // 
             this.lblPieceStyle.AutoSize = true;
-            this.lblPieceStyle.Location = new System.Drawing.Point(75, 44);
+            this.lblPieceStyle.Location = new System.Drawing.Point(12, 26);
             this.lblPieceStyle.Name = "lblPieceStyle";
             this.lblPieceStyle.Size = new System.Drawing.Size(88, 20);
-            this.lblPieceStyle.TabIndex = 4;
+            this.lblPieceStyle.TabIndex = 10;
             this.lblPieceStyle.Text = "piece_style";
-            // 
-            // lblType
-            // 
-            this.lblType.AutoSize = true;
-            this.lblType.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblType.Location = new System.Drawing.Point(12, 64);
-            this.lblType.Name = "lblType";
-            this.lblType.Size = new System.Drawing.Size(47, 20);
-            this.lblType.TabIndex = 2;
-            this.lblType.Text = "Type:";
+            this.lblPieceStyle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblPieceName
             // 
             this.lblPieceName.AutoSize = true;
-            this.lblPieceName.Location = new System.Drawing.Point(75, 24);
+            this.lblPieceName.Location = new System.Drawing.Point(12, 6);
             this.lblPieceName.Name = "lblPieceName";
             this.lblPieceName.Size = new System.Drawing.Size(96, 20);
-            this.lblPieceName.TabIndex = 3;
+            this.lblPieceName.TabIndex = 9;
             this.lblPieceName.Text = "piece_name";
+            this.lblPieceName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // but_LoadStyle
+            // 
+            this.but_LoadStyle.Location = new System.Drawing.Point(16, 747);
+            this.but_LoadStyle.Name = "but_LoadStyle";
+            this.but_LoadStyle.Size = new System.Drawing.Size(353, 37);
+            this.but_LoadStyle.TabIndex = 59;
+            this.but_LoadStyle.Text = "Load Style of Selected Piece";
+            this.but_LoadStyle.UseVisualStyleBackColor = true;
+            this.but_LoadStyle.Visible = false;
+            this.but_LoadStyle.Click += new System.EventHandler(this.but_LoadStyle_Click);
             // 
             // check_Piece_Rival
             // 
@@ -3748,8 +3702,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Lvl_SI)).EndInit();
             this.tabPieces.ResumeLayout(false);
             this.tabPieces.PerformLayout();
-            this.gbPieceMetaData.ResumeLayout(false);
-            this.gbPieceMetaData.PerformLayout();
+            this.panelPieceMetaData.ResumeLayout(false);
+            this.panelPieceMetaData.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_SR_Countdown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Decoration_Speed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_PickupSkillCount)).EndInit();
@@ -4020,13 +3974,6 @@
         private NumUpDownOverwrite num_Ski_Stoner;
         private System.Windows.Forms.ToolStripMenuItem searchPiecesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.Label lblType;
-        private System.Windows.Forms.Label lblStyle;
-        private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.Label lblPieceType;
-        private System.Windows.Forms.Label lblPieceStyle;
-        private System.Windows.Forms.Label lblPieceName;
-        private System.Windows.Forms.GroupBox gbPieceMetaData;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openLevelWindowToolStripMenuItem;
         private System.Windows.Forms.TabControl tabLvlPieces;
@@ -4034,8 +3981,6 @@
         private System.Windows.Forms.TabControl tabLvlMisc;
         private System.Windows.Forms.ToolStripMenuItem expandAllTabsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.Label lblPieceSize;
-        private System.Windows.Forms.Label lblSize;
         private System.Windows.Forms.ToolStripMenuItem highlightEraserPiecesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem highlightGroupedPiecesToolStripMenuItem;
         private System.Windows.Forms.Panel panelPieceBrowser;
@@ -4081,9 +4026,14 @@
         private System.Windows.Forms.Button btnSaveAsCustomSkillset;
         private System.Windows.Forms.ComboBox combo_CustomSkillset;
         private System.Windows.Forms.Button btnClearAllSkills;
-        private System.Windows.Forms.Button but_LoadStyle;
         private System.Windows.Forms.CheckBox check_Lvl_TimeLimit;
         private System.Windows.Forms.ToolStripMenuItem rulersToolStripMenuItem;
+        private System.Windows.Forms.Button but_LoadStyle;
+        private System.Windows.Forms.Panel panelPieceMetaData;
+        private System.Windows.Forms.Label lblPieceSize;
+        private System.Windows.Forms.Label lblPieceType;
+        private System.Windows.Forms.Label lblPieceStyle;
+        private System.Windows.Forms.Label lblPieceName;
     }
 }
 
