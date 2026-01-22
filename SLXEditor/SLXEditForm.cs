@@ -1509,6 +1509,7 @@ namespace SLXEditor
 
         private void statusBarLabel1_Click(object sender, EventArgs e)
         {
+            Cursor = Cursors.Default;
             ShowMissingPiecesDialog();
         }
 
