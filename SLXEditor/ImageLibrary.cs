@@ -94,16 +94,14 @@ namespace SLXEditor
                 CreateImagesWithNameAndData(pieceKey);
             return imagesWithNameAndData[index % imagesWithNameAndData.Count];
         }
-        public Bitmap WindowImageWithDirection(RotateFlipType rotFlipType, int index)
+        public Bitmap EntranceHatchImage(int index)
         {
-            // Warning: Ignore rotFlipType for actual image and use it only for the directional arrow!
-            Bitmap image = (Bitmap)Image(RotateFlipType.RotateNoneFlipNone, index).Clone();
-            bool isFlipped = rotFlipType.In(RotateFlipType.RotateNoneFlipX, RotateFlipType.RotateNoneFlipXY, RotateFlipType.Rotate90FlipY, RotateFlipType.Rotate90FlipXY);
-            string directionString = isFlipped ? "←" : "→";
-            Point bottomRightCorner = new Point(image.Width, image.Height);
-            image.WriteText(directionString, bottomRightCorner, C.SLXColors[C.SLXColor.Text], 7, ContentAlignment.BottomRight, new Size(12, 9));
+            // Don't perform image transformations on entrance hatches
+            RotateFlipType noRotationOrFlip = RotateFlipType.RotateNoneFlipNone;
+            Bitmap image = (Bitmap)Image(noRotationOrFlip, index).Clone();
             return image;
         }
+
         public int Width { get; private set; }
         public int Height { get; private set; }
         public int DefaultWidth { get; private set; }
@@ -548,9 +546,9 @@ namespace SLXEditor
         }
 
         /// <summary>
-        /// Returns the image with the directional arrow in the Piece Browser
+        /// Returns the hatch image in the Piece Browser
         /// </summary>
-        public static Bitmap GetWindowImageWithDirection(string imageKey, RotateFlipType rotFlipType, int index)
+        public static Bitmap GetEntranceHatchImage(string imageKey, int index)
         {
             if (!imageDict.ContainsKey(imageKey))
             {
@@ -562,7 +560,7 @@ namespace SLXEditor
                 }
             }
 
-            return imageDict[imageKey].WindowImageWithDirection(rotFlipType, index);
+            return imageDict[imageKey].EntranceHatchImage(index);
         }
 
         public static (int Left, int Right) GetMargins(string imageKey)

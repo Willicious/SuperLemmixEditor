@@ -212,6 +212,7 @@ namespace SLXEditor
             if (ZoomFactor >= 0 && IsObjectLayer)
             {
                 AddHatchOrder(ref screenBmp);
+                AddHatchArrow(ref screenBmp);
                 AddSkillIcons(ref screenBmp);
             }
                 
@@ -790,9 +791,8 @@ namespace SLXEditor
         }
 
         /// <summary>
-        /// Adds indizes above hatches
+        /// Adds indices above hatches
         /// </summary>
-        /// <param name="levelBmp"></param>
         private void AddHatchOrder(ref Bitmap levelBmp)
         {
             var hatches = level.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.HATCH);
@@ -809,6 +809,27 @@ namespace SLXEditor
                 screenTextCenterPos.Y -= fontSize;
 
                 levelBmp.WriteText(text, screenTextCenterPos, C.SLXColors[C.SLXColor.Text], fontSize);
+            }
+        }
+
+        /// <summary>
+        /// Adds spawn direction arrow at bottom right of hatch
+        /// </summary>
+        public void AddHatchArrow(ref Bitmap levelBmp)
+        {
+            var hatches = level.GadgetList.FindAll(obj => obj.ObjType == C.OBJ.HATCH);
+
+            for (int hatchIndex = 0; hatchIndex < hatches.Count; hatchIndex++)
+            {
+                GadgetPiece hatch = hatches[hatchIndex];
+                string directionString = hatch.IsFlippedInPlayer ? "←" : "→";
+                int fontSize = (ZoomFactor <= 0) ? 8 : 7 * (ZoomFactor + 1);
+
+                Rectangle rect = hatch.ImageRectangle;
+                Point selectionRectPos = new Point(rect.Right - 6, rect.Bottom - 4);
+                Point screenTextCenterPos = GetPicPointFromLevelPoint(selectionRectPos);
+
+                levelBmp.WriteText(directionString, screenTextCenterPos, C.SLXColors[C.SLXColor.Text], fontSize);
             }
         }
 
