@@ -114,6 +114,7 @@ namespace SLXEditor
             newLevel.IsSpawnRateFix = file.HasChildWithKey("SPAWN_INTERVAL_LOCKED");
             newLevel.IsSuperlemming = file.HasChildWithKey("SUPERLEMMING");
             newLevel.IsInvincibility = file.HasChildWithKey("INVINCIBILITY");
+            newLevel.SteelType = file["STEEL_TYPE"].ValueInt;
 
             LoadSkillset(newLevel, file["SKILLSET"]);
 
@@ -614,6 +615,7 @@ namespace SLXEditor
             {
                 textFile.WriteLine(" SPAWN_INTERVAL_LOCKED");
             }
+            textFile.WriteLine(" STEEL_TYPE " + curLevel.SteelType.ToString());
             int collectiblesCount = CountCollectibles(curLevel);
             if (collectiblesCount > 0)
             {

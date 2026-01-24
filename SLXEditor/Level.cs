@@ -46,6 +46,7 @@ namespace SLXEditor
             this.HasTimeLimit = false;
             this.IsSuperlemming = false;
             this.IsInvincibility = true;
+            this.SteelType = 0;
 
             this.SkillSet = new Dictionary<C.Skill, int>();
             foreach (C.Skill skill in C.SkillArray)
@@ -105,6 +106,7 @@ namespace SLXEditor
         public bool HasTimeLimit { get; set; }
         public bool IsSuperlemming { get; set; }
         public bool IsInvincibility { get; set; }
+        public int SteelType { get; set; }
 
         public Dictionary<C.Skill, int> SkillSet { get; set; }
 
@@ -151,6 +153,7 @@ namespace SLXEditor
             newLevel.HasTimeLimit = this.HasTimeLimit;
             newLevel.IsSuperlemming = this.IsSuperlemming;
             newLevel.IsInvincibility = this.IsInvincibility;
+            newLevel.SteelType = this.SteelType;
 
             newLevel.SkillSet = new Dictionary<C.Skill, int>();
             foreach (C.Skill skill in C.SkillArray)
@@ -196,6 +199,7 @@ namespace SLXEditor
                 || this.IsSpawnRateFix != otherLevel.IsSpawnRateFix
                 || this.IsSuperlemming != otherLevel.IsSuperlemming
                 || this.IsInvincibility != otherLevel.IsInvincibility
+                || this.SteelType != otherLevel.SteelType
                 || this.HasTimeLimit != otherLevel.HasTimeLimit
                 || (this.TimeLimit != otherLevel.TimeLimit && this.HasTimeLimit)
                 || this.Talismans.Count != otherLevel.Talismans.Count

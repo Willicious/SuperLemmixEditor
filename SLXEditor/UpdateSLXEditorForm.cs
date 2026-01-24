@@ -429,6 +429,8 @@ namespace SLXEditor
             num_Ski_Grenader.Enabled = !isNeoLemmixOnly;
 
             check_Lvl_Superlemming.Enabled = !isNeoLemmixOnly;
+            radAlwaysSteel.Enabled = !isNeoLemmixOnly;
+            radOnlyWhenVisible.Enabled = !isNeoLemmixOnly;
         }
 
         /// <summary>

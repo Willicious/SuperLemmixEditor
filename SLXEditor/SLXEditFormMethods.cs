@@ -462,7 +462,7 @@ Ladderer=10";
                                     + decimal.ToInt32(num_Lvl_TimeSec.Value);
             CurLevel.HasTimeLimit = check_Lvl_TimeLimit.Checked;
             CurLevel.IsInvincibility = check_Lvl_Invincibility.Checked;
-           
+            CurLevel.SteelType = radAlwaysSteel.Checked ? 1 : 0;
 
             string idText = txt_LevelID.Text;
             if (idText.Length < 16)
@@ -539,6 +539,8 @@ Ladderer=10";
                 check_Lvl_TimeLimit.Checked = CurLevel.HasTimeLimit;
                 check_Lvl_Superlemming.Checked = CurLevel.IsSuperlemming;
                 check_Lvl_Invincibility.Checked = CurLevel.IsInvincibility;
+                radAlwaysSteel.Checked = (CurLevel.SteelType >= 1) && !radOnlyWhenVisible.Checked;
+                radOnlyWhenVisible.Checked = (CurLevel.SteelType <= 0) && !radAlwaysSteel.Checked;
 
                 txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
 
@@ -1207,6 +1209,9 @@ Ladderer=10";
         public bool CanSaveToEitherFormat()
         {
             if (CurLevel.IsSuperlemming)
+                return false;
+
+            if (CurLevel.SteelType >= 1)
                 return false;
 
             foreach (C.Skill skill in C.SuperLemmixSkills)
