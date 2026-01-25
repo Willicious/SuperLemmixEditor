@@ -1179,7 +1179,7 @@ Ladderer=10";
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
                 {
-                    CleanseLevels();
+                    CleanseLevels(folderBrowserDialog.SelectedPath);
                 }
             }
         }
@@ -1222,7 +1222,7 @@ Ladderer=10";
         /// <summary>
         /// Opens and saves all level files in a directory in order to ensure compatibility and update the file
         /// </summary>
-        private async void CleanseLevels()
+        private async void CleanseLevels(String targetFolder)
         {
             if (string.IsNullOrEmpty(targetFolder))
             {
