@@ -14,6 +14,7 @@ namespace SLXEditor
     public partial class FormLevelFormat : Form
     {
         public string SelectedExtension { get; private set; } = null;
+        public bool ApplyFormatToLevelsNXMI = false;
 
         public FormLevelFormat(String path)
         {
@@ -43,6 +44,7 @@ namespace SLXEditor
                     break;
             }
 
+            ApplyFormatToLevelsNXMI = checkApplyFormatToLevelsNXMI.Checked;
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -51,6 +53,11 @@ namespace SLXEditor
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void comboBoxFormats_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            labelNXLVWarning.Visible = comboBoxFormats.SelectedIndex == 2;
         }
     }
 }

@@ -35,12 +35,14 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.labelTargetFolder = new System.Windows.Forms.Label();
             this.labelCleansingLevels = new System.Windows.Forms.Label();
+            this.checkApplyFormatToLevelsNXMI = new System.Windows.Forms.CheckBox();
+            this.labelNXLVWarning = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblChooseOutputFormat
             // 
             this.lblChooseOutputFormat.AutoSize = true;
-            this.lblChooseOutputFormat.Location = new System.Drawing.Point(27, 76);
+            this.lblChooseOutputFormat.Location = new System.Drawing.Point(27, 81);
             this.lblChooseOutputFormat.Name = "lblChooseOutputFormat";
             this.lblChooseOutputFormat.Size = new System.Drawing.Size(351, 20);
             this.lblChooseOutputFormat.TabIndex = 0;
@@ -56,14 +58,15 @@
             "NeoLemmix(.nxlv)"});
             this.comboBoxFormats.Location = new System.Drawing.Point(31, 117);
             this.comboBoxFormats.Name = "comboBoxFormats";
-            this.comboBoxFormats.Size = new System.Drawing.Size(347, 28);
+            this.comboBoxFormats.Size = new System.Drawing.Size(523, 28);
             this.comboBoxFormats.TabIndex = 1;
+            this.comboBoxFormats.SelectedIndexChanged += new System.EventHandler(this.comboBoxFormats_SelectedIndexChanged);
             // 
             // btnCleanseLevels
             // 
-            this.btnCleanseLevels.Location = new System.Drawing.Point(31, 164);
+            this.btnCleanseLevels.Location = new System.Drawing.Point(31, 248);
             this.btnCleanseLevels.Name = "btnCleanseLevels";
-            this.btnCleanseLevels.Size = new System.Drawing.Size(180, 50);
+            this.btnCleanseLevels.Size = new System.Drawing.Size(272, 50);
             this.btnCleanseLevels.TabIndex = 2;
             this.btnCleanseLevels.Text = "Cleanse Levels";
             this.btnCleanseLevels.UseVisualStyleBackColor = true;
@@ -71,9 +74,9 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(226, 164);
+            this.btnCancel.Location = new System.Drawing.Point(309, 248);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(150, 50);
+            this.btnCancel.Size = new System.Drawing.Size(245, 50);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -83,7 +86,7 @@
             // 
             this.labelTargetFolder.AutoSize = true;
             this.labelTargetFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTargetFolder.Location = new System.Drawing.Point(159, 32);
+            this.labelTargetFolder.Location = new System.Drawing.Point(159, 30);
             this.labelTargetFolder.Name = "labelTargetFolder";
             this.labelTargetFolder.Size = new System.Drawing.Size(120, 20);
             this.labelTargetFolder.TabIndex = 7;
@@ -92,17 +95,40 @@
             // labelCleansingLevels
             // 
             this.labelCleansingLevels.AutoSize = true;
-            this.labelCleansingLevels.Location = new System.Drawing.Point(27, 32);
+            this.labelCleansingLevels.Location = new System.Drawing.Point(27, 30);
             this.labelCleansingLevels.Name = "labelCleansingLevels";
             this.labelCleansingLevels.Size = new System.Drawing.Size(126, 20);
             this.labelCleansingLevels.TabIndex = 6;
             this.labelCleansingLevels.Text = "Cleansing levels:";
             // 
+            // checkApplyFormatToLevelsNXMI
+            // 
+            this.checkApplyFormatToLevelsNXMI.AutoSize = true;
+            this.checkApplyFormatToLevelsNXMI.Location = new System.Drawing.Point(31, 160);
+            this.checkApplyFormatToLevelsNXMI.Name = "checkApplyFormatToLevelsNXMI";
+            this.checkApplyFormatToLevelsNXMI.Size = new System.Drawing.Size(277, 24);
+            this.checkApplyFormatToLevelsNXMI.TabIndex = 8;
+            this.checkApplyFormatToLevelsNXMI.Text = "Apply chosen format to levels.nxmi";
+            this.checkApplyFormatToLevelsNXMI.UseVisualStyleBackColor = true;
+            // 
+            // labelNXLVWarning
+            // 
+            this.labelNXLVWarning.AutoSize = true;
+            this.labelNXLVWarning.ForeColor = System.Drawing.Color.SeaGreen;
+            this.labelNXLVWarning.Location = new System.Drawing.Point(27, 206);
+            this.labelNXLVWarning.Name = "labelNXLVWarning";
+            this.labelNXLVWarning.Size = new System.Drawing.Size(502, 20);
+            this.labelNXLVWarning.TabIndex = 9;
+            this.labelNXLVWarning.Text = "N.B. Levels that are incompatible with NeoLemmix will be saved to .sxlv";
+            this.labelNXLVWarning.Visible = false;
+            // 
             // FormLevelFormat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(406, 243);
+            this.ClientSize = new System.Drawing.Size(584, 324);
+            this.Controls.Add(this.labelNXLVWarning);
+            this.Controls.Add(this.checkApplyFormatToLevelsNXMI);
             this.Controls.Add(this.labelTargetFolder);
             this.Controls.Add(this.labelCleansingLevels);
             this.Controls.Add(this.btnCancel);
@@ -126,5 +152,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label labelTargetFolder;
         private System.Windows.Forms.Label labelCleansingLevels;
+        private System.Windows.Forms.CheckBox checkApplyFormatToLevelsNXMI;
+        private System.Windows.Forms.Label labelNXLVWarning;
     }
 }

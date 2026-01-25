@@ -1247,10 +1247,14 @@ Ladderer=10";
 
             // Ask the user to choose an output extension
             string chosenExt = null;
+            bool applyFormatToLevelsNXMI = false;
             using (var dlg = new FormLevelFormat(targetFolder))
             {
                 if (dlg.ShowDialog() == DialogResult.OK)
+                {
                     chosenExt = dlg.SelectedExtension;
+                    applyFormatToLevelsNXMI = dlg.ApplyFormatToLevelsNXMI;
+                }
                 else
                     return; // User cancelled
             }
@@ -1276,6 +1280,9 @@ Ladderer=10";
                     }
                     SaveLevel(false);
 
+                    if (applyFormatToLevelsNXMI && (chosenExt != null))
+                        ApplyFormatToLevelsNXMI(file, targetFolder, chosenExt);
+
                     // Update the progress bar
                     int progressPercentage = (index + 1) * 100 / files.Length;
                     progressForm.UpdateProgress(
@@ -1294,7 +1301,7 @@ Ladderer=10";
                 statusBar.Visible = false;
 
                 // Display completion message
-                string cleanseMsg = "All .sxlv and .nxlv files cleansed successfully.";
+                string cleanseMsg = "All levels cleansed successfully.";
 
                 if (levelsWithMissingPieces.Count > 0)
                 {
@@ -1332,6 +1339,22 @@ Ladderer=10";
                     MessageBoxIcon.Information);
 
                 cleansingLevels = false;
+            }
+        }
+        private void ApplyFormatToLevelsNXMI(string file, string folder, string ext)
+        {
+            string oldName = Path.GetFileName(file);
+            string newName = Path.GetFileNameWithoutExtension(file) + ext;
+
+            foreach (string nxmiPath in Directory.GetFiles(folder, "levels.nxmi", SearchOption.AllDirectories))
+            {
+                string text = File.ReadAllText(nxmiPath);
+
+                if (!text.Contains(oldName))
+                    continue;
+
+                text = text.Replace(oldName, newName);
+                File.WriteAllText(nxmiPath, text);
             }
         }
 
