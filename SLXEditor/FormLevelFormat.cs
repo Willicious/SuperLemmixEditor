@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,10 +15,17 @@ namespace SLXEditor
     {
         public string SelectedExtension { get; private set; } = null;
 
-        public FormLevelFormat()
+        public FormLevelFormat(String path)
         {
             InitializeComponent();
+            SetTargetFolderLabel(path);
             comboBoxFormats.SelectedIndex = 0;
+        }
+
+        private void SetTargetFolderLabel(String path)
+        {
+            var dir = new DirectoryInfo(path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            labelTargetFolder.Text = dir.Name;
         }
 
         private void btnCleanseLevels_Click(object sender, EventArgs e)
