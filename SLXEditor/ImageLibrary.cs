@@ -792,13 +792,11 @@ namespace SLXEditor
         /// <summary>
         /// Loads a new image into the ImageLibrary. Returns false, if image cannot be found.
         /// </summary>
-        /// <param name="imageKey"></param>
         static bool AddNewImage(string imageKey)
         {
             try
             {
                 imageDict[imageKey] = LoadStylesFromFile.ImageInfo(imageKey);
-
                 return true;
             }
             catch (Exception Ex)

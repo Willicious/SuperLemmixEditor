@@ -290,7 +290,6 @@ namespace SLXEditor
         /// <summary>
         /// Loads a .png image or null if the image could not be loaded.
         /// </summary>
-        /// <param name="imageKey"></param>
         public static Bitmap Image(string imageKey)
         {
             string imagePath;
@@ -904,8 +903,11 @@ namespace SLXEditor
 
             Bitmap newBitmap = Image(filePath);
 
-            Rectangle nineSliceRect = new Rectangle(nineSliceLeft, nineSliceTop, newBitmap.Width - nineSliceLeft - nineSliceRight, newBitmap.Height - nineSliceTop - nineSliceBottom);
+            if (newBitmap == null)
+               throw new Exception(); // Let missing pieces handle this
 
+            Rectangle nineSliceRect = new Rectangle(nineSliceLeft, nineSliceTop, newBitmap.Width - nineSliceLeft - nineSliceRight, newBitmap.Height - nineSliceTop - nineSliceBottom);
+            
             return new BaseImageInfo(newBitmap, IsSteel, Resize, isDeprecated, nineSliceRect, defaultWidth, defaultHeight);
         }
     }
