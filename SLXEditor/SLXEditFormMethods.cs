@@ -1173,6 +1173,7 @@ Ladderer=10";
             using (var folderBrowserDialog = new FolderBrowserDialog())
             {
                 folderBrowserDialog.Description = "Choose a folder of levels to cleanse";
+                folderBrowserDialog.SelectedPath = C.AppPathLevels;
 
                 DialogResult result = folderBrowserDialog.ShowDialog();
 
