@@ -1179,18 +1179,7 @@ Ladderer=10";
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
                 {
-                    targetFolder = folderBrowserDialog.SelectedPath;
-
-                    var confirmResult = MessageBox.Show(
-                        $"Are you sure you want to cleanse all levels in \"{targetFolder}\"?",
-                        "Confirm Cleansing",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Warning);
-
-                    if (confirmResult == DialogResult.Yes)
-                    {
-                        CleanseLevels();
-                    }
+                    CleanseLevels();
                 }
             }
         }
