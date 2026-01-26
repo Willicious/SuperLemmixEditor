@@ -1343,7 +1343,9 @@ Ladderer=10";
         }
         private void ApplyFormatToLevelsNXMI(string file, string folder, string ext)
         {
-            string oldName = Path.GetFileName(file);
+            string oldExt = ext == ".sxlv" ? ".nxlv" : ".sxlv"; // Just in case levels are already converted
+
+            string oldName = Path.GetFileNameWithoutExtension(file) + oldExt;
             string newName = Path.GetFileNameWithoutExtension(file) + ext;
 
             foreach (string nxmiPath in Directory.GetFiles(folder, "levels.nxmi", SearchOption.AllDirectories))
