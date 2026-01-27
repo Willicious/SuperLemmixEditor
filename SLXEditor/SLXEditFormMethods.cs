@@ -55,13 +55,16 @@ namespace SLXEditor
                     Utility.LogException(Ex);
 
                     MessageBox.Show("Error: Could not read the style folders. The Editor will now close." + C.NewLine + Ex.Message, "Error loading styles");
-                    Application.Exit();
+                    throw new ApplicationException("Fatal error loading styles", Ex);
                 }
             }
             else
             {
-                MessageBox.Show("Warning: The folder 'styles' is missing. The Editor will now close.", "Styles missing");
-                Application.Exit();
+                MessageBox.Show("Error: The folder 'styles' is missing.\n\n" +
+                                "Ensure that the Editor is in the same directory as SuperLemmix.exe\n" +
+                                "and that the 'styles' folder is present.\n\n" +
+                                "The Editor will now close.", "Styles missing");
+                throw new ApplicationException("Fatal error loading styles");
             }
             // Create the StyleList from the StyleNameList
             styleNameList.RemoveAll(sty => sty == "default");
@@ -722,7 +725,7 @@ Ladderer=10";
             else
             {
                 MessageBox.Show("The style list could not be built. The Editor will now close.");
-                Application.Exit();
+                throw new ApplicationException("Fatal error loading styles");
             }
 
             // Reset style pieces and status bar
