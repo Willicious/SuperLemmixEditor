@@ -1290,6 +1290,9 @@ Ladderer=10";
                         $"Processing file {index + 1} of {files.Length}: {Path.GetFileName(file)}"
                     );
 
+                    // Reset Editor before moving on to the next level
+                    CreateNewLevelAndRenderer();
+
                     // Allow UI to update
                     await Task.Delay(10);
                 }
