@@ -162,7 +162,7 @@ namespace SLXEditor
             }
         }
 
-        private void ExportLevel()
+        private void ExportLevel(bool toRLV)
         {
             ShowWarnings();
 
@@ -177,12 +177,15 @@ namespace SLXEditor
 
             string selectedStyle = comboStyles.SelectedItem.ToString();
 
+            string filterText = toRLV ? "RLV files (*.rlv)|*.rlv" : "INI files (*.ini)|*.ini";
+            string ext = toRLV ? ".rlv" : ".ini";
+
             using (var saveDialog = new SaveFileDialog())
             {
                 saveDialog.InitialDirectory = C.AppPathLevels;
-                saveDialog.Filter = "INI files (*.ini)|*.ini";
-                saveDialog.Title = "Export Level to .INI";
-                saveDialog.FileName = $"{curLevel.Title}.ini";
+                saveDialog.Filter = filterText;
+                saveDialog.Title = "Export Level";
+                saveDialog.FileName = curLevel.Title + ext;
 
                 if (saveDialog.ShowDialog() != DialogResult.OK)
                     return;
@@ -569,14 +572,18 @@ namespace SLXEditor
             {
                 lblChosenOutputStyle.Text = comboStyles.Text;
                 lblChosenOutputStyle.ForeColor = Color.ForestGreen;
-                btnExport.Enabled = true;
+                btnExportToINI.Enabled = true;
+                btnExportToRLV.Enabled = true;
+                labelFormatHint.Visible = true;
                 PopulatePieceListView(comboStyles.SelectedItem.ToString());
             }
             else
             {
                 lblChosenOutputStyle.Text = "Please choose a style";
                 lblChosenOutputStyle.ForeColor = Color.DarkRed;
-                btnExport.Enabled = false;
+                btnExportToINI.Enabled = false;
+                btnExportToRLV.Enabled = false;
+                labelFormatHint.Visible = false;
                 listViewPieceLinks.Items.Clear();
             }
 
@@ -734,9 +741,14 @@ namespace SLXEditor
             AddTranslationTableStyle();
         }
 
-        private void btnExport_Click(object sender, EventArgs e)
+        private void btnExportToINI_Click(object sender, EventArgs e)
         {
-            ExportLevel();
+            ExportLevel(false);
+        }
+
+        private void btnExportToRLV_Click(object sender, EventArgs e)
+        {
+            ExportLevel(true);
         }
 
         private void comboStyles_SelectedIndexChanged(object sender, EventArgs e)

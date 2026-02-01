@@ -39,6 +39,7 @@
             this.exportAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAsINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.batchExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.playLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -303,7 +304,7 @@
             this.txt_FocusPieceBrowser = new SLXEditor.FocusTextBox();
             this.pic_DragNewPiece = new System.Windows.Forms.PictureBox();
             this.txt_Focus = new SLXEditor.FocusTextBox();
-            this.batchExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).BeginInit();
             this.tabLvlProperties.SuspendLayout();
@@ -441,6 +442,7 @@
             this.exportAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveAsImageToolStripMenuItem,
             this.exportAsINIToolStripMenuItem,
+            this.toolStripSeparator10,
             this.batchExportToolStripMenuItem});
             this.exportAsToolStripMenuItem.Name = "exportAsToolStripMenuItem";
             this.exportAsToolStripMenuItem.Size = new System.Drawing.Size(354, 34);
@@ -450,7 +452,7 @@
             // 
             this.saveAsImageToolStripMenuItem.Name = "saveAsImageToolStripMenuItem";
             this.saveAsImageToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Alt+S";
-            this.saveAsImageToolStripMenuItem.Size = new System.Drawing.Size(360, 34);
+            this.saveAsImageToolStripMenuItem.Size = new System.Drawing.Size(400, 34);
             this.saveAsImageToolStripMenuItem.Text = "Image (.png)";
             this.saveAsImageToolStripMenuItem.Click += new System.EventHandler(this.saveAsImageToolStripMenuItem_Click);
             // 
@@ -458,9 +460,16 @@
             // 
             this.exportAsINIToolStripMenuItem.Name = "exportAsINIToolStripMenuItem";
             this.exportAsINIToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+I";
-            this.exportAsINIToolStripMenuItem.Size = new System.Drawing.Size(360, 34);
-            this.exportAsINIToolStripMenuItem.Text = "RetroLemmini Level (.ini)";
+            this.exportAsINIToolStripMenuItem.Size = new System.Drawing.Size(400, 34);
+            this.exportAsINIToolStripMenuItem.Text = "RetroLemmini Level (.ini / .rlv)";
             this.exportAsINIToolStripMenuItem.Click += new System.EventHandler(this.exportAsINIToolStripMenuItem_Click);
+            // 
+            // batchExportToolStripMenuItem
+            // 
+            this.batchExportToolStripMenuItem.Name = "batchExportToolStripMenuItem";
+            this.batchExportToolStripMenuItem.Size = new System.Drawing.Size(400, 34);
+            this.batchExportToolStripMenuItem.Text = "Batch Export";
+            this.batchExportToolStripMenuItem.Click += new System.EventHandler(this.batchExportToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -3685,12 +3694,10 @@
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
             // 
-            // batchExportToolStripMenuItem
+            // toolStripSeparator10
             // 
-            this.batchExportToolStripMenuItem.Name = "batchExportToolStripMenuItem";
-            this.batchExportToolStripMenuItem.Size = new System.Drawing.Size(360, 34);
-            this.batchExportToolStripMenuItem.Text = "Batch Export";
-            this.batchExportToolStripMenuItem.Click += new System.EventHandler(this.batchExportToolStripMenuItem_Click);
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(397, 6);
             // 
             // SLXEditForm
             // 
@@ -4084,6 +4091,7 @@
         private System.Windows.Forms.RadioButton radAlwaysSteel;
         private System.Windows.Forms.Label labelSteelBehaviour;
         private System.Windows.Forms.ToolStripMenuItem batchExportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
     }
 }
 

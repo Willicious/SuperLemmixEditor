@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormINIExporter));
-            this.btnExport = new System.Windows.Forms.Button();
+            this.btnExportToINI = new System.Windows.Forms.Button();
             this.comboStyles = new System.Windows.Forms.ComboBox();
             this.btnAddStyle = new System.Windows.Forms.Button();
             this.lblChooseStyle = new System.Windows.Forms.Label();
@@ -44,22 +44,24 @@
             this.lblOr = new System.Windows.Forms.Label();
             this.lblUnlinkedPieces = new System.Windows.Forms.Label();
             this.lblTransparencyOffsetHint = new System.Windows.Forms.Label();
-            this.numLinkedPieceID = new SLXEditor.NumUpDownOverwrite();
             this.btnOpenBatchExporter = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnExportToRLV = new System.Windows.Forms.Button();
+            this.labelFormatHint = new System.Windows.Forms.Label();
+            this.numLinkedPieceID = new SLXEditor.NumUpDownOverwrite();
             ((System.ComponentModel.ISupportInitialize)(this.picPiecePreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLinkedPieceID)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnExport
+            // btnExportToINI
             // 
-            this.btnExport.Location = new System.Drawing.Point(250, 655);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(446, 54);
-            this.btnExport.TabIndex = 0;
-            this.btnExport.Text = "Export This Level To INI";
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            this.btnExportToINI.Location = new System.Drawing.Point(234, 704);
+            this.btnExportToINI.Name = "btnExportToINI";
+            this.btnExportToINI.Size = new System.Drawing.Size(254, 54);
+            this.btnExportToINI.TabIndex = 0;
+            this.btnExportToINI.Text = "Export This Level To INI";
+            this.btnExportToINI.UseVisualStyleBackColor = true;
+            this.btnExportToINI.Click += new System.EventHandler(this.btnExportToINI_Click);
             // 
             // comboStyles
             // 
@@ -106,9 +108,9 @@
             this.lblChosenOutputStyle.ForeColor = System.Drawing.Color.DarkRed;
             this.lblChosenOutputStyle.Location = new System.Drawing.Point(150, 73);
             this.lblChosenOutputStyle.Name = "lblChosenOutputStyle";
-            this.lblChosenOutputStyle.Size = new System.Drawing.Size(307, 20);
+            this.lblChosenOutputStyle.Size = new System.Drawing.Size(428, 20);
             this.lblChosenOutputStyle.TabIndex = 5;
-            this.lblChosenOutputStyle.Text = "Please choose a Lemmini-compatible style";
+            this.lblChosenOutputStyle.Text = "Please choose a RetroLemmini or Lemmini-compatible style";
             // 
             // listViewPieceLinks
             // 
@@ -131,7 +133,7 @@
             // 
             // INILinkedPieceID
             // 
-            this.INILinkedPieceID.Text = "INI Linked Piece ID";
+            this.INILinkedPieceID.Text = "Linked Piece ID";
             this.INILinkedPieceID.Width = 120;
             // 
             // picPiecePreview
@@ -195,18 +197,11 @@
     "le has been recently updated)";
             this.lblTransparencyOffsetHint.Visible = false;
             // 
-            // numLinkedPieceID
-            // 
-            this.numLinkedPieceID.Location = new System.Drawing.Point(817, 127);
-            this.numLinkedPieceID.Name = "numLinkedPieceID";
-            this.numLinkedPieceID.Size = new System.Drawing.Size(103, 26);
-            this.numLinkedPieceID.TabIndex = 10;
-            // 
             // btnOpenBatchExporter
             // 
-            this.btnOpenBatchExporter.Location = new System.Drawing.Point(28, 655);
+            this.btnOpenBatchExporter.Location = new System.Drawing.Point(28, 704);
             this.btnOpenBatchExporter.Name = "btnOpenBatchExporter";
-            this.btnOpenBatchExporter.Size = new System.Drawing.Size(204, 54);
+            this.btnOpenBatchExporter.Size = new System.Drawing.Size(200, 54);
             this.btnOpenBatchExporter.TabIndex = 14;
             this.btnOpenBatchExporter.Text = "Open Batch Exporter";
             this.btnOpenBatchExporter.UseVisualStyleBackColor = true;
@@ -214,19 +209,50 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(716, 655);
+            this.btnCancel.Location = new System.Drawing.Point(756, 704);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(204, 54);
+            this.btnCancel.Size = new System.Drawing.Size(164, 54);
             this.btnCancel.TabIndex = 15;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // btnExportToRLV
+            // 
+            this.btnExportToRLV.Location = new System.Drawing.Point(494, 704);
+            this.btnExportToRLV.Name = "btnExportToRLV";
+            this.btnExportToRLV.Size = new System.Drawing.Size(254, 54);
+            this.btnExportToRLV.TabIndex = 16;
+            this.btnExportToRLV.Text = "Export This Level To RLV";
+            this.btnExportToRLV.UseVisualStyleBackColor = true;
+            this.btnExportToRLV.Click += new System.EventHandler(this.btnExportToRLV_Click);
+            // 
+            // labelFormatHint
+            // 
+            this.labelFormatHint.AutoSize = true;
+            this.labelFormatHint.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.labelFormatHint.Location = new System.Drawing.Point(98, 663);
+            this.labelFormatHint.Name = "labelFormatHint";
+            this.labelFormatHint.Size = new System.Drawing.Size(731, 20);
+            this.labelFormatHint.TabIndex = 17;
+            this.labelFormatHint.Text = "NOTE: INI is compatible with RetroLemmini and earlier Lemmini versions. RLV is Re" +
+    "troLemmini-specific";
+            this.labelFormatHint.Visible = false;
+            // 
+            // numLinkedPieceID
+            // 
+            this.numLinkedPieceID.Location = new System.Drawing.Point(817, 127);
+            this.numLinkedPieceID.Name = "numLinkedPieceID";
+            this.numLinkedPieceID.Size = new System.Drawing.Size(103, 26);
+            this.numLinkedPieceID.TabIndex = 10;
+            // 
             // FormINIExporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(944, 732);
+            this.ClientSize = new System.Drawing.Size(944, 770);
+            this.Controls.Add(this.labelFormatHint);
+            this.Controls.Add(this.btnExportToRLV);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOpenBatchExporter);
             this.Controls.Add(this.lblTransparencyOffsetHint);
@@ -242,13 +268,13 @@
             this.Controls.Add(this.lblChooseStyle);
             this.Controls.Add(this.btnAddStyle);
             this.Controls.Add(this.comboStyles);
-            this.Controls.Add(this.btnExport);
+            this.Controls.Add(this.btnExportToINI);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "FormINIExporter";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Export as INI";
+            this.Text = "Export Level to INI or RLV";
             this.Load += new System.EventHandler(this.FormINIExporter_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormINIExporter_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.picPiecePreview)).EndInit();
@@ -260,7 +286,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.Button btnExportToINI;
         private System.Windows.Forms.ComboBox comboStyles;
         private System.Windows.Forms.Button btnAddStyle;
         private System.Windows.Forms.Label lblChooseStyle;
@@ -278,5 +304,7 @@
         private System.Windows.Forms.Label lblTransparencyOffsetHint;
         private System.Windows.Forms.Button btnOpenBatchExporter;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnExportToRLV;
+        private System.Windows.Forms.Label labelFormatHint;
     }
 }
