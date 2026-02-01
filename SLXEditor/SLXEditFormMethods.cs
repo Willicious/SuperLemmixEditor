@@ -1241,6 +1241,8 @@ Ladderer=10";
             levelsWithNoLemmings.Clear();
             levelsWithNoExits.Clear();
 
+            var failedCleanses = new List<Tuple<string, string>>();
+
             // Get all .sxlv and .nxlv files in the target folder and its subdirectories
             string[] filesSXLV = Directory.GetFiles(targetFolder, "*.sxlv", SearchOption.AllDirectories);
             string[] filesNXLV = Directory.GetFiles(targetFolder, "*.nxlv", SearchOption.AllDirectories);
@@ -1280,8 +1282,14 @@ Ladderer=10";
                             Path.GetDirectoryName(file),
                             Path.GetFileNameWithoutExtension(file) + chosenExt
                         );
+
+                        SaveLevel(false);
                     }
-                    SaveLevel(false);
+                    else
+                    {
+                        failedCleanses.Add(Tuple.Create(file, $" - error: invalid extension ({chosenExt})"));
+                        continue;
+                    }
 
                     if (applyFormatToLevelsNXMI && (chosenExt != null))
                         ApplyFormatToLevelsNXMI(file, targetFolder, chosenExt);
@@ -1309,6 +1317,11 @@ Ladderer=10";
                 // Display completion message
                 string cleanseMsg = "All levels cleansed successfully.";
 
+                if (failedCleanses.Count > 0)
+                {
+                    cleanseMsg += "\n\nFailed cleanses:\n\n";
+                    cleanseMsg += string.Join("\n", failedCleanses);
+                }
                 if (levelsWithMissingPieces.Count > 0)
                 {
                     cleanseMsg += "\n\nLevels with missing pieces:\n\n";
