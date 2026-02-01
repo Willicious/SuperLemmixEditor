@@ -1663,6 +1663,10 @@ namespace SLXEditor
         {
             OpenExportAsINI();
         }
+        private void batchExportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenBatchExporter();
+        }
 
         private void btnLemCount_Click(object sender, EventArgs e)
         {

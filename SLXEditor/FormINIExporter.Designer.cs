@@ -45,17 +45,19 @@
             this.lblUnlinkedPieces = new System.Windows.Forms.Label();
             this.lblTransparencyOffsetHint = new System.Windows.Forms.Label();
             this.numLinkedPieceID = new SLXEditor.NumUpDownOverwrite();
+            this.btnOpenBatchExporter = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picPiecePreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLinkedPieceID)).BeginInit();
             this.SuspendLayout();
             // 
             // btnExport
             // 
-            this.btnExport.Location = new System.Drawing.Point(28, 655);
+            this.btnExport.Location = new System.Drawing.Point(250, 655);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(892, 54);
+            this.btnExport.Size = new System.Drawing.Size(446, 54);
             this.btnExport.TabIndex = 0;
-            this.btnExport.Text = "Export";
+            this.btnExport.Text = "Export This Level To INI";
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
@@ -200,11 +202,33 @@
             this.numLinkedPieceID.Size = new System.Drawing.Size(103, 26);
             this.numLinkedPieceID.TabIndex = 10;
             // 
+            // btnOpenBatchExporter
+            // 
+            this.btnOpenBatchExporter.Location = new System.Drawing.Point(28, 655);
+            this.btnOpenBatchExporter.Name = "btnOpenBatchExporter";
+            this.btnOpenBatchExporter.Size = new System.Drawing.Size(204, 54);
+            this.btnOpenBatchExporter.TabIndex = 14;
+            this.btnOpenBatchExporter.Text = "Open Batch Exporter";
+            this.btnOpenBatchExporter.UseVisualStyleBackColor = true;
+            this.btnOpenBatchExporter.Click += new System.EventHandler(this.btnOpenBatchExporter_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(716, 655);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(204, 54);
+            this.btnCancel.TabIndex = 15;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // FormINIExporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 732);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnOpenBatchExporter);
             this.Controls.Add(this.lblTransparencyOffsetHint);
             this.Controls.Add(this.lblUnlinkedPieces);
             this.Controls.Add(this.lblOr);
@@ -219,7 +243,7 @@
             this.Controls.Add(this.btnAddStyle);
             this.Controls.Add(this.comboStyles);
             this.Controls.Add(this.btnExport);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "FormINIExporter";
@@ -252,5 +276,7 @@
         private System.Windows.Forms.Label lblOr;
         private System.Windows.Forms.Label lblUnlinkedPieces;
         private System.Windows.Forms.Label lblTransparencyOffsetHint;
+        private System.Windows.Forms.Button btnOpenBatchExporter;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

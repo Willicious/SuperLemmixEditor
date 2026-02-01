@@ -575,7 +575,7 @@ Ladderer=10";
         /// <summary>
         /// Creates a new instance of a Level and a new Renderer, then displays it on the form.
         /// </summary>
-        private void CreateNewLevelAndRenderer()
+        public void CreateNewLevelAndRenderer()
         {
             if (AskUserWhetherSaveLevel())
                 return;
@@ -856,9 +856,20 @@ Ladderer=10";
         /// </summary>
         private void OpenExportAsINI()
         {
-            using (var iniExporterForm = new FormINIExporter(CurLevel))
+            using (var iniExporterForm = new FormINIExporter(CurLevel, this))
             {
                 iniExporterForm.ShowDialog(this);
+            }
+        }
+
+        /// <summary>
+        /// Opens the Export As INI dialog
+        /// </summary>
+        public void OpenBatchExporter()
+        {
+            using (var batchExporterForm = new FormBatchExporter(this))
+            {
+                batchExporterForm.ShowDialog(this);
             }
         }
 
@@ -1131,7 +1142,7 @@ Ladderer=10";
             // get most up-to-date global info
             ReadLevelInfoFromForm(true);
 
-            LevelFile.SaveLevel(CurLevel, levelDirectory, CanSaveToEitherFormat());
+            LevelFile.SaveLevel(CurLevel, levelDirectory, CanSaveToEitherFormat(CurLevel));
             SaveChangesToOldLevelList();
             levelDirectory = System.IO.Path.GetDirectoryName(CurLevel.FilePathToSave);
             if (!isPlaytest)
@@ -1143,9 +1154,9 @@ Ladderer=10";
         /// <summary>
         /// Saves the current level in the current location. If no location is known, the file browser is opened.
         /// </summary>
-        private void SaveLevel(bool isPlaytest = false)
+        public void SaveLevel(bool isPlaytest = false, bool validate = true)
         {
-            if (curSettings.ValidateWhenSaving)
+            if (validate && curSettings.ValidateWhenSaving)
             {
                 ValidateLevel(true, cleansingLevels);
 
@@ -1199,22 +1210,22 @@ Ladderer=10";
             return isNeoLemmixOnly ? ".nxlv" : ".sxlv";
         }
 
-        public bool CanSaveToEitherFormat()
+        public bool CanSaveToEitherFormat(Level level)
         {
-            if (CurLevel.IsSuperlemming)
+            if (level.IsSuperlemming)
                 return false;
 
-            if (CurLevel.SteelType >= 1)
+            if (level.SteelType >= 1)
                 return false;
 
             foreach (C.Skill skill in C.SuperLemmixSkills)
-                if (LevelFile.IsSkillRequired(CurLevel, skill))
+                if (LevelFile.IsSkillRequired(level, skill))
                     return false;
 
-            if (CurLevel.GadgetList.Exists(obj => obj.ObjType.In(C.SuperLemmixObjects)))
+            if (level.GadgetList.Exists(obj => obj.ObjType.In(C.SuperLemmixObjects)))
                 return false;
 
-            var rivalObj = CurLevel.GadgetList
+            var rivalObj = level.GadgetList
                 .FirstOrDefault(obj => obj.ObjType.In(C.OBJ.LEMMING, C.OBJ.HATCH, C.OBJ.EXIT) && obj.IsRival);
             if (rivalObj != null)
                 return false;
@@ -1225,7 +1236,7 @@ Ladderer=10";
         /// <summary>
         /// Opens and saves all level files in a directory in order to ensure compatibility and update the file
         /// </summary>
-        private async void CleanseLevels(String targetFolder)
+        public async void CleanseLevels(String targetFolder)
         {
             if (string.IsNullOrEmpty(targetFolder))
             {
