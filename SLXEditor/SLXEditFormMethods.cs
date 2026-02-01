@@ -1272,27 +1272,28 @@ Ladderer=10";
                 for (int index = 0; index < files.Length; index++)
                 {
                     string file = files[index];
+                    string ext = chosenExt;
 
                     // Load and save the file with the chosen extension
                     LoadNewLevel(file);
-                    if (!CanSaveToEitherFormat()) chosenExt = ".sxlv"; // Override if the level contains SuperLemmix-specific features
-                    if (chosenExt != null)
+                    if (!CanSaveToEitherFormat(CurLevel)) ext = ".sxlv"; // Override if the level contains SuperLemmix-specific features
+                    if (ext != null)
                     {
                         CurLevel.FilePathToSave = Path.Combine(
                             Path.GetDirectoryName(file),
-                            Path.GetFileNameWithoutExtension(file) + chosenExt
+                            Path.GetFileNameWithoutExtension(file) + ext
                         );
 
                         SaveLevel(false);
                     }
                     else
                     {
-                        failedCleanses.Add(Tuple.Create(file, $" - error: invalid extension ({chosenExt})"));
+                        failedCleanses.Add(Tuple.Create(file, $" - error: invalid extension ({ext})"));
                         continue;
                     }
 
-                    if (applyFormatToLevelsNXMI && (chosenExt != null))
-                        ApplyFormatToLevelsNXMI(file, targetFolder, chosenExt);
+                    if (applyFormatToLevelsNXMI && (ext != null))
+                        ApplyFormatToLevelsNXMI(file, targetFolder, ext);
 
                     // Update the progress bar
                     int progressPercentage = (index + 1) * 100 / files.Length;
