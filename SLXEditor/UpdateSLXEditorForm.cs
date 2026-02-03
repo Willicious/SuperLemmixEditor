@@ -212,12 +212,10 @@ namespace SLXEditor
             but_MoveBackOne.Enabled = (selectionList.Count > 0);
             but_MoveFrontOne.Enabled = (selectionList.Count > 0);
 
-            bool isRuler = selectionList.Exists(p => p.ObjType == C.OBJ.RULER);
-
-            check_Pieces_NoOv.Enabled = selectionList.Exists(p => !(p is TerrainPiece) && !isRuler);
+            check_Pieces_NoOv.Enabled = selectionList.Exists(p => p.ObjType != C.OBJ.RULER);
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_NoOv.CheckedChanged -= check_Pieces_NoOv_CheckedChanged;
-            check_Pieces_NoOv.Checked = selectionList.Exists(p => (p is GadgetPiece && (p as GadgetPiece).IsNoOverwrite)
+            check_Pieces_NoOv.Checked = selectionList.Exists(p => (p is GadgetPiece && (p as GadgetPiece).IsNoOverwrite && (p.ObjType != C.OBJ.RULER))
                                                                || (p is TerrainPiece && (p as TerrainPiece).IsNoOverwrite));
             check_Pieces_NoOv.CheckedChanged += check_Pieces_NoOv_CheckedChanged;
 
@@ -233,7 +231,7 @@ namespace SLXEditor
             check_Pieces_OneWay.Checked = selectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsOneWay);
             check_Pieces_OneWay.CheckedChanged += check_Pieces_OneWay_CheckedChanged;
 
-            check_Pieces_OnlyOnTerrain.Enabled = selectionList.Exists(p => p is GadgetPiece && !isRuler);
+            check_Pieces_OnlyOnTerrain.Enabled = selectionList.Exists(p => p is GadgetPiece && p.ObjType != C.OBJ.RULER);
             // Set check-mark correctly, without firing the CheckedChanged event
             check_Pieces_OnlyOnTerrain.CheckedChanged -= check_Pieces_OnlyOnTerrain_CheckedChanged;
             check_Pieces_OnlyOnTerrain.Checked = selectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).IsOnlyOnTerrain);
