@@ -29,8 +29,6 @@ namespace SLXEditor
         /// <summary>
         /// Initializes a new instance of a Renderer. This resets all existing display options. 
         /// </summary>
-        /// <param name="level"></param>
-        /// <param name="pic_Level"></param>
         public Renderer(Level level, PictureBox pic_Level, Settings settings)
         {
             curSettings = settings;
@@ -584,8 +582,8 @@ namespace SLXEditor
         /// <param name="terrPiece"></param>
         private C.CustDrawMode GetDrawModeForTerrain(TerrainPiece terrPiece)
         {
-            if (terrPiece is GroupPiece && Properties.Settings.Default.GroupsAreHighlighted)
-                return C.CustDrawMode.HighlightGrouped;
+            if (terrPiece is GroupPiece && BmpModify.HighlightGroups)
+                return C.CustDrawMode.HighlightGroups;
             else if (terrPiece.IsErase)
                 return C.CustDrawMode.Erase;
             else if (terrPiece.IsNoOverwrite)
@@ -930,7 +928,7 @@ namespace SLXEditor
             Rectangle displayedLevelRect = GetLevelBmpRect();
 
             // Adjust text position if the scrollbars are visible and we're not in Level Arranger window
-            if (!Properties.Settings.Default.LevelArrangerIsOpen)
+            if (!curSettings.LevelArranger.IsOpen)
             {
                 if (displayedLevelRect.Width + 1 < level.Width) textPos.X = textPos.X - 10;
                 if (displayedLevelRect.Height + 1 < level.Height) textPos.Y = textPos.Y - 8;

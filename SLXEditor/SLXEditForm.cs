@@ -1544,11 +1544,17 @@ namespace SLXEditor
         {
             SetHotkeys();
 
-            if (Properties.Settings.Default.ShowAboutSLXWindowAtStartup)
-                ShowAboutSLXEditor();
+            if (curSettings.AllTabsExpanded)
+                ExpandAllTabs();
 
-            if (Properties.Settings.Default.LevelArrangerIsOpen)
+            if (curSettings.LevelArranger.IsOpen)
                 OpenLevelArrangerWindow();
+
+            if (curSettings.PieceBrowser.IsOpen)
+                OpenPieceBrowserWindow();
+
+            if (curSettings.ShowAboutAtStartup)
+                ShowAboutSLXEditor();
 
             SetMetaDataPanel();
         }

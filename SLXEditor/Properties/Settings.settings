@@ -1,42 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SLXEditor.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
   <Profiles />
-  <Settings>
-    <Setting Name="ShowAboutSLXWindowAtStartup" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="LevelArrangerIsOpen" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="AllTabsAreExpanded" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="LevelArrangerSize" Type="System.Drawing.Size" Scope="User">
-      <Value Profile="(Default)">960, 400</Value>
-    </Setting>
-    <Setting Name="LevelArrangerLocation" Type="System.Drawing.Point" Scope="User">
-      <Value Profile="(Default)">180, 40</Value>
-    </Setting>
-    <Setting Name="LevelArrangerIsMaximized" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="ErasersAreHighlighted" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="GroupsAreHighlighted" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="PieceBrowserSize" Type="System.Drawing.Size" Scope="User">
-      <Value Profile="(Default)">1000, 148</Value>
-    </Setting>
-    <Setting Name="PieceBrowserLocation" Type="System.Drawing.Point" Scope="User">
-      <Value Profile="(Default)">40, 560</Value>
-    </Setting>
-    <Setting Name="PieceBrowserIsMaximized" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="PieceBrowserIsOpen" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-  </Settings>
+  <Settings />
 </SettingsFile>

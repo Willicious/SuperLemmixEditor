@@ -9,6 +9,7 @@ namespace SLXEditor
         private SLXEditForm mainForm;
         readonly PictureBox picLevel;
         readonly Renderer curRenderer;
+        readonly Settings curSettings;
 
         HScrollBar scrollHoriz;
         VScrollBar scrollVert;
@@ -19,13 +20,15 @@ namespace SLXEditor
 
         internal FormLevelArranger(PictureBox picLevelFromMain,
                                    SLXEditForm parentForm,
-                                   Renderer parentRenderer)
+                                   Renderer parentRenderer,
+                                   Settings settings)
         {
             InitializeComponent();
             
             mainForm = parentForm; 
             picLevel = picLevelFromMain;
             curRenderer = parentRenderer;
+            curSettings = settings;
 
             originalLevelSize = mainForm.CurLevel.Size;
 
@@ -165,11 +168,11 @@ namespace SLXEditor
         private void FormLevelArranger_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Update settings
-            Properties.Settings.Default.LevelArrangerIsOpen = e.CloseReason != CloseReason.UserClosing;
-            Properties.Settings.Default.LevelArrangerSize = this.Size;
-            Properties.Settings.Default.LevelArrangerLocation = this.Location;
-            Properties.Settings.Default.LevelArrangerIsMaximized = this.WindowState == FormWindowState.Maximized;
-            Properties.Settings.Default.Save();
+            curSettings.LevelArranger.IsOpen = e.CloseReason != CloseReason.UserClosing;
+            curSettings.LevelArranger.IsMaximized = this.WindowState == FormWindowState.Maximized;
+            curSettings.LevelArranger.Location = this.Location;
+            curSettings.LevelArranger.Size = this.Size;
+            curSettings.WriteSettingsToFile();
 
             ReturnPicLevelToMainForm();
             mainForm = null;
@@ -224,15 +227,15 @@ namespace SLXEditor
 
         private void FormLevelArranger_Shown(object sender, EventArgs e)
         {
-            Properties.Settings.Default.LevelArrangerIsOpen = true;
+            curSettings.LevelArranger.IsOpen = true;
             ResetPicLevel();
         }
 
         private void FormLevelArranger_Load(object sender, EventArgs e)
         {
             // Size and position the form according to settings
-            this.Size = Properties.Settings.Default.LevelArrangerSize;
-            this.Location = Properties.Settings.Default.LevelArrangerLocation;
+            this.Size = curSettings.LevelArranger.Size;
+            this.Location = curSettings.LevelArranger.Location;
 
             // Reset window to default size and position if setting is invalid
             if (!ValidateScreenSettings(this.Location))
@@ -241,7 +244,7 @@ namespace SLXEditor
             }
 
             // If the window was maximized, apply maximize to ensure correct sizing
-            if (Properties.Settings.Default.LevelArrangerIsMaximized)
+            if (curSettings.LevelArranger.IsMaximized)
             {
                 this.WindowState = FormWindowState.Maximized;
             }

@@ -8,18 +8,22 @@ namespace SLXEditor
     {
         private SLXEditForm mainForm;
         readonly Panel panelPieceBrowser;
+        private Settings curSettings;
 
         private int fixedHeight;
         private int minWidth;
 
         public event Action PieceBrowserReturned;
 
-        internal FormPieceBrowser(Panel panelPieceBrowserFromMain, SLXEditForm parentForm)
+        internal FormPieceBrowser(Panel panelPieceBrowserFromMain,
+                                  SLXEditForm parentForm,
+                                  Settings settings)
         {
             InitializeComponent();
 
             mainForm = parentForm;
             panelPieceBrowser = panelPieceBrowserFromMain;
+            this.curSettings = settings;
 
             // Ensure interactivity with the main form whilst keeping the window on top
             this.Owner = mainForm;
@@ -72,11 +76,11 @@ namespace SLXEditor
         private void FormPieceBrowser_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Update settings
-            Properties.Settings.Default.PieceBrowserIsOpen = e.CloseReason != CloseReason.UserClosing;
-            Properties.Settings.Default.PieceBrowserSize = this.Size;
-            Properties.Settings.Default.PieceBrowserLocation = this.Location;
-            Properties.Settings.Default.PieceBrowserIsMaximized = this.WindowState == FormWindowState.Maximized;
-            Properties.Settings.Default.Save();
+            curSettings.PieceBrowser.IsOpen = e.CloseReason != CloseReason.UserClosing;
+            curSettings.PieceBrowser.IsMaximized = this.WindowState == FormWindowState.Maximized;
+            curSettings.PieceBrowser.Location = this.Location;
+            curSettings.PieceBrowser.Size = this.Size;
+            curSettings.WriteSettingsToFile();
 
             ReturnPieceBrowserToMainForm();
             mainForm = null;
@@ -127,14 +131,14 @@ namespace SLXEditor
 
         private void FormPieceBrowser_Shown(object sender, EventArgs e)
         {
-            Properties.Settings.Default.PieceBrowserIsOpen = true;
+            curSettings.PieceBrowser.IsOpen = true;
         }
 
         private void FormPieceBrowser_Load(object sender, EventArgs e)
         {
             // Size and position the form according to settings
-            this.Size = Properties.Settings.Default.PieceBrowserSize;
-            this.Location = Properties.Settings.Default.PieceBrowserLocation;
+            this.Size = curSettings.PieceBrowser.Size;
+            this.Location = curSettings.PieceBrowser.Location;
 
             // Reset window to default size and position if setting is invalid
             if (!ValidateScreenSettings(this.Location))
@@ -143,7 +147,7 @@ namespace SLXEditor
             }
 
             // If the window was maximized, apply maximize to ensure correct sizing
-            if (Properties.Settings.Default.PieceBrowserIsMaximized)
+            if (curSettings.PieceBrowser.IsMaximized)
             {
                 this.WindowState = FormWindowState.Maximized;
             }

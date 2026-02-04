@@ -6,8 +6,11 @@ namespace SLXEditor
 {
     public partial class FormAboutSLXEditor : Form
     {
-        public FormAboutSLXEditor()
+        private Settings curSettings;
+        internal FormAboutSLXEditor(Settings settings)
         {
+            curSettings = settings;
+
             int GetCenter(Control component)
             {
                 return (this.ClientSize.Width - component.Width) / 2;
@@ -53,13 +56,13 @@ namespace SLXEditor
 
             check_ShowThisWindow.Top = linkLF.Bottom + padding;
             check_ShowThisWindow.Left = GetCenter(check_ShowThisWindow);
-            check_ShowThisWindow.Checked = Properties.Settings.Default.ShowAboutSLXWindowAtStartup;
+            check_ShowThisWindow.Checked = curSettings.ShowAboutAtStartup;
         }
 
         private void Check_ShowThisWindow_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.ShowAboutSLXWindowAtStartup = check_ShowThisWindow.Checked;
-            Properties.Settings.Default.Save();
+            curSettings.ShowAboutAtStartup = check_ShowThisWindow.Checked;
+            curSettings.WriteSettingsToFile();
         }
 
         private void FormAboutSLXEditor_KeyDown(object sender, KeyEventArgs e)

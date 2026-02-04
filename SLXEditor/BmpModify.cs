@@ -31,7 +31,7 @@ namespace SLXEditor
             colorFuncDict.Add(C.CustDrawMode.ClearPhysicsNoOverwrite, ColorFunc_ClearPhysics);
             colorFuncDict.Add(C.CustDrawMode.ClearPhysicsNoOverwriteOWW, ColorFunc_ClearPhysicsOWW);
             colorFuncDict.Add(C.CustDrawMode.ClearPhysicsSteelNoOverwrite, ColorFunc_ClearPhysicsSteel);
-            colorFuncDict.Add(C.CustDrawMode.HighlightGrouped, ColorFunc_HighlightGrouped);
+            colorFuncDict.Add(C.CustDrawMode.HighlightGroups, ColorFunc_HighlightGroups);
 
             doDrawThisPixelDict = new Dictionary<C.CustDrawMode, Func<byte, byte, bool>>();
             doDrawThisPixelDict.Add(C.CustDrawMode.Default, DoDrawThisPixel_DrawNew);
@@ -47,15 +47,15 @@ namespace SLXEditor
             doDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsNoOverwrite, DoDrawThisPixel_NotAtMask);
             doDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsNoOverwriteOWW, DoDrawThisPixel_NotAtMask);
             doDrawThisPixelDict.Add(C.CustDrawMode.ClearPhysicsSteelNoOverwrite, DoDrawThisPixel_NotAtMask);
-            doDrawThisPixelDict.Add(C.CustDrawMode.HighlightGrouped, DoDrawThisPixel_DrawNew);
+            doDrawThisPixelDict.Add(C.CustDrawMode.HighlightGroups, DoDrawThisPixel_DrawNew);
         }
 
         private static Dictionary<C.CustDrawMode, Func<int, int, byte[]>> colorFuncDict;
         private static Dictionary<C.CustDrawMode, Func<byte, byte, bool>> doDrawThisPixelDict;
 
         const int BytesPerPixel = 4;
-
-        private static bool _eraserHighlightCached;
+        public static bool HighlightErasers { get; set; }
+        public static bool HighlightGroups { get; set; }
 
         private static readonly byte[] COLOR_ERASE = { 0, 0, 0, 0 };
         private static readonly byte[] COLOR_ERASE_SOLID = { 100, 0, 100, 255 };
@@ -67,7 +67,7 @@ namespace SLXEditor
         private static readonly byte[] COLOR_CLEAR_PHYSICS_STEEL_DARK = { 50, 50, 50, 254 };
         private static readonly byte[] COLOR_RECTANGLE_LIGHT = { 240, 240, 240, 255 };
         private static readonly byte[] COLOR_RECTANGLE_DARK = { 30, 30, 30, 255 };
-        private static readonly byte[] HIGHLIGHT_GROUPED = { 0, 100, 0, 255 };
+        private static readonly byte[] HIGHLIGHT_GROUPS = { 0, 100, 0, 255 };
 
         [Obsolete]
         public static void SetCustomDrawMode(Func<int, int, byte[]> colorFunc, Func<byte, byte, bool> drawTypeFunc)
@@ -77,7 +77,7 @@ namespace SLXEditor
         }
         private static byte[] ColorFunc_Erase(int posX, int posY)
         {
-            return _eraserHighlightCached ? COLOR_ERASE_SOLID : COLOR_ERASE;
+            return HighlightErasers ? COLOR_ERASE_SOLID : COLOR_ERASE;
         }
 
         private static byte[] ColorFunc_ClearPhysics(int posX, int posY)
@@ -116,9 +116,9 @@ namespace SLXEditor
             }
         }
 
-        private static byte[] ColorFunc_HighlightGrouped(int posX, int posY)
+        private static byte[] ColorFunc_HighlightGroups(int posX, int posY)
         {
-            return HIGHLIGHT_GROUPED;
+            return HIGHLIGHT_GROUPS;
         }
 
         private static bool DoDrawThisPixel_DrawNew(byte newBmpAlpha, byte maskBmpAlpha)
@@ -256,9 +256,6 @@ namespace SLXEditor
         /// <summary>
         /// Copies pixels from a new bitmap to the base bitmap. 
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="newBmp"></param>
-        /// <param name="pos"></param>
         public static void DrawOn(this Bitmap origBmp, Bitmap newBmp)
         {
             origBmp.DrawOn(newBmp, new Point(0, 0), DoDrawThisPixel_DrawNew, 255);
@@ -267,9 +264,6 @@ namespace SLXEditor
         /// <summary>
         /// Copies pixels from a new bitmap to the base bitmap. 
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="newBmp"></param>
-        /// <param name="pos"></param>
         public static void DrawOn(this Bitmap origBmp, Bitmap newBmp, Point pos, byte alpha = 255)
         {
             origBmp.DrawOn(newBmp, pos, DoDrawThisPixel_DrawNew, alpha);
@@ -278,16 +272,10 @@ namespace SLXEditor
         /// <summary>
         /// Draws NewBmp to the base bitmap using the selected CustDrawMode.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="newBmp"></param>
-        /// <param name="pos"></param>
-        /// <param name="colorSelect"></param>
         public static void DrawOn(this Bitmap origBmp, Bitmap newBmp, Point pos, C.CustDrawMode colorSelect)
         {
             var colorFunc = colorFuncDict[colorSelect];
             var doDrawThisPixel = doDrawThisPixelDict[colorSelect];
-
-            _eraserHighlightCached = Properties.Settings.Default.ErasersAreHighlighted;
 
             if (colorFunc == null)
             {
@@ -309,17 +297,10 @@ namespace SLXEditor
         /// <summary>
         /// Draws NewBmp to the base bitmap using the selected CustDrawMode using a mask.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="newBmp"></param>
-        /// <param name="maskBmp"></param>
-        /// <param name="pos"></param>
-        /// <param name="colorSelect"></param>
         public static void DrawOn(this Bitmap origBmp, Bitmap newBmp, Bitmap maskBmp, Point pos, C.CustDrawMode colorSelect)
         {
             var colorFunc = colorFuncDict[colorSelect];
             var doDrawThisPixel = doDrawThisPixelDict[colorSelect];
-
-            _eraserHighlightCached = Properties.Settings.Default.ErasersAreHighlighted;
 
             if (colorFunc == null)
             {
@@ -1154,28 +1135,10 @@ namespace SLXEditor
             return new Point(posX, posY);
         }
 
-        [Obsolete]
-        /// <summary>
-        /// Returns a recolored OWW according to the OWW color of the given style.
-        /// </summary>
-        /// <param name="pieceImage"></param>
-        /// <param name="owwStyle"></param>
-        public static Bitmap RecolorOWW(Bitmap pieceImage, Style owwStyle)
-        {
-            Color owwColor = owwStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? Color.Linen;
-            byte[] owwColorbytes = new byte[] { owwColor.B, owwColor.G, owwColor.R, 255 };
-            Func<byte, byte, bool> owwDrawType = ((b1, b2) => (b1 == 255));
-            BmpModify.SetCustomDrawMode((x, y) => owwColorbytes, owwDrawType);
-            Bitmap newBmp = new Bitmap(pieceImage.Width, pieceImage.Height);
-            newBmp.DrawOn(pieceImage, new Point(0, 0), C.CustDrawMode.Custom);
-            return newBmp;
-        }
-
         /// <summary>
         /// Gets the smallest rectangle around all non-transparent pixels of the bitmap.
         /// <para> Throws an ArgumentException is the bitmap is completely transparent.</para>
         /// </summary>
-        /// <param name="origBmp"></param>
         public static Rectangle GetCropTransparentRectangle(this Bitmap origBmp)
         {
             Rectangle cropRect = new Rectangle();

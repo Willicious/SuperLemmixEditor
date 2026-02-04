@@ -66,7 +66,7 @@ namespace SLXEditor
             NoOverwrite, NoOverwriteOWW,
             ClearPhysics, ClearPhysicsOWW, ClearPhysicsSteel,
             ClearPhysicsNoOverwrite, ClearPhysicsNoOverwriteOWW, ClearPhysicsSteelNoOverwrite,
-            HighlightGrouped,
+            HighlightGroups,
             Custom
         }
 

@@ -61,6 +61,23 @@ namespace SLXEditor
             ShowDescriptions,
             ShowData,
         }
+        public class LevelArrangerState
+        {
+            public bool IsOpen { get; set; }
+            public bool IsMaximized { get; set; }
+            public Point Location { get; set; }
+            public Size Size { get; set; }
+        }
+        public LevelArrangerState LevelArranger { get; set; } = new LevelArrangerState();
+
+        public class PieceBrowserState
+        {
+            public bool IsOpen { get; set; }
+            public bool IsMaximized { get; set; }
+            public Point Location { get; set; }
+            public Size Size { get; set; }
+        }
+        public PieceBrowserState PieceBrowser { get; set; } = new PieceBrowserState();
 
         public string DefaultAuthorName { get; private set; }
         public bool AutoPinOGStyles { get; set; }
@@ -90,7 +107,9 @@ namespace SLXEditor
         private int keepAutosaveCount;
         public int KeepAutosaveCount { get { return RemoveOldAutosaves ? keepAutosaveCount : 0; } }
         public bool IsFormMaximized { get; private set; }
-        public System.Drawing.Size FormSize { get; private set; }
+        public Size FormSize { get; private set; }
+        public bool ShowAboutAtStartup { get; set; }
+        public bool AllTabsExpanded { get; set; }
 
         /// <summary>
         /// Resets the editor options to the default values.
@@ -117,6 +136,24 @@ namespace SLXEditor
             NumTooltipBottonDisplay = 3;
             IsFormMaximized = false;
             FormSize = editorForm.MinimumSize;
+            ShowAboutAtStartup = true;
+            AllTabsExpanded = false;
+
+            LevelArranger = new LevelArrangerState
+            {
+                IsOpen = false,
+                IsMaximized = false,
+                Location = new Point(180, 40),
+                Size = new Size(900, 400)
+            };
+
+            PieceBrowser = new PieceBrowserState
+            {
+                IsOpen = false,
+                IsMaximized = false,
+                Location = new Point(40, 560),
+                Size = new Size(1000, 148)
+            };
 
             DisplaySettings.SetDisplayed(C.DisplayType.Terrain, true);
             DisplaySettings.SetDisplayed(C.DisplayType.Objects, true);
@@ -1044,7 +1081,7 @@ namespace SLXEditor
                             }
                         case "FORM_MAXIMIZED":
                             {
-                                IsFormMaximized = (line.Text.Trim().ToUpper() == "TRUE");
+                                IsFormMaximized = line.Text.Trim().ToUpper() == "TRUE";
                                 break;
                             }
                         case "FORM_WIDTH":
@@ -1057,12 +1094,92 @@ namespace SLXEditor
                                 FormSize = new Size(FormSize.Width, line.Value);
                                 break;
                             }
-                        case "AUTOSTART":
+                        case "USEAUTOSTART":
                             {
-                                bool autoStartEnabled;
-                                if (bool.TryParse(line.Text.Trim(), out autoStartEnabled))
+                                editorForm.chk_Lvl_AutoStart.Checked = line.Text.Trim().ToUpper() == "TRUE";
+                                break;
+                            }
+                        case "SHOWABOUTATSTARTUP":
+                            {
+                                ShowAboutAtStartup = line.Text.Trim().ToUpper() == "TRUE";
+                                break;
+                            }
+                        case "ALLTABSEXPANDED":
+                            {
+                                AllTabsExpanded = line.Text.Trim().ToUpper() == "TRUE";
+                                break;
+                            }
+                        case "HIGHLIGHTGROUPS":
+                            {
+                                BmpModify.HighlightGroups = line.Text.Trim().ToUpper() == "TRUE";
+                                break;
+                            }
+                        case "HIGHLIGHTERASERS":
+                            {
+                                BmpModify.HighlightErasers = line.Text.Trim().ToUpper() == "TRUE";
+                                break;
+                            }
+                        case "LEVELARRANGEROPEN":
+                            {
+                                LevelArranger.IsOpen = line.Text.Trim().ToUpper() == "TRUE";
+                                break;
+                            }
+                        case "LEVELARRANGERMAXIMIZED":
+                            {
+                                LevelArranger.IsMaximized = line.Text.Trim().ToUpper() == "TRUE";
+                                break;
+                            }
+                        case "LEVELARRANGERLOCATION":
+                            {
+                                var parts = line.Text.Split(',');
+                                if (parts.Length == 2 &&
+                                    int.TryParse(parts[0].Trim(), out int x) &&
+                                    int.TryParse(parts[1].Trim(), out int y))
                                 {
-                                    editorForm.chk_Lvl_AutoStart.Checked = autoStartEnabled;
+                                    LevelArranger.Location = new Point(x, y);
+                                }
+                                break;
+                            }
+                        case "LEVELARRANGERSIZE":
+                            {
+                                var parts = line.Text.Split(',');
+                                if (parts.Length == 2 &&
+                                    int.TryParse(parts[0].Trim(), out int w) &&
+                                    int.TryParse(parts[1].Trim(), out int h))
+                                {
+                                    LevelArranger.Size = new Size(w, h);
+                                }
+                                break;
+                            }
+                        case "PIECEBROWSEROPEN":
+                            {
+                                PieceBrowser.IsOpen = line.Text.Trim().ToUpper() == "TRUE";
+                                break;
+                            }
+                        case "PIECEBROWSERMAXIMIZED":
+                            {
+                                PieceBrowser.IsMaximized = line.Text.Trim().ToUpper() == "TRUE";
+                                break;
+                            }
+                        case "PIECEBROWSERLOCATION":
+                            {
+                                var parts = line.Text.Split(',');
+                                if (parts.Length == 2 &&
+                                    int.TryParse(parts[0].Trim(), out int x) &&
+                                    int.TryParse(parts[1].Trim(), out int y))
+                                {
+                                    PieceBrowser.Location = new Point(x, y);
+                                }
+                                break;
+                            }
+                        case "PIECEBROWSERSIZE":
+                            {
+                                var parts = line.Text.Split(',');
+                                if (parts.Length == 2 &&
+                                    int.TryParse(parts[0].Trim(), out int width) &&
+                                    int.TryParse(parts[1].Trim(), out int height))
+                                {
+                                    PieceBrowser.Size = new Size(width, height);
                                 }
                                 break;
                             }
@@ -1102,26 +1219,41 @@ namespace SLXEditor
                 TextWriter settingsFile = new StreamWriter(C.AppPathSettings, true);
 
                 settingsFile.WriteLine("# SLXEditor settings ");
-                settingsFile.WriteLine(" DefaultAuthorName   " + DefaultAuthorName);
-                settingsFile.WriteLine(" ValidateWhenSaving  " + (ValidateWhenSaving ? "True" : "False"));
-                settingsFile.WriteLine(" Autosave            " + AutosaveFrequency.ToString());
-                settingsFile.WriteLine(" AutosaveLimit       " + KeepAutosaveCount.ToString());
                 settingsFile.WriteLine(" EditorMode          " + CurrentEditorMode.ToString());
-                settingsFile.WriteLine(" PieceBrowserMode    " + CurrentPieceBrowserMode.ToString());
-                settingsFile.WriteLine(" AutoPinOGStyles     " + (AutoPinOGStyles ? "True" : "False"));
-                settingsFile.WriteLine(" PreferObjectName    " + (PreferObjectName ? "True" : "False"));
-                settingsFile.WriteLine(" InfiniteScrolling   " + (InfiniteScrolling ? "True" : "False"));
-                settingsFile.WriteLine(" ShowRandomButton    " + (ShowRandomButton ? "True" : "False"));
-                settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
-                settingsFile.WriteLine(" GridColor           " + (GridColor == Color.Empty ? "(Invisible)" : ColorTranslator.ToHtml(GridColor)));
-                settingsFile.WriteLine(" TriggerAreaColor    " + CurrentTriggerAreaColor.ToString());
-                settingsFile.WriteLine(" CustomMove          " + CustomMove.ToString());
-                settingsFile.WriteLine(" Button_Tooltip      " + NumTooltipBottonDisplay.ToString());
+                settingsFile.WriteLine(" DefaultAuthorName      " + DefaultAuthorName);
+                settingsFile.WriteLine(" ValidateWhenSaving     " + (ValidateWhenSaving ? "True" : "False"));
+                settingsFile.WriteLine(" Autosave               " + AutosaveFrequency.ToString());
+                settingsFile.WriteLine(" AutosaveLimit          " + KeepAutosaveCount.ToString());
+                settingsFile.WriteLine(" PieceBrowserMode       " + CurrentPieceBrowserMode.ToString());
+                settingsFile.WriteLine(" AutoPinOGStyles        " + (AutoPinOGStyles ? "True" : "False"));
+                settingsFile.WriteLine(" PreferObjectName       " + (PreferObjectName ? "True" : "False"));
+                settingsFile.WriteLine(" InfiniteScrolling      " + (InfiniteScrolling ? "True" : "False"));
+                settingsFile.WriteLine(" ShowRandomButton       " + (ShowRandomButton ? "True" : "False"));
+                settingsFile.WriteLine(" UseAutostart           " + editorForm.chk_Lvl_AutoStart.Checked.ToString());
+                settingsFile.WriteLine(" GridSize               " + GridSize.ToString());
+                settingsFile.WriteLine(" GridColor              " + (GridColor == Color.Empty ? "(Invisible)" : ColorTranslator.ToHtml(GridColor)));
+                settingsFile.WriteLine(" TriggerAreaColor       " + CurrentTriggerAreaColor.ToString());
+                settingsFile.WriteLine(" CustomMove             " + CustomMove.ToString());
+                settingsFile.WriteLine(" Button_Tooltip         " + NumTooltipBottonDisplay.ToString());
                 settingsFile.WriteLine("");
-                settingsFile.WriteLine(" Form_Maximized      " + (IsFormMaximized ? "True" : "False"));
-                settingsFile.WriteLine(" Form_Width          " + FormSize.Width.ToString());
-                settingsFile.WriteLine(" Form_Height         " + FormSize.Height.ToString());
-                settingsFile.WriteLine(" Autostart           " + editorForm.chk_Lvl_AutoStart.Checked.ToString());
+                settingsFile.WriteLine(" Form_Maximized         " + (IsFormMaximized ? "True" : "False"));
+                settingsFile.WriteLine(" Form_Width             " + FormSize.Width.ToString());
+                settingsFile.WriteLine(" Form_Height            " + FormSize.Height.ToString());
+                settingsFile.WriteLine("");
+                settingsFile.WriteLine(" ShowAboutAtStartup     " + (ShowAboutAtStartup ? "True" : "False"));
+                settingsFile.WriteLine(" AllTabsExpanded        " + (AllTabsExpanded ? "True" : "False"));
+                settingsFile.WriteLine(" HighlightGroups        " + (BmpModify.HighlightGroups ? "True" : "False"));
+                settingsFile.WriteLine(" HighlightErasers       " + (BmpModify.HighlightErasers ? "True" : "False"));
+                settingsFile.WriteLine("");
+                settingsFile.WriteLine(" LevelArrangerOpen      " + (LevelArranger.IsOpen ? "True" : "False"));
+                settingsFile.WriteLine(" LevelArrangerMaximized " + (LevelArranger.IsMaximized ? "True" : "False"));
+                settingsFile.WriteLine(" LevelArrangerLocation  " + LevelArranger.Location.X.ToString() + "," + LevelArranger.Location.Y.ToString());
+                settingsFile.WriteLine(" LevelArrangerSize      " + LevelArranger.Size.Width.ToString() + "," + LevelArranger.Size.Height.ToString());
+                settingsFile.WriteLine("");
+                settingsFile.WriteLine(" PieceBrowserOpen       " + (PieceBrowser.IsOpen ? "True" : "False"));
+                settingsFile.WriteLine(" PieceBrowserMaximized  " + (PieceBrowser.IsMaximized ? "True" : "False"));
+                settingsFile.WriteLine(" PieceBrowserLocation   " + PieceBrowser.Location.X.ToString() + "," + PieceBrowser.Location.Y.ToString());
+                settingsFile.WriteLine(" PieceBrowserSize       " + PieceBrowser.Size.Width.ToString() + "," + PieceBrowser.Size.Height.ToString());
                 settingsFile.WriteLine("");
 
                 var displayTypes = new List<C.DisplayType>()
@@ -1132,7 +1264,7 @@ namespace SLXEditor
                 {
                     if (DisplaySettings.IsDisplayed(displayType))
                     {
-                        settingsFile.WriteLine(" Display             " + displayType.ToString());
+                        settingsFile.WriteLine(" Display                " + displayType.ToString());
                     }
                 }
 

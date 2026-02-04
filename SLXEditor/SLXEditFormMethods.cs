@@ -26,8 +26,8 @@ namespace SLXEditor
             curSettings.ReadSettingsFromFile();
 
             snapToGridToolStripMenuItem.Checked = curSettings.UseGridForPieces;
-            highlightGroupedPiecesToolStripMenuItem.Checked = Properties.Settings.Default.GroupsAreHighlighted;
-            highlightEraserPiecesToolStripMenuItem.Checked = Properties.Settings.Default.ErasersAreHighlighted;
+            highlightGroupedPiecesToolStripMenuItem.Checked = BmpModify.HighlightGroups;
+            highlightEraserPiecesToolStripMenuItem.Checked = BmpModify.HighlightErasers;
 
             UpdateRRSIControls();
         }
@@ -414,9 +414,6 @@ Ladderer=10";
             tabLvlMisc.Size = tabLvlProperties.Size;
             tabLvlMisc.Left = tabLvlSkills.Right;
             tabLvlMisc.Top = tabLvlProperties.Top;
-
-            if (Properties.Settings.Default.AllTabsAreExpanded)
-                ExpandAllTabs();
         }
 
         /// <summary>
@@ -1032,7 +1029,7 @@ Ladderer=10";
             }
 
             // Create the pop-out window and pass pic_Level to it
-            levelArrangerWindow = new FormLevelArranger(pic_Level, this, curRenderer);
+            levelArrangerWindow = new FormLevelArranger(pic_Level, this, curRenderer, curSettings);
 
             // Don't reposition pic_Level when zooming from within the Arrange Window
             repositionAfterZooming = false;
@@ -1075,7 +1072,7 @@ Ladderer=10";
             }
 
             // Create the pop-out window and pass panelPieceBrowser to it
-            pieceBrowserWindow = new FormPieceBrowser(panelPieceBrowser, this);
+            pieceBrowserWindow = new FormPieceBrowser(panelPieceBrowser, this, curSettings);
 
             // Subscribe to the PieceBrowserReturned event to handle re-parenting
             pieceBrowserWindow.PieceBrowserReturned += () =>
@@ -1111,8 +1108,8 @@ Ladderer=10";
                 CollapseAllTabs();
 
             // Update settings
-            Properties.Settings.Default.AllTabsAreExpanded = allTabsExpanded;
-            Properties.Settings.Default.Save();
+            curSettings.AllTabsExpanded = allTabsExpanded;
+            curSettings.WriteSettingsToFile();
         }
 
         private void ExpandAllTabs()
@@ -2485,12 +2482,12 @@ Ladderer=10";
         {
             if (CurLevel.MayGroupSelection())
             {
-                bool userHasHighlightEraserPiecesEnabled = Properties.Settings.Default.ErasersAreHighlighted;
+                bool userHasHighlightErasersEnabled = BmpModify.HighlightErasers;
 
                 // Temporarily disable highlit eraser pieces to ensure these are grouped correctly
-                if (userHasHighlightEraserPiecesEnabled)
+                if (userHasHighlightErasersEnabled)
                 {
-                    Properties.Settings.Default.ErasersAreHighlighted = false;
+                    BmpModify.HighlightErasers = false;
                     pic_Level.Image = curRenderer.CreateLevelImage();
                 }
 
@@ -2500,8 +2497,7 @@ Ladderer=10";
                 UpdatePieceMetaData();
 
                 // Reset option before redrawing level
-                if (userHasHighlightEraserPiecesEnabled)
-                    Properties.Settings.Default.ErasersAreHighlighted = true;
+                BmpModify.HighlightErasers = userHasHighlightErasersEnabled;
 
                 pic_Level.Image = curRenderer.CreateLevelImage();
             }
@@ -2592,7 +2588,7 @@ Ladderer=10";
 
         private void ShowAboutSLXEditor()
         {
-            using (var aboutSLXEditor = new FormAboutSLXEditor())
+            using (var aboutSLXEditor = new FormAboutSLXEditor(curSettings))
             {
                 aboutSLXEditor.ShowDialog(this);
             }
@@ -2690,18 +2686,18 @@ Ladderer=10";
 
         private void HighlightGroupedPieces()
         {
-            Properties.Settings.Default.GroupsAreHighlighted = !Properties.Settings.Default.GroupsAreHighlighted;
-            highlightGroupedPiecesToolStripMenuItem.Checked = Properties.Settings.Default.GroupsAreHighlighted;
+            BmpModify.HighlightGroups = !BmpModify.HighlightGroups;
+            highlightGroupedPiecesToolStripMenuItem.Checked = BmpModify.HighlightGroups;
             pic_Level.SetImage(curRenderer.CreateLevelImage());
             Properties.Settings.Default.Save();
         }
 
         private void HighlightEraserPieces()
         {
-            Properties.Settings.Default.ErasersAreHighlighted = !Properties.Settings.Default.ErasersAreHighlighted;
-            highlightEraserPiecesToolStripMenuItem.Checked = Properties.Settings.Default.ErasersAreHighlighted;
+            BmpModify.HighlightErasers = !BmpModify.HighlightErasers;
+            highlightEraserPiecesToolStripMenuItem.Checked = BmpModify.HighlightErasers;
             pic_Level.SetImage(curRenderer.CreateLevelImage());
-            Properties.Settings.Default.Save();
+            curSettings.WriteSettingsToFile();
         }
 
         private void ToggleClearPhysics()
