@@ -192,7 +192,7 @@ namespace SLXEditor
             }
 
             // Override slx_ style display names if applicable
-            if (settings.AutoPinSLXStyles)
+            if (settings.AutoPinOGStyles)
             {
                 foreach (var kvp in slxNameOverrides)
                 {
@@ -205,7 +205,7 @@ namespace SLXEditor
             // Sort styles: slx_ first in defined order, then styles.ini, then original order
             styleList.Sort((sty1, sty2) =>
             {
-                if (settings.AutoPinSLXStyles)
+                if (settings.AutoPinOGStyles)
                 {
                     int sty1SlxIndex = slxOrder.IndexOf(sty1.NameInDirectory);
                     int sty2SlxIndex = slxOrder.IndexOf(sty2.NameInDirectory);

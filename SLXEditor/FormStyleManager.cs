@@ -21,9 +21,9 @@ namespace SLXEditor
         }
 
         private List<StyleEntry> styles = new List<StyleEntry>();
-        
-        private string styleFilePath = C.AppPath + "styles" + C.DirSep + "styles.ini";
-        
+
+        private string styleFilePath = C.AppPathPieces + "styles.ini";
+
         private SLXEditForm mainForm;
         private Settings curSettings;
 
@@ -33,7 +33,7 @@ namespace SLXEditor
             mainForm = parentForm;
             curSettings = settings;
 
-            checkAutoPinSLXStyles.Checked = curSettings.AutoPinSLXStyles;
+            checkAutoPinOGStyles.Checked = curSettings.AutoPinOGStyles;
         }
 
         private void LoadStylesIntoListView()
@@ -156,17 +156,21 @@ namespace SLXEditor
             // Sort entries
             styles = styles.OrderBy(s => s.Order).ToList();
 
-            HandleSLXStylePinning();
+            HandleOGStylePinning();
 
-            // Populate list view
             foreach (var s in styles)
-            {
-                var item = new ListViewItem(s.FolderName);
-                item.SubItems.Add(s.DisplayName);
-                item.SubItems.Add(s.PinnedTop ? "↑" : s.PinnedBottom ? "↓" : "");
-                item.Tag = s;
-                listStyles.Items.Add(item);
-            }
+                AddStyleToListView(s);
+        }
+
+        private void AddStyleToListView(StyleEntry entry)
+        {
+            var item = new ListViewItem(entry.FolderName);
+            item.SubItems.Add(entry.DisplayName);
+            item.SubItems.Add(entry.PinnedTop ? "↑" : entry.PinnedBottom ? "↓" : "");
+            item.SubItems.Add(entry.Randomize ? "Randomize" : "");
+            item.Tag = entry;
+
+            listStyles.Items.Add(item);
         }
 
         private void PerformStyleSearch()
@@ -185,14 +189,7 @@ namespace SLXEditor
                     s.FolderName.ToLowerInvariant().Contains(search) ||
                     s.DisplayName.ToLowerInvariant().Contains(search))
                 {
-                    var item = new ListViewItem(s.FolderName);
-                    item.SubItems.Add(s.DisplayName);
-                    item.SubItems.Add(s.PinnedTop ? "↑" : s.PinnedBottom ? "↓" : "");
-
-                    // Store the reference to the original StyleEntry
-                    item.Tag = s;
-
-                    listStyles.Items.Add(item);
+                    AddStyleToListView(s);
                 }
             }
 
@@ -249,46 +246,30 @@ namespace SLXEditor
             if (searchActive)
             {
                 btnClearSearch.Enabled = true;
-                btnShowSelectedItemsInList.Enabled = true;
                 btnShowSelectedItemsInList.Visible = true;
-                btnAddNew.Enabled = false;
                 btnAddNew.Visible = false;
-                btnMoveUp1.Enabled = false;
                 btnMoveUp1.Visible = false;
-                btnMoveUp10.Enabled = false;
                 btnMoveUp10.Visible = false;
-                btnMoveDown1.Enabled = false;
                 btnMoveDown1.Visible = false;
-                btnMoveDown10.Enabled = false;
                 btnMoveDown10.Visible = false;
-                btnPinToTop.Enabled = false;
                 btnPinToTop.Visible = false;
-                btnPinToBottom.Enabled = false;
                 btnPinToBottom.Visible = false;
-                btnUnpin.Enabled = false;
                 btnUnpin.Visible = false;
+                checkAutoPinOGStyles.Visible = false;
             }
             else
             {
                 btnClearSearch.Enabled = false;
-                btnShowSelectedItemsInList.Enabled = false;
                 btnShowSelectedItemsInList.Visible = false;
-                btnAddNew.Enabled = true;
                 btnAddNew.Visible = true;
-                btnMoveUp1.Enabled = true;
                 btnMoveUp1.Visible = true;
-                btnMoveUp10.Enabled = true;
                 btnMoveUp10.Visible = true;
-                btnMoveDown1.Enabled = true;
                 btnMoveDown1.Visible = true;
-                btnMoveDown10.Enabled = true;
                 btnMoveDown10.Visible = true;
-                btnPinToTop.Enabled = true;
                 btnPinToTop.Visible = true;
-                btnPinToBottom.Enabled = true;
                 btnPinToBottom.Visible = true;
-                btnUnpin.Enabled = true;
                 btnUnpin.Visible = true;
+                checkAutoPinOGStyles.Visible = true;
             }
         }
 
@@ -435,13 +416,7 @@ namespace SLXEditor
             listStyles.Items.Clear();
 
             foreach (var s in styles)
-            {
-                var item = new ListViewItem(s.FolderName);
-                item.SubItems.Add(s.DisplayName);
-                item.SubItems.Add(s.PinnedTop ? "↑" : s.PinnedBottom ? "↓" : "");
-                item.Tag = s;
-                listStyles.Items.Add(item);
-            }
+                AddStyleToListView(s);
 
             listStyles.EndUpdate();
         }
@@ -551,9 +526,9 @@ namespace SLXEditor
             listStyles.Focus();
         }
 
-        private void HandleSLXStylePinning()
+        private void HandleOGStylePinning()
         {
-            var slxOrder = new List<string>
+            var ogStylesOrder = new List<string>
             {
                 "slx_crystal",
                 "slx_dirt",
@@ -564,18 +539,18 @@ namespace SLXEditor
                 "slx_bubble",
                 "slx_rock",
                 "slx_snow",
-                "xmas"
+                "xmas",
             };
 
-            var slxStyles = slxOrder
+            var ogStyles = ogStylesOrder
                 .Select(name => styles.FirstOrDefault(s =>
                     s.FolderName.Equals(name, StringComparison.OrdinalIgnoreCase)))
                 .Where(s => s != null)
                 .ToList();
 
-            foreach (var s in slxStyles)
+            foreach (var s in ogStyles)
             {
-                if (curSettings.AutoPinSLXStyles)
+                if (curSettings.AutoPinOGStyles)
                 {
                     s.PinnedTop = true;
                     s.PinnedBottom = false;
@@ -586,22 +561,22 @@ namespace SLXEditor
                 }
             }
 
-            foreach (var s in slxStyles)
+            foreach (var s in ogStyles)
                 styles.Remove(s);
 
-            if (checkAutoPinSLXStyles.Checked)
-                styles.InsertRange(0, slxStyles);
+            if (checkAutoPinOGStyles.Checked)
+                styles.InsertRange(0, ogStyles);
             else
             {
                 int insertIndex = styles.FindIndex(s => !s.PinnedTop);
                 if (insertIndex < 0) insertIndex = styles.Count;
-                styles.InsertRange(insertIndex, slxStyles);
+                styles.InsertRange(insertIndex, ogStyles);
             }
         }
 
-        private void UpdateSLXStylePinning(object sender)
+        private void UpdateOGStylePinning(object sender)
         {
-            if (sender != checkAutoPinSLXStyles)
+            if (sender != checkAutoPinOGStyles)
                 return;
 
             var cb = sender as CheckBox;
@@ -609,11 +584,11 @@ namespace SLXEditor
                 return;
 
             // Update setting
-            curSettings.AutoPinSLXStyles = cb.Checked;
+            curSettings.AutoPinOGStyles = cb.Checked;
             curSettings.WriteSettingsToFile();
 
             // Refresh list view
-            HandleSLXStylePinning();
+            HandleOGStylePinning();
             RefreshListView();
             listStyles.Focus();
         }
@@ -913,9 +888,11 @@ namespace SLXEditor
             UnpinSelectedStyles();
         }
 
-        private void checkAutoPinSLXStyles_CheckedChanged(object sender, EventArgs e)
+        private void checkAutoPinOGStyles_CheckedChanged(object sender, EventArgs e)
         {
-            UpdateSLXStylePinning(sender);
+            UpdateOGStylePinning(sender);
+        }
+        {
         }
     }
 }
