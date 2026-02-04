@@ -39,6 +39,7 @@
             this.exportAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAsINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.batchExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -285,6 +286,7 @@
             this.tabLvlSkills = new System.Windows.Forms.TabControl();
             this.tabLvlMisc = new System.Windows.Forms.TabControl();
             this.panelPieceBrowser = new System.Windows.Forms.Panel();
+            this.but_StyleRandom = new System.Windows.Forms.Button();
             this.picPiece7 = new System.Windows.Forms.PictureBox();
             this.but_PieceSteel = new System.Windows.Forms.Button();
             this.but_SearchPieces = new System.Windows.Forms.Button();
@@ -304,7 +306,6 @@
             this.txt_FocusPieceBrowser = new SLXEditor.FocusTextBox();
             this.pic_DragNewPiece = new System.Windows.Forms.PictureBox();
             this.txt_Focus = new SLXEditor.FocusTextBox();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).BeginInit();
             this.tabLvlProperties.SuspendLayout();
@@ -463,6 +464,11 @@
             this.exportAsINIToolStripMenuItem.Size = new System.Drawing.Size(400, 34);
             this.exportAsINIToolStripMenuItem.Text = "RetroLemmini Level (.ini / .rlv)";
             this.exportAsINIToolStripMenuItem.Click += new System.EventHandler(this.exportAsINIToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(397, 6);
             // 
             // batchExportToolStripMenuItem
             // 
@@ -3425,6 +3431,7 @@
             // panelPieceBrowser
             // 
             this.panelPieceBrowser.BackColor = System.Drawing.Color.Transparent;
+            this.panelPieceBrowser.Controls.Add(this.but_StyleRandom);
             this.panelPieceBrowser.Controls.Add(this.picPiece7);
             this.panelPieceBrowser.Controls.Add(this.but_PieceSteel);
             this.panelPieceBrowser.Controls.Add(this.but_SearchPieces);
@@ -3449,6 +3456,16 @@
             this.panelPieceBrowser.Size = new System.Drawing.Size(1454, 176);
             this.panelPieceBrowser.TabIndex = 67;
             // 
+            // but_StyleRandom
+            // 
+            this.but_StyleRandom.Location = new System.Drawing.Point(12, 2);
+            this.but_StyleRandom.Name = "but_StyleRandom";
+            this.but_StyleRandom.Size = new System.Drawing.Size(100, 32);
+            this.but_StyleRandom.TabIndex = 87;
+            this.but_StyleRandom.Text = "Random";
+            this.but_StyleRandom.UseVisualStyleBackColor = true;
+            this.but_StyleRandom.Click += new System.EventHandler(this.but_StyleRandom_Click);
+            // 
             // picPiece7
             // 
             this.picPiece7.BackColor = System.Drawing.SystemColors.Control;
@@ -3466,7 +3483,7 @@
             // 
             // but_PieceSteel
             // 
-            this.but_PieceSteel.Location = new System.Drawing.Point(586, 2);
+            this.but_PieceSteel.Location = new System.Drawing.Point(537, -1);
             this.but_PieceSteel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_PieceSteel.Name = "but_PieceSteel";
             this.but_PieceSteel.Size = new System.Drawing.Size(116, 32);
@@ -3489,7 +3506,7 @@
             // but_PieceTerr
             // 
             this.but_PieceTerr.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.but_PieceTerr.Location = new System.Drawing.Point(462, 2);
+            this.but_PieceTerr.Location = new System.Drawing.Point(413, -1);
             this.but_PieceTerr.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_PieceTerr.Name = "but_PieceTerr";
             this.but_PieceTerr.Size = new System.Drawing.Size(116, 32);
@@ -3500,7 +3517,7 @@
             // 
             // but_PieceObj
             // 
-            this.but_PieceObj.Location = new System.Drawing.Point(710, 2);
+            this.but_PieceObj.Location = new System.Drawing.Point(661, -1);
             this.but_PieceObj.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_PieceObj.Name = "but_PieceObj";
             this.but_PieceObj.Size = new System.Drawing.Size(119, 32);
@@ -3511,7 +3528,7 @@
             // 
             // but_PieceRulers
             // 
-            this.but_PieceRulers.Location = new System.Drawing.Point(837, 2);
+            this.but_PieceRulers.Location = new System.Drawing.Point(788, -1);
             this.but_PieceRulers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_PieceRulers.Name = "but_PieceRulers";
             this.but_PieceRulers.Size = new System.Drawing.Size(122, 32);
@@ -3522,7 +3539,7 @@
             // 
             // but_PieceBackground
             // 
-            this.but_PieceBackground.Location = new System.Drawing.Point(967, 2);
+            this.but_PieceBackground.Location = new System.Drawing.Point(918, -1);
             this.but_PieceBackground.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.but_PieceBackground.Name = "but_PieceBackground";
             this.but_PieceBackground.Size = new System.Drawing.Size(145, 32);
@@ -3651,10 +3668,10 @@
             // 
             this.combo_PieceStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combo_PieceStyle.FormattingEnabled = true;
-            this.combo_PieceStyle.Location = new System.Drawing.Point(9, 2);
+            this.combo_PieceStyle.Location = new System.Drawing.Point(120, 2);
             this.combo_PieceStyle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.combo_PieceStyle.Name = "combo_PieceStyle";
-            this.combo_PieceStyle.Size = new System.Drawing.Size(442, 28);
+            this.combo_PieceStyle.Size = new System.Drawing.Size(285, 28);
             this.combo_PieceStyle.TabIndex = 75;
             this.combo_PieceStyle.SelectedIndexChanged += new System.EventHandler(this.combo_PieceStyle_TextChanged);
             this.combo_PieceStyle.DropDownClosed += new System.EventHandler(this.ComboDropDownClosed);
@@ -3693,11 +3710,6 @@
             this.txt_Focus.TabIndex = 37;
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(397, 6);
             // 
             // SLXEditForm
             // 
@@ -4092,6 +4104,7 @@
         private System.Windows.Forms.Label labelSteelBehaviour;
         private System.Windows.Forms.ToolStripMenuItem batchExportToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.Button but_StyleRandom;
     }
 }
 

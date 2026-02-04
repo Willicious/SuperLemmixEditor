@@ -1650,6 +1650,11 @@ namespace SLXEditor
             OpenStyleManager();
         }
 
+        private void but_StyleRandom_Click(object sender, EventArgs e)
+        {
+            RandomizePieceStyle();
+        }
+
         private void HandleSpawnIntervalNumerics(object sender, EventArgs e)
         {
             if (sender == num_Lvl_SI)

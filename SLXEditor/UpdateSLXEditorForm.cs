@@ -434,7 +434,7 @@ namespace SLXEditor
         /// <summary>
         /// Repositions the controls after resizing the main form.
         /// </summary>
-        private void MoveControlsOnFormResize()
+        public void MoveControlsOnFormResize()
         {
             scrollPicLevelHoriz.Top = this.Height - 178;
             scrollPicLevelVert.Left = this.Width - 30;
@@ -495,7 +495,14 @@ namespace SLXEditor
             panelPieceBrowser.Width = width;
             panelPieceBrowser.Height = height;
 
+            bool showRandom = curSettings.ShowRandomButton;
+            but_StyleRandom.Top = 0;
+            but_StyleRandom.Left = 5;
+            but_StyleRandom.Visible = showRandom ? true : false;
             combo_PieceStyle.Top = 0;
+            combo_PieceStyle.Left = showRandom ? but_StyleRandom.Right + 5 : 5;
+            combo_PieceStyle.Width = showRandom ? 200 : 265;
+
             but_PieceTerr.Top = 0;
             but_PieceSteel.Top = 0;
             but_PieceObj.Top = 0;

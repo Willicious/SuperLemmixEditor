@@ -18,6 +18,7 @@ namespace SLXEditor
             public int Order { get; set; }
             public bool PinnedTop { get; set; }
             public bool PinnedBottom { get; set; }
+            public bool Randomize { get; set; }
         }
 
         private List<StyleEntry> styles = new List<StyleEntry>();
@@ -151,6 +152,15 @@ namespace SLXEditor
                         current.PinnedBottom = false;
                     }
                 }
+
+                // RANDOMIZED
+                if (line.StartsWith("Randomize=", StringComparison.OrdinalIgnoreCase) && current != null)
+                {
+                    if (bool.TryParse(line.Substring("Randomize=".Length).Trim(), out bool rval))
+                    {
+                        current.Randomize = rval;
+                    }
+                }
             }
 
             // Sort entries
@@ -256,6 +266,8 @@ namespace SLXEditor
                 btnPinToBottom.Visible = false;
                 btnUnpin.Visible = false;
                 checkAutoPinOGStyles.Visible = false;
+                btnRandomizer.Visible = false;
+                checkShowRandomButton.Visible = false;
             }
             else
             {
@@ -270,6 +282,8 @@ namespace SLXEditor
                 btnPinToBottom.Visible = true;
                 btnUnpin.Visible = true;
                 checkAutoPinOGStyles.Visible = true;
+                btnRandomizer.Visible = true;
+                checkShowRandomButton.Visible = true;
             }
         }
 
@@ -326,6 +340,24 @@ namespace SLXEditor
             btnRename.Enabled = true;
             txtDisplayName.Focus();
             txtDisplayName.SelectAll();
+        }
+
+        private void UpdateRandomizerButton()
+        {
+            btnRandomizer.Text = "Add to Randomizer";
+            btnRandomizer.Enabled = true;
+
+            if (listStyles.SelectedItems.Count <= 0)
+            {
+                btnRandomizer.Enabled = false;
+                return;
+            }
+
+            var selectedItem = listStyles.SelectedItems[0]; // Use status of first selected item
+            var style = (StyleEntry)selectedItem.Tag;
+
+            if (style.Randomize)
+                btnRandomizer.Text = "Remove from Randomizer";
         }
 
         /// <summary>
@@ -593,6 +625,52 @@ namespace SLXEditor
             listStyles.Focus();
         }
 
+        private void UpdateShowRandomButton(object sender)
+        {
+            if (sender != checkShowRandomButton)
+                return;
+
+            var cb = sender as CheckBox;
+            if (cb == null)
+                return;
+
+            // Update setting
+            curSettings.ShowRandomButton = cb.Checked;
+            curSettings.WriteSettingsToFile();
+
+            // Refresh Editor
+            mainForm.MoveControlsOnFormResize();
+        }
+
+        private void HandleStylesRandomizerStatus()
+        {
+            if (listStyles.SelectedIndices.Count == 0)
+                return;
+
+            var selectedStyles = listStyles.SelectedIndices
+                .Cast<int>()
+                .OrderBy(i => i)
+                .Select(i => styles[i])
+                .ToList();
+
+            foreach (var s in selectedStyles)
+            {
+                if (btnRandomizer.Text == "Add to Randomizer")
+                    s.Randomize = true;
+                else
+                    s.Randomize = false;
+            }
+
+            RefreshListView();
+
+            foreach (var s in selectedStyles)
+            {
+                int idx = styles.IndexOf(s);
+                if (idx >= 0)
+                    listStyles.Items[idx].Selected = true;
+            }
+        }
+
         /// <summary>
         /// Sorts all unpinned styles alphabetically
         /// </summary>
@@ -780,10 +858,13 @@ namespace SLXEditor
 
                 int pinnedVal = style.PinnedTop ? 1 : (style.PinnedBottom ? 2 : 0);
 
+                bool randomize = style.Randomize;
+
                 sb.AppendLine($"[{folder}]");
                 sb.AppendLine($"Name={display}");
                 sb.AppendLine($"Order={orderValue}");
                 sb.AppendLine($"Pinned={pinnedVal}");
+                sb.AppendLine($"Randomize={randomize}");
                 sb.AppendLine("");
 
                 orderValue++;
@@ -805,11 +886,13 @@ namespace SLXEditor
         private void ListStyles_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateDisplayNameTextInput();
+            UpdateRandomizerButton();
         }
 
         private void FormStyleManager_Load(object sender, EventArgs e)
         {
             LoadStylesIntoListView();
+            checkShowRandomButton.Checked = curSettings.ShowRandomButton;
         }
 
         private void BtnMoveStyles_Click(object sender, EventArgs e)
@@ -892,7 +975,15 @@ namespace SLXEditor
         {
             UpdateOGStylePinning(sender);
         }
+
+        private void btnRandomizer_Click(object sender, EventArgs e)
         {
+            HandleStylesRandomizerStatus();
+        }
+
+        private void checkShowRandomButton_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateShowRandomButton(sender);
         }
     }
 }

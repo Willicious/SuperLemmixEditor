@@ -64,6 +64,7 @@ namespace SLXEditor
 
         public string DefaultAuthorName { get; private set; }
         public bool AutoPinOGStyles { get; set; }
+        public bool ShowRandomButton { get; set; }
         public bool PreferObjectName { get; private set; }
         public EditorMode CurrentEditorMode { get; private set; }
         public PieceBrowserMode CurrentPieceBrowserMode { get; private set; }
@@ -219,7 +220,7 @@ namespace SLXEditor
             groupPieceBrowserMode.Top = 130;
             groupPieceBrowserMode.Left = columnLeft;
             groupPieceBrowserMode.Width = 280;
-            groupPieceBrowserMode.Height = 110;
+            groupPieceBrowserMode.Height = 140;
 
             RadioButton radShowPieceData = new RadioButton();
             radShowPieceData.Name = "radShowPieceData";
@@ -272,93 +273,57 @@ namespace SLXEditor
             checkInfiniteScrolling.Top = groupBoxTop + 60;
             checkInfiniteScrolling.Left = groupBoxColumnLeft;
             checkInfiniteScrolling.CheckedChanged += new EventHandler(checkInfiniteScrolling_CheckedChanged);
+            
+            CheckBox checkShowRandomButton = new CheckBox();
+            checkShowRandomButton.Name = "checkShowRandomButton";
+            checkShowRandomButton.AutoSize = true;
+            checkShowRandomButton.CheckAlign = ContentAlignment.MiddleLeft;
+            checkShowRandomButton.Checked = ShowRandomButton;
+            checkShowRandomButton.Text = "Show Random Style Button";
+            checkShowRandomButton.Top = groupBoxTop + 90;
+            checkShowRandomButton.Left = groupBoxColumnLeft;
+            checkShowRandomButton.CheckedChanged += new EventHandler(showRandomButton_CheckedChanged);
 
             groupPieceBrowserMode.Controls.Add(radShowPiecesOnly);
             groupPieceBrowserMode.Controls.Add(radShowPieceDescriptions);
             groupPieceBrowserMode.Controls.Add(radShowPieceData);
             groupPieceBrowserMode.Controls.Add(checkPreferObjectName);
             groupPieceBrowserMode.Controls.Add(checkInfiniteScrolling);
+            groupPieceBrowserMode.Controls.Add(checkShowRandomButton);
 
-            // =========================== Saving Options GroupBox =========================== //
+            // ========================== Spawn Interval GroupBox ========================== //
 
-            GroupBox groupSavingOptions = new GroupBox();
-            groupSavingOptions.Text = "Level Saving Options";
-            groupSavingOptions.Top = 260;
-            groupSavingOptions.Left = columnLeft;
-            groupSavingOptions.Width = 280;
-            groupSavingOptions.Height = 110;
+            GroupBox groupSpawnInterval = new GroupBox();
+            groupSpawnInterval.Text = "Spawn Interval / Release Rate";
+            groupSpawnInterval.Top = 290;
+            groupSpawnInterval.Left = columnLeft;
+            groupSpawnInterval.Width = 280;
+            groupSpawnInterval.Height = 50;
 
-            CheckBox checkValidateWhenSaving = new CheckBox();
-            checkValidateWhenSaving.Name = "checkValidateWhenSaving";
-            checkValidateWhenSaving.AutoSize = true;
-            checkValidateWhenSaving.CheckAlign = ContentAlignment.MiddleLeft;
-            checkValidateWhenSaving.Checked = ValidateWhenSaving;
-            checkValidateWhenSaving.Text = "Validate level when saving";
-            checkValidateWhenSaving.Top = groupBoxTop;
-            checkValidateWhenSaving.Left = groupBoxColumnLeft;
-            checkValidateWhenSaving.CheckedChanged += new EventHandler(checkValidateWhenSaving_CheckedChanged);
+            RadioButton radUseSpawnInterval = new RadioButton();
+            radUseSpawnInterval.Name = "radUseSpawnInterval";
+            radUseSpawnInterval.AutoSize = true;
+            radUseSpawnInterval.Width = 130;
+            radUseSpawnInterval.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radUseSpawnInterval.Checked = UseSpawnInterval;
+            radUseSpawnInterval.Text = "Spawn Interval";
+            radUseSpawnInterval.Top = groupBoxTop;
+            radUseSpawnInterval.Left = groupBoxColumnLeft;
+            radUseSpawnInterval.CheckedChanged += new EventHandler(UseSpawnInterval_CheckedChanged);
 
-            CheckBox checkAutosave = new CheckBox();
-            checkAutosave.Name = "checkAutosave";
-            checkAutosave.AutoSize = true;
-            checkAutosave.CheckAlign = ContentAlignment.MiddleLeft;
-            checkAutosave.Checked = Autosave;
-            checkAutosave.Text = "Autosave level every";
-            checkAutosave.Top = groupBoxTop + 30;
-            checkAutosave.Left = groupBoxColumnLeft;
-            checkAutosave.CheckedChanged += new EventHandler(checkAutosave_CheckedChanged);
+            RadioButton radUseReleaseRate = new RadioButton();
+            radUseReleaseRate.Name = "radUseReleaseRate";
+            radUseReleaseRate.AutoSize = true;
+            radUseReleaseRate.Width = 130;
+            radUseReleaseRate.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radUseReleaseRate.Checked = !UseSpawnInterval;
+            radUseReleaseRate.Text = "Release Rate";
+            radUseReleaseRate.Top = groupBoxTop;
+            radUseReleaseRate.Left = groupBoxColumnLeft + radUseSpawnInterval.Width - 16;
+            radUseReleaseRate.CheckedChanged += new EventHandler(UseSpawnInterval_CheckedChanged);
 
-            NumericUpDown numAutosaveFrequency = new NumericUpDown();
-            numAutosaveFrequency.Name = "numAutosaveFrequency";
-            numAutosaveFrequency.AutoSize = true;
-            numAutosaveFrequency.TextAlign = HorizontalAlignment.Center;
-            numAutosaveFrequency.Value = autosaveFrequency;
-            numAutosaveFrequency.Minimum = 1;
-            numAutosaveFrequency.Maximum = 60;
-            numAutosaveFrequency.Top = checkAutosave.Top - 2;
-            numAutosaveFrequency.Left = checkAutosave.Right + 24;
-            numAutosaveFrequency.Width = 48;
-            numAutosaveFrequency.Enabled = Autosave;
-            numAutosaveFrequency.ValueChanged += new EventHandler(numAutosaveFrequency_ValueChanged);
-            numAutosaveFrequency.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
-
-            Label lblMinutes = new Label();
-            lblMinutes.Text = "minutes";
-            lblMinutes.AutoSize = true;
-            lblMinutes.Top = groupBoxTop + 30;
-            lblMinutes.Left = numAutosaveFrequency.Right + 8;
-
-            CheckBox checkDeleteAutosaves = new CheckBox();
-            checkDeleteAutosaves.Name = "checkDeleteAutosaves";
-            checkDeleteAutosaves.AutoSize = true;
-            checkDeleteAutosaves.CheckAlign = ContentAlignment.MiddleLeft;
-            checkDeleteAutosaves.Checked = RemoveOldAutosaves;
-            checkDeleteAutosaves.Enabled = Autosave;
-            checkDeleteAutosaves.Text = "Limit autosaves kept to";
-            checkDeleteAutosaves.Top = groupBoxTop + 60;
-            checkDeleteAutosaves.Left = groupBoxColumnLeft;
-            checkDeleteAutosaves.CheckedChanged += new EventHandler(checkDeleteAutosaves_CheckedChanged);
-
-            NumericUpDown numAutosavesToKeep = new NumericUpDown();
-            numAutosavesToKeep.Name = "numAutosavesToKeep";
-            numAutosavesToKeep.AutoSize = true;
-            numAutosavesToKeep.TextAlign = HorizontalAlignment.Center;
-            numAutosavesToKeep.Value = keepAutosaveCount;
-            numAutosavesToKeep.Minimum = 1;
-            numAutosavesToKeep.Maximum = 999;
-            numAutosavesToKeep.Top = checkDeleteAutosaves.Top - 2;
-            numAutosavesToKeep.Left = checkDeleteAutosaves.Right + 34;
-            numAutosavesToKeep.Width = 48;
-            numAutosavesToKeep.Enabled = Autosave && RemoveOldAutosaves;
-            numAutosavesToKeep.ValueChanged += new EventHandler(numAutosavesToKeep_ValueChanged);
-            numAutosavesToKeep.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
-
-            groupSavingOptions.Controls.Add(checkValidateWhenSaving);
-            groupSavingOptions.Controls.Add(checkAutosave);
-            groupSavingOptions.Controls.Add(numAutosaveFrequency);
-            groupSavingOptions.Controls.Add(lblMinutes);
-            groupSavingOptions.Controls.Add(checkDeleteAutosaves);
-            groupSavingOptions.Controls.Add(numAutosavesToKeep);
+            groupSpawnInterval.Controls.Add(radUseSpawnInterval);
+            groupSpawnInterval.Controls.Add(radUseReleaseRate);
 
             // ========================== Snap-to-Grid GroupBox ========================== //
 
@@ -479,39 +444,86 @@ namespace SLXEditor
             groupTriggerAreaColor.Controls.Add(lblTriggerAreaColor);
             groupTriggerAreaColor.Controls.Add(comboTriggerAreaColor);
 
-            // ========================== Spawn Interval GroupBox ========================== //
+            // =========================== Saving Options GroupBox =========================== //
 
-            GroupBox groupSpawnInterval = new GroupBox();
-            groupSpawnInterval.Text = "Spawn Interval / Release Rate";
-            groupSpawnInterval.Top = 260;
-            groupSpawnInterval.Left = columnRight;
-            groupSpawnInterval.Width = 280;
-            groupSpawnInterval.Height = 50;
+            GroupBox groupSavingOptions = new GroupBox();
+            groupSavingOptions.Text = "Level Saving Options";
+            groupSavingOptions.Top = 260;
+            groupSavingOptions.Left = columnRight;
+            groupSavingOptions.Width = 280;
+            groupSavingOptions.Height = 110;
 
-            RadioButton radUseSpawnInterval = new RadioButton();
-            radUseSpawnInterval.Name = "radUseSpawnInterval";
-            radUseSpawnInterval.AutoSize = true;
-            radUseSpawnInterval.Width = 130;
-            radUseSpawnInterval.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            radUseSpawnInterval.Checked = UseSpawnInterval;
-            radUseSpawnInterval.Text = "Spawn Interval";
-            radUseSpawnInterval.Top = groupBoxTop;
-            radUseSpawnInterval.Left = groupBoxColumnLeft;
-            radUseSpawnInterval.CheckedChanged += new EventHandler(UseSpawnInterval_CheckedChanged);
+            CheckBox checkValidateWhenSaving = new CheckBox();
+            checkValidateWhenSaving.Name = "checkValidateWhenSaving";
+            checkValidateWhenSaving.AutoSize = true;
+            checkValidateWhenSaving.CheckAlign = ContentAlignment.MiddleLeft;
+            checkValidateWhenSaving.Checked = ValidateWhenSaving;
+            checkValidateWhenSaving.Text = "Validate level when saving";
+            checkValidateWhenSaving.Top = groupBoxTop;
+            checkValidateWhenSaving.Left = groupBoxColumnLeft;
+            checkValidateWhenSaving.CheckedChanged += new EventHandler(checkValidateWhenSaving_CheckedChanged);
 
-            RadioButton radUseReleaseRate = new RadioButton();
-            radUseReleaseRate.Name = "radUseReleaseRate";
-            radUseReleaseRate.AutoSize = true;
-            radUseReleaseRate.Width = 130;
-            radUseReleaseRate.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            radUseReleaseRate.Checked = !UseSpawnInterval;
-            radUseReleaseRate.Text = "Release Rate";
-            radUseReleaseRate.Top = groupBoxTop;
-            radUseReleaseRate.Left = groupBoxColumnLeft + radUseSpawnInterval.Width - 16;
-            radUseReleaseRate.CheckedChanged += new EventHandler(UseSpawnInterval_CheckedChanged);
+            CheckBox checkAutosave = new CheckBox();
+            checkAutosave.Name = "checkAutosave";
+            checkAutosave.AutoSize = true;
+            checkAutosave.CheckAlign = ContentAlignment.MiddleLeft;
+            checkAutosave.Checked = Autosave;
+            checkAutosave.Text = "Autosave level every";
+            checkAutosave.Top = groupBoxTop + 30;
+            checkAutosave.Left = groupBoxColumnLeft;
+            checkAutosave.CheckedChanged += new EventHandler(checkAutosave_CheckedChanged);
 
-            groupSpawnInterval.Controls.Add(radUseSpawnInterval);
-            groupSpawnInterval.Controls.Add(radUseReleaseRate);
+            NumericUpDown numAutosaveFrequency = new NumericUpDown();
+            numAutosaveFrequency.Name = "numAutosaveFrequency";
+            numAutosaveFrequency.AutoSize = true;
+            numAutosaveFrequency.TextAlign = HorizontalAlignment.Center;
+            numAutosaveFrequency.Value = autosaveFrequency;
+            numAutosaveFrequency.Minimum = 1;
+            numAutosaveFrequency.Maximum = 60;
+            numAutosaveFrequency.Top = checkAutosave.Top - 2;
+            numAutosaveFrequency.Left = checkAutosave.Right + 24;
+            numAutosaveFrequency.Width = 48;
+            numAutosaveFrequency.Enabled = Autosave;
+            numAutosaveFrequency.ValueChanged += new EventHandler(numAutosaveFrequency_ValueChanged);
+            numAutosaveFrequency.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
+
+            Label lblMinutes = new Label();
+            lblMinutes.Text = "minutes";
+            lblMinutes.AutoSize = true;
+            lblMinutes.Top = groupBoxTop + 30;
+            lblMinutes.Left = numAutosaveFrequency.Right + 8;
+
+            CheckBox checkDeleteAutosaves = new CheckBox();
+            checkDeleteAutosaves.Name = "checkDeleteAutosaves";
+            checkDeleteAutosaves.AutoSize = true;
+            checkDeleteAutosaves.CheckAlign = ContentAlignment.MiddleLeft;
+            checkDeleteAutosaves.Checked = RemoveOldAutosaves;
+            checkDeleteAutosaves.Enabled = Autosave;
+            checkDeleteAutosaves.Text = "Limit autosaves kept to";
+            checkDeleteAutosaves.Top = groupBoxTop + 60;
+            checkDeleteAutosaves.Left = groupBoxColumnLeft;
+            checkDeleteAutosaves.CheckedChanged += new EventHandler(checkDeleteAutosaves_CheckedChanged);
+
+            NumericUpDown numAutosavesToKeep = new NumericUpDown();
+            numAutosavesToKeep.Name = "numAutosavesToKeep";
+            numAutosavesToKeep.AutoSize = true;
+            numAutosavesToKeep.TextAlign = HorizontalAlignment.Center;
+            numAutosavesToKeep.Value = keepAutosaveCount;
+            numAutosavesToKeep.Minimum = 1;
+            numAutosavesToKeep.Maximum = 999;
+            numAutosavesToKeep.Top = checkDeleteAutosaves.Top - 2;
+            numAutosavesToKeep.Left = checkDeleteAutosaves.Right + 34;
+            numAutosavesToKeep.Width = 48;
+            numAutosavesToKeep.Enabled = Autosave && RemoveOldAutosaves;
+            numAutosavesToKeep.ValueChanged += new EventHandler(numAutosavesToKeep_ValueChanged);
+            numAutosavesToKeep.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
+
+            groupSavingOptions.Controls.Add(checkValidateWhenSaving);
+            groupSavingOptions.Controls.Add(checkAutosave);
+            groupSavingOptions.Controls.Add(numAutosaveFrequency);
+            groupSavingOptions.Controls.Add(lblMinutes);
+            groupSavingOptions.Controls.Add(checkDeleteAutosaves);
+            groupSavingOptions.Controls.Add(numAutosavesToKeep);
 
             // ========================== Save And Close Button ========================== //
 
@@ -665,6 +677,13 @@ namespace SLXEditor
         private void checkInfiniteScrolling_CheckedChanged(object sender, EventArgs e)
         {
             InfiniteScrolling = ((sender as CheckBox).CheckState == CheckState.Checked);
+            settingChanged = true;
+        }
+
+        private void showRandomButton_CheckedChanged(object sender, EventArgs e)
+        {
+            ShowRandomButton = (sender as CheckBox).CheckState == CheckState.Checked;
+            editorForm.MoveControlsOnFormResize();
             settingChanged = true;
         }
 
@@ -891,6 +910,7 @@ namespace SLXEditor
             ReadSettingsFromFile();
 
             editorForm.ToggleSnapToGrid();
+            editorForm.MoveControlsOnFormResize();
             editorForm.LoadPiecesIntoPictureBox();
 
             WriteSettingsToFile();
@@ -960,6 +980,11 @@ namespace SLXEditor
                         case "INFINITESCROLLING":
                             {
                                 InfiniteScrolling = (line.Text.Trim().ToUpper() == "TRUE");
+                                break;
+                            }
+                        case "SHOWRANDOMBUTTON":
+                            {
+                                ShowRandomButton = (line.Text.Trim().ToUpper() == "TRUE");
                                 break;
                             }
                         case "GRIDSIZE":
@@ -1086,6 +1111,7 @@ namespace SLXEditor
                 settingsFile.WriteLine(" AutoPinOGStyles     " + (AutoPinOGStyles ? "True" : "False"));
                 settingsFile.WriteLine(" PreferObjectName    " + (PreferObjectName ? "True" : "False"));
                 settingsFile.WriteLine(" InfiniteScrolling   " + (InfiniteScrolling ? "True" : "False"));
+                settingsFile.WriteLine(" ShowRandomButton    " + (ShowRandomButton ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize            " + GridSize.ToString());
                 settingsFile.WriteLine(" GridColor           " + (GridColor == Color.Empty ? "(Invisible)" : ColorTranslator.ToHtml(GridColor)));
                 settingsFile.WriteLine(" TriggerAreaColor    " + CurrentTriggerAreaColor.ToString());

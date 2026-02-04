@@ -37,6 +37,7 @@
             this.colFolderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDisplayName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colPinnedStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colRandomizerStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.txtDisplayName = new System.Windows.Forms.TextBox();
             this.btnRename = new System.Windows.Forms.Button();
             this.btnAddNew = new System.Windows.Forms.Button();
@@ -52,12 +53,14 @@
             this.btnUnpin = new System.Windows.Forms.Button();
             this.picPadding = new System.Windows.Forms.PictureBox();
             this.checkAutoPinOGStyles = new System.Windows.Forms.CheckBox();
+            this.btnRandomizer = new System.Windows.Forms.Button();
+            this.checkShowRandomButton = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.picPadding)).BeginInit();
             this.SuspendLayout();
             // 
             // btnMoveUp1
             // 
-            this.btnMoveUp1.Location = new System.Drawing.Point(575, 153);
+            this.btnMoveUp1.Location = new System.Drawing.Point(736, 104);
             this.btnMoveUp1.Name = "btnMoveUp1";
             this.btnMoveUp1.Size = new System.Drawing.Size(137, 44);
             this.btnMoveUp1.TabIndex = 1;
@@ -67,7 +70,7 @@
             // 
             // btnMoveDown1
             // 
-            this.btnMoveDown1.Location = new System.Drawing.Point(718, 153);
+            this.btnMoveDown1.Location = new System.Drawing.Point(879, 104);
             this.btnMoveDown1.Name = "btnMoveDown1";
             this.btnMoveDown1.Size = new System.Drawing.Size(134, 44);
             this.btnMoveDown1.TabIndex = 2;
@@ -77,9 +80,9 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(575, 664);
+            this.btnSave.Location = new System.Drawing.Point(736, 709);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(277, 55);
+            this.btnSave.Size = new System.Drawing.Size(277, 44);
             this.btnSave.TabIndex = 3;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -87,9 +90,9 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(575, 725);
+            this.btnCancel.Location = new System.Drawing.Point(736, 759);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(277, 55);
+            this.btnCancel.Size = new System.Drawing.Size(277, 44);
             this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -100,13 +103,14 @@
             this.listStyles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colFolderName,
             this.colDisplayName,
-            this.colPinnedStatus});
+            this.colPinnedStatus,
+            this.colRandomizerStatus});
             this.listStyles.FullRowSelect = true;
             this.listStyles.GridLines = true;
             this.listStyles.HideSelection = false;
             this.listStyles.Location = new System.Drawing.Point(17, 59);
             this.listStyles.Name = "listStyles";
-            this.listStyles.Size = new System.Drawing.Size(541, 721);
+            this.listStyles.Size = new System.Drawing.Size(698, 744);
             this.listStyles.TabIndex = 5;
             this.listStyles.UseCompatibleStateImageBehavior = false;
             this.listStyles.View = System.Windows.Forms.View.Details;
@@ -125,10 +129,16 @@
             // colPinnedStatus
             // 
             this.colPinnedStatus.Text = "Pinned";
+            this.colPinnedStatus.Width = 80;
+            // 
+            // colRandomizerStatus
+            // 
+            this.colRandomizerStatus.Text = "Randomize";
+            this.colRandomizerStatus.Width = 80;
             // 
             // txtDisplayName
             // 
-            this.txtDisplayName.Location = new System.Drawing.Point(575, 423);
+            this.txtDisplayName.Location = new System.Drawing.Point(736, 497);
             this.txtDisplayName.Name = "txtDisplayName";
             this.txtDisplayName.Size = new System.Drawing.Size(277, 26);
             this.txtDisplayName.TabIndex = 6;
@@ -136,9 +146,9 @@
             // 
             // btnRename
             // 
-            this.btnRename.Location = new System.Drawing.Point(575, 455);
+            this.btnRename.Location = new System.Drawing.Point(736, 529);
             this.btnRename.Name = "btnRename";
-            this.btnRename.Size = new System.Drawing.Size(277, 55);
+            this.btnRename.Size = new System.Drawing.Size(277, 44);
             this.btnRename.TabIndex = 7;
             this.btnRename.Text = "Rename";
             this.btnRename.UseVisualStyleBackColor = true;
@@ -146,9 +156,9 @@
             // 
             // btnAddNew
             // 
-            this.btnAddNew.Location = new System.Drawing.Point(575, 16);
+            this.btnAddNew.Location = new System.Drawing.Point(736, 16);
             this.btnAddNew.Name = "btnAddNew";
-            this.btnAddNew.Size = new System.Drawing.Size(277, 55);
+            this.btnAddNew.Size = new System.Drawing.Size(277, 44);
             this.btnAddNew.TabIndex = 8;
             this.btnAddNew.Text = "Add New Style";
             this.btnAddNew.UseVisualStyleBackColor = true;
@@ -156,7 +166,7 @@
             // 
             // btnMoveUp10
             // 
-            this.btnMoveUp10.Location = new System.Drawing.Point(575, 203);
+            this.btnMoveUp10.Location = new System.Drawing.Point(736, 154);
             this.btnMoveUp10.Name = "btnMoveUp10";
             this.btnMoveUp10.Size = new System.Drawing.Size(137, 44);
             this.btnMoveUp10.TabIndex = 9;
@@ -166,7 +176,7 @@
             // 
             // btnMoveDown10
             // 
-            this.btnMoveDown10.Location = new System.Drawing.Point(718, 203);
+            this.btnMoveDown10.Location = new System.Drawing.Point(879, 154);
             this.btnMoveDown10.Name = "btnMoveDown10";
             this.btnMoveDown10.Size = new System.Drawing.Size(134, 44);
             this.btnMoveDown10.TabIndex = 10;
@@ -176,9 +186,9 @@
             // 
             // btnSortAlphabetically
             // 
-            this.btnSortAlphabetically.Location = new System.Drawing.Point(575, 561);
+            this.btnSortAlphabetically.Location = new System.Drawing.Point(736, 621);
             this.btnSortAlphabetically.Name = "btnSortAlphabetically";
-            this.btnSortAlphabetically.Size = new System.Drawing.Size(277, 55);
+            this.btnSortAlphabetically.Size = new System.Drawing.Size(277, 44);
             this.btnSortAlphabetically.TabIndex = 11;
             this.btnSortAlphabetically.Text = "Sort Alphabetically";
             this.btnSortAlphabetically.UseVisualStyleBackColor = true;
@@ -186,7 +196,7 @@
             // 
             // btnPinToTop
             // 
-            this.btnPinToTop.Location = new System.Drawing.Point(575, 253);
+            this.btnPinToTop.Location = new System.Drawing.Point(736, 204);
             this.btnPinToTop.Name = "btnPinToTop";
             this.btnPinToTop.Size = new System.Drawing.Size(137, 44);
             this.btnPinToTop.TabIndex = 12;
@@ -196,7 +206,7 @@
             // 
             // btnPinToBottom
             // 
-            this.btnPinToBottom.Location = new System.Drawing.Point(718, 253);
+            this.btnPinToBottom.Location = new System.Drawing.Point(879, 204);
             this.btnPinToBottom.Name = "btnPinToBottom";
             this.btnPinToBottom.Size = new System.Drawing.Size(134, 44);
             this.btnPinToBottom.TabIndex = 13;
@@ -217,14 +227,14 @@
             // 
             this.txtSearch.Location = new System.Drawing.Point(85, 19);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(392, 26);
+            this.txtSearch.Size = new System.Drawing.Size(549, 26);
             this.txtSearch.TabIndex = 15;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // btnShowSelectedItemsInList
             // 
             this.btnShowSelectedItemsInList.Enabled = false;
-            this.btnShowSelectedItemsInList.Location = new System.Drawing.Point(575, 59);
+            this.btnShowSelectedItemsInList.Location = new System.Drawing.Point(736, 59);
             this.btnShowSelectedItemsInList.Name = "btnShowSelectedItemsInList";
             this.btnShowSelectedItemsInList.Size = new System.Drawing.Size(277, 55);
             this.btnShowSelectedItemsInList.TabIndex = 16;
@@ -236,7 +246,7 @@
             // btnClearSearch
             // 
             this.btnClearSearch.Enabled = false;
-            this.btnClearSearch.Location = new System.Drawing.Point(483, 16);
+            this.btnClearSearch.Location = new System.Drawing.Point(640, 19);
             this.btnClearSearch.Name = "btnClearSearch";
             this.btnClearSearch.Size = new System.Drawing.Size(75, 32);
             this.btnClearSearch.TabIndex = 17;
@@ -246,7 +256,7 @@
             // 
             // btnUnpin
             // 
-            this.btnUnpin.Location = new System.Drawing.Point(575, 303);
+            this.btnUnpin.Location = new System.Drawing.Point(736, 254);
             this.btnUnpin.Name = "btnUnpin";
             this.btnUnpin.Size = new System.Drawing.Size(277, 44);
             this.btnUnpin.TabIndex = 18;
@@ -257,9 +267,9 @@
             // picPadding
             // 
             this.picPadding.BackColor = System.Drawing.Color.Transparent;
-            this.picPadding.Location = new System.Drawing.Point(-2, 786);
+            this.picPadding.Location = new System.Drawing.Point(-1, 809);
             this.picPadding.Name = "picPadding";
-            this.picPadding.Size = new System.Drawing.Size(872, 10);
+            this.picPadding.Size = new System.Drawing.Size(1028, 10);
             this.picPadding.TabIndex = 19;
             this.picPadding.TabStop = false;
             // 
@@ -276,13 +286,36 @@
             this.checkAutoPinOGStyles.UseVisualStyleBackColor = true;
             this.checkAutoPinOGStyles.CheckedChanged += new System.EventHandler(this.checkAutoPinOGStyles_CheckedChanged);
             // 
+            // btnRandomizer
+            // 
+            this.btnRandomizer.Location = new System.Drawing.Point(736, 374);
+            this.btnRandomizer.Name = "btnRandomizer";
+            this.btnRandomizer.Size = new System.Drawing.Size(277, 44);
+            this.btnRandomizer.TabIndex = 21;
+            this.btnRandomizer.Text = "Add to Randomizer";
+            this.btnRandomizer.UseVisualStyleBackColor = true;
+            this.btnRandomizer.Click += new System.EventHandler(this.btnRandomizer_Click);
+            // 
+            // checkShowRandomButton
+            // 
+            this.checkShowRandomButton.AutoSize = true;
+            this.checkShowRandomButton.Location = new System.Drawing.Point(736, 429);
+            this.checkShowRandomButton.Name = "checkShowRandomButton";
+            this.checkShowRandomButton.Size = new System.Drawing.Size(270, 24);
+            this.checkShowRandomButton.TabIndex = 22;
+            this.checkShowRandomButton.Text = "Show Random Button in Browser";
+            this.checkShowRandomButton.UseVisualStyleBackColor = true;
+            this.checkShowRandomButton.CheckedChanged += new System.EventHandler(this.checkShowRandomButton_CheckedChanged);
+            // 
             // FormStyleManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(869, 800);
-            this.Controls.Add(this.checkAutoPinSLXStyles);
+            this.ClientSize = new System.Drawing.Size(1030, 820);
+            this.Controls.Add(this.checkShowRandomButton);
+            this.Controls.Add(this.btnRandomizer);
+            this.Controls.Add(this.checkAutoPinOGStyles);
             this.Controls.Add(this.picPadding);
             this.Controls.Add(this.btnUnpin);
             this.Controls.Add(this.btnShowSelectedItemsInList);
@@ -302,7 +335,7 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnMoveDown1);
             this.Controls.Add(this.btnMoveUp1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormStyleManager";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -325,6 +358,7 @@
         private System.Windows.Forms.ColumnHeader colFolderName;
         private System.Windows.Forms.ColumnHeader colDisplayName;
         private System.Windows.Forms.ColumnHeader colPinnedStatus;
+        private System.Windows.Forms.ColumnHeader colRandomizerStatus;
         private System.Windows.Forms.TextBox txtDisplayName;
         private System.Windows.Forms.Button btnRename;
         private System.Windows.Forms.Button btnAddNew;
@@ -340,5 +374,7 @@
         private System.Windows.Forms.Button btnUnpin;
         private System.Windows.Forms.PictureBox picPadding;
         private System.Windows.Forms.CheckBox checkAutoPinOGStyles;
+        private System.Windows.Forms.Button btnRandomizer;
+        private System.Windows.Forms.CheckBox checkShowRandomButton;
     }
 }
