@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Windows.Forms;
 
 namespace SLXEditor
@@ -63,6 +62,7 @@ namespace SLXEditor
             ShowData,
         }
 
+        public string DefaultAuthorName { get; private set; }
         public bool AutoPinSLXStyles { get; set; }
         public bool PreferObjectName { get; private set; }
         public EditorMode CurrentEditorMode { get; private set; }
@@ -96,6 +96,7 @@ namespace SLXEditor
         /// </summary>
         public void SetDefault()
         {
+            DefaultAuthorName = string.Empty;
             CurrentEditorMode = EditorMode.Auto;
             CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
             CurrentTriggerAreaColor = TriggerAreaColor.Pink;
@@ -133,16 +134,18 @@ namespace SLXEditor
         /// </summary>
         public void OpenSettingsWindow()
         {
+            int formWidth = 650;
+            int formHeight = 440;
             int columnLeft = 30;
             int columnRight = 340;
             int groupBoxTop = 20;
             int groupBoxColumnLeft = 16;
             int groupBoxColumnRight = 208;
-            int buttonsTop = 350;
+            int buttonsTop = 390;
 
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
-            settingsForm.ClientSize = new System.Drawing.Size(650, 400);
+            settingsForm.ClientSize = new Size(formWidth, formHeight);
             settingsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             settingsForm.MinimizeBox = false;
             settingsForm.MaximizeBox = false;
@@ -151,11 +154,26 @@ namespace SLXEditor
             settingsForm.MouseDown += new MouseEventHandler(settingsForm_MouseDown);
             settingsForm.FormClosing += new FormClosingEventHandler(settingsForm_FormClosing);
 
+            // ======================= Author Name Field ======================== //
+
+            Label labelAuthorName = new Label();
+            labelAuthorName.Text = "Default Author Name";
+            labelAuthorName.Top = 20;
+            labelAuthorName.Left = columnLeft;
+            labelAuthorName.AutoSize = true;
+
+            TextBox textAuthorName = new TextBox();
+            textAuthorName.Name = "textDefaultAuthorName";
+            textAuthorName.Text = DefaultAuthorName;
+            textAuthorName.Top = labelAuthorName.Top - 3;
+            textAuthorName.Left = labelAuthorName.Right + 10;
+            textAuthorName.Width = 170;
+
             // ========================== Editor Mode GroupBox =========================== //
 
             GroupBox groupEditorMode = new GroupBox();
             groupEditorMode.Text = "Editor Mode";
-            groupEditorMode.Top = 20;
+            groupEditorMode.Top = 60;
             groupEditorMode.Left = columnLeft;
             groupEditorMode.Width = 280;
             groupEditorMode.Height = 50;
@@ -163,7 +181,7 @@ namespace SLXEditor
             RadioButton radSuperLemmixMode = new RadioButton();
             radSuperLemmixMode.Name = "radSuperLemmixMode";
             radSuperLemmixMode.AutoSize = true;
-            radSuperLemmixMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radSuperLemmixMode.CheckAlign = ContentAlignment.MiddleLeft;
             radSuperLemmixMode.Checked = CurrentEditorMode == EditorMode.SuperLemmix;
             radSuperLemmixMode.Text = "SuperLemmix";
             radSuperLemmixMode.Top = groupBoxTop;
@@ -173,7 +191,7 @@ namespace SLXEditor
             RadioButton radNeoLemmixMode = new RadioButton();
             radNeoLemmixMode.Name = "radNeoLemmixMode";
             radNeoLemmixMode.AutoSize = true;
-            radNeoLemmixMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radNeoLemmixMode.CheckAlign = ContentAlignment.MiddleLeft;
             radNeoLemmixMode.Checked = CurrentEditorMode == EditorMode.NeoLemmix;
             radNeoLemmixMode.Text = "NeoLemmix";
             radNeoLemmixMode.Top = groupBoxTop;
@@ -183,7 +201,7 @@ namespace SLXEditor
             RadioButton radAutoMode = new RadioButton();
             radAutoMode.Name = "radAutoMode";
             radAutoMode.AutoSize = true;
-            radAutoMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radAutoMode.CheckAlign = ContentAlignment.MiddleLeft;
             radAutoMode.Checked = CurrentEditorMode == EditorMode.Auto;
             radAutoMode.Text = "Auto";
             radAutoMode.Top = groupBoxTop;
@@ -198,7 +216,7 @@ namespace SLXEditor
 
             GroupBox groupPieceBrowserMode = new GroupBox();
             groupPieceBrowserMode.Text = "Piece Browser Mode";
-            groupPieceBrowserMode.Top = 90;
+            groupPieceBrowserMode.Top = 130;
             groupPieceBrowserMode.Left = columnLeft;
             groupPieceBrowserMode.Width = 280;
             groupPieceBrowserMode.Height = 110;
@@ -207,7 +225,7 @@ namespace SLXEditor
             radShowPieceData.Name = "radShowPieceData";
             radShowPieceData.AutoSize = true;
             radShowPieceData.Width = 80;
-            radShowPieceData.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radShowPieceData.CheckAlign = ContentAlignment.MiddleLeft;
             radShowPieceData.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowData;
             radShowPieceData.Text = "Data";
             radShowPieceData.Top = groupBoxTop;
@@ -218,7 +236,7 @@ namespace SLXEditor
             radShowPieceDescriptions.Name = "radShowPieceDescriptions";
             radShowPieceDescriptions.AutoSize = true;
             radShowPieceDescriptions.Width = 80;
-            radShowPieceDescriptions.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radShowPieceDescriptions.CheckAlign = ContentAlignment.MiddleLeft;
             radShowPieceDescriptions.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowDescriptions;
             radShowPieceDescriptions.Text = "Descriptions";
             radShowPieceDescriptions.Top = groupBoxTop;
@@ -228,7 +246,7 @@ namespace SLXEditor
             RadioButton radShowPiecesOnly = new RadioButton();
             radShowPiecesOnly.Name = "radShowPiecesOnly";
             radShowPiecesOnly.AutoSize = true;
-            radShowPiecesOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radShowPiecesOnly.CheckAlign = ContentAlignment.MiddleLeft;
             radShowPiecesOnly.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowPiecesOnly;
             radShowPiecesOnly.Text = "Pieces Only";
             radShowPiecesOnly.Top = groupBoxTop;
@@ -238,7 +256,7 @@ namespace SLXEditor
             CheckBox checkPreferObjectName = new CheckBox();
             checkPreferObjectName.Name = "checkPreferObjectName";
             checkPreferObjectName.AutoSize = true;
-            checkPreferObjectName.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkPreferObjectName.CheckAlign = ContentAlignment.MiddleLeft;
             checkPreferObjectName.Checked = PreferObjectName;
             checkPreferObjectName.Text = "Prefer piece name to object type";
             checkPreferObjectName.Top = groupBoxTop + 30;
@@ -248,7 +266,7 @@ namespace SLXEditor
             CheckBox checkInfiniteScrolling = new CheckBox();
             checkInfiniteScrolling.Name = "checkInfiniteScrolling";
             checkInfiniteScrolling.AutoSize = true;
-            checkInfiniteScrolling.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkInfiniteScrolling.CheckAlign = ContentAlignment.MiddleLeft;
             checkInfiniteScrolling.Checked = InfiniteScrolling;
             checkInfiniteScrolling.Text = "Infinite Scrolling";
             checkInfiniteScrolling.Top = groupBoxTop + 60;
@@ -265,7 +283,7 @@ namespace SLXEditor
 
             GroupBox groupSavingOptions = new GroupBox();
             groupSavingOptions.Text = "Level Saving Options";
-            groupSavingOptions.Top = 220;
+            groupSavingOptions.Top = 260;
             groupSavingOptions.Left = columnLeft;
             groupSavingOptions.Width = 280;
             groupSavingOptions.Height = 110;
@@ -273,7 +291,7 @@ namespace SLXEditor
             CheckBox checkValidateWhenSaving = new CheckBox();
             checkValidateWhenSaving.Name = "checkValidateWhenSaving";
             checkValidateWhenSaving.AutoSize = true;
-            checkValidateWhenSaving.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkValidateWhenSaving.CheckAlign = ContentAlignment.MiddleLeft;
             checkValidateWhenSaving.Checked = ValidateWhenSaving;
             checkValidateWhenSaving.Text = "Validate level when saving";
             checkValidateWhenSaving.Top = groupBoxTop;
@@ -283,7 +301,7 @@ namespace SLXEditor
             CheckBox checkAutosave = new CheckBox();
             checkAutosave.Name = "checkAutosave";
             checkAutosave.AutoSize = true;
-            checkAutosave.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkAutosave.CheckAlign = ContentAlignment.MiddleLeft;
             checkAutosave.Checked = Autosave;
             checkAutosave.Text = "Autosave level every";
             checkAutosave.Top = groupBoxTop + 30;
@@ -313,7 +331,7 @@ namespace SLXEditor
             CheckBox checkDeleteAutosaves = new CheckBox();
             checkDeleteAutosaves.Name = "checkDeleteAutosaves";
             checkDeleteAutosaves.AutoSize = true;
-            checkDeleteAutosaves.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkDeleteAutosaves.CheckAlign = ContentAlignment.MiddleLeft;
             checkDeleteAutosaves.Checked = RemoveOldAutosaves;
             checkDeleteAutosaves.Enabled = Autosave;
             checkDeleteAutosaves.Text = "Limit autosaves kept to";
@@ -354,7 +372,7 @@ namespace SLXEditor
             CheckBox checkUseGrid = new CheckBox();
             checkUseGrid.Name = "checkUseGrid";
             checkUseGrid.AutoSize = true;
-            checkUseGrid.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            checkUseGrid.CheckAlign = ContentAlignment.MiddleLeft;
             checkUseGrid.Checked = UseGridForPieces;
             checkUseGrid.Text = "Snap-to-Grid amount in pixels:";
             checkUseGrid.Top = groupBoxTop;
@@ -519,6 +537,9 @@ namespace SLXEditor
 
 
             // ========================== Add Controls to Form =========================== //
+
+            settingsForm.Controls.Add(labelAuthorName);
+            settingsForm.Controls.Add(textAuthorName);
 
             settingsForm.Controls.Add(groupEditorMode);
             settingsForm.Controls.Add(groupPieceBrowserMode);
@@ -816,6 +837,15 @@ namespace SLXEditor
             CurrentTriggerAreaColor = parsedColor;
         }
 
+        private void UpdateDefaultAuthorName()
+        {
+            if (!doSaveSettings)
+                return;
+
+            if (settingsForm.Controls.Find("textDefaultAuthorName", true).FirstOrDefault() is TextBox textDefaultAuthorName)
+                DefaultAuthorName = textDefaultAuthorName.Text;
+        }
+
         private void PrepareFormForClosing()
         {
             btnCancel.Focus(); // Prevents saving values if caret is still in numUpDown
@@ -889,6 +919,11 @@ namespace SLXEditor
                     FileLine line = fileLines?[0];
                     switch (line?.Key)
                     {
+                        case "DEFAULTAUTHORNAME":
+                            {
+                                DefaultAuthorName = line.Text.Trim();
+                                break;
+                            }
                         case "EDITORMODE":
                             {
                                 var modeText = line.Text.Trim().ToUpper();
@@ -988,12 +1023,12 @@ namespace SLXEditor
                             }
                         case "FORM_WIDTH":
                             {
-                                FormSize = new System.Drawing.Size(line.Value, FormSize.Height);
+                                FormSize = new Size(line.Value, FormSize.Height);
                                 break;
                             }
                         case "FORM_HEIGHT":
                             {
-                                FormSize = new System.Drawing.Size(FormSize.Width, line.Value);
+                                FormSize = new Size(FormSize.Width, line.Value);
                                 break;
                             }
                         case "AUTOSTART":
@@ -1036,9 +1071,12 @@ namespace SLXEditor
 
                 File.Create(C.AppPathSettings).Close();
 
+                UpdateDefaultAuthorName();
+
                 TextWriter settingsFile = new StreamWriter(C.AppPathSettings, true);
 
                 settingsFile.WriteLine("# SLXEditor settings ");
+                settingsFile.WriteLine(" DefaultAuthorName   " + DefaultAuthorName);
                 settingsFile.WriteLine(" ValidateWhenSaving  " + (ValidateWhenSaving ? "True" : "False"));
                 settingsFile.WriteLine(" Autosave            " + AutosaveFrequency.ToString());
                 settingsFile.WriteLine(" AutosaveLimit       " + KeepAutosaveCount.ToString());
