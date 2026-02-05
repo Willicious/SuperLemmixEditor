@@ -1185,7 +1185,6 @@ namespace SLXEditor
                             }
                     }
                 }
-
                 parser.DisposeStreamReader();
             }
             catch (Exception Ex)

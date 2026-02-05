@@ -109,6 +109,22 @@ namespace SLXEditor
             // =======================
 
             WriteBoldText(richTextBox, $"================ Version {C.Version} Updates ================\n");
+            WriteBoldText(richTextBox, "\n• Piece Browser\n");
+            richTextBox.AppendText(" • Added a 'Random' button to the Piece Browser which, when clicked, randomized the piece style selection. It's possible to specify which styles are Randomized in the Style Manager; if no styles are specified, the entire list is randomized\n");
+
+            WriteBoldText(richTextBox, "\n• Default Author Name\n");
+            richTextBox.AppendText(" • Added a setting which automatically applies a default author name when a new level is created\n");
+
+            WriteBoldText(richTextBox, "\n• Bugfixes\n");
+            richTextBox.AppendText(" • No Overwrite checkbox is once again available for all pieces (except Rulers)\n");
+            richTextBox.AppendText(" • Fixed incremental indenting of terrain pieces in level file\n");
+            richTextBox.AppendText(" • All settings are now externalized to SLXEditorSettings.ini\n");
+
+            // =======================
+            // All Features
+            // =======================
+            WriteBoldText(richTextBox, $"\n\n================ Previous Updates ================\n");
+            
             WriteBoldText(richTextBox, "\n• New SuperLemmix-Specific Format (.sxlv)\n");
             richTextBox.AppendText(" • It's now possible to file-associate SuperLemmix levels with the SuperLemmix Editor, and NeoLemmix Levels with the NeoLemmix Editor. The SuperLemmix Format (.sxlv) will always be preferred as the default format unless NeoLemmix Mode is active. You can still choose to save to .nxlv as long as the level does not contain any SuperLemmix-specific features\n");
 
@@ -169,11 +185,6 @@ namespace SLXEditor
             richTextBox.AppendText(" • Cursor is correctly reset when clicking status bar buttons\n");
             richTextBox.AppendText(" • The Editor now closes if the 'styles' folder cannot be found\n");
             richTextBox.AppendText(" • Many other general improvements, typo fixes, tweaks, spit and polish\n");
-
-            // =======================
-            // All Features
-            // =======================
-            WriteBoldText(richTextBox, $"\n\n================ Previous Updates ================\n");
 
             // =======================
             // Piece Browser
