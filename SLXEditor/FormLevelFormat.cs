@@ -40,7 +40,7 @@ namespace SLXEditor
                     SelectedExtension = ".nxlv";
                     break;
                 default:
-                    SelectedExtension = null; // keep original
+                    SelectedExtension = ""; // keep original
                     break;
             }
 
