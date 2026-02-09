@@ -2667,6 +2667,8 @@ Ladderer=10";
             // Handle the file naming format
             string baseFileName = string.IsNullOrEmpty(CurLevel.Title) ? "Level" : CurLevel.Title;
             string fileName = baseFileName + ".png";
+            char[] invalid = Path.GetInvalidFileNameChars();
+            fileName = new string(fileName.Select(c => invalid.Contains(c) ? '_' : c).ToArray());
 
             int count = 0;
             while (File.Exists(fileName))
