@@ -36,7 +36,7 @@ namespace SLXEditor
             lblPreviousUpdates.Left = GetCenter(lblPreviousUpdates);
             WritePreviousUpdatesText();
 
-            lblSuperLemmixEditor.Text = $"SuperLemmix Editor (Version {C.Version})";
+            lblSuperLemmixEditor.Text = $"SuperLemmix Editor (Version {C.Version}-beta)";
             lblSuperLemmixEditor.Top = richTextBox_PreviousUpdates.Bottom + padding;
             lblSuperLemmixEditor.Left = GetCenter(lblSuperLemmixEditor);
 
@@ -99,9 +99,9 @@ namespace SLXEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
-            //// Test version text
-            //WriteBoldText(richTextBox, "This version of the Editor is for test purposes only!\n");
-            //richTextBox.AppendText("Please do not distribute it publicly as stability cannot be guaranteed. Thanks\n");
+            // Test version text
+            WriteBoldText(richTextBox, "This version of the Editor is for test purposes only!\n");
+            richTextBox.AppendText("Please do not distribute it publicly as stability cannot be guaranteed. Thanks\n\n");
 
             // =======================
             // Latest Version Features
