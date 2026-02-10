@@ -1423,22 +1423,40 @@ Ladderer=10";
                 cleansingLevels = false;
             }
         }
-        private void ApplyFormatToLevelsNXMI(string file, string folder, string ext)
+        private void ApplyFormatToLevelsNXMI(string originalFilePath, string rootFolder, string newExt)
         {
-            string oldExt = ext == ".sxlv" ? ".nxlv" : ".sxlv"; // Just in case levels are already converted
+            string oldFileName = Path.GetFileName(originalFilePath);
+            string newFileName = Path.GetFileName(
+                Path.ChangeExtension(originalFilePath, newExt)
+            );
 
-            string oldName = Path.GetFileNameWithoutExtension(file) + oldExt;
-            string newName = Path.GetFileNameWithoutExtension(file) + ext;
+            // Nothing to do if already correct
+            if (oldFileName.Equals(newFileName, StringComparison.OrdinalIgnoreCase))
+                return;
 
-            foreach (string nxmiPath in Directory.GetFiles(folder, "levels.nxmi", SearchOption.AllDirectories))
+            foreach (string nxmiPath in Directory.GetFiles(rootFolder, "levels.nxmi", SearchOption.AllDirectories))
             {
-                string text = File.ReadAllText(nxmiPath);
+                var lines = File.ReadAllLines(nxmiPath);
+                bool modified = false;
 
-                if (!text.Contains(oldName))
-                    continue;
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    string line = lines[i];
 
-                text = text.Replace(oldName, newName);
-                File.WriteAllText(nxmiPath, text);
+                    if (!line.StartsWith("LEVEL ", StringComparison.OrdinalIgnoreCase))
+                        continue;
+
+                    int fileStart = line.LastIndexOf(oldFileName, StringComparison.OrdinalIgnoreCase);
+                    if (fileStart < 0)
+                        continue;
+
+                    lines[i] = line.Substring(0, fileStart) + newFileName;
+                    modified = true;
+                    break;
+                }
+
+                if (modified)
+                    File.WriteAllLines(nxmiPath, lines);
             }
         }
 
