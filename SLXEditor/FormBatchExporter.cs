@@ -140,18 +140,13 @@ namespace SLXEditor
                         if (rbINI.Checked || rbRLV.Checked)
                         {
                             String selectedStyle = item.SubItems[1].Text;
-
                             if (selectedStyle == null || selectedStyle.Contains("<Select style>"))
                             {
                                 failedExports.Add(Tuple.Create(file, $" - error: invalid style ({selectedStyle})"));
                                 continue;
                             }
 
-                            Exporter.ExportLevelToIni(
-                                level,
-                                selectedStyle,
-                                Path.ChangeExtension(file, ext)
-                            );
+                            Exporter.ExportLevelToIni(level, selectedStyle, Path.ChangeExtension(file, ext));
                         }
                         // Save as SXLV/NXLV (this is essentially CleanseLevels without the reporting)
                         else

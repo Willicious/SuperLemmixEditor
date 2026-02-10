@@ -197,7 +197,7 @@ namespace SLXEditor
                     if (result.UnlinkedPieces.Count > 0)
                     {
                         MessageBox.Show(
-                            $"Warning: Some pieces are not linked to '{selectedStyle}':\n\n" +
+                            $"Warning: Some pieces are not linked:\n\n" +
                             string.Join(Environment.NewLine, result.UnlinkedPieces),
                             "Unlinked Pieces",
                             MessageBoxButtons.OK,
@@ -282,7 +282,7 @@ namespace SLXEditor
         {
             listViewPieceLinks.Items.Clear();
 
-            var links = Exporter.LoadStylePieceLinks(selectedStyle);
+            var links = Exporter.LoadAllPieceLinks();
             var allPieces = curLevel.TerrainList.Cast<object>()
                             .Concat(curLevel.GadgetList.Cast<object>());
 
@@ -296,7 +296,17 @@ namespace SLXEditor
                     continue;
                 seenKeys.Add(pieceKey);
 
-                string iniIdText = links.TryGetValue(pieceKey, out int iniId) ? iniId.ToString() : "Not yet linked";
+                string iniIdText = string.Empty;
+                if (links.TryGetValue(pieceKey, out var link))
+                {
+                    iniIdText = link.iniId.ToString();
+
+                    // Show style in brackets when it differs from main style
+                    if (!link.style.Equals(selectedStyle, StringComparison.OrdinalIgnoreCase))
+                        iniIdText += $" ({link.style})";
+                }
+                else
+                    iniIdText = "Not yet linked";
 
                 var item = new ListViewItem(new[] { pieceKey, iniIdText });
                 item.Tag = pieceKey;
@@ -522,45 +532,63 @@ namespace SLXEditor
 
         private void UpdateTransparencyOffsets()
         {
-            if (comboStyles.SelectedIndex == 0)
-                return;
-
-            INIStyleInfo styleInfo;
-            string styleName = comboStyles.Text;
+            string stylesRootFolder;
 
             using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
-                fbd.Description = $"Select folder containing .ini pieces for style '{styleName}'";
+                fbd.Description = "Select folder containing INI style folders";
                 if (fbd.ShowDialog() != DialogResult.OK)
                     return;
 
-                styleInfo = new INIStyleInfo
-                {
-                    Name = styleName,
-                    FolderPath = fbd.SelectedPath
-                };
+                stylesRootFolder = fbd.SelectedPath;
             }
 
-            if (styleInfo == null)
-                return;
+            var pieceLinks = Exporter.LoadAllPieceLinks();
 
             var allPieces = curLevel.TerrainList.Cast<object>()
                 .Concat(curLevel.GadgetList.Cast<object>());
 
-            var pieceLinks = Exporter.LoadStylePieceLinks(styleName);
-
-            foreach (dynamic piece in allPieces) // dynamic to handle Terrain/Gadget
+            foreach (dynamic piece in allPieces)
             {
                 string key = piece.Key;
 
-                if (pieceLinks.TryGetValue(key, out int iniId))
-                    UpdatePieceLink(styleName, key, iniId, styleInfo.FolderPath);
-                else
-                    MessageBox.Show("Could not update transparency offsets.\n" +
-                                    $"Invalid ID for piece: {key}");
-            }
+                if (!pieceLinks.TryGetValue(key, out var link))
+                {
+                    MessageBox.Show(
+                        "Could not update transparency offsets.\n" +
+                        $"Unlinked piece: {key}"
+                    );
+                    continue;
+                }
 
-            MessageBox.Show("Transparency offsets updated successfully!");
+                string iniStyle = link.style;
+                int iniId = link.iniId;
+
+                // Cache per-style folder lookup
+                if (!LoadedStyles.TryGetValue(iniStyle, out var styleInfo))
+                {
+                    string candidateFolder = Path.Combine(stylesRootFolder, iniStyle);
+
+                    if (!Directory.Exists(candidateFolder))
+                    {
+                        MessageBox.Show(
+                            $"Could not find folder for style '{iniStyle}'.\n" +
+                            $"Expected: {candidateFolder}"
+                        );
+                        continue;
+                    }
+
+                    styleInfo = new INIStyleInfo
+                    {
+                        Name = iniStyle,
+                        FolderPath = candidateFolder
+                    };
+
+                    LoadedStyles[iniStyle] = styleInfo;
+                }
+
+                UpdatePieceLink(iniStyle, key, iniId, styleInfo.FolderPath);
+            }
         }
 
         private void UpdateControls()

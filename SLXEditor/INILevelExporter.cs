@@ -126,49 +126,50 @@ namespace SLXEditor
         }
 
         /// <summary>
-        /// Loads piece links for the selected style
+        /// Loads piece links for all styles
         /// </summary>
-        public Dictionary<string, int> LoadStylePieceLinks(string styleName)
+        public Dictionary<string, (string style, int iniId)> LoadAllPieceLinks()
         {
-            var links = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+            var result = new Dictionary<string, (string, int)>(StringComparer.OrdinalIgnoreCase);
 
             if (!File.Exists(C.AppPathTranslationTables))
-                return links;
+                return result;
 
             var lines = File.ReadAllLines(C.AppPathTranslationTables);
 
-            bool inSection = false;
+            string currentStyle = null;
 
             foreach (var rawLine in lines)
             {
-                string line = rawLine.Trim();
-
+                var line = rawLine.Trim();
                 if (string.IsNullOrEmpty(line))
                     continue;
 
                 if (line.StartsWith("[") && line.EndsWith("]"))
                 {
-                    inSection = line.Substring(1, line.Length - 2)
-                                   .Equals(styleName, StringComparison.OrdinalIgnoreCase);
+                    currentStyle = line.Substring(1, line.Length - 2);
                     continue;
                 }
 
-                if (inSection)
-                {
-                    var parts = line.Split(':');
-                    if (parts.Length == 2)
-                    {
-                        var iniPart = parts[1].Trim();
-                        var iniIdString = iniPart.Split('(')[0];
-                        if (int.TryParse(iniIdString, out int id))
-                        {
-                            links[parts[0].Trim()] = id;
-                        }
-                    }
-                }
+                if (currentStyle == null || currentStyle.Equals("Styles", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                var parts = line.Split(':');
+                if (parts.Length != 2)
+                    continue;
+
+                var iniIdPart = parts[1].Split('(')[0];
+                if (!int.TryParse(iniIdPart, out int iniId))
+                    continue;
+
+                var key = parts[0].Trim();
+
+                // First one wins → preserves existing behaviour
+                if (!result.ContainsKey(key))
+                    result[key] = (currentStyle, iniId);
             }
 
-            return links;
+            return result;
         }
 
         private int GetSkill(Level level, C.Skill skill)
@@ -384,9 +385,9 @@ namespace SLXEditor
         /// Gets piece links between .*xlv style and corresponding .ini style,
         /// applying precomputed offsets from the translation table.
         private (List<string> terrainLines, List<string> objectLines, List<string> unlinkedPieces)
-                GetPieceLinks(Level level, string selectedStyle)
+            GetPieceLinks(Level level, string selectedStyle)
         {
-            var pieceLinks = LoadStylePieceLinks(selectedStyle);
+            var pieceLinks = LoadAllPieceLinks();
 
             var terrainLines = new List<string>();
             var objectLines = new List<string>();
@@ -400,9 +401,12 @@ namespace SLXEditor
             {
                 string key = terrain.Key;
 
-                if (pieceLinks.TryGetValue(key, out int iniId))
+                if (pieceLinks.TryGetValue(key, out var link))
                 {
-                    var o = GetPieceOffsets(selectedStyle, key);
+                    string iniStyle = link.style;
+                    int iniId = link.iniId;
+
+                    var o = GetPieceOffsets(iniStyle, key);
 
                     (bool flip, bool invert, bool rotate, int rotation) =
                         (terrain.IsFlippedInPlayer,
@@ -426,7 +430,10 @@ namespace SLXEditor
                     if (!terrain.IsOneWay) flags |= 64;
                     if (terrain.IsRotatedInPlayer) flags |= 128;
 
-                    terrainLines.Add($"terrain_{terrainIndex} = {iniId},{x},{y},{flags}");
+                    bool isSameStyle = iniStyle.Equals(selectedStyle, StringComparison.OrdinalIgnoreCase);
+                    string styleSuffix = isSameStyle ? "" : $", {iniStyle.ToLowerInvariant()}";
+
+                    terrainLines.Add($"terrain_{terrainIndex} = {iniId}, {x}, {y}, {flags}{styleSuffix}");
                     terrainIndex++;
                 }
                 else
@@ -440,9 +447,12 @@ namespace SLXEditor
             {
                 string key = gadget.Key;
 
-                if (pieceLinks.TryGetValue(key, out int iniId))
+                if (pieceLinks.TryGetValue(key, out var link))
                 {
-                    var o = GetPieceOffsets(selectedStyle, key);
+                    string iniStyle = link.style;
+                    int iniId = link.iniId;
+
+                    var o = GetPieceOffsets(iniStyle, key);
 
                     (bool flip, bool invert, bool rotate, int rotation) =
                         (gadget.IsFlippedInPlayer,
@@ -465,7 +475,12 @@ namespace SLXEditor
                     if (gadget.IsFlippedInPlayer) flags |= 8;
                     if (gadget.IsRotatedInPlayer) flags |= 16;
 
-                    objectLines.Add($"object_{objectIndex} = {iniId},{x},{y},{paintMode},{flags}");
+                    int modifier = (gadget.IsFlippedInPlayer && gadget.ObjType == C.OBJ.HATCH) ? 1 : 0;
+
+                    bool isSameStyle = iniStyle.Equals(selectedStyle, StringComparison.OrdinalIgnoreCase);
+                    string styleSuffix = isSameStyle ? "" : $", {iniStyle.ToLowerInvariant()}";
+
+                    objectLines.Add($"object_{objectIndex} = {iniId}, {x}, {y}, {paintMode}, {flags}, {modifier}{styleSuffix}");
                     objectIndex++;
                 }
                 else
