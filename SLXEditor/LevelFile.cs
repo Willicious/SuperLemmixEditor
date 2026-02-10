@@ -30,7 +30,7 @@ namespace SLXEditor
                 openFileDialog.InitialDirectory = Directory.Exists(C.AppPathLevels) ? C.AppPathLevels : C.AppPath;
             }
             openFileDialog.Multiselect = false;
-            openFileDialog.Filter = "SuperLemmix (.sxlv)|*.sxlv|NeoLemmix (.nxlv)|*.nxlv|All Levels|*.sxlv;*.nxlv";
+            openFileDialog.Filter = "All Levels|*.sxlv;*.nxlv|SuperLemmix (.sxlv)|*.sxlv|NeoLemmix (.nxlv)|*.nxlv";
             openFileDialog.RestoreDirectory = true;
             openFileDialog.CheckFileExists = true;
 
