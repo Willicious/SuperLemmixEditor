@@ -132,6 +132,7 @@ namespace SLXEditor
                     {
                         // Load
                         Level level = LevelFile.LoadLevelFromFile(file, MainForm.StyleList, MainForm.Backgrounds);
+                        Exporter.UngroupAllPiecesForExport(level);
 
                         // Update extension
                         String ext = chosenExt;
