@@ -146,7 +146,9 @@ namespace SLXEditor
                                 continue;
                             }
 
-                            Exporter.ExportLevelToIni(level, selectedStyle, Path.ChangeExtension(file, ext));
+                            var result = Exporter.ExportLevelToIni(level, selectedStyle, Path.ChangeExtension(file, ext));
+                            if (result.UnlinkedPieces.Count > 0)
+                                failedExports.Add(Tuple.Create(file, $" - error: contains unlinked style pieces"));
                         }
                         // Save as SXLV/NXLV (this is essentially CleanseLevels without the reporting)
                         else
@@ -194,7 +196,7 @@ namespace SLXEditor
 
             if (failedExports.Count > 0)
             {
-                string reportPath = Path.Combine(C.AppPath, "BatchExportErrors.txt");
+                string reportPath = Path.Combine(C.AppPathLevels, "BatchExportErrors.txt");
 
                 var lines = new List<string>();
 
@@ -208,7 +210,7 @@ namespace SLXEditor
                 System.IO.File.WriteAllLines(reportPath, lines);
 
                 MessageBox.Show(
-                    "Some levels failed to export.\n\n" +
+                    "Some levels may not have exported correctly.\n\n" +
                     $"A report has been saved to:\n{reportPath}",
                     "Batch Export Completed with Errors",
                     MessageBoxButtons.OK,
