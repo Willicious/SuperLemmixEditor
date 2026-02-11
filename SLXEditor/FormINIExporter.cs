@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SLXEditor
@@ -392,6 +393,10 @@ namespace SLXEditor
                 var selectedItem = listViewPieceLinks.SelectedItems[0];
                 selectedItem.SubItems[1].Text = iniId.ToString();
 
+                // Show style in brackets when it differs from main style
+                if (!styleName.Equals(comboStyles.Text, StringComparison.OrdinalIgnoreCase) && !string.IsNullOrEmpty(styleName))
+                    selectedItem.SubItems[1].Text += $" ({char.ToUpper(styleName[0]) + styleName.Substring(1)})";
+
                 SelectNextUnlinkedPiece(selectedItem.Index);
             }
 
@@ -422,7 +427,7 @@ namespace SLXEditor
             if (sectionIndex == -1)
             {
                 lines.Add("");
-                lines.Add($"[{styleName}]");
+                lines.Add($"[{char.ToUpper(styleName[0]) + styleName.Substring(1)}]");
                 sectionIndex = lines.Count - 1;
             }
 
@@ -487,9 +492,17 @@ namespace SLXEditor
             string pieceKey = selectedItem.Tag as string;
             if (string.IsNullOrEmpty(pieceKey)) return;
 
-            if (comboStyles.SelectedItem == null) return;
-            string styleName = comboStyles.SelectedItem.ToString();
-            int iniId = Decimal.ToInt32(numLinkedPieceID.Value);
+            string styleName = Path.GetFileName(Path.GetDirectoryName(Path.Combine(C.AppPathPieces, pieceKey)));
+
+            string filename = Path.GetFileNameWithoutExtension(pieceKey);
+            var idMatch = Regex.Match(filename, @"(\d+)$");
+            if (!idMatch.Success)
+            {
+                MessageBox.Show("Cannot determine ID from piece key.");
+                return;
+            }
+
+            int iniId = int.Parse(idMatch.Groups[1].Value);
 
             LinkPiece(pieceKey, styleName, iniId);
         }
@@ -509,22 +522,22 @@ namespace SLXEditor
 
                 if (ofd.ShowDialog() != DialogResult.OK) return;
 
+                string pieceFolder = Path.GetDirectoryName(ofd.FileName);
                 string filename = Path.GetFileNameWithoutExtension(ofd.FileName);
-                var match = System.Text.RegularExpressions.Regex.Match(filename, @"\d+");
-                if (!match.Success)
+
+                string styleName = Path.GetFileName(pieceFolder);
+
+                var idMatch = Regex.Match(filename, @"(\d+)$");
+                if (!idMatch.Success)
                 {
-                    MessageBox.Show("Could not determine ID from filename.", "Error",
+                    MessageBox.Show("Cannot determine ID from selected file.", "Error",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                int iniId = int.Parse(match.Value);
-
-                if (comboStyles.SelectedItem == null) return;
-                string styleName = comboStyles.SelectedItem.ToString();
-
-                string pieceFolder = Path.GetDirectoryName(ofd.FileName);
+                int iniId = int.Parse(idMatch.Groups[1].Value);
                 string iniPiecePath = ofd.FileName;
+
                 LinkPiece(pieceKey, styleName, iniId, pieceFolder, iniPiecePath);
             }
         }
