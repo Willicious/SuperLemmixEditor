@@ -224,8 +224,7 @@ namespace SLXEditor
             string newStyle = Microsoft.VisualBasic.Interaction.InputBox(
                 "To add a style to the dropdown list, please type the style name here."
                 + Environment.NewLine + Environment.NewLine +
-                "Note that the style should be Lemmini-compatible, and the name should" +
-                "be written exactly as it would appear in a .ini level file.",
+                "Note that the style should be RetroLemmini-compatible.",
                 "Add New Style",
                 "");
 
