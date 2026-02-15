@@ -1246,7 +1246,7 @@ Ladderer=10";
             }
         }
 
-        private void ShowCleanseLevelsDialog()
+        private async void ShowCleanseLevelsDialog()
         {
             using (var folderBrowserDialog = new FolderBrowserDialog())
             {
@@ -1257,7 +1257,7 @@ Ladderer=10";
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
                 {
-                    CleanseLevels(folderBrowserDialog.SelectedPath);
+                    await CleanseLevels(folderBrowserDialog.SelectedPath);
                 }
             }
         }
@@ -1300,7 +1300,7 @@ Ladderer=10";
         /// <summary>
         /// Opens and saves all level files in a directory in order to ensure compatibility and update the file
         /// </summary>
-        public async void CleanseLevels(String targetFolder)
+        public async Task CleanseLevels(String targetFolder)
         {
             if (string.IsNullOrEmpty(targetFolder))
             {
@@ -1344,7 +1344,7 @@ Ladderer=10";
             using (FormProgress progressForm = new FormProgress())
             {
                 progressForm.ProgressBar.Maximum = files.Length;
-                progressForm.Show();
+                progressForm.Show(this);
 
                 for (int index = 0; index < files.Length; index++)
                 {
