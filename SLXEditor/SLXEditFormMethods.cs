@@ -567,8 +567,8 @@ Ladderer=10";
                 check_Lvl_TimeLimit.Checked = CurLevel.HasTimeLimit;
                 check_Lvl_Superlemming.Checked = CurLevel.IsSuperlemming;
                 check_Lvl_Invincibility.Checked = CurLevel.IsInvincibility;
-                radAlwaysSteel.Checked = (CurLevel.SteelType >= 1) && !radOnlyWhenVisible.Checked;
-                radOnlyWhenVisible.Checked = (CurLevel.SteelType <= 0) && !radAlwaysSteel.Checked;
+                radAlwaysSteel.Checked = CurLevel.SteelType >= 1;
+                radOnlyWhenVisible.Checked = CurLevel.SteelType <= 0;
 
                 txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
 
