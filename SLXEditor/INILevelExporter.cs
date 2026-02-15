@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace SLXEditor
 {
@@ -196,7 +194,7 @@ namespace SLXEditor
             ini.NumLemmings = level.NumLems;
             ini.NumToRescue = level.SaveReq;
             ini.TimeLimitSeconds = level.TimeLimit;
-            ini.ReleaseRate = level.ReleaseRate;
+            ini.ReleaseRate = (2 * level.ReleaseRate) - 99;
 
             // Skills
             ini.NumClimbers = GetSkill(level, C.Skill.Climber);
