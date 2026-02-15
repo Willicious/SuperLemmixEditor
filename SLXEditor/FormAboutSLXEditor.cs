@@ -36,7 +36,7 @@ namespace SLXEditor
             lblPreviousUpdates.Left = GetCenter(lblPreviousUpdates);
             WritePreviousUpdatesText();
 
-            lblSuperLemmixEditor.Text = $"SuperLemmix Editor (Version {C.Version}-beta)";
+            lblSuperLemmixEditor.Text = $"SuperLemmix Editor (Version {C.Version})";
             lblSuperLemmixEditor.Top = richTextBox_PreviousUpdates.Bottom + padding;
             lblSuperLemmixEditor.Left = GetCenter(lblSuperLemmixEditor);
 
@@ -99,9 +99,9 @@ namespace SLXEditor
             var richTextBox = richTextBox_WhatsNew;
             richTextBox.Clear();
 
-            // Test version text
-            WriteBoldText(richTextBox, "This version of the Editor is for test purposes only!\n");
-            richTextBox.AppendText("Please do not distribute it publicly as stability cannot be guaranteed. Thanks\n\n");
+            //// Test version text
+            //WriteBoldText(richTextBox, "This version of the Editor is for test purposes only!\n");
+            //richTextBox.AppendText("Please do not distribute it publicly as stability cannot be guaranteed. Thanks\n\n");
 
             // =======================
             // Latest Version Features
@@ -109,22 +109,37 @@ namespace SLXEditor
             // =======================
 
             WriteBoldText(richTextBox, $"================ Version {C.Version} Updates ================\n");
+
+            WriteBoldText(richTextBox, "\n• INI Exporter/Batch Exporter\n");
+            richTextBox.AppendText(" • Exporting now supports mixed tilesets (as long as each level piece is linked to a corresponding RetroLemmini style piece in SLXEditorTranslationTables.ini)\n");
+            richTextBox.AppendText(" • Batch Export reports unlinked pieces (on a per-level basis)\n");
+            richTextBox.AppendText(" • Batch Export Bugfix - Grouped pieces are ungrouped before exporting (original level is not affected)\n");
+            richTextBox.AppendText(" • When adding a piece link in the INI Exporter, if the translation table for the selected piece doesn't exist, it is created automatically\n");
+            richTextBox.AppendText(" • Release Rate is converted to RetroLemmini-compatible value when exporting\n");
+
+            WriteBoldText(richTextBox, "\n• SuperLemmix-Specific Format (.sxlv)\n");
+            richTextBox.AppendText(" • File browser defaults to 'All Levels' (as opposed to .sxlv) when opening a level\n");
+
+            WriteBoldText(richTextBox, "\n• Cleanse Levels\n");
+            richTextBox.AppendText(" • Bugfix - Cleansing to existing ext (.nxlv/.sxlv) no longer throws an exception\n");
+            richTextBox.AppendText(" • Bugfix - Progress form is linked to main form and kept on top. This is to prevent unhandled exceptions when focusing a different app during a cleanse\n");
+            richTextBox.AppendText(" • Highlight erasers/groups is disabled when cleansing (it must be manually re-enabled afterwards if necessary)\n");
+
+            WriteBoldText(richTextBox, "\n• Bugfixes\n");
+            richTextBox.AppendText(" • 'Steel Type' radio button is updated correctly when opening a level with Steel Type set to 'Always'\n");
+            richTextBox.AppendText(" • 'Save As Image' sanitizes invalid characters when saving\n");
+
+            // =======================
+            // All Features
+            // =======================
+            WriteBoldText(richTextBox, $"\n\n================ Previous Updates ================\n");
+
             WriteBoldText(richTextBox, "\n• Piece Browser\n");
             richTextBox.AppendText(" • Added a 'Random' button to the Piece Browser which, when clicked, randomized the piece style selection. It's possible to specify which styles are Randomized in the Style Manager; if no styles are specified, the entire list is randomized\n");
 
             WriteBoldText(richTextBox, "\n• Default Author Name\n");
             richTextBox.AppendText(" • Added a setting which automatically applies a default author name when a new level is created\n");
 
-            WriteBoldText(richTextBox, "\n• Bugfixes\n");
-            richTextBox.AppendText(" • No Overwrite checkbox is once again available for all pieces (except Rulers)\n");
-            richTextBox.AppendText(" • Fixed incremental indenting of terrain pieces in level file\n");
-            richTextBox.AppendText(" • All settings are now externalized to SLXEditorSettings.ini\n");
-
-            // =======================
-            // All Features
-            // =======================
-            WriteBoldText(richTextBox, $"\n\n================ Previous Updates ================\n");
-            
             WriteBoldText(richTextBox, "\n• New SuperLemmix-Specific Format (.sxlv)\n");
             richTextBox.AppendText(" • It's now possible to file-associate SuperLemmix levels with the SuperLemmix Editor, and NeoLemmix Levels with the NeoLemmix Editor. The SuperLemmix Format (.sxlv) will always be preferred as the default format unless NeoLemmix Mode is active. You can still choose to save to .nxlv as long as the level does not contain any SuperLemmix-specific features\n");
 
@@ -174,6 +189,9 @@ namespace SLXEditor
             richTextBox.AppendText(" • Improved layout of piece data & 'Load Style' button in Pieces tab\n");
 
             WriteBoldText(richTextBox, "\n• Bugfixes\n");
+            richTextBox.AppendText(" • No Overwrite checkbox is once again available for all pieces (except Rulers)\n");
+            richTextBox.AppendText(" • Fixed incremental indenting of terrain pieces in level file\n");
+            richTextBox.AppendText(" • All settings are now externalized to SLXEditorSettings.ini\n");
             richTextBox.AppendText(" • Combos are now correctly refreshed when changing levels\n");
             richTextBox.AppendText(" • Music list now searches recursively in subfolders of 'music'\n");
             richTextBox.AppendText(" • NeoLemmix levels are marked as such when saving\n");
@@ -185,6 +203,8 @@ namespace SLXEditor
             richTextBox.AppendText(" • Cursor is correctly reset when clicking status bar buttons\n");
             richTextBox.AppendText(" • The Editor now closes if the 'styles' folder cannot be found\n");
             richTextBox.AppendText(" • Many other general improvements, typo fixes, tweaks, spit and polish\n");
+
+            WriteBoldText(richTextBox, $"\n\n================ NLEditor -> SLXEditor Updates ================\n");
 
             // =======================
             // Piece Browser
