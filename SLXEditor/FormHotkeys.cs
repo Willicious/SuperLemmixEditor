@@ -263,14 +263,6 @@ namespace SLXEditor
             UpdateCaption();
         }
 
-        private void btnLoadClassic_Click(object sender, EventArgs e)
-        {
-            HotkeyConfig.GetClassicHotkeys();
-            LoadHotkeysToListView();
-            ResetUI();
-            UpdateCaption();
-        }
-
         private void btnSave_Click(object sender, EventArgs e)
         {
             WriteToHotkeyConfig();

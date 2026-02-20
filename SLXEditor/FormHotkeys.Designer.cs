@@ -58,7 +58,6 @@
             this.lblEditedSaved = new System.Windows.Forms.Label();
             this.lblListening = new System.Windows.Forms.Label();
             this.focusText = new System.Windows.Forms.TextBox();
-            this.btnLoadClassic = new System.Windows.Forms.Button();
             this.panelSizing = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
@@ -136,7 +135,7 @@
             // 
             this.btnClearAllKeys.Location = new System.Drawing.Point(720, 548);
             this.btnClearAllKeys.Name = "btnClearAllKeys";
-            this.btnClearAllKeys.Size = new System.Drawing.Size(120, 52);
+            this.btnClearAllKeys.Size = new System.Drawing.Size(183, 52);
             this.btnClearAllKeys.TabIndex = 7;
             this.btnClearAllKeys.Text = "Clear All";
             this.btnClearAllKeys.UseVisualStyleBackColor = true;
@@ -144,9 +143,9 @@
             // 
             // btnLoadDefault
             // 
-            this.btnLoadDefault.Location = new System.Drawing.Point(846, 548);
+            this.btnLoadDefault.Location = new System.Drawing.Point(917, 548);
             this.btnLoadDefault.Name = "btnLoadDefault";
-            this.btnLoadDefault.Size = new System.Drawing.Size(128, 52);
+            this.btnLoadDefault.Size = new System.Drawing.Size(183, 52);
             this.btnLoadDefault.TabIndex = 8;
             this.btnLoadDefault.Text = "Load Default";
             this.btnLoadDefault.UseVisualStyleBackColor = true;
@@ -366,16 +365,6 @@
             this.focusText.Size = new System.Drawing.Size(100, 26);
             this.focusText.TabIndex = 27;
             // 
-            // btnLoadClassic
-            // 
-            this.btnLoadClassic.Location = new System.Drawing.Point(980, 548);
-            this.btnLoadClassic.Name = "btnLoadClassic";
-            this.btnLoadClassic.Size = new System.Drawing.Size(120, 52);
-            this.btnLoadClassic.TabIndex = 28;
-            this.btnLoadClassic.Text = "Load Classic";
-            this.btnLoadClassic.UseVisualStyleBackColor = true;
-            this.btnLoadClassic.Click += new System.EventHandler(this.btnLoadClassic_Click);
-            // 
             // panelSizing
             // 
             this.panelSizing.Location = new System.Drawing.Point(695, 651);
@@ -390,7 +379,6 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1128, 785);
-            this.Controls.Add(this.btnLoadClassic);
             this.Controls.Add(this.lblEditedSaved);
             this.Controls.Add(this.lblDuplicateDetected);
             this.Controls.Add(this.lblEditingKey);
@@ -466,7 +454,6 @@
         private System.Windows.Forms.Label lblEditedSaved;
         private System.Windows.Forms.Label lblListening;
         private System.Windows.Forms.TextBox focusText;
-        private System.Windows.Forms.Button btnLoadClassic;
         private System.Windows.Forms.Panel panelSizing;
     }
 }
