@@ -2,130 +2,436 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SLXEditor
 {
     public class HotkeyConfig
     {
-        public static Keys HotkeyCreateNewLevel;
-        public static Keys HotkeyLoadLevel;
-        public static Keys HotkeySaveLevel;
-        public static Keys HotkeySaveLevelAs;
-        public static Keys HotkeySaveLevelAsImage;
-        public static Keys HotkeyExportLevelAsINI;
-        public static Keys HotkeyPlaytestLevel;
-        public static Keys HotkeyValidateLevel;
-        public static Keys HotkeyCleanseLevels;
-        public static Keys HotkeyHighlightGroupedPieces;
-        public static Keys HotkeyHighlightEraserPieces;
-        public static Keys HotkeyToggleClearPhysics;
-        public static Keys HotkeyToggleTerrain;
-        public static Keys HotkeyToggleObjects;
-        public static Keys HotkeyToggleTriggerAreas;
-        public static Keys HotkeyToggleRulers;
-        public static Keys HotkeyToggleScreenStart;
-        public static Keys HotkeyToggleBackground;
-        public static Keys HotkeyToggleDeprecatedPieces;
-        public static Keys HotkeyPieceSearch;
-        public static Keys HotkeyShowMissingPieces;
-        public static Keys HotkeyRefreshStyles;
-        public static Keys HotkeyOpenStyleManager;
-        public static Keys HotkeyToggleSnapToGrid;
-        public static Keys HotkeyOpenLevelArrangerWindow;
-        public static Keys HotkeyOpenPieceBrowserWindow;
-        public static Keys HotkeyToggleAllTabs;
-        public static Keys HotkeyOpenSettings;
-        public static Keys HotkeyOpenConfigHotkeys;
-        public static Keys HotkeyOpenAboutSLX;
-        public static Keys HotkeySelectPieces;
-        public static Keys HotkeyDragToScroll;
-        public static Keys HotkeyDragHorizontally;
-        public static Keys HotkeyDragVertically;
-        public static Keys HotkeyMoveScreenStart;
-        public static Keys HotkeySetScreenStartToCursor;
-        public static Keys HotkeyRemovePiecesAtCursor;
-        public static Keys HotkeyAddRemoveSinglePiece;
-        public static Keys HotkeySelectPiecesBelow;
-        public static Keys HotkeyZoomIn;
-        public static Keys HotkeyZoomOut;
-        public static Keys HotkeyScrollHorizontally;
-        public static Keys HotkeyScrollVertically;
-        public static Keys HotkeyShowPreviousPiece;
-        public static Keys HotkeyShowNextPiece;
-        public static Keys HotkeyShowPreviousGroup;
-        public static Keys HotkeyShowNextGroup;
-        public static Keys HotkeyShowPreviousStyle;
-        public static Keys HotkeyShowNextStyle;
-        public static Keys HotkeyCycleBrowser;
-        public static Keys HotkeyAddPiece1;
-        public static Keys HotkeyAddPiece2;
-        public static Keys HotkeyAddPiece3;
-        public static Keys HotkeyAddPiece4;
-        public static Keys HotkeyAddPiece5;
-        public static Keys HotkeyAddPiece6;
-        public static Keys HotkeyAddPiece7;
-        public static Keys HotkeyAddPiece8;
-        public static Keys HotkeyAddPiece9;
-        public static Keys HotkeyAddPiece10;
-        public static Keys HotkeyAddPiece11;
-        public static Keys HotkeyAddPiece12;
-        public static Keys HotkeyAddPiece13;
-        public static Keys HotkeyUndo;
-        public static Keys HotkeyRedo;
-        public static Keys HotkeySelectAll;
-        public static Keys HotkeyCut;
-        public static Keys HotkeyCopy;
-        public static Keys HotkeyPaste;
-        public static Keys HotkeyPasteInPlace;
-        public static Keys HotkeyDuplicate;
-        public static Keys HotkeyDuplicateUp;
-        public static Keys HotkeyDuplicateDown;
-        public static Keys HotkeyDuplicateLeft;
-        public static Keys HotkeyDuplicateRight;
-        public static Keys HotkeyDelete;
-        public static Keys HotkeyMoveUp;
-        public static Keys HotkeyMoveDown;
-        public static Keys HotkeyMoveLeft;
-        public static Keys HotkeyMoveRight;
-        public static Keys HotkeyGridMoveUp;
-        public static Keys HotkeyGridMoveDown;
-        public static Keys HotkeyGridMoveLeft;
-        public static Keys HotkeyGridMoveRight;
-        public static Keys HotkeyCustomMoveUp;
-        public static Keys HotkeyCustomMoveDown;
-        public static Keys HotkeyCustomMoveLeft;
-        public static Keys HotkeyCustomMoveRight;
-        public static Keys HotkeyRotate;
-        public static Keys HotkeyFlip;
-        public static Keys HotkeyInvert;
-        public static Keys HotkeyGroup;
-        public static Keys HotkeyUngroup;
-        public static Keys HotkeyErase;
-        public static Keys HotkeyNoOverwrite;
-        public static Keys HotkeyOnlyOnTerrain;
-        public static Keys HotkeyAllowOneWay;
-        public static Keys HotkeyDrawLast;
-        public static Keys HotkeyDrawSooner;
-        public static Keys HotkeyDrawLater;
-        public static Keys HotkeyDrawFirst;
-        public static Keys HotkeyCloseEditor;
-
-        // For mandatory mouse hotkeys
-        public static readonly List<string> mandatoryMouseHotkeyText = new List<string>
+        public enum HotkeyName
         {
-            "HotkeySelectPieces",
-            "HotkeyDragToScroll",
-            "HotkeyDragHorizontally",
-            "HotkeyDragVertically",
-            "HotkeyAddRemoveSinglePiece",
-            "HotkeyRemovePiecesAtCursor",
-            "HotkeySelectPiecesBelow"
+            HotkeyCreateNewLevel,
+            HotkeyLoadLevel,
+            HotkeySaveLevel,
+            HotkeySaveLevelAs,
+            HotkeySaveLevelAsImage,
+            HotkeyExportLevelAsINI,
+            HotkeyPlaytestLevel,
+            HotkeyValidateLevel,
+            HotkeyCleanseLevels,
+            HotkeyHighlightGroupedPieces,
+            HotkeyHighlightEraserPieces,
+            HotkeyToggleClearPhysics,
+            HotkeyToggleTerrain,
+            HotkeyToggleObjects,
+            HotkeyToggleTriggerAreas,
+            HotkeyToggleRulers,
+            HotkeyToggleScreenStart,
+            HotkeyToggleBackground,
+            HotkeyToggleDeprecatedPieces,
+            HotkeyPieceSearch,
+            HotkeyShowMissingPieces,
+            HotkeyRefreshStyles,
+            HotkeyOpenStyleManager,
+            HotkeyToggleSnapToGrid,
+            HotkeyOpenLevelArrangerWindow,
+            HotkeyOpenPieceBrowserWindow,
+            HotkeyToggleAllTabs,
+            HotkeyOpenSettings,
+            HotkeyOpenConfigHotkeys,
+            HotkeyOpenAboutSLX,
+            HotkeySelectPieces,
+            HotkeyDragToScroll,
+            HotkeyDragHorizontally,
+            HotkeyDragVertically,
+            HotkeyMoveScreenStart,
+            HotkeySetScreenStartToCursor,
+            HotkeyRemovePiecesAtCursor,
+            HotkeyAddRemoveSinglePiece,
+            HotkeySelectPiecesBelow,
+            HotkeyZoomIn,
+            HotkeyZoomOut,
+            HotkeyScrollHorizontally,
+            HotkeyScrollVertically,
+            HotkeyShowPreviousPiece,
+            HotkeyShowNextPiece,
+            HotkeyShowPreviousGroup,
+            HotkeyShowNextGroup,
+            HotkeyShowPreviousStyle,
+            HotkeyShowNextStyle,
+            HotkeyCycleBrowser,
+            HotkeyAddPiece1,
+            HotkeyAddPiece2,
+            HotkeyAddPiece3,
+            HotkeyAddPiece4,
+            HotkeyAddPiece5,
+            HotkeyAddPiece6,
+            HotkeyAddPiece7,
+            HotkeyAddPiece8,
+            HotkeyAddPiece9,
+            HotkeyAddPiece10,
+            HotkeyAddPiece11,
+            HotkeyAddPiece12,
+            HotkeyAddPiece13,
+            HotkeyUndo,
+            HotkeyRedo,
+            HotkeySelectAll,
+            HotkeyCut,
+            HotkeyCopy,
+            HotkeyPaste,
+            HotkeyPasteInPlace,
+            HotkeyDuplicate,
+            HotkeyDuplicateUp,
+            HotkeyDuplicateDown,
+            HotkeyDuplicateLeft,
+            HotkeyDuplicateRight,
+            HotkeyDelete,
+            HotkeyMoveUp,
+            HotkeyMoveDown,
+            HotkeyMoveLeft,
+            HotkeyMoveRight,
+            HotkeyGridMoveUp,
+            HotkeyGridMoveDown,
+            HotkeyGridMoveLeft,
+            HotkeyGridMoveRight,
+            HotkeyCustomMoveUp,
+            HotkeyCustomMoveDown,
+            HotkeyCustomMoveLeft,
+            HotkeyCustomMoveRight,
+            HotkeyRotate,
+            HotkeyFlip,
+            HotkeyInvert,
+            HotkeyGroup,
+            HotkeyUngroup,
+            HotkeyErase,
+            HotkeyNoOverwrite,
+            HotkeyOnlyOnTerrain,
+            HotkeyAllowOneWay,
+            HotkeyDrawLast,
+            HotkeyDrawSooner,
+            HotkeyDrawLater,
+            HotkeyDrawFirst,
+            HotkeyCloseEditor
+        }
+
+        public static readonly List<HotkeyData> AllHotkeys = new List<HotkeyData>
+        { 
+            new HotkeyData(HotkeyName.HotkeyCreateNewLevel,
+                "Create New Level",
+                Keys.Control | Keys.N),
+            new HotkeyData(HotkeyName.HotkeyLoadLevel,
+                "Load Level",
+                Keys.Control | Keys.O),
+            new HotkeyData(HotkeyName.HotkeySaveLevel,
+                "Save Level",
+                Keys.Control | Keys.S),
+            new HotkeyData(HotkeyName.HotkeySaveLevelAs,
+                "Save Level As",
+                Keys.Control | Keys.Shift | Keys.S),
+            new HotkeyData(HotkeyName.HotkeySaveLevelAsImage,
+                "Save Level As Image",
+                Keys.Control | Keys.Alt | Keys.S),
+            new HotkeyData(HotkeyName.HotkeyExportLevelAsINI,
+                "Export Level As INI",
+                Keys.Control | Keys.I),
+            new HotkeyData(HotkeyName.HotkeyPlaytestLevel,
+                "Playtest Level",
+                Keys.F12),
+            new HotkeyData(HotkeyName.HotkeyValidateLevel,
+                "Validate Level",
+                Keys.Control | Keys.F12),
+            new HotkeyData(HotkeyName.HotkeyCleanseLevels,
+                "Cleanse Levels",
+                Keys.Control | Keys.Shift | Keys.F12),
+            new HotkeyData(HotkeyName.HotkeyHighlightGroupedPieces,
+                "Highlight Grouped Pieces",
+                Keys.Control | Keys.G),
+            new HotkeyData(HotkeyName.HotkeyHighlightEraserPieces,
+                "Highlight Eraser Pieces",
+                Keys.Control | Keys.E),
+            new HotkeyData(HotkeyName.HotkeyToggleClearPhysics,
+                "Toggle Clear Physics",
+                Keys.F1),
+            new HotkeyData(HotkeyName.HotkeyToggleTerrain,
+                "Toggle Terrain",
+                Keys.F2),
+            new HotkeyData(HotkeyName.HotkeyToggleObjects,
+                "Toggle Objects",
+                Keys.F3),
+            new HotkeyData(HotkeyName.HotkeyToggleTriggerAreas,
+                "Toggle Trigger Areas",
+                Keys.F4),
+            new HotkeyData(HotkeyName.HotkeyToggleRulers,
+                "Toggle Rulers",
+                Keys.Control | Keys.F4),
+            new HotkeyData(HotkeyName.HotkeyToggleScreenStart,
+                "Toggle Screen Start",
+                Keys.F5),
+            new HotkeyData(HotkeyName.HotkeyToggleBackground,
+                "Toggle Background",
+                Keys.F6),
+            new HotkeyData(HotkeyName.HotkeyToggleDeprecatedPieces,
+                "Toggle Deprecated Pieces",
+                Keys.F7),
+            new HotkeyData(HotkeyName.HotkeyPieceSearch,
+                "Open Piece Search",
+                Keys.F8),
+            new HotkeyData(HotkeyName.HotkeyShowMissingPieces,
+                "Show Missing Pieces",
+                Keys.Control | Keys.F8),
+            new HotkeyData(HotkeyName.HotkeyRefreshStyles,
+                "Refresh Styles",
+                Keys.Control | Keys.Shift | Keys.F8),
+            new HotkeyData(HotkeyName.HotkeyOpenStyleManager,
+                "Open Style Manager",
+                Keys.Control | Keys.Alt | Keys.F8),
+            new HotkeyData(HotkeyName.HotkeyToggleSnapToGrid,
+                "Toggle Snap To Grid",
+                Keys.F9),
+            new HotkeyData(HotkeyName.HotkeyOpenLevelArrangerWindow,
+                "Open Level Arranger Window",
+                Keys.Control | Keys.F9),
+            new HotkeyData(HotkeyName.HotkeyOpenPieceBrowserWindow,
+                "Open Piece Browser Window",
+                Keys.Control | Keys.Shift | Keys.F9),
+            new HotkeyData(HotkeyName.HotkeyToggleAllTabs,
+                "Toggle Expand All Tabs",
+                Keys.Control | Keys.F10),
+            new HotkeyData(HotkeyName.HotkeyOpenSettings,
+                "Open Settings",
+                Keys.F10),
+            new HotkeyData(HotkeyName.HotkeyOpenConfigHotkeys,
+                "Open Hotkey Config",
+                Keys.F11),
+            new HotkeyData(HotkeyName.HotkeyOpenAboutSLX,
+                "Open About",
+                Keys.Control | Keys.F11),
+            new HotkeyData(HotkeyName.HotkeySelectPieces,
+                "Select/Drag Pieces",
+                Keys.LButton,
+                true),
+            new HotkeyData(HotkeyName.HotkeyDragToScroll,
+                "Drag To Scroll",
+                Keys.RButton,
+                true),
+            new HotkeyData(HotkeyName.HotkeyDragHorizontally,
+                "Drag Horizontally",
+                Keys.Control | Keys.Alt | Keys.LButton,
+                true),
+            new HotkeyData(HotkeyName.HotkeyDragVertically,
+                "Drag Vertically",
+                Keys.Control | Keys.Shift | Keys.LButton,
+                true),
+            new HotkeyData(HotkeyName.HotkeyMoveScreenStart,
+                "Move Screen Start",
+                Keys.P),
+            new HotkeyData(HotkeyName.HotkeySetScreenStartToCursor,
+                "Set Screen Start To Cursor",
+                Keys.L),
+            new HotkeyData(HotkeyName.HotkeyRemovePiecesAtCursor,
+                "Remove Pieces At Cursor",
+                Keys.MButton,
+                true),
+            new HotkeyData(HotkeyName.HotkeyAddRemoveSinglePiece,
+                "Add/Remove Single Piece To/From Selection",
+                Keys.Control | Keys.LButton,
+                true),
+            new HotkeyData(HotkeyName.HotkeySelectPiecesBelow,
+                "Select Pieces Below Current Piece Under Cursor",
+                Keys.Alt | Keys.LButton,
+                true),
+            new HotkeyData(HotkeyName.HotkeyZoomIn,
+                "Zoom In",
+                Keys.Oemplus),
+            new HotkeyData(HotkeyName.HotkeyZoomOut,
+                "Zoom Out",
+                Keys.OemMinus),
+            new HotkeyData(HotkeyName.HotkeyScrollHorizontally,
+                "Scroll Horizontally",
+                Keys.H),
+            new HotkeyData(HotkeyName.HotkeyScrollVertically,
+                "Scroll Vertically",
+                Keys.V),
+            new HotkeyData(HotkeyName.HotkeyShowPreviousPiece,
+                "Show Previous Piece in Piece Browser",
+                Keys.Shift | Keys.Left),
+            new HotkeyData(HotkeyName.HotkeyShowNextPiece,
+                "Show Next Piece in Piece Browser",
+                Keys.Shift | Keys.Right),
+            new HotkeyData(HotkeyName.HotkeyShowPreviousGroup,
+                "Show Previous Group in Piece Browser",
+                Keys.Shift | Keys.Alt | Keys.Left),
+            new HotkeyData(HotkeyName.HotkeyShowNextGroup,
+                "Show Next Group in Piece Browser",
+                Keys.Shift | Keys.Alt | Keys.Right),
+            new HotkeyData(HotkeyName.HotkeyShowPreviousStyle,
+                "Show Previous Style in Piece Browser",
+                Keys.Shift | Keys.Up),
+            new HotkeyData(HotkeyName.HotkeyShowNextStyle,
+                "Show Next Style in Piece Browser",
+                Keys.Shift | Keys.Down),
+            new HotkeyData(HotkeyName.HotkeyCycleBrowser,
+                "Cycle Through Piece Browser Items (Terrain, Objects, etc)",
+                Keys.Space),
+            new HotkeyData(HotkeyName.HotkeyAddPiece1,
+                "Add Piece At Position 1 in Piece Browser",
+                Keys.D1),
+            new HotkeyData(HotkeyName.HotkeyAddPiece2,
+                "Add Piece At Position 2 in Piece Browser",
+                Keys.D2),
+            new HotkeyData(HotkeyName.HotkeyAddPiece3,
+                "Add Piece At Position 3 in Piece Browser",
+                Keys.D3),
+            new HotkeyData(HotkeyName.HotkeyAddPiece4,
+                "Add Piece At Position 4 in Piece Browser",
+                Keys.D4),
+            new HotkeyData(HotkeyName.HotkeyAddPiece5,
+                "Add Piece At Position 5 in Piece Browser",
+                Keys.D5),
+            new HotkeyData(HotkeyName.HotkeyAddPiece6,
+                "Add Piece At Position 6 in Piece Browser",
+                Keys.D6),
+            new HotkeyData(HotkeyName.HotkeyAddPiece7,
+                "Add Piece At Position 7 in Piece Browser",
+                Keys.D7),
+            new HotkeyData(HotkeyName.HotkeyAddPiece8,
+                "Add Piece At Position 8 in Piece Browser",
+                Keys.D8),
+            new HotkeyData(HotkeyName.HotkeyAddPiece9,
+                "Add Piece At Position 9 in Piece Browser",
+                Keys.D9),
+            new HotkeyData(HotkeyName.HotkeyAddPiece10,
+                "Add Piece At Position 10 in Piece Browser",
+                Keys.D0),
+            new HotkeyData(HotkeyName.HotkeyAddPiece11,
+                "Add Piece At Position 11 in Piece Browser",
+                Keys.NumPad1),
+            new HotkeyData(HotkeyName.HotkeyAddPiece12,
+                "Add Piece At Position 12 in Piece Browser",
+                Keys.NumPad2),
+            new HotkeyData(HotkeyName.HotkeyAddPiece13,
+                "Add Piece At Position 13 in Piece Browser",
+                Keys.NumPad3),
+            new HotkeyData(HotkeyName.HotkeyUndo,
+                "Undo",
+                Keys.Control | Keys.Z),
+            new HotkeyData(HotkeyName.HotkeyRedo,
+                "Redo",
+                Keys.Control | Keys.Y),
+            new HotkeyData(HotkeyName.HotkeySelectAll,
+                "Select All",
+                Keys.Control | Keys.A),
+            new HotkeyData(HotkeyName.HotkeyCut,
+                "Cut",
+                Keys.Control | Keys.X),
+            new HotkeyData(HotkeyName.HotkeyCopy,
+                "Copy",
+                Keys.Control | Keys.C),
+            new HotkeyData(HotkeyName.HotkeyPaste,
+                "Paste",
+                Keys.Control | Keys.V),
+            new HotkeyData(HotkeyName.HotkeyPasteInPlace,
+                "Paste-In-Place",
+                Keys.Control | Keys.Shift | Keys.V),
+            new HotkeyData(HotkeyName.HotkeyDuplicate,
+                "Duplicate-In-Place",
+                Keys.D),
+            new HotkeyData(HotkeyName.HotkeyDuplicateUp,
+                "Duplicate-Upwards",
+                Keys.Control | Keys.Alt | Keys.Up),
+            new HotkeyData(HotkeyName.HotkeyDuplicateDown,
+                "Duplicate-Downwards",
+                Keys.Control | Keys.Alt | Keys.Down),
+            new HotkeyData(HotkeyName.HotkeyDuplicateLeft,
+                "Duplicate-To-Left",
+                Keys.Control | Keys.Alt | Keys.Left),
+            new HotkeyData(HotkeyName.HotkeyDuplicateRight,
+                "Duplicate-To-Right",
+                Keys.Control | Keys.Alt | Keys.Right),
+            new HotkeyData(HotkeyName.HotkeyDelete,
+                "Delete",
+                Keys.Delete),
+            new HotkeyData(HotkeyName.HotkeyMoveUp,
+                "Move Up 1px",
+                Keys.Up),
+            new HotkeyData(HotkeyName.HotkeyMoveDown,
+                "Move Down 1px",
+                Keys.Down),
+            new HotkeyData(HotkeyName.HotkeyMoveLeft,
+                "Move Left 1px",
+                Keys.Left),
+            new HotkeyData(HotkeyName.HotkeyMoveRight,
+                "Move Right 1px",
+                Keys.Right),
+            new HotkeyData(HotkeyName.HotkeyGridMoveUp,
+                "Move Up by Grid Amount",
+                Keys.Control | Keys.Up),
+            new HotkeyData(HotkeyName.HotkeyGridMoveDown,
+                "Move Down by Grid Amount",
+                Keys.Control | Keys.Down),
+            new HotkeyData(HotkeyName.HotkeyGridMoveLeft,
+                "Move Left by Grid Amount",
+                Keys.Control | Keys.Left),
+            new HotkeyData(HotkeyName.HotkeyGridMoveRight,
+                "Move Right by Grid Amount",
+                Keys.Control | Keys.Right),
+            new HotkeyData(HotkeyName.HotkeyCustomMoveUp,
+                "Move Up by Custom Amount",
+                Keys.Alt | Keys.Up),
+            new HotkeyData(HotkeyName.HotkeyCustomMoveDown,
+                "Move Down by Custom Amount",
+                Keys.Alt | Keys.Down),
+            new HotkeyData(HotkeyName.HotkeyCustomMoveLeft,
+                "Move Left by Custom Amount",
+                Keys.Alt | Keys.Left),
+            new HotkeyData(HotkeyName.HotkeyCustomMoveRight,
+                "Move Right by Custom Amount",
+                Keys.Alt | Keys.Right),
+            new HotkeyData(HotkeyName.HotkeyRotate,
+                "Rotate Piece(s)",
+                Keys.R),
+            new HotkeyData(HotkeyName.HotkeyFlip,
+                "Flip Piece(s)",
+                Keys.F),
+            new HotkeyData(HotkeyName.HotkeyInvert,
+                "Invert Piece(s)",
+                Keys.I),
+            new HotkeyData(HotkeyName.HotkeyGroup,
+                "Group Selected Pieces",
+                Keys.G),
+            new HotkeyData(HotkeyName.HotkeyUngroup,
+                "Ungroup Selected Pieces",
+                Keys.U),
+            new HotkeyData(HotkeyName.HotkeyErase,
+                "Set Piece(s) As Erase",
+                Keys.E),
+            new HotkeyData(HotkeyName.HotkeyNoOverwrite,
+                "Set Piece(s) As No-Overwrite",
+                Keys.N),
+            new HotkeyData(HotkeyName.HotkeyOnlyOnTerrain,
+                "Set Piece(s) As Only-On-Terrain",
+                Keys.T),
+            new HotkeyData(HotkeyName.HotkeyAllowOneWay,
+                "Set Piece(s) As Allow-One-Way",
+                Keys.O),
+            new HotkeyData(HotkeyName.HotkeyDrawLast,
+                "Bring Piece(s) To Front",
+                Keys.Home),
+            new HotkeyData(HotkeyName.HotkeyDrawSooner,
+                "Bring Piece(s) Up One Layer",
+                Keys.PageUp),
+            new HotkeyData(HotkeyName.HotkeyDrawLater,
+                "Send Piece(s) Down One Layer",
+                Keys.PageDown),
+            new HotkeyData(HotkeyName.HotkeyDrawFirst,
+                "Send Piece(s) To Back",
+                Keys.End),
+            new HotkeyData(HotkeyName.HotkeyCloseEditor,
+                "Close Editor",
+                Keys.Alt | Keys.F4)
         };
 
-        public static readonly List<Keys> mandatoryMouseKeys = new List<Keys>
+        public static readonly List<Keys> MouseKeys = new List<Keys>
         {
             Keys.LButton,
             Keys.RButton,
@@ -135,9 +441,21 @@ namespace SLXEditor
         };
 
         public static readonly List<ListViewItem> mouseMandatoryItems = new List<ListViewItem>();
+        
+        public static bool DefaultHotkeysLoaded = false;
+        public static bool PlayerHotkeysLoaded = false;
 
-        public static bool defaultHotkeysLoaded = false;
-        public static bool playerHotkeysLoaded = false;
+        public static string FormatHotkeyString(HotkeyData hotkeyData)
+        {
+            if (hotkeyData == null) return "None";
+            return FormatHotkeyString(hotkeyData.CurrentKeys);
+        }
+
+        public static string FormatHotkeyString(HotkeyName name)
+        {
+            var hotkeyData = GetHotkey(name);
+            return FormatHotkeyString(hotkeyData);
+        }
         public static string FormatHotkeyString(Keys hotkey)
         {
             List<string> hotkeyParts = new List<string>();
@@ -251,63 +569,82 @@ namespace SLXEditor
 
         public static bool ValidateHotkeyIniFile(string[] lines, out string invalidKey)
         {
-            var seenKeys = new HashSet<string>();
             invalidKey = string.Empty;
-            bool foundHotkeySelectPieces = false;
+
+            // Track duplicates
+            var seenKeys = new HashSet<Keys>();
+
+            // Track required mouse keys existence
+            bool foundSelectPieces = false;
 
             foreach (var line in lines)
             {
-                // Extract the key-value pair
+                if (string.IsNullOrWhiteSpace(line) || line.StartsWith("["))
+                    continue;
+
                 var parts = line.Split('=');
-                if (parts.Length < 2) continue;
+                if (parts.Length != 2)
+                    continue;
 
-                var settingName = parts[0].Trim();
-                var key = parts[1].Trim();
+                string name = parts[0].Trim();
+                string key = parts[1].Trim();
 
-                // Check for "HotkeySelectPieces"
-                if (settingName == "HotkeySelectPieces")
+                // Skip "None"
+                if (string.Equals(key, "None", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                // Parse the key
+                Keys parsedKey = ParseHotkeyString(key);
+
+                // Lookup the hotkey
+                HotkeyData hotkey = AllHotkeys.FirstOrDefault(h => h.Name.ToString() == name);
+                if (hotkey == null)
                 {
-                    foundHotkeySelectPieces = true;
-                    if (key != "LButton") // Ensure it's specifically "LButton"
+                    invalidKey = $"Unknown hotkey '{name}'";
+                    return true;
+                }
+
+                // Special case for HotkeySelectPieces if needed
+                if (hotkey.Name == HotkeyName.HotkeySelectPieces)
+                {
+                    foundSelectPieces = true;
+                    Keys baseKey = parsedKey & ~Keys.Modifiers;
+                    if (baseKey != Keys.LButton)
                     {
                         invalidKey = $"HotkeySelectPieces must be LButton, but found '{key}'";
                         return true;
                     }
                 }
 
-                // Skip empty or "None" values
-                if (key == "None") continue;
-
-                var parsedKey = ParseHotkeyString(key);
-
-                // Check for invalid or disallowed keys
-                if (parsedKey == Keys.None || key.Contains("None") ||
+                // Disallow invalid or modifier-only keys
+                if (parsedKey == Keys.None ||
                     parsedKey == Keys.Control || parsedKey == Keys.Shift || parsedKey == Keys.Alt ||
                     (parsedKey & (Keys.Control | Keys.Shift | Keys.Alt)) == parsedKey)
                 {
-                    invalidKey = key.Length > 100 ? key.Substring(0, 100) + "..." : key;
+                    invalidKey = $"Invalid key '{key}'";
                     return true;
                 }
 
                 // Check for duplicate keys
-                if (!seenKeys.Add(key))
+                if (!seenKeys.Add(parsedKey))
                 {
-                    invalidKey = key.Length > 100 ? key.Substring(0, 100) + "..." : key;
+                    invalidKey = $"Duplicate key '{key}'";
                     return true;
                 }
 
-                // Check for mandatory mouse keys
-                Keys baseKey = parsedKey & ~Keys.Modifiers;
-
-                if (mandatoryMouseHotkeyText.Contains(settingName) && !mandatoryMouseKeys.Contains(baseKey))
+                // Check for mandatory mouse buttons
+                if (hotkey.RequiresMouseButton)
                 {
-                    invalidKey = $"{settingName} requires a mouse button key. Current key is {parsedKey}";
-                    return true;
+                    Keys baseKey = parsedKey & ~Keys.Modifiers;
+                    if (!MouseKeys.Contains(baseKey))
+                    {
+                        invalidKey = $"{hotkey.Name} requires a mouse button. Current key is {key}";
+                        return true;
+                    }
                 }
             }
 
-            // Final check: If "HotkeySelectPieces" was missing entirely, flag it
-            if (!foundHotkeySelectPieces)
+            if (!foundSelectPieces)
             {
                 invalidKey = "HotkeySelectPieces is missing from SLXEditorHotkeys.ini";
                 return true;
@@ -316,579 +653,217 @@ namespace SLXEditor
             return false;
         }
 
-
         public static void LoadHotkeysFromIniFile()
         {
-            var lines = System.IO.File.ReadAllLines(C.AppPathHotkeys);
-
-            if (ValidateHotkeyIniFile(lines, out string invalidKey))
+            if (!File.Exists(C.AppPathHotkeys))
             {
-                MessageBox.Show($"Invalid or duplicate key detected in SLXEditorHotkeys.ini\n\n" +
-                                $"{invalidKey}\n\n" +
-                                $"The default hotkeys will be loaded instead",
-                                "Hotkey Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
                 GetDefaultHotkeys();
-                defaultHotkeysLoaded = true;
-                playerHotkeysLoaded = false;
-                
+                SaveHotkeysToIniFile();
+                PlayerHotkeysLoaded = true;
                 return;
             }
 
+            var lines = File.ReadAllLines(C.AppPathHotkeys);
+
+            if (ValidateHotkeyIniFile(lines, out string invalidKey))
+            {
+                MessageBox.Show(
+                    $"Invalid or duplicate key detected in SLXEditorHotkeys.ini\n\n" +
+                    $"{invalidKey}\n\n" +
+                    $"The default hotkeys will be loaded instead",
+                    "Hotkey Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                GetDefaultHotkeys();
+                PlayerHotkeysLoaded = true;
+                return;
+            }
+
+            // Always start from defaults
+            GetDefaultHotkeys();
+
             foreach (var line in lines)
             {
-                if (line.StartsWith("HotkeyCreateNewLevel="))
-                    HotkeyCreateNewLevel = ParseHotkeyString(line.Substring("HotkeyCreateNewLevel=".Length));
-                if (line.StartsWith("HotkeyLoadLevel="))
-                    HotkeyLoadLevel = ParseHotkeyString(line.Substring("HotkeyLoadLevel=".Length));
-                if (line.StartsWith("HotkeySaveLevel="))
-                    HotkeySaveLevel = ParseHotkeyString(line.Substring("HotkeySaveLevel=".Length));
-                if (line.StartsWith("HotkeySaveLevelAs="))
-                    HotkeySaveLevelAs = ParseHotkeyString(line.Substring("HotkeySaveLevelAs=".Length));
-                if (line.StartsWith("HotkeySaveLevelAsImage="))
-                    HotkeySaveLevelAsImage = ParseHotkeyString(line.Substring("HotkeySaveLevelAsImage=".Length));
-                if (line.StartsWith("HotkeyExportLevelAsINI="))
-                    HotkeyExportLevelAsINI = ParseHotkeyString(line.Substring("HotkeyExportLevelAsINI=".Length));
-                if (line.StartsWith("HotkeyPlaytestLevel="))
-                    HotkeyPlaytestLevel = ParseHotkeyString(line.Substring("HotkeyPlaytestLevel=".Length));
-                if (line.StartsWith("HotkeyValidateLevel="))
-                    HotkeyValidateLevel = ParseHotkeyString(line.Substring("HotkeyValidateLevel=".Length));
-                if (line.StartsWith("HotkeyCleanseLevels="))
-                    HotkeyCleanseLevels = ParseHotkeyString(line.Substring("HotkeyCleanseLevels=".Length));
-                if (line.StartsWith("HotkeyHighlightGroupedPieces="))
-                    HotkeyHighlightGroupedPieces = ParseHotkeyString(line.Substring("HotkeyHighlightGroupedPieces=".Length));
-                if (line.StartsWith("HotkeyHighlightEraserPieces="))
-                    HotkeyHighlightEraserPieces = ParseHotkeyString(line.Substring("HotkeyHighlightEraserPieces=".Length));
-                if (line.StartsWith("HotkeyToggleClearPhysics="))
-                    HotkeyToggleClearPhysics = ParseHotkeyString(line.Substring("HotkeyToggleClearPhysics=".Length));
-                if (line.StartsWith("HotkeyToggleTerrain="))
-                    HotkeyToggleTerrain = ParseHotkeyString(line.Substring("HotkeyToggleTerrain=".Length));
-                if (line.StartsWith("HotkeyToggleObjects="))
-                    HotkeyToggleObjects = ParseHotkeyString(line.Substring("HotkeyToggleObjects=".Length));
-                if (line.StartsWith("HotkeyToggleTriggerAreas="))
-                    HotkeyToggleTriggerAreas = ParseHotkeyString(line.Substring("HotkeyToggleTriggerAreas=".Length));
-                if (line.StartsWith("HotkeyToggleRulers="))
-                    HotkeyToggleRulers = ParseHotkeyString(line.Substring("HotkeyToggleRulers=".Length));
-                if (line.StartsWith("HotkeyToggleScreenStart="))
-                    HotkeyToggleScreenStart = ParseHotkeyString(line.Substring("HotkeyToggleScreenStart=".Length));
-                if (line.StartsWith("HotkeyToggleBackground="))
-                    HotkeyToggleBackground = ParseHotkeyString(line.Substring("HotkeyToggleBackground=".Length));
-                if (line.StartsWith("HotkeyToggleDeprecatedPieces="))
-                    HotkeyToggleDeprecatedPieces = ParseHotkeyString(line.Substring("HotkeyToggleDeprecatedPieces=".Length));
-                if (line.StartsWith("HotkeyPieceSearch="))
-                    HotkeyPieceSearch = ParseHotkeyString(line.Substring("HotkeyPieceSearch=".Length));
-                if (line.StartsWith("HotkeyShowMissingPieces="))
-                    HotkeyShowMissingPieces = ParseHotkeyString(line.Substring("HotkeyShowMissingPieces=".Length));
-                if (line.StartsWith("HotkeyRefreshStyles="))
-                    HotkeyRefreshStyles = ParseHotkeyString(line.Substring("HotkeyRefreshStyles=".Length));
-                if (line.StartsWith("HotkeyOpenStyleManager="))
-                    HotkeyOpenStyleManager = ParseHotkeyString(line.Substring("HotkeyOpenStyleManager=".Length));
-                if (line.StartsWith("HotkeyToggleSnapToGrid="))
-                    HotkeyToggleSnapToGrid = ParseHotkeyString(line.Substring("HotkeyToggleSnapToGrid=".Length));
-                if (line.StartsWith("HotkeyOpenLevelArrangerWindow="))
-                    HotkeyOpenLevelArrangerWindow = ParseHotkeyString(line.Substring("HotkeyOpenLevelArrangerWindow=".Length));
-                if (line.StartsWith("HotkeyOpenPieceBrowserWindow="))
-                    HotkeyOpenPieceBrowserWindow = ParseHotkeyString(line.Substring("HotkeyOpenPieceBrowserWindow=".Length));
-                if (line.StartsWith("HotkeyToggleAllTabs="))
-                    HotkeyToggleAllTabs = ParseHotkeyString(line.Substring("HotkeyToggleAllTabs=".Length));
-                if (line.StartsWith("HotkeyOpenSettings="))
-                    HotkeyOpenSettings = ParseHotkeyString(line.Substring("HotkeyOpenSettings=".Length));
-                if (line.StartsWith("HotkeyOpenConfigHotkeys="))
-                    HotkeyOpenConfigHotkeys = ParseHotkeyString(line.Substring("HotkeyOpenConfigHotkeys=".Length));
-                if (line.StartsWith("HotkeyOpenAboutSLX="))
-                    HotkeyOpenAboutSLX = ParseHotkeyString(line.Substring("HotkeyOpenAboutSLX=".Length));
-                if (line.StartsWith("HotkeySelectPieces="))
-                    HotkeySelectPieces = Keys.LButton; // Just in case)
-                if (line.StartsWith("HotkeyDragToScroll="))
-                    HotkeyDragToScroll = ParseHotkeyString(line.Substring("HotkeyDragToScroll=".Length));
-                if (line.StartsWith("HotkeyDragHorizontally="))
-                    HotkeyDragHorizontally = ParseHotkeyString(line.Substring("HotkeyDragHorizontally=".Length));
-                if (line.StartsWith("HotkeyDragVertically="))
-                    HotkeyDragVertically = ParseHotkeyString(line.Substring("HotkeyDragVertically=".Length));
-                if (line.StartsWith("HotkeyMoveScreenStart="))
-                    HotkeyMoveScreenStart = ParseHotkeyString(line.Substring("HotkeyMoveScreenStart=".Length));
-                if (line.StartsWith("HotkeySetScreenStartToCursor="))
-                    HotkeySetScreenStartToCursor = ParseHotkeyString(line.Substring("HotkeySetScreenStartToCursor=".Length));
-                if (line.StartsWith("HotkeyRemovePiecesAtCursor="))
-                    HotkeyRemovePiecesAtCursor = ParseHotkeyString(line.Substring("HotkeyRemovePiecesAtCursor=".Length));
-                if (line.StartsWith("HotkeyAddRemoveSinglePiece="))
-                    HotkeyAddRemoveSinglePiece = ParseHotkeyString(line.Substring("HotkeyAddRemoveSinglePiece=".Length));
-                if (line.StartsWith("HotkeySelectPiecesBelow="))
-                    HotkeySelectPiecesBelow = ParseHotkeyString(line.Substring("HotkeySelectPiecesBelow=".Length));
-                if (line.StartsWith("HotkeyZoomIn="))
-                    HotkeyZoomIn = ParseHotkeyString(line.Substring("HotkeyZoomIn=".Length));
-                if (line.StartsWith("HotkeyZoomOut="))
-                    HotkeyZoomOut = ParseHotkeyString(line.Substring("HotkeyZoomOut=".Length));
-                if (line.StartsWith("HotkeyScrollHorizontally="))
-                    HotkeyScrollHorizontally = ParseHotkeyString(line.Substring("HotkeyScrollHorizontally=".Length));
-                if (line.StartsWith("HotkeyScrollVertically="))
-                    HotkeyScrollVertically = ParseHotkeyString(line.Substring("HotkeyScrollVertically=".Length));
-                if (line.StartsWith("HotkeyShowPreviousPiece="))
-                    HotkeyShowPreviousPiece = ParseHotkeyString(line.Substring("HotkeyShowPreviousPiece=".Length));
-                if (line.StartsWith("HotkeyShowNextPiece="))
-                    HotkeyShowNextPiece = ParseHotkeyString(line.Substring("HotkeyShowNextPiece=".Length));
-                if (line.StartsWith("HotkeyShowPreviousGroup="))
-                    HotkeyShowPreviousGroup = ParseHotkeyString(line.Substring("HotkeyShowPreviousGroup=".Length));
-                if (line.StartsWith("HotkeyShowNextGroup="))
-                    HotkeyShowNextGroup = ParseHotkeyString(line.Substring("HotkeyShowNextGroup=".Length));
-                if (line.StartsWith("HotkeyShowPreviousStyle="))
-                    HotkeyShowPreviousStyle = ParseHotkeyString(line.Substring("HotkeyShowPreviousStyle=".Length));
-                if (line.StartsWith("HotkeyShowNextStyle="))
-                    HotkeyShowNextStyle = ParseHotkeyString(line.Substring("HotkeyShowNextStyle=".Length));
-                if (line.StartsWith("HotkeyCycleBrowser="))
-                    HotkeyCycleBrowser = ParseHotkeyString(line.Substring("HotkeyCycleBrowser=".Length));
-                if (line.StartsWith("HotkeyAddPiece1="))
-                    HotkeyAddPiece1 = ParseHotkeyString(line.Substring("HotkeyAddPiece1=".Length));
-                if (line.StartsWith("HotkeyAddPiece2="))
-                    HotkeyAddPiece2 = ParseHotkeyString(line.Substring("HotkeyAddPiece2=".Length));
-                if (line.StartsWith("HotkeyAddPiece3="))
-                    HotkeyAddPiece3 = ParseHotkeyString(line.Substring("HotkeyAddPiece3=".Length));
-                if (line.StartsWith("HotkeyAddPiece4="))
-                    HotkeyAddPiece4 = ParseHotkeyString(line.Substring("HotkeyAddPiece4=".Length));
-                if (line.StartsWith("HotkeyAddPiece5="))
-                    HotkeyAddPiece5 = ParseHotkeyString(line.Substring("HotkeyAddPiece5=".Length));
-                if (line.StartsWith("HotkeyAddPiece6="))
-                    HotkeyAddPiece6 = ParseHotkeyString(line.Substring("HotkeyAddPiece6=".Length));
-                if (line.StartsWith("HotkeyAddPiece7="))
-                    HotkeyAddPiece7 = ParseHotkeyString(line.Substring("HotkeyAddPiece7=".Length));
-                if (line.StartsWith("HotkeyAddPiece8="))
-                    HotkeyAddPiece8 = ParseHotkeyString(line.Substring("HotkeyAddPiece8=".Length));
-                if (line.StartsWith("HotkeyAddPiece9="))
-                    HotkeyAddPiece9 = ParseHotkeyString(line.Substring("HotkeyAddPiece9=".Length));
-                if (line.StartsWith("HotkeyAddPiece10="))
-                    HotkeyAddPiece10 = ParseHotkeyString(line.Substring("HotkeyAddPiece10=".Length));
-                if (line.StartsWith("HotkeyAddPiece11="))
-                    HotkeyAddPiece11 = ParseHotkeyString(line.Substring("HotkeyAddPiece11=".Length));
-                if (line.StartsWith("HotkeyAddPiece12="))
-                    HotkeyAddPiece12 = ParseHotkeyString(line.Substring("HotkeyAddPiece12=".Length));
-                if (line.StartsWith("HotkeyAddPiece13="))
-                    HotkeyAddPiece13 = ParseHotkeyString(line.Substring("HotkeyAddPiece13=".Length));
-                if (line.StartsWith("HotkeyUndo="))
-                    HotkeyUndo = ParseHotkeyString(line.Substring("HotkeyUndo=".Length));
-                if (line.StartsWith("HotkeyRedo="))
-                    HotkeyRedo = ParseHotkeyString(line.Substring("HotkeyRedo=".Length));
-                if (line.StartsWith("HotkeySelectAll="))
-                    HotkeySelectAll = ParseHotkeyString(line.Substring("HotkeySelectAll=".Length));
-                if (line.StartsWith("HotkeyCut="))
-                    HotkeyCut = ParseHotkeyString(line.Substring("HotkeyCut=".Length));
-                if (line.StartsWith("HotkeyCopy="))
-                    HotkeyCopy = ParseHotkeyString(line.Substring("HotkeyCopy=".Length));
-                if (line.StartsWith("HotkeyPaste="))
-                    HotkeyPaste = ParseHotkeyString(line.Substring("HotkeyPaste=".Length));
-                if (line.StartsWith("HotkeyPasteInPlace"))
-                    HotkeyPasteInPlace = ParseHotkeyString(line.Substring("HotkeyPasteInPlace=".Length));
-                if (line.StartsWith("HotkeyDuplicate="))
-                    HotkeyDuplicate = ParseHotkeyString(line.Substring("HotkeyDuplicate=".Length));
-                if (line.StartsWith("HotkeyDuplicateUp="))
-                    HotkeyDuplicateUp = ParseHotkeyString(line.Substring("HotkeyDuplicateUp=".Length));
-                if (line.StartsWith("HotkeyDuplicateDown="))
-                    HotkeyDuplicateDown = ParseHotkeyString(line.Substring("HotkeyDuplicateDown=".Length));
-                if (line.StartsWith("HotkeyDuplicateLeft="))
-                    HotkeyDuplicateLeft = ParseHotkeyString(line.Substring("HotkeyDuplicateLeft=".Length));
-                if (line.StartsWith("HotkeyDuplicateRight="))
-                    HotkeyDuplicateRight = ParseHotkeyString(line.Substring("HotkeyDuplicateRight=".Length));
-                if (line.StartsWith("HotkeyDelete="))
-                    HotkeyDelete = ParseHotkeyString(line.Substring("HotkeyDelete=".Length));
-                if (line.StartsWith("HotkeyMoveUp="))
-                    HotkeyMoveUp = ParseHotkeyString(line.Substring("HotkeyMoveUp=".Length));
-                if (line.StartsWith("HotkeyMoveDown="))
-                    HotkeyMoveDown = ParseHotkeyString(line.Substring("HotkeyMoveDown=".Length));
-                if (line.StartsWith("HotkeyMoveLeft="))
-                    HotkeyMoveLeft = ParseHotkeyString(line.Substring("HotkeyMoveLeft=".Length));
-                if (line.StartsWith("HotkeyMoveRight="))
-                    HotkeyMoveRight = ParseHotkeyString(line.Substring("HotkeyMoveRight=".Length));
-                if (line.StartsWith("HotkeyGridMoveUp="))
-                    HotkeyGridMoveUp = ParseHotkeyString(line.Substring("HotkeyGridMoveUp=".Length));
-                if (line.StartsWith("HotkeyGridMoveDown="))
-                    HotkeyGridMoveDown = ParseHotkeyString(line.Substring("HotkeyGridMoveDown=".Length));
-                if (line.StartsWith("HotkeyGridMoveLeft="))
-                    HotkeyGridMoveLeft = ParseHotkeyString(line.Substring("HotkeyGridMoveLeft=".Length));
-                if (line.StartsWith("HotkeyGridMoveRight="))
-                    HotkeyGridMoveRight = ParseHotkeyString(line.Substring("HotkeyGridMoveRight=".Length));
-                if (line.StartsWith("HotkeyCustomMoveUp="))
-                    HotkeyCustomMoveUp = ParseHotkeyString(line.Substring("HotkeyCustomMoveUp=".Length));
-                if (line.StartsWith("HotkeyCustomMoveDown="))
-                    HotkeyCustomMoveDown = ParseHotkeyString(line.Substring("HotkeyCustomMoveDown=".Length));
-                if (line.StartsWith("HotkeyCustomMoveLeft="))
-                    HotkeyCustomMoveLeft = ParseHotkeyString(line.Substring("HotkeyCustomMoveLeft=".Length));
-                if (line.StartsWith("HotkeyCustomMoveRight="))
-                    HotkeyCustomMoveRight = ParseHotkeyString(line.Substring("HotkeyCustomMoveRight=".Length));
-                if (line.StartsWith("HotkeyRotate="))
-                    HotkeyRotate = ParseHotkeyString(line.Substring("HotkeyRotate=".Length));
-                if (line.StartsWith("HotkeyFlip="))
-                    HotkeyFlip = ParseHotkeyString(line.Substring("HotkeyFlip=".Length));
-                if (line.StartsWith("HotkeyInvert="))
-                    HotkeyInvert = ParseHotkeyString(line.Substring("HotkeyInvert=".Length));
-                if (line.StartsWith("HotkeyGroup="))
-                    HotkeyGroup = ParseHotkeyString(line.Substring("HotkeyGroup=".Length));
-                if (line.StartsWith("HotkeyUngroup="))
-                    HotkeyUngroup = ParseHotkeyString(line.Substring("HotkeyUngroup=".Length));
-                if (line.StartsWith("HotkeyErase="))
-                    HotkeyErase = ParseHotkeyString(line.Substring("HotkeyErase=".Length));
-                if (line.StartsWith("HotkeyNoOverwrite="))
-                    HotkeyNoOverwrite = ParseHotkeyString(line.Substring("HotkeyNoOverwrite=".Length));
-                if (line.StartsWith("HotkeyOnlyOnTerrain="))
-                    HotkeyOnlyOnTerrain = ParseHotkeyString(line.Substring("HotkeyOnlyOnTerrain=".Length));
-                if (line.StartsWith("HotkeyAllowOneWay="))
-                    HotkeyAllowOneWay = ParseHotkeyString(line.Substring("HotkeyAllowOneWay=".Length));
-                if (line.StartsWith("HotkeyDrawLast="))
-                    HotkeyDrawLast = ParseHotkeyString(line.Substring("HotkeyDrawLast=".Length));
-                if (line.StartsWith("HotkeyDrawSooner="))
-                    HotkeyDrawSooner = ParseHotkeyString(line.Substring("HotkeyDrawSooner=".Length));
-                if (line.StartsWith("HotkeyDrawLater="))
-                    HotkeyDrawLater = ParseHotkeyString(line.Substring("HotkeyDrawLater=".Length));
-                if (line.StartsWith("HotkeyDrawFirst="))
-                    HotkeyDrawFirst = ParseHotkeyString(line.Substring("HotkeyDrawFirst=".Length));
-                if (line.StartsWith("HotkeyCloseEditor="))
-                    HotkeyCloseEditor = ParseHotkeyString(line.Substring("HotkeyCloseEditor=".Length));
+                if (string.IsNullOrWhiteSpace(line) || line.StartsWith("["))
+                    continue;
 
-                HandleHotkeyBackwardsCompatibility(line);
-                playerHotkeysLoaded = true;
+                var parts = line.Split('=');
+                if (parts.Length != 2)
+                    continue;
+
+                string name = parts[0].Trim();
+                string key = parts[1].Trim();
+
+                HandleHotkeyBackwardsCompatibility(name, key);
+
+                HotkeyName parsedName;
+                if (Enum.TryParse(name, out parsedName))
+                {
+                    var hotkey = AllHotkeys.FirstOrDefault(h => h.Name == parsedName);
+                    if (hotkey != null)
+                        hotkey.CurrentKeys = ParseHotkeyString(key);
+                }
             }
+
+            PlayerHotkeysLoaded = true;
         }
 
-        private static void HandleHotkeyBackwardsCompatibility(string line)
+        private static readonly Dictionary<string, HotkeyName> LegacyHotkeyMap = new Dictionary<string, HotkeyName>
         {
-            if (line.StartsWith("HotkeyMove8Up=") && HotkeyGridMoveUp == Keys.None)
-                HotkeyGridMoveUp = ParseHotkeyString(line.Substring("HotkeyMove8Up=".Length));
-            if (line.StartsWith("HotkeyMove8Down=") && HotkeyGridMoveDown == Keys.None)
-                HotkeyGridMoveDown = ParseHotkeyString(line.Substring("HotkeyMove8Down=".Length));
-            if (line.StartsWith("HotkeyMove8Left=") && HotkeyGridMoveLeft == Keys.None)
-                HotkeyGridMoveLeft = ParseHotkeyString(line.Substring("HotkeyMove8Left=".Length));
-            if (line.StartsWith("HotkeyMove8Right=") && HotkeyGridMoveRight == Keys.None)
-                HotkeyGridMoveRight = ParseHotkeyString(line.Substring("HotkeyMove8Right=".Length));
-            if (line.StartsWith("HotkeyOpenLevelWindow="))
-                HotkeyOpenLevelArrangerWindow = ParseHotkeyString(line.Substring("HotkeyOpenLevelWindow=".Length));
+            { "HotkeyMove8Up", HotkeyName.HotkeyGridMoveUp },
+            { "HotkeyMove8Down", HotkeyName.HotkeyGridMoveDown },
+            { "HotkeyMove8Left", HotkeyName.HotkeyGridMoveLeft },
+            { "HotkeyMove8Right", HotkeyName.HotkeyGridMoveRight },
+            { "HotkeyOpenLevelWindow", HotkeyName.HotkeyOpenLevelArrangerWindow }
+        };
+
+        private static void HandleHotkeyBackwardsCompatibility(string oldName, string key)
+        {
+            if (!LegacyHotkeyMap.TryGetValue(oldName, out HotkeyName newName))
+                return;
+
+            HotkeyData hotkey = AllHotkeys.FirstOrDefault(h => h.Name == newName);
+            if (hotkey == null)
+                return;
+
+            if (hotkey.CurrentKeys == Keys.None)
+                hotkey.CurrentKeys = ParseHotkeyString(key);
         }
 
         public static void SaveHotkeysToIniFile()
         {
             var lines = new List<string>
             {
-                "[Hotkeys]",
-                $"HotkeyCreateNewLevel={FormatHotkeyString(HotkeyCreateNewLevel)}",
-                $"HotkeyLoadLevel={FormatHotkeyString(HotkeyLoadLevel)}",
-                $"HotkeySaveLevel={FormatHotkeyString(HotkeySaveLevel)}",
-                $"HotkeySaveLevelAs={FormatHotkeyString(HotkeySaveLevelAs)}",
-                $"HotkeySaveLevelAsImage={FormatHotkeyString(HotkeySaveLevelAsImage)}",
-                $"HotkeyExportLevelAsINI={FormatHotkeyString(HotkeyExportLevelAsINI)}",
-                $"HotkeyPlaytestLevel={FormatHotkeyString(HotkeyPlaytestLevel)}",
-                $"HotkeyValidateLevel={FormatHotkeyString(HotkeyValidateLevel)}",
-                $"HotkeyCleanseLevels={FormatHotkeyString(HotkeyCleanseLevels)}",
-                $"HotkeyHighlightGroupedPieces={FormatHotkeyString(HotkeyHighlightGroupedPieces)}",
-                $"HotkeyHighlightEraserPieces={FormatHotkeyString(HotkeyHighlightEraserPieces)}",
-                $"HotkeyToggleClearPhysics={FormatHotkeyString(HotkeyToggleClearPhysics)}",
-                $"HotkeyToggleTerrain={FormatHotkeyString(HotkeyToggleTerrain)}",
-                $"HotkeyToggleObjects={FormatHotkeyString(HotkeyToggleObjects)}",
-                $"HotkeyToggleTriggerAreas={FormatHotkeyString(HotkeyToggleTriggerAreas)}",
-                $"HotkeyToggleRulers={FormatHotkeyString(HotkeyToggleRulers)}",
-                $"HotkeyToggleScreenStart={FormatHotkeyString(HotkeyToggleScreenStart)}",
-                $"HotkeyToggleBackground={FormatHotkeyString(HotkeyToggleBackground)}",
-                $"HotkeyToggleDeprecatedPieces={FormatHotkeyString(HotkeyToggleDeprecatedPieces)}",
-                $"HotkeyPieceSearch={FormatHotkeyString(HotkeyPieceSearch)}",
-                $"HotkeyShowMissingPieces={FormatHotkeyString(HotkeyShowMissingPieces)}",
-                $"HotkeyRefreshStyles={FormatHotkeyString(HotkeyRefreshStyles)}",
-                $"HotkeyOpenStyleManager={FormatHotkeyString(HotkeyOpenStyleManager)}",
-                $"HotkeyToggleSnapToGrid={FormatHotkeyString(HotkeyToggleSnapToGrid)}",
-                $"HotkeyOpenLevelArrangerWindow={FormatHotkeyString(HotkeyOpenLevelArrangerWindow)}",
-                $"HotkeyOpenPieceBrowserWindow={FormatHotkeyString(HotkeyOpenPieceBrowserWindow)}",
-                $"HotkeyToggleAllTabs={FormatHotkeyString(HotkeyToggleAllTabs)}",
-                $"HotkeyOpenSettings={FormatHotkeyString(HotkeyOpenSettings)}",
-                $"HotkeyOpenConfigHotkeys={FormatHotkeyString(HotkeyOpenConfigHotkeys)}",
-                $"HotkeyOpenAboutSLX={FormatHotkeyString(HotkeyOpenAboutSLX)}",
-                $"HotkeySelectPieces={FormatHotkeyString(HotkeySelectPieces)}",
-                $"HotkeyDragToScroll={FormatHotkeyString(HotkeyDragToScroll)}",
-                $"HotkeyDragHorizontally={FormatHotkeyString(HotkeyDragHorizontally)}",
-                $"HotkeyDragVertically={FormatHotkeyString(HotkeyDragVertically)}",
-                $"HotkeyMoveScreenStart={FormatHotkeyString(HotkeyMoveScreenStart)}",
-                $"HotkeySetScreenStartToCursor={FormatHotkeyString(HotkeySetScreenStartToCursor)}",
-                $"HotkeyRemovePiecesAtCursor={FormatHotkeyString(HotkeyRemovePiecesAtCursor)}",
-                $"HotkeyAddRemoveSinglePiece={FormatHotkeyString(HotkeyAddRemoveSinglePiece)}",
-                $"HotkeySelectPiecesBelow={FormatHotkeyString(HotkeySelectPiecesBelow)}",
-                $"HotkeyZoomIn={FormatHotkeyString(HotkeyZoomIn)}",
-                $"HotkeyZoomOut={FormatHotkeyString(HotkeyZoomOut)}",
-                $"HotkeyScrollHorizontally={FormatHotkeyString(HotkeyScrollHorizontally)}",
-                $"HotkeyScrollVertically={FormatHotkeyString(HotkeyScrollVertically)}",
-                $"HotkeyShowPreviousPiece={FormatHotkeyString(HotkeyShowPreviousPiece)}",
-                $"HotkeyShowNextPiece={FormatHotkeyString(HotkeyShowNextPiece)}",
-                $"HotkeyShowPreviousGroup={FormatHotkeyString(HotkeyShowPreviousGroup)}",
-                $"HotkeyShowNextGroup={FormatHotkeyString(HotkeyShowNextGroup)}",
-                $"HotkeyShowPreviousStyle={FormatHotkeyString(HotkeyShowPreviousStyle)}",
-                $"HotkeyShowNextStyle={FormatHotkeyString(HotkeyShowNextStyle)}",
-                $"HotkeyCycleBrowser={FormatHotkeyString(HotkeyCycleBrowser)}",
-                $"HotkeyAddPiece1={FormatHotkeyString(HotkeyAddPiece1)}",
-                $"HotkeyAddPiece2={FormatHotkeyString(HotkeyAddPiece2)}",
-                $"HotkeyAddPiece3={FormatHotkeyString(HotkeyAddPiece3)}",
-                $"HotkeyAddPiece4={FormatHotkeyString(HotkeyAddPiece4)}",
-                $"HotkeyAddPiece5={FormatHotkeyString(HotkeyAddPiece5)}",
-                $"HotkeyAddPiece6={FormatHotkeyString(HotkeyAddPiece6)}",
-                $"HotkeyAddPiece7={FormatHotkeyString(HotkeyAddPiece7)}",
-                $"HotkeyAddPiece8={FormatHotkeyString(HotkeyAddPiece8)}",
-                $"HotkeyAddPiece9={FormatHotkeyString(HotkeyAddPiece9)}",
-                $"HotkeyAddPiece10={FormatHotkeyString(HotkeyAddPiece10)}",
-                $"HotkeyAddPiece11={FormatHotkeyString(HotkeyAddPiece11)}",
-                $"HotkeyAddPiece12={FormatHotkeyString(HotkeyAddPiece12)}",
-                $"HotkeyAddPiece13={FormatHotkeyString(HotkeyAddPiece13)}",
-                $"HotkeyUndo={FormatHotkeyString(HotkeyUndo)}",
-                $"HotkeyRedo={FormatHotkeyString(HotkeyRedo)}",
-                $"HotkeySelectAll={FormatHotkeyString(HotkeySelectAll)}",
-                $"HotkeyCut={FormatHotkeyString(HotkeyCut)}",
-                $"HotkeyCopy={FormatHotkeyString(HotkeyCopy)}",
-                $"HotkeyPaste={FormatHotkeyString(HotkeyPaste)}",
-                $"HotkeyPasteInPlace={FormatHotkeyString(HotkeyPasteInPlace)}",
-                $"HotkeyDuplicate={FormatHotkeyString(HotkeyDuplicate)}",
-                $"HotkeyDuplicateUp={FormatHotkeyString(HotkeyDuplicateUp)}",
-                $"HotkeyDuplicateDown={FormatHotkeyString(HotkeyDuplicateDown)}",
-                $"HotkeyDuplicateLeft={FormatHotkeyString(HotkeyDuplicateLeft)}",
-                $"HotkeyDuplicateRight={FormatHotkeyString(HotkeyDuplicateRight)}",
-                $"HotkeyDelete={FormatHotkeyString(HotkeyDelete)}",
-                $"HotkeyMoveUp={FormatHotkeyString(HotkeyMoveUp)}",
-                $"HotkeyMoveDown={FormatHotkeyString(HotkeyMoveDown)}",
-                $"HotkeyMoveLeft={FormatHotkeyString(HotkeyMoveLeft)}",
-                $"HotkeyMoveRight={FormatHotkeyString(HotkeyMoveRight)}",
-                $"HotkeyGridMoveUp={FormatHotkeyString(HotkeyGridMoveUp)}",
-                $"HotkeyGridMoveDown={FormatHotkeyString(HotkeyGridMoveDown)}",
-                $"HotkeyGridMoveLeft={FormatHotkeyString(HotkeyGridMoveLeft)}",
-                $"HotkeyGridMoveRight={FormatHotkeyString(HotkeyGridMoveRight)}",
-                $"HotkeyCustomMoveUp={FormatHotkeyString(HotkeyCustomMoveUp)}",
-                $"HotkeyCustomMoveDown={FormatHotkeyString(HotkeyCustomMoveDown)}",
-                $"HotkeyCustomMoveLeft={FormatHotkeyString(HotkeyCustomMoveLeft)}",
-                $"HotkeyCustomMoveRight={FormatHotkeyString(HotkeyCustomMoveRight)}",
-                $"HotkeyRotate={FormatHotkeyString(HotkeyRotate)}",
-                $"HotkeyFlip={FormatHotkeyString(HotkeyFlip)}",
-                $"HotkeyInvert={FormatHotkeyString(HotkeyInvert)}",
-                $"HotkeyGroup={FormatHotkeyString(HotkeyGroup)}",
-                $"HotkeyUngroup={FormatHotkeyString(HotkeyUngroup)}",
-                $"HotkeyErase={FormatHotkeyString(HotkeyErase)}",
-                $"HotkeyNoOverwrite={FormatHotkeyString(HotkeyNoOverwrite)}",
-                $"HotkeyOnlyOnTerrain={FormatHotkeyString(HotkeyOnlyOnTerrain)}",
-                $"HotkeyAllowOneWay={FormatHotkeyString(HotkeyAllowOneWay)}",
-                $"HotkeyDrawLast={FormatHotkeyString(HotkeyDrawLast)}",
-                $"HotkeyDrawSooner={FormatHotkeyString(HotkeyDrawSooner)}",
-                $"HotkeyDrawLater={FormatHotkeyString(HotkeyDrawLater)}",
-                $"HotkeyDrawFirst={FormatHotkeyString(HotkeyDrawFirst)}",
-                $"HotkeyCloseEditor={FormatHotkeyString(HotkeyCloseEditor)}"
+                "[Hotkeys]"
             };
+
+            foreach (var hotkey in AllHotkeys)
+            {
+                lines.Add($"{hotkey.Name}={FormatHotkeyString(hotkey.CurrentKeys)}");
+            }
 
             string settingsDirectory = Path.GetDirectoryName(C.AppPathHotkeys);
             if (!Directory.Exists(settingsDirectory))
-            {
                 Directory.CreateDirectory(settingsDirectory);
-            }
 
-            System.IO.File.WriteAllLines(C.AppPathHotkeys, lines);
+            File.WriteAllLines(C.AppPathHotkeys, lines);
         }
 
         public static void GetDefaultHotkeys()
         {
-            HotkeyCreateNewLevel = Keys.Control | Keys.N;
-            HotkeyLoadLevel = Keys.Control | Keys.O;
-            HotkeySaveLevel = Keys.Control | Keys.S;
-            HotkeySaveLevelAs = Keys.Control | Keys.Shift | Keys.S;
-            HotkeySaveLevelAsImage = Keys.Control | Keys.Alt | Keys.S;
-            HotkeyExportLevelAsINI = Keys.Control | Keys.I;
-            HotkeyPlaytestLevel = Keys.F12;
-            HotkeyValidateLevel = Keys.Control | Keys.F12;
-            HotkeyCleanseLevels = Keys.Control | Keys.Shift | Keys.F12;
-            HotkeyHighlightGroupedPieces = Keys.Control | Keys.G;
-            HotkeyHighlightEraserPieces = Keys.Control | Keys.E;
-            HotkeyToggleClearPhysics = Keys.F1;
-            HotkeyToggleTerrain = Keys.F2;
-            HotkeyToggleObjects = Keys.F3;
-            HotkeyToggleTriggerAreas = Keys.F4;
-            HotkeyToggleRulers = Keys.Control | Keys.F4;
-            HotkeyToggleScreenStart = Keys.F5;
-            HotkeyToggleBackground = Keys.F6;
-            HotkeyToggleDeprecatedPieces = Keys.F7;
-            HotkeyPieceSearch = Keys.F8;
-            HotkeyShowMissingPieces = Keys.Control | Keys.F8;
-            HotkeyRefreshStyles = Keys.Control | Keys.Shift | Keys.F8;
-            HotkeyOpenStyleManager = Keys.Control | Keys.Alt | Keys.F8;
-            HotkeyToggleSnapToGrid = Keys.F9;
-            HotkeyOpenLevelArrangerWindow = Keys.Control | Keys.F9;
-            HotkeyOpenPieceBrowserWindow = Keys.Control | Keys.Shift | Keys.F9;
-            HotkeyToggleAllTabs = Keys.Control | Keys.F10;
-            HotkeyOpenSettings = Keys.F10;
-            HotkeyOpenConfigHotkeys = Keys.F11;
-            HotkeyOpenAboutSLX = Keys.Control | Keys.F11;
-            HotkeySelectPieces = Keys.LButton;
-            HotkeyDragToScroll = Keys.RButton;
-            HotkeyDragHorizontally = Keys.Control | Keys.Alt | Keys.LButton;
-            HotkeyDragVertically = Keys.Control | Keys.Shift | Keys.LButton;
-            HotkeyMoveScreenStart = Keys.P;
-            HotkeySetScreenStartToCursor = Keys.L;
-            HotkeyRemovePiecesAtCursor = Keys.MButton;
-            HotkeyAddRemoveSinglePiece = Keys.Control | Keys.LButton;
-            HotkeySelectPiecesBelow = Keys.Alt | Keys.LButton;
-            HotkeyZoomIn = Keys.Oemplus;
-            HotkeyZoomOut = Keys.OemMinus;
-            HotkeyScrollHorizontally = Keys.H;
-            HotkeyScrollVertically = Keys.V;
-            HotkeyShowPreviousPiece = Keys.Shift | Keys.Left;
-            HotkeyShowNextPiece = Keys.Shift | Keys.Right;
-            HotkeyShowPreviousGroup = Keys.Shift | Keys.Alt | Keys.Left;
-            HotkeyShowNextGroup = Keys.Shift | Keys.Alt | Keys.Right;
-            HotkeyShowPreviousStyle = Keys.Shift | Keys.Up;
-            HotkeyShowNextStyle = Keys.Shift | Keys.Down;
-            HotkeyCycleBrowser = Keys.Space;
-            HotkeyAddPiece1 = Keys.D1;
-            HotkeyAddPiece2 = Keys.D2;
-            HotkeyAddPiece3 = Keys.D3;
-            HotkeyAddPiece4 = Keys.D4;
-            HotkeyAddPiece5 = Keys.D5;
-            HotkeyAddPiece6 = Keys.D6;
-            HotkeyAddPiece7 = Keys.D7;
-            HotkeyAddPiece8 = Keys.D8;
-            HotkeyAddPiece9 = Keys.D9;
-            HotkeyAddPiece10 = Keys.D0;
-            HotkeyAddPiece11 = Keys.NumPad1;
-            HotkeyAddPiece12 = Keys.NumPad2;
-            HotkeyAddPiece13 = Keys.NumPad3; // Unassigned by default
-            HotkeyUndo = Keys.Control | Keys.Z;
-            HotkeyRedo = Keys.Control | Keys.Y;
-            HotkeySelectAll = Keys.Control | Keys.A;
-            HotkeyCut = Keys.Control | Keys.X;
-            HotkeyCopy = Keys.Control | Keys.C;
-            HotkeyPaste = Keys.Control | Keys.V;
-            HotkeyPasteInPlace = Keys.Control | Keys.Shift | Keys.V;
-            HotkeyDuplicate = Keys.D;
-            HotkeyDuplicateUp = Keys.Control | Keys.Alt | Keys.Up;
-            HotkeyDuplicateDown = Keys.Control | Keys.Alt | Keys.Down;
-            HotkeyDuplicateLeft = Keys.Control | Keys.Alt | Keys.Left;
-            HotkeyDuplicateRight = Keys.Control | Keys.Alt | Keys.Right;
-            HotkeyDelete = Keys.Delete;
-            HotkeyMoveUp = Keys.Up;
-            HotkeyMoveDown = Keys.Down;
-            HotkeyMoveLeft = Keys.Left;
-            HotkeyMoveRight = Keys.Right;
-            HotkeyGridMoveUp = Keys.Control | Keys.Up;
-            HotkeyGridMoveDown = Keys.Control | Keys.Down;
-            HotkeyGridMoveLeft = Keys.Control | Keys.Left;
-            HotkeyGridMoveRight = Keys.Control | Keys.Right;
-            HotkeyCustomMoveUp = Keys.Alt | Keys.Up;
-            HotkeyCustomMoveDown = Keys.Alt | Keys.Down;
-            HotkeyCustomMoveLeft = Keys.Alt | Keys.Left;
-            HotkeyCustomMoveRight = Keys.Alt | Keys.Right;
-            HotkeyRotate = Keys.R;
-            HotkeyFlip = Keys.F;
-            HotkeyInvert = Keys.I;
-            HotkeyGroup = Keys.G;
-            HotkeyUngroup = Keys.U;
-            HotkeyErase = Keys.E;
-            HotkeyNoOverwrite = Keys.N;
-            HotkeyOnlyOnTerrain = Keys.T;
-            HotkeyAllowOneWay = Keys.O;
-            HotkeyDrawLast = Keys.Home;
-            HotkeyDrawSooner = Keys.PageUp;
-            HotkeyDrawLater = Keys.PageDown;
-            HotkeyDrawFirst = Keys.End;
-            HotkeyCloseEditor = Keys.Alt | Keys.F4;
+            foreach (var hotkey in AllHotkeys)
+            {
+                hotkey.CurrentKeys = hotkey.DefaultKeys;
+            }
+        }
+
+        public static HotkeyData GetHotkey(HotkeyName name)
+        {
+            return AllHotkeys.FirstOrDefault(h => h.Name == name);
         }
 
         public static void GetClassicHotkeys()
         {
-            HotkeyCreateNewLevel = Keys.Control | Keys.N;
-            HotkeyLoadLevel = Keys.Control | Keys.O;
-            HotkeySaveLevel = Keys.Control | Keys.S;
-            HotkeySaveLevelAs = Keys.Control | Keys.Shift | Keys.S;
-            HotkeySaveLevelAsImage = Keys.Control | Keys.Alt | Keys.S;
-            HotkeyExportLevelAsINI = Keys.Control | Keys.I;
-            HotkeyPlaytestLevel = Keys.F12;
-            HotkeyValidateLevel = Keys.Control | Keys.F12;
-            HotkeyCleanseLevels = Keys.Control | Keys.Shift | Keys.F12;
-            HotkeyHighlightGroupedPieces = Keys.Control | Keys.G;
-            HotkeyHighlightEraserPieces = Keys.Control | Keys.E;
-            HotkeyToggleClearPhysics = Keys.F1;
-            HotkeyToggleTerrain = Keys.F2;
-            HotkeyToggleObjects = Keys.F3;
-            HotkeyToggleTriggerAreas = Keys.F4;
-            HotkeyToggleRulers = Keys.Control | Keys.F4;
-            HotkeyToggleScreenStart = Keys.F5;
-            HotkeyToggleBackground = Keys.F6;
-            HotkeyToggleDeprecatedPieces = Keys.F7;
-            HotkeyPieceSearch = Keys.F8;
-            HotkeyShowMissingPieces = Keys.Control | Keys.F8;
-            HotkeyRefreshStyles = Keys.Control | Keys.Shift | Keys.F8;
-            HotkeyOpenStyleManager = Keys.Control | Keys.Alt | Keys.F8;
-            HotkeyToggleSnapToGrid = Keys.F9;
-            HotkeyOpenLevelArrangerWindow = Keys.Control | Keys.F9;
-            HotkeyOpenPieceBrowserWindow = Keys.Control | Keys.Shift | Keys.F9;
-            HotkeyToggleAllTabs = Keys.Control | Keys.F10;
-            HotkeyOpenSettings = Keys.F10;
-            HotkeyOpenConfigHotkeys = Keys.F11;
-            HotkeyOpenAboutSLX = Keys.Control | Keys.F11;
-            HotkeySelectPieces = Keys.LButton;
-            HotkeyDragToScroll = Keys.RButton;
-            HotkeyDragHorizontally = Keys.Control | Keys.Alt | Keys.LButton;
-            HotkeyDragVertically = Keys.Control | Keys.Shift | Keys.LButton;
-            HotkeyMoveScreenStart = Keys.P;
-            HotkeySetScreenStartToCursor = Keys.L;
-            HotkeyRemovePiecesAtCursor = Keys.MButton;
-            HotkeyAddRemoveSinglePiece = Keys.Control | Keys.LButton;
-            HotkeySelectPiecesBelow = Keys.Alt | Keys.LButton;
-            HotkeyZoomIn = Keys.Oemplus;
-            HotkeyZoomOut = Keys.OemMinus;
-            HotkeyScrollHorizontally = Keys.H;
-            HotkeyScrollVertically = Keys.V;
-            HotkeyShowPreviousPiece = Keys.Shift | Keys.Left;
-            HotkeyShowNextPiece = Keys.Shift | Keys.Right;
-            HotkeyShowPreviousGroup = Keys.Shift | Keys.Alt | Keys.Left;
-            HotkeyShowNextGroup = Keys.Shift | Keys.Alt | Keys.Right;
-            HotkeyShowPreviousStyle = Keys.Shift | Keys.Up;
-            HotkeyShowNextStyle = Keys.Shift | Keys.Down;
-            HotkeyCycleBrowser = Keys.Space;
-            HotkeyAddPiece1 = Keys.D1;
-            HotkeyAddPiece2 = Keys.D2;
-            HotkeyAddPiece3 = Keys.D3;
-            HotkeyAddPiece4 = Keys.D4;
-            HotkeyAddPiece5 = Keys.D5;
-            HotkeyAddPiece6 = Keys.D6;
-            HotkeyAddPiece7 = Keys.D7;
-            HotkeyAddPiece8 = Keys.D8;
-            HotkeyAddPiece9 = Keys.D9;
-            HotkeyAddPiece10 = Keys.D0;
-            HotkeyAddPiece11 = Keys.None; // Unassigned in Classic layout
-            HotkeyAddPiece12 = Keys.None; // Unassigned in Classic layout
-            HotkeyAddPiece13 = Keys.None; // Unassigned in Classic layout
-            HotkeyUndo = Keys.Control | Keys.Z;
-            HotkeyRedo = Keys.Control | Keys.Y;
-            HotkeySelectAll = Keys.Control | Keys.A;
-            HotkeyCut = Keys.Control | Keys.X;
-            HotkeyCopy = Keys.Control | Keys.C;
-            HotkeyPaste = Keys.Control | Keys.V;
-            HotkeyPasteInPlace = Keys.Control | Keys.Shift | Keys.V;
-            HotkeyDuplicate = Keys.C;
-            HotkeyDuplicateUp = Keys.Control | Keys.Alt | Keys.Up;
-            HotkeyDuplicateDown = Keys.Control | Keys.Alt | Keys.Down;
-            HotkeyDuplicateLeft = Keys.Control | Keys.Alt | Keys.Left;
-            HotkeyDuplicateRight = Keys.Control | Keys.Alt | Keys.Right;
-            HotkeyDelete = Keys.Delete;
-            HotkeyMoveUp = Keys.Up;
-            HotkeyMoveDown = Keys.Down;
-            HotkeyMoveLeft = Keys.Left;
-            HotkeyMoveRight = Keys.Right;
-            HotkeyGridMoveUp = Keys.Control | Keys.Up;
-            HotkeyGridMoveDown = Keys.Control | Keys.Down;
-            HotkeyGridMoveLeft = Keys.Control | Keys.Left;
-            HotkeyGridMoveRight = Keys.Control | Keys.Right;
-            HotkeyCustomMoveUp = Keys.Alt | Keys.Up;
-            HotkeyCustomMoveDown = Keys.Alt | Keys.Down;
-            HotkeyCustomMoveLeft = Keys.Alt | Keys.Left;
-            HotkeyCustomMoveRight = Keys.Alt | Keys.Right;
-            HotkeyRotate = Keys.R;
-            HotkeyFlip = Keys.E;
-            HotkeyInvert = Keys.W;
-            HotkeyGroup = Keys.G;
-            HotkeyUngroup = Keys.U;
-            HotkeyErase = Keys.A;
-            HotkeyNoOverwrite = Keys.S;
-            HotkeyOnlyOnTerrain = Keys.D;
-            HotkeyAllowOneWay = Keys.F;
-            HotkeyDrawLast = Keys.Home;
-            HotkeyDrawSooner = Keys.PageUp;
-            HotkeyDrawLater = Keys.PageDown;
-            HotkeyDrawFirst = Keys.End;
-            HotkeyCloseEditor = Keys.Alt | Keys.F4;
+            GetHotkey(HotkeyName.HotkeyCreateNewLevel).CurrentKeys = Keys.Control | Keys.N;
+            GetHotkey(HotkeyName.HotkeyCreateNewLevel).CurrentKeys = Keys.Control | Keys.N;
+            GetHotkey(HotkeyName.HotkeyLoadLevel).CurrentKeys = Keys.Control | Keys.O;
+            GetHotkey(HotkeyName.HotkeySaveLevel).CurrentKeys = Keys.Control | Keys.S;
+            GetHotkey(HotkeyName.HotkeySaveLevelAs).CurrentKeys = Keys.Control | Keys.Shift | Keys.S;
+            GetHotkey(HotkeyName.HotkeySaveLevelAsImage).CurrentKeys = Keys.Control | Keys.Alt | Keys.S;
+            GetHotkey(HotkeyName.HotkeyExportLevelAsINI).CurrentKeys = Keys.Control | Keys.I;
+            GetHotkey(HotkeyName.HotkeyPlaytestLevel).CurrentKeys = Keys.F12;
+            GetHotkey(HotkeyName.HotkeyValidateLevel).CurrentKeys = Keys.Control | Keys.F12;
+            GetHotkey(HotkeyName.HotkeyCleanseLevels).CurrentKeys = Keys.Control | Keys.Shift | Keys.F12;
+            GetHotkey(HotkeyName.HotkeyHighlightGroupedPieces).CurrentKeys = Keys.Control | Keys.G;
+            GetHotkey(HotkeyName.HotkeyHighlightEraserPieces).CurrentKeys = Keys.Control | Keys.E;
+            GetHotkey(HotkeyName.HotkeyToggleClearPhysics).CurrentKeys = Keys.F1;
+            GetHotkey(HotkeyName.HotkeyToggleTerrain).CurrentKeys = Keys.F2;
+            GetHotkey(HotkeyName.HotkeyToggleObjects).CurrentKeys = Keys.F3;
+            GetHotkey(HotkeyName.HotkeyToggleTriggerAreas).CurrentKeys = Keys.F4;
+            GetHotkey(HotkeyName.HotkeyToggleRulers).CurrentKeys = Keys.Control | Keys.F4;
+            GetHotkey(HotkeyName.HotkeyToggleScreenStart).CurrentKeys = Keys.F5;
+            GetHotkey(HotkeyName.HotkeyToggleBackground).CurrentKeys = Keys.F6;
+            GetHotkey(HotkeyName.HotkeyToggleDeprecatedPieces).CurrentKeys = Keys.F7;
+            GetHotkey(HotkeyName.HotkeyPieceSearch).CurrentKeys = Keys.F8;
+            GetHotkey(HotkeyName.HotkeyShowMissingPieces).CurrentKeys = Keys.Control | Keys.F8;
+            GetHotkey(HotkeyName.HotkeyRefreshStyles).CurrentKeys = Keys.Control | Keys.Shift | Keys.F8;
+            GetHotkey(HotkeyName.HotkeyOpenStyleManager).CurrentKeys = Keys.Control | Keys.Alt | Keys.F8;
+            GetHotkey(HotkeyName.HotkeyToggleSnapToGrid).CurrentKeys = Keys.F9;
+            GetHotkey(HotkeyName.HotkeyOpenLevelArrangerWindow).CurrentKeys = Keys.Control | Keys.F9;
+            GetHotkey(HotkeyName.HotkeyOpenPieceBrowserWindow).CurrentKeys = Keys.Control | Keys.Shift | Keys.F9;
+            GetHotkey(HotkeyName.HotkeyToggleAllTabs).CurrentKeys = Keys.Control | Keys.F10;
+            GetHotkey(HotkeyName.HotkeyOpenSettings).CurrentKeys = Keys.F10;
+            GetHotkey(HotkeyName.HotkeyOpenConfigHotkeys).CurrentKeys = Keys.F11;
+            GetHotkey(HotkeyName.HotkeySelectPieces).CurrentKeys = Keys.LButton;
+            GetHotkey(HotkeyName.HotkeyDragToScroll).CurrentKeys = Keys.RButton;
+            GetHotkey(HotkeyName.HotkeyDragHorizontally).CurrentKeys = Keys.Control | Keys.Alt | Keys.LButton;
+            GetHotkey(HotkeyName.HotkeyDragVertically).CurrentKeys = Keys.Control | Keys.Shift | Keys.LButton;
+            GetHotkey(HotkeyName.HotkeyMoveScreenStart).CurrentKeys = Keys.P;
+            GetHotkey(HotkeyName.HotkeySetScreenStartToCursor).CurrentKeys = Keys.L;
+            GetHotkey(HotkeyName.HotkeyRemovePiecesAtCursor).CurrentKeys = Keys.MButton;
+            GetHotkey(HotkeyName.HotkeyAddRemoveSinglePiece).CurrentKeys = Keys.Control | Keys.LButton;
+            GetHotkey(HotkeyName.HotkeySelectPiecesBelow).CurrentKeys = Keys.Alt | Keys.LButton;
+            GetHotkey(HotkeyName.HotkeyZoomIn).CurrentKeys = Keys.Oemplus;
+            GetHotkey(HotkeyName.HotkeyZoomOut).CurrentKeys = Keys.OemMinus;
+            GetHotkey(HotkeyName.HotkeyScrollHorizontally).CurrentKeys = Keys.H;
+            GetHotkey(HotkeyName.HotkeyScrollVertically).CurrentKeys = Keys.V;
+            GetHotkey(HotkeyName.HotkeyShowPreviousPiece).CurrentKeys = Keys.Shift | Keys.Left;
+            GetHotkey(HotkeyName.HotkeyShowNextPiece).CurrentKeys = Keys.Shift | Keys.Right;
+            GetHotkey(HotkeyName.HotkeyShowPreviousGroup).CurrentKeys = Keys.Shift | Keys.Alt | Keys.Left;
+            GetHotkey(HotkeyName.HotkeyShowNextGroup).CurrentKeys = Keys.Shift | Keys.Alt | Keys.Right;
+            GetHotkey(HotkeyName.HotkeyShowPreviousStyle).CurrentKeys = Keys.Shift | Keys.Up;
+            GetHotkey(HotkeyName.HotkeyShowNextStyle).CurrentKeys = Keys.Shift | Keys.Down;
+            GetHotkey(HotkeyName.HotkeyCycleBrowser).CurrentKeys = Keys.Space;
+            GetHotkey(HotkeyName.HotkeyAddPiece1).CurrentKeys = Keys.D1;
+            GetHotkey(HotkeyName.HotkeyAddPiece2).CurrentKeys = Keys.D2;
+            GetHotkey(HotkeyName.HotkeyAddPiece3).CurrentKeys = Keys.D3;
+            GetHotkey(HotkeyName.HotkeyAddPiece4).CurrentKeys = Keys.D4;
+            GetHotkey(HotkeyName.HotkeyAddPiece5).CurrentKeys = Keys.D5;
+            GetHotkey(HotkeyName.HotkeyAddPiece6).CurrentKeys = Keys.D6;
+            GetHotkey(HotkeyName.HotkeyAddPiece7).CurrentKeys = Keys.D7;
+            GetHotkey(HotkeyName.HotkeyAddPiece8).CurrentKeys = Keys.D8;
+            GetHotkey(HotkeyName.HotkeyAddPiece9).CurrentKeys = Keys.D9;
+            GetHotkey(HotkeyName.HotkeyAddPiece10).CurrentKeys = Keys.D0;
+            GetHotkey(HotkeyName.HotkeyUndo).CurrentKeys = Keys.Control | Keys.Z;
+            GetHotkey(HotkeyName.HotkeyRedo).CurrentKeys = Keys.Control | Keys.Y;
+            GetHotkey(HotkeyName.HotkeySelectAll).CurrentKeys = Keys.Control | Keys.A;
+            GetHotkey(HotkeyName.HotkeyCut).CurrentKeys = Keys.Control | Keys.X;
+            GetHotkey(HotkeyName.HotkeyCopy).CurrentKeys = Keys.Control | Keys.C;
+            GetHotkey(HotkeyName.HotkeyPaste).CurrentKeys = Keys.Control | Keys.V;
+            GetHotkey(HotkeyName.HotkeyPasteInPlace).CurrentKeys = Keys.Control | Keys.Shift | Keys.V;
+            GetHotkey(HotkeyName.HotkeyDuplicate).CurrentKeys = Keys.C;
+            GetHotkey(HotkeyName.HotkeyDuplicateUp).CurrentKeys = Keys.Control | Keys.Alt | Keys.Up;
+            GetHotkey(HotkeyName.HotkeyDuplicateDown).CurrentKeys = Keys.Control | Keys.Alt | Keys.Down;
+            GetHotkey(HotkeyName.HotkeyDuplicateLeft).CurrentKeys = Keys.Control | Keys.Alt | Keys.Left;
+            GetHotkey(HotkeyName.HotkeyDuplicateRight).CurrentKeys = Keys.Control | Keys.Alt | Keys.Right;
+            GetHotkey(HotkeyName.HotkeyDelete).CurrentKeys = Keys.Delete;
+            GetHotkey(HotkeyName.HotkeyMoveUp).CurrentKeys = Keys.Up;
+            GetHotkey(HotkeyName.HotkeyMoveDown).CurrentKeys = Keys.Down;
+            GetHotkey(HotkeyName.HotkeyMoveLeft).CurrentKeys = Keys.Left;
+            GetHotkey(HotkeyName.HotkeyMoveRight).CurrentKeys = Keys.Right;
+            GetHotkey(HotkeyName.HotkeyGridMoveUp).CurrentKeys = Keys.Control | Keys.Up;
+            GetHotkey(HotkeyName.HotkeyGridMoveDown).CurrentKeys = Keys.Control | Keys.Down;
+            GetHotkey(HotkeyName.HotkeyGridMoveLeft).CurrentKeys = Keys.Control | Keys.Left;
+            GetHotkey(HotkeyName.HotkeyGridMoveRight).CurrentKeys = Keys.Control | Keys.Right;
+            GetHotkey(HotkeyName.HotkeyCustomMoveUp).CurrentKeys = Keys.Alt | Keys.Up;
+            GetHotkey(HotkeyName.HotkeyCustomMoveDown).CurrentKeys = Keys.Alt | Keys.Down;
+            GetHotkey(HotkeyName.HotkeyCustomMoveLeft).CurrentKeys = Keys.Alt | Keys.Left;
+            GetHotkey(HotkeyName.HotkeyCustomMoveRight).CurrentKeys = Keys.Alt | Keys.Right;
+            GetHotkey(HotkeyName.HotkeyRotate).CurrentKeys = Keys.R;
+            GetHotkey(HotkeyName.HotkeyFlip).CurrentKeys = Keys.E;
+            GetHotkey(HotkeyName.HotkeyInvert).CurrentKeys = Keys.W;
+            GetHotkey(HotkeyName.HotkeyGroup).CurrentKeys = Keys.G;
+            GetHotkey(HotkeyName.HotkeyUngroup).CurrentKeys = Keys.U;
+            GetHotkey(HotkeyName.HotkeyErase).CurrentKeys = Keys.A;
+            GetHotkey(HotkeyName.HotkeyNoOverwrite).CurrentKeys = Keys.S;
+            GetHotkey(HotkeyName.HotkeyOnlyOnTerrain).CurrentKeys = Keys.D;
+            GetHotkey(HotkeyName.HotkeyAllowOneWay).CurrentKeys = Keys.F;
+            GetHotkey(HotkeyName.HotkeyDrawLast).CurrentKeys = Keys.Home;
+            GetHotkey(HotkeyName.HotkeyDrawSooner).CurrentKeys = Keys.PageUp;
+            GetHotkey(HotkeyName.HotkeyDrawLater).CurrentKeys = Keys.PageDown;
+            GetHotkey(HotkeyName.HotkeyDrawFirst).CurrentKeys = Keys.End;
+            GetHotkey(HotkeyName.HotkeyCloseEditor).CurrentKeys = Keys.Alt | Keys.F4;
         }
     }
 }

@@ -962,31 +962,31 @@ namespace SLXEditor
                 case Keys.Menu:
                     isAltPressed = false;
                     break;
-                case var key when key == HotkeyConfig.HotkeyScrollHorizontally:
+                case var key when key == HotkeyConfig.GetHotkey(HotkeyConfig.HotkeyName.HotkeyScrollHorizontally).CurrentKeys:
                     scrollHorizontallyPressed = false;
                     break;
-                case var key when key == HotkeyConfig.HotkeyScrollVertically:
+                case var key when key == HotkeyConfig.GetHotkey(HotkeyConfig.HotkeyName.HotkeyScrollVertically).CurrentKeys:
                     scrollVerticallyPressed = false;
                     break;
-                case var key when key == HotkeyConfig.HotkeyDragToScroll:
+                case var key when key == HotkeyConfig.GetHotkey(HotkeyConfig.HotkeyName.HotkeyDragToScroll).CurrentKeys:
                     dragToScrollPressed = false;
                     break;
-                case var key when key == HotkeyConfig.HotkeyDragHorizontally:
+                case var key when key == HotkeyConfig.GetHotkey(HotkeyConfig.HotkeyName.HotkeyDragHorizontally).CurrentKeys:
                     dragHorizontallyPressed = false;
                     break;
-                case var key when key == HotkeyConfig.HotkeyDragVertically:
+                case var key when key == HotkeyConfig.GetHotkey(HotkeyConfig.HotkeyName.HotkeyDragVertically).CurrentKeys:
                     dragVerticallyPressed = false;
                     break;
-                case var key when key == HotkeyConfig.HotkeyMoveScreenStart:
+                case var key when key == HotkeyConfig.GetHotkey(HotkeyConfig.HotkeyName.HotkeyMoveScreenStart).CurrentKeys:
                     dragScreenStartPressed = false;
                     break;
-                case var key when key == HotkeyConfig.HotkeyRemovePiecesAtCursor:
+                case var key when key == HotkeyConfig.GetHotkey(HotkeyConfig.HotkeyName.HotkeyRemovePiecesAtCursor).CurrentKeys:
                     removeAllPiecesAtCursorPressed = false;
                     break;
-                case var key when key == HotkeyConfig.HotkeyAddRemoveSinglePiece:
+                case var key when key == HotkeyConfig.GetHotkey(HotkeyConfig.HotkeyName.HotkeyAddRemoveSinglePiece).CurrentKeys:
                     addOrRemoveSinglePiecePressed = false;
                     break;
-                case var key when key == HotkeyConfig.HotkeySelectPiecesBelow:
+                case var key when key == HotkeyConfig.GetHotkey(HotkeyConfig.HotkeyName.HotkeySelectPiecesBelow).CurrentKeys:
                     selectPiecesBelowPressed = false;
                     break;
             }
@@ -1306,12 +1306,12 @@ namespace SLXEditor
                 C.DragActions dragAction = curRenderer.MouseDragAction;
 
                 // Check if current hotkey matches horizontal/vertical drag hotkey
-                if (currentHotkey == HotkeyConfig.HotkeyDragHorizontally)
+                if (currentHotkey == HotkeyConfig.GetHotkey(HotkeyConfig.HotkeyName.HotkeyDragHorizontally).CurrentKeys)
                 {
                     dragAction = C.DragActions.HorizontalDrag;
                     Cursor = Cursors.SizeWE;
                 }
-                else if (currentHotkey == HotkeyConfig.HotkeyDragVertically)
+                else if (currentHotkey == HotkeyConfig.GetHotkey(HotkeyConfig.HotkeyName.HotkeyDragVertically).CurrentKeys)
                 {
                     dragAction = C.DragActions.VerticalDrag;
                     Cursor = Cursors.SizeNS;

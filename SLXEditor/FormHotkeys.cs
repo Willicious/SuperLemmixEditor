@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SLXEditor
@@ -59,7 +55,7 @@ namespace SLXEditor
             AutoSelectListItem();
 
             // Show the "Edited" label if defaults have been loaded
-            if (HotkeyConfig.defaultHotkeysLoaded)
+            if (HotkeyConfig.DefaultHotkeysLoaded)
                 UpdateCaption();
         }
 
@@ -137,36 +133,45 @@ namespace SLXEditor
             KeyDown -= HandleListeningForKey;
             MouseDown -= FormHotkeys_MouseDown;
 
-            // Determine if the selected item requires a mouse key
+            // Get the selected item
             var selectedItem = listViewHotkeys.SelectedItems.Count > 0 ? listViewHotkeys.SelectedItems[0] : null;
 
-            if (selectedItem != null && HotkeyConfig.mouseMandatoryItems.Contains(selectedItem))
+            if (selectedItem != null && selectedItem.Tag is HotkeyConfig.HotkeyName hotkeyName)
             {
-                if (!HotkeyConfig.mandatoryMouseKeys.Contains(listenedKey))
-                {
-                    MessageBox.Show("This hotkey requires a mouse button key (e.g., LButton, RButton, MButton, etc.).",
-                                    "Invalid Key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                var hotkeyData = HotkeyConfig.GetHotkey(hotkeyName);
 
-                    ResetUI();
-                    return;
+                if (hotkeyData != null && hotkeyData.RequiresMouseButton)
+                {
+                    // Only allow mouse keys
+                    if (!HotkeyConfig.MouseKeys.Contains(listenedKey & ~Keys.Modifiers))
+                    {
+                        MessageBox.Show(
+                            "This hotkey requires a mouse button key (e.g., LButton, RButton, MButton, etc.).",
+                            "Invalid Key",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+
+                        ResetUI();
+                        return;
+                    }
                 }
             }
 
-            // Ignore Enter/Return
+            // Ignore Enter/Return keys
             if (selectedItem != null && (listenedKey == Keys.Return || listenedKey == Keys.Enter))
             {
                 ResetUI();
                 return;
             }
 
-            // Format the hotkey for display and set the selected key
+            // Set the selected key and update the combo box
             string formattedKey = HotkeyConfig.FormatHotkeyString(listenedKey);
             comboBoxChooseKey.SelectedItem = formattedKey;
             selectedKey = listenedKey;
 
             CheckForDuplicateKeys();
         }
-
 
         private void HandleListeningForKey(object sender, KeyEventArgs e)
         {
@@ -321,42 +326,30 @@ namespace SLXEditor
             }  
         }
 
-        /// <summary>
-        /// Iterates over the initial list for string matches
-        /// Assigns each match as a mouse-mandatory item
-        /// </summary>
-        private void GetMouseMandatoryHotkeys()
-        {
-            foreach (var item in listViewHotkeys.Items)
-            {
-                var listViewItem = item as ListViewItem;
-
-                foreach (var subItemText in HotkeyConfig.mandatoryMouseHotkeyText)
-                {
-                    if (listViewItem.SubItems[1].Text == subItemText)
-                    {
-                        HotkeyConfig.mouseMandatoryItems.Add(listViewItem);
-                        break;
-                    }
-                }
-            }
-        }
-
         private void UpdateComboBox(Keys key)
         {
-            var selectedItem = listViewHotkeys.SelectedItems[0];
-            var formattedHotkeys = defaultKeyList.Select(HotkeyConfig.FormatHotkeyString).ToList();
+            if (listViewHotkeys.SelectedItems.Count == 0)
+                return;
 
+            var selectedItem = listViewHotkeys.SelectedItems[0];
+
+            if (!(selectedItem.Tag is HotkeyConfig.HotkeyName hotkeyName))
+                return;
+
+            var hotkeyData = HotkeyConfig.GetHotkey(hotkeyName);
+            if (hotkeyData == null)
+                return;
+
+            // Build formatted list of keys
+            var formattedHotkeys = defaultKeyList.Select(HotkeyConfig.FormatHotkeyString).ToList();
             string formattedKey = HotkeyConfig.FormatHotkeyString(key);
 
-            // If the key isn't in the formatted list, include it
             if (!formattedHotkeys.Contains(formattedKey))
-            {
                 formattedHotkeys.Add(formattedKey);
-            }
 
-            if (HotkeyConfig.mouseMandatoryItems.Contains(selectedItem))
-                comboBoxChooseKey.DataSource = HotkeyConfig.mandatoryMouseKeys
+            // Use mouse keys if required
+            if (hotkeyData.RequiresMouseButton)
+                comboBoxChooseKey.DataSource = HotkeyConfig.MouseKeys
                     .Select(HotkeyConfig.FormatHotkeyString)
                     .ToList();
             else
@@ -507,21 +500,35 @@ namespace SLXEditor
                 selectedItem.EnsureVisible();
                 listViewHotkeys.Focus();
 
-                // Parse the hotkey string back to a Keys value
-                Keys assignedKey = HotkeyConfig.ParseHotkeyString(selectedItem.SubItems[1].Text);
+                if (!(selectedItem.Tag is HotkeyConfig.HotkeyName hotkeyName))
+                {
+                    DoCheckForDuplicates = true;
+                    return;
+                }
 
-                // Set the combo box to the base key
+                var hotkeyData = HotkeyConfig.GetHotkey(hotkeyName);
+                if (hotkeyData == null)
+                {
+                    DoCheckForDuplicates = true;
+                    return;
+                }
+
+                // Parse the currently assigned key
+                Keys assignedKey = hotkeyData.CurrentKeys;
+
+                // Update combo box with the base key
                 Keys baseKey = assignedKey & ~(Keys.Control | Keys.Shift | Keys.Alt);
                 UpdateComboBox(baseKey);
 
-                // Update the modifier checkboxes
+                // Update modifier checkboxes
                 checkModCtrl.Checked = assignedKey.HasFlag(Keys.Control);
                 checkModShift.Checked = assignedKey.HasFlag(Keys.Shift);
                 checkModAlt.Checked = assignedKey.HasFlag(Keys.Alt);
 
                 ResetComponents();
 
-                if (selectedItem.Text == "Select/Drag Pieces")
+                // Special UI for Select/Drag Pieces hotkey
+                if (hotkeyData.Name == HotkeyConfig.HotkeyName.HotkeySelectPieces)
                 {
                     SetUIForSelectPiecesHotkey();
                 }
@@ -633,19 +640,45 @@ namespace SLXEditor
 
         private void LoadHotkeysToListView()
         {
-            var fields = typeof(HotkeyConfig).GetFields(System.Reflection.BindingFlags.Public |
-                                                        System.Reflection.BindingFlags.Static);
+            listViewHotkeys.Items.Clear();
 
-            int n = 0;
-
-            foreach (var field in fields)
+            foreach (var hotkey in HotkeyConfig.AllHotkeys)
             {
-                if (field.FieldType == typeof(Keys)) // Ensure the field is of type Keys
+                // SubItem[0] holds the hotkey description
+                var item = new ListViewItem(hotkey.Description);
+
+                // SubItem[1] holds the current formatted key
+                item.SubItems.Add(HotkeyConfig.FormatHotkeyString(hotkey.CurrentKeys));
+
+                // Store the hotkey name in the item tag for later lookup
+                item.Tag = hotkey.Name;
+
+                listViewHotkeys.Items.Add(item);
+            }
+
+            if (listViewHotkeys.Items.Count > 0)
+            {
+                listViewHotkeys.Items[0].Selected = true;
+                listViewHotkeys.Focus();
+            }
+
+            // Rebuild mandatory mouse items after populating
+            GetMouseMandatoryHotkeys();
+        }
+
+        private void GetMouseMandatoryHotkeys()
+        {
+            HotkeyConfig.mouseMandatoryItems.Clear();
+
+            foreach (ListViewItem item in listViewHotkeys.Items)
+            {
+                if (item.Tag is HotkeyConfig.HotkeyName hotkeyName)
                 {
-                    // Retrieve the currently assigned hotkey and format it as a string
-                    Keys hotkey = (Keys)field.GetValue(null);
-                    listViewHotkeys.Items[n].SubItems[1].Text = HotkeyConfig.FormatHotkeyString(hotkey);
-                    n++;
+                    var hotkeyData = HotkeyConfig.GetHotkey(hotkeyName);
+                    if (hotkeyData != null && hotkeyData.RequiresMouseButton)
+                    {
+                        HotkeyConfig.mouseMandatoryItems.Add(item);
+                    }
                 }
             }
         }
@@ -654,321 +687,16 @@ namespace SLXEditor
         {
             foreach (ListViewItem item in listViewHotkeys.Items)
             {
+                if (!(item.Tag is HotkeyConfig.HotkeyName hotkeyName))
+                    continue;
+
+                var hotkeyData = HotkeyConfig.GetHotkey(hotkeyName);
+                if (hotkeyData == null)
+                    continue;
+
+                // Convert the displayed string back to Keys
                 string subItemText = item.SubItems[1].Text;
-
-                // Convert string back to Keys
-                Keys parsedKey = HotkeyConfig.ParseHotkeyString(subItemText);
-
-                // Assign the parsed key to the correct HotkeyConfig property
-                switch (item.SubItems[1].Name)
-                {
-                    case "HotkeyCreateNewLevel":
-                        HotkeyConfig.HotkeyCreateNewLevel = parsedKey;
-                        break;
-                    case "HotkeyLoadLevel":
-                        HotkeyConfig.HotkeyLoadLevel = parsedKey;
-                        break;
-                    case "HotkeySaveLevel":
-                        HotkeyConfig.HotkeySaveLevel = parsedKey;
-                        break;
-                    case "HotkeySaveLevelAs":
-                        HotkeyConfig.HotkeySaveLevelAs = parsedKey;
-                        break;
-                    case "HotkeySaveLevelAsImage":
-                        HotkeyConfig.HotkeySaveLevelAsImage = parsedKey;
-                        break;
-                    case "ExportLevelAsINI":
-                        HotkeyConfig.HotkeyExportLevelAsINI = parsedKey;
-                        break;
-                    case "HotkeyPlaytestLevel":
-                        HotkeyConfig.HotkeyPlaytestLevel = parsedKey;
-                        break;
-                    case "HotkeyValidateLevel":
-                        HotkeyConfig.HotkeyValidateLevel = parsedKey;
-                        break;
-                    case "HotkeyCleanseLevels":
-                        HotkeyConfig.HotkeyCleanseLevels = parsedKey;
-                        break;
-                    case "HotkeyHighlightGroupedPieces":
-                        HotkeyConfig.HotkeyHighlightGroupedPieces = parsedKey;
-                        break;
-                    case "HotkeyHighlightEraserPieces":
-                        HotkeyConfig.HotkeyHighlightEraserPieces = parsedKey;
-                        break;
-                    case "HotkeyToggleClearPhysics":
-                        HotkeyConfig.HotkeyToggleClearPhysics = parsedKey;
-                        break;
-                    case "HotkeyToggleTerrain":
-                        HotkeyConfig.HotkeyToggleTerrain = parsedKey;
-                        break;
-                    case "HotkeyToggleObjects":
-                        HotkeyConfig.HotkeyToggleObjects = parsedKey;
-                        break;
-                    case "HotkeyToggleTriggerAreas":
-                        HotkeyConfig.HotkeyToggleTriggerAreas = parsedKey;
-                        break;
-                    case "HotkeyToggleRulers":
-                        HotkeyConfig.HotkeyToggleRulers = parsedKey;
-                        break;
-                    case "HotkeyToggleScreenStart":
-                        HotkeyConfig.HotkeyToggleScreenStart = parsedKey;
-                        break;
-                    case "HotkeyToggleBackground":
-                        HotkeyConfig.HotkeyToggleBackground = parsedKey;
-                        break;
-                    case "HotkeyToggleDeprecatedPieces":
-                        HotkeyConfig.HotkeyToggleDeprecatedPieces = parsedKey;
-                        break;
-                    case "HotkeyPieceSearch":
-                        HotkeyConfig.HotkeyPieceSearch = parsedKey;
-                        break;
-                    case "HotkeyShowMissingPieces":
-                        HotkeyConfig.HotkeyShowMissingPieces = parsedKey;
-                        break;
-                    case "HotkeyRefreshStyles":
-                        HotkeyConfig.HotkeyRefreshStyles = parsedKey;
-                        break;
-                    case "HotkeyOpenStyleManager":
-                        HotkeyConfig.HotkeyOpenStyleManager = parsedKey;
-                        break;
-                    case "HotkeyToggleSnapToGrid":
-                        HotkeyConfig.HotkeyToggleSnapToGrid = parsedKey;
-                        break;
-                    case "HotkeyOpenLevelArrangerWindow":
-                        HotkeyConfig.HotkeyOpenLevelArrangerWindow = parsedKey;
-                        break;
-                    case "HotkeyOpenPieceBrowserWindow":
-                        HotkeyConfig.HotkeyOpenPieceBrowserWindow = parsedKey;
-                        break;
-                    case "HotkeyToggleAllTabs":
-                        HotkeyConfig.HotkeyToggleAllTabs = parsedKey;
-                        break;
-                    case "HotkeyOpenSettings":
-                        HotkeyConfig.HotkeyOpenSettings = parsedKey;
-                        break;
-                    case "HotkeyOpenConfigHotkeys":
-                        HotkeyConfig.HotkeyOpenConfigHotkeys = parsedKey;
-                        break;
-                    case "HotkeyOpenAboutSLX":
-                        HotkeyConfig.HotkeyOpenAboutSLX = parsedKey;
-                        break;
-                    case "HotkeySelectPieces":
-                        HotkeyConfig.HotkeySelectPieces = Keys.LButton; // Just in case
-                        break;
-                    case "HotkeyDragToScroll":
-                        HotkeyConfig.HotkeyDragToScroll = parsedKey;
-                        break;
-                    case "HotkeyDragHorizontally":
-                        HotkeyConfig.HotkeyDragHorizontally = parsedKey;
-                        break;
-                    case "HotkeyDragVertically":
-                        HotkeyConfig.HotkeyDragVertically = parsedKey;
-                        break;
-                    case "HotkeyMoveScreenStart":
-                        HotkeyConfig.HotkeyMoveScreenStart = parsedKey;
-                        break;
-                    case "HotkeySetScreenStartToCursor":
-                        HotkeyConfig.HotkeySetScreenStartToCursor = parsedKey;
-                        break;
-                    case "HotkeyRemovePiecesAtCursor":
-                        HotkeyConfig.HotkeyRemovePiecesAtCursor = parsedKey;
-                        break;
-                    case "HotkeyAddRemoveSinglePiece":
-                        HotkeyConfig.HotkeyAddRemoveSinglePiece = parsedKey;
-                        break;
-                    case "HotkeySelectPiecesBelow":
-                        HotkeyConfig.HotkeySelectPiecesBelow = parsedKey;
-                        break;
-                    case "HotkeyZoomIn":
-                        HotkeyConfig.HotkeyZoomIn = parsedKey;
-                        break;
-                    case "HotkeyZoomOut":
-                        HotkeyConfig.HotkeyZoomOut = parsedKey;
-                        break;
-                    case "HotkeyScrollHorizontally":
-                        HotkeyConfig.HotkeyScrollHorizontally = parsedKey;
-                        break;
-                    case "HotkeyScrollVertically":
-                        HotkeyConfig.HotkeyScrollVertically = parsedKey;
-                        break;
-                    case "HotkeyShowPreviousPiece":
-                        HotkeyConfig.HotkeyShowPreviousPiece = parsedKey;
-                        break;
-                    case "HotkeyShowNextPiece":
-                        HotkeyConfig.HotkeyShowNextPiece = parsedKey;
-                        break;
-                    case "HotkeyShowPreviousGroup":
-                        HotkeyConfig.HotkeyShowPreviousGroup = parsedKey;
-                        break;
-                    case "HotkeyShowNextGroup":
-                        HotkeyConfig.HotkeyShowNextGroup = parsedKey;
-                        break;
-                    case "HotkeyShowPreviousStyle":
-                        HotkeyConfig.HotkeyShowPreviousStyle = parsedKey;
-                        break;
-                    case "HotkeyShowNextStyle":
-                        HotkeyConfig.HotkeyShowNextStyle = parsedKey;
-                        break;
-                    case "HotkeyCycleBrowser":
-                        HotkeyConfig.HotkeyCycleBrowser = parsedKey;
-                        break;
-                    case "HotkeyAddPiece1":
-                        HotkeyConfig.HotkeyAddPiece1 = parsedKey;
-                        break;
-                    case "HotkeyAddPiece2":
-                        HotkeyConfig.HotkeyAddPiece2 = parsedKey;
-                        break;
-                    case "HotkeyAddPiece3":
-                        HotkeyConfig.HotkeyAddPiece3 = parsedKey;
-                        break;
-                    case "HotkeyAddPiece4":
-                        HotkeyConfig.HotkeyAddPiece4 = parsedKey;
-                        break;
-                    case "HotkeyAddPiece5":
-                        HotkeyConfig.HotkeyAddPiece5 = parsedKey;
-                        break;
-                    case "HotkeyAddPiece6":
-                        HotkeyConfig.HotkeyAddPiece6 = parsedKey;
-                        break;
-                    case "HotkeyAddPiece7":
-                        HotkeyConfig.HotkeyAddPiece7 = parsedKey;
-                        break;
-                    case "HotkeyAddPiece8":
-                        HotkeyConfig.HotkeyAddPiece8 = parsedKey;
-                        break;
-                    case "HotkeyAddPiece9":
-                        HotkeyConfig.HotkeyAddPiece9 = parsedKey;
-                        break;
-                    case "HotkeyAddPiece10":
-                        HotkeyConfig.HotkeyAddPiece10 = parsedKey;
-                        break;
-                    case "HotkeyAddPiece11":
-                        HotkeyConfig.HotkeyAddPiece11 = parsedKey;
-                        break;
-                    case "HotkeyAddPiece12":
-                        HotkeyConfig.HotkeyAddPiece12 = parsedKey;
-                        break;
-                    case "HotkeyAddPiece13":
-                        HotkeyConfig.HotkeyAddPiece13 = parsedKey;
-                        break;
-                    case "HotkeyUndo":
-                        HotkeyConfig.HotkeyUndo = parsedKey;
-                        break;
-                    case "HotkeyRedo":
-                        HotkeyConfig.HotkeyRedo = parsedKey;
-                        break;
-                    case "HotkeySelectAll":
-                        HotkeyConfig.HotkeySelectAll = parsedKey;
-                        break;
-                    case "HotkeyCut":
-                        HotkeyConfig.HotkeyCut = parsedKey;
-                        break;
-                    case "HotkeyCopy":
-                        HotkeyConfig.HotkeyCopy = parsedKey;
-                        break;
-                    case "HotkeyPaste":
-                        HotkeyConfig.HotkeyPaste = parsedKey;
-                        break;
-                    case "HotkeyPasteInPlace":
-                        HotkeyConfig.HotkeyPasteInPlace = parsedKey;
-                        break;
-                    case "HotkeyDuplicate":
-                        HotkeyConfig.HotkeyDuplicate = parsedKey;
-                        break;
-                    case "HotkeyDuplicateUp":
-                        HotkeyConfig.HotkeyDuplicateUp = parsedKey;
-                        break;
-                    case "HotkeyDuplicateDown":
-                        HotkeyConfig.HotkeyDuplicateDown = parsedKey;
-                        break;
-                    case "HotkeyDuplicateLeft":
-                        HotkeyConfig.HotkeyDuplicateLeft = parsedKey;
-                        break;
-                    case "HotkeyDuplicateRight":
-                        HotkeyConfig.HotkeyDuplicateRight = parsedKey;
-                        break;
-                    case "HotkeyDelete":
-                        HotkeyConfig.HotkeyDelete = parsedKey;
-                        break;
-                    case "HotkeyMoveUp":
-                        HotkeyConfig.HotkeyMoveUp = parsedKey;
-                        break;
-                    case "HotkeyMoveDown":
-                        HotkeyConfig.HotkeyMoveDown = parsedKey;
-                        break;
-                    case "HotkeyMoveLeft":
-                        HotkeyConfig.HotkeyMoveLeft = parsedKey;
-                        break;
-                    case "HotkeyMoveRight":
-                        HotkeyConfig.HotkeyMoveRight = parsedKey;
-                        break;
-                    case "HotkeyGridMoveUp":
-                        HotkeyConfig.HotkeyGridMoveUp = parsedKey;
-                        break;
-                    case "HotkeyGridMoveDown":
-                        HotkeyConfig.HotkeyGridMoveDown = parsedKey;
-                        break;
-                    case "HotkeyGridMoveLeft":
-                        HotkeyConfig.HotkeyGridMoveLeft = parsedKey;
-                        break;
-                    case "HotkeyGridMoveRight":
-                        HotkeyConfig.HotkeyGridMoveRight = parsedKey;
-                        break;
-                    case "HotkeyCustomMoveUp":
-                        HotkeyConfig.HotkeyCustomMoveUp = parsedKey;
-                        break;
-                    case "HotkeyCustomMoveDown":
-                        HotkeyConfig.HotkeyCustomMoveDown = parsedKey;
-                        break;
-                    case "HotkeyCustomMoveLeft":
-                        HotkeyConfig.HotkeyCustomMoveLeft = parsedKey;
-                        break;
-                    case "HotkeyCustomMoveRight":
-                        HotkeyConfig.HotkeyCustomMoveRight = parsedKey;
-                        break;
-                    case "HotkeyRotate":
-                        HotkeyConfig.HotkeyRotate = parsedKey;
-                        break;
-                    case "HotkeyFlip":
-                        HotkeyConfig.HotkeyFlip = parsedKey;
-                        break;
-                    case "HotkeyInvert":
-                        HotkeyConfig.HotkeyInvert = parsedKey;
-                        break;
-                    case "HotkeyGroup":
-                        HotkeyConfig.HotkeyGroup = parsedKey;
-                        break;
-                    case "HotkeyUngroup":
-                        HotkeyConfig.HotkeyUngroup = parsedKey;
-                        break;
-                    case "HotkeyErase":
-                        HotkeyConfig.HotkeyErase = parsedKey;
-                        break;
-                    case "HotkeyNoOverwrite":
-                        HotkeyConfig.HotkeyNoOverwrite = parsedKey;
-                        break;
-                    case "HotkeyOnlyOnTerrain":
-                        HotkeyConfig.HotkeyOnlyOnTerrain = parsedKey;
-                        break;
-                    case "HotkeyAllowOneWay":
-                        HotkeyConfig.HotkeyAllowOneWay = parsedKey;
-                        break;
-                    case "HotkeyDrawLast":
-                        HotkeyConfig.HotkeyDrawLast = parsedKey;
-                        break;
-                    case "HotkeyDrawSooner":
-                        HotkeyConfig.HotkeyDrawSooner = parsedKey;
-                        break;
-                    case "HotkeyDrawLater":
-                        HotkeyConfig.HotkeyDrawLater = parsedKey;
-                        break;
-                    case "HotkeyDrawFirst":
-                        HotkeyConfig.HotkeyDrawFirst = parsedKey;
-                        break;
-                    case "HotkeyCloseEditor":
-                        HotkeyConfig.HotkeyCloseEditor = parsedKey;
-                        break;
-                }
+                hotkeyData.CurrentKeys = HotkeyConfig.ParseHotkeyString(subItemText);
             }
         }
     }

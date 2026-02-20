@@ -146,6 +146,7 @@
     <Compile Include="FormAboutSLXEditor.Designer.cs">
       <DependentUpon>FormAboutSLXEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="HotkeyData.cs" />
     <Compile Include="INILevelExporter.cs" />
     <Compile Include="INITranslationTables.cs" />
     <Compile Include="LevelPieceBase.cs" />
