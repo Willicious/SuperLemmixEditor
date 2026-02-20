@@ -96,6 +96,7 @@ namespace SLXEditor
         {
             UpdateLayerBmpSize();
 
+            CreateGridLayer();
             CreateObjectBackLayer();
             CreateTerrainLayer();
             CreateObjectTopLayer();
@@ -157,6 +158,12 @@ namespace SLXEditor
                 // Still use background color
                 baseLevelImage = new Bitmap(level.Width, level.Height);
                 baseLevelImage.Clear(level.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.SLXColors[C.SLXColor.BackDefault]);
+            }
+
+            // Draw the pieces grid if needed
+            if (IsGridEnabled)
+            {
+                baseLevelImage.DrawOn(layerImages[C.Layer.Grid]);
             }
 
             // Draw all the layers
@@ -484,11 +491,15 @@ namespace SLXEditor
 
                 layerImages[C.Layer.Background].DrawOn(backgroundImage, new Point(0, 0));
             }
+        }
 
-            // Draw the pieces grid if needed
+        public void CreateGridLayer()
+        {
+            layerImages[C.Layer.Grid].Clear();
+
             if (IsGridEnabled)
             {
-                DrawGrid(layerImages[C.Layer.Background], level.Width, level.Height, curSettings.GridSize, curSettings.GridColor);
+                DrawGrid(layerImages[C.Layer.Grid], level.Width, level.Height, curSettings.GridSize, curSettings.GridColor);
             }
         }
 

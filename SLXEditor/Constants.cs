@@ -143,10 +143,10 @@ namespace SLXEditor
         public static readonly byte ALPHA_OWW = 255;
         public static readonly byte ALPHA_NOOWW = 254;
 
-        public enum Layer { Background, ObjBack, Terrain, ObjTop, Triggers, Rulers }
+        public enum Layer { Background, Grid, ObjBack, Terrain, ObjTop, Triggers, Rulers }
         public static readonly List<Layer> LayerList = new List<Layer>()
     {
-      Layer.Background, Layer.ObjBack, Layer.Terrain, Layer.ObjTop, Layer.Triggers, Layer.Rulers
+      Layer.Background, Layer.Grid, Layer.ObjBack, Layer.Terrain, Layer.ObjTop, Layer.Triggers, Layer.Rulers
     };
 
         // The integer values here are only used to pick the correct frame of pickupanim.png
