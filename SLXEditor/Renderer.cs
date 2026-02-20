@@ -42,6 +42,8 @@ namespace SLXEditor
             SetLevel(level);
             ClearLayers();
             ChangeZoom(1);
+
+            InitializeCropTool();
         }
 
         public const int AllowedGrayBorder = 10;
@@ -76,6 +78,9 @@ namespace SLXEditor
 
         Point zoomMouseScreenPos;
         Point zoomMouseLevelPos;
+
+        public CropTool CropTool;
+        private Point currentLevelDrawOffset;
 
         public void Dispose()
         {
@@ -234,6 +239,16 @@ namespace SLXEditor
             // Dispose the single screen bitmap
             croppedBmp.Dispose();
             screenBmp.Dispose();
+
+            // Draw the crop tool
+            currentLevelDrawOffset = levelPos;
+            if (CropTool.Active)
+            {
+                using (Graphics g = Graphics.FromImage(fullBmp))
+                {
+                    CropTool.Draw(g);
+                }
+            }
 
             return fullBmp;
         }
@@ -909,7 +924,6 @@ namespace SLXEditor
         /// <summary>
         /// Adds the selection coordinates and/or grid status at the bottom right of the level image.
         /// </summary>
-        /// <param name="levelBmp"></param>
         private void AddCornerText(ref Bitmap fullBmp)
         {
             string text = (IsGridEnabled ? "(G)" : "");
@@ -943,7 +957,6 @@ namespace SLXEditor
         /// <summary>
         /// Draws rectangles around selected pieces on already zoomed and cropped image.
         /// </summary>
-        /// <param name="levelBmp"></param>
         private void AddSelectedRectangles(ref Bitmap levelBmp)
         {
             // ----- Gadgets -----
@@ -981,10 +994,18 @@ namespace SLXEditor
             levelBmp.DrawOnRectangles(terrRects, C.SLXColors[C.SLXColor.SelRectTerrain]);
         }
 
+        private void InitializeCropTool()
+        {
+            CropTool = new CropTool(
+                GetPicRectFromLevelRect,
+                GetLevelPointFromPicPoint,
+                () => new Rectangle(0, 0, level.Width, level.Height),
+                () => currentLevelDrawOffset);
+        }
+
         /// <summary>
         /// Translates a rectangle in level coordinates into screen coordinates (relative to pic_Level)
         /// </summary>
-        /// <param name="origRect"></param>
         private Rectangle GetPicRectFromLevelRect(Rectangle origRect)
         {
             int posX = ApplyZoom(origRect.X - Math.Max(ScreenPosX, 0));
@@ -1005,7 +1026,6 @@ namespace SLXEditor
         /// <summary>
         /// Translates a point in level coordinates into screen coordinates (relative to pic_Level)
         /// </summary>
-        /// <param name="origPoint"></param>
         private Point GetPicPointFromLevelPoint(Point origPoint)
         {
             int posX = ApplyZoom(origPoint.X - Math.Max(ScreenPosX, 0));
@@ -1013,6 +1033,16 @@ namespace SLXEditor
             return new Point(posX, posY);
         }
 
+        /// <summary>
+        /// Translates screen coordinates (relative to pic_Level) into a point in level coordinates 
+        /// </summary>
+        private Point GetLevelPointFromPicPoint(Point picPoint)
+        {
+            int levelX = ApplyUnZoom(picPoint.X) + Math.Max(ScreenPosX, 0);
+            int levelY = ApplyUnZoom(picPoint.Y) + Math.Max(ScreenPosY, 0);
+
+            return new Point(levelX, levelY);
+        }
 
         /// <summary>
         /// Draws the rectangle around the area currently selected with the mouse.

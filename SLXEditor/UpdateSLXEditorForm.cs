@@ -519,6 +519,16 @@ namespace SLXEditor
             but_ClearBackground.Left = but_SearchPieces.Left - 6 - but_ClearBackground.Width;
         }
 
+        private void UpdateCropButtons()
+        {
+            bool cropActive = curRenderer.CropTool.Active;
+
+            but_ApplyCrop.Visible = cropActive;
+            but_CancelCrop.Visible = cropActive;
+            but_CropLevel.Enabled = !cropActive;
+            but_CropLevel.Width = cropActive ? but_ApplyCrop.Width : but_CancelCrop.Right - but_CropLevel.Left;
+        }
+
         /// <summary>
         /// Positions pic_Level at the correct place and resizes it accordingly.
         /// </summary>

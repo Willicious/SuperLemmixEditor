@@ -91,6 +91,7 @@
     <Compile Include="Aliases.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="BmpModify.cs" />
+    <Compile Include="CropTool.cs" />
     <Compile Include="FormBatchExporter.cs">
       <SubType>Form</SubType>
     </Compile>
