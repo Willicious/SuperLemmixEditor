@@ -1259,7 +1259,7 @@ namespace SLXEditor
         {
             if (curRenderer.CropTool.Active)
             {
-                curRenderer.CropTool.MouseMove(e.Location);
+                curRenderer.CropTool.MouseMove(e.Location, curSettings);
                 pic_Level.SetImage(curRenderer.GetScreenImage());
                 return;
             }

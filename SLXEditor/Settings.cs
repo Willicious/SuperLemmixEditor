@@ -7,9 +7,9 @@ using System.Windows.Forms;
 
 namespace SLXEditor
 {
-    class Settings
+    public class Settings
     {
-        public Settings(SLXEditForm editorForm)
+        internal Settings(SLXEditForm editorForm)
         {
             this.editorForm = editorForm;
             SetDefault();

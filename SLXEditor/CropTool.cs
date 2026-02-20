@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -141,10 +142,10 @@ namespace SLXEditor
             originalRect = LevelCropRect;
         }
 
-        public void MouseMove(Point picPoint)
+        public void MouseMove(Point picPoint, Settings settings)
         {
             if (!Active || dragMode == DragMode.None)
-                return;
+                return;   
 
             Point offset = getLevelDrawOffset();
             Point adjusted = new Point(
@@ -154,6 +155,10 @@ namespace SLXEditor
             Point levelPoint = picToLevelPoint(adjusted);
             int dx = levelPoint.X - dragStartLevel.X;
             int dy = levelPoint.Y - dragStartLevel.Y;
+
+            int step = settings.UseGridForPieces ? settings.GridSize : 1;
+            dx -= dx % step;
+            dy -= dy % step;
 
             Rectangle r = originalRect;
 
