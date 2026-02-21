@@ -937,15 +937,19 @@ namespace SLXEditor
         /// </summary>
         private void AddCornerText(ref Bitmap fullBmp)
         {
-            string text = (IsGridEnabled ? "(G)" : "");
+            string text = string.Empty;
 
             if (level.SelectionList()?.Count > 0)
             {
                 Rectangle selectRect = level.SelectionRectangle();
-                text = text + " " + selectRect.X.ToString() + "/" + selectRect.Y.ToString();
+                text = $"{selectRect.X}/{selectRect.Y} |";
             }
 
-            text = text + ($" (Z: {ZoomFactor})");
+            text = text + (IsGridEnabled ? $" Grid {curSettings.GridSize} |" : "");
+
+            string zoomText = (ZoomFactor >= C.ZOOM_MAX) ? "MAX" : (ZoomFactor <= C.ZOOM_MIN) ? "MIN" : $"{ZoomFactor}";
+
+            text = text + ($" Zoom {zoomText}");
 
             Point textPos = new Point(picBoxWidth + 2, picBoxHeight);
 
