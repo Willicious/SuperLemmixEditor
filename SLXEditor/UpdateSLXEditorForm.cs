@@ -597,7 +597,7 @@ namespace SLXEditor
             }
             scrollPicLevelHoriz.Enabled = displayScrollHoriz;
             scrollPicLevelHoriz.Visible = displayScrollHoriz;
-
+            curRenderer.ScrollHorizActive = displayScrollHoriz;
 
             // Set scrollPicLevelVert
             if (displayScrollVert)
@@ -611,6 +611,7 @@ namespace SLXEditor
             }
             scrollPicLevelVert.Enabled = displayScrollVert;
             scrollPicLevelVert.Visible = displayScrollVert;
+            curRenderer.ScrollVertActive = displayScrollVert;
 
             // Finally resize scrollbars correctly
             if (scrollPicLevelHoriz.Enabled)

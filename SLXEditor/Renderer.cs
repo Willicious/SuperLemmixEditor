@@ -82,6 +82,9 @@ namespace SLXEditor
         public CropTool CropTool;
         private Point currentLevelDrawOffset;
 
+        public bool ScrollHorizActive;
+        public bool ScrollVertActive;
+
         public void Dispose()
         {
             layerImages?.Values.ToList().ForEach(bmp => bmp.Dispose());
@@ -953,14 +956,11 @@ namespace SLXEditor
 
             Point textPos = new Point(picBoxWidth + 2, picBoxHeight);
 
-            // Get the size of the displayed part of the level
-            Rectangle displayedLevelRect = GetLevelBmpRect();
-
             // Adjust text position if the scrollbars are visible and we're not in Level Arranger window
             if (!curSettings.LevelArranger.IsOpen)
             {
-                if (displayedLevelRect.Width + 1 < level.Width) textPos.X = textPos.X - 10;
-                if (displayedLevelRect.Height + 1 < level.Height) textPos.Y = textPos.Y - 8;
+                if (ScrollVertActive) textPos.X -= 10;
+                if (ScrollHorizActive) textPos.Y -= 8;
             }
 
             // Set color
