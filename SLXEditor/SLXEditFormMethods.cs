@@ -2053,6 +2053,7 @@ Ladderer=10";
 
             MaybeOpenPiecesTab();
             UpdatePieceMetaData();
+            SaveChangesToOldLevelList();
         }
 
         /// <summary>
@@ -2081,6 +2082,8 @@ Ladderer=10";
                 // Remove all pieces intersection SelectArea
                 CurLevel.SelectAreaPiece((Rectangle)selectArea, false);
             }
+
+            SaveChangesToOldLevelList();
         }
 
         /// <summary>
