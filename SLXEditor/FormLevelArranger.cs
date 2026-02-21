@@ -144,6 +144,8 @@ namespace SLXEditor
             }
             scrollVert.Enabled = displayScrollVert;
             scrollVert.Visible = displayScrollVert;
+
+            ResetPicLevel();
         }
 
         private bool ValidateScreenSettings(Point location)
