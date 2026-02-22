@@ -33,8 +33,6 @@ namespace SLXEditor
             InitializeComponent();
             mainForm = parentForm;
             curSettings = settings;
-
-            checkAutoPinOGStyles.Checked = curSettings.AutoPinOGStyles;
         }
 
         private void LoadStylesIntoListView()
@@ -892,7 +890,9 @@ namespace SLXEditor
         private void FormStyleManager_Load(object sender, EventArgs e)
         {
             LoadStylesIntoListView();
+
             checkShowRandomButton.Checked = curSettings.ShowRandomButton;
+            checkAutoPinOGStyles.Checked = curSettings.AutoPinOGStyles;
         }
 
         private void BtnMoveStyles_Click(object sender, EventArgs e)
