@@ -2775,10 +2775,19 @@ Ladderer=10";
             newName = SanitizeNameForFileSystem(newName);
 
             // Save the level
-            string templatePath = EnsureUniqueFileName(C.AppPathTemplates, newName, ".template");
+            string templatePath = Path.Combine(C.AppPathTemplates, newName + ".template");
+            if (File.Exists(templatePath))
+            {
+                var result = MessageBox.Show($"{newName} already exists in templates folder. Would you like to overwrite it?",
+                    "Template Already Exists",
+                    MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.No)
+                    templatePath = EnsureUniqueFileName(C.AppPathTemplates, newName, ".template");
+            }
             LevelFile.SaveLevelToFile(templatePath, CurLevel);
 
-            // Save the image with matching unique name
+            // Save the image with matching name
             string pngPath = Path.ChangeExtension(templatePath, ".png");
             SaveLevelBitmapAsImage(pngPath);
 
