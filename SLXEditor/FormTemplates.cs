@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace SLXEditor
 {
@@ -20,12 +15,14 @@ namespace SLXEditor
         class TemplateInfo
         {
             public string FilePath { get; set; }
+            public string FileName { get; set; }
             public string DisplayTitle { get; set; }
             public Level TemplateLevel { get; set; }
 
-            public TemplateInfo(string filePath, string displayTitle, Level level)
+            public TemplateInfo(string filePath, string fileName, string displayTitle, Level level)
             {
                 FilePath = filePath;
+                FileName = fileName;
                 DisplayTitle = displayTitle;
                 TemplateLevel = level;
             }
@@ -42,7 +39,7 @@ namespace SLXEditor
             curSettings = settings;
         }
 
-        private void PopulateTemplatesList()
+        private void PopulateTemplatesList(int index = 0)
         {
             listTemplates.Items.Clear();
 
@@ -70,7 +67,12 @@ namespace SLXEditor
                             ? Path.GetFileNameWithoutExtension(file)
                             : level.Title;
 
-                        var templateInfo = new TemplateInfo(file, displayTitle, level);
+                        string name = Path.GetFileNameWithoutExtension(file);
+
+                        if (curSettings.DefaultTemplate == name)
+                            displayTitle = displayTitle + " (Default)";
+
+                        var templateInfo = new TemplateInfo(file, name, displayTitle, level);
                         listTemplates.Items.Add(templateInfo);
                     }
                     catch
@@ -79,9 +81,10 @@ namespace SLXEditor
                     }
                 }
 
-                // Select the first item
-                if (listTemplates.Items.Count > 0)
-                    listTemplates.SelectedIndex = 0;
+                // Select the given index (first item by default)
+                int count = listTemplates.Items.Count;
+                if (count > 0)
+                    listTemplates.SelectedIndex = index >= count ? count - 1 : index;
             }
             catch (Exception ex)
             {
@@ -122,6 +125,9 @@ namespace SLXEditor
                 return;
 
             Level level = templateInfo.TemplateLevel;
+
+            bool levelIsDefault = curSettings.DefaultTemplate == templateInfo.FileName;
+            btnSetAsDefault.Enabled = !levelIsDefault;
 
             if (!string.IsNullOrWhiteSpace(level.Title))
                 labelTitle.Text = level.Title;
@@ -266,6 +272,7 @@ namespace SLXEditor
                 return;
 
             var templateInfo = (TemplateInfo)listTemplates.SelectedItem;
+            int index = listTemplates.SelectedIndex;
 
             try
             {
@@ -286,7 +293,21 @@ namespace SLXEditor
             }
 
             // Refresh the list
-            PopulateTemplatesList();
+            PopulateTemplatesList(index);
+        }
+
+        private void SetCurrentTemplateAsDefault()
+        {
+            if (listTemplates.SelectedItem == null)
+                return;
+
+            var templateInfo = (TemplateInfo)listTemplates.SelectedItem;
+            int index = listTemplates.SelectedIndex;
+
+            curSettings.DefaultTemplate = templateInfo.FileName;
+            curSettings.WriteSettingsToFile();
+            btnSetAsDefault.Enabled = false;
+            PopulateTemplatesList(index);
         }
 
         private void FormTemplates_Load(object sender, EventArgs e)
@@ -309,6 +330,11 @@ namespace SLXEditor
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DeleteSelectedTemplate();
+        }
+
+        private void btnSetAsDefault_Click(object sender, EventArgs e)
+        {
+            SetCurrentTemplateAsDefault();
         }
     }
 }

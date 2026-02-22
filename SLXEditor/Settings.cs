@@ -80,6 +80,7 @@ namespace SLXEditor
         public PieceBrowserState PieceBrowser { get; set; } = new PieceBrowserState();
 
         public string DefaultAuthorName { get; private set; }
+        public string DefaultTemplate { get; set; }
         public bool AutoPinOGStyles { get; set; }
         public bool ShowRandomButton { get; set; }
         public bool PreferObjectName { get; private set; }
@@ -117,6 +118,7 @@ namespace SLXEditor
         public void SetDefault()
         {
             DefaultAuthorName = string.Empty;
+            DefaultTemplate = string.Empty;
             CurrentEditorMode = EditorMode.Auto;
             CurrentPieceBrowserMode = PieceBrowserMode.ShowData;
             CurrentTriggerAreaColor = TriggerAreaColor.Pink;
@@ -981,6 +983,11 @@ namespace SLXEditor
                                 DefaultAuthorName = line.Text.Trim();
                                 break;
                             }
+                        case "DEFAULTTEMPLATE":
+                            {
+                                DefaultTemplate = line.Text.Trim();
+                                break;
+                            }
                         case "EDITORMODE":
                             {
                                 var modeText = line.Text.Trim().ToUpper();
@@ -1220,6 +1227,7 @@ namespace SLXEditor
                 settingsFile.WriteLine("# SLXEditor settings ");
                 settingsFile.WriteLine(" EditorMode          " + CurrentEditorMode.ToString());
                 settingsFile.WriteLine(" DefaultAuthorName      " + DefaultAuthorName);
+                settingsFile.WriteLine(" DefaultTemplate        " + DefaultTemplate);
                 settingsFile.WriteLine(" ValidateWhenSaving     " + (ValidateWhenSaving ? "True" : "False"));
                 settingsFile.WriteLine(" Autosave               " + AutosaveFrequency.ToString());
                 settingsFile.WriteLine(" AutosaveLimit          " + KeepAutosaveCount.ToString());

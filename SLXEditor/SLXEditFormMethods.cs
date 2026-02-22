@@ -628,6 +628,25 @@ Ladderer=10";
             pic_Level.Image = curRenderer.CreateLevelImage();
 
             UpdateSpecialLemmingCounter();
+
+            if (curSettings.DefaultTemplate != string.Empty)
+                LoadLevelFromDefaultTemplate();
+        }
+
+        private void LoadLevelFromDefaultTemplate()
+        {
+            string templatePath = Path.Combine(C.AppPathTemplates, curSettings.DefaultTemplate + ".template");
+            try
+            {
+                LoadNewLevel(templatePath);
+                CurLevel.FilePathToSave = null;
+                LevelDirectory = C.AppPathLevels;
+            }
+            catch (Exception Ex)
+            {
+                Utility.LogException(Ex);
+                MessageBox.Show("Error while loading the level." + C.NewLine + Ex.Message, "Level load error");
+            }
         }
 
         /// <summary>

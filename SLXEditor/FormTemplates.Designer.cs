@@ -37,12 +37,14 @@
             this.labelTitle = new System.Windows.Forms.Label();
             this.picPreview = new System.Windows.Forms.PictureBox();
             this.listTemplates = new System.Windows.Forms.ListBox();
+            this.btnSetAsDefault = new System.Windows.Forms.Button();
             this.panelTemplate.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
             this.SuspendLayout();
             // 
             // panelTemplate
             // 
+            this.panelTemplate.Controls.Add(this.btnSetAsDefault);
             this.panelTemplate.Controls.Add(this.rtSkillSetData);
             this.panelTemplate.Controls.Add(this.rtLevelData);
             this.panelTemplate.Controls.Add(this.btnDelete);
@@ -80,9 +82,9 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(355, 320);
+            this.btnDelete.Location = new System.Drawing.Point(396, 320);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(141, 44);
+            this.btnDelete.Size = new System.Drawing.Size(100, 44);
             this.btnDelete.TabIndex = 4;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
@@ -92,7 +94,7 @@
             // 
             this.btnLoadTemplate.Location = new System.Drawing.Point(0, 320);
             this.btnLoadTemplate.Name = "btnLoadTemplate";
-            this.btnLoadTemplate.Size = new System.Drawing.Size(349, 44);
+            this.btnLoadTemplate.Size = new System.Drawing.Size(240, 44);
             this.btnLoadTemplate.TabIndex = 2;
             this.btnLoadTemplate.Text = "Load Template";
             this.btnLoadTemplate.UseVisualStyleBackColor = true;
@@ -128,6 +130,16 @@
             this.listTemplates.TabIndex = 1;
             this.listTemplates.SelectedIndexChanged += new System.EventHandler(this.listTemplates_SelectedIndexChanged);
             // 
+            // btnSetAsDefault
+            // 
+            this.btnSetAsDefault.Location = new System.Drawing.Point(247, 320);
+            this.btnSetAsDefault.Name = "btnSetAsDefault";
+            this.btnSetAsDefault.Size = new System.Drawing.Size(144, 44);
+            this.btnSetAsDefault.TabIndex = 7;
+            this.btnSetAsDefault.Text = "Set As Default";
+            this.btnSetAsDefault.UseVisualStyleBackColor = true;
+            this.btnSetAsDefault.Click += new System.EventHandler(this.btnSetAsDefault_Click);
+            // 
             // FormTemplates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -158,5 +170,6 @@
         private System.Windows.Forms.RichTextBox rtLevelData;
         private System.Windows.Forms.RichTextBox rtSkillSetData;
         private System.Windows.Forms.ListBox listTemplates;
+        private System.Windows.Forms.Button btnSetAsDefault;
     }
 }
