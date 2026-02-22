@@ -11,12 +11,12 @@ namespace SLXEditor
     public partial class FormBatchExporter : Form
     {
         INILevelExporter Exporter;
-        SLXEditForm MainForm;
+        SLXEditForm mainForm;
 
         internal FormBatchExporter(SLXEditForm parentForm)
         {
             InitializeComponent();
-            MainForm = parentForm;
+            mainForm = parentForm;
         }
 
         private bool UpdateExportButtonAvailability()
@@ -131,7 +131,7 @@ namespace SLXEditor
                     try
                     {
                         // Load
-                        Level level = LevelFile.LoadLevelFromFile(file, MainForm.StyleList, MainForm.Backgrounds);
+                        Level level = LevelFile.LoadLevelFromFile(file, mainForm.StyleList, mainForm.Backgrounds);
                         Exporter.UngroupAllPiecesForExport(level);
 
                         // Update extension
@@ -154,7 +154,7 @@ namespace SLXEditor
                         // Save as SXLV/NXLV (this is essentially CleanseLevels without the reporting)
                         else
                         {
-                            if (!MainForm.CanSaveToEitherFormat(level)) ext = ".sxlv"; // Override if the level contains SuperLemmix-specific features
+                            if (!mainForm.CanSaveToEitherFormat(level)) ext = ".sxlv"; // Override if the level contains SuperLemmix-specific features
                             if (ext != null)
                             {
                                 level.FilePathToSave = Path.Combine(
@@ -183,7 +183,7 @@ namespace SLXEditor
                     );
 
                     // Reset Editor before moving on to the next level
-                    MainForm.CreateNewLevelAndRenderer();
+                    mainForm.CreateNewLevelAndRenderer();
 
                     // Let UI update
                     await Task.Delay(10);
@@ -192,7 +192,7 @@ namespace SLXEditor
                 progressForm.Close();
 
                 // Re-initialize the Editor
-                MainForm.CreateNewLevelAndRenderer();
+                mainForm.CreateNewLevelAndRenderer();
             }
 
             if (failedExports.Count > 0)
