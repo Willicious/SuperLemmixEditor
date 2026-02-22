@@ -25,6 +25,7 @@ namespace SLXEditor
         }
 
         public static string AppPath => System.Windows.Forms.Application.StartupPath + DirSep;
+        public static string AppPathTemplates => AppPath + "templates" + DirSep;
         public static string AppPathAutosave => AppPath + "autosave" + DirSep;
         public static string AppPathStyles => AppPath + "styles" + DirSep;
         public static string AppPathRulers => AppPath + "rulers" + DirSep;

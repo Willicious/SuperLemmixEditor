@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -632,7 +633,7 @@ Ladderer=10";
         /// <summary>
         /// Displays a file browser (if path not specified) and loads the selected level
         /// </summary>
-        private void LoadNewLevel(string filename = null)
+        public void LoadNewLevel(string filename = null)
         {
             if (AskUserWhetherSaveLevel())
                 return;
@@ -640,14 +641,14 @@ Ladderer=10";
             Level level;
 
             if (filename == null)
-                level = LevelFile.LoadLevel(StyleList, Backgrounds, levelDirectory);
+                level = LevelFile.LoadLevel(StyleList, Backgrounds, LevelDirectory);
             else
                 level = LevelFile.LoadLevelFromFile(filename, StyleList, Backgrounds);
 
             if (level == null)
                 return;
 
-            levelDirectory = System.IO.Path.GetDirectoryName(level.FilePathToSave);
+            LevelDirectory = Path.GetDirectoryName(level.FilePathToSave);
             
             CurLevel = level;
             curRenderer.SetLevel(CurLevel);
@@ -1245,9 +1246,9 @@ Ladderer=10";
             // get most up-to-date global info
             ReadLevelInfoFromForm(true);
 
-            LevelFile.SaveLevel(CurLevel, levelDirectory, CanSaveToEitherFormat(CurLevel));
+            LevelFile.SaveLevel(CurLevel, LevelDirectory, CanSaveToEitherFormat(CurLevel));
             SaveChangesToOldLevelList();
-            levelDirectory = System.IO.Path.GetDirectoryName(CurLevel.FilePathToSave);
+            LevelDirectory  = Path.GetDirectoryName(CurLevel.FilePathToSave);
             if (!isPlaytest)
                 lastSavedLevel = CurLevel.Clone();
 
@@ -2635,6 +2636,14 @@ Ladderer=10";
                 timerAutosave.Stop();
         }
 
+        private void OpenTemplatesLoader()
+        {
+            using (var templatesLoader = new FormTemplates(this, curSettings))
+            {
+                templatesLoader.ShowDialog(this);
+            }
+        }
+
         private void ShowAboutSLXEditor()
         {
             using (var aboutSLXEditor = new FormAboutSLXEditor(curSettings))
@@ -2711,28 +2720,62 @@ Ladderer=10";
             }
         }
 
-        private void SaveLevelAsImage()
+        private string SanitizeNameForFileSystem(string name)
         {
-            // Handle the file naming format
-            string baseFileName = string.IsNullOrEmpty(CurLevel.Title) ? "Level" : CurLevel.Title;
-            string fileName = baseFileName + ".png";
             char[] invalid = Path.GetInvalidFileNameChars();
-            fileName = new string(fileName.Select(c => invalid.Contains(c) ? '_' : c).ToArray());
+            return new string(name.Select(c => invalid.Contains(c) ? '_' : c).ToArray());
+        }
 
+        private string EnsureUniqueFileName(string folder, string baseName, string ext)
+        {
+            string name = baseName;
             int count = 0;
-            while (File.Exists(fileName))
+            string fullPath = Path.Combine(folder, name + ext);
+
+            while (File.Exists(fullPath))
             {
                 count++;
-                fileName = $"{baseFileName} ({count}).png";
+                name = $"{baseName} ({count})";
+                fullPath = Path.Combine(folder, name + ext);
             }
 
-            // Get the full level image and save it to a .png file
-            Bitmap fullLevelImage = curRenderer.GetFullLevelImage();
-            fullLevelImage.Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
+            return fullPath;
+        }
 
-            // Confirm save with a popup message
-            string savedFilePath = Path.GetFullPath(fileName);
-            MessageBox.Show($"Image saved as {savedFilePath}", "Save Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        private void SaveLevelBitmapAsImage(string path)
+        {
+            Bitmap fullLevelImage = curRenderer.GetFullLevelImage();
+            fullLevelImage.Save(path, ImageFormat.Png);
+        }
+
+        private void SaveLevelAsTemplate()
+        {
+            string newName = InputDialog.Show("Enter a name for the template:", "Save Level As Template");
+            if (string.IsNullOrWhiteSpace(newName)) return;
+
+            newName = SanitizeNameForFileSystem(newName);
+
+            // Save the level
+            string templatePath = EnsureUniqueFileName(C.AppPathTemplates, newName, ".template");
+            LevelFile.SaveLevelToFile(templatePath, CurLevel);
+
+            // Save the image with matching unique name
+            string pngPath = Path.ChangeExtension(templatePath, ".png");
+            SaveLevelBitmapAsImage(pngPath);
+
+            MessageBox.Show($"Template saved successfully!");
+        }
+
+        private void SaveLevelAsImage()
+        {
+            string baseName = string.IsNullOrEmpty(CurLevel.Title) ? "Level" : CurLevel.Title;
+            baseName = SanitizeNameForFileSystem(baseName);
+            string imagePath = EnsureUniqueFileName(C.AppPath, baseName, ".png");
+
+            SaveLevelBitmapAsImage(imagePath);
+
+            MessageBox.Show($"Image saved as:\n{imagePath}", "Save Successful",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void HighlightGroupedPieces()

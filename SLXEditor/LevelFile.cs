@@ -76,7 +76,7 @@ namespace SLXEditor
 
         static private Level DoLoadLevelFromFile(string filePath, List<Style> styleList, BackgroundList backgrounds)
         {
-            Level newLevel = new Level();
+            Level newLevel = LoadMetaData(filePath, styleList, backgrounds);
             SLXTextDataNode file = NLTextParser.LoadFile(filePath);
 
             newLevel.Title = file["TITLE"].Value;
@@ -147,6 +147,53 @@ namespace SLXEditor
                 newLevel.PostviewText.Add(line.Value);
 
             SanitizeInput(newLevel);
+            return newLevel;
+        }
+
+        static public Level LoadMetaData(string filePath, List<Style> styleList, BackgroundList backgrounds)
+        {
+            Level newLevel = new Level();
+            SLXTextDataNode file = NLTextParser.LoadFile(filePath);
+
+            newLevel.Title = file["TITLE"].Value;
+            newLevel.Author = file["AUTHOR"].Value;
+            newLevel.LevelID = file["ID"].ValueUInt64;
+            newLevel.LevelVersion = file["VERSION"].ValueUInt64;
+
+            newLevel.MainStyle = styleList.Find(sty => sty.NameInDirectory == Aliases.Dealias(file["THEME"].Value, AliasKind.Style).To);
+            newLevel.Background = ParseBackground(Aliases.Dealias(file["BACKGROUND"].Value, AliasKind.Background).To, styleList, backgrounds);
+
+            newLevel.MusicFile = file["MUSIC"].Value;
+
+            newLevel.Width = file["WIDTH"].ValueInt;
+            newLevel.Height = file["HEIGHT"].ValueInt;
+
+            if (file.HasChildWithKey("START_X") && file.HasChildWithKey("START_Y"))
+            {
+                newLevel.StartPos = new Point(file["START_X"].ValueInt, file["START_Y"].ValueInt);
+                newLevel.AutoStartPos = false;
+            }
+            else
+                newLevel.AutoStartPos = true;
+
+            newLevel.NumLems = file["LEMMINGS"].ValueInt;
+            newLevel.SaveReq = file["SAVE_REQUIREMENT"].ValueInt;
+
+            if (file.HasChildWithKey("TIME_LIMIT"))
+            {
+                newLevel.TimeLimit = file["TIME_LIMIT"].ValueInt;
+                newLevel.HasTimeLimit = true;
+            }
+
+            newLevel.SpawnInterval = file["MAX_SPAWN_INTERVAL"].ValueInt;
+            newLevel.ReleaseRate = 103 - file["MAX_SPAWN_INTERVAL"].ValueInt;
+            newLevel.IsSpawnRateFix = file.HasChildWithKey("SPAWN_INTERVAL_LOCKED");
+            newLevel.IsSuperlemming = file.HasChildWithKey("SUPERLEMMING");
+            newLevel.IsInvincibility = file.HasChildWithKey("INVINCIBILITY");
+            newLevel.SteelType = file["STEEL_TYPE"].ValueInt;
+
+            LoadSkillset(newLevel, file["SKILLSET"]);
+
             return newLevel;
         }
 
