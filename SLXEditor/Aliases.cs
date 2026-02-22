@@ -85,9 +85,9 @@ namespace SLXEditor
             {
                 LoadedStyles.Add(style);
 
-                if (File.Exists(C.AppPathPieces + style + C.DirSep + "alias.nxmi"))
+                if (File.Exists(C.AppPathStyles + style + C.DirSep + "alias.nxmi"))
                 {
-                    SLXTextDataNode aliasFile = NLTextParser.LoadFile(C.AppPathPieces + style + C.DirSep + "alias.nxmi");
+                    SLXTextDataNode aliasFile = NLTextParser.LoadFile(C.AppPathStyles + style + C.DirSep + "alias.nxmi");
 
                     foreach (SLXTextDataNode entry in aliasFile.Children)
                     {

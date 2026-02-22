@@ -318,7 +318,7 @@ namespace SLXEditor
             if (Path.IsPathRooted(imageKey))
                 imagePath = imageKey;
             else
-                imagePath = C.AppPathPieces + imageKey;
+                imagePath = C.AppPathStyles + imageKey;
 
             try
             {
@@ -340,7 +340,7 @@ namespace SLXEditor
             if (imageName.Contains("rulers\\"))
                 return null; // rulers don't have additional info
 
-            string imagePath = C.AppPathPieces + imageName;
+            string imagePath = C.AppPathStyles + imageName;
 
             if (File.Exists(imagePath + ".nxmo"))
             {

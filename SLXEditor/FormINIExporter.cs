@@ -437,7 +437,7 @@ namespace SLXEditor
             {
                 bool isGadget = pieceKey.IndexOf($"{styleName}\\objects\\", StringComparison.OrdinalIgnoreCase) >= 0;
                 string iniPiecePath = ResolveIniPiecePath(styleName, iniFolder, iniId, isGadget);
-                string xlvPath = Path.Combine(C.AppPathPieces, pieceKey + ".png");
+                string xlvPath = Path.Combine(C.AppPathStyles, pieceKey + ".png");
 
                 if (!string.IsNullOrEmpty(iniPiecePath) && File.Exists(xlvPath) && File.Exists(iniPiecePath))
                 {
@@ -492,7 +492,7 @@ namespace SLXEditor
             string pieceKey = selectedItem.Tag as string;
             if (string.IsNullOrEmpty(pieceKey)) return;
 
-            string styleName = Path.GetFileName(Path.GetDirectoryName(Path.Combine(C.AppPathPieces, pieceKey)));
+            string styleName = Path.GetFileName(Path.GetDirectoryName(Path.Combine(C.AppPathStyles, pieceKey)));
 
             string filename = Path.GetFileNameWithoutExtension(pieceKey);
             var idMatch = Regex.Match(filename, @"(\d+)$");

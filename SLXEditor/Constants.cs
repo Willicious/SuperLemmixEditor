@@ -26,12 +26,12 @@ namespace SLXEditor
 
         public static string AppPath => System.Windows.Forms.Application.StartupPath + DirSep;
         public static string AppPathAutosave => AppPath + "autosave" + DirSep;
-        public static string AppPathPieces => AppPath + "styles" + DirSep;
+        public static string AppPathStyles => AppPath + "styles" + DirSep;
         public static string AppPathRulers => AppPath + "rulers" + DirSep;
         public static string AppPathMusic => AppPath + "music" + DirSep;
         public static string AppPathLevels => AppPath + "levels" + DirSep;
         public static string AppPathTempLevel => AppPath + "TempTestLevel";
-        public static string AppPathThemeInfo(string styleName) => AppPathPieces + styleName + C.DirSep + "theme.nxtm";
+        public static string AppPathThemeInfo(string styleName) => AppPathStyles + styleName + C.DirSep + "theme.nxtm";
         public static string AppPathSettings => AppPath + "settings" + DirSep + "SLXEditorSettings.ini";
         public static string AppPathHotkeys => AppPath + "settings" + DirSep + "SLXEditorHotkeys.ini";
         public static string AppPathCustomSkillsets => AppPath + "settings" + DirSep + "SLXEditorCustomSkillsets.ini";

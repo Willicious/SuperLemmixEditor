@@ -116,7 +116,7 @@ namespace SLXEditor
         /// </summary>
         private void SearchDirectoryForBackgrounds()
         {
-            string directoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "backgrounds";
+            string directoryPath = C.AppPathStyles + NameInDirectory + C.DirSep + "backgrounds";
 
             if (Directory.Exists(directoryPath))
             {
@@ -135,7 +135,7 @@ namespace SLXEditor
         /// </summary>
         private void SearchDirectoryForTerrain()
         {
-            string directoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "terrain";
+            string directoryPath = C.AppPathStyles + NameInDirectory + C.DirSep + "terrain";
 
             if (Directory.Exists(directoryPath))
             {
@@ -156,7 +156,7 @@ namespace SLXEditor
         private void SearchDirectoryForSteel()
         {
             // Load first the style-specific objects
-            string directoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "terrain";
+            string directoryPath = C.AppPathStyles + NameInDirectory + C.DirSep + "terrain";
 
             if (Directory.Exists(directoryPath))
             {
@@ -177,7 +177,7 @@ namespace SLXEditor
         private void SearchDirectoryForObjects()
         {
             // Load first the style-specific objects
-            string directoryPath = C.AppPathPieces + NameInDirectory + C.DirSep + "objects";
+            string directoryPath = C.AppPathStyles + NameInDirectory + C.DirSep + "objects";
 
             if (Directory.Exists(directoryPath))
             {
@@ -191,7 +191,7 @@ namespace SLXEditor
             }
 
             // Load now the default objects into the list
-            string directoryPathDefault = C.AppPathPieces + "default" + C.DirSep + "objects";
+            string directoryPathDefault = C.AppPathStyles + "default" + C.DirSep + "objects";
 
             if (Directory.Exists(directoryPathDefault))
             {

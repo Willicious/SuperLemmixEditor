@@ -43,11 +43,11 @@ namespace SLXEditor
             // get list of all existing style names
             List<string> styleNameList = new List<string>();
 
-            if (System.IO.Directory.Exists(C.AppPathPieces))
+            if (System.IO.Directory.Exists(C.AppPathStyles))
             {
                 try
                 {
-                    styleNameList = System.IO.Directory.GetDirectories(C.AppPathPieces)
+                    styleNameList = System.IO.Directory.GetDirectories(C.AppPathStyles)
                                                        .Select(dir => System.IO.Path.GetFileName(dir))
                                                        .ToList();
                 }
@@ -713,7 +713,7 @@ Ladderer=10";
             if (CurLevel == null || pieceCurStyle == null)
                 return;
 
-            if (!Directory.Exists(C.AppPathPieces) || Directory.GetDirectories(C.AppPathPieces).Length == 0)
+            if (!Directory.Exists(C.AppPathStyles) || Directory.GetDirectories(C.AppPathStyles).Length == 0)
             {
                 MessageBox.Show("Cannot refresh. The 'styles' folder appears to be empty or missing.");
                 return;
