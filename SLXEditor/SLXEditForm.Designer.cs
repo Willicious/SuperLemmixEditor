@@ -27,7 +27,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SLXEditForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -275,13 +274,13 @@
             this.btnTalismanAdd = new System.Windows.Forms.Button();
             this.lblTalismans = new System.Windows.Forms.Label();
             this.lbTalismans = new System.Windows.Forms.ListBox();
-            this.toolTipPieces = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTipPieces = new System.Windows.Forms.ToolTip();
             this.scrollPicLevelHoriz = new System.Windows.Forms.HScrollBar();
             this.scrollPicLevelVert = new System.Windows.Forms.VScrollBar();
-            this.toolTipButton = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTipButton = new System.Windows.Forms.ToolTip();
             this.but_PieceRight = new SLXEditor.RepeatButton();
             this.but_PieceLeft = new SLXEditor.RepeatButton();
-            this.timerAutosave = new System.Windows.Forms.Timer(this.components);
+            this.timerAutosave = new System.Windows.Forms.Timer();
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.statusBarLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusBarLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -1049,7 +1048,7 @@
             // chk_Lvl_AutoStart
             // 
             this.chk_Lvl_AutoStart.AutoSize = true;
-            this.chk_Lvl_AutoStart.Location = new System.Drawing.Point(37, 319);
+            this.chk_Lvl_AutoStart.Location = new System.Drawing.Point(37, 327);
             this.chk_Lvl_AutoStart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chk_Lvl_AutoStart.Name = "chk_Lvl_AutoStart";
             this.chk_Lvl_AutoStart.Size = new System.Drawing.Size(163, 24);
@@ -1104,7 +1103,7 @@
             // lbStartY
             // 
             this.lbStartY.AutoSize = true;
-            this.lbStartY.Location = new System.Drawing.Point(209, 288);
+            this.lbStartY.Location = new System.Drawing.Point(209, 296);
             this.lbStartY.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbStartY.Name = "lbStartY";
             this.lbStartY.Size = new System.Drawing.Size(59, 20);
@@ -1115,7 +1114,7 @@
             // lbStartX
             // 
             this.lbStartX.AutoSize = true;
-            this.lbStartX.Location = new System.Drawing.Point(33, 288);
+            this.lbStartX.Location = new System.Drawing.Point(33, 296);
             this.lbStartX.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbStartX.Name = "lbStartX";
             this.lbStartX.Size = new System.Drawing.Size(59, 20);
@@ -1306,7 +1305,7 @@
             0,
             0,
             0});
-            this.num_Lvl_StartY.Location = new System.Drawing.Point(276, 286);
+            this.num_Lvl_StartY.Location = new System.Drawing.Point(276, 294);
             this.num_Lvl_StartY.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Lvl_StartY.Maximum = new decimal(new int[] {
             159,
@@ -1332,7 +1331,7 @@
             0,
             0,
             0});
-            this.num_Lvl_StartX.Location = new System.Drawing.Point(122, 286);
+            this.num_Lvl_StartX.Location = new System.Drawing.Point(122, 294);
             this.num_Lvl_StartX.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.num_Lvl_StartX.Maximum = new decimal(new int[] {
             319,
@@ -1420,7 +1419,7 @@
             this.combo_MainStyle.Location = new System.Drawing.Point(68, 129);
             this.combo_MainStyle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.combo_MainStyle.Name = "combo_MainStyle";
-            this.combo_MainStyle.Size = new System.Drawing.Size(302, 28);
+            this.combo_MainStyle.Size = new System.Drawing.Size(301, 28);
             this.combo_MainStyle.TabIndex = 7;
             this.combo_MainStyle.SelectedIndexChanged += new System.EventHandler(this.combo_MainStyle_TextChanged);
             this.combo_MainStyle.DropDownClosed += new System.EventHandler(this.ComboDropDownClosed);
@@ -1491,7 +1490,7 @@
             // 
             // num_Lvl_SI
             // 
-            this.num_Lvl_SI.Location = new System.Drawing.Point(276, 501);
+            this.num_Lvl_SI.Location = new System.Drawing.Point(276, 513);
             this.num_Lvl_SI.Maximum = new decimal(new int[] {
             102,
             0,
