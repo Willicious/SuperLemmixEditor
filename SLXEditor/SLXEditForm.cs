@@ -877,7 +877,30 @@ namespace SLXEditor
             int picIndex = picPieceList.FindIndex(pic => pic.Equals(sender));
             Debug.Assert(picIndex != -1, "PicBox not found in picPieceList.");
 
-            AddNewPieceToLevel(picIndex);
+            var singlePieceSelected = CurLevel.SelectionList().Count == 1;
+
+            Point pos = curRenderer.GetCenterPoint();
+            bool useSelectedPiecePosition = false;
+
+            if (singlePieceSelected)
+            {
+                var selectedPiece = CurLevel.SelectionList()[0];
+
+                // Use selected piece position
+                if (isCtrlPressed || isShiftPressed || isAltPressed)
+                {
+                    pos = new Point(selectedPiece.PosX, selectedPiece.PosY);
+                    useSelectedPiecePosition = true;
+                }
+
+                // Replace selected piece
+                if (isCtrlPressed || isShiftPressed)
+                {
+                    DeleteSelectedPieces(false);
+                }
+            }
+
+            AddNewPieceToLevel(picIndex, pos, useSelectedPiecePosition);
             curRenderer.DeleteDraggingVars();
         }
 

@@ -1976,9 +1976,11 @@ Ladderer=10";
 
         private void AddPieceViaHotkey(int hotkeyIndex)
         {
+            Point pos = curRenderer.GetCenterPoint();
+
             if (picPieceList.Count >= hotkeyIndex -1)
             {
-                AddNewPieceToLevel(hotkeyIndex -1);
+                AddNewPieceToLevel(hotkeyIndex -1, pos);
                 UpdateFlagsForPieceActions();
             }
         }
@@ -1986,7 +1988,7 @@ Ladderer=10";
         /// <summary>
         /// Adds a new piece to the level and displays the result to the user.
         /// </summary>
-        private void AddNewPieceToLevel(int picPieceIndex)
+        private void AddNewPieceToLevel(int picPieceIndex, Point pos, bool useSelectedPos = false)
         {
             ReadLevelInfoFromForm(true);
             SaveChangesToOldLevelList();
@@ -1999,7 +2001,7 @@ Ladderer=10";
                     case C.SelectPieceType.Terrain:
                     case C.SelectPieceType.Steel:
                     case C.SelectPieceType.Objects:
-                        AddNewPieceToLevel(pieceKey, curRenderer.GetCenterPoint());
+                        AddNewPieceToLevel(pieceKey, pos, useSelectedPos);
                         break;
                     case C.SelectPieceType.Rulers:
                         AddRuler(pieceKey);
@@ -2019,10 +2021,10 @@ Ladderer=10";
         /// <summary>
         /// Adds a new piece to the level and displays the result to the user.
         /// </summary>
-        public void AddNewPieceToLevel(string pieceKey, Point centerPosition)
+        public void AddNewPieceToLevel(string pieceKey, Point centerPosition, bool useSelectedPos = false)
         {
             CurLevel.UnselectAll();
-            CurLevel.AddPiece(pieceKey, centerPosition, gridSize);
+            CurLevel.AddPiece(pieceKey, centerPosition, gridSize, useSelectedPos);
 
             SaveChangesToOldLevelList();
             pic_Level.Image = curRenderer.CreateLevelImage();
