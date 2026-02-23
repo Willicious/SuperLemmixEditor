@@ -42,6 +42,10 @@
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.batchExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.templatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.playLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.validateLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
@@ -310,10 +314,6 @@
             this.txt_FocusPieceBrowser = new SLXEditor.FocusTextBox();
             this.pic_DragNewPiece = new System.Windows.Forms.PictureBox();
             this.txt_Focus = new SLXEditor.FocusTextBox();
-            this.templatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Level)).BeginInit();
             this.tabLvlProperties.SuspendLayout();
@@ -492,6 +492,34 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(351, 6);
+            // 
+            // templatesToolStripMenuItem
+            // 
+            this.templatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openTemplateToolStripMenuItem,
+            this.saveAsTemplateToolStripMenuItem});
+            this.templatesToolStripMenuItem.Name = "templatesToolStripMenuItem";
+            this.templatesToolStripMenuItem.Size = new System.Drawing.Size(354, 34);
+            this.templatesToolStripMenuItem.Text = "Templates...";
+            // 
+            // openTemplateToolStripMenuItem
+            // 
+            this.openTemplateToolStripMenuItem.Name = "openTemplateToolStripMenuItem";
+            this.openTemplateToolStripMenuItem.Size = new System.Drawing.Size(301, 34);
+            this.openTemplateToolStripMenuItem.Text = "Open Templates Loader";
+            this.openTemplateToolStripMenuItem.Click += new System.EventHandler(this.openTemplateToolStripMenuItem_Click);
+            // 
+            // saveAsTemplateToolStripMenuItem
+            // 
+            this.saveAsTemplateToolStripMenuItem.Name = "saveAsTemplateToolStripMenuItem";
+            this.saveAsTemplateToolStripMenuItem.Size = new System.Drawing.Size(301, 34);
+            this.saveAsTemplateToolStripMenuItem.Text = "Save Level As Template";
+            this.saveAsTemplateToolStripMenuItem.Click += new System.EventHandler(this.saveAsTemplateToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(351, 6);
             // 
             // playLevelToolStripMenuItem
             // 
@@ -3760,34 +3788,6 @@
             this.txt_Focus.TabIndex = 37;
             this.txt_Focus.TabStop = false;
             this.txt_Focus.Text = "asdf";
-            // 
-            // templatesToolStripMenuItem
-            // 
-            this.templatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openTemplateToolStripMenuItem,
-            this.saveAsTemplateToolStripMenuItem});
-            this.templatesToolStripMenuItem.Name = "templatesToolStripMenuItem";
-            this.templatesToolStripMenuItem.Size = new System.Drawing.Size(354, 34);
-            this.templatesToolStripMenuItem.Text = "Templates...";
-            // 
-            // openTemplateToolStripMenuItem
-            // 
-            this.openTemplateToolStripMenuItem.Name = "openTemplateToolStripMenuItem";
-            this.openTemplateToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.openTemplateToolStripMenuItem.Text = "Open Template";
-            this.openTemplateToolStripMenuItem.Click += new System.EventHandler(this.openTemplateToolStripMenuItem_Click);
-            // 
-            // saveAsTemplateToolStripMenuItem
-            // 
-            this.saveAsTemplateToolStripMenuItem.Name = "saveAsTemplateToolStripMenuItem";
-            this.saveAsTemplateToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.saveAsTemplateToolStripMenuItem.Text = "Save As Template";
-            this.saveAsTemplateToolStripMenuItem.Click += new System.EventHandler(this.saveAsTemplateToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator12
-            // 
-            this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(351, 6);
             // 
             // SLXEditForm
             // 

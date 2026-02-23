@@ -2925,6 +2925,8 @@ Ladderer=10";
             AddHotkey(HotkeyName.HotkeySaveLevelAs, () => SaveLevelAsNewFile());
             AddHotkey(HotkeyName.HotkeySaveLevelAsImage, () => SaveLevelAsImage());
             AddHotkey(HotkeyName.HotkeyExportLevelAsINI, () => OpenExportAsINI());
+            AddHotkey(HotkeyName.HotkeyOpenTemplate, () => OpenTemplatesLoader());
+            AddHotkey(HotkeyName.HotkeySaveLevelAsTemplate, () => SaveLevelAsTemplate());
             AddHotkey(HotkeyName.HotkeyPlaytestLevel, () => PlaytestLevel());
             AddHotkey(HotkeyName.HotkeyValidateLevel, () => ValidateLevel(false, false));
             AddHotkey(HotkeyName.HotkeyCleanseLevels, () => ShowCleanseLevelsDialog());
@@ -3047,6 +3049,12 @@ Ladderer=10";
 
             exportAsINIToolStripMenuItem.ShortcutKeyDisplayString =
                 FormatHotkeyString(HotkeyName.HotkeyExportLevelAsINI);
+
+            openTemplateToolStripMenuItem.ShortcutKeyDisplayString =
+                FormatHotkeyString(HotkeyName.HotkeyOpenTemplate);
+
+            saveAsTemplateToolStripMenuItem.ShortcutKeyDisplayString =
+                FormatHotkeyString(HotkeyName.HotkeySaveLevelAsTemplate);
 
             exitToolStripMenuItem.ShortcutKeyDisplayString =
                 FormatHotkeyString(HotkeyName.HotkeyCloseEditor);
