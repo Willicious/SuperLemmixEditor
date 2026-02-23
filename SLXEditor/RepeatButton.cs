@@ -96,8 +96,6 @@ namespace SLXEditor
         /// <summary>
         /// Sets the interval for a specified button.
         /// </summary>
-        /// <param name="interval"></param>
-        /// <param name="button"></param>
         public void SetInterval(int interval, MouseButtons button = MouseButtons.Left)
         {
             if (buttonIntervals.Keys.Contains(button))

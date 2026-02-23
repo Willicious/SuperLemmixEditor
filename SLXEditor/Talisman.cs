@@ -41,7 +41,6 @@ namespace SLXEditor
         /// <summary>
         /// Gets the text of the requirement to be displayed on the form.
         /// </summary>
-        /// <param name="requirement"></param>
         public string GetRequirementText(C.TalismanReq requirement)
         {
             if (!Requirements.ContainsKey(requirement))

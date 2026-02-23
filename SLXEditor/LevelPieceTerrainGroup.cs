@@ -65,7 +65,6 @@ namespace SLXEditor
         /// <summary>
         /// Creates the group key from the terrain list.
         /// </summary>
-        /// <param name="terPieceList"></param>
         private static string GetKeyFromTerPieceList(List<TerrainPiece> terPieceList)
         {
             Point groupPos = GetPrelimPosFromTerPieceList(terPieceList);
@@ -92,7 +91,6 @@ namespace SLXEditor
         /// <summary>
         /// Gets the preliminarly position (before cropping) of the group from a raw terrain list.
         /// </summary>
-        /// <param name="terPieceList"></param>
         private static Point GetPrelimPosFromTerPieceList(List<TerrainPiece> terPieceList)
         {
             int minXPos = terPieceList.Min(ter => ter.PosX);
@@ -119,7 +117,6 @@ namespace SLXEditor
         /// <summary>
         /// Checks whether a given level piece is a constituent of the group.
         /// </summary>
-        /// <param name="piece"></param>
         public bool ContainsConstituent(LevelPiece piece)
         {
             return terrainPieces.Exists(ter => ter.HasSameKey(piece));

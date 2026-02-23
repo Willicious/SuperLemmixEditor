@@ -13,8 +13,6 @@ namespace SLXEditor
         /// Checks if an object is contained in an array.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="obj"></param>
-        /// <param name="args"></param>
         public static bool In<T>(this T obj, params T[] args)
         {
             return args.Contains(obj);
@@ -24,8 +22,6 @@ namespace SLXEditor
         /// Swaps the values of the two objects
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="obj1"></param>
-        /// <param name="obj2"></param>
         public static void Swap<T>(ref T obj1, ref T obj2)
         {
             T temp = obj1;
@@ -37,9 +33,6 @@ namespace SLXEditor
         /// Swaps two elements of given index in the list.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="myList"></param>
-        /// <param name="index1"></param>
-        /// <param name="index2"></param>
         public static void Swap<T>(this IList<T> myList, int index1, int index2)
         {
             T item = myList[index1];
@@ -50,7 +43,6 @@ namespace SLXEditor
         /// <summary>
         /// Splits the string at all new-lines.
         /// </summary>
-        /// <param name="text"></param>
         public static List<string> SplitAtNewLine(this string text)
         {
             return text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
@@ -60,8 +52,6 @@ namespace SLXEditor
         /// Creates a shallow copy of a range of elements from index to the end of the list.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="myList"></param>
-        /// <param name="index"></param>
         public static List<T> GetRange<T>(this List<T> myList, int index)
         {
             return myList.GetRange(index, myList.Count - index);
@@ -70,9 +60,6 @@ namespace SLXEditor
         /// <summary>
         /// Restricts an integer to an interval between min and max (inclusive).
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
         public static int Restrict(this int x, int min, int max)
         {
             System.Diagnostics.Debug.Assert(max >= min, "int.Restrict called with minimum larger than the maximum.");
@@ -82,8 +69,6 @@ namespace SLXEditor
         /// <summary>
         /// Rounds to the nearest multiple of the value step.
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="step"></param>
         public static int RoundToMultiple(this int x, int step)
         {
             if (x == 0)
@@ -108,7 +93,6 @@ namespace SLXEditor
         /// Parses a string value to an enum of given type.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
         public static T ParseEnum<T>(string value)
         {
             return (T)Enum.Parse(typeof(T), value, true);
@@ -118,7 +102,6 @@ namespace SLXEditor
         /// Checks whether a string value can be parsed to an enum of given type.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
         public static bool ExistsInEnum<T>(string value)
         {
             return Enum.IsDefined(typeof(T), value);
@@ -127,7 +110,6 @@ namespace SLXEditor
         /// <summary>
         /// Loads a bitmap from a file and closes the file again.
         /// </summary>
-        /// <param name="filePath"></param>
         public static Bitmap CreateBitmapFromFile(string filePath)
         {
             Bitmap image;
@@ -141,8 +123,6 @@ namespace SLXEditor
         /// <summary>
         /// Sets the image of an existing PictureBox and disposes the used image
         /// </summary>
-        /// <param name="picBox"></param>
-        /// <param name="image"></param>
         public static void SetImage(this PictureBox picBox, Bitmap image)
         {
             Bitmap oldImage = picBox.Image as Bitmap;
@@ -155,7 +135,6 @@ namespace SLXEditor
         /// <summary>
         /// Deletes the specified file, if it exists.
         /// </summary>
-        /// <param name="filePath"></param>
         public static void DeleteFile(string filePath)
         {
             if (System.IO.File.Exists(filePath))
@@ -174,8 +153,6 @@ namespace SLXEditor
         /// <summary>
         /// Creates a new rectangle having the two points as diagonally opposite vertices.
         /// </summary>
-        /// <param name="pos1"></param>
-        /// <param name="pos2"></param>
         public static Rectangle RectangleFrom(Point pos1, Point pos2)
         {
             int left = Math.Min(pos1.X, pos2.X);
@@ -189,8 +166,6 @@ namespace SLXEditor
         /// <summary>
         /// Rotates one rectangle relative to another border rectangle.
         /// </summary>
-        /// <param name="origRect"></param>
-        /// <param name="border"></param>
         public static Rectangle RotateInRectangle(this Rectangle origRect, Rectangle border)
         {
             Point center = new Point(border.Left + border.Width / 2, border.Top + border.Height / 2);
@@ -205,7 +180,6 @@ namespace SLXEditor
         /// <summary>
         /// Handles a global unexpected exception and displays a warning message to the user.
         /// </summary>
-        /// <param name="Ex"></param>
         public static void HandleGlobalException(Exception Ex)
         {
             try
@@ -225,7 +199,6 @@ namespace SLXEditor
         /// <summary>
         /// Logs an exception message to AppPath/ErrorLog.txt.
         /// </summary>
-        /// <param name="ex"></param>
         public static void LogException(Exception ex)
         {
             string errorPath = C.AppPath + "ErrorLog.txt";
@@ -238,7 +211,6 @@ namespace SLXEditor
         /// <summary>
         /// Logs a profiling result to AppPath/ProfilingLog.txt.
         /// </summary>
-        /// <param name="Text"></param>
         public static void LogProfiling(string text)
         {
             String logPath = C.AppPath + "ProfilingLog.txt";
@@ -250,7 +222,6 @@ namespace SLXEditor
         /// <summary>
         /// Translates an (A)RGB hex string to a color.
         /// </summary>
-        /// <param name="hexString"></param>
         public static Color HexToColor(string hexString)
         {
             hexString = hexString.Replace('#', ' ').Trim();
@@ -263,10 +234,6 @@ namespace SLXEditor
         /// <summary>
         /// Calculates the actual size (in one dimension) of an object or terrain piece based on specified, default, image size.
         /// </summary>
-        /// <param name="spec"></param>
-        /// <param name="def"></param>
-        /// <param name="img"></param>
-        /// <param name="resizable"></param>
         public static int EvaluateResizable(int spec, int def, int img, bool resizable)
         {
             if (resizable)

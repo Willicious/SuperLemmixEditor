@@ -144,7 +144,6 @@ namespace SLXEditor
         /// <summary>
         /// Returns the size of the level area that is covered by the window screen.
         /// </summary>
-        /// <param name="levelSize"></param>
         public Size ScreenArea(int levelWidth, int levelHeight)
         {
             int zoom = zoomFactor;

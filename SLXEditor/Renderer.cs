@@ -284,7 +284,6 @@ namespace SLXEditor
         /// <summary>
         /// Sets the start position of the mouse and the screen position respectively the selection position.
         /// </summary>
-        /// <param name="mousePos"></param>
         public void SetDraggingVars(Point mousePos, C.DragActions dragAction)
         {
             if (dragAction == C.DragActions.Null)
@@ -354,7 +353,6 @@ namespace SLXEditor
         /// <summary>
         /// Translates level distances to screen distances.
         /// </summary>
-        /// <param name="lvlCoord"></param>
         public int ApplyZoom(int lvlCoord)
         {
             return (ZoomFactor < 0) ? (lvlCoord / (1 - ZoomFactor)) : (lvlCoord * (ZoomFactor + 1));
@@ -363,7 +361,6 @@ namespace SLXEditor
         /// <summary>
         /// Translates screen distances to level distances.
         /// </summary>
-        /// <param name="screenCoord"></param>
         public int ApplyUnZoom(int screenCoord)
         {
             return (ZoomFactor < 0) ? (screenCoord * (1 - ZoomFactor)) : (screenCoord / (ZoomFactor + 1));
@@ -388,7 +385,6 @@ namespace SLXEditor
         /// <summary>
         /// Returns whether a point in screen corrdinates relative to pic_Level lies in the level area.
         /// </summary>
-        /// <param name="point"></param>
         public bool IsPointInLevelArea(Point? point)
         {
             if (point == null)
@@ -408,7 +404,6 @@ namespace SLXEditor
         /// <summary>
         /// Translates a point in screen coordinates (relative to pic_Level) into level coordinates.
         /// </summary>
-        /// <param name="mouseScreenPos"></param>
         public Point GetMousePosInLevel(Point mouseScreenPos, bool doCropToLevelArea = true)
         {
             // Adapt to images that do not fill the whole pic_Level and to Mouse positions outside the level
@@ -437,7 +432,6 @@ namespace SLXEditor
         /// Returns the start or current mouse position in level coordinates.
         /// <para> Returns null if this position lies outside pic_Level. </para>
         /// </summary>
-        /// <param name="isCurrent"></param>
         public Point? GetMousePosInLevel(bool isCurrent = true)
         {
             Point? MousePos = isCurrent ? MouseCurPos : MouseStartPos;
@@ -568,8 +562,6 @@ namespace SLXEditor
         /// <summary>
         /// Draws the piece with the given Key on the levelBmp at the current mouse position.
         /// </summary>
-        /// <param name="levelBmp"></param>
-        /// <param name="newPieceKey"></param>
         private void AddDragNewPiece(Bitmap levelBmp, string newPieceKey, Point offset)
         {
             if (MouseCurPos == null)
@@ -587,7 +579,6 @@ namespace SLXEditor
         /// Renders all terrain pieces in the TerrPieceList.
         /// <para> This assumes IsClearPhysics = false.</para>
         /// </summary>
-        /// <param name="terrPieces"></param>
         public Bitmap CreateTerrainGroupImage(List<TerrainPiece> terrPieces)
         {
             int width = terrPieces.Max(ter => ter.PosX + ter.Width);
@@ -608,7 +599,6 @@ namespace SLXEditor
         /// <summary>
         /// Returns the correct CustDrawMode for the terrain piece.
         /// </summary>
-        /// <param name="terrPiece"></param>
         private C.CustDrawMode GetDrawModeForTerrain(TerrainPiece terrPiece)
         {
             if (terrPiece is GroupPiece && BmpModify.HighlightGroups)
@@ -800,8 +790,6 @@ namespace SLXEditor
         /// <summary>
         /// Adds the screen start rectangle to the zoomed and cropped image.
         /// </summary>
-        /// <param name="levelBmp"></param>
-        /// <param name="NegScreenPos"></param>
         private void AddScreenStartRectangle(ref Bitmap levelBmp)
         {
             if (level.AutoStartPos)
@@ -863,7 +851,6 @@ namespace SLXEditor
         /// <summary>
         /// Draws skill icon above pre-assigned Gadgets
         /// </summary>
-        /// <param name="levelBmp"></param>
         public void AddSkillIcons(ref Bitmap levelBmp)
         {
             var gadgetsWithAssignedSkills = level.GadgetList.Where(gadget => gadget.SkillFlags.Any());
@@ -1062,7 +1049,6 @@ namespace SLXEditor
         /// <summary>
         /// Draws the rectangle around the area currently selected with the mouse.
         /// </summary>
-        /// <param name="levelBmp"></param>
         private void AddMouseSelectionArea(ref Bitmap levelBmp)
         {
             if (MouseDragAction != C.DragActions.SelectArea)
@@ -1082,8 +1068,6 @@ namespace SLXEditor
         /// <summary>
         /// Moves the screen position in a given direction in approx delta screen pixels.
         /// </summary>
-        /// <param name="direction"></param>
-        /// <param name="delta"></param>
         public void MoveScreenPos(C.DIR direction, int delta)
         {
             // Adapt delta to zoom level
@@ -1110,7 +1094,6 @@ namespace SLXEditor
         /// <summary>
         /// Sets the point to zoom into
         /// </summary>
-        /// <param name="mouseScreenPos"></param>
         public void SetZoomMousePos(Point mouseScreenPos)
         {
             if (level.Size.Contains(GetMousePosInLevel(mouseScreenPos)))
@@ -1128,8 +1111,6 @@ namespace SLXEditor
         /// <summary>
         /// Modifies the zoom level and zooms onto the mouse position.
         /// </summary>
-        /// <param name="change"></param>
-        /// <param name="mouseScreenPos"></param>
         void ChangeZoomAtMousePos(int change)
         {
             int oldZoom = ZoomFactor;
@@ -1146,7 +1127,6 @@ namespace SLXEditor
         /// <summary>
         /// Modifies the zoom level, zooming in at the center and adapts the screen position.
         /// </summary>
-        /// <param name="change"></param>
         void ChangeZoomAtCenter(int change)
         {
             int oldBorderWidth = ApplyUnZoom(BorderWidth());
@@ -1173,7 +1153,6 @@ namespace SLXEditor
         /// <summary>
         /// Modifies the zoom level
         /// </summary>
-        /// <param name="change"></param>
         public void ChangeZoom(int change, bool mayCenterAtMouse = false)
         {
             if (mayCenterAtMouse && picBoxRect.Contains(zoomMouseScreenPos))
@@ -1198,7 +1177,6 @@ namespace SLXEditor
         /// <summary>
         /// Ensures that the screen top resp left position is chosen such that no unnecessary boundaries appear 
         /// </summary>
-        /// <param name="isVert"></param>
         private int EnsureScreenPosInLevel(bool isVert, int curPos)
         {
             int levelLength = isVert ? level.Height : level.Width;

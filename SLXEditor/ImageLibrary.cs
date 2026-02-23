@@ -12,8 +12,6 @@ namespace SLXEditor
         /// <summary>
         /// Use this to create the base-info of a new terrain piece.
         /// </summary>
-        /// <param name="newImage"></param>
-        /// <param name="isSteel"></param>
         public BaseImageInfo(Bitmap newImage, bool isSteel = false, C.Resize resizeMode = C.Resize.None,
             bool isDeprecated = false, Rectangle? nineSlicingArea = null, int defaultWidth = 0, int defaultHeight = 0)
             : this(newImage, isSteel ? C.OBJ.STEEL : C.OBJ.TERRAIN, 1, new Rectangle(0, 0, 0, 0), resizeMode,
@@ -25,11 +23,6 @@ namespace SLXEditor
         /// <summary>
         /// Use this to create the base-info of a new object piece.
         /// </summary>
-        /// <param name="newImage"></param>
-        /// <param name="objType"></param>
-        /// <param name="numFrames"></param>
-        /// <param name="isVert"></param>
-        /// <param name="triggerRect"></param>
         public BaseImageInfo(Bitmap newImage, C.OBJ objType, int numFrames, Rectangle triggerRect,
           C.Resize resizeMode, int leftMargin = 0, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0,
           bool isDeprecated = false, Rectangle? nineSlicingArea = null, int defaultWidth = 0, int defaultHeight = 0,
@@ -118,9 +111,6 @@ namespace SLXEditor
         /// <summary>
         /// Separates the various frames in one bitmap.
         /// </summary>
-        /// <param name="newBitmap"></param>
-        /// <param name="numFrames"></param>
-        /// <param name="isVert"></param>
         private List<Bitmap> SeparateFrames(Bitmap newBitmap, int numFrames, bool isVert)
         {
             List<Bitmap> imageFrames = new List<Bitmap>();
@@ -152,7 +142,6 @@ namespace SLXEditor
         /// <summary>
         /// Creates rotated images of the desired orientation, if these do not yet exist.
         /// </summary>
-        /// <param name="rotFlipType"></param>
         private void CreateRotatedImages(RotateFlipType rotFlipType)
         {
             images[rotFlipType] = new List<Bitmap>();
@@ -407,7 +396,6 @@ namespace SLXEditor
         /// <summary>
         /// Returns whether an image with this ImageKey exists.
         /// </summary>
-        /// <param name="imageKey"></param>
         public static bool ExistsKey(string imageKey)
         {
             if (imageDict.ContainsKey(imageKey))
@@ -419,7 +407,6 @@ namespace SLXEditor
         /// <summary>
         /// This checks whether an image exists or may be loaded. It does not actually load the image itself.
         /// </summary>
-        /// <param name="imagekey"></param>
         public static bool IsImageLoadable(string imageKey)
         {
             string filePath = C.AppPathStyles + imageKey + ".png";
@@ -445,8 +432,6 @@ namespace SLXEditor
         /// Returns a correctly oriented image corresponding to the key, or null if image cannot be found. 
         /// <para> Warning: The Bitmap is passed by reference, so NEVER change its value! </para>
         /// </summary>
-        /// <param name="imageKey"></param>
-        /// <param name="rotFlipType"></param>
         public static Bitmap GetImage(string imageKey, RotateFlipType rotFlipType = RotateFlipType.RotateNoneFlipNone)
         {
             return GetImage(imageKey, rotFlipType, 0);
@@ -456,8 +441,6 @@ namespace SLXEditor
         /// Returns a correctly oriented image corresponding to the key and index, or null if image cannot be found. 
         /// <para> Warning: The Bitmap is passed by reference, so NEVER change its value! </para>
         /// </summary>
-        /// <param name="imageKey"></param>
-        /// <param name="rotFlipType"></param>
         public static Bitmap GetImage(string imageKey, RotateFlipType rotFlipType, int index)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -578,7 +561,6 @@ namespace SLXEditor
         /// <summary>
         /// Returns the width of the piece corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
-        /// <param name="imageKey"></param>
         public static int GetWidth(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -594,7 +576,6 @@ namespace SLXEditor
         /// <summary>
         /// Returns the height of the piece corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
-        /// <param name="imageKey"></param>
         public static int GetHeight(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -610,7 +591,6 @@ namespace SLXEditor
         /// <summary>
         /// Returns the default width of the piece corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
-        /// <param name="imageKey"></param>
         public static int GetDefaultWidth(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -626,7 +606,6 @@ namespace SLXEditor
         /// <summary>
         /// Returns the default height of the piece corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
-        /// <param name="imageKey"></param>
         public static int GetDefaultHeight(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -642,7 +621,6 @@ namespace SLXEditor
         /// <summary>
         /// Returns the Exit Marker X-pos corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
-        /// <param name="imageKey"></param>
         public static int GetMarkerX(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -658,7 +636,6 @@ namespace SLXEditor
         /// <summary>
         /// Returns the Exit Marker Y-pos corresponding to the key, or -1 if image cannot be found. 
         /// </summary>
-        /// <param name="imageKey"></param>
         public static int GetMarkerY(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -674,7 +651,6 @@ namespace SLXEditor
         /// <summary>
         /// Returns the object type of the piece corresponding to the key, or C.OBJ.NULL if image cannot be found. 
         /// </summary>
-        /// <param name="imageKey"></param>
         public static C.OBJ GetObjType(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -690,7 +666,6 @@ namespace SLXEditor
         /// <summary>
         /// Returns the trigger area of the piece corresponding to the key, or an empty rectangle if image cannot be found. 
         /// </summary>
-        /// <param name="imageKey"></param>
         public static Rectangle GetTrigger(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -706,7 +681,6 @@ namespace SLXEditor
         /// <summary>
         /// Returns the resize mode of the piece corresponding to the key, or C.Resize.None if image cannot be found. 
         /// </summary>
-        /// <param name="imageKey"></param>
         public static C.Resize GetResizeMode(string imageKey)
         {
             if (!imageDict.ContainsKey(imageKey))
@@ -809,10 +783,6 @@ namespace SLXEditor
         /// <summary>
         /// Adds by hand a new image to the ImagelIbrary, assuming the ImageKey doesn't exist yet. 
         /// </summary>
-        /// <param name="imageKey"></param>
-        /// <param name="image"></param>
-        /// <param name="objType"></param>
-        /// <param name="triggerRect"></param>
         public static void AddNewImage(string imageKey, Bitmap image, C.OBJ objType, Rectangle triggerRect, C.Resize resizeMode)
         {
             if (imageDict.ContainsKey(imageKey))
@@ -833,7 +803,6 @@ namespace SLXEditor
         /// <summary>
         /// Creates the image key from a file path (relative or absolute). 
         /// </summary>
-        /// <param name="filePath"></param>
         public static string CreatePieceKey(string filePath)
         {
             string fullPath = System.IO.Path.GetFullPath(filePath);
@@ -856,9 +825,6 @@ namespace SLXEditor
         /// Creates the image key from the style and piece name.
         /// <para> Do NOT use this for background images! </para>
         /// </summary>
-        /// <param name="styleName"></param>
-        /// <param name="pieceName"></param>
-        /// <param name="isObject"></param>
         public static string CreatePieceKey(string styleName, string pieceName, bool isObject)
         {
             return styleName + C.DirSep + (isObject ? "objects" : "terrain")
@@ -869,7 +835,6 @@ namespace SLXEditor
         /// Transforms the piece location from level file location (using only the primary image)
         /// to editor location (using the merge of primary and secondary animations)
         /// </summary>
-        /// <param name="levelFileLocation"></param>
         public static Point LevelFileToEditorCoordinates(string imageKey, Point levelFileLocation,
           bool rotate, bool flip, bool invert)
         {
@@ -915,8 +880,6 @@ namespace SLXEditor
         /// Transforms the piece location from editor location (using the merge of primary and secondary animations)
         /// to level file location (using only the primary image)
         /// </summary>
-        /// <param name="imageKey"></param>
-        /// <param name="editorLocation"></param>
         public static Point EditorToLevelFileCoordinates(string imageKey, Point editorLocation,
           bool rotate, bool flip, bool invert)
         {

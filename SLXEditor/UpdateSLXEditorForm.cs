@@ -140,7 +140,6 @@ namespace SLXEditor
         /// <summary>
         /// Clears all piece selection PictureBoxes.
         /// </summary>
-        /// <param name="MyForm"></param>
         private void ClearPiecesPictureBox()
         {
             picPieceList.ForEach(pic =>
@@ -153,8 +152,6 @@ namespace SLXEditor
         /// <summary>
         /// Sets the correct tool tips for piece selection picture boxes.
         /// </summary>
-        /// <param name="picPiece"></param>
-        /// <param name="pieceKey"></param>
         private void SetToolTipsForPicPiece(PictureBox picPiece, string pieceKey)
         {
             string toolTipText = "unknown";

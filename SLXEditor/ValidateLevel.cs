@@ -18,7 +18,6 @@ namespace SLXEditor
         /// <summary>
         /// Initializes a new instance of a LevelValidator specific to the current level.
         /// </summary>
-        /// <param name="level"></param>
         public LevelValidator(Level level)
         {
             System.Diagnostics.Debug.Assert(level != null, "Level passed to LevelValidator is null.");

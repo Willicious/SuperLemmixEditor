@@ -1601,7 +1601,6 @@ Ladderer=10";
         /// <summary>
         /// Returns a style with the requested name, or null if none such is found. 
         /// </summary>
-        /// <param name="styleName"></param>
         private Style ValidateStyleName(string styleName)
         {
             return StyleList?.Find(sty => sty.NameInEditor == styleName);
@@ -1650,7 +1649,6 @@ Ladderer=10";
         /// <summary>
         /// Moves the screen start position to the given level coordinates.
         /// </summary>
-        /// <param name="newCenter"></param>
         private void MoveScreenStartPosition(Point newCenter)
         {
             // Ensure that the new center position is within the correct bounds.
@@ -1677,7 +1675,6 @@ Ladderer=10";
         /// <summary>
         /// Moves the current screen start position by 8 pixels in the given direction.
         /// </summary>
-        /// <param name="direction"></param>
         private void MoveScreenStartPosition(C.DIR direction)
         {
             Point newCenter;
@@ -1707,7 +1704,6 @@ Ladderer=10";
         /// <summary>
         /// Displays new pieces on the piece selection bar.
         /// </summary>
-        /// <param name="movement"></param>
         public void MoveTerrPieceSelection(int movement)
         {       
             List<string> pieceNameList;
@@ -1789,7 +1785,6 @@ Ladderer=10";
         /// <summary>
         /// Changes the style for newly added pieces and displays the new pieces.
         /// </summary>
-        /// <param name="movement"></param>
         private void ChangeNewPieceStyleSelection(int movement)
         {
             if (StyleList == null || StyleList.Count == 0)
@@ -1939,7 +1934,6 @@ Ladderer=10";
         /// <summary>
         /// Gets the key from the index of the clicked PieceBox.
         /// </summary>
-        /// <param name="picPieceIndex"></param>
         private string GetPieceKeyFromIndex(int picPieceIndex)
         {
             List<string> pieceList;
@@ -1992,7 +1986,6 @@ Ladderer=10";
         /// <summary>
         /// Adds a new piece to the level and displays the result to the user.
         /// </summary>
-        /// <param name="picPieceIndex"></param>
         private void AddNewPieceToLevel(int picPieceIndex)
         {
             ReadLevelInfoFromForm(true);
@@ -2026,8 +2019,6 @@ Ladderer=10";
         /// <summary>
         /// Adds a new piece to the level and displays the result to the user.
         /// </summary>
-        /// <param name="pieceKey"></param>
-        /// <param name="centerPosition"></param>
         public void AddNewPieceToLevel(string pieceKey, Point centerPosition)
         {
             CurLevel.UnselectAll();
@@ -2109,8 +2100,6 @@ Ladderer=10";
         /// <summary>
         /// Moves all selected pieces of the level and displays the result.
         /// </summary>
-        /// <param name="direction"></param>
-        /// <param name="step"></param>
         private void HandleMovement(C.DIR direction, int step = 1)
         {
             movementActionPerformed = true;
@@ -2192,7 +2181,6 @@ Ladderer=10";
         /// <summary>
         /// Sets the NoOverwrite flag for all selected pieces and displays the result.
         /// </summary>
-        /// <param name="doAdd"></param>
         private void SetNoOverwrite(bool doAdd)
         {
             CurLevel.SetNoOverwrite(doAdd);
@@ -2204,7 +2192,6 @@ Ladderer=10";
         /// <summary>
         /// Sets the Erase flag for all selected pieces and displays the result.
         /// </summary>
-        /// <param name="doAdd"></param>
         private void SetErase(bool doAdd)
         {
             CurLevel.SetErase(doAdd);
@@ -2216,7 +2203,6 @@ Ladderer=10";
         /// <summary>
         /// Sets the OnlyOnTerrain flag for all selected pieces and displays the result.
         /// </summary>
-        /// <param name="doAdd"></param>
         private void SetOnlyOnTerrain(bool doAdd)
         {
             CurLevel.SetOnlyOnTerrain(doAdd);
@@ -2228,7 +2214,6 @@ Ladderer=10";
         /// <summary>
         /// Sets the OneWayAdmissible flag for all selected pieces and displays the result.
         /// </summary>
-        /// <param name="doAdd"></param>
         private void SetOneWay(bool doAdd)
         {
             CurLevel.SetOneWay(doAdd);
@@ -2240,8 +2225,6 @@ Ladderer=10";
         /// <summary>
         /// Sets skill flags for all selected objects.
         /// </summary>
-        /// <param name="skill"></param>
-        /// <param name="doAdd"></param>
         private void SetSkillForObjects(C.Skill skill, bool doAdd)
         {
             CurLevel.SetSkillForObjects(skill, doAdd);
@@ -2257,8 +2240,6 @@ Ladderer=10";
         /// <summary>
         /// Changes the index of all selected pieces and displays the result.
         /// </summary>
-        /// <param name="toFront"></param>
-        /// <param name="onlyOneStep"></param>
         private void MovePieceIndex(bool toFront, bool onlyOneStep)
         {
             CurLevel.MoveSelectedPieces(toFront, onlyOneStep);
@@ -2514,7 +2495,6 @@ Ladderer=10";
         /// <summary>
         /// Centers the collection of pieces around the cursor.
         /// </summary>
-        /// <param name="clipPieces"></param>
         private IEnumerable<LevelPiece> CenterPiecesAtCursor(IEnumerable<LevelPiece> clipPieces)
         {
             Point mousePos = curRenderer.GetMousePosInLevel(pic_Level.PointToClient(Cursor.Position));

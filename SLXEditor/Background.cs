@@ -27,7 +27,6 @@ namespace SLXEditor
         /// <summary>
         /// Adds a new background.
         /// </summary>
-        /// <param name="newBackground"></param>
         public void Add(Background newBackground)
         {
             backgroundList.Add(newBackground);
@@ -36,8 +35,6 @@ namespace SLXEditor
         /// <summary>
         /// Adds a new background by specifying the correcposnding style and the background name.
         /// </summary>
-        /// <param name="newStyle"></param>
-        /// <param name="newName"></param>
         public void Add(Style newStyle, string newName)
         {
             backgroundList.Add(new Background(newStyle, newName));
@@ -66,7 +63,6 @@ namespace SLXEditor
         /// <summary>
         /// Gets a list of background names, starting with the one in the mainStyle.
         /// </summary>
-        /// <param name="mainStyle"></param>
         public List<string> GetDisplayNames(Style mainStyle)
         {
             List<string> displayNames = new List<string>() { "--none--" };
@@ -78,7 +74,6 @@ namespace SLXEditor
         /// <summary>
         /// Finds a background by its name.
         /// </summary>
-        /// <param name="name"></param>
         public Background Find(string name)
         {
             name = name.Trim();
@@ -88,8 +83,6 @@ namespace SLXEditor
         /// <summary>
         /// Finds a background by its name and corresponding style
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="style"></param>
         public Background Find(string name, Style style)
         {
             name = name.Trim();

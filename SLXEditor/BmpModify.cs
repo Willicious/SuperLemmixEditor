@@ -145,8 +145,6 @@ namespace SLXEditor
         /// Copies the ColorBytes to the pixel pointed to.
         /// <para> WARNING: Always make sure that ColorBytes has at least length 4. </para>
         /// </summary>
-        /// <param name="ptrToPixel"></param>
-        /// <param name="colorBytes"></param>
         private static unsafe void ChangePixel(byte* ptrToPixel, byte[] colorBytes)
         {
             ptrToPixel[0] = colorBytes[0];
@@ -158,8 +156,6 @@ namespace SLXEditor
         /// <summary>
         /// Copies the bytes of the NewPixel to the pixel pointed to in the first argument.
         /// </summary>
-        /// <param name="ptrToPixel"></param>
-        /// <param name="ptrToNewPixel"></param>
         private static unsafe void ChangePixel(byte* ptrToPixel, byte* ptrToNewPixel, byte alpha = 255)
         {
             ptrToPixel[0] = ptrToNewPixel[0];
@@ -171,9 +167,6 @@ namespace SLXEditor
         /// <summary>
         /// Automatically blends the bytes of the NewPixel with a given color and assigns this value.
         /// </summary>
-        /// <param name="ptrToPixel"></param>
-        /// <param name="ptrToNewPixel"></param>
-        /// <param name="colorBytes"></param>
         private static unsafe void ChangePixel(byte* ptrToPixel, byte* ptrToNewPixel, byte[] colorBytes)
         {
             ptrToPixel[0] = (byte)(ptrToNewPixel[0] * colorBytes[0] / 255);
@@ -200,8 +193,6 @@ namespace SLXEditor
         /// <summary>
         /// Crops the bitmap along a rectangle.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="cropRect"></param>
         public static Bitmap Crop(this Bitmap origBmp, Rectangle cropRect)
         {
             cropRect.Intersect(new Rectangle(0, 0, origBmp.Width, origBmp.Height));
@@ -215,7 +206,6 @@ namespace SLXEditor
         /// <summary>
         /// Sets all pixels to transparent black.
         /// </summary>
-        /// <param name="origBmp"></param>
         public static void Clear(this Bitmap origBmp)
         {
             origBmp.Clear(ColorTranslator.FromHtml("#00000000"));
@@ -224,8 +214,6 @@ namespace SLXEditor
         /// <summary>
         /// Fills the bitmap with a uniform color.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="clearColor"></param>
         public static void Clear(this Bitmap origBmp, Color clearColor)
         {
             byte[] ColorBytes = { clearColor.B, clearColor.G, clearColor.R, clearColor.A };
@@ -316,11 +304,6 @@ namespace SLXEditor
         /// Copies pixels from a new bitmap to the base bitmap under condition specified by DoDrawThisPixel. 
         /// <para> All pixels will be drawn with fixed alpha value. </para>
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="newBmp"></param>
-        /// <param name="pos"></param>
-        /// <param name="doDrawThisPixel"></param>
-        /// <param name="alpha"></param>
         private static void DrawOn(this Bitmap origBmp, Bitmap newBmp, Point pos,
                                    Func<byte, byte, bool> doDrawThisPixel, byte alpha)
         {
@@ -368,10 +351,6 @@ namespace SLXEditor
         /// <summary>
         /// Copies pixels from a new bitmap to the base bitmap as specified by ColorFunc and DoDrawThisPixel. 
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="newBmp"></param>
-        /// <param name="pos"></param>
-        /// <param name="ColorSelect"></param>
         private static void DrawOn(this Bitmap origBmp, Bitmap newBmp, Point pos,
                                    Func<int, int, byte[]> colorFunc, Func<byte, byte, bool> doDrawThisPixel)
         {
@@ -420,11 +399,6 @@ namespace SLXEditor
         /// <summary>
         /// Copies pixels from a new bitmap to the base bitmap under condition specified by DoDrawThisPixel, using a mask.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="newBmp"></param>
-        /// <param name="maskBmp"></param>
-        /// <param name="pos"></param>
-        /// <param name="doDrawThisPixel"></param>
         private static void DrawOn(this Bitmap origBmp, Bitmap newBmp, Bitmap maskBmp, Point pos,
                                    Func<byte, byte, bool> doDrawThisPixel)
         {
@@ -484,12 +458,6 @@ namespace SLXEditor
         /// <summary>
         /// Copies pixels from a new bitmap to the base bitmap as specified by ColorFunc and DoDrawThisPixel, using a mask. 
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="newBmp"></param>
-        /// <param name="maskBmp"></param>
-        /// <param name="pos"></param>
-        /// <param name="colorFunc"></param>
-        /// <param name="doDrawThisPixel"></param>
         private static void DrawOn(this Bitmap origBmp, Bitmap newBmp, Bitmap maskBmp, Point pos,
                                    Func<int, int, byte[]> colorFunc, Func<byte, byte, bool> doDrawThisPixel)
         {
@@ -550,8 +518,6 @@ namespace SLXEditor
         /// Copies pixels from a new bitmap to the base bitmap using swapped alpha blending.
         /// <para> All pixels of the original bitmap have alpha 128, all pixels in the result have alpha 255.</para>
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="newBmp"></param>
         public static void DrawOnWithAlpha(this Bitmap origBmp, Bitmap newBmp)
         {
             origBmp.DrawOnWithAlpha(newBmp, new Point(0, 0));
@@ -562,9 +528,6 @@ namespace SLXEditor
         /// Copies pixels from a new bitmap to the base bitmap using swapped alpha blending.
         /// <para> All pixels of the original bitmap have alpha 128, all pixels in the result have alpha 255.</para>
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="newBmp"></param>
-        /// <param name="pos"></param>
         public static void DrawOnWithAlpha(this Bitmap origBmp, Bitmap newBmp, Point pos)
         {
             if (newBmp == null)
@@ -611,8 +574,6 @@ namespace SLXEditor
         /// <summary>
         /// Blends a sprite image with a given color.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="blendColor"></param>
         public static Bitmap ApplyThemeColor(this Bitmap origBmp, Color blendColor)
         {
             byte[] blendColorBytes = new byte[] { blendColor.B, blendColor.G, blendColor.R, 255 };
@@ -659,9 +620,6 @@ namespace SLXEditor
         /// <summary>
         /// Blends a sprite image with a given color, keeping all pixels with a specific alpha value.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="blendColor"></param>
-        /// <param name="ignoreColor"></param>
         public static Bitmap ApplyThemeColor(this Bitmap origBmp, Color blendColor, byte ignoreAlpha)
         {
             byte[] blendColorBytes = new byte[] { blendColor.B, blendColor.G, blendColor.R, 255 };
@@ -767,8 +725,6 @@ namespace SLXEditor
         /// <summary>
         /// Zooms a bitmap.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="zoomFactor"></param>
         public static Bitmap Zoom(this Bitmap origBmp, int zoomFactor)
         {
             int newWidth = (zoomFactor < 0) ? Math.Max(origBmp.Width / (Math.Abs(zoomFactor) + 1), 1) : origBmp.Width * (zoomFactor + 1);
@@ -781,9 +737,6 @@ namespace SLXEditor
         /// <summary>
         /// Zooms a bitmap and crops it to a smaller size.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="zoomFactor"></param>
-        /// <param name="newBmpSize"></param>
         public static Bitmap Zoom(this Bitmap origBmp, int zoomFactor, Size newBmpSize)
         {
             Bitmap newBmp = new Bitmap(newBmpSize.Width, newBmpSize.Height);
@@ -855,9 +808,6 @@ namespace SLXEditor
         /// <summary>
         /// Draws a list of filled rectangles on a bitmap.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="rectList"></param>
-        /// <param name="rectColor"></param>
         public static void DrawOnFilledRectangles(this Bitmap origBmp, List<Rectangle> rectList, Color rectColor)
         {
             if (rectList == null)
@@ -876,9 +826,6 @@ namespace SLXEditor
         /// <summary>
         /// Draws a list of rectangles on a bitmap.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="rectList"></param>
-        /// <param name="rectColor"></param>
         public static void DrawOnRectangles(this Bitmap origBmp, List<Rectangle> rectList, Color rectColor)
         {
             if (rectList == null)
@@ -896,8 +843,6 @@ namespace SLXEditor
         /// <summary>
         /// Draws a dotted rectangle on a bitmap.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="rect"></param>
         public static void DrawOnDottedRectangle(this Bitmap origBmp, Rectangle rect)
         {
             Rectangle origBmpRect = new Rectangle(0, 0, origBmp.Width, origBmp.Height);
@@ -961,8 +906,6 @@ namespace SLXEditor
         /// <summary>
         /// Paves a rectangle with copies of the original bitmap and returns the new image.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="rect"></param>
         public static Bitmap PaveArea(this Bitmap origBmp, Rectangle rect)
         {
             if ((origBmp == null) || (rect.Width <= 0) || (rect.Height <= 0))
@@ -991,9 +934,6 @@ namespace SLXEditor
         /// <summary>
         /// Paves a rectangle with copies of the original bitmap using nine-slicing and returns the new image.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="rect"></param>
-        /// <param name="centerArea"></param>
         public static Bitmap NineSliceArea(this Bitmap origBmp, Rectangle rect, Rectangle centerArea)
         {
             int topCut = centerArea.Top;
@@ -1055,12 +995,6 @@ namespace SLXEditor
         /// <summary>
         /// Writes a string at a specified position and color on the bitmap.
         /// </summary>
-        /// <param name="origBmp"></param>
-        /// <param name="text"></param>
-        /// <param name="position"></param>
-        /// <param name="textColor"></param>
-        /// <param name="fontSize"></param>
-        /// <param name="alignment"></param>
         public static void WriteText(this Bitmap origBmp, string text, Point position, Color textColor, int fontSize, ContentAlignment alignment = ContentAlignment.MiddleCenter, Size? forceTextSize = null)
         {
             // Reposition the text correctly according to its size.
@@ -1105,10 +1039,6 @@ namespace SLXEditor
         /// <summary>
         /// Computes the top left corner of text of given size and alignment.
         /// </summary>
-        /// <param name="position"></param>
-        /// <param name="textWidth"></param>
-        /// <param name="textHeight"></param>
-        /// <param name="alignment"></param>
         private static Point AlignText(Point position, int textWidth, int textHeight, ContentAlignment alignment)
         {
             int posX = position.X;

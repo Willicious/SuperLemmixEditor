@@ -72,7 +72,6 @@ namespace SLXEditor
         /// Reads style colors from a .nxtm file.
         /// <para> Color 0: Background (default: black) </para>
         /// </summary>
-        /// <param name="styleName"></param>
         public static Dictionary<C.StyleColor, Color> StyleColors(string styleName)
         {
             var colorDict = new Dictionary<C.StyleColor, Color>();
@@ -136,7 +135,6 @@ namespace SLXEditor
         /// <summary>
         /// Reads the styles.ini file and orders and renames styles accordingly.
         /// </summary>
-        /// <param name="styleList"></param>
         public static List<Style> OrderAndRenameStyles(List<Style> styleList, Settings settings)
         {
             string filePath = C.AppPath + "styles" + C.DirSep + "styles.ini";

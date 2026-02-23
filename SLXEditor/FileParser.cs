@@ -11,9 +11,6 @@ namespace SLXEditor
         /// <summary>
         /// Initializes a new instance of the SLXEditor.FileLine class.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="text"></param>
-        /// <param name="num"></param>
         public FileLine(string key, string text = "", int num = 0)
         {
             if (key.StartsWith("$"))
@@ -46,7 +43,6 @@ namespace SLXEditor
         /// Initializes a new instance of the SLXEditor.FileParser class and opens the text file to be parsed. 
         /// <para> You have to catch exceptions in the method creating the FileParser. </para>
         /// </summary>
-        /// <param name="filePath"></param>
         public FileParser(string filePath)
         {
             fileStream = new StreamReader(filePath);

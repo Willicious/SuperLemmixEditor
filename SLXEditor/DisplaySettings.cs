@@ -11,7 +11,6 @@ namespace SLXEditor
         /// <summary>
         /// Sets the dictionary which DisplayType is modified by which MenuItem.
         /// </summary>
-        /// <param name="newDisplayMenuItems"></param>
         static public void SetMenuTabItems(Dictionary<C.DisplayType, ToolStripMenuItem> newDisplayMenuItems)
         {
             displayMenuItems = newDisplayMenuItems;
@@ -20,7 +19,6 @@ namespace SLXEditor
         /// <summary>
         /// Gets whether a DisplayType is currently drawn on the level image.
         /// </summary>
-        /// <param name="displayType"></param>
         static public bool IsDisplayed(C.DisplayType displayType)
         {
             return displaySet.Contains(displayType);
@@ -29,8 +27,6 @@ namespace SLXEditor
         /// <summary>
         /// Sets whether a DisplayType is drawn on the level image or not.
         /// </summary>
-        /// <param name="displayType"></param>
-        /// <param name="doDisplay"></param>
         static public void SetDisplayed(C.DisplayType displayType, bool doDisplay)
         {
             if (doDisplay)
@@ -47,7 +43,6 @@ namespace SLXEditor
         /// <summary>
         /// Changes whether a DisplayType is drawn on the level image.
         /// </summary>
-        /// <param name="displayType"></param>
         static public void ChangeDisplayed(C.DisplayType displayType)
         {
             SetDisplayed(displayType, !IsDisplayed(displayType));
@@ -56,7 +51,6 @@ namespace SLXEditor
         /// <summary>
         /// Sets the checkmark on the corresponding MenuItem correctly.
         /// </summary>
-        /// <param name="displayType"></param>
         static void SetCheckmarkOnMenuItem(C.DisplayType displayType)
         {
             if (displayMenuItems.ContainsKey(displayType))
