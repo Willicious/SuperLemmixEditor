@@ -12,7 +12,6 @@ namespace SLXEditor
         /// <summary>
         /// Checks if an object is contained in an array.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         public static bool In<T>(this T obj, params T[] args)
         {
             return args.Contains(obj);
@@ -21,7 +20,6 @@ namespace SLXEditor
         /// <summary>
         /// Swaps the values of the two objects
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         public static void Swap<T>(ref T obj1, ref T obj2)
         {
             T temp = obj1;
@@ -32,7 +30,6 @@ namespace SLXEditor
         /// <summary>
         /// Swaps two elements of given index in the list.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         public static void Swap<T>(this IList<T> myList, int index1, int index2)
         {
             T item = myList[index1];
@@ -51,7 +48,6 @@ namespace SLXEditor
         /// <summary>
         /// Creates a shallow copy of a range of elements from index to the end of the list.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         public static List<T> GetRange<T>(this List<T> myList, int index)
         {
             return myList.GetRange(index, myList.Count - index);
@@ -92,7 +88,6 @@ namespace SLXEditor
         /// <summary>
         /// Parses a string value to an enum of given type.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         public static T ParseEnum<T>(string value)
         {
             return (T)Enum.Parse(typeof(T), value, true);
@@ -101,7 +96,6 @@ namespace SLXEditor
         /// <summary>
         /// Checks whether a string value can be parsed to an enum of given type.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         public static bool ExistsInEnum<T>(string value)
         {
             return Enum.IsDefined(typeof(T), value);
