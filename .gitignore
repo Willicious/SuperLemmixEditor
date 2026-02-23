@@ -30,3 +30,4 @@ SLXEditor.vshost.exe.manifest
 SLXEditor/SLXEditor_TemporaryKey.pfx
 .vs/
 SLXEditor/SLXEditor.csproj.user
+UpdateReleaseEXE.bat
