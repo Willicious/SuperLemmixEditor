@@ -116,8 +116,6 @@ namespace SLXEditor
         {
             if (File.Exists(C.AppPathPlayerSettings))
                 return C.AppPathPlayerSettings;
-            else if (File.Exists(C.AppPathPlayerSettingsOld))
-                return C.AppPathPlayerSettingsOld;
             else
                 return null;
         }
