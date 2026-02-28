@@ -21,15 +21,15 @@ namespace SLXEditor
         /// </summary>
         private void SetRepeatButtonIntervals()
         {
-            but_RotatePieces.SetInterval(1000);
-            but_InvertPieces.SetInterval(1000);
-            but_FlipPieces.SetInterval(1000);
-            but_MoveBackOne.SetInterval(150);
-            but_MoveFrontOne.SetInterval(150);
-            but_PieceLeft.SetInterval(100, MouseButtons.Left);
-            but_PieceLeft.SetInterval(30, MouseButtons.Right);
-            but_PieceRight.SetInterval(100, MouseButtons.Left);
-            but_PieceRight.SetInterval(30, MouseButtons.Right);
+            btnRotate.SetInterval(1000);
+            btnInvert.SetInterval(1000);
+            btnFlip.SetInterval(1000);
+            btnDrawSooner.SetInterval(150);
+            btnDrawLater.SetInterval(150);
+            btnPieceLeft.SetInterval(100, MouseButtons.Left);
+            btnPieceLeft.SetInterval(30, MouseButtons.Right);
+            btnPieceRight.SetInterval(100, MouseButtons.Left);
+            btnPieceRight.SetInterval(30, MouseButtons.Right);
         }
 
         /// <summary>
@@ -37,9 +37,9 @@ namespace SLXEditor
         /// </summary>
         public void UpdateRRSIControls()
         {
-            check_Lvl_LockRRSR.Text = curSettings.UseSpawnInterval ? "Lock Spawn Interval" : "Lock Release Rate";
-            num_Lvl_RR.Visible = !curSettings.UseSpawnInterval;
-            num_Lvl_SI.Visible = curSettings.UseSpawnInterval;
+            checkLockRRSI.Text = curSettings.UseSpawnInterval ? "Lock Spawn Interval" : "Lock Release Rate";
+            numRR.Visible = !curSettings.UseSpawnInterval;
+            numSI.Visible = curSettings.UseSpawnInterval;
         }
 
         /// <summary>
@@ -92,8 +92,8 @@ namespace SLXEditor
                 if (!ImageLibrary.IsImageLoadable(pieceKey))
                 {
                     // Make sure to stop the repeat-buttons from firing again.
-                    but_PieceRight.StopRepeatAction();
-                    but_PieceLeft.StopRepeatAction();
+                    btnPieceRight.StopRepeatAction();
+                    btnPieceLeft.StopRepeatAction();
                 }
 
                 if (ImageLibrary.GetDeprecated(pieceKey) && !DisplaySettings.IsDisplayed(C.DisplayType.Deprecated))
@@ -185,9 +185,9 @@ namespace SLXEditor
         /// </summary>
         private void UpdateBackgroundImage()
         {
-            if (CurLevel.MainStyle == null)
+            if (CurLevel.ThemeStyle == null)
                 return;
-            Color backColor = CurLevel.MainStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.SLXColors[C.SLXColor.BackDefault];
+            Color backColor = CurLevel.ThemeStyle?.GetColor(C.StyleColor.BACKGROUND) ?? C.SLXColors[C.SLXColor.BackDefault];
 
             picPieceList.ForEach(pic => pic.BackColor = backColor);
             curRenderer?.CreateBackgroundLayer();
@@ -200,51 +200,51 @@ namespace SLXEditor
         {
             List<LevelPiece> selectionList = CurLevel.SelectionList();
 
-            but_RotatePieces.Enabled = selectionList.Exists(p => p.MayRotate());
-            but_FlipPieces.Enabled = selectionList.Exists(p => p.MayFlip());
-            but_InvertPieces.Enabled = selectionList.Exists(p => p.MayInvert());
+            btnRotate.Enabled = selectionList.Exists(p => p.MayRotate());
+            btnFlip.Enabled = selectionList.Exists(p => p.MayFlip());
+            btnInvert.Enabled = selectionList.Exists(p => p.MayInvert());
 
-            but_MoveBack.Enabled = (selectionList.Count > 0);
-            but_MoveFront.Enabled = (selectionList.Count > 0);
-            but_MoveBackOne.Enabled = (selectionList.Count > 0);
-            but_MoveFrontOne.Enabled = (selectionList.Count > 0);
+            btnDrawFirst.Enabled = (selectionList.Count > 0);
+            btnDrawLast.Enabled = (selectionList.Count > 0);
+            btnDrawSooner.Enabled = (selectionList.Count > 0);
+            btnDrawLater.Enabled = (selectionList.Count > 0);
 
-            check_Pieces_NoOv.Enabled = selectionList.Exists(p => p.ObjType != C.OBJ.RULER);
+            checkNoOverwrite.Enabled = selectionList.Exists(p => p.ObjType != C.OBJ.RULER);
             // Set check-mark correctly, without firing the CheckedChanged event
-            check_Pieces_NoOv.CheckedChanged -= check_Pieces_NoOv_CheckedChanged;
-            check_Pieces_NoOv.Checked = selectionList.Exists(p => (p is GadgetPiece && (p as GadgetPiece).IsNoOverwrite && (p.ObjType != C.OBJ.RULER))
+            checkNoOverwrite.CheckedChanged -= check_Pieces_NoOv_CheckedChanged;
+            checkNoOverwrite.Checked = selectionList.Exists(p => (p is GadgetPiece && (p as GadgetPiece).IsNoOverwrite && (p.ObjType != C.OBJ.RULER))
                                                                || (p is TerrainPiece && (p as TerrainPiece).IsNoOverwrite));
-            check_Pieces_NoOv.CheckedChanged += check_Pieces_NoOv_CheckedChanged;
+            checkNoOverwrite.CheckedChanged += check_Pieces_NoOv_CheckedChanged;
 
-            check_Pieces_Erase.Enabled = selectionList.Exists(p => p is TerrainPiece tp);
+            checkErase.Enabled = selectionList.Exists(p => p is TerrainPiece tp);
             // Set check-mark correctly, without firing the CheckedChanged event
-            check_Pieces_Erase.CheckedChanged -= check_Pieces_Erase_CheckedChanged;
-            check_Pieces_Erase.Checked = selectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsErase);
-            check_Pieces_Erase.CheckedChanged += check_Pieces_Erase_CheckedChanged;
+            checkErase.CheckedChanged -= check_Pieces_Erase_CheckedChanged;
+            checkErase.Checked = selectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsErase);
+            checkErase.CheckedChanged += check_Pieces_Erase_CheckedChanged;
 
-            check_Pieces_OneWay.Enabled = selectionList.Exists(p => (p is TerrainPiece tp) && !tp.IsSteel);
+            checkAllowOneWay.Enabled = selectionList.Exists(p => (p is TerrainPiece tp) && !tp.IsSteel);
             // Set check-mark correctly, without firing the CheckedChanged event
-            check_Pieces_OneWay.CheckedChanged -= check_Pieces_OneWay_CheckedChanged;
-            check_Pieces_OneWay.Checked = selectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsOneWay);
-            check_Pieces_OneWay.CheckedChanged += check_Pieces_OneWay_CheckedChanged;
+            checkAllowOneWay.CheckedChanged -= check_Pieces_OneWay_CheckedChanged;
+            checkAllowOneWay.Checked = selectionList.Exists(p => p is TerrainPiece && (p as TerrainPiece).IsOneWay);
+            checkAllowOneWay.CheckedChanged += check_Pieces_OneWay_CheckedChanged;
 
-            check_Pieces_OnlyOnTerrain.Enabled = selectionList.Exists(p => p is GadgetPiece && p.ObjType != C.OBJ.RULER);
+            checkOnlyOnTerrain.Enabled = selectionList.Exists(p => p is GadgetPiece && p.ObjType != C.OBJ.RULER);
             // Set check-mark correctly, without firing the CheckedChanged event
-            check_Pieces_OnlyOnTerrain.CheckedChanged -= check_Pieces_OnlyOnTerrain_CheckedChanged;
-            check_Pieces_OnlyOnTerrain.Checked = selectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).IsOnlyOnTerrain);
-            check_Pieces_OnlyOnTerrain.CheckedChanged += check_Pieces_OnlyOnTerrain_CheckedChanged;
+            checkOnlyOnTerrain.CheckedChanged -= check_Pieces_OnlyOnTerrain_CheckedChanged;
+            checkOnlyOnTerrain.Checked = selectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).IsOnlyOnTerrain);
+            checkOnlyOnTerrain.CheckedChanged += check_Pieces_OnlyOnTerrain_CheckedChanged;
 
-            but_GroupSelection.Enabled = CurLevel.MayGroupSelection();
-            but_UngroupSelection.Enabled = CurLevel.MayUngroupSelection();
+            btnGroupSelection.Enabled = CurLevel.MayGroupSelection();
+            btnUngroupSelection.Enabled = CurLevel.MayUngroupSelection();
 
             foreach (C.Skill skill in checkboxesSkillFlags.Keys)
             {
                 checkboxesSkillFlags[skill].Enabled = selectionList.Exists(p => p.MayReceiveSkill(skill));
 
                 // Set check-mark correctly, without firing the CheckedChanged event
-                checkboxesSkillFlags[skill].CheckedChanged -= check_Piece_Skill_CheckedChanged;
+                checkboxesSkillFlags[skill].CheckedChanged -= checkSkill_CheckedChanged;
                 checkboxesSkillFlags[skill].Checked = selectionList.Exists(p => p is GadgetPiece && (p as GadgetPiece).SkillFlags.Contains(skill));
-                checkboxesSkillFlags[skill].CheckedChanged += check_Piece_Skill_CheckedChanged;
+                checkboxesSkillFlags[skill].CheckedChanged += checkSkill_CheckedChanged;
             }
 
             if (selectionList.Count > 0)
@@ -254,27 +254,27 @@ namespace SLXEditor
                 bool mayResizeHoriz = selectionList.All(item => item.MayResizeHoriz() && item.Width == specWidth);
                 bool mayResizeVert = selectionList.All(item => item.MayResizeVert() && item.Height == specHeight);
 
-                lbl_Resize_Width.Visible = mayResizeHoriz;
-                num_Resize_Width.Visible = mayResizeHoriz;
+                lblResizeWidth.Visible = mayResizeHoriz;
+                numResizeWidth.Visible = mayResizeHoriz;
                 if (mayResizeHoriz)
                 {
-                    num_Resize_Width.Maximum = CurLevel.Width + 320;
-                    num_Resize_Width.Value = Math.Min(Math.Max(specWidth, num_Resize_Width.Minimum), num_Resize_Width.Maximum);
+                    numResizeWidth.Maximum = CurLevel.Width + 320;
+                    numResizeWidth.Value = Math.Min(Math.Max(specWidth, numResizeWidth.Minimum), numResizeWidth.Maximum);
                 }
-                lbl_Resize_Height.Visible = mayResizeVert;
-                num_Resize_Height.Visible = mayResizeVert;
+                lblResizeHeight.Visible = mayResizeVert;
+                numResizeHeight.Visible = mayResizeVert;
                 if (mayResizeVert)
                 {
-                    num_Resize_Height.Maximum = CurLevel.Height + 160;
-                    num_Resize_Height.Value = Math.Min(Math.Max(specHeight, num_Resize_Height.Minimum), num_Resize_Height.Maximum);
+                    numResizeHeight.Maximum = CurLevel.Height + 160;
+                    numResizeHeight.Value = Math.Min(Math.Max(specHeight, numResizeHeight.Minimum), numResizeHeight.Maximum);
                 }
             }
             else
             {
-                lbl_Resize_Width.Visible = false;
-                num_Resize_Width.Visible = false;
-                lbl_Resize_Height.Visible = false;
-                num_Resize_Height.Visible = false;
+                lblResizeWidth.Visible = false;
+                numResizeWidth.Visible = false;
+                lblResizeHeight.Visible = false;
+                numResizeHeight.Visible = false;
             }
 
             if (selectionList.Count > 0 && selectionList.All(item => item.ObjType == C.OBJ.DECORATION))
@@ -283,20 +283,20 @@ namespace SLXEditor
                 int dirIndex = gadget.DecorationAngle * 2 / 45;
                 int speed = gadget.DecorationSpeed;
 
-                lbl_Decoration_Direction.Visible = true;
-                lbl_Decoration_Speed.Visible = true;
-                cb_Decoration_Direction.Visible = true;
-                num_Decoration_Speed.Visible = true;
+                lblDecorationDirection.Visible = true;
+                lblDecorationSpeed.Visible = true;
+                comboDecorationDirection.Visible = true;
+                numDecorationSpeed.Visible = true;
 
-                cb_Decoration_Direction.SelectedIndex = dirIndex;
-                num_Decoration_Speed.Value = speed;
+                comboDecorationDirection.SelectedIndex = dirIndex;
+                numDecorationSpeed.Value = speed;
             }
             else
             {
-                lbl_Decoration_Direction.Visible = false;
-                lbl_Decoration_Speed.Visible = false;
-                cb_Decoration_Direction.Visible = false;
-                num_Decoration_Speed.Visible = false;
+                lblDecorationDirection.Visible = false;
+                lblDecorationSpeed.Visible = false;
+                comboDecorationDirection.Visible = false;
+                numDecorationSpeed.Visible = false;
             }
 
             if (selectionList.Count == 1 && selectionList[0] is GadgetPiece)
@@ -304,48 +304,48 @@ namespace SLXEditor
                 GadgetPiece gadget = (GadgetPiece)selectionList[0];
                 if (gadget.ObjType == C.OBJ.PICKUP)
                 {
-                    lbl_PickupSkillCount.Visible = true;
-                    num_PickupSkillCount.Value = Math.Min(Math.Max(gadget.Val_L, num_PickupSkillCount.Minimum), num_PickupSkillCount.Maximum);
-                    num_PickupSkillCount.Visible = true;
+                    lblPickupSkillCount.Visible = true;
+                    numPickupSkillCount.Value = Math.Min(Math.Max(gadget.Val_L, numPickupSkillCount.Minimum), numPickupSkillCount.Maximum);
+                    numPickupSkillCount.Visible = true;
                 }
                 else
                 {
-                    lbl_PickupSkillCount.Visible = false;
-                    num_PickupSkillCount.Visible = false;
+                    lblPickupSkillCount.Visible = false;
+                    numPickupSkillCount.Visible = false;
                 }
 
                 if (new[] { C.OBJ.RADIATION, C.OBJ.SLOWFREEZE }.Contains(gadget.ObjType))
                 {
-                    lbl_SR_Countdown.Visible = true;
-                    num_SR_Countdown.Value = Math.Min(Math.Max(gadget.CountdownLength, num_SR_Countdown.Minimum), num_SR_Countdown.Maximum);
-                    num_SR_Countdown.Visible = true;
+                    lblCountdown.Visible = true;
+                    numCountdown.Value = Math.Min(Math.Max(gadget.CountdownLength, numCountdown.Minimum), numCountdown.Maximum);
+                    numCountdown.Visible = true;
                 }
                 else
                 {
-                    lbl_SR_Countdown.Visible = false;
-                    num_SR_Countdown.Visible = false;
+                    lblCountdown.Visible = false;
+                    numCountdown.Visible = false;
                 }
 
                 if (new[] { C.OBJ.EXIT, C.OBJ.EXIT_LOCKED, C.OBJ.HATCH }.Contains(gadget.ObjType))
                 {
-                    lbl_LemmingLimit.Visible = true;
-                    num_LemmingLimit.Value = Math.Min(Math.Max(gadget.LemmingCap, 0), 999);
-                    num_LemmingLimit.Visible = true;
+                    lblLemmingLimit.Visible = true;
+                    numLemmingLimit.Value = Math.Min(Math.Max(gadget.LemmingCap, 0), 999);
+                    numLemmingLimit.Visible = true;
                 }
                 else
                 {
-                    lbl_LemmingLimit.Visible = false;
-                    num_LemmingLimit.Visible = false;
+                    lblLemmingLimit.Visible = false;
+                    numLemmingLimit.Visible = false;
                 }
             }
             else
             {
-                lbl_PickupSkillCount.Visible = false;
-                num_PickupSkillCount.Visible = false;
-                lbl_LemmingLimit.Visible = false;
-                num_LemmingLimit.Visible = false;
-                lbl_SR_Countdown.Visible = false;
-                num_SR_Countdown.Visible = false;
+                lblPickupSkillCount.Visible = false;
+                numPickupSkillCount.Visible = false;
+                lblLemmingLimit.Visible = false;
+                numLemmingLimit.Visible = false;
+                lblCountdown.Visible = false;
+                numCountdown.Visible = false;
             }
 
             if (selectionList.Count == 2 &&
@@ -366,27 +366,27 @@ namespace SLXEditor
 
                 if (MyTeleporter.Val_L > 0 && MyTeleporter.Val_L == MyReceiver.Val_L)
                 {
-                    but_PairTeleporter.Text = "Already Paired";
-                    but_PairTeleporter.Enabled = false;
+                    btnPairTeleporter.Text = "Already Paired";
+                    btnPairTeleporter.Enabled = false;
                 }
                 else
                 {
-                    but_PairTeleporter.Text = "Pair Teleporters";
-                    but_PairTeleporter.Enabled = true;
+                    btnPairTeleporter.Text = "Pair Teleporters";
+                    btnPairTeleporter.Enabled = true;
                 }
-                but_PairTeleporter.Visible = true;
+                btnPairTeleporter.Visible = true;
             }
             else
             {
-                but_PairTeleporter.Visible = false;
+                btnPairTeleporter.Visible = false;
             }
             if (selectionList.Exists(p => p.ObjType == C.OBJ.COLLECTIBLE))
             {
-                check_Lvl_Invincibility.Visible = true;
+                checkInvincibility.Visible = true;
             }
             else
             {
-                check_Lvl_Invincibility.Visible = false;
+                checkInvincibility.Visible = false;
             }
         }
 
@@ -398,32 +398,32 @@ namespace SLXEditor
             if (CurLevel != null)
                 CurLevel.Format = isNeoLemmixOnly ? "NeoLemmix" : "SuperLemmix";
 
-            lbl_Skill_Stoner.Enabled = isNeoLemmixOnly;
-            lbl_Skill_Stoner.Visible = isNeoLemmixOnly;
-            lbl_Skill_Freezer.Enabled = !isNeoLemmixOnly;
-            lbl_Skill_Freezer.Visible = !isNeoLemmixOnly;
+            lblStoner.Enabled = isNeoLemmixOnly;
+            lblStoner.Visible = isNeoLemmixOnly;
+            lblFreezer.Enabled = !isNeoLemmixOnly;
+            lblFreezer.Visible = !isNeoLemmixOnly;
 
-            num_Ski_Stoner.Visible = isNeoLemmixOnly;
-            num_Ski_Stoner.Enabled = isNeoLemmixOnly;
-            num_Ski_Freezer.Enabled = !isNeoLemmixOnly;
-            num_Ski_Freezer.Visible = !isNeoLemmixOnly;
+            numStoner.Visible = isNeoLemmixOnly;
+            numStoner.Enabled = isNeoLemmixOnly;
+            numFreezer.Enabled = !isNeoLemmixOnly;
+            numFreezer.Visible = !isNeoLemmixOnly;
 
-            check_Piece_Stoner.Visible = isNeoLemmixOnly;
-            check_Piece_Freezer.Visible = !isNeoLemmixOnly;
+            checkStoner.Visible = isNeoLemmixOnly;
+            checkFreezer.Visible = !isNeoLemmixOnly;
 
-            lbl_Skill_Ballooner.Enabled = !isNeoLemmixOnly;
-            lbl_Skill_Timebomber.Enabled = !isNeoLemmixOnly;
-            lbl_Skill_Ladderer.Enabled = !isNeoLemmixOnly;
-            lbl_Skill_Spearer.Enabled = !isNeoLemmixOnly;
-            lbl_Skill_Grenader.Enabled = !isNeoLemmixOnly;
+            lblBallooner.Enabled = !isNeoLemmixOnly;
+            lblTimebomber.Enabled = !isNeoLemmixOnly;
+            lblLadderer.Enabled = !isNeoLemmixOnly;
+            lblSpearer.Enabled = !isNeoLemmixOnly;
+            lblGrenader.Enabled = !isNeoLemmixOnly;
 
-            num_Ski_Ballooner.Enabled = !isNeoLemmixOnly;
-            num_Ski_Timebomber.Enabled = !isNeoLemmixOnly;
-            num_Ski_Ladderer.Enabled = !isNeoLemmixOnly;
-            num_Ski_Spearer.Enabled = !isNeoLemmixOnly;
-            num_Ski_Grenader.Enabled = !isNeoLemmixOnly;
+            numBallooner.Enabled = !isNeoLemmixOnly;
+            numTimebomber.Enabled = !isNeoLemmixOnly;
+            numLadderer.Enabled = !isNeoLemmixOnly;
+            numSpearer.Enabled = !isNeoLemmixOnly;
+            numGrenader.Enabled = !isNeoLemmixOnly;
 
-            check_Lvl_Superlemming.Enabled = !isNeoLemmixOnly;
+            checkSuperlemming.Enabled = !isNeoLemmixOnly;
             radAlwaysSteel.Enabled = !isNeoLemmixOnly;
             radOnlyWhenVisible.Enabled = !isNeoLemmixOnly;
         }
@@ -481,7 +481,7 @@ namespace SLXEditor
             }
             else
             {
-                posLeft = tabLvlProperties.Left - 6;
+                posLeft = tabProperties.Left - 6;
                 posTop = this.Height - height;
                 width = this.Width - 12;
                 rightButtonOffset = 36;
@@ -493,37 +493,37 @@ namespace SLXEditor
             panelPieceBrowser.Height = height;
 
             bool showRandom = curSettings.ShowRandomButton;
-            but_StyleRandom.Top = 0;
-            but_StyleRandom.Left = 5;
-            but_StyleRandom.Visible = showRandom ? true : false;
-            combo_PieceStyle.Top = 0;
-            combo_PieceStyle.Left = showRandom ? but_StyleRandom.Right + 5 : 5;
-            combo_PieceStyle.Width = showRandom ? 200 : 265;
+            btnStyleRandom.Top = 0;
+            btnStyleRandom.Left = 5;
+            btnStyleRandom.Visible = showRandom ? true : false;
+            comboPieceStyle.Top = 0;
+            comboPieceStyle.Left = showRandom ? btnStyleRandom.Right + 5 : 5;
+            comboPieceStyle.Width = showRandom ? 200 : 265;
 
-            but_PieceTerr.Top = 0;
-            but_PieceSteel.Top = 0;
-            but_PieceObj.Top = 0;
-            but_PieceRulers.Top = 0;
-            but_PieceBackground.Top = 0;
+            btnTerrain.Top = 0;
+            btnSteel.Top = 0;
+            btnObjects.Top = 0;
+            btnRulers.Top = 0;
+            btnBackgrounds.Top = 0;
 
-            but_PieceLeft.Top = pieceBrowserTop;
-            but_PieceRight.Top = pieceBrowserTop;
-            but_PieceRight.Left = panelPieceBrowser.Width - rightButtonOffset;
+            btnPieceLeft.Top = pieceBrowserTop;
+            btnPieceRight.Top = pieceBrowserTop;
+            btnPieceRight.Left = panelPieceBrowser.Width - rightButtonOffset;
 
-            but_SearchPieces.Top = 0;
-            but_SearchPieces.Left = but_PieceRight.Right - 4 - but_SearchPieces.Width;
-            but_ClearBackground.Top = 0;
-            but_ClearBackground.Left = but_SearchPieces.Left - 6 - but_ClearBackground.Width;
+            btnSearchPieces.Top = 0;
+            btnSearchPieces.Left = btnPieceRight.Right - 4 - btnSearchPieces.Width;
+            btnClearBackground.Top = 0;
+            btnClearBackground.Left = btnSearchPieces.Left - 6 - btnClearBackground.Width;
         }
 
         private void UpdateCropButtons()
         {
             bool cropActive = curRenderer.CropTool.Active;
 
-            but_ApplyCrop.Visible = cropActive;
-            but_CancelCrop.Visible = cropActive;
-            but_CropLevel.Enabled = !cropActive;
-            but_CropLevel.Width = cropActive ? but_ApplyCrop.Width : but_CancelCrop.Right - but_CropLevel.Left;
+            btnApplyCrop.Visible = cropActive;
+            btnCancelCrop.Visible = cropActive;
+            btnCropLevel.Enabled = !cropActive;
+            btnCropLevel.Width = cropActive ? btnApplyCrop.Width : btnCancelCrop.Right - btnCropLevel.Left;
         }
 
         /// <summary>
@@ -534,14 +534,14 @@ namespace SLXEditor
             if (!repositionAfterZooming)
                 return;
             
-            pic_Level.Left = 264;
+            picLevel.Left = 264;
 
             Size newPicLevelSize = new Size(this.Width - 276, this.Height - 178);
 
             // Check for scroll bars. This method resizes pic_Level accordingly (if necessary).
             newPicLevelSize = CheckEnableLevelScrollbars(newPicLevelSize);
 
-            pic_Level.Size = newPicLevelSize;
+            picLevel.Size = newPicLevelSize;
             curRenderer.EnsureScreenPosInLevel();
         }
 
@@ -702,14 +702,14 @@ namespace SLXEditor
         private void UpdateNewPiecePicBox()
         {
             Point mousePos = PointToClient(MousePosition);
-            Point mousePosPicLevel = pic_Level.PointToClient(MousePosition);
+            Point mousePosPicLevel = picLevel.PointToClient(MousePosition);
 
             if (curRenderer.MouseDragAction != C.DragActions.DragNewPiece
                 || MouseButtons != MouseButtons.Left)
             {
                 // Stop timer and make PicBox invisible
                 dragNewPieceTimer.Enabled = false;
-                pic_DragNewPiece.Visible = false;
+                picDragNewPiece.Visible = false;
                 if (curRenderer.MouseDragAction == C.DragActions.DragNewPiece)
                 {
                     curRenderer.DeleteDraggingVars();
@@ -718,25 +718,25 @@ namespace SLXEditor
             else if (curRenderer.IsPointInLevelArea(mousePosPicLevel))
             {
                 // Display the piece via the renderer in the level
-                pic_DragNewPiece.Visible = false;
+                picDragNewPiece.Visible = false;
 
                 curRenderer.MouseCurPos = mousePosPicLevel;
-                pic_Level.Image = curRenderer.CombineLayers(dragNewPieceKey);
+                picLevel.Image = curRenderer.CombineLayers(dragNewPieceKey);
             }
             else
             {
                 // Display the piece via the picture box.
-                if (!pic_DragNewPiece.Visible)
+                if (!picDragNewPiece.Visible)
                 {
                     dragNewPieceTimer.Interval = 50;
-                    pic_DragNewPiece.BringToFront();
-                    pic_DragNewPiece.Visible = true;
-                    pic_Level.Image = curRenderer.CombineLayers();
+                    picDragNewPiece.BringToFront();
+                    picDragNewPiece.Visible = true;
+                    picLevel.Image = curRenderer.CombineLayers();
                 }
                 // Reposition the PicBox
-                int newPosX = mousePos.X - pic_DragNewPiece.Width / 2;
-                int newPosY = mousePos.Y - pic_DragNewPiece.Height / 2;
-                pic_DragNewPiece.Location = new Point(newPosX, newPosY);
+                int newPosX = mousePos.X - picDragNewPiece.Width / 2;
+                int newPosY = mousePos.Y - picDragNewPiece.Height / 2;
+                picDragNewPiece.Location = new Point(newPosX, newPosY);
             }
         }
     }

@@ -193,7 +193,7 @@ namespace SLXEditor
 
                 // Refresh dropdown and auto-select the new entry
                 SetCustomSkillsetList();
-                combo_CustomSkillset.SelectedItem = newName;
+                comboCustomSkillset.SelectedItem = newName;
 
                 MessageBox.Show("Custom skillset saved successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -212,12 +212,12 @@ namespace SLXEditor
         /// </summary>
         public void ApplyCustomSkillset()
         {
-            if (combo_CustomSkillset.SelectedIndex == 0)
+            if (comboCustomSkillset.SelectedIndex == 0)
                 return;
 
             try
             {
-                string selectedSkillset = combo_CustomSkillset.Text;
+                string selectedSkillset = comboCustomSkillset.Text;
 
                 if (string.IsNullOrWhiteSpace(selectedSkillset))
                 {
@@ -229,7 +229,7 @@ namespace SLXEditor
                 byte[] buffer = new byte[bufferSize];
 
                 int length = GetPrivateProfileSection(selectedSkillset, buffer, bufferSize, C.AppPathCustomSkillsets);
-                if (length == 0 && combo_CustomSkillset.SelectedIndex > 0)
+                if (length == 0 && comboCustomSkillset.SelectedIndex > 0)
                 {
                     MessageBox.Show($"No skills found for skillset '{selectedSkillset}'.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
@@ -318,22 +318,22 @@ Ladderer=10";
                 }
 
                 // At this point the file exists, so enable and populate combo
-                combo_CustomSkillset.Enabled = true;
+                comboCustomSkillset.Enabled = true;
 
-                combo_CustomSkillset.Items.Clear();
-                combo_CustomSkillset.Items.Add("Select Custom Skillset");
+                comboCustomSkillset.Items.Clear();
+                comboCustomSkillset.Items.Add("Select Custom Skillset");
 
                 // Read all section names (skillset names)
                 string[] skillsetNames = GetSkillsetNames(C.AppPathCustomSkillsets);
 
                 foreach (string name in skillsetNames)
                 {
-                    combo_CustomSkillset.Items.Add(name);
+                    comboCustomSkillset.Items.Add(name);
                 }
 
                 // Optionally select the first item
-                if (combo_CustomSkillset.Items.Count > 0)
-                    combo_CustomSkillset.SelectedIndex = 0;
+                if (comboCustomSkillset.Items.Count > 0)
+                    comboCustomSkillset.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -344,7 +344,7 @@ Ladderer=10";
                     MessageBoxIcon.Error
                 );
 
-                combo_CustomSkillset.Enabled = false;
+                comboCustomSkillset.Enabled = false;
             }
         }
 
@@ -395,9 +395,9 @@ Ladderer=10";
                 musicNames = C.MusicNames;
             }
 
-            combo_Music.Items.Clear();
-            combo_Music.Items.Add("");
-            musicNames.ForEach(music => combo_Music.Items.Add(music));
+            comboMusic.Items.Clear();
+            comboMusic.Items.Add("");
+            musicNames.ForEach(music => comboMusic.Items.Add(music));
         }
 
         /// <summary>
@@ -405,17 +405,17 @@ Ladderer=10";
         /// </summary>
         private void UpdateExpandedTabs()
         {
-            tabLvlPieces.Size = tabLvlProperties.Size;
-            tabLvlPieces.Left = tabLvlProperties.Right;
-            tabLvlPieces.Top = tabLvlProperties.Top;
+            tabPiecesExp.Size = tabProperties.Size;
+            tabPiecesExp.Left = tabProperties.Right;
+            tabPiecesExp.Top = tabProperties.Top;
 
-            tabLvlSkills.Size = tabLvlProperties.Size;
-            tabLvlSkills.Left = tabLvlPieces.Right;
-            tabLvlSkills.Top = tabLvlProperties.Top;
+            tabSkillsExp.Size = tabProperties.Size;
+            tabSkillsExp.Left = tabPiecesExp.Right;
+            tabSkillsExp.Top = tabProperties.Top;
 
-            tabLvlMisc.Size = tabLvlProperties.Size;
-            tabLvlMisc.Left = tabLvlSkills.Right;
-            tabLvlMisc.Top = tabLvlProperties.Top;
+            tabExtrasExp.Size = tabProperties.Size;
+            tabExtrasExp.Left = tabSkillsExp.Right;
+            tabExtrasExp.Top = tabProperties.Top;
         }
 
         /// <summary>
@@ -424,9 +424,9 @@ Ladderer=10";
         private void PullFocusFromTextInputs()
         {
             if (pieceBrowserWindow != null)
-                pieceBrowserWindow.ActiveControl = txt_FocusPieceBrowser;
+                pieceBrowserWindow.ActiveControl = txtFocusPieceBrowser;
 
-            this.ActiveControl = txt_Focus;
+            this.ActiveControl = txtFocus;
             UpdateIsSystemKeyPressed();
         }
 
@@ -445,28 +445,28 @@ Ladderer=10";
         /// </summary>
         private void ReadLevelInfoFromForm(bool allowWriteBack)
         {
-            CurLevel.Author = txt_LevelAuthor.Text;
-            CurLevel.Title = txt_LevelTitle.Text;
-            CurLevel.MusicFile = Path.ChangeExtension(combo_Music.Text, null);
-            CurLevel.MainStyle = ValidateStyleName(combo_MainStyle.Text);
-            CurLevel.Width = decimal.ToInt32(num_Lvl_SizeX.Value);
-            CurLevel.Height = decimal.ToInt32(num_Lvl_SizeY.Value);
-            CurLevel.AutoStartPos = chk_Lvl_AutoStart.Checked;
-            CurLevel.StartPosX = decimal.ToInt32(num_Lvl_StartX.Value);
-            CurLevel.StartPosY = decimal.ToInt32(num_Lvl_StartY.Value);
-            CurLevel.NumLems = decimal.ToInt32(num_Lvl_Lems.Value);
-            CurLevel.SaveReq = decimal.ToInt32(num_Lvl_Rescue.Value);
-            CurLevel.SpawnInterval = decimal.ToInt32(num_Lvl_SI.Value);
-            CurLevel.ReleaseRate = decimal.ToInt32(num_Lvl_RR.Value);
-            CurLevel.IsSpawnRateFix = check_Lvl_LockRRSR.Checked;
-            CurLevel.IsSuperlemming = check_Lvl_Superlemming.Checked;
-            CurLevel.TimeLimit = decimal.ToInt32(num_Lvl_TimeMin.Value) * 60
-                                    + decimal.ToInt32(num_Lvl_TimeSec.Value);
-            CurLevel.HasTimeLimit = check_Lvl_TimeLimit.Checked;
-            CurLevel.IsInvincibility = check_Lvl_Invincibility.Checked;
+            CurLevel.Author = txtLevelAuthor.Text;
+            CurLevel.Title = txtLevelTitle.Text;
+            CurLevel.MusicFile = Path.ChangeExtension(comboMusic.Text, null);
+            CurLevel.ThemeStyle = ValidateStyleName(comboTheme.Text);
+            CurLevel.Width = decimal.ToInt32(numWidth.Value);
+            CurLevel.Height = decimal.ToInt32(numHeight.Value);
+            CurLevel.AutoStartPos = checkAutoStart.Checked;
+            CurLevel.StartPosX = decimal.ToInt32(numStartX.Value);
+            CurLevel.StartPosY = decimal.ToInt32(numStartY.Value);
+            CurLevel.NumLems = decimal.ToInt32(numLemmings.Value);
+            CurLevel.SaveReq = decimal.ToInt32(numRescue.Value);
+            CurLevel.SpawnInterval = decimal.ToInt32(numSI.Value);
+            CurLevel.ReleaseRate = decimal.ToInt32(numRR.Value);
+            CurLevel.IsSpawnRateFix = checkLockRRSI.Checked;
+            CurLevel.IsSuperlemming = checkSuperlemming.Checked;
+            CurLevel.TimeLimit = decimal.ToInt32(numTimeMins.Value) * 60
+                                    + decimal.ToInt32(numTimeSecs.Value);
+            CurLevel.HasTimeLimit = checkTimeLimit.Checked;
+            CurLevel.IsInvincibility = checkInvincibility.Checked;
             CurLevel.SteelType = radAlwaysSteel.Checked ? 1 : 0;
 
-            string idText = txt_LevelID.Text;
+            string idText = txtLevelID.Text;
             if (idText.Length < 16)
                 idText = idText.PadLeft(16);
             if (idText.Length > 16)
@@ -478,8 +478,8 @@ Ladderer=10";
                     CurLevel.LevelID = newID;
             }
 
-            if (allowWriteBack && txt_LevelID.Text != CurLevel.LevelID.ToString("X16"))
-                txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
+            if (allowWriteBack && txtLevelID.Text != CurLevel.LevelID.ToString("X16"))
+                txtLevelID.Text = CurLevel.LevelID.ToString("X16");
 
             foreach (C.Skill skill in numericsSkillSet.Keys)
             {
@@ -525,61 +525,61 @@ Ladderer=10";
             _IsWritingToForm = true;
             try
             {
-                txt_LevelAuthor.Text = CurLevel.Author;
-                txt_LevelTitle.Text = CurLevel.Title;
+                txtLevelAuthor.Text = CurLevel.Author;
+                txtLevelTitle.Text = CurLevel.Title;
 
-                if (!string.IsNullOrEmpty(CurLevel.MusicFile) && combo_Music.Items.Contains(CurLevel.MusicFile))
-                    combo_Music.SelectedItem = CurLevel.MusicFile;
+                if (!string.IsNullOrEmpty(CurLevel.MusicFile) && comboMusic.Items.Contains(CurLevel.MusicFile))
+                    comboMusic.SelectedItem = CurLevel.MusicFile;
                 else
-                    combo_Music.SelectedIndex = 0;
+                    comboMusic.SelectedIndex = 0;
 
-                if ((CurLevel.MainStyle != null) && combo_MainStyle.Items.Contains(CurLevel.MainStyle.NameInEditor))
-                    combo_MainStyle.SelectedItem = CurLevel.MainStyle.NameInEditor;
+                if ((CurLevel.ThemeStyle != null) && comboTheme.Items.Contains(CurLevel.ThemeStyle.NameInEditor))
+                    comboTheme.SelectedItem = CurLevel.ThemeStyle.NameInEditor;
                 else
-                    combo_MainStyle.SelectedIndex = 0;
+                    comboTheme.SelectedIndex = 0;
 
                 // Set size and start position, but without calling the Value_Changed methods,
                 // because they automatically call validation of the start position resp. render the level again.
-                num_Lvl_SizeX.ValueChanged -= num_Lvl_SizeX_ValueChanged;
-                num_Lvl_SizeY.ValueChanged -= num_Lvl_SizeY_ValueChanged;
-                num_Lvl_StartX.ValueChanged -= num_Lvl_StartX_ValueChanged;
-                num_Lvl_StartY.ValueChanged -= num_Lvl_StartY_ValueChanged;
+                numWidth.ValueChanged -= numSizeX_ValueChanged;
+                numHeight.ValueChanged -= numSizeY_ValueChanged;
+                numStartX.ValueChanged -= numStartX_ValueChanged;
+                numStartY.ValueChanged -= numStartY_ValueChanged;
 
-                num_Lvl_SizeX.Value = CurLevel.Width;
-                num_Lvl_SizeY.Value = CurLevel.Height;
-                num_Lvl_StartX.Maximum = CurLevel.Width - 1;
-                num_Lvl_StartY.Maximum = CurLevel.Height - 1;
-                num_Lvl_StartX.Value = CurLevel.StartPosX;
-                num_Lvl_StartY.Value = CurLevel.StartPosY;
-                chk_Lvl_AutoStart.Checked = CurLevel.AutoStartPos;
+                numWidth.Value = CurLevel.Width;
+                numHeight.Value = CurLevel.Height;
+                numStartX.Maximum = CurLevel.Width - 1;
+                numStartY.Maximum = CurLevel.Height - 1;
+                numStartX.Value = CurLevel.StartPosX;
+                numStartY.Value = CurLevel.StartPosY;
+                checkAutoStart.Checked = CurLevel.AutoStartPos;
 
-                num_Lvl_SizeX.ValueChanged += num_Lvl_SizeX_ValueChanged;
-                num_Lvl_SizeY.ValueChanged += num_Lvl_SizeY_ValueChanged;
-                num_Lvl_StartX.ValueChanged += num_Lvl_StartX_ValueChanged;
-                num_Lvl_StartY.ValueChanged += num_Lvl_StartY_ValueChanged;
+                numWidth.ValueChanged += numSizeX_ValueChanged;
+                numHeight.ValueChanged += numSizeY_ValueChanged;
+                numStartX.ValueChanged += numStartX_ValueChanged;
+                numStartY.ValueChanged += numStartY_ValueChanged;
 
                 // Add the rest of the values
-                num_Lvl_Lems.Value = CurLevel.NumLems;
-                num_Lvl_Rescue.Value = CurLevel.SaveReq;
-                num_Lvl_SI.Value = CurLevel.SpawnInterval;
-                num_Lvl_RR.Value = CurLevel.ReleaseRate;
-                check_Lvl_LockRRSR.Checked = CurLevel.IsSpawnRateFix;
-                num_Lvl_TimeMin.Value = CurLevel.TimeLimit / 60;
-                num_Lvl_TimeSec.Value = CurLevel.TimeLimit % 60;
-                check_Lvl_TimeLimit.Checked = CurLevel.HasTimeLimit;
-                check_Lvl_Superlemming.Checked = CurLevel.IsSuperlemming;
-                check_Lvl_Invincibility.Checked = CurLevel.IsInvincibility;
+                numLemmings.Value = CurLevel.NumLems;
+                numRescue.Value = CurLevel.SaveReq;
+                numSI.Value = CurLevel.SpawnInterval;
+                numRR.Value = CurLevel.ReleaseRate;
+                checkLockRRSI.Checked = CurLevel.IsSpawnRateFix;
+                numTimeMins.Value = CurLevel.TimeLimit / 60;
+                numTimeSecs.Value = CurLevel.TimeLimit % 60;
+                checkTimeLimit.Checked = CurLevel.HasTimeLimit;
+                checkSuperlemming.Checked = CurLevel.IsSuperlemming;
+                checkInvincibility.Checked = CurLevel.IsInvincibility;
                 radAlwaysSteel.Checked = CurLevel.SteelType >= 1;
                 radOnlyWhenVisible.Checked = CurLevel.SteelType <= 0;
 
-                txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
+                txtLevelID.Text = CurLevel.LevelID.ToString("X16");
 
                 foreach (C.Skill skill in numericsSkillSet.Keys)
                 {
                     numericsSkillSet[skill].Value = CurLevel.SkillSet[skill];
                 }
 
-                lbl_Global_Version.Text = "Version: " + CurLevel.LevelVersion.ToString("X16");
+                lblLevelVersion.Text = "Version: " + CurLevel.LevelVersion.ToString("X16");
 
                 RegenerateTalismanList();
             }
@@ -607,14 +607,14 @@ Ladderer=10";
             if (AskUserWhetherSaveLevel())
                 return;
 
-            Style mainStyle = StyleList?.Find(sty => sty.NameInEditor == combo_MainStyle.Text);
-            CurLevel = new Level(mainStyle);
+            Style themeStyle = StyleList?.Find(sty => sty.NameInEditor == comboTheme.Text);
+            CurLevel = new Level(themeStyle);
             CurLevel.Author = GetDefaultAuthorName();
 
             // Get new renderer with the standard display options
             if (curRenderer != null)
                 curRenderer.Dispose();
-            curRenderer = new Renderer(CurLevel, pic_Level, curSettings);
+            curRenderer = new Renderer(CurLevel, picLevel, curSettings);
 
             oldLevelList = new List<Level>();
             oldLevelList.Add(CurLevel.Clone());
@@ -625,7 +625,7 @@ Ladderer=10";
             UpdateBackgroundImage();
             UpdateFlagsForPieceActions();
             RepositionPicLevel();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
 
             UpdateSpecialLemmingCounter();
 
@@ -682,9 +682,9 @@ Ladderer=10";
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
             RepositionPicLevel();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
 
-            combo_PieceStyle.Text = CurLevel.MainStyle?.NameInEditor;
+            comboPieceStyle.Text = CurLevel.ThemeStyle?.NameInEditor;
 
             UpdateSpecialLemmingCounter();
         }
@@ -694,7 +694,7 @@ Ladderer=10";
         /// </summary>
         public void RefreshLevel()
         {
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -739,12 +739,12 @@ Ladderer=10";
                 return;
             }
 
-            Style themeStyle = CurLevel.MainStyle;
+            Style themeStyle = CurLevel.ThemeStyle;
             Style pieceStyle = pieceCurStyle;
 
             StyleList.Clear();
-            combo_MainStyle.Items.Clear();
-            combo_PieceStyle.Items.Clear();
+            comboTheme.Items.Clear();
+            comboPieceStyle.Items.Clear();
 
             ImageLibrary.Clear();
             LoadStylesFromFile.AddInitialImagesToLibrary();
@@ -754,20 +754,20 @@ Ladderer=10";
 
             if (StyleList.Count > 0)
             {
-                this.combo_MainStyle.Items.AddRange(StyleList.Where(sty => File.Exists(C.AppPathThemeInfo(sty.NameInDirectory))).Select(sty => sty.NameInEditor).ToArray());
-                this.combo_MainStyle.Text = ValidateStyleList(themeStyle);
+                this.comboTheme.Items.AddRange(StyleList.Where(sty => File.Exists(C.AppPathThemeInfo(sty.NameInDirectory))).Select(sty => sty.NameInEditor).ToArray());
+                this.comboTheme.Text = ValidateStyleList(themeStyle);
 
-                this.combo_PieceStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.NameInEditor).ToArray());
-                this.combo_PieceStyle.Text = ValidateStyleList(pieceStyle);
+                this.comboPieceStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.NameInEditor).ToArray());
+                this.comboPieceStyle.Text = ValidateStyleList(pieceStyle);
 
                 if (refreshedFromStyleManager)
                 {
-                    if ((CurLevel.MainStyle != null) && combo_MainStyle.Items.Contains(CurLevel.MainStyle.NameInEditor))
-                        combo_MainStyle.SelectedItem = CurLevel.MainStyle.NameInEditor;
+                    if ((CurLevel.ThemeStyle != null) && comboTheme.Items.Contains(CurLevel.ThemeStyle.NameInEditor))
+                        comboTheme.SelectedItem = CurLevel.ThemeStyle.NameInEditor;
                     else
-                        combo_MainStyle.SelectedIndex = 0;
+                        comboTheme.SelectedIndex = 0;
 
-                    combo_PieceStyle.SelectedIndex = 0;
+                    comboPieceStyle.SelectedIndex = 0;
                 }
             }
             else
@@ -947,24 +947,24 @@ Ladderer=10";
         private static readonly Random _rng = new Random();
         private void RandomizePieceStyle()
         {
-            if (combo_PieceStyle.Items.Count == 0)
+            if (comboPieceStyle.Items.Count == 0)
                 return;
 
             var randomizedNames = StyleList.Where(s => s.Randomize).Select(s => s.NameInEditor).ToList();
 
-            string current = combo_PieceStyle.SelectedItem as string;
+            string current = comboPieceStyle.SelectedItem as string;
 
             if (randomizedNames.Count == 0)
             {
                 int index;
                 do
                 {
-                    index = _rng.Next(combo_PieceStyle.Items.Count);
+                    index = _rng.Next(comboPieceStyle.Items.Count);
                 }
-                while (combo_PieceStyle.Items[index].Equals(current) &&
-                       combo_PieceStyle.Items.Count > 1);
+                while (comboPieceStyle.Items[index].Equals(current) &&
+                       comboPieceStyle.Items.Count > 1);
 
-                combo_PieceStyle.SelectedIndex = index;
+                comboPieceStyle.SelectedIndex = index;
                 return;
             }
 
@@ -975,7 +975,7 @@ Ladderer=10";
             }
             while (chosen == current && randomizedNames.Count > 1);
 
-            combo_PieceStyle.SelectedItem = chosen;
+            comboPieceStyle.SelectedItem = chosen;
         }
 
         /// <summary>
@@ -1001,7 +1001,7 @@ Ladderer=10";
 
                 if (style != null)
                 {   // Set style based on its user-friendly name
-                    combo_PieceStyle.Text = style.NameInEditor;
+                    comboPieceStyle.Text = style.NameInEditor;
                 }
                 else
                 {
@@ -1059,7 +1059,7 @@ Ladderer=10";
             }
 
             // Create the pop-out window and pass pic_Level to it
-            levelArrangerWindow = new FormLevelArranger(pic_Level, this, curRenderer, curSettings);
+            levelArrangerWindow = new FormLevelArranger(picLevel, this, curRenderer, curSettings);
 
             // Don't reposition pic_Level when zooming from within the Arrange Window
             repositionAfterZooming = false;
@@ -1072,15 +1072,15 @@ Ladderer=10";
                     repositionAfterZooming = true;
                     
                     // Re-parent pic_Level back to the main form
-                    pic_Level.Dock = DockStyle.None;
-                    this.Controls.Add(pic_Level);
+                    picLevel.Dock = DockStyle.None;
+                    this.Controls.Add(picLevel);
 
                     // Reset the position of pic_Level
                     RepositionPicLevel();
-                    pic_Level.Image = curRenderer.CreateLevelImage();
+                    picLevel.Image = curRenderer.CreateLevelImage();
 
-                    pic_Level.Show();
-                    pic_Level.Focus();
+                    picLevel.Show();
+                    picLevel.Focus();
                 }));
             };
 
@@ -1126,7 +1126,7 @@ Ladderer=10";
 
             // Show the pop-out window
             pieceBrowserWindow.Show();
-            txt_FocusPieceBrowser.Focus();
+            txtFocusPieceBrowser.Focus();
         }
 
 
@@ -1144,20 +1144,20 @@ Ladderer=10";
 
         private void ExpandAllTabs()
         {
-            tabLvlProperties.TabPages.Remove(tabPieces);
-            tabLvlPieces.TabPages.Add(tabPieces);
-            tabLvlPieces.Enabled = true;
-            tabLvlPieces.Visible = true;
+            tabProperties.TabPages.Remove(tabPieces);
+            tabPiecesExp.TabPages.Add(tabPieces);
+            tabPiecesExp.Enabled = true;
+            tabPiecesExp.Visible = true;
 
-            tabLvlProperties.TabPages.Remove(tabSkills);
-            tabLvlSkills.TabPages.Add(tabSkills);
-            tabLvlSkills.Enabled = true;
-            tabLvlSkills.Visible = true;
+            tabProperties.TabPages.Remove(tabSkills);
+            tabSkillsExp.TabPages.Add(tabSkills);
+            tabSkillsExp.Enabled = true;
+            tabSkillsExp.Visible = true;
 
-            tabLvlProperties.TabPages.Remove(tabMisc);
-            tabLvlMisc.TabPages.Add(tabMisc);
-            tabLvlMisc.Enabled = true;
-            tabLvlMisc.Visible = true;
+            tabProperties.TabPages.Remove(tabExtras);
+            tabExtrasExp.TabPages.Add(tabExtras);
+            tabExtrasExp.Enabled = true;
+            tabExtrasExp.Visible = true;
 
             expandAllTabsToolStripMenuItem.Text = "Collapse All Tabs";
             allTabsExpanded = true;
@@ -1165,20 +1165,20 @@ Ladderer=10";
 
         private void CollapseAllTabs()
         {
-            tabLvlPieces.TabPages.Remove(tabPieces);
-            tabLvlProperties.TabPages.Add(tabPieces);
-            tabLvlPieces.Enabled = false;
-            tabLvlPieces.Visible = false;
+            tabPiecesExp.TabPages.Remove(tabPieces);
+            tabProperties.TabPages.Add(tabPieces);
+            tabPiecesExp.Enabled = false;
+            tabPiecesExp.Visible = false;
 
-            tabLvlSkills.TabPages.Remove(tabSkills);
-            tabLvlProperties.TabPages.Add(tabSkills);
-            tabLvlSkills.Enabled = false;
-            tabLvlSkills.Visible = false;
+            tabSkillsExp.TabPages.Remove(tabSkills);
+            tabProperties.TabPages.Add(tabSkills);
+            tabSkillsExp.Enabled = false;
+            tabSkillsExp.Visible = false;
 
-            tabLvlMisc.TabPages.Remove(tabMisc);
-            tabLvlProperties.TabPages.Add(tabMisc);
-            tabLvlMisc.Enabled = false;
-            tabLvlMisc.Visible = false;
+            tabExtrasExp.TabPages.Remove(tabExtras);
+            tabProperties.TabPages.Add(tabExtras);
+            tabExtrasExp.Enabled = false;
+            tabExtrasExp.Visible = false;
 
             expandAllTabsToolStripMenuItem.Text = "Expand All Tabs";
             allTabsExpanded = false;
@@ -1192,23 +1192,23 @@ Ladderer=10";
                 curRenderer.CropTool.Start();
 
             UpdateCropButtons();
-            pic_Level.SetImage(curRenderer.GetScreenImage());
+            picLevel.SetImage(curRenderer.GetScreenImage());
             PullFocusFromTextInputs();
         }
 
         private void ApplyLevelCrop()
         {
             Rectangle cropRect = curRenderer.CropTool.LevelCropRect;
-            int startX = (int)num_Lvl_StartX.Value;
-            int startY = (int)num_Lvl_StartY.Value;
+            int startX = (int)numStartX.Value;
+            int startY = (int)numStartY.Value;
 
             SelectAllPieces();
             CurLevel.MovePieces(C.DIR.N, cropRect.Y, 1);
             CurLevel.MovePieces(C.DIR.W, cropRect.X, 1);
             CurLevel.UnselectAll();
 
-            num_Lvl_SizeX.Value = cropRect.Width;
-            num_Lvl_SizeY.Value = cropRect.Height;
+            numWidth.Value = cropRect.Width;
+            numHeight.Value = cropRect.Height;
 
             int newStartX = startX - cropRect.X;
             int newStartY = startY - cropRect.Y;
@@ -1216,8 +1216,8 @@ Ladderer=10";
             newStartX = Math.Max(0, Math.Min(newStartX, cropRect.Width - 1));
             newStartY = Math.Max(0, Math.Min(newStartY, cropRect.Height - 1));
 
-            num_Lvl_StartX.Value = newStartX;
-            num_Lvl_StartY.Value = newStartY;
+            numStartX.Value = newStartX;
+            numStartY.Value = newStartY;
 
             CommitLevelChanges();
             HandleCropLevel();
@@ -1603,7 +1603,7 @@ Ladderer=10";
             ReadLevelInfoFromForm(true);
             var validator = new LevelValidator(CurLevel);
             validator.Validate(false, openedViaSave, cleansingLevels);
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
         }
 
 
@@ -1625,28 +1625,28 @@ Ladderer=10";
             {
                 pieceDoDisplayKind = newKind;
 
-                but_PieceTerr.Font = new Font(but_PieceTerr.Font, FontStyle.Regular);
-                but_PieceSteel.Font = new Font(but_PieceSteel.Font, FontStyle.Regular);
-                but_PieceObj.Font = new Font(but_PieceObj.Font, FontStyle.Regular);
-                but_PieceBackground.Font = new Font(but_PieceBackground.Font, FontStyle.Regular);
-                but_PieceRulers.Font = new Font(but_PieceRulers.Font, FontStyle.Regular);
+                btnTerrain.Font = new Font(btnTerrain.Font, FontStyle.Regular);
+                btnSteel.Font = new Font(btnSteel.Font, FontStyle.Regular);
+                btnObjects.Font = new Font(btnObjects.Font, FontStyle.Regular);
+                btnBackgrounds.Font = new Font(btnBackgrounds.Font, FontStyle.Regular);
+                btnRulers.Font = new Font(btnRulers.Font, FontStyle.Regular);
 
                 switch (newKind)
                 {
                     case C.SelectPieceType.Terrain:
-                        but_PieceTerr.Font = new Font(but_PieceTerr.Font, FontStyle.Bold);
+                        btnTerrain.Font = new Font(btnTerrain.Font, FontStyle.Bold);
                         break;
                     case C.SelectPieceType.Steel:
-                        but_PieceSteel.Font = new Font(but_PieceSteel.Font, FontStyle.Bold);
+                        btnSteel.Font = new Font(btnSteel.Font, FontStyle.Bold);
                         break;
                     case C.SelectPieceType.Objects:
-                        but_PieceObj.Font = new Font(but_PieceObj.Font, FontStyle.Bold);
+                        btnObjects.Font = new Font(btnObjects.Font, FontStyle.Bold);
                         break;
                     case C.SelectPieceType.Backgrounds:
-                        but_PieceBackground.Font = new Font(but_PieceBackground.Font, FontStyle.Bold);
+                        btnBackgrounds.Font = new Font(btnBackgrounds.Font, FontStyle.Bold);
                         break;
                     case C.SelectPieceType.Rulers:
-                        but_PieceRulers.Font = new Font(but_PieceRulers.Font, FontStyle.Bold);
+                        btnRulers.Font = new Font(btnRulers.Font, FontStyle.Bold);
                         break;
                 }
 
@@ -1661,23 +1661,23 @@ Ladderer=10";
         private void MoveScreenStartPosition(Point newCenter)
         {
             // Ensure that the new center position is within the correct bounds.
-            int newCenterX = newCenter.X.Restrict(0, (int)num_Lvl_StartX.Maximum);
-            int newCenterY = newCenter.Y.Restrict(0, (int)num_Lvl_StartY.Maximum);
+            int newCenterX = newCenter.X.Restrict(0, (int)numStartX.Maximum);
+            int newCenterY = newCenter.Y.Restrict(0, (int)numStartY.Maximum);
 
             // Remove these events to combine layers only once.
-            num_Lvl_StartX.ValueChanged -= num_Lvl_StartX_ValueChanged;
-            num_Lvl_StartY.ValueChanged -= num_Lvl_StartY_ValueChanged;
+            numStartX.ValueChanged -= numStartX_ValueChanged;
+            numStartY.ValueChanged -= numStartY_ValueChanged;
 
-            num_Lvl_StartX.Value = newCenterX;
-            num_Lvl_StartY.Value = newCenterY;
+            numStartX.Value = newCenterX;
+            numStartY.Value = newCenterY;
             CurLevel.StartPosX = newCenterX;
             CurLevel.StartPosY = newCenterY;
 
-            num_Lvl_StartX.ValueChanged += num_Lvl_StartX_ValueChanged;
-            num_Lvl_StartY.ValueChanged += num_Lvl_StartY_ValueChanged;
+            numStartX.ValueChanged += numStartX_ValueChanged;
+            numStartY.ValueChanged += numStartY_ValueChanged;
 
             // Save the changes and combine the layers now.
-            pic_Level.Image = curRenderer.CombineLayers();
+            picLevel.Image = curRenderer.CombineLayers();
             SaveChangesToOldLevelList();
         }
 
@@ -1815,7 +1815,7 @@ Ladderer=10";
             pieceStartIndex = 0;
             LoadPiecesIntoPictureBox();
 
-            this.combo_PieceStyle.SelectedIndex = newStyleIndex;
+            this.comboPieceStyle.SelectedIndex = newStyleIndex;
         }
 
         private void CyclePieceBrowser()
@@ -1849,7 +1849,7 @@ Ladderer=10";
         {
             if ((CurLevel.SelectionList().Count > 0) && (!allTabsExpanded))
             {
-                tabLvlProperties.SelectedIndex = tabLvlProperties.TabPages.IndexOf(tabPieces);
+                tabProperties.SelectedIndex = tabProperties.TabPages.IndexOf(tabPieces);
                 PullFocusFromTextInputs();
             }
         }
@@ -1865,9 +1865,9 @@ Ladderer=10";
                 return;
             }
 
-            if (combo_PieceStyle.Items.Cast<string>().Contains(lblPieceStyle.Text))
+            if (comboPieceStyle.Items.Cast<string>().Contains(lblPieceStyle.Text))
             {
-                combo_PieceStyle.Text = lblPieceStyle.Text;
+                comboPieceStyle.Text = lblPieceStyle.Text;
             }
             else
             {
@@ -1896,7 +1896,7 @@ Ladderer=10";
                 lblPieceStyle.Text = string.Empty;
                 lblPieceType.Text = string.Empty;
                 lblPieceSize.Text = string.Empty;
-                but_LoadStyle.Visible = false;
+                btnLoadStyle.Visible = false;
 
                 return;
             }
@@ -1934,9 +1934,9 @@ Ladderer=10";
             string[] nonLoadable = { "(Default)", "(Group)", "(Rulers)" };
 
             if (pieceCurStyle.NameInEditor != pieceStyle && !nonLoadable.Contains(pieceStyle))
-                but_LoadStyle.Visible = true;
+                btnLoadStyle.Visible = true;
             else
-                but_LoadStyle.Visible = false;
+                btnLoadStyle.Visible = false;
         }
 
 
@@ -2019,7 +2019,7 @@ Ladderer=10";
                         string[] splitKey = pieceKey.Split('/', '\\');
                         CurLevel.Background = new Background(pieceCurStyle, splitKey[2]);
                         UpdateBackgroundImage();
-                        pic_Level.SetImage(curRenderer.CombineLayers());
+                        picLevel.SetImage(curRenderer.CombineLayers());
                         break;
                 }
 
@@ -2036,7 +2036,7 @@ Ladderer=10";
             CurLevel.AddPiece(pieceKey, centerPosition, gridSize, useSelectedPos);
 
             SaveChangesToOldLevelList();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
             UpdateFlagsForPieceActions();
             PullFocusFromTextInputs();
         }
@@ -2122,12 +2122,12 @@ Ladderer=10";
             else if (CurLevel.SelectionList().Count > 0)
             {
                 CurLevel.MovePieces(direction, step, gridSize);
-                pic_Level.Image = curRenderer.CreateLevelImage();
+                picLevel.Image = curRenderer.CreateLevelImage();
             }
             else
             {
                 curRenderer.MoveScreenPos(direction, step * 8);
-                pic_Level.SetImage(curRenderer.GetScreenImage());
+                picLevel.SetImage(curRenderer.GetScreenImage());
             }
         }
 
@@ -2166,7 +2166,7 @@ Ladderer=10";
             CurLevel.RotatePieces();
             SaveChangesToOldLevelList();
             UpdateFlagsForPieceActions(); // needed for resizable pieces in selection
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -2176,7 +2176,7 @@ Ladderer=10";
         {
             CurLevel.InvertPieces();
             SaveChangesToOldLevelList();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -2186,7 +2186,7 @@ Ladderer=10";
         {
             CurLevel.FlipPieces();
             SaveChangesToOldLevelList();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -2197,7 +2197,7 @@ Ladderer=10";
             CurLevel.SetNoOverwrite(doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -2208,7 +2208,7 @@ Ladderer=10";
             CurLevel.SetErase(doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -2219,7 +2219,7 @@ Ladderer=10";
             CurLevel.SetOnlyOnTerrain(doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -2230,7 +2230,7 @@ Ladderer=10";
             CurLevel.SetOneWay(doAdd);
             UpdateFlagsForPieceActions();
             SaveChangesToOldLevelList();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -2254,7 +2254,7 @@ Ladderer=10";
         private void MovePieceIndex(bool toFront, bool onlyOneStep)
         {
             CurLevel.MoveSelectedPieces(toFront, onlyOneStep);
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
 
             SaveChangesToOldLevelList();
         }
@@ -2299,7 +2299,7 @@ Ladderer=10";
 
             WriteLevelInfoToForm();
             UpdateFlagsForPieceActions();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -2404,7 +2404,7 @@ Ladderer=10";
             }
 
             SaveChangesToOldLevelList();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -2443,7 +2443,7 @@ Ladderer=10";
             CurLevel.TerrainList.RemoveAll(ter => ter.IsSelected);
             CurLevel.GadgetList.RemoveAll(obj => obj.IsSelected);
             SaveChangesToOldLevelList();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
             UpdateFlagsForPieceActions();
         }
 
@@ -2455,7 +2455,7 @@ Ladderer=10";
             CurLevel.TerrainList.ForEach(ter => ter.IsSelected = true);
             CurLevel.GadgetList.ForEach(gad => gad.IsSelected = true);
 
-            pic_Level.SetImage(curRenderer.GetScreenImage());
+            picLevel.SetImage(curRenderer.GetScreenImage());
             UpdateFlagsForPieceActions();
             PullFocusFromTextInputs();
             UpdatePieceMetaData();
@@ -2500,7 +2500,7 @@ Ladderer=10";
                 CurLevel.AddMultiplePieces(clipboardPieces);
             }
             SaveChangesToOldLevelList();
-            pic_Level.Image = curRenderer.CreateLevelImage();
+            picLevel.Image = curRenderer.CreateLevelImage();
         }
 
         /// <summary>
@@ -2508,7 +2508,7 @@ Ladderer=10";
         /// </summary>
         private IEnumerable<LevelPiece> CenterPiecesAtCursor(IEnumerable<LevelPiece> clipPieces)
         {
-            Point mousePos = curRenderer.GetMousePosInLevel(pic_Level.PointToClient(Cursor.Position));
+            Point mousePos = curRenderer.GetMousePosInLevel(picLevel.PointToClient(Cursor.Position));
             int clipPosX = clipPieces.Min(piece => piece.PosX);
             int clipPosY = clipPieces.Min(piece => piece.PosY);
             int clipWidth = clipPieces.Max(piece => piece.PosX + piece.Width) - clipPosX;
@@ -2550,7 +2550,7 @@ Ladderer=10";
                 if (userHasHighlightErasersEnabled)
                 {
                     BmpModify.HighlightErasers = false;
-                    pic_Level.Image = curRenderer.CreateLevelImage();
+                    picLevel.Image = curRenderer.CreateLevelImage();
                 }
 
                 CurLevel.GroupSelection();
@@ -2561,7 +2561,7 @@ Ladderer=10";
                 // Reset option before redrawing level
                 BmpModify.HighlightErasers = userHasHighlightErasersEnabled;
 
-                pic_Level.Image = curRenderer.CreateLevelImage();
+                picLevel.Image = curRenderer.CreateLevelImage();
             }
         }
 
@@ -2576,7 +2576,7 @@ Ladderer=10";
                 SaveChangesToOldLevelList();
                 UpdateFlagsForPieceActions();
                 UpdatePieceMetaData();
-                pic_Level.Image = curRenderer.CreateLevelImage();
+                picLevel.Image = curRenderer.CreateLevelImage();
             }
         }
 
@@ -2590,7 +2590,7 @@ Ladderer=10";
             snapToGridToolStripMenuItem.Checked = curSettings.UseGridForPieces;
 
             curRenderer.CreateGridLayer();
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            picLevel.SetImage(curRenderer.CombineLayers());
         }
 
         private const string INVALID_AUTOSAVE_NAME_CHARS = "<>:\"/\\|?*.";
@@ -2665,8 +2665,8 @@ Ladderer=10";
         private void SetMetaDataPanel()
         {
             panelPieceMetaData.ForeColor = Color.SteelBlue;
-            but_LoadStyle.Top = tabPieces.Height - but_LoadStyle.Height;
-            panelPieceMetaData.Top = but_LoadStyle.Top - panelPieceMetaData.Height;
+            btnLoadStyle.Top = tabPieces.Height - btnLoadStyle.Height;
+            panelPieceMetaData.Top = btnLoadStyle.Top - panelPieceMetaData.Height;
             panelPieceMetaData.Left = tabPieces.Left;
             panelPieceMetaData.Width = tabPieces.Width - 5;
         }
@@ -2675,9 +2675,9 @@ Ladderer=10";
         {
             foreach (Control ctrl in tabSkills.Controls)
             {
-                if (ctrl is NumericUpDown numBox && numBox != num_RandomMinLimit
-                                                 && numBox != num_RandomMaxLimit
-                                                 && numBox != num_AllNonZeroSkillsToN)
+                if (ctrl is NumericUpDown numBox && numBox != numRandomMinLimit
+                                                 && numBox != numRandomMaxLimit
+                                                 && numBox != numAllNonZeroSkillsToN)
                 {
                     numBox.Value = 0;
                 }
@@ -2688,12 +2688,12 @@ Ladderer=10";
         {
             foreach (Control ctrl in tabSkills.Controls)
             {
-                if (ctrl is NumericUpDown numBox && numBox != num_RandomMinLimit
-                                                 && numBox != num_RandomMaxLimit
-                                                 && numBox != num_AllNonZeroSkillsToN)
+                if (ctrl is NumericUpDown numBox && numBox != numRandomMinLimit
+                                                 && numBox != numRandomMaxLimit
+                                                 && numBox != numAllNonZeroSkillsToN)
                 {
                     if (numBox.Value != 0)
-                        numBox.Value = num_AllNonZeroSkillsToN.Value;
+                        numBox.Value = numAllNonZeroSkillsToN.Value;
                 }
             }
         }
@@ -2703,14 +2703,14 @@ Ladderer=10";
             SetAllSkillsToZero(); // Zero the skillset first
             Random random = new Random();
 
-            int minValue = (int)num_RandomMinLimit.Value;
-            int maxValue = (int)num_RandomMaxLimit.Value;
+            int minValue = (int)numRandomMinLimit.Value;
+            int maxValue = (int)numRandomMaxLimit.Value;
 
             // List and shuffle the numeric controls on tabSkills (excluding the randomizer limits and disabled controls)
             List<NumericUpDown> numericUpDowns = tabSkills.Controls.OfType<NumericUpDown>()
-                .Where(n => n != num_RandomMinLimit &&
-                            n != num_RandomMaxLimit &&
-                            n != num_AllNonZeroSkillsToN &&
+                .Where(n => n != numRandomMinLimit &&
+                            n != numRandomMaxLimit &&
+                            n != numAllNonZeroSkillsToN &&
                             n.Enabled)
                 .ToList();
             numericUpDowns = numericUpDowns.OrderBy(x => random.Next()).ToList();
@@ -2801,7 +2801,7 @@ Ladderer=10";
         {
             BmpModify.HighlightGroups = !BmpModify.HighlightGroups;
             highlightGroupedPiecesToolStripMenuItem.Checked = BmpModify.HighlightGroups;
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
             Properties.Settings.Default.Save();
         }
 
@@ -2809,49 +2809,49 @@ Ladderer=10";
         {
             BmpModify.HighlightErasers = !BmpModify.HighlightErasers;
             highlightEraserPiecesToolStripMenuItem.Checked = BmpModify.HighlightErasers;
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
             curSettings.WriteSettingsToFile();
         }
 
         private void ToggleClearPhysics()
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.ClearPhysics);
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
         }
 
         private void ToggleTerrain()
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.Terrain);
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            picLevel.SetImage(curRenderer.CombineLayers());
         }
 
         private void ToggleObjects()
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.Objects);
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            picLevel.SetImage(curRenderer.CombineLayers());
         }
 
         private void ToggleTriggerAreas()
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.Triggers);
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            picLevel.SetImage(curRenderer.CombineLayers());
         }
         private void ToggleRulers()
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.Rulers);
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            picLevel.SetImage(curRenderer.CombineLayers());
         }
 
         private void ToggleScreenStart()
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.ScreenStart);
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            picLevel.SetImage(curRenderer.CombineLayers());
         }
 
         private void ToggleBackground()
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.Background);
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            picLevel.SetImage(curRenderer.CombineLayers());
         }
 
         private void ToggleDeprecatedPieces()
@@ -2862,7 +2862,7 @@ Ladderer=10";
 
         private void SetScreenStartToCursor()
         {
-            Point mousePos = curRenderer.GetMousePosInLevel(pic_Level.PointToClient(Cursor.Position));
+            Point mousePos = curRenderer.GetMousePosInLevel(picLevel.PointToClient(Cursor.Position));
             MoveScreenStartPosition(new Point(mousePos.X, mousePos.Y));
         }
 
@@ -2870,14 +2870,150 @@ Ladderer=10";
         {
             curRenderer.ChangeZoom(1, false);
             RepositionPicLevel();
-            pic_Level.SetImage(curRenderer.GetScreenImage());
+            picLevel.SetImage(curRenderer.GetScreenImage());
         }
 
         private void ZoomOut()
         {
             curRenderer.ChangeZoom(-1, false);
             RepositionPicLevel();
-            pic_Level.SetImage(curRenderer.GetScreenImage());
+            picLevel.SetImage(curRenderer.GetScreenImage());
+        }
+
+        /// <summary>
+        /// This automatically links all controls to the mouse events that show hints in the hint label
+        /// </summary>
+        private void LinkControlsToMouseEvents(Control parent)
+        {
+            foreach (Control ctrl in parent.Controls)
+            {
+                if (ctrl is Button || ctrl is CheckBox || ctrl is ComboBox ||
+                    ctrl is TextBox || ctrl is RadioButton)
+                {
+                    ctrl.MouseEnter += Control_MouseEnter;
+                    ctrl.MouseLeave += Control_MouseLeave;
+                }
+
+                if (ctrl is NumUpDownOverwrite)
+                {
+                    ctrl.Enter += Control_MouseEnter;
+                    ctrl.MouseMove += Control_MouseEnter;
+                    ctrl.MouseLeave += Control_MouseLeave;
+                }
+
+                if (ctrl.HasChildren)
+                    LinkControlsToMouseEvents(ctrl);
+            }
+        }
+
+        private void UpdateControlHintLabel(bool showHint, object sender)
+        {
+            lblHint.Visible = false;
+            lblHint.Text = "";
+
+            if (showHint && sender is Control ctrl && ctrl.Tag is string hint)
+            {
+                lblHint.Text = hint;
+                lblHint.Visible = true;
+            }
+        }
+
+        private void UpdateControlTags()
+        {
+            // --- Globals Tab --- //
+            txtLevelTitle.Tag = "Enter a title for your level";
+            txtLevelAuthor.Tag = "Enter an author name";
+            comboMusic.Tag = "Choose a music track for your level (note that you can also set music for a full pack of levels by including a music.nxmi file with your pack)";
+            comboTheme.Tag = "Choose a theme style for your level";
+            numWidth.Tag = "Set the level width";
+            numHeight.Tag = "Set the level height";
+            btnCropLevel.Tag = "Activate crop rectangle to easily change the width and height of the level";
+            btnApplyCrop.Tag = "Apply crop rectangle as new width and height";
+            btnCancelCrop.Tag = "Cancel crop and close the rectangle";
+            numStartX.Tag = "Set the horizontal start position";
+            numStartY.Tag = "Set the vertical start position";
+            checkAutoStart.Tag = "Automatically set the start position";
+            numLemmings.Tag = "Set the total number of lemmings";
+            numRescue.Tag = "Set the amount of lemmings to be saved";
+            btnLemCount.Tag = "Automatically set the lemming count based on the number of pre-placed lemmings and zombies";
+            numRR.Tag = "Set the minimum release rate";
+            numSI.Tag = "Set the maximum spawn interval";
+            string textRRSI = curSettings.UseSpawnInterval ? "spawn interval" : "release rate";
+            checkLockRRSI.Tag = $"Lock the {textRRSI} (prevents it from being changed in-game)";
+            checkTimeLimit.Tag = "Apply a time limit, or leave this unchecked for infinite time";
+            numTimeMins.Tag = "Set the number of minutes for the time limit";
+            numTimeSecs.Tag = "Set the number of seconds for the time limit";
+            txtLevelID.Tag = "Edit the Level ID (note that doing so will unlink any existing replays for this level)";
+            btnRandomID.Tag = "Generate a random Level ID (note that doing so will unlink any existing replays for this level)";
+
+            // --- Pieces Tab --- //
+            btnRotate.Tag = "Rotate all selected pieces clockwise";
+            btnInvert.Tag = "Invert all selected pieces";
+            btnFlip.Tag = "Flip all selected pieces";
+            btnDrawLast.Tag = "Move all selected pieces to the backmost layer";
+            btnDrawLater.Tag = "Move all selected pieces one layer backward";
+            btnDrawSooner.Tag = "Move all selected pieces one layer forward";
+            btnDrawFirst.Tag = "Move all selected pieces to the frontmost layer";
+            btnGroupSelection.Tag = "Group the selected pieces (note that terrain can only be grouped with terrain, steel can only be grouped with steel, and objects cannot be grouped)";
+            btnUngroupSelection.Tag = "Ungroup the selected pieces (if they are grouped)";
+            checkErase.Tag = "Set selected pieces as eraser pieces";
+            checkNoOverwrite.Tag = "Set selected pieces as no-overwrite (terrain is drawn to the backmost layer and is not erased by eraser pieces, objects are drawn to the frontmost layer)";
+            checkOnlyOnTerrain.Tag = "When checked, selected object pieces are drawn only where there is terrain";
+            checkAllowOneWay.Tag = "When checked, selected terrain pieces can have One-Way objects applied to them";
+            numLemmingLimit.Tag = "Set the maximum lemming limit for the selected object";
+            numPickupSkillCount.Tag = "Set the skill count applied to the selected pickup";
+            btnPairTeleporter.Tag = "Pair the selected teleporter and receiver (or pair of portals)";
+            numCountdown.Tag = "Set the countdown timer for the selected radiation/slowfreeze object";
+            checkInvincibility.Tag = "When checked, the first lemming to grab the last remaining collectible will become invincible! (note that the level must have at least 1 collectible for this to apply)";
+            comboDecorationDirection.Tag = "Set the movement direction of the selected decoration piece";
+            numDecorationSpeed.Tag = "Set the movement speed of the selected decoration piece";
+            numResizeWidth.Tag = "Set the width of the selected piece";
+            numResizeHeight.Tag = "Set the height of the selected piece";
+            btnLoadStyle.Tag = "Load the style of the selected piece into the Piece Browser";
+
+            // --- Skills Tab --- //
+
+            foreach (Control ctrl in tabSkills.Controls)
+            {
+                if (ctrl is NumericUpDown numBox && numBox != numRandomMinLimit && numBox != numRandomMaxLimit && ctrl != numAllNonZeroSkillsToN)
+                {
+                    string skillName = ctrl.Name.Replace("num", ""); // Get the skill name from the control name
+                    skillName = new string(skillName.SelectMany(c => char.IsUpper(c) ? new[] { ' ', c } : new[] { c }).ToArray()).Trim();
+                    ctrl.Tag = $"Set the number of available {skillName} skills";
+                }
+            }
+            btnSaveAsCustomSkillset.Tag = "Save the current skillset as a custom skillset that can be loaded in any level";
+            comboCustomSkillset.Tag = "Load and apply a custom skillset";
+            btnRandomSkillset.Tag = "Generate a random skillset (you can set the lower and upper limits for the randomizer using the two number inputs below)";
+            numRandomMinLimit.Tag = "Set the minimum limit for the random skillset generator";
+            numRandomMaxLimit.Tag = "Set the maximum limit for the random skillset generator";
+            btnAllNonZeroSkillsToN.Tag = "Set all non-zero skills to the same number (set that number using the input to the right)";
+            numAllNonZeroSkillsToN.Tag = "Set the number used by the 'Set All Non-Zero Skills To N' button";
+            btnClearAllSkills.Tag = "Set all skills to zero";
+
+            // --- Extras Tab --- //
+
+            btnTalismanAdd.Tag = "Add a new Talisman (an additional challenge for the player to complete)";
+            btnTalismanEdit.Tag = "Edit the currently selected Talisman";
+            btnTalismanDelete.Tag = "Delete the currently selected Talisman";
+            btnTalismanMoveUp.Tag = "Move the currently selected Talisman up in the list";
+            btnTalismanMoveDown.Tag = "Move the currently selected Talisman down in the list";
+            btnEditPreview.Tag = "Edit onscreen text shown before the level is played";
+            btnEditPostview.Tag = "Edit onscreen text shown after the level is completed";
+            checkSuperlemming.Tag = "Set the game to superlemming speed (3x normal speed) for the current level";
+            radOnlyWhenVisible.Tag = "Set steel to only apply where it is visible (NeoLemmix-style)";
+            radAlwaysSteel.Tag = "Set steel to apply wherever there is a steel piece in the level, even if it is partially or fully obscured";
+
+            // --- Piece Browser --- //
+            btnStyleRandom.Tag = "Open a random style in the Piece Browser (you can add styles to the randomizer in Style Manager)";
+            comboPieceStyle.Tag = "Open a style in the Piece Browser";
+            btnTerrain.Tag = "Show Terrain pieces in the Piece Browser";
+            btnSteel.Tag = "Show Steel pieces in the Piece Browser";
+            btnObjects.Tag = "Show Objects (Entrances, Exits, Water, etc) in the Piece Browser";
+            btnRulers.Tag = "Show Rulers in the Piece Browser (these can be used to fine-tune your level, and will not appear when the level is played in SuperLemmix)";
+            btnBackgrounds.Tag = "Show Background wallpapers in the Piece Browser (these are purely decorative and do not affect gameplay)";
+            btnClearBackground.Tag = "Remove the currently-active background wallpaper";
+            btnSearchPieces.Tag = "Search the styles collection for pieces by name, object type, and various other properties";
         }
 
         private void SetHotkeys()
@@ -3006,10 +3142,10 @@ Ladderer=10";
             AddHotkey(HotkeyName.HotkeyInvert, () => InvertLevelPieces());
             AddHotkey(HotkeyName.HotkeyGroup, () => GroupSelectedPieces());
             AddHotkey(HotkeyName.HotkeyUngroup, () => UngroupSelectedPieces());
-            AddHotkey(HotkeyName.HotkeyErase, () => check_Pieces_Erase.Checked = !check_Pieces_Erase.Checked);
-            AddHotkey(HotkeyName.HotkeyNoOverwrite, () => check_Pieces_NoOv.Checked = !check_Pieces_NoOv.Checked);
-            AddHotkey(HotkeyName.HotkeyOnlyOnTerrain, () => check_Pieces_OnlyOnTerrain.Checked = !check_Pieces_OnlyOnTerrain.Checked);
-            AddHotkey(HotkeyName.HotkeyAllowOneWay, () => check_Pieces_OneWay.Checked = !check_Pieces_OneWay.Checked);
+            AddHotkey(HotkeyName.HotkeyErase, () => checkErase.Checked = !checkErase.Checked);
+            AddHotkey(HotkeyName.HotkeyNoOverwrite, () => checkNoOverwrite.Checked = !checkNoOverwrite.Checked);
+            AddHotkey(HotkeyName.HotkeyOnlyOnTerrain, () => checkOnlyOnTerrain.Checked = !checkOnlyOnTerrain.Checked);
+            AddHotkey(HotkeyName.HotkeyAllowOneWay, () => checkAllowOneWay.Checked = !checkAllowOneWay.Checked);
             AddHotkey(HotkeyName.HotkeyDrawLast, () => MovePieceIndex(true, false));
             AddHotkey(HotkeyName.HotkeyDrawSooner, () => MovePieceIndex(true, true));
             AddHotkey(HotkeyName.HotkeyDrawLater, () => MovePieceIndex(false, true));

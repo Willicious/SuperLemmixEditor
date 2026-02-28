@@ -13,12 +13,12 @@ namespace SLXEditor
         /// <summary>
         /// Creates a new level with the default values.
         /// </summary>
-        public Level(Style mainStyle = null)
+        public Level(Style themeStyle = null)
         {
             this.Format = "SuperLemmix";
             this.Title = "";
             this.Author = "";
-            this.MainStyle = mainStyle;
+            this.ThemeStyle = themeStyle;
             this.MusicFile = "";
             this.Background = null;
 
@@ -61,7 +61,7 @@ namespace SLXEditor
         public string Format { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
-        public Style MainStyle { get; set; }
+        public Style ThemeStyle { get; set; }
         public string MusicFile { get; set; }
 
         public ulong LevelID { get; set; }
@@ -120,7 +120,7 @@ namespace SLXEditor
         /// </summary>
         public Level Clone()
         {
-            Level newLevel = new Level(this.MainStyle);
+            Level newLevel = new Level(this.ThemeStyle);
             newLevel.Format = string.Copy(this.Format);
             newLevel.Title = string.Copy(this.Title);
             newLevel.Author = string.Copy(this.Author);
@@ -183,8 +183,8 @@ namespace SLXEditor
                 || !this.Format.Equals(otherLevel.Format)
                 || !this.Title.Equals(otherLevel.Title)
                 || !this.Author.Equals(otherLevel.Author)
-                || !((this.MainStyle == null && otherLevel.MainStyle == null) ||
-                     (this.MainStyle != null && this.MainStyle.NameInDirectory.Equals(otherLevel.MainStyle?.NameInDirectory)))
+                || !((this.ThemeStyle == null && otherLevel.ThemeStyle == null) ||
+                     (this.ThemeStyle != null && this.ThemeStyle.NameInDirectory.Equals(otherLevel.ThemeStyle?.NameInDirectory)))
                 || !this.MusicFile.Equals(otherLevel.MusicFile)
                 || !this.LevelID.Equals(otherLevel.LevelID)
                 // specifically do not compare LevelVersion
@@ -255,7 +255,7 @@ namespace SLXEditor
         /// </summary>
         public Color GetThemeColor(C.StyleColor styleColor)
         {
-            return MainStyle?.GetColor(styleColor) ?? C.SLXColors[styleColor.ToSLXColor()];
+            return ThemeStyle?.GetColor(styleColor) ?? C.SLXColors[styleColor.ToSLXColor()];
         }
 
         /// <summary>

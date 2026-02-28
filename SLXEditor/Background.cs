@@ -61,13 +61,13 @@ namespace SLXEditor
         }
 
         /// <summary>
-        /// Gets a list of background names, starting with the one in the mainStyle.
+        /// Gets a list of background names, starting with the one in the themeStyle.
         /// </summary>
-        public List<string> GetDisplayNames(Style mainStyle)
+        public List<string> GetDisplayNames(Style themeStyle)
         {
             List<string> displayNames = new List<string>() { "--none--" };
-            displayNames.AddRange(backgroundList.FindAll(bg => bg.Style.Equals(mainStyle)).ConvertAll(bg => bg.Name));
-            displayNames.AddRange(backgroundList.FindAll(bg => !bg.Style.Equals(mainStyle)).ConvertAll(bg => bg.Name));
+            displayNames.AddRange(backgroundList.FindAll(bg => bg.Style.Equals(themeStyle)).ConvertAll(bg => bg.Name));
+            displayNames.AddRange(backgroundList.FindAll(bg => !bg.Style.Equals(themeStyle)).ConvertAll(bg => bg.Name));
             return displayNames;
         }
 

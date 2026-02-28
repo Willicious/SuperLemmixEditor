@@ -710,7 +710,7 @@ namespace SLXEditor
 
             if (pieceKey.StartsWith("default") && ImageLibrary.GetObjType(pieceKey) == C.OBJ.ONE_WAY_WALL)
             {
-                Color blendColor = curLevel.MainStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? C.SLXColors[C.SLXColor.OWWDefault];
+                Color blendColor = curLevel.ThemeStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? C.SLXColors[C.SLXColor.OWWDefault];
                 pieceImage = pieceImage.ApplyThemeColor(blendColor);
             }
 

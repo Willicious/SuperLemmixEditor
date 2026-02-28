@@ -1103,7 +1103,7 @@ namespace SLXEditor
                             }
                         case "USEAUTOSTART":
                             {
-                                editorForm.chk_Lvl_AutoStart.Checked = line.Text.Trim().ToUpper() == "TRUE";
+                                editorForm.checkAutoStart.Checked = line.Text.Trim().ToUpper() == "TRUE";
                                 break;
                             }
                         case "SHOWABOUTATSTARTUP":
@@ -1236,7 +1236,7 @@ namespace SLXEditor
                 settingsFile.WriteLine(" PreferObjectName       " + (PreferObjectName ? "True" : "False"));
                 settingsFile.WriteLine(" InfiniteScrolling      " + (InfiniteScrolling ? "True" : "False"));
                 settingsFile.WriteLine(" ShowRandomButton       " + (ShowRandomButton ? "True" : "False"));
-                settingsFile.WriteLine(" UseAutostart           " + editorForm.chk_Lvl_AutoStart.Checked.ToString());
+                settingsFile.WriteLine(" UseAutostart           " + editorForm.checkAutoStart.Checked.ToString());
                 settingsFile.WriteLine(" GridSize               " + GridSize.ToString());
                 settingsFile.WriteLine(" GridColor              " + (GridColor == Color.Empty ? "(Invisible)" : ColorTranslator.ToHtml(GridColor)));
                 settingsFile.WriteLine(" TriggerAreaColor       " + CurrentTriggerAreaColor.ToString());

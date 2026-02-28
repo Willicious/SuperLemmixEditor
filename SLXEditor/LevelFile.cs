@@ -84,7 +84,7 @@ namespace SLXEditor
             newLevel.LevelID = file["ID"].ValueUInt64;
             newLevel.LevelVersion = file["VERSION"].ValueUInt64;
 
-            newLevel.MainStyle = styleList.Find(sty => sty.NameInDirectory == Aliases.Dealias(file["THEME"].Value, AliasKind.Style).To);
+            newLevel.ThemeStyle = styleList.Find(sty => sty.NameInDirectory == Aliases.Dealias(file["THEME"].Value, AliasKind.Style).To);
             newLevel.Background = ParseBackground(Aliases.Dealias(file["BACKGROUND"].Value, AliasKind.Background).To, styleList, backgrounds);
 
             newLevel.MusicFile = file["MUSIC"].Value;
@@ -160,7 +160,7 @@ namespace SLXEditor
             newLevel.LevelID = file["ID"].ValueUInt64;
             newLevel.LevelVersion = file["VERSION"].ValueUInt64;
 
-            newLevel.MainStyle = styleList.Find(sty => sty.NameInDirectory == Aliases.Dealias(file["THEME"].Value, AliasKind.Style).To);
+            newLevel.ThemeStyle = styleList.Find(sty => sty.NameInDirectory == Aliases.Dealias(file["THEME"].Value, AliasKind.Style).To);
             newLevel.Background = ParseBackground(Aliases.Dealias(file["BACKGROUND"].Value, AliasKind.Background).To, styleList, backgrounds);
 
             newLevel.MusicFile = file["MUSIC"].Value;
@@ -635,7 +635,7 @@ namespace SLXEditor
                 textFile.WriteLine(" START_X " + curLevel.StartPosX.ToString());
                 textFile.WriteLine(" START_Y " + curLevel.StartPosY.ToString());
             }
-            textFile.WriteLine(" THEME " + curLevel.MainStyle?.NameInDirectory);
+            textFile.WriteLine(" THEME " + curLevel.ThemeStyle?.NameInDirectory);
 
             if (curLevel.Background != null)
             {

@@ -45,40 +45,40 @@ namespace SLXEditor
 
             checkboxesSkillFlags = new Dictionary<C.Skill, CheckBox>()
                 {
-                    { C.Skill.Climber, check_Piece_Climber }, { C.Skill.Floater, check_Piece_Floater },
-                    { C.Skill.Bomber, check_Piece_Bomber }, { C.Skill.Blocker, check_Piece_Blocker },
-                    { C.Skill.Builder, check_Piece_Builder }, { C.Skill.Basher, check_Piece_Basher },
-                    { C.Skill.Miner, check_Piece_Miner }, { C.Skill.Digger, check_Piece_Digger },
-                    { C.Skill.Walker, check_Piece_Walker }, { C.Skill.Swimmer, check_Piece_Swimmer },
-                    { C.Skill.Glider, check_Piece_Glider }, { C.Skill.Ballooner, check_Piece_Ballooner },
-                    { C.Skill.Disarmer, check_Piece_Disarmer },{ C.Skill.Freezer, check_Piece_Freezer },
-                    { C.Skill.Stoner, check_Piece_Stoner },
-                    { C.Skill.Ladderer, check_Piece_Ladderer }, { C.Skill.Platformer, check_Piece_Platformer },
-                    { C.Skill.Stacker, check_Piece_Stacker }, { C.Skill.Cloner, check_Piece_Cloner },
-                    { C.Skill.Fencer, check_Piece_Fencer },  { C.Skill.Shimmier, check_Piece_Shimmier },
-                    { C.Skill.Jumper, check_Piece_Jumper }, { C.Skill.Slider, check_Piece_Slider },
-                    { C.Skill.Laserer, check_Piece_Laserer }, { C.Skill.Spearer, check_Piece_Spearer },
-                    { C.Skill.Grenader, check_Piece_Grenader }, { C.Skill.Timebomber, check_Piece_Timebomber },
-                    { C.Skill.Zombie, check_Piece_Zombie }, { C.Skill.Rival, check_Piece_Rival },
-                    { C.Skill.Neutral, check_Piece_Neutral }
+                    { C.Skill.Climber, checkClimber }, { C.Skill.Floater, checkFloater },
+                    { C.Skill.Bomber, checkBomber }, { C.Skill.Blocker, checkBlocker },
+                    { C.Skill.Builder, checkBuilder }, { C.Skill.Basher, checkBasher },
+                    { C.Skill.Miner, checkMiner }, { C.Skill.Digger, checkDigger },
+                    { C.Skill.Walker, checkWalker }, { C.Skill.Swimmer, checkSwimmer },
+                    { C.Skill.Glider, checkGlider }, { C.Skill.Ballooner, checkBallooner },
+                    { C.Skill.Disarmer, checkDisarmer },{ C.Skill.Freezer, checkFreezer },
+                    { C.Skill.Stoner, checkStoner },
+                    { C.Skill.Ladderer, checkLadderer }, { C.Skill.Platformer, checkPlatformer },
+                    { C.Skill.Stacker, checkStacker }, { C.Skill.Cloner, checkCloner },
+                    { C.Skill.Fencer, checkFencer },  { C.Skill.Shimmier, checkShimmier },
+                    { C.Skill.Jumper, checkJumper }, { C.Skill.Slider, checkSlider },
+                    { C.Skill.Laserer, checkLaserer }, { C.Skill.Spearer, checkSpearer },
+                    { C.Skill.Grenader, checkGrenader }, { C.Skill.Timebomber, checkTimebomber },
+                    { C.Skill.Zombie, checkZombie }, { C.Skill.Rival, checkRival },
+                    { C.Skill.Neutral, checkNeutral }
                 };
 
             numericsSkillSet = new Dictionary<C.Skill, NumericUpDown>()
                 {
-                    { C.Skill.Climber, num_Ski_Climber }, { C.Skill.Floater, num_Ski_Floater },
-                    { C.Skill.Bomber, num_Ski_Bomber }, { C.Skill.Blocker, num_Ski_Blocker },
-                    { C.Skill.Builder, num_Ski_Builder }, { C.Skill.Basher, num_Ski_Basher },
-                    { C.Skill.Miner, num_Ski_Miner }, { C.Skill.Digger, num_Ski_Digger },
-                    { C.Skill.Walker, num_Ski_Walker }, { C.Skill.Swimmer, num_Ski_Swimmer },
-                    { C.Skill.Glider, num_Ski_Glider }, { C.Skill.Ballooner, num_Ski_Ballooner },
-                    { C.Skill.Disarmer, num_Ski_Disarmer }, { C.Skill.Freezer, num_Ski_Freezer },
-                    { C.Skill.Stoner, num_Ski_Stoner },
-                    { C.Skill.Ladderer, num_Ski_Ladderer }, { C.Skill.Platformer, num_Ski_Platformer },
-                    { C.Skill.Stacker, num_Ski_Stacker }, { C.Skill.Cloner, num_Ski_Cloner },
-                    { C.Skill.Fencer, num_Ski_Fencer }, { C.Skill.Shimmier, num_Ski_Shimmier },
-                    { C.Skill.Jumper, num_Ski_Jumper }, { C.Skill.Slider, num_Ski_Slider },
-                    { C.Skill.Laserer, num_Ski_Laserer }, { C.Skill.Spearer, num_Ski_Spearer },
-                    { C.Skill.Grenader, num_Ski_Grenader }, { C.Skill.Timebomber, num_Ski_Timebomber },
+                    { C.Skill.Climber, numClimber }, { C.Skill.Floater, numFloater },
+                    { C.Skill.Bomber, numBomber }, { C.Skill.Blocker, numBlocker },
+                    { C.Skill.Builder, numBuilder }, { C.Skill.Basher, numBasher },
+                    { C.Skill.Miner, numMiner }, { C.Skill.Digger, numDigger },
+                    { C.Skill.Walker, numWalker }, { C.Skill.Swimmer, numSwimmer },
+                    { C.Skill.Glider, numGlider }, { C.Skill.Ballooner, numBallooner },
+                    { C.Skill.Disarmer, numDisarmer }, { C.Skill.Freezer, numFreezer },
+                    { C.Skill.Stoner, numStoner },
+                    { C.Skill.Ladderer, numLadderer }, { C.Skill.Platformer, numPlatformer },
+                    { C.Skill.Stacker, numStacker }, { C.Skill.Cloner, numCloner },
+                    { C.Skill.Fencer, numFencer }, { C.Skill.Shimmier, numShimmier },
+                    { C.Skill.Jumper, numJumper }, { C.Skill.Slider, numSlider },
+                    { C.Skill.Laserer, numLaserer }, { C.Skill.Spearer, numSpearer },
+                    { C.Skill.Grenader, numGrenader }, { C.Skill.Timebomber, numTimebomber },
                 };
 
             var displayTabItems = new Dictionary<C.DisplayType, ToolStripMenuItem>()
@@ -102,11 +102,11 @@ namespace SLXEditor
             CreateStyleList();
             if (StyleList.Count > 0)
             {
-                this.combo_MainStyle.Items.AddRange(StyleList.Where(sty => File.Exists(C.AppPathThemeInfo(sty.NameInDirectory))).Select(sty => sty.NameInEditor).ToArray());
-                this.combo_MainStyle.SelectedIndex = 0;
+                this.comboTheme.Items.AddRange(StyleList.Where(sty => File.Exists(C.AppPathThemeInfo(sty.NameInDirectory))).Select(sty => sty.NameInEditor).ToArray());
+                this.comboTheme.SelectedIndex = 0;
 
-                this.combo_PieceStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.NameInEditor).ToArray());
-                this.combo_PieceStyle.SelectedIndex = 0;
+                this.comboPieceStyle.Items.AddRange(StyleList.ConvertAll(sty => sty.NameInEditor).ToArray());
+                this.comboPieceStyle.SelectedIndex = 0;
             }
 
             CreateNewLevelAndRenderer();
@@ -123,7 +123,7 @@ namespace SLXEditor
             pieceDoDisplayKind = C.SelectPieceType.Terrain;
             try
             {
-                pieceCurStyle = ValidateStyleName(combo_PieceStyle.SelectedItem.ToString());
+                pieceCurStyle = ValidateStyleName(comboPieceStyle.SelectedItem.ToString());
             }
             catch (NullReferenceException)
             {
@@ -276,9 +276,9 @@ namespace SLXEditor
 
         private void ResetLevelImage()
         {
-            pic_Level.Image = curRenderer.CombineLayers();
+            picLevel.Image = curRenderer.CombineLayers();
             curRenderer.EnsureScreenPosInLevel();
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
         }
 
         private void NLEditForm_Activated(object sender, EventArgs e)
@@ -493,76 +493,76 @@ namespace SLXEditor
         private void scrollPicLevelHoriz_Scroll(object sender, ScrollEventArgs e)
         {
             curRenderer.ScreenPosX = e.NewValue;
-            pic_Level.SetImage(curRenderer.GetScreenImage());
+            picLevel.SetImage(curRenderer.GetScreenImage());
         }
 
         private void scrollPicLevelVert_Scroll(object sender, ScrollEventArgs e)
         {
             curRenderer.ScreenPosY = e.NewValue;
-            pic_Level.SetImage(curRenderer.GetScreenImage());
+            picLevel.SetImage(curRenderer.GetScreenImage());
         }
 
         /* -----------------------------------------------------------
          *              Global Level Info Tab
          * ----------------------------------------------------------- */
 
-        private void combo_MainStyle_TextChanged(object sender, EventArgs e)
+        private void combo_ThemeStyle_TextChanged(object sender, EventArgs e)
         {
-            Style newStyle = ValidateStyleName(combo_MainStyle.Text);
+            Style newStyle = ValidateStyleName(comboTheme.Text);
 
             if (newStyle == null || CurLevel == null)
                 return;
 
-            CurLevel.MainStyle = newStyle;
+            CurLevel.ThemeStyle = newStyle;
             UpdateBackgroundImage();
             LoadPiecesIntoPictureBox();
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
 
             // If the level is empty, switch piece style, too
             if (CurLevel.GadgetList.Count == 0 && CurLevel.TerrainList.Count == 0)
             {
-                combo_PieceStyle.Text = newStyle.NameInEditor;
+                comboPieceStyle.Text = newStyle.NameInEditor;
             }
         }
 
-        private void num_Lvl_SizeX_ValueChanged(object sender, EventArgs e)
+        private void numSizeX_ValueChanged(object sender, EventArgs e)
         {
-            CurLevel.Width = (int)num_Lvl_SizeX.Value;
+            CurLevel.Width = (int)numWidth.Value;
 
             // Adapt max start position
-            num_Lvl_StartX.Maximum = CurLevel.Width - 1;
-            CurLevel.StartPosX = (int)num_Lvl_StartX.Value;
+            numStartX.Maximum = CurLevel.Width - 1;
+            CurLevel.StartPosX = (int)numStartX.Value;
 
             // Update screen position and render level
             curRenderer.ChangeZoom(0);
             RepositionPicLevel();
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
         }
 
-        private void num_Lvl_SizeY_ValueChanged(object sender, EventArgs e)
+        private void numSizeY_ValueChanged(object sender, EventArgs e)
         {
-            CurLevel.Height = (int)num_Lvl_SizeY.Value;
+            CurLevel.Height = (int)numHeight.Value;
 
             // Adapt max start position
-            num_Lvl_StartY.Maximum = CurLevel.Height - 1;
-            CurLevel.StartPosY = (int)num_Lvl_StartY.Value;
+            numStartY.Maximum = CurLevel.Height - 1;
+            CurLevel.StartPosY = (int)numStartY.Value;
 
             // Update screen position and render level
             curRenderer.ChangeZoom(0);
             RepositionPicLevel();
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
         }
 
-        private void num_Lvl_StartX_ValueChanged(object sender, EventArgs e)
+        private void numStartX_ValueChanged(object sender, EventArgs e)
         {
-            CurLevel.StartPosX = (int)num_Lvl_StartX.Value;
-            pic_Level.SetImage(curRenderer.GetScreenImage());
+            CurLevel.StartPosX = (int)numStartX.Value;
+            picLevel.SetImage(curRenderer.GetScreenImage());
         }
 
-        private void num_Lvl_StartY_ValueChanged(object sender, EventArgs e)
+        private void numStartY_ValueChanged(object sender, EventArgs e)
         {
-            CurLevel.StartPosY = (int)num_Lvl_StartY.Value;
-            pic_Level.SetImage(curRenderer.GetScreenImage());
+            CurLevel.StartPosY = (int)numStartY.Value;
+            picLevel.SetImage(curRenderer.GetScreenImage());
         }
 
 
@@ -570,96 +570,96 @@ namespace SLXEditor
          *              Piece Info Tab
          * ----------------------------------------------------------- */
 
-        private void but_RotatePieces_Click(object sender, EventArgs e)
+        private void btnRotatePieces_Click(object sender, EventArgs e)
         {
-            if (!but_RotatePieces.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_RotatePieces.Interval() / 2)
+            if (!btnRotate.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > btnRotate.Interval() / 2)
             {
                 stopWatchMouse.Restart();
                 RotateLevelPieces();
             }
         }
 
-        private void but_RotatePieces_MouseUp(object sender, MouseEventArgs e)
+        private void btnRotatePieces_MouseUp(object sender, MouseEventArgs e)
         {
             PullFocusFromTextInputs();
         }
 
-        private void but_InvertPieces_Click(object sender, EventArgs e)
+        private void btnInvertPieces_Click(object sender, EventArgs e)
         {
-            if (!but_InvertPieces.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_InvertPieces.Interval() / 2)
+            if (!btnInvert.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > btnInvert.Interval() / 2)
             {
                 stopWatchMouse.Restart();
                 InvertLevelPieces();
             }
         }
 
-        private void but_InvertPieces_MouseUp(object sender, MouseEventArgs e)
+        private void btnInvertPieces_MouseUp(object sender, MouseEventArgs e)
         {
             PullFocusFromTextInputs();
         }
 
-        private void but_FlipPieces_Click(object sender, EventArgs e)
+        private void btnFlipPieces_Click(object sender, EventArgs e)
         {
-            if (!but_FlipPieces.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_FlipPieces.Interval() / 2)
+            if (!btnFlip.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > btnFlip.Interval() / 2)
             {
                 stopWatchMouse.Restart();
                 FlipLevelPieces();
             }
         }
 
-        private void but_FlipPieces_MouseUp(object sender, MouseEventArgs e)
+        private void btnFlipPieces_MouseUp(object sender, MouseEventArgs e)
         {
             PullFocusFromTextInputs();
         }
 
 
-        private void but_MoveFront_Click(object sender, EventArgs e)
+        private void btnMoveFront_Click(object sender, EventArgs e)
         {
             MovePieceIndex(true, false);
             PullFocusFromTextInputs();
         }
 
-        private void but_MoveBack_Click(object sender, EventArgs e)
+        private void btnMoveBack_Click(object sender, EventArgs e)
         {
             MovePieceIndex(false, false);
             PullFocusFromTextInputs();
         }
 
-        private void but_MoveFrontOne_Click(object sender, EventArgs e)
+        private void btnMoveFrontOne_Click(object sender, EventArgs e)
         {
-            if (!but_MoveFrontOne.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_MoveFrontOne.Interval() / 2)
+            if (!btnDrawLater.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > btnDrawLater.Interval() / 2)
             {
                 stopWatchMouse.Restart();
                 MovePieceIndex(true, true);
             }
         }
 
-        private void but_MoveFrontOne_MouseUp(object sender, MouseEventArgs e)
+        private void btnMoveFrontOne_MouseUp(object sender, MouseEventArgs e)
         {
             PullFocusFromTextInputs();
         }
 
-        private void but_MoveBackOne_Click(object sender, EventArgs e)
+        private void btnMoveBackOne_Click(object sender, EventArgs e)
         {
-            if (!but_MoveBackOne.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > but_MoveBackOne.Interval() / 2)
+            if (!btnDrawSooner.IsRepeatedAction || stopWatchMouse.ElapsedMilliseconds > btnDrawSooner.Interval() / 2)
             {
                 stopWatchMouse.Restart();
                 MovePieceIndex(false, true);
             }
         }
 
-        private void but_MoveBackOne_MouseUp(object sender, MouseEventArgs e)
+        private void btnMoveBackOne_MouseUp(object sender, MouseEventArgs e)
         {
             PullFocusFromTextInputs();
         }
 
-        private void but_GroupSelection_Click(object sender, EventArgs e)
+        private void btnGroupSelection_Click(object sender, EventArgs e)
         {
             GroupSelectedPieces();
             PullFocusFromTextInputs();
         }
 
-        private void but_UngroupSelection_Click(object sender, EventArgs e)
+        private void btnUngroupSelection_Click(object sender, EventArgs e)
         {
             UngroupSelectedPieces();
             PullFocusFromTextInputs();
@@ -668,69 +668,69 @@ namespace SLXEditor
 
         private void check_Pieces_Erase_CheckedChanged(object sender, EventArgs e)
         {
-            bool isChecked = (check_Pieces_Erase.CheckState == CheckState.Checked);
+            bool isChecked = (checkErase.CheckState == CheckState.Checked);
             SetErase(isChecked);
             PullFocusFromTextInputs();
         }
 
         private void check_Pieces_NoOv_CheckedChanged(object sender, EventArgs e)
         {
-            bool isChecked = (check_Pieces_NoOv.CheckState == CheckState.Checked);
+            bool isChecked = (checkNoOverwrite.CheckState == CheckState.Checked);
             SetNoOverwrite(isChecked);
             PullFocusFromTextInputs();
         }
 
         private void check_Pieces_OnlyOnTerrain_CheckedChanged(object sender, EventArgs e)
         {
-            bool isChecked = (check_Pieces_OnlyOnTerrain.CheckState == CheckState.Checked);
+            bool isChecked = (checkOnlyOnTerrain.CheckState == CheckState.Checked);
             SetOnlyOnTerrain(isChecked);
             PullFocusFromTextInputs();
         }
 
         private void check_Pieces_OneWay_CheckedChanged(object sender, EventArgs e)
         {
-            bool isChecked = (check_Pieces_OneWay.CheckState == CheckState.Checked);
+            bool isChecked = (checkAllowOneWay.CheckState == CheckState.Checked);
             SetOneWay(isChecked);
             PullFocusFromTextInputs();
         }
 
-        private void check_Piece_Skill_CheckedChanged(object sender, EventArgs e)
+        private void checkSkill_CheckedChanged(object sender, EventArgs e)
         {
             C.Skill skill = checkboxesSkillFlags.First(check => check.Value.Equals((CheckBox)sender)).Key;
             bool isChecked = ((CheckBox)sender).CheckState == CheckState.Checked;
             SetSkillForObjects(skill, isChecked);
             PullFocusFromTextInputs();
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
         }
 
         private void num_Resize_Width_ValueChanged(object sender, EventArgs e)
         {
-            int newWidth = (int)num_Resize_Width.Value;
+            int newWidth = (int)numResizeWidth.Value;
             CurLevel.SelectionList()
                     .ForEach(obj => obj.SpecWidth = newWidth);
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
         }
 
         private void num_Resize_Height_ValueChanged(object sender, EventArgs e)
         {
-            int newHeight = (int)num_Resize_Height.Value;
+            int newHeight = (int)numResizeHeight.Value;
             CurLevel.SelectionList()
                     .ForEach(obj => obj.SpecHeight = newHeight);
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
         }
 
-        private void cb_Decoration_Direction_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbDecorationDirection_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int newDir = cb_Decoration_Direction.SelectedIndex * 45 / 2;
+            int newDir = comboDecorationDirection.SelectedIndex * 45 / 2;
             CurLevel.SelectionList()
                 .FindAll(item => item.ObjType == C.OBJ.DECORATION)
                 .ForEach(obj => (obj as GadgetPiece).DecorationAngle = newDir);
             SaveChangesToOldLevelList();
         }
 
-        private void num_Decoration_Speed_ValueChanged(object sender, EventArgs e)
+        private void numDecorationSpeed_ValueChanged(object sender, EventArgs e)
         {
-            int newSpeed = (int)num_Decoration_Speed.Value;
+            int newSpeed = (int)numDecorationSpeed.Value;
             CurLevel.SelectionList()
                 .FindAll(item => item.ObjType == C.OBJ.DECORATION)
                 .ForEach(obj => (obj as GadgetPiece).DecorationSpeed = newSpeed);
@@ -739,30 +739,30 @@ namespace SLXEditor
 
         private void num_SR_Countdown_ValueChanged(object sender, EventArgs e)
         {
-            int countdownLength = (int)num_SR_Countdown.Value;
+            int countdownLength = (int)numCountdown.Value;
             CurLevel.SetCountdownLength(countdownLength);
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
         }
 
-        private void but_PairTeleporter_Click(object sender, EventArgs e)
+        private void btnPairTeleporter_Click(object sender, EventArgs e)
         {
             PairTeleporters();
             PullFocusFromTextInputs();
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
         }
 
         private void num_PickupSkillCount_ValueChanged(object sender, EventArgs e)
         {
-            int newSkillCount = (int)num_PickupSkillCount.Value;
+            int newSkillCount = (int)numPickupSkillCount.Value;
             CurLevel.SetPickupSkillCount(newSkillCount);
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
         }
 
         private void num_LemmingLimit_ValueChanged(object sender, EventArgs e)
         {
-            int newLimit = (int)num_LemmingLimit.Value;
+            int newLimit = (int)numLemmingLimit.Value;
             CurLevel.SetLemmingLimit(newLimit);
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
         }
 
         /* -----------------------------------------------------------
@@ -794,7 +794,7 @@ namespace SLXEditor
 
         private void combo_PieceStyle_TextChanged(object sender, EventArgs e)
         {
-            Style newStyle = ValidateStyleName(combo_PieceStyle.Text);
+            Style newStyle = ValidateStyleName(comboPieceStyle.Text);
 
             if (newStyle == null || newStyle == pieceCurStyle)
                 return;
@@ -810,7 +810,7 @@ namespace SLXEditor
         private void combo_PieceStyle_Leave(object sender, EventArgs e)
         {
             // Check whether to delete all pieces due to wrong style name
-            Style newStyle = ValidateStyleName(combo_PieceStyle.Text);
+            Style newStyle = ValidateStyleName(comboPieceStyle.Text);
 
             if (newStyle == null)
             {
@@ -820,53 +820,53 @@ namespace SLXEditor
             }
         }
 
-        private void but_PieceTerr_Click(object sender, EventArgs e)
+        private void btnPieceTerr_Click(object sender, EventArgs e)
         {
             CyclePieceBrowserDisplay(C.SelectPieceType.Terrain);
             PullFocusFromTextInputs();
         }
 
-        private void but_PieceSteel_Click(object sender, EventArgs e)
+        private void btnPieceSteel_Click(object sender, EventArgs e)
         {
             CyclePieceBrowserDisplay(C.SelectPieceType.Steel);
             PullFocusFromTextInputs();
         }
 
-        private void but_PieceObj_Click(object sender, EventArgs e)
+        private void btnPieceObj_Click(object sender, EventArgs e)
         {
             CyclePieceBrowserDisplay(C.SelectPieceType.Objects);
             PullFocusFromTextInputs();
         }
 
-        private void but_PieceBackground_Click(object sender, EventArgs e)
+        private void btnPieceBackground_Click(object sender, EventArgs e)
         {
             CyclePieceBrowserDisplay(C.SelectPieceType.Backgrounds);
             PullFocusFromTextInputs();
         }
 
-        private void but_PieceRuler_Click(object sender, EventArgs e)
+        private void btnPieceRuler_Click(object sender, EventArgs e)
         {
             CyclePieceBrowserDisplay(C.SelectPieceType.Rulers);
             PullFocusFromTextInputs();
         }
 
-        private void but_PieceLeft_MouseUp(object sender, MouseEventArgs e)
+        private void btnPieceLeft_MouseUp(object sender, MouseEventArgs e)
         {
             PullFocusFromTextInputs();
         }
 
-        private void but_PieceLeft_Click(object sender, EventArgs e)
+        private void btnPieceLeft_Click(object sender, EventArgs e)
         {
             stopWatchMouse.Restart();
             MoveTerrPieceSelection(-1);
         }
 
-        private void but_PieceRight_MouseUp(object sender, MouseEventArgs e)
+        private void btnPieceRight_MouseUp(object sender, MouseEventArgs e)
         {
             PullFocusFromTextInputs();
         }
 
-        private void but_PieceRight_Click(object sender, EventArgs e)
+        private void btnPieceRight_Click(object sender, EventArgs e)
         {
             stopWatchMouse.Restart();
             MoveTerrPieceSelection(1);
@@ -915,9 +915,9 @@ namespace SLXEditor
 
                 if (dragNewPieceKey != "")
                 {
-                    pic_DragNewPiece.Width = ImageLibrary.GetWidth(dragNewPieceKey);
-                    pic_DragNewPiece.Height = ImageLibrary.GetHeight(dragNewPieceKey);
-                    pic_DragNewPiece.Image = ImageLibrary.GetImage(dragNewPieceKey);
+                    picDragNewPiece.Width = ImageLibrary.GetWidth(dragNewPieceKey);
+                    picDragNewPiece.Height = ImageLibrary.GetHeight(dragNewPieceKey);
+                    picDragNewPiece.Image = ImageLibrary.GetImage(dragNewPieceKey);
 
                     dragNewPieceTimer.Interval = 200;
                     dragNewPieceTimer.Enabled = true;
@@ -973,7 +973,7 @@ namespace SLXEditor
                 return true;
             }
 
-            if (ActiveControl != txt_Focus)
+            if (ActiveControl != txtFocus)
             {
                 if (IsTextInputKey(e.KeyCode) && e.Modifiers == Keys.None)
                 {
@@ -1066,7 +1066,7 @@ namespace SLXEditor
                 }
                 else // Zoom the level
                 {
-                    Point mousePosRelPicLevel = pic_Level.PointToClient(this.PointToScreen(e.Location));
+                    Point mousePosRelPicLevel = picLevel.PointToClient(this.PointToScreen(e.Location));
                     curRenderer.SetZoomMousePos(mousePosRelPicLevel);
                     curRenderer.ChangeZoom(movement > 0 ? 1 : -1, true);
                 }
@@ -1074,7 +1074,7 @@ namespace SLXEditor
 
             // Update level image
             RepositionPicLevel();
-            pic_Level.SetImage(curRenderer.GetScreenImage());
+            picLevel.SetImage(curRenderer.GetScreenImage());
 
             mutexMouseWheel.ReleaseMutex();
         }
@@ -1106,7 +1106,7 @@ namespace SLXEditor
             if (curRenderer.CropTool.Active)
             {
                 curRenderer.CropTool.MouseDown(e.Location);
-                pic_Level.SetImage(curRenderer.GetScreenImage());
+                picLevel.SetImage(curRenderer.GetScreenImage());
                 return;
             }
 
@@ -1150,7 +1150,7 @@ namespace SLXEditor
                 if (addOrRemoveSinglePiecePressed)
                 {
                     LevelSelectSinglePiece();
-                    pic_Level.SetImage(curRenderer.GetScreenImage());
+                    picLevel.SetImage(curRenderer.GetScreenImage());
                 }
 
                 dragAction = C.DragActions.DragPieces;
@@ -1169,7 +1169,7 @@ namespace SLXEditor
             {
                 curRenderer.MouseCurPos = e.Location;
                 LevelSelectSinglePiece();
-                pic_Level.SetImage(curRenderer.GetScreenImage());
+                picLevel.SetImage(curRenderer.GetScreenImage());
                 dragAction = C.DragActions.MaybeDragPieces;
             }
             else
@@ -1187,7 +1187,7 @@ namespace SLXEditor
             if (curRenderer.CropTool.Active)
             {
                 curRenderer.CropTool.MouseUp();
-                pic_Level.SetImage(curRenderer.GetScreenImage());
+                picLevel.SetImage(curRenderer.GetScreenImage());
                 return;
             }
 
@@ -1245,20 +1245,20 @@ namespace SLXEditor
                     }
                 case C.DragActions.DragNewPiece:
                     {
-                        Point mousePicBoxPos = pic_Level.PointToClient(MousePosition);
+                        Point mousePicBoxPos = picLevel.PointToClient(MousePosition);
                         if (curRenderer.IsPointInLevelArea(mousePicBoxPos))
                         {
                             Point mouseLevelPos = curRenderer.GetMousePosInLevel(mousePicBoxPos);
                             AddNewPieceToLevel(dragNewPieceKey, mouseLevelPos);
                         }
                         dragNewPieceTimer.Enabled = false;
-                        pic_DragNewPiece.Visible = false;
+                        picDragNewPiece.Visible = false;
                         break;
                     }
             }
 
             curRenderer.DeleteDraggingVars();
-            pic_Level.SetImage(curRenderer.CreateLevelImage());
+            picLevel.SetImage(curRenderer.CreateLevelImage());
             UpdateFlagsForPieceActions();
 
             mouseButtonPressed = null;
@@ -1283,7 +1283,7 @@ namespace SLXEditor
             if (curRenderer.CropTool.Active)
             {
                 curRenderer.CropTool.MouseMove(e.Location, curSettings);
-                pic_Level.SetImage(curRenderer.GetScreenImage());
+                picLevel.SetImage(curRenderer.GetScreenImage());
                 return;
             }
 
@@ -1304,44 +1304,44 @@ namespace SLXEditor
             switch (curRenderer.MouseDragAction)
             {
                 case C.DragActions.SelectArea:
-                    pic_Level.SetImage(curRenderer.GetScreenImage());
+                    picLevel.SetImage(curRenderer.GetScreenImage());
                     break;
 
                 case C.DragActions.MoveEditorPos:
                     curRenderer.UpdateScreenPos();
                     UpdateScrollBarValues();
-                    pic_Level.SetImage(curRenderer.GetScreenImage());
+                    picLevel.SetImage(curRenderer.GetScreenImage());
                     break;
 
                 case C.DragActions.MaybeDragPieces:
                     curRenderer.ConfirmDrag();
                     DragSelectedPieces();
-                    pic_Level.SetImage(curRenderer.CreateLevelImage());
+                    picLevel.SetImage(curRenderer.CreateLevelImage());
                     break;
 
                 case C.DragActions.DragPieces:
                     DragSelectedPieces();
-                    pic_Level.SetImage(curRenderer.CreateLevelImage());
+                    picLevel.SetImage(curRenderer.CreateLevelImage());
                     break;
 
                 case C.DragActions.HorizontalDrag:
                     XDragSelectedPieces();
-                    pic_Level.SetImage(curRenderer.CreateLevelImage());
+                    picLevel.SetImage(curRenderer.CreateLevelImage());
                     break;
 
                 case C.DragActions.VerticalDrag:
                     YDragSelectedPieces();
-                    pic_Level.SetImage(curRenderer.CreateLevelImage());
+                    picLevel.SetImage(curRenderer.CreateLevelImage());
                     break;
 
                 case C.DragActions.MoveStartPos:
                     Point newCenter = curRenderer.GetNewPosFromDragging();
                     MoveScreenStartPosition(newCenter);
-                    pic_Level.SetImage(curRenderer.GetScreenImage());
+                    picLevel.SetImage(curRenderer.GetScreenImage());
                     break;
             }
 
-            pic_Level.Refresh();
+            picLevel.Refresh();
             mutexMouseMove.ReleaseMutex();
         }
 
@@ -1485,18 +1485,18 @@ namespace SLXEditor
             }
         }
 
-        private void but_ClearBackground_Click(object sender, EventArgs e)
+        private void btnClearBackground_Click(object sender, EventArgs e)
         {
             CurLevel.Background = null;
             UpdateBackgroundImage();
-            pic_Level.SetImage(curRenderer.CombineLayers());
+            picLevel.SetImage(curRenderer.CombineLayers());
         }
 
-        private void but_RandomID_Click(object sender, EventArgs e)
+        private void btnRandomID_Click(object sender, EventArgs e)
         {
             CurLevel.LevelID = (ulong)Utility.Random().Next() +
                                ((ulong)Utility.Random().Next() << 32);
-            txt_LevelID.Text = CurLevel.LevelID.ToString("X16");
+            txtLevelID.Text = CurLevel.LevelID.ToString("X16");
         }
 
         private void num_LemmingLimit_KeyPress(object sender, KeyEventArgs e)
@@ -1546,7 +1546,7 @@ namespace SLXEditor
         {
             if (_IsWritingToForm) return;
             textbox_Leave(sender, e);
-            pic_Level.SetImage(curRenderer.GetScreenImage());
+            picLevel.SetImage(curRenderer.GetScreenImage());
         }
 
         private void num_SR_Countdown_KeyUp(object sender, KeyEventArgs e)
@@ -1597,9 +1597,9 @@ namespace SLXEditor
 
         private void num_RandomLimit_ValueChanged(object sender, EventArgs e)
         {
-            if (num_RandomMinLimit.Value > num_RandomMaxLimit.Value)
+            if (numRandomMinLimit.Value > numRandomMaxLimit.Value)
             {
-                num_RandomMaxLimit.Value = num_RandomMinLimit.Value + 1;
+                numRandomMaxLimit.Value = numRandomMinLimit.Value + 1;
             }
         }
 
@@ -1623,6 +1623,8 @@ namespace SLXEditor
             SetMetaDataPanel();
             MoveControlsOnFormResize();
             UpdateMissingPiecesMenuItems();
+            LinkControlsToMouseEvents(this);
+            UpdateControlTags();
         }
 
         private void whatsNewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1630,7 +1632,7 @@ namespace SLXEditor
             ShowAboutSLXEditor();
         }
 
-        private void but_SearchPieces_Click(object sender, EventArgs e)
+        private void btnSearchPieces_Click(object sender, EventArgs e)
         {
             OpenPieceSearch();
         }
@@ -1640,7 +1642,7 @@ namespace SLXEditor
             OpenPieceSearch();
         }
 
-        private void but_LoadStyle_Click(object sender, EventArgs e)
+        private void btnLoadStyle_Click(object sender, EventArgs e)
         {
             LoadStyleFromMetaData();
         }
@@ -1722,18 +1724,18 @@ namespace SLXEditor
             OpenStyleManager();
         }
 
-        private void but_StyleRandom_Click(object sender, EventArgs e)
+        private void btnStyleRandom_Click(object sender, EventArgs e)
         {
             RandomizePieceStyle();
         }
 
         private void HandleSpawnIntervalNumerics(object sender, EventArgs e)
         {
-            if (sender == num_Lvl_SI)
-                num_Lvl_RR.Value = 103 - num_Lvl_SI.Value;
+            if (sender == numSI)
+                numRR.Value = 103 - numSI.Value;
 
-            if (sender == num_Lvl_RR)
-                num_Lvl_SI.Value = 103 - num_Lvl_RR.Value;
+            if (sender == numRR)
+                numSI.Value = 103 - numRR.Value;
         }
 
         private void exportAsINIToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1759,24 +1761,24 @@ namespace SLXEditor
                 return;
             }
 
-            if (totalCount != num_Lvl_Lems.Value)
-                num_Lvl_Lems.Value = totalCount;
+            if (totalCount != numLemmings.Value)
+                numLemmings.Value = totalCount;
 
-            if (possibleSaveCount < num_Lvl_Rescue.Value)
-                num_Lvl_Rescue.Value = possibleSaveCount;
+            if (possibleSaveCount < numRescue.Value)
+                numRescue.Value = possibleSaveCount;
         }
 
-        private void but_CropLevel_Click(object sender, EventArgs e)
+        private void btnCropLevel_Click(object sender, EventArgs e)
         {
             HandleCropLevel();
         }
 
-        private void but_CancelCrop_Click(object sender, EventArgs e)
+        private void btnCancelCrop_Click(object sender, EventArgs e)
         {
             HandleCropLevel();
         }
 
-        private void but_ApplyCrop_Click(object sender, EventArgs e)
+        private void btnApplyCrop_Click(object sender, EventArgs e)
         {
             ApplyLevelCrop();
         }
@@ -1789,6 +1791,16 @@ namespace SLXEditor
         private void saveAsTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveLevelAsTemplate();
+        }
+
+        private void Control_MouseEnter(object sender, EventArgs e)
+        {
+            UpdateControlHintLabel(true, sender);
+        }
+
+        private void Control_MouseLeave(object sender, EventArgs e)
+        {
+            UpdateControlHintLabel(false, sender);
         }
     }
 }
