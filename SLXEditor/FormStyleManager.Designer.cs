@@ -54,6 +54,7 @@
             this.checkAutoPinOGStyles = new System.Windows.Forms.CheckBox();
             this.btnRandomizer = new System.Windows.Forms.Button();
             this.checkShowRandomButton = new System.Windows.Forms.CheckBox();
+            this.btnRemove = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picPadding)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,7 +62,7 @@
             // 
             this.btnMoveUp1.Location = new System.Drawing.Point(736, 104);
             this.btnMoveUp1.Name = "btnMoveUp1";
-            this.btnMoveUp1.Size = new System.Drawing.Size(137, 44);
+            this.btnMoveUp1.Size = new System.Drawing.Size(137, 40);
             this.btnMoveUp1.TabIndex = 1;
             this.btnMoveUp1.Text = "Move Up 1";
             this.btnMoveUp1.UseVisualStyleBackColor = true;
@@ -71,7 +72,7 @@
             // 
             this.btnMoveDown1.Location = new System.Drawing.Point(879, 104);
             this.btnMoveDown1.Name = "btnMoveDown1";
-            this.btnMoveDown1.Size = new System.Drawing.Size(134, 44);
+            this.btnMoveDown1.Size = new System.Drawing.Size(134, 40);
             this.btnMoveDown1.TabIndex = 2;
             this.btnMoveDown1.Text = "Move Down 1";
             this.btnMoveDown1.UseVisualStyleBackColor = true;
@@ -79,9 +80,9 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(736, 709);
+            this.btnSave.Location = new System.Drawing.Point(736, 775);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(277, 44);
+            this.btnSave.Size = new System.Drawing.Size(137, 44);
             this.btnSave.TabIndex = 3;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -89,9 +90,9 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(736, 759);
+            this.btnCancel.Location = new System.Drawing.Point(879, 775);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(277, 44);
+            this.btnCancel.Size = new System.Drawing.Size(134, 44);
             this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -109,7 +110,7 @@
             this.listStyles.HideSelection = false;
             this.listStyles.Location = new System.Drawing.Point(17, 59);
             this.listStyles.Name = "listStyles";
-            this.listStyles.Size = new System.Drawing.Size(698, 744);
+            this.listStyles.Size = new System.Drawing.Size(698, 760);
             this.listStyles.TabIndex = 5;
             this.listStyles.UseCompatibleStateImageBehavior = false;
             this.listStyles.View = System.Windows.Forms.View.Details;
@@ -137,7 +138,7 @@
             // 
             // txtDisplayName
             // 
-            this.txtDisplayName.Location = new System.Drawing.Point(736, 497);
+            this.txtDisplayName.Location = new System.Drawing.Point(736, 470);
             this.txtDisplayName.Name = "txtDisplayName";
             this.txtDisplayName.Size = new System.Drawing.Size(277, 26);
             this.txtDisplayName.TabIndex = 6;
@@ -145,9 +146,9 @@
             // 
             // btnRename
             // 
-            this.btnRename.Location = new System.Drawing.Point(736, 529);
+            this.btnRename.Location = new System.Drawing.Point(736, 502);
             this.btnRename.Name = "btnRename";
-            this.btnRename.Size = new System.Drawing.Size(277, 44);
+            this.btnRename.Size = new System.Drawing.Size(277, 40);
             this.btnRename.TabIndex = 7;
             this.btnRename.Text = "Rename";
             this.btnRename.UseVisualStyleBackColor = true;
@@ -157,7 +158,7 @@
             // 
             this.btnAddNew.Location = new System.Drawing.Point(736, 16);
             this.btnAddNew.Name = "btnAddNew";
-            this.btnAddNew.Size = new System.Drawing.Size(277, 44);
+            this.btnAddNew.Size = new System.Drawing.Size(277, 40);
             this.btnAddNew.TabIndex = 8;
             this.btnAddNew.Text = "Add New Style";
             this.btnAddNew.UseVisualStyleBackColor = true;
@@ -165,9 +166,9 @@
             // 
             // btnMoveUp10
             // 
-            this.btnMoveUp10.Location = new System.Drawing.Point(736, 154);
+            this.btnMoveUp10.Location = new System.Drawing.Point(736, 150);
             this.btnMoveUp10.Name = "btnMoveUp10";
-            this.btnMoveUp10.Size = new System.Drawing.Size(137, 44);
+            this.btnMoveUp10.Size = new System.Drawing.Size(137, 40);
             this.btnMoveUp10.TabIndex = 9;
             this.btnMoveUp10.Text = "Move Up 10";
             this.btnMoveUp10.UseVisualStyleBackColor = true;
@@ -175,9 +176,9 @@
             // 
             // btnMoveDown10
             // 
-            this.btnMoveDown10.Location = new System.Drawing.Point(879, 154);
+            this.btnMoveDown10.Location = new System.Drawing.Point(879, 150);
             this.btnMoveDown10.Name = "btnMoveDown10";
-            this.btnMoveDown10.Size = new System.Drawing.Size(134, 44);
+            this.btnMoveDown10.Size = new System.Drawing.Size(134, 40);
             this.btnMoveDown10.TabIndex = 10;
             this.btnMoveDown10.Text = "Move Down 10";
             this.btnMoveDown10.UseVisualStyleBackColor = true;
@@ -185,7 +186,8 @@
             // 
             // btnSortAlphabetically
             // 
-            this.btnSortAlphabetically.Location = new System.Drawing.Point(736, 621);
+            this.btnSortAlphabetically.Enabled = false;
+            this.btnSortAlphabetically.Location = new System.Drawing.Point(736, 687);
             this.btnSortAlphabetically.Name = "btnSortAlphabetically";
             this.btnSortAlphabetically.Size = new System.Drawing.Size(277, 44);
             this.btnSortAlphabetically.TabIndex = 11;
@@ -195,9 +197,9 @@
             // 
             // btnPinToTop
             // 
-            this.btnPinToTop.Location = new System.Drawing.Point(736, 204);
+            this.btnPinToTop.Location = new System.Drawing.Point(736, 196);
             this.btnPinToTop.Name = "btnPinToTop";
-            this.btnPinToTop.Size = new System.Drawing.Size(137, 44);
+            this.btnPinToTop.Size = new System.Drawing.Size(137, 40);
             this.btnPinToTop.TabIndex = 12;
             this.btnPinToTop.Text = "Pin To Top";
             this.btnPinToTop.UseVisualStyleBackColor = true;
@@ -205,9 +207,9 @@
             // 
             // btnPinToBottom
             // 
-            this.btnPinToBottom.Location = new System.Drawing.Point(879, 204);
+            this.btnPinToBottom.Location = new System.Drawing.Point(879, 196);
             this.btnPinToBottom.Name = "btnPinToBottom";
-            this.btnPinToBottom.Size = new System.Drawing.Size(134, 44);
+            this.btnPinToBottom.Size = new System.Drawing.Size(134, 40);
             this.btnPinToBottom.TabIndex = 13;
             this.btnPinToBottom.Text = "Pin To Bottom";
             this.btnPinToBottom.UseVisualStyleBackColor = true;
@@ -255,9 +257,9 @@
             // 
             // btnUnpin
             // 
-            this.btnUnpin.Location = new System.Drawing.Point(736, 254);
+            this.btnUnpin.Location = new System.Drawing.Point(736, 242);
             this.btnUnpin.Name = "btnUnpin";
-            this.btnUnpin.Size = new System.Drawing.Size(277, 44);
+            this.btnUnpin.Size = new System.Drawing.Size(277, 40);
             this.btnUnpin.TabIndex = 18;
             this.btnUnpin.Text = "Unpin";
             this.btnUnpin.UseVisualStyleBackColor = true;
@@ -266,7 +268,7 @@
             // picPadding
             // 
             this.picPadding.BackColor = System.Drawing.Color.Transparent;
-            this.picPadding.Location = new System.Drawing.Point(-1, 809);
+            this.picPadding.Location = new System.Drawing.Point(-1, 825);
             this.picPadding.Name = "picPadding";
             this.picPadding.Size = new System.Drawing.Size(1028, 10);
             this.picPadding.TabIndex = 19;
@@ -277,7 +279,7 @@
             this.checkAutoPinOGStyles.AutoSize = true;
             this.checkAutoPinOGStyles.Checked = true;
             this.checkAutoPinOGStyles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkAutoPinOGStyles.Location = new System.Drawing.Point(736, 304);
+            this.checkAutoPinOGStyles.Location = new System.Drawing.Point(736, 297);
             this.checkAutoPinOGStyles.Name = "checkAutoPinOGStyles";
             this.checkAutoPinOGStyles.Size = new System.Drawing.Size(167, 24);
             this.checkAutoPinOGStyles.TabIndex = 20;
@@ -287,9 +289,9 @@
             // 
             // btnRandomizer
             // 
-            this.btnRandomizer.Location = new System.Drawing.Point(736, 374);
+            this.btnRandomizer.Location = new System.Drawing.Point(736, 352);
             this.btnRandomizer.Name = "btnRandomizer";
-            this.btnRandomizer.Size = new System.Drawing.Size(277, 44);
+            this.btnRandomizer.Size = new System.Drawing.Size(277, 40);
             this.btnRandomizer.TabIndex = 21;
             this.btnRandomizer.Text = "Add to Randomizer";
             this.btnRandomizer.UseVisualStyleBackColor = true;
@@ -298,7 +300,7 @@
             // checkShowRandomButton
             // 
             this.checkShowRandomButton.AutoSize = true;
-            this.checkShowRandomButton.Location = new System.Drawing.Point(736, 429);
+            this.checkShowRandomButton.Location = new System.Drawing.Point(736, 402);
             this.checkShowRandomButton.Name = "checkShowRandomButton";
             this.checkShowRandomButton.Size = new System.Drawing.Size(270, 24);
             this.checkShowRandomButton.TabIndex = 22;
@@ -306,12 +308,23 @@
             this.checkShowRandomButton.UseVisualStyleBackColor = true;
             this.checkShowRandomButton.CheckedChanged += new System.EventHandler(this.checkShowRandomButton_CheckedChanged);
             // 
+            // btnRemove
+            // 
+            this.btnRemove.Location = new System.Drawing.Point(736, 598);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(277, 40);
+            this.btnRemove.TabIndex = 23;
+            this.btnRemove.Text = "Remove";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
             // FormStyleManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1030, 820);
+            this.ClientSize = new System.Drawing.Size(1030, 847);
+            this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.checkShowRandomButton);
             this.Controls.Add(this.btnRandomizer);
             this.Controls.Add(this.checkAutoPinOGStyles);
@@ -375,5 +388,6 @@
         private System.Windows.Forms.CheckBox checkAutoPinOGStyles;
         private System.Windows.Forms.Button btnRandomizer;
         private System.Windows.Forms.CheckBox checkShowRandomButton;
+        private System.Windows.Forms.Button btnRemove;
     }
 }

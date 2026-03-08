@@ -249,6 +249,28 @@ namespace SLXEditor
             listStyles.Focus();
         }
 
+        private void RemoveSelectedItems()
+        {
+            if (listStyles.SelectedItems.Count == 0)
+                return;
+
+            var itemsToRemove = listStyles.SelectedItems
+                .Cast<ListViewItem>()
+                .Select(item => item.Tag as StyleEntry)
+                .Where(s => s != null)
+                .ToList();
+
+            foreach (var style in itemsToRemove)
+            {
+                styles.Remove(style);
+            }
+
+            foreach (var item in listStyles.SelectedItems.Cast<ListViewItem>().ToList())
+            {
+                listStyles.Items.Remove(item);
+            }
+        }
+
         private void UpdateButtonsAfterSearch(bool searchActive)
         {
             if (searchActive)
@@ -984,6 +1006,11 @@ namespace SLXEditor
         private void checkShowRandomButton_CheckedChanged(object sender, EventArgs e)
         {
             UpdateShowRandomButton(sender);
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            RemoveSelectedItems();
         }
     }
 }
