@@ -1918,7 +1918,7 @@ Ladderer=10";
 
             // Get the type of the current piece and format appropriately
             pieceType = char.ToUpper(currentPiece.ObjType.ToString()[0]) +
-                        currentPiece.ObjType.ToString().Substring(1).ToLower();
+                        currentPiece.ObjType.ToString().Substring(1).ToLowerInvariant();
 
             // Get the size of the current piece
             pieceSize = $"{ImageLibrary.GetWidth(currentPiece.Key).ToString()} x {ImageLibrary.GetHeight(currentPiece.Key).ToString()}";

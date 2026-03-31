@@ -468,8 +468,8 @@ namespace SLXEditor
 
             try
             {
-                string newStylePath = parts[0].ToLower(); // Normalize to lowercase
-                string newPiece = selectedResult.Replace(".png", "").ToLower(); // Normalize to lowercase
+                string newStylePath = parts[0].ToLowerInvariant(); // Normalize to lowercase
+                string newPiece = selectedResult.Replace(".png", "").ToLowerInvariant(); // Normalize to lowercase
 
                 // Validate newStylePath
                 if (string.IsNullOrWhiteSpace(newStylePath))

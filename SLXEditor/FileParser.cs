@@ -15,12 +15,12 @@ namespace SLXEditor
         {
             if (key.StartsWith("$"))
             {
-                Key = key.Substring(1).Trim().ToUpper();
+                Key = key.Substring(1).Trim().ToUpperInvariant();
                 IsMultilineKey = true;
             }
             else
             {
-                Key = key.ToUpper();
+                Key = key.ToUpperInvariant();
                 IsMultilineKey = false;
             }
             Text = text;

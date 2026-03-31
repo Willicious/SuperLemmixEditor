@@ -1021,7 +1021,7 @@ namespace SLXEditor
                             }
                         case "EDITORMODE":
                             {
-                                var modeText = line.Text.Trim().ToUpper();
+                                var modeText = line.Text.Trim().ToUpperInvariant();
                                 if (modeText == "SUPERLEMMIX")
                                     CurrentEditorMode = EditorMode.SuperLemmix;
                                 else if (modeText == "NEOLEMMIX")
@@ -1032,7 +1032,7 @@ namespace SLXEditor
                             }
                         case "PIECEBROWSERMODE":
                             {
-                                var modeText = line.Text.Trim().ToUpper();
+                                var modeText = line.Text.Trim().ToUpperInvariant();
                                 if (modeText == "SHOWPIECESONLY")
                                     CurrentPieceBrowserMode = PieceBrowserMode.ShowPiecesOnly;
                                 else if (modeText == "SHOWDESCRIPTIONS")
@@ -1044,22 +1044,22 @@ namespace SLXEditor
                         case "AUTOPINSLXSTYLES":
                         case "AUTOPINOGSTYLES":
                             {
-                                AutoPinOGStyles = (line.Text.Trim().ToUpper() == "TRUE");
+                                AutoPinOGStyles = (line.Text.Trim().ToUpperInvariant() == "TRUE");
                                 break;
                             }
                         case "PREFEROBJECTNAME":
                             {
-                                PreferObjectName = (line.Text.Trim().ToUpper() == "TRUE");
+                                PreferObjectName = (line.Text.Trim().ToUpperInvariant() == "TRUE");
                                 break;
                             }
                         case "INFINITESCROLLING":
                             {
-                                InfiniteScrolling = (line.Text.Trim().ToUpper() == "TRUE");
+                                InfiniteScrolling = (line.Text.Trim().ToUpperInvariant() == "TRUE");
                                 break;
                             }
                         case "SHOWRANDOMBUTTON":
                             {
-                                ShowRandomButton = (line.Text.Trim().ToUpper() == "TRUE");
+                                ShowRandomButton = (line.Text.Trim().ToUpperInvariant() == "TRUE");
                                 break;
                             }
                         case "GRIDSIZE":
@@ -1086,7 +1086,7 @@ namespace SLXEditor
                             }
                         case "VALIDATEWHENSAVING":
                             {
-                                ValidateWhenSaving = (line.Text.Trim().ToUpper() == "TRUE");
+                                ValidateWhenSaving = (line.Text.Trim().ToUpperInvariant() == "TRUE");
                                 break;
                             }
                         case "AUTOSAVE":
@@ -1119,7 +1119,7 @@ namespace SLXEditor
                             }
                         case "FORM_MAXIMIZED":
                             {
-                                IsFormMaximized = line.Text.Trim().ToUpper() == "TRUE";
+                                IsFormMaximized = line.Text.Trim().ToUpperInvariant() == "TRUE";
                                 break;
                             }
                         case "FORM_WIDTH":
@@ -1134,42 +1134,42 @@ namespace SLXEditor
                             }
                         case "USEAUTOSTART":
                             {
-                                editorForm.checkAutoStart.Checked = line.Text.Trim().ToUpper() == "TRUE";
+                                editorForm.checkAutoStart.Checked = line.Text.Trim().ToUpperInvariant() == "TRUE";
                                 break;
                             }
                         case "SHOWABOUTATSTARTUP":
                             {
-                                ShowAboutAtStartup = line.Text.Trim().ToUpper() == "TRUE";
+                                ShowAboutAtStartup = line.Text.Trim().ToUpperInvariant() == "TRUE";
                                 break;
                             }
                         case "SHOWCONTROLHINTS":
                             {
-                                ShowControlHints = (line.Text.Trim().ToUpper() == "TRUE");
+                                ShowControlHints = (line.Text.Trim().ToUpperInvariant() == "TRUE");
                                 break;
                             }
                         case "ALLTABSEXPANDED":
                             {
-                                AllTabsExpanded = line.Text.Trim().ToUpper() == "TRUE";
+                                AllTabsExpanded = line.Text.Trim().ToUpperInvariant() == "TRUE";
                                 break;
                             }
                         case "HIGHLIGHTGROUPS":
                             {
-                                BmpModify.HighlightGroups = line.Text.Trim().ToUpper() == "TRUE";
+                                BmpModify.HighlightGroups = line.Text.Trim().ToUpperInvariant() == "TRUE";
                                 break;
                             }
                         case "HIGHLIGHTERASERS":
                             {
-                                BmpModify.HighlightErasers = line.Text.Trim().ToUpper() == "TRUE";
+                                BmpModify.HighlightErasers = line.Text.Trim().ToUpperInvariant() == "TRUE";
                                 break;
                             }
                         case "LEVELARRANGEROPEN":
                             {
-                                LevelArranger.IsOpen = line.Text.Trim().ToUpper() == "TRUE";
+                                LevelArranger.IsOpen = line.Text.Trim().ToUpperInvariant() == "TRUE";
                                 break;
                             }
                         case "LEVELARRANGERMAXIMIZED":
                             {
-                                LevelArranger.IsMaximized = line.Text.Trim().ToUpper() == "TRUE";
+                                LevelArranger.IsMaximized = line.Text.Trim().ToUpperInvariant() == "TRUE";
                                 break;
                             }
                         case "LEVELARRANGERLOCATION":
@@ -1196,12 +1196,12 @@ namespace SLXEditor
                             }
                         case "PIECEBROWSEROPEN":
                             {
-                                PieceBrowser.IsOpen = line.Text.Trim().ToUpper() == "TRUE";
+                                PieceBrowser.IsOpen = line.Text.Trim().ToUpperInvariant() == "TRUE";
                                 break;
                             }
                         case "PIECEBROWSERMAXIMIZED":
                             {
-                                PieceBrowser.IsMaximized = line.Text.Trim().ToUpper() == "TRUE";
+                                PieceBrowser.IsMaximized = line.Text.Trim().ToUpperInvariant() == "TRUE";
                                 break;
                             }
                         case "PIECEBROWSERLOCATION":

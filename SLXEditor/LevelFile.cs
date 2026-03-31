@@ -1059,7 +1059,7 @@ namespace SLXEditor
         /// </summary>
         static string SkillString(C.Skill skill)
         {
-            return Enum.GetName(typeof(C.Skill), skill).ToUpper();
+            return Enum.GetName(typeof(C.Skill), skill).ToUpperInvariant();
         }
 
 
