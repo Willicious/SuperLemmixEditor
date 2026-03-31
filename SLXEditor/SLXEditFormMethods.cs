@@ -3008,8 +3008,8 @@ Ladderer=10";
             radAlwaysSteel.Tag = "Set steel to apply wherever there is a steel piece in the level, even if it is partially or fully obscured";
 
             // --- Piece Browser --- //
-            btnStyleRandom.Tag = "Open a random style in the Piece Browser (you can add styles to the randomizer in Style Manager)";
-            comboPieceStyle.Tag = "Open a style in the Piece Browser";
+            btnStyleRandom.Tag = "Load a random style into the Piece Browser (you can add styles to the randomizer in Style Manager)";
+            comboPieceStyle.Tag = "Load a style into the Piece Browser";
             btnTerrain.Tag = "Show Terrain pieces in the Piece Browser";
             btnSteel.Tag = "Show Steel pieces in the Piece Browser";
             btnObjects.Tag = "Show Objects (Entrances, Exits, Water, etc) in the Piece Browser";
