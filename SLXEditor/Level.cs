@@ -115,6 +115,9 @@ namespace SLXEditor
 
         public Size ScreenSize => C.ScreenSize.ScreenArea(Width, Height);
 
+        public List<LevelPiece> CyclePieces = null;
+        public int CycleIndex = 0;
+
         /// <summary>
         /// Creates a deep copy of the level.
         /// </summary>
@@ -320,24 +323,34 @@ namespace SLXEditor
             }
         }
 
-        public void SelectOnePiece(Point pos, bool isAdded, bool doPriorityInvert)
+        public void SelectOnePiece(Point pos, bool isAdded, bool selectBelow, bool cycleSelect)
         {
-            LevelPiece selectedPiece = GetOnePiece(pos, isAdded, doPriorityInvert);
-
-            if (selectedPiece != null)
+            if (cycleSelect)
             {
-                selectedPiece.IsSelected = isAdded;
+                if (CyclePieces == null)
+                {
+                    CyclePieces = GetAllPiecesAt(pos);
+                    CycleIndex = 0;
+                }
+
+                CycleSelectPieces();
+            }
+            else
+            {
+                LevelPiece selectedPiece = GetOnePiece(pos, isAdded, selectBelow);
+                if (selectedPiece != null)
+                    selectedPiece.IsSelected = isAdded;
             }
         }
 
         /// <summary>
         /// Determines the piece to select.
         /// </summary>
-        private LevelPiece GetOnePiece(Point pos, bool isUnselected, bool doPriorityInvert)
+        private LevelPiece GetOnePiece(Point pos, bool isUnselected, bool selectBelow)
         {
             LevelPiece selectedPiece = null;
 
-            if (doPriorityInvert)
+            if (selectBelow)
             {
                 if (TerrainIsDisplayed())
                 {
@@ -365,6 +378,48 @@ namespace SLXEditor
             }
 
             return selectedPiece;
+        }
+
+        /// <summary>
+        /// Returns a list of all pieces at a given position.
+        /// </summary>
+        private List<LevelPiece> GetAllPiecesAt(Point pos)
+        {
+            var pieces = new List<LevelPiece>();
+            int radius = 16;
+
+            bool IntersectsCircle(Rectangle rect, Point center, int r)
+            {
+                int closestX = Math.Max(rect.Left, Math.Min(center.X, rect.Right));
+                int closestY = Math.Max(rect.Top, Math.Min(center.Y, rect.Bottom));
+                int dx = center.X - closestX;
+                int dy = center.Y - closestY;
+                return dx * dx + dy * dy <= r * r;
+            }
+
+            if (DisplaySettings.IsDisplayed(C.DisplayType.Objects))
+                pieces.AddRange(GadgetList.Where(gad => IntersectsCircle(gad.ImageRectangle, pos, radius)));
+
+            if (TerrainIsDisplayed())
+                pieces.AddRange(TerrainList.Where(ter => IntersectsCircle(ter.ImageRectangle, pos, radius)));
+
+            return pieces;
+        }
+
+        /// <summary>
+        /// Selects the next piece in the cycle list and updates the selection index.
+        /// </summary>
+        private void CycleSelectPieces()
+        {
+            if (CyclePieces == null || CyclePieces.Count == 0)
+                return;
+
+            CycleIndex %= CyclePieces.Count;
+
+            LevelPiece pieceToSelect = CyclePieces[CycleIndex];
+            pieceToSelect.IsSelected = true;
+
+            CycleIndex++;
         }
 
         /// <summary>
