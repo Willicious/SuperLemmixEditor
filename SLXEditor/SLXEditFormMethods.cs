@@ -2822,7 +2822,13 @@ Ladderer=10";
         private void ToggleTerrain()
         {
             DisplaySettings.ChangeDisplayed(C.DisplayType.Terrain);
-            picLevel.SetImage(curRenderer.CombineLayers());
+            RedrawTerrain();
+        }
+
+        private void ToggleSteel()
+        {
+            DisplaySettings.ChangeDisplayed(C.DisplayType.Steel);
+            RedrawTerrain();
         }
 
         private void ToggleObjects()
@@ -2878,6 +2884,12 @@ Ladderer=10";
             curRenderer.ChangeZoom(-1, false);
             RepositionPicLevel();
             picLevel.SetImage(curRenderer.GetScreenImage());
+        }
+
+        private void RedrawTerrain()
+        {
+            curRenderer.CreateTerrainLayer();
+            picLevel.SetImage(curRenderer.CombineLayers());
         }
 
         /// <summary>
@@ -3064,6 +3076,7 @@ Ladderer=10";
             AddHotkey(HotkeyName.HotkeyHighlightEraserPieces, () => HighlightEraserPieces());
             AddHotkey(HotkeyName.HotkeyToggleClearPhysics, () => ToggleClearPhysics());
             AddHotkey(HotkeyName.HotkeyToggleTerrain, () => ToggleTerrain());
+            AddHotkey(HotkeyName.HotkeyToggleSteel, () => ToggleSteel());
             AddHotkey(HotkeyName.HotkeyToggleObjects, () => ToggleObjects());
             AddHotkey(HotkeyName.HotkeyToggleTriggerAreas, () => ToggleTriggerAreas());
             AddHotkey(HotkeyName.HotkeyToggleRulers, () => ToggleRulers());
@@ -3239,6 +3252,9 @@ Ladderer=10";
 
             terrainToolStripMenuItem.ShortcutKeyDisplayString =
                 FormatHotkeyString(HotkeyName.HotkeyToggleTerrain);
+
+            steelToolStripMenuItem.ShortcutKeyDisplayString =
+                FormatHotkeyString(HotkeyName.HotkeyToggleSteel);
 
             objectToolStripMenuItem.ShortcutKeyDisplayString =
                 FormatHotkeyString(HotkeyName.HotkeyToggleObjects);

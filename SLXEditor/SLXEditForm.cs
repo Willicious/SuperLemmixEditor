@@ -88,6 +88,7 @@ namespace SLXEditor
                     { C.DisplayType.Objects, objectToolStripMenuItem },
                     { C.DisplayType.ScreenStart, screenStartToolStripMenuItem },
                     { C.DisplayType.Terrain, terrainToolStripMenuItem },
+                    { C.DisplayType.Steel, steelToolStripMenuItem },
                     { C.DisplayType.Triggers, triggerAreasToolStripMenuItem },
                     { C.DisplayType.Rulers, rulersToolStripMenuItem },
                     { C.DisplayType.Deprecated, deprecatedPiecesToolStripMenuItem }
@@ -368,6 +369,11 @@ namespace SLXEditor
         private void terrainToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToggleTerrain();
+        }
+
+        private void steelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToggleSteel();
         }
 
         private void objectToolStripMenuItem_Click(object sender, EventArgs e)
