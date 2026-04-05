@@ -1153,7 +1153,7 @@ namespace SLXEditor
             {
                 curRenderer.MouseCurPos = e.Location;
 
-                if (addOrRemoveSinglePiecePressed)
+                if (addOrRemoveSinglePiecePressed || selectPiecesBelowPressed)
                 {
                     LevelSelectSinglePiece();
                     picLevel.SetImage(curRenderer.GetScreenImage());
