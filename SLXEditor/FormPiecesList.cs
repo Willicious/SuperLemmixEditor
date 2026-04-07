@@ -123,37 +123,42 @@ namespace SLXEditor
         private void SyncSelectionFromLevel()
         {
             bypassSelectionChange = true;
-            activeListView = null;
 
-            foreach (ListViewItem item in listViewTerrain.Items)
+            try
             {
-                if (item.Tag is LevelPiece piece)
-                    if (item.Selected != piece.IsSelected)
-                        item.Selected = piece.IsSelected;
+                activeListView = null;
+
+                foreach (ListViewItem item in listViewTerrain.Items)
+                {
+                    if (item.Tag is LevelPiece piece)
+                        if (item.Selected != piece.IsSelected)
+                            item.Selected = piece.IsSelected;
+                }
+
+                if (listViewTerrain.SelectedItems.Count > 0)
+                {
+                    this.ActiveControl = listViewTerrain;
+                    activeListView = listViewTerrain;
+                    return;
+                }
+
+                foreach (ListViewItem item in listViewObjects.Items)
+                {
+                    if (item.Tag is LevelPiece piece)
+                        if (item.Selected != piece.IsSelected)
+                            item.Selected = piece.IsSelected;
+                }
+
+                if (listViewObjects.SelectedItems.Count > 0)
+                {
+                    this.ActiveControl = listViewObjects;
+                    activeListView = listViewObjects;
+                }
             }
-
-            if (listViewTerrain.SelectedItems.Count > 0)
+            finally
             {
-                this.ActiveControl = listViewTerrain;
-                activeListView = listViewTerrain;
                 bypassSelectionChange = false;
-                return;
             }
-
-            foreach (ListViewItem item in listViewObjects.Items)
-            {
-                if (item.Tag is LevelPiece piece)
-                    if (item.Selected != piece.IsSelected)
-                        item.Selected = piece.IsSelected;
-            }
-
-            if (listViewObjects.SelectedItems.Count > 0)
-            {
-                this.ActiveControl = listViewObjects;
-                activeListView = listViewObjects;
-            }
-
-            bypassSelectionChange = false;
         }
 
         private void UpdatePiecePreview()
