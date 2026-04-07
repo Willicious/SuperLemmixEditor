@@ -233,6 +233,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormPiecesList";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Pieces List";
             this.Activated += new System.EventHandler(this.FormPiecesList_Activated);
             this.Deactivate += new System.EventHandler(this.FormPiecesList_Deactivate);

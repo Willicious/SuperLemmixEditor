@@ -1828,5 +1828,10 @@ namespace SLXEditor
         {
             UpdateControlHintLabel(false, sender);
         }
+
+        private void btnShowPiecesList_Click(object sender, EventArgs e)
+        {
+            OpenPiecesList();
+        }
     }
 }

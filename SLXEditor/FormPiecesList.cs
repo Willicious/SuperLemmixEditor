@@ -21,6 +21,8 @@ namespace SLXEditor
             mainForm = parentForm;
 
             InitializeComponent();
+
+            Location = new System.Drawing.Point(parentForm.Left + 20, parentForm.Top + 80);
         }
 
         private string GetType(LevelPiece piece)
@@ -162,12 +164,24 @@ namespace SLXEditor
             }
         }
 
+        private void UpdateTitleBar()
+        {
+            int terrainCount = curLevel.TerrainList.Count;
+            int gadgetCount = curLevel.GadgetList.Count;
+
+            if (terrainCount + gadgetCount <= 0)
+                this.Text = "Pieces List - Add a piece to the level to populate the list";
+            else
+                this.Text = "Pieces List";
+        }
+
         private void RefreshLists()
         {
             PopulateTerrainPiecesList();
             PopulateObjectPiecesList();
             SyncSelectionFromLevel();
             UpdatePiecePreview();
+            UpdateTitleBar();
         }
 
         private void HandleListSelection(ListView listView)
@@ -197,6 +211,7 @@ namespace SLXEditor
             mainForm.DeleteSelectedPieces();
             PopulatePiecesList();
             UpdatePiecePreview();
+            UpdateTitleBar();
         }
 
         private void ClearOtherListView()
@@ -276,7 +291,7 @@ namespace SLXEditor
 
         private void FormPiecesList_Deactivate(object sender, EventArgs e)
         {
-            this.Text = "Pieces List - CLICK THE TITLE BAR TO REFRESH";
+            this.Text = "Pieces List - Click title bar to refresh lists";
         }
     }
 }

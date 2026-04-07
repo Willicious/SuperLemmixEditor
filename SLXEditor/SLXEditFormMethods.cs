@@ -3105,6 +3105,7 @@ Ladderer=10";
             AddHotkey(HotkeyName.HotkeyToggleCrop, () => HandleCropLevel());
             AddHotkey(HotkeyName.HotkeyOpenLevelArrangerWindow, () => OpenLevelArrangerWindow());
             AddHotkey(HotkeyName.HotkeyOpenPieceBrowserWindow, () => OpenPieceBrowserWindow());
+            AddHotkey(HotkeyName.HotkeyOpenPiecesList, () => OpenPiecesList());
             AddHotkey(HotkeyName.HotkeyToggleAllTabs, () => ToggleExpandedTabs());
             AddHotkey(HotkeyName.HotkeyOpenSettings, () => settingsToolStripMenuItem_Click(null, null));
             AddHotkey(HotkeyName.HotkeyOpenConfigHotkeys, () => hotkeysToolStripMenuItem_Click(null, null));
@@ -3309,7 +3310,10 @@ Ladderer=10";
 
             openPieceBrowserWindowToolStripMenuItem.ShortcutKeyDisplayString =
                 FormatHotkeyString(HotkeyName.HotkeyOpenPieceBrowserWindow);
-
+            
+            openPiecesListToolStripMenuItem.ShortcutKeyDisplayString =
+                FormatHotkeyString(HotkeyName.HotkeyOpenPiecesList);
+            
             expandAllTabsToolStripMenuItem.ShortcutKeyDisplayString =
                 FormatHotkeyString(HotkeyName.HotkeyToggleAllTabs);
 

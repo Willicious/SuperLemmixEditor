@@ -200,6 +200,9 @@ namespace SLXEditor
         {
             List<LevelPiece> selectionList = CurLevel.SelectionList();
 
+            btnShowPiecesList.Enabled = (selectionList.Count > 0);
+            openPiecesListToolStripMenuItem.Enabled = (selectionList.Count > 0);
+
             btnRotate.Enabled = selectionList.Exists(p => p.MayRotate());
             btnFlip.Enabled = selectionList.Exists(p => p.MayFlip());
             btnInvert.Enabled = selectionList.Exists(p => p.MayInvert());
