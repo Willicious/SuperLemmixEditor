@@ -218,26 +218,37 @@ namespace SLXEditor
         {
             byte[] ColorBytes = { clearColor.B, clearColor.G, clearColor.R, clearColor.A };
 
+            // Get pointer to first pixel of OrigBitmap
+            int height = origBmp.Height;
+            int width = origBmp.Width;
+
+            BitmapData origBmpData = null;
+
             unsafe
             {
-                // Get pointer to first pixel of OrigBitmap
-                int height = origBmp.Height;
-                int width = origBmp.Width;
-                BitmapData origBmpData = origBmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, origBmp.PixelFormat);
-                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap to be cleared has no alpha channel!");
-
-                Parallel.For(0, height, y =>
+                try
                 {
-                    byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
+                    origBmpData = origBmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, origBmp.PixelFormat);
+                    byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap to be cleared has no alpha channel!");
 
-                    for (int x = 0; x < width; x++)
+                    Parallel.For(0, height, y =>
                     {
-                        ChangePixel(curOrigLine + BytesPerPixel * x, ColorBytes);
-                    }
-                });
+                        byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
 
-                origBmp.UnlockBits(origBmpData);
+                        for (int x = 0; x < width; x++)
+                        {
+                            ChangePixel(curOrigLine + BytesPerPixel * x, ColorBytes);
+                        }
+                    });
+                }
+                finally
+                {
+                    if (origBmpData != null)
+                    {
+                        origBmp.UnlockBits(origBmpData);
+                    }
+                }
             }
         }
 
@@ -315,36 +326,46 @@ namespace SLXEditor
             Rectangle newBmpRect = new Rectangle(pos, newBmp.Size);
             Rectangle drawRect = Rectangle.Intersect(origBmpRect, newBmpRect);
 
+            BitmapData origBmpData = null;
+            BitmapData newBmpData = null;
+
             unsafe
             {
-                // Get pointer to first pixel of OrigBitmap
-                BitmapData origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadWrite, origBmp.PixelFormat);
-                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
-
-                // Get pointer to first pixel of NewBitmap
-                BitmapData newBmpData = newBmp.LockBits(new Rectangle(0, 0, newBmp.Width, newBmp.Height), ImageLockMode.ReadOnly, newBmp.PixelFormat);
-                byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
-
-                Parallel.For(0, drawRect.Height, y =>
+                try
                 {
-                    // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-                    byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
-                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-                    byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
+                    // Get pointer to first pixel of OrigBitmap
+                    origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadWrite, origBmp.PixelFormat);
+                    byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
 
-                    for (int x = 0; x < drawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
+                    // Get pointer to first pixel of NewBitmap
+                    newBmpData = newBmp.LockBits(new Rectangle(0, 0, newBmp.Width, newBmp.Height), ImageLockMode.ReadOnly, newBmp.PixelFormat);
+                    byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
+
+                    Parallel.For(0, drawRect.Height, y =>
                     {
-                        if (doDrawThisPixel(curNewLine[x + 3], curOrigLine[x + 3]))
-                        {
-                            ChangePixel(curOrigLine + x, curNewLine + x, alpha);
-                        }
-                    }
-                });
+                        // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                        byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
+                        // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                        byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
 
-                origBmp.UnlockBits(origBmpData);
-                newBmp.UnlockBits(newBmpData);
+                        for (int x = 0; x < drawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
+                        {
+                            if (doDrawThisPixel(curNewLine[x + 3], curOrigLine[x + 3]))
+                            {
+                                ChangePixel(curOrigLine + x, curNewLine + x, alpha);
+                            }
+                        }
+                    });
+                }
+                finally                
+                {
+                    if (origBmpData != null)
+                        origBmp.UnlockBits(origBmpData);
+                    if (newBmpData != null)
+                        newBmp.UnlockBits(newBmpData);
+                }
             }
         }
 
@@ -362,37 +383,47 @@ namespace SLXEditor
             Rectangle newBmpRect = new Rectangle(pos, newBmp.Size);
             Rectangle drawRect = Rectangle.Intersect(origBmpRect, newBmpRect);
 
+            BitmapData origBmpData = null;
+            BitmapData newBmpData = null;
+
             unsafe
             {
-                // Get pointer to first pixel of OrigBitmap
-                BitmapData origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadWrite, origBmp.PixelFormat);
-                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
-
-                // Get pointer to first pixel of NewBitmap
-                BitmapData newBmpData = newBmp.LockBits(new Rectangle(0, 0, newBmp.Width, newBmp.Height), ImageLockMode.ReadOnly, newBmp.PixelFormat);
-                byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
-
-                // Copy the pixels
-                Parallel.For(0, drawRect.Height, y =>
+                try
                 {
-                    // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-                    byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
-                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-                    byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
+                    // Get pointer to first pixel of OrigBitmap
+                    origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadWrite, origBmp.PixelFormat);
+                    byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
 
-                    for (int x = 0; x < drawRect.Width; x++)
+                    // Get pointer to first pixel of NewBitmap
+                    newBmpData = newBmp.LockBits(new Rectangle(0, 0, newBmp.Width, newBmp.Height), ImageLockMode.ReadOnly, newBmp.PixelFormat);
+                    byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
+
+                    // Copy the pixels
+                    Parallel.For(0, drawRect.Height, y =>
                     {
-                        if (doDrawThisPixel(curNewLine[x * BytesPerPixel + 3], curOrigLine[x * BytesPerPixel + 3]))
-                        {
-                            ChangePixel(curOrigLine + x * BytesPerPixel, colorFunc(x, y));
-                        }
-                    }
-                });
+                        // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                        byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
+                        // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                        byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
 
-                origBmp.UnlockBits(origBmpData);
-                newBmp.UnlockBits(newBmpData);
+                        for (int x = 0; x < drawRect.Width; x++)
+                        {
+                            if (doDrawThisPixel(curNewLine[x * BytesPerPixel + 3], curOrigLine[x * BytesPerPixel + 3]))
+                            {
+                                ChangePixel(curOrigLine + x * BytesPerPixel, colorFunc(x, y));
+                            }
+                        }
+                    });
+                }
+                finally
+                {
+                    if (origBmpData != null)
+                        origBmp.UnlockBits(origBmpData);
+                    if (newBmpData != null)
+                        newBmp.UnlockBits(newBmpData);
+                }
             }
         }
 
@@ -411,47 +442,59 @@ namespace SLXEditor
             Rectangle drawRect = Rectangle.Intersect(origBmpRect, newBmpRect);
             Debug.Assert(origBmp.Size.Equals(maskBmp.Size), "Bitmap mask has different size than target bitmap.");
 
+            BitmapData origBmpData = null;
+            BitmapData newBmpData = null;
+            BitmapData maskBmpData = null;
+
             unsafe
             {
-                // Get pointer to first pixel of OrigBitmap
-                BitmapData origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadWrite, origBmp.PixelFormat);
-                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
-
-                // Get pointer to first pixel of NewBitmap
-                BitmapData newBmpData = newBmp.LockBits(new Rectangle(0, 0, newBmp.Width, newBmp.Height), ImageLockMode.ReadOnly, newBmp.PixelFormat);
-                byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
-
-                // Get pointer to first pixel of MaskBitmap
-                BitmapData maskBmpData = maskBmp.LockBits(origBmpRect, ImageLockMode.ReadOnly, maskBmp.PixelFormat);
-                byte* ptrMaskFirstPixel = (byte*)maskBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(maskBmp.PixelFormat) == 32, "Mask bitmap has no alpha channel!");
-
-
-                Parallel.For(0, drawRect.Height, y =>
+                try
                 {
-                    // We start CurOrigLine and CurMaskLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-                    byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
-                    byte* curMaskLine = ptrMaskFirstPixel + ((y + drawRect.Top) * maskBmpData.Stride) + drawRect.Left * BytesPerPixel;
-                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-                    byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
+                    // Get pointer to first pixel of OrigBitmap
+                    origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadWrite, origBmp.PixelFormat);
+                    byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
 
-                    for (int x = 0; x < drawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
+                    // Get pointer to first pixel of NewBitmap
+                    newBmpData = newBmp.LockBits(new Rectangle(0, 0, newBmp.Width, newBmp.Height), ImageLockMode.ReadOnly, newBmp.PixelFormat);
+                    byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
+
+                    // Get pointer to first pixel of MaskBitmap
+                    maskBmpData = maskBmp.LockBits(origBmpRect, ImageLockMode.ReadOnly, maskBmp.PixelFormat);
+                    byte* ptrMaskFirstPixel = (byte*)maskBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(maskBmp.PixelFormat) == 32, "Mask bitmap has no alpha channel!");
+
+
+                    Parallel.For(0, drawRect.Height, y =>
                     {
-                        byte curNewAlpha = curNewLine[x + 3];
-                        byte curMaskAlpha = curMaskLine[x + 3];
+                        // We start CurOrigLine and CurMaskLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                        byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
+                        byte* curMaskLine = ptrMaskFirstPixel + ((y + drawRect.Top) * maskBmpData.Stride) + drawRect.Left * BytesPerPixel;
+                        // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                        byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
 
-                        if (doDrawThisPixel(curNewAlpha, curMaskAlpha))
+                        for (int x = 0; x < drawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
                         {
-                            ChangePixel(curOrigLine + x, curNewLine + x);
-                        }
-                    }
-                });
+                            byte curNewAlpha = curNewLine[x + 3];
+                            byte curMaskAlpha = curMaskLine[x + 3];
 
-                origBmp.UnlockBits(origBmpData);
-                newBmp.UnlockBits(newBmpData);
-                maskBmp.UnlockBits(maskBmpData);
+                            if (doDrawThisPixel(curNewAlpha, curMaskAlpha))
+                            {
+                                ChangePixel(curOrigLine + x, curNewLine + x);
+                            }
+                        }
+                    });
+                }
+                finally                
+                {
+                    if (origBmpData != null)
+                        origBmp.UnlockBits(origBmpData);
+                    if (newBmpData != null)
+                        newBmp.UnlockBits(newBmpData);
+                    if (maskBmpData != null)
+                        maskBmp.UnlockBits(maskBmpData);
+                }
             }
         }
 
@@ -470,47 +513,59 @@ namespace SLXEditor
             Rectangle drawRect = Rectangle.Intersect(origBmpRect, newBmpRect);
             Debug.Assert(origBmp.Size.Equals(maskBmp.Size), "Bitmap mask has different size than target bitmap.");
 
+            BitmapData origBmpData = null;
+            BitmapData newBmpData = null;
+            BitmapData maskBmpData = null;
+
             unsafe
             {
-                // Get pointer to first pixel of OrigBitmap
-                BitmapData origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadWrite, origBmp.PixelFormat);
-                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
-
-                // Get pointer to first pixel of NewBitmap
-                BitmapData newBmpData = newBmp.LockBits(new Rectangle(0, 0, newBmp.Width, newBmp.Height), ImageLockMode.ReadOnly, newBmp.PixelFormat);
-                byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
-
-                // Get pointer to first pixel of MaskBitmap
-                BitmapData maskBmpData = maskBmp.LockBits(origBmpRect, ImageLockMode.ReadOnly, maskBmp.PixelFormat);
-                byte* ptrMaskFirstPixel = (byte*)maskBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(maskBmp.PixelFormat) == 32, "Mask bitmap has no alpha channel!");
-
-
-                Parallel.For(0, drawRect.Height, y =>
+                try
                 {
-                    // We start CurOrigLine and CurMaskLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-                    byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
-                    byte* curMaskLine = ptrMaskFirstPixel + ((y + drawRect.Top) * maskBmpData.Stride) + drawRect.Left * BytesPerPixel;
-                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-                    byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
+                    // Get pointer to first pixel of OrigBitmap
+                    origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadWrite, origBmp.PixelFormat);
+                    byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
 
-                    for (int x = 0; x < drawRect.Width; x++)
+                    // Get pointer to first pixel of NewBitmap
+                    newBmpData = newBmp.LockBits(new Rectangle(0, 0, newBmp.Width, newBmp.Height), ImageLockMode.ReadOnly, newBmp.PixelFormat);
+                    byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
+
+                    // Get pointer to first pixel of MaskBitmap
+                    maskBmpData = maskBmp.LockBits(origBmpRect, ImageLockMode.ReadOnly, maskBmp.PixelFormat);
+                    byte* ptrMaskFirstPixel = (byte*)maskBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(maskBmp.PixelFormat) == 32, "Mask bitmap has no alpha channel!");
+
+
+                    Parallel.For(0, drawRect.Height, y =>
                     {
-                        byte curNewAlpha = curNewLine[x * BytesPerPixel + 3];
-                        byte curMaskAlpha = curMaskLine[x * BytesPerPixel + 3];
+                        // We start CurOrigLine and CurMaskLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                        byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
+                        byte* curMaskLine = ptrMaskFirstPixel + ((y + drawRect.Top) * maskBmpData.Stride) + drawRect.Left * BytesPerPixel;
+                        // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                        byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
 
-                        if (doDrawThisPixel(curNewAlpha, curMaskAlpha))
+                        for (int x = 0; x < drawRect.Width; x++)
                         {
-                            ChangePixel(curOrigLine + x * BytesPerPixel, colorFunc(x, y));
-                        }
-                    }
-                });
+                            byte curNewAlpha = curNewLine[x * BytesPerPixel + 3];
+                            byte curMaskAlpha = curMaskLine[x * BytesPerPixel + 3];
 
-                origBmp.UnlockBits(origBmpData);
-                newBmp.UnlockBits(newBmpData);
-                maskBmp.UnlockBits(maskBmpData);
+                            if (doDrawThisPixel(curNewAlpha, curMaskAlpha))
+                            {
+                                ChangePixel(curOrigLine + x * BytesPerPixel, colorFunc(x, y));
+                            }
+                        }
+                    });
+                }
+                finally
+                {
+                    if (origBmpData != null)
+                        origBmp.UnlockBits(origBmpData);
+                    if (newBmpData != null)
+                        newBmp.UnlockBits(newBmpData);
+                    if (maskBmpData != null)
+                        maskBmp.UnlockBits(maskBmpData);
+                }
             }
         }
 
@@ -538,36 +593,46 @@ namespace SLXEditor
             Rectangle newBmpRect = new Rectangle(pos, newBmp.Size);
             Rectangle drawRect = Rectangle.Intersect(origBmpRect, newBmpRect);
 
+            BitmapData origBmpData = null;
+            BitmapData newBmpData = null;
+
             unsafe
             {
-                // Get pointer to first pixel of OrigBitmap
-                BitmapData origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadWrite, origBmp.PixelFormat);
-                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
-
-                // Get pointer to first pixel of NewBitmap
-                BitmapData newBmpData = newBmp.LockBits(new Rectangle(0, 0, newBmp.Width, newBmp.Height), ImageLockMode.ReadOnly, newBmp.PixelFormat);
-                byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
-
-                Parallel.For(0, drawRect.Height, y =>
+                try
                 {
-                    // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
-                    byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
-                    // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
-                    byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
+                    // Get pointer to first pixel of OrigBitmap
+                    origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadWrite, origBmp.PixelFormat);
+                    byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
 
-                    for (int x = 0; x < drawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
+                    // Get pointer to first pixel of NewBitmap
+                    newBmpData = newBmp.LockBits(new Rectangle(0, 0, newBmp.Width, newBmp.Height), ImageLockMode.ReadOnly, newBmp.PixelFormat);
+                    byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
+
+                    Parallel.For(0, drawRect.Height, y =>
                     {
-                        if (curNewLine[x + 3] > 0)
-                        {
-                            ChangePixelBlend(curOrigLine + x, curNewLine + x);
-                        }
-                    }
-                });
+                        // We start CurOrigLine at pixel (DrawRect.Left, y + DrawRect.Top)!
+                        byte* curOrigLine = ptrOrigFirstPixel + ((y + drawRect.Top) * origBmpData.Stride) + drawRect.Left * BytesPerPixel;
+                        // We start CurNewList at pixel (DrawRect.Left - NewBmpRect.Left, y + DrawRect.Top - NewBmpRect.Top)!
+                        byte* curNewLine = ptrNewFirstPixel + ((y + drawRect.Top - newBmpRect.Top) * newBmpData.Stride) + (drawRect.Left - newBmpRect.Left) * BytesPerPixel;
 
-                origBmp.UnlockBits(origBmpData);
-                newBmp.UnlockBits(newBmpData);
+                        for (int x = 0; x < drawRect.Width * BytesPerPixel; x = x + BytesPerPixel)
+                        {
+                            if (curNewLine[x + 3] > 0)
+                            {
+                                ChangePixelBlend(curOrigLine + x, curNewLine + x);
+                            }
+                        }
+                    });
+                }
+                finally
+                {
+                    if (origBmpData != null)
+                        origBmp.UnlockBits(origBmpData);
+                    if (newBmpData != null)
+                        newBmp.UnlockBits(newBmpData);
+                }
             }
         }
 
@@ -581,36 +646,46 @@ namespace SLXEditor
             Rectangle origBmpRect = new Rectangle(0, 0, origBmp.Width, origBmp.Height);
             Bitmap newBmp = new Bitmap(origBmpRect.Width, origBmpRect.Height);
 
+            BitmapData origBmpData = null;
+            BitmapData newBmpData = null;
+
             unsafe
             {
-                // Get pointer to first pixel of OrigBitmap
-                BitmapData origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadOnly, origBmp.PixelFormat);
-                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
-
-                // Get pointer to first pixel of NewBitmap
-                BitmapData newBmpData = newBmp.LockBits(origBmpRect, ImageLockMode.WriteOnly, newBmp.PixelFormat);
-                byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
-
-                // Copy the pixels
-                Parallel.For(0, origBmpRect.Height, y =>
+                try
                 {
-                    // We start curOrigLine and curNewLine at pixel (0, y)
-                    byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
-                    byte* curNewLine = ptrNewFirstPixel + y * newBmpData.Stride;
+                    // Get pointer to first pixel of OrigBitmap
+                    origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadOnly, origBmp.PixelFormat);
+                    byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
 
-                    for (int x = 0; x < origBmpRect.Width; x++)
+                    // Get pointer to first pixel of NewBitmap
+                    newBmpData = newBmp.LockBits(origBmpRect, ImageLockMode.WriteOnly, newBmp.PixelFormat);
+                    byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
+
+                    // Copy the pixels
+                    Parallel.For(0, origBmpRect.Height, y =>
                     {
-                        if (curOrigLine[x * BytesPerPixel + 3] > 63)
-                        {
-                            ChangePixel(curNewLine + x * BytesPerPixel, curOrigLine + x * BytesPerPixel, blendColorBytes);
-                        }
-                    }
-                });
+                        // We start curOrigLine and curNewLine at pixel (0, y)
+                        byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
+                        byte* curNewLine = ptrNewFirstPixel + y * newBmpData.Stride;
 
-                origBmp.UnlockBits(origBmpData);
-                newBmp.UnlockBits(newBmpData);
+                        for (int x = 0; x < origBmpRect.Width; x++)
+                        {
+                            if (curOrigLine[x * BytesPerPixel + 3] > 63)
+                            {
+                                ChangePixel(curNewLine + x * BytesPerPixel, curOrigLine + x * BytesPerPixel, blendColorBytes);
+                            }
+                        }
+                    });
+                }
+                finally
+                {
+                    if (origBmpData != null)
+                        origBmp.UnlockBits(origBmpData);
+                    if (newBmpData != null)
+                        newBmp.UnlockBits(newBmpData);
+                }
             }
 
             return newBmp;
@@ -627,40 +702,50 @@ namespace SLXEditor
             Rectangle origBmpRect = new Rectangle(0, 0, origBmp.Width, origBmp.Height);
             Bitmap newBmp = new Bitmap(origBmpRect.Width, origBmpRect.Height);
 
+            BitmapData origBmpData = null;
+            BitmapData newBmpData = null;
+
             unsafe
             {
-                // Get pointer to first pixel of OrigBitmap
-                BitmapData origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadOnly, origBmp.PixelFormat);
-                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
-
-                // Get pointer to first pixel of NewBitmap
-                BitmapData newBmpData = newBmp.LockBits(origBmpRect, ImageLockMode.WriteOnly, newBmp.PixelFormat);
-                byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
-
-                // Copy the pixels
-                Parallel.For(0, origBmpRect.Height, y =>
+                try
                 {
-                    // We start curOrigLine and curNewLine at pixel (0, y)
-                    byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
-                    byte* curNewLine = ptrNewFirstPixel + y * newBmpData.Stride;
+                    // Get pointer to first pixel of OrigBitmap
+                    origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.ReadOnly, origBmp.PixelFormat);
+                    byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
 
-                    for (int x = 0; x < origBmpRect.Width; x++)
+                    // Get pointer to first pixel of NewBitmap
+                    newBmpData = newBmp.LockBits(origBmpRect, ImageLockMode.WriteOnly, newBmp.PixelFormat);
+                    byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(newBmp.PixelFormat) == 32, "Bitmap to drawn has no alpha channel!");
+
+                    // Copy the pixels
+                    Parallel.For(0, origBmpRect.Height, y =>
                     {
-                        if (curOrigLine[x * BytesPerPixel + 3] == ignoreAlpha)
-                        {
-                            ChangePixel(curNewLine + x * BytesPerPixel, curOrigLine + x * BytesPerPixel);
-                        }
-                        else if (curOrigLine[x * BytesPerPixel + 3] > 63)
-                        {
-                            ChangePixel(curNewLine + x * BytesPerPixel, curOrigLine + x * BytesPerPixel, blendColorBytes);
-                        }
-                    }
-                });
+                        // We start curOrigLine and curNewLine at pixel (0, y)
+                        byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
+                        byte* curNewLine = ptrNewFirstPixel + y * newBmpData.Stride;
 
-                origBmp.UnlockBits(origBmpData);
-                newBmp.UnlockBits(newBmpData);
+                        for (int x = 0; x < origBmpRect.Width; x++)
+                        {
+                            if (curOrigLine[x * BytesPerPixel + 3] == ignoreAlpha)
+                            {
+                                ChangePixel(curNewLine + x * BytesPerPixel, curOrigLine + x * BytesPerPixel);
+                            }
+                            else if (curOrigLine[x * BytesPerPixel + 3] > 63)
+                            {
+                                ChangePixel(curNewLine + x * BytesPerPixel, curOrigLine + x * BytesPerPixel, blendColorBytes);
+                            }
+                        }
+                    });
+                }
+                finally
+                {
+                    if (origBmpData != null)
+                        origBmp.UnlockBits(origBmpData);
+                    if (newBmpData != null)
+                        newBmp.UnlockBits(newBmpData);
+                }
             }
 
             return newBmp;
@@ -677,46 +762,56 @@ namespace SLXEditor
             Rectangle rect = new Rectangle(0, 0, origBmp.Width, origBmp.Height);
             Bitmap newBmp = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
 
+            BitmapData origData = null;
+            BitmapData newData = null;
+
             unsafe
             {
-                BitmapData origData = origBmp.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                BitmapData newData = newBmp.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-
-                byte* origPtr = (byte*)origData.Scan0;
-                byte* newPtr = (byte*)newData.Scan0;
-
-                Parallel.For(0, rect.Height, y =>
+                try
                 {
-                    byte* origLine = origPtr + y * origData.Stride;
-                    byte* newLine = newPtr + y * newData.Stride;
+                    origData = origBmp.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                    newData = newBmp.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
 
-                    for (int x = 0; x < rect.Width; x++)
+                    byte* origPtr = (byte*)origData.Scan0;
+                    byte* newPtr = (byte*)newData.Scan0;
+
+                    Parallel.For(0, rect.Height, y =>
                     {
-                        byte* src = origLine + x * BytesPerPixel;
-                        byte* dst = newLine + x * BytesPerPixel;
+                        byte* origLine = origPtr + y * origData.Stride;
+                        byte* newLine = newPtr + y * newData.Stride;
 
-                        if (src[0] == targetColorBytes[0] &&
-                            src[1] == targetColorBytes[1] &&
-                            src[2] == targetColorBytes[2] &&
-                            src[3] == targetColorBytes[3])
+                        for (int x = 0; x < rect.Width; x++)
                         {
-                            dst[0] = blendColorBytes[0]; // Blue
-                            dst[1] = blendColorBytes[1]; // Green
-                            dst[2] = blendColorBytes[2]; // Red
-                            dst[3] = blendColorBytes[3]; // Alpha
-                        }
-                        else
-                        {
-                            dst[0] = src[0];
-                            dst[1] = src[1];
-                            dst[2] = src[2];
-                            dst[3] = src[3];
-                        }
-                    }
-                });
+                            byte* src = origLine + x * BytesPerPixel;
+                            byte* dst = newLine + x * BytesPerPixel;
 
-                origBmp.UnlockBits(origData);
-                newBmp.UnlockBits(newData);
+                            if (src[0] == targetColorBytes[0] &&
+                                src[1] == targetColorBytes[1] &&
+                                src[2] == targetColorBytes[2] &&
+                                src[3] == targetColorBytes[3])
+                            {
+                                dst[0] = blendColorBytes[0]; // Blue
+                                dst[1] = blendColorBytes[1]; // Green
+                                dst[2] = blendColorBytes[2]; // Red
+                                dst[3] = blendColorBytes[3]; // Alpha
+                            }
+                            else
+                            {
+                                dst[0] = src[0];
+                                dst[1] = src[1];
+                                dst[2] = src[2];
+                                dst[3] = src[3];
+                            }
+                        }
+                    });
+                }
+                finally
+                {
+                    if (origData != null)
+                        origBmp.UnlockBits(origData);
+                    if (newData != null)
+                        newBmp.UnlockBits(newData);
+                }
             }
 
             return newBmp;
@@ -741,65 +836,75 @@ namespace SLXEditor
         {
             Bitmap newBmp = new Bitmap(newBmpSize.Width, newBmpSize.Height);
 
+            BitmapData origBmpData = null;
+            BitmapData newBmpData = null;
+
             unsafe
             {
-                // Get pointer to first pixel of OldBitmap
-                BitmapData origBmpData = origBmp.LockBits(new Rectangle(0, 0, origBmp.Width, origBmp.Height), ImageLockMode.ReadOnly, origBmp.PixelFormat);
-                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Zoomed Bitmap has no alpha channel!");
-
-                // Get pointer to first pixel of NewBitmap
-                BitmapData newBmpData = newBmp.LockBits(new Rectangle(0, 0, newBmp.Width, newBmp.Height), ImageLockMode.WriteOnly, newBmp.PixelFormat);
-                byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
-
-                if (zoomFactor < 0)
+                try
                 {
-                    int newBmpWidth = newBmp.Width;
-                    int newBmpHeight = newBmp.Height;
+                    // Get pointer to first pixel of OldBitmap
+                    origBmpData = origBmp.LockBits(new Rectangle(0, 0, origBmp.Width, origBmp.Height), ImageLockMode.ReadOnly, origBmp.PixelFormat);
+                    byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Zoomed Bitmap has no alpha channel!");
 
-                    zoomFactor = Math.Abs(zoomFactor) + 1;
+                    // Get pointer to first pixel of NewBitmap
+                    newBmpData = newBmp.LockBits(new Rectangle(0, 0, newBmp.Width, newBmp.Height), ImageLockMode.WriteOnly, newBmp.PixelFormat);
+                    byte* ptrNewFirstPixel = (byte*)newBmpData.Scan0;
 
-                    // Copy the pixels
-                    Parallel.For(0, newBmpHeight, y =>
+                    if (zoomFactor < 0)
                     {
-                        byte* curNewLine = ptrNewFirstPixel + y * newBmpData.Stride;
-                        byte* curOrigLine = ptrOrigFirstPixel + y * zoomFactor * origBmpData.Stride;
+                        int newBmpWidth = newBmp.Width;
+                        int newBmpHeight = newBmp.Height;
 
-                        for (int x = 0; x < newBmpWidth; x++)
+                        zoomFactor = Math.Abs(zoomFactor) + 1;
+
+                        // Copy the pixels
+                        Parallel.For(0, newBmpHeight, y =>
                         {
-                            ChangePixel(curNewLine + x * BytesPerPixel, curOrigLine + x * BytesPerPixel * zoomFactor);
-                        }
-                    });
-                }
-                else
-                {
-                    int origBmpWidth = origBmp.Width;
-                    int origBmpHeight = origBmp.Height;
+                            byte* curNewLine = ptrNewFirstPixel + y * newBmpData.Stride;
+                            byte* curOrigLine = ptrOrigFirstPixel + y * zoomFactor * origBmpData.Stride;
 
-                    zoomFactor++;
-
-                    // Copy the pixels
-                    Parallel.For(0, origBmpHeight, y =>
-                    {
-                        byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
-
-                        for (int i = 0; i < zoomFactor; i++)
-                        {
-                            byte* curNewLine = ptrNewFirstPixel + (y * zoomFactor + i) * newBmpData.Stride;
-
-                            for (int x = 0; x < origBmpWidth; x++)
+                            for (int x = 0; x < newBmpWidth; x++)
                             {
-                                for (int j = 0; j < zoomFactor; j++)
+                                ChangePixel(curNewLine + x * BytesPerPixel, curOrigLine + x * BytesPerPixel * zoomFactor);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        int origBmpWidth = origBmp.Width;
+                        int origBmpHeight = origBmp.Height;
+
+                        zoomFactor++;
+
+                        // Copy the pixels
+                        Parallel.For(0, origBmpHeight, y =>
+                        {
+                            byte* curOrigLine = ptrOrigFirstPixel + y * origBmpData.Stride;
+
+                            for (int i = 0; i < zoomFactor; i++)
+                            {
+                                byte* curNewLine = ptrNewFirstPixel + (y * zoomFactor + i) * newBmpData.Stride;
+
+                                for (int x = 0; x < origBmpWidth; x++)
                                 {
-                                    ChangePixel(curNewLine + (zoomFactor * x + j) * BytesPerPixel, curOrigLine + x * BytesPerPixel);
+                                    for (int j = 0; j < zoomFactor; j++)
+                                    {
+                                        ChangePixel(curNewLine + (zoomFactor * x + j) * BytesPerPixel, curOrigLine + x * BytesPerPixel);
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
-
-                origBmp.UnlockBits(origBmpData);
-                newBmp.UnlockBits(newBmpData);
+                finally
+                {
+                    if (origBmpData != null)
+                        origBmp.UnlockBits(origBmpData);
+                    if (newBmpData != null)
+                        newBmp.UnlockBits(newBmpData);
+                }
             }
 
             return newBmp;
@@ -853,53 +958,61 @@ namespace SLXEditor
             if (rect.Width < 1 || rect.Height < 1)
                 return;
 
+            BitmapData origBmpData = null;
+
             unsafe
             {
-                // Get pointer to first pixel of OrigBitmap
-                BitmapData origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.WriteOnly, origBmp.PixelFormat);
-                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
-
-                // Top and bottom
-                for (int i = 0; i < 2; i++)
+                try
                 {
-                    int posY = (i == 0) ? rect.Top : rect.Bottom - 1;
-                    byte* origLine = ptrOrigFirstPixel + posY * origBmpData.Stride;
+                    // Get pointer to first pixel of OrigBitmap
+                    origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.WriteOnly, origBmp.PixelFormat);
+                    byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap drawn onto has no alpha channel!");
 
-                    for (int x = rect.Left; x < rect.Right; x++)
-                    {
-                        if ((posY + x) % 6 < 3)
-                        {
-                            ChangePixel(origLine + BytesPerPixel * x, COLOR_RECTANGLE_LIGHT);
-                        }
-                        else
-                        {
-                            ChangePixel(origLine + BytesPerPixel * x, COLOR_RECTANGLE_DARK);
-                        }
-                    }
-                }
-
-                // Right and left side
-                for (int y = rect.Top; y < rect.Bottom; y++)
-                {
-                    byte* origLine = ptrOrigFirstPixel + y * origBmpData.Stride;
-
+                    // Top and bottom
                     for (int i = 0; i < 2; i++)
                     {
-                        int posX = (i == 0) ? rect.Left : rect.Right - 1;
+                        int posY = (i == 0) ? rect.Top : rect.Bottom - 1;
+                        byte* origLine = ptrOrigFirstPixel + posY * origBmpData.Stride;
 
-                        if ((y + posX) % 6 < 3)
+                        for (int x = rect.Left; x < rect.Right; x++)
                         {
-                            ChangePixel(origLine + BytesPerPixel * posX, COLOR_RECTANGLE_LIGHT);
+                            if ((posY + x) % 6 < 3)
+                            {
+                                ChangePixel(origLine + BytesPerPixel * x, COLOR_RECTANGLE_LIGHT);
+                            }
+                            else
+                            {
+                                ChangePixel(origLine + BytesPerPixel * x, COLOR_RECTANGLE_DARK);
+                            }
                         }
-                        else
+                    }
+
+                    // Right and left side
+                    for (int y = rect.Top; y < rect.Bottom; y++)
+                    {
+                        byte* origLine = ptrOrigFirstPixel + y * origBmpData.Stride;
+
+                        for (int i = 0; i < 2; i++)
                         {
-                            ChangePixel(origLine + BytesPerPixel * posX, COLOR_RECTANGLE_DARK);
+                            int posX = (i == 0) ? rect.Left : rect.Right - 1;
+
+                            if ((y + posX) % 6 < 3)
+                            {
+                                ChangePixel(origLine + BytesPerPixel * posX, COLOR_RECTANGLE_LIGHT);
+                            }
+                            else
+                            {
+                                ChangePixel(origLine + BytesPerPixel * posX, COLOR_RECTANGLE_DARK);
+                            }
                         }
                     }
                 }
-
-                origBmp.UnlockBits(origBmpData);
+                finally
+                {
+                    if (origBmpData != null)
+                        origBmp.UnlockBits(origBmpData);
+                }
             }
         }
 
@@ -1072,88 +1185,95 @@ namespace SLXEditor
         public static Rectangle GetCropTransparentRectangle(this Bitmap origBmp)
         {
             Rectangle cropRect = new Rectangle();
+            BitmapData origBmpData = null;
 
             unsafe
             {
-                // Get pointer to first pixel of OrigBitmap
-                Rectangle origBmpRect = new Rectangle(0, 0, origBmp.Width, origBmp.Height);
-                BitmapData origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.WriteOnly, origBmp.PixelFormat);
-                byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
-                Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap to crop has no alpha channel!");
-
-                // Compute top edge of visible image
-                int top = 0;
-                do
+                try
                 {
-                    byte* origLine = ptrOrigFirstPixel + top * origBmpData.Stride;
-                    for (int x = 0; x < origBmpRect.Width; x++)
-                    {
-                        if (origLine[BytesPerPixel * x + 3] != 0)
-                        {
-                            cropRect.Y = top;
-                            goto END_TOP;
-                        }
-                    }
-                } while (++top != origBmpRect.Height);
-                // We can only get here if the bitmap is completely empty. 
-                // As we do not want to create empty bitmaps, we throw an exception!
-                // Note that we don't need this check for the other coordinates, because the exception was already thrown here.
-                throw new ArgumentException("Completely empty bitmap cropped of transparent pixels.");
-            END_TOP:
+                    // Get pointer to first pixel of OrigBitmap
+                    Rectangle origBmpRect = new Rectangle(0, 0, origBmp.Width, origBmp.Height);
+                    origBmpData = origBmp.LockBits(origBmpRect, ImageLockMode.WriteOnly, origBmp.PixelFormat);
+                    byte* ptrOrigFirstPixel = (byte*)origBmpData.Scan0;
+                    Debug.Assert(Bitmap.GetPixelFormatSize(origBmp.PixelFormat) == 32, "Bitmap to crop has no alpha channel!");
 
-                // Compute bottom edge of visible image
-                int bottom = origBmpRect.Height;
-                do
+                    // Compute top edge of visible image
+                    int top = 0;
+                    do
+                    {
+                        byte* origLine = ptrOrigFirstPixel + top * origBmpData.Stride;
+                        for (int x = 0; x < origBmpRect.Width; x++)
+                        {
+                            if (origLine[BytesPerPixel * x + 3] != 0)
+                            {
+                                cropRect.Y = top;
+                                goto END_TOP;
+                            }
+                        }
+                    } while (++top != origBmpRect.Height);
+                    // We can only get here if the bitmap is completely empty. 
+                    // As we do not want to create empty bitmaps, we throw an exception!
+                    // Note that we don't need this check for the other coordinates, because the exception was already thrown here.
+                    throw new ArgumentException("Completely empty bitmap cropped of transparent pixels.");
+                END_TOP:
+
+                    // Compute bottom edge of visible image
+                    int bottom = origBmpRect.Height;
+                    do
+                    {
+                        byte* origLine = ptrOrigFirstPixel + (bottom - 1) * origBmpData.Stride;
+                        for (int x = 0; x < origBmpRect.Width; x++)
+                        {
+                            if (origLine[BytesPerPixel * x + 3] != 0)
+                            {
+                                cropRect.Height = bottom - cropRect.Y;
+                                goto END_BOTTOM;
+                            }
+                        }
+                    } while (--bottom != 0);
+                END_BOTTOM:
+
+                    // Compute left edge of visible image
+                    int left = 0;
+                    do
+                    {
+                        for (int y = cropRect.Top; y < cropRect.Bottom; y++)
+                        {
+                            byte* origPixel = ptrOrigFirstPixel + y * origBmpData.Stride + BytesPerPixel * left;
+                            if (origPixel[3] != 0)
+                            {
+                                cropRect.X = left;
+                                goto END_LEFT;
+                            }
+                        }
+                    } while (++left != origBmpRect.Width);
+                END_LEFT:
+
+                    // Compute right edge of visible image
+                    int right = origBmpRect.Width;
+                    do
+                    {
+                        for (int y = cropRect.Top; y < cropRect.Bottom; y++)
+                        {
+                            byte* origPixel = ptrOrigFirstPixel + y * origBmpData.Stride + BytesPerPixel * (right - 1);
+                            if (origPixel[3] != 0)
+                            {
+                                cropRect.Width = right - cropRect.X;
+                                goto END_RIGHT;
+                            }
+                        }
+                    } while (--right != 0);
+                END_RIGHT:
+                    // Do nothing
+                    ;
+                }
+                finally
                 {
-                    byte* origLine = ptrOrigFirstPixel + (bottom - 1) * origBmpData.Stride;
-                    for (int x = 0; x < origBmpRect.Width; x++)
-                    {
-                        if (origLine[BytesPerPixel * x + 3] != 0)
-                        {
-                            cropRect.Height = bottom - cropRect.Y;
-                            goto END_BOTTOM;
-                        }
-                    }
-                } while (--bottom != 0);
-            END_BOTTOM:
-
-                // Compute left edge of visible image
-                int left = 0;
-                do
-                {
-                    for (int y = cropRect.Top; y < cropRect.Bottom; y++)
-                    {
-                        byte* origPixel = ptrOrigFirstPixel + y * origBmpData.Stride + BytesPerPixel * left;
-                        if (origPixel[3] != 0)
-                        {
-                            cropRect.X = left;
-                            goto END_LEFT;
-                        }
-                    }
-                } while (++left != origBmpRect.Width);
-            END_LEFT:
-
-                // Compute right edge of visible image
-                int right = origBmpRect.Width;
-                do
-                {
-                    for (int y = cropRect.Top; y < cropRect.Bottom; y++)
-                    {
-                        byte* origPixel = ptrOrigFirstPixel + y * origBmpData.Stride + BytesPerPixel * (right - 1);
-                        if (origPixel[3] != 0)
-                        {
-                            cropRect.Width = right - cropRect.X;
-                            goto END_RIGHT;
-                        }
-                    }
-                } while (--right != 0);
-            END_RIGHT:
-
-                origBmp.UnlockBits(origBmpData);
+                    if (origBmpData != null)
+                        origBmp.UnlockBits(origBmpData);
+                }
             }
-
             return cropRect;
         }
-
     }
 }
