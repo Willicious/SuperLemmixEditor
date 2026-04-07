@@ -22,6 +22,9 @@ namespace SLXEditor
 
             InitializeComponent();
 
+            listViewTerrain.SetDoubleBuffered(true);
+            listViewObjects.SetDoubleBuffered(true);
+
             Location = new System.Drawing.Point(parentForm.Left + 20, parentForm.Top + 80);
         }
 
@@ -50,7 +53,8 @@ namespace SLXEditor
             foreach (ListViewItem item in listView.Items)
             {
                 if (item.Tag is LevelPiece piece)
-                    item.SubItems[3].Text = piece.DrawMode;
+                    if (item.SubItems[3].Text != piece.DrawMode)
+                        item.SubItems[3].Text = piece.DrawMode;
             }
         }
 
@@ -70,43 +74,61 @@ namespace SLXEditor
 
         private void PopulateTerrainPiecesList()
         {
-            if (ListsMatch(curLevel.TerrainList, terrainPieceCache))
+            listViewTerrain.BeginUpdate();
+
+            try
             {
-                UpdateDrawModeForListView(listViewTerrain);
-                return;
+                if (ListsMatch(curLevel.TerrainList, terrainPieceCache))
+                {
+                    UpdateDrawModeForListView(listViewTerrain);
+                    return;
+                }
+
+                listViewTerrain.Items.Clear();
+                terrainPieceCache.Clear();
+
+                int index = 0;
+                foreach (var piece in curLevel.TerrainList)
+                {
+                    ListViewItem item = PrepareItem(index, piece);
+                    listViewTerrain.Items.Add(item);
+                    terrainPieceCache.Add(piece);
+                    index++;
+                }
             }
-
-            listViewTerrain.Items.Clear();
-            terrainPieceCache.Clear();
-
-            int index = 0;
-            foreach (var piece in curLevel.TerrainList)
+            finally
             {
-                ListViewItem item = PrepareItem(index, piece);
-                listViewTerrain.Items.Add(item);
-                terrainPieceCache.Add(piece);
-                index++;
+                listViewTerrain.EndUpdate();
             }
         }
 
         private void PopulateObjectPiecesList()
         {
-            if (ListsMatch(curLevel.GadgetList, gadgetPieceCache))
+            listViewObjects.BeginUpdate();
+
+            try
             {
-                UpdateDrawModeForListView(listViewObjects);
-                return;
+                if (ListsMatch(curLevel.GadgetList, gadgetPieceCache))
+                {
+                    UpdateDrawModeForListView(listViewObjects);
+                    return;
+                }
+
+                listViewObjects.Items.Clear();
+                gadgetPieceCache.Clear();
+
+                int index = 0;
+                foreach (var piece in curLevel.GadgetList)
+                {
+                    ListViewItem item = PrepareItem(index, piece);
+                    listViewObjects.Items.Add(item);
+                    gadgetPieceCache.Add(piece);
+                    index++;
+                }
             }
-
-            listViewObjects.Items.Clear();
-            gadgetPieceCache.Clear();
-
-            int index = 0;
-            foreach (var piece in curLevel.GadgetList)
+            finally
             {
-                ListViewItem item = PrepareItem(index, piece);
-                listViewObjects.Items.Add(item);
-                gadgetPieceCache.Add(piece);
-                index++;
+                listViewObjects.EndUpdate();
             }
         }
 
@@ -139,6 +161,7 @@ namespace SLXEditor
                 {
                     this.ActiveControl = listViewTerrain;
                     activeListView = listViewTerrain;
+                    listViewTerrain.SelectedItems[0].EnsureVisible();
                     return;
                 }
 
@@ -153,6 +176,7 @@ namespace SLXEditor
                 {
                     this.ActiveControl = listViewObjects;
                     activeListView = listViewObjects;
+                    listViewObjects.SelectedItems[0].EnsureVisible();
                 }
             }
             finally
@@ -312,6 +336,19 @@ namespace SLXEditor
         private void FormPiecesList_Deactivate(object sender, EventArgs e)
         {
             this.Text = "Pieces List - Click title bar to refresh lists";
+        }
+    }
+
+    // Enable DoubleBuffered on ListView controls
+    internal static class ListViewExtensions
+    {
+        public static void SetDoubleBuffered(this ListView listView, bool value)
+        {
+            var prop = typeof(Control).GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            if (prop != null)
+            {
+                prop.SetValue(listView, value, null);
+            }
         }
     }
 }
