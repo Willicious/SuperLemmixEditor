@@ -413,7 +413,7 @@ namespace SLXEditor
                     return;
                 }
 
-                // Trigger the event to notify NLEditForm
+                // Trigger the event to notify SLXEditForm
                 if (loadStyle) StyleSelected?.Invoke(newStylePath);
                 if (addPiece) PieceSelected?.Invoke(newPiece);
 

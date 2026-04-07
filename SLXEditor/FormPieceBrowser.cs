@@ -94,7 +94,7 @@ namespace SLXEditor
             }
             else if (mainForm != null)
             {
-                mainForm.NLEditForm_KeyDown(this, e);
+                mainForm.SLXEditForm_KeyDown(this, e);
             }
         }
 
@@ -102,7 +102,7 @@ namespace SLXEditor
         {
             if (mainForm != null)
             {
-                mainForm.NLEditForm_KeyUp(this, e);
+                mainForm.SLXEditForm_KeyUp(this, e);
             }
         }
 
