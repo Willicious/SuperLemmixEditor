@@ -263,20 +263,32 @@ namespace SLXEditor
             PullFocusFromTextInputs();
         }
 
+        private Timer _resizeDebounce;
         private void SLXEditForm_Resize(object sender, EventArgs e)
         {
             if (this == null || curRenderer == null)
                 return;
 
-            this.MinimumSize = new System.Drawing.Size(editorMinWidth, editorMinHeight);
+            if (_resizeDebounce == null)
+            {
+                _resizeDebounce = new Timer { Interval = 50 };
+                _resizeDebounce.Tick += (s, _) =>
+                {
+                    _resizeDebounce.Stop();
 
-            // Don't do anything on minimizing the form!
-            if (WindowState == FormWindowState.Minimized)
-                return;
+                    this.MinimumSize = new Size(editorMinWidth, editorMinHeight);
 
-            MoveControlsOnFormResize();
-            ResetLevelImage();
-            curSettings.SetFormSize();
+                    // Don't do anything on minimizing the form!
+                    if (WindowState == FormWindowState.Minimized)
+                        return;
+
+                    MoveControlsOnFormResize();
+                    ResetLevelImage();
+                    curSettings.SetFormSize();
+                };
+            }
+            _resizeDebounce.Stop();
+            _resizeDebounce.Start();
         }
 
         private bool _isRendering = false;
