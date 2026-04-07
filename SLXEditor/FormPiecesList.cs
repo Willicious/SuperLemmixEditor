@@ -45,6 +45,15 @@ namespace SLXEditor
             return item;
         }
 
+        private void UpdateDrawModeForListView(ListView listView)
+        {
+            foreach (ListViewItem item in listView.Items)
+            {
+                if (item.Tag is LevelPiece piece)
+                    item.SubItems[3].Text = piece.DrawMode;
+            }
+        }
+
         private bool ListsMatch<T>(IList<T> listA, IList<T> listB)
         {
             if (listA.Count != listB.Count)
@@ -62,7 +71,10 @@ namespace SLXEditor
         private void PopulateTerrainPiecesList()
         {
             if (ListsMatch(curLevel.TerrainList, terrainPieceCache))
+            {
+                UpdateDrawModeForListView(listViewTerrain);
                 return;
+            }
 
             listViewTerrain.Items.Clear();
             terrainPieceCache.Clear();
@@ -80,7 +92,10 @@ namespace SLXEditor
         private void PopulateObjectPiecesList()
         {
             if (ListsMatch(curLevel.GadgetList, gadgetPieceCache))
+            {
+                UpdateDrawModeForListView(listViewObjects);
                 return;
+            }
 
             listViewObjects.Items.Clear();
             gadgetPieceCache.Clear();
