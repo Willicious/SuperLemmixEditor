@@ -646,7 +646,7 @@ namespace SLXEditor
 
                 string pieceKey = listViewPieceLinks.SelectedItems[0].Tag as string;
                 if (!string.IsNullOrEmpty(pieceKey))
-                    PreviewPiece(pieceKey, picPiecePreview);
+                    ImagePreview.PreviewPiece(pieceKey, picPiecePreview, curLevel.ThemeStyle);
             }
         }
 
@@ -687,77 +687,6 @@ namespace SLXEditor
                     $"(recommended if {comboStyles.Text} has been recently updated)";
                 lblTransparencyOffsetHint.Visible = true;
             }
-        }
-
-        public void PreviewPiece(string pieceKey, PictureBox piecePreview)
-        {
-            picPiecePreview.Image?.Dispose();
-
-            if (string.IsNullOrEmpty(pieceKey))
-            {
-                piecePreview.Image = null;
-                return;
-            }
-
-            int frameIndex = (ImageLibrary.GetObjType(pieceKey).In(C.OBJ.PICKUP, C.OBJ.EXIT_LOCKED, C.OBJ.BUTTON, C.OBJ.COLLECTIBLE, C.OBJ.TRAPONCE)) ? 1 : 0;
-            Bitmap pieceImage = ImageLibrary.GetImage(pieceKey, RotateFlipType.RotateNoneFlipNone, frameIndex);
-
-            if (pieceImage == null)
-            {
-                piecePreview.Image = null;
-                return;
-            }
-
-            if (pieceKey.StartsWith("default") && ImageLibrary.GetObjType(pieceKey) == C.OBJ.ONE_WAY_WALL)
-            {
-                Color blendColor = curLevel.ThemeStyle?.GetColor(C.StyleColor.ONE_WAY_WALL) ?? C.SLXColors[C.SLXColor.OWWDefault];
-                pieceImage = pieceImage.ApplyThemeColor(blendColor);
-            }
-
-            ZoomImageWithNearestNeighbor(pieceImage);
-        }
-
-        private void ZoomImageWithNearestNeighbor(Bitmap originalImage)
-        {
-            // Add padding to the image before rendering to prevent cropping
-            int padding = 1;
-            Bitmap paddedImage = new Bitmap(originalImage.Width + padding, originalImage.Height + padding);
-
-            using (Graphics g = Graphics.FromImage(paddedImage))
-            {
-                g.Clear(Color.Transparent);
-                g.DrawImage(originalImage, padding, padding);
-            }
-
-            // Get the current size of the PictureBox
-            int maxWidth = picPiecePreview.Width;
-            int maxHeight = picPiecePreview.Height;
-
-            // Start with the original image dimensions
-            int currentWidth = paddedImage.Width;
-            int currentHeight = paddedImage.Height;
-
-            // Keep doubling the image size until it exceeds the PictureBox size
-            while (currentWidth * 2 <= maxWidth && currentHeight * 2 <= maxHeight)
-            {
-                currentWidth *= 2;
-                currentHeight *= 2;
-            }
-
-            // Create a new Bitmap to hold the scaled image
-            Bitmap zoomedImage = new Bitmap(currentWidth, currentHeight);
-
-            // Draw the scaled image with NearestNeighbor interpolation for accuracy
-            using (Graphics g = Graphics.FromImage(zoomedImage))
-            {
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-                g.DrawImage(paddedImage, 0, 0, currentWidth, currentHeight);
-            }
-
-            // Set the PictureBox to display the zoomed image
-            picPiecePreview.Image = zoomedImage;
         }
 
         private void FormINIExporter_Load(object sender, EventArgs e)
