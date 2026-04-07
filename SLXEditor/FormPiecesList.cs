@@ -22,6 +22,9 @@ namespace SLXEditor
 
             InitializeComponent();
 
+            LinkButtonsToMouseEvents(this);
+            UpdateButtonTags();
+
             listViewTerrain.SetDoubleBuffered(true);
             listViewObjects.SetDoubleBuffered(true);
 
@@ -208,15 +211,64 @@ namespace SLXEditor
             }
         }
 
+        private bool LevelHasPieces()
+        {
+            return curLevel.TerrainList.Count + curLevel.GadgetList.Count > 0;
+        }
+
         private void UpdateTitleBar()
         {
-            int terrainCount = curLevel.TerrainList.Count;
-            int gadgetCount = curLevel.GadgetList.Count;
-
-            if (terrainCount + gadgetCount <= 0)
-                this.Text = "Pieces List - Add a piece to the level to populate the list";
-            else
+            if (LevelHasPieces())
+            {
                 this.Text = "Pieces List";
+                lblButtonHint.Text = "";
+                lblButtonHint.Visible = false;
+            }
+            else
+            {
+                this.Text = "Add pieces to the level...";
+                lblButtonHint.Text = "Add pieces to the level to populate lists.";
+                lblButtonHint.Visible = true;
+            }
+        }
+
+        private void LinkButtonsToMouseEvents(Control parent)
+        {
+            foreach (Control ctrl in parent.Controls)
+            {
+                if (ctrl is Button button)
+                {
+                    button.MouseEnter += Button_MouseEnter;
+                    button.MouseLeave += Button_MouseLeave;
+                }
+            }
+        }
+
+        public void UpdateHintLabel(object sender, bool showHint)
+        {
+            if (ActiveForm != this || !LevelHasPieces())
+                return;
+
+            lblButtonHint.Visible = false;
+            lblButtonHint.Text = "";
+
+            if (!showHint) return;
+
+            if (sender is Control ctrl && ctrl.Tag is string hint)
+            {
+                lblButtonHint.Text = hint;
+                lblButtonHint.Visible = true;
+            }
+        }
+
+        private void UpdateButtonTags()
+        {
+            btnDrawFirst.Tag =  "Draw first (behind all others)";
+            btnDrawSooner.Tag = "Draw sooner (one step backward)";
+            btnDrawLater.Tag =  "Draw later (one step forward)";
+            btnDrawLast.Tag =   "Draw last (in front of all others)";
+            btnDelete.Tag =     "Delete selected pieces";
+            btnClose.Tag =      "Close this window";
         }
 
         private void RefreshLists()
@@ -292,6 +344,16 @@ namespace SLXEditor
             RefreshLists();
         }
 
+        private void Button_MouseEnter(object sender, EventArgs e)
+        {
+            UpdateHintLabel(sender, true);
+        }
+
+        private void Button_MouseLeave(object sender, EventArgs e)
+        {
+            UpdateHintLabel(sender, false);
+        }
+
         private void listView_SelectedIndexChanged(object sender, EventArgs e)
         {
             HandleListSelection(sender as ListView);
@@ -330,12 +392,15 @@ namespace SLXEditor
         private void FormPiecesList_Activated(object sender, EventArgs e)
         {
             this.Text = "Pieces List";
+            lblButtonHint.Visible = false;
             RefreshLists();
         }
 
         private void FormPiecesList_Deactivate(object sender, EventArgs e)
         {
-            this.Text = "Pieces List - Click title bar to refresh lists";
+            this.Text = "Click title bar to refresh lists";
+            lblButtonHint.Text = "Click title bar to refresh lists.";
+            lblButtonHint.Visible = true;
         }
     }
 
