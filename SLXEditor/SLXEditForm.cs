@@ -279,11 +279,22 @@ namespace SLXEditor
             curSettings.SetFormSize();
         }
 
+        private bool _isRendering = false;
         private void ResetLevelImage()
         {
-            picLevel.Image = curRenderer.CombineLayers();
-            curRenderer.EnsureScreenPosInLevel();
-            picLevel.SetImage(curRenderer.CreateLevelImage());
+            if (_isRendering) return;  // Guard against re-entrant calls
+            _isRendering = true;
+
+            try
+            {
+                picLevel.Image = curRenderer.CombineLayers();
+                curRenderer.EnsureScreenPosInLevel();
+                picLevel.SetImage(curRenderer.CreateLevelImage());
+            }
+            finally
+            {
+                _isRendering = false;
+            }
         }
 
         private void SLXEditForm_Activated(object sender, EventArgs e)
