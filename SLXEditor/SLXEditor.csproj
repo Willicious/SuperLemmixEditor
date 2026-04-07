@@ -128,6 +128,12 @@
     <Compile Include="FormPieceSearch.Designer.cs">
       <DependentUpon>FormPieceSearch.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPiecesList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPiecesList.Designer.cs">
+      <DependentUpon>FormPiecesList.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormStyleManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,6 +160,7 @@
       <DependentUpon>FormAboutSLXEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="HotkeyData.cs" />
+    <Compile Include="ImagePreview.cs" />
     <Compile Include="INILevelExporter.cs" />
     <Compile Include="INITranslationTables.cs" />
     <Compile Include="LevelPieceBase.cs" />
@@ -241,6 +248,9 @@
     <EmbeddedResource Include="FormHotkeys.resx">
       <DependentUpon>FormHotkeys.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormPiecesList.resx">
+      <DependentUpon>FormPiecesList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormPrePostText.resx">
       <DependentUpon>FormPrePostText.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -294,6 +304,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Editor_Icon.ico" />
+    <None Include="Resources\LemmingPreview.png" />
     <None Include="Resources\WhatsNew.png" />
     <None Include="Resources\ArrowVert.png" />
     <None Include="Resources\ArrowHoriz.png" />

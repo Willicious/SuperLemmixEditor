@@ -226,6 +226,9 @@ namespace SLXEditor
 
         private FormLevelArranger levelArrangerWindow;
         private FormPieceBrowser pieceBrowserWindow;
+        private FormPiecesList piecesListForm;
+
+        public event Action LevelChanged;
 
         private void NLEditForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -1678,6 +1681,11 @@ namespace SLXEditor
         private void openPieceBrowserWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenPieceBrowserWindow();
+        }
+
+        private void openPiecesListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenPiecesList();
         }
 
         private void expandAllTabsToolStripMenuItem_Click(object sender, EventArgs e)

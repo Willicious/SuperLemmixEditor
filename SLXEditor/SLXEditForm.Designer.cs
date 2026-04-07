@@ -314,6 +314,7 @@
             this.picDragNewPiece = new System.Windows.Forms.PictureBox();
             this.txtFocus = new SLXEditor.FocusTextBox();
             this.lblHint = new System.Windows.Forms.Label();
+            this.openPiecesListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLevel)).BeginInit();
             this.tabProperties.SuspendLayout();
@@ -665,6 +666,7 @@
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openLevelWindowToolStripMenuItem,
             this.openPieceBrowserWindowToolStripMenuItem,
+            this.openPiecesListToolStripMenuItem,
             this.expandAllTabsToolStripMenuItem,
             this.toolStripSeparator6,
             this.highlightGroupedPiecesToolStripMenuItem,
@@ -3807,6 +3809,13 @@
             this.lblHint.Text = "Shows hints when hovering over a control";
             this.lblHint.Visible = false;
             // 
+            // openPiecesListToolStripMenuItem
+            // 
+            this.openPiecesListToolStripMenuItem.Name = "openPiecesListToolStripMenuItem";
+            this.openPiecesListToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.openPiecesListToolStripMenuItem.Text = "Open Pieces List";
+            this.openPiecesListToolStripMenuItem.Click += new System.EventHandler(this.openPiecesListToolStripMenuItem_Click);
+            // 
             // SLXEditForm
             // 
             this.AllowDrop = true;
@@ -4211,6 +4220,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.Label lblHint;
         private System.Windows.Forms.ToolStripMenuItem steelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openPiecesListToolStripMenuItem;
     }
 }
 

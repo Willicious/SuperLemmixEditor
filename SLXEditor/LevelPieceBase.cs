@@ -77,6 +77,7 @@ namespace SLXEditor
         public Rectangle ImageRectangle => new Rectangle(PosX, PosY, Width, Height);
         public C.OBJ ObjType => ImageLibrary.GetObjType(Key);
         protected C.Resize ResizeMode => ImageLibrary.GetResizeMode(Key);
+        public virtual string DrawMode => "";
         public bool MayResizeHoriz()
         {
             C.Resize resizeMode = ResizeMode;

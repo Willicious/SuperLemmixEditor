@@ -46,6 +46,18 @@ namespace SLXEditor
         public override int Width => Utility.EvaluateResizable(SpecWidth, DefaultWidth, base.Width, MayResizeHoriz());
         public override int Height => Utility.EvaluateResizable(SpecHeight, DefaultHeight, base.Height, MayResizeVert());
 
+        public override string DrawMode
+        {
+            get
+            {
+                string s = "";
+                if (IsErase) s += "Eraser";
+                if (IsNoOverwrite) s += (s.Length > 0 ? ", " : "") + "NoOverwrite";
+                if (IsOneWay) s += (s.Length > 0 ? ", " : "") + "OneWay";
+                return s;
+            }
+        }
+
         public override LevelPiece Clone()
         {
             return new TerrainPiece(Key, Pos, Rotation, IsInvert, IsErase, IsNoOverwrite, IsOneWay, SpecWidth, SpecHeight);
