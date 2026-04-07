@@ -63,7 +63,7 @@
             this.listViewTerrain.HideSelection = false;
             this.listViewTerrain.Location = new System.Drawing.Point(12, 12);
             this.listViewTerrain.Name = "listViewTerrain";
-            this.listViewTerrain.Size = new System.Drawing.Size(498, 455);
+            this.listViewTerrain.Size = new System.Drawing.Size(498, 394);
             this.listViewTerrain.TabIndex = 7;
             this.listViewTerrain.UseCompatibleStateImageBehavior = false;
             this.listViewTerrain.View = System.Windows.Forms.View.Details;
@@ -91,9 +91,9 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(529, 768);
+            this.btnClose.Location = new System.Drawing.Point(393, 744);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(267, 46);
+            this.btnClose.Size = new System.Drawing.Size(117, 46);
             this.btnClose.TabIndex = 9;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -101,49 +101,49 @@
             // 
             // btnDrawFirst
             // 
-            this.btnDrawFirst.Location = new System.Drawing.Point(529, 12);
+            this.btnDrawFirst.Location = new System.Drawing.Point(212, 690);
             this.btnDrawFirst.Name = "btnDrawFirst";
-            this.btnDrawFirst.Size = new System.Drawing.Size(267, 46);
+            this.btnDrawFirst.Size = new System.Drawing.Size(70, 46);
             this.btnDrawFirst.TabIndex = 10;
-            this.btnDrawFirst.Text = "Draw First ↑↑";
+            this.btnDrawFirst.Text = "↑↑";
             this.btnDrawFirst.UseVisualStyleBackColor = true;
             this.btnDrawFirst.Click += new System.EventHandler(this.btnDrawFirst_Click);
             // 
             // btnDrawSooner
             // 
-            this.btnDrawSooner.Location = new System.Drawing.Point(529, 64);
+            this.btnDrawSooner.Location = new System.Drawing.Point(288, 690);
             this.btnDrawSooner.Name = "btnDrawSooner";
-            this.btnDrawSooner.Size = new System.Drawing.Size(267, 46);
+            this.btnDrawSooner.Size = new System.Drawing.Size(70, 46);
             this.btnDrawSooner.TabIndex = 11;
-            this.btnDrawSooner.Text = "Draw Sooner ↑";
+            this.btnDrawSooner.Text = "↑";
             this.btnDrawSooner.UseVisualStyleBackColor = true;
             this.btnDrawSooner.Click += new System.EventHandler(this.btnDrawSooner_Click);
             // 
             // btnDrawLater
             // 
-            this.btnDrawLater.Location = new System.Drawing.Point(529, 116);
+            this.btnDrawLater.Location = new System.Drawing.Point(364, 690);
             this.btnDrawLater.Name = "btnDrawLater";
-            this.btnDrawLater.Size = new System.Drawing.Size(267, 46);
+            this.btnDrawLater.Size = new System.Drawing.Size(70, 46);
             this.btnDrawLater.TabIndex = 12;
-            this.btnDrawLater.Text = "Draw Later ↓";
+            this.btnDrawLater.Text = "↓";
             this.btnDrawLater.UseVisualStyleBackColor = true;
             this.btnDrawLater.Click += new System.EventHandler(this.btnDrawLater_Click);
             // 
             // btnDrawLast
             // 
-            this.btnDrawLast.Location = new System.Drawing.Point(529, 168);
+            this.btnDrawLast.Location = new System.Drawing.Point(440, 690);
             this.btnDrawLast.Name = "btnDrawLast";
-            this.btnDrawLast.Size = new System.Drawing.Size(267, 46);
+            this.btnDrawLast.Size = new System.Drawing.Size(70, 46);
             this.btnDrawLast.TabIndex = 13;
-            this.btnDrawLast.Text = "Draw Last ↓↓";
+            this.btnDrawLast.Text = "↓↓";
             this.btnDrawLast.UseVisualStyleBackColor = true;
             this.btnDrawLast.Click += new System.EventHandler(this.btnDrawLast_Click);
             // 
             // btnDeleteTerr
             // 
-            this.btnDeleteTerr.Location = new System.Drawing.Point(529, 269);
+            this.btnDeleteTerr.Location = new System.Drawing.Point(212, 744);
             this.btnDeleteTerr.Name = "btnDeleteTerr";
-            this.btnDeleteTerr.Size = new System.Drawing.Size(267, 46);
+            this.btnDeleteTerr.Size = new System.Drawing.Size(175, 46);
             this.btnDeleteTerr.TabIndex = 14;
             this.btnDeleteTerr.Text = "Delete";
             this.btnDeleteTerr.UseVisualStyleBackColor = true;
@@ -158,9 +158,9 @@
             this.columnHeader4});
             this.listViewObjects.FullRowSelect = true;
             this.listViewObjects.HideSelection = false;
-            this.listViewObjects.Location = new System.Drawing.Point(12, 488);
+            this.listViewObjects.Location = new System.Drawing.Point(12, 423);
             this.listViewObjects.Name = "listViewObjects";
-            this.listViewObjects.Size = new System.Drawing.Size(498, 326);
+            this.listViewObjects.Size = new System.Drawing.Size(498, 252);
             this.listViewObjects.TabIndex = 15;
             this.listViewObjects.UseCompatibleStateImageBehavior = false;
             this.listViewObjects.View = System.Windows.Forms.View.Details;
@@ -188,15 +188,15 @@
             // 
             // panelPadding
             // 
-            this.panelPadding.Location = new System.Drawing.Point(-1, 798);
+            this.panelPadding.Location = new System.Drawing.Point(0, 773);
             this.panelPadding.Name = "panelPadding";
-            this.panelPadding.Size = new System.Drawing.Size(809, 27);
+            this.panelPadding.Size = new System.Drawing.Size(522, 27);
             this.panelPadding.TabIndex = 16;
             // 
             // picLemming
             // 
             this.picLemming.Image = global::SLXEditor.Properties.Resources.LemmingPreview;
-            this.picLemming.Location = new System.Drawing.Point(529, 377);
+            this.picLemming.Location = new System.Drawing.Point(70, 695);
             this.picLemming.Name = "picLemming";
             this.picLemming.Size = new System.Drawing.Size(60, 90);
             this.picLemming.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -206,9 +206,10 @@
             // 
             // picPiecePreview
             // 
-            this.picPiecePreview.Location = new System.Drawing.Point(529, 377);
+            this.picPiecePreview.Location = new System.Drawing.Point(12, 690);
             this.picPiecePreview.Name = "picPiecePreview";
-            this.picPiecePreview.Size = new System.Drawing.Size(267, 324);
+            this.picPiecePreview.Size = new System.Drawing.Size(185, 100);
+            this.picPiecePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picPiecePreview.TabIndex = 8;
             this.picPiecePreview.TabStop = false;
             // 
@@ -217,15 +218,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(808, 826);
+            this.ClientSize = new System.Drawing.Size(522, 799);
+            this.Controls.Add(this.btnDeleteTerr);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.picLemming);
             this.Controls.Add(this.listViewObjects);
-            this.Controls.Add(this.btnDeleteTerr);
             this.Controls.Add(this.btnDrawLast);
             this.Controls.Add(this.btnDrawLater);
             this.Controls.Add(this.btnDrawSooner);
             this.Controls.Add(this.btnDrawFirst);
-            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.picPiecePreview);
             this.Controls.Add(this.listViewTerrain);
             this.Controls.Add(this.panelPadding);
