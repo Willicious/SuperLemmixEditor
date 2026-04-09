@@ -198,10 +198,12 @@ namespace SLXEditor
         /// </summary>
         private void UpdateFlagsForPieceActions()
         {
-            List<LevelPiece> selectionList = CurLevel.SelectionList();
+            bool levelHasPieces = CurLevel.TerrainList.Count > 0 || CurLevel.GadgetList.Count > 0;
+            
+            btnShowPiecesList.Enabled = levelHasPieces;
+            openPiecesListToolStripMenuItem.Enabled = levelHasPieces;
 
-            btnShowPiecesList.Enabled = (selectionList.Count > 0);
-            openPiecesListToolStripMenuItem.Enabled = (selectionList.Count > 0);
+            List<LevelPiece> selectionList = CurLevel.SelectionList();
 
             btnRotate.Enabled = selectionList.Exists(p => p.MayRotate());
             btnFlip.Enabled = selectionList.Exists(p => p.MayFlip());
