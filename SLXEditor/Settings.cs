@@ -109,6 +109,7 @@ namespace SLXEditor
         public int KeepAutosaveCount { get { return RemoveOldAutosaves ? keepAutosaveCount : 0; } }
         public bool IsFormMaximized { get; private set; }
         public Size FormSize { get; private set; }
+        public bool UseAutoStart { get; set; }
         public bool ShowAboutAtStartup { get; set; }
         public bool ShowControlHints { get; set; }
         public bool AllTabsExpanded { get; set; }
@@ -139,6 +140,7 @@ namespace SLXEditor
             NumTooltipBottonDisplay = 3;
             IsFormMaximized = false;
             FormSize = editorForm.MinimumSize;
+            UseAutoStart = false;
             ShowAboutAtStartup = true;
             ShowControlHints = true;
             AllTabsExpanded = false;
@@ -1135,7 +1137,7 @@ namespace SLXEditor
                             }
                         case "USEAUTOSTART":
                             {
-                                editorForm.checkAutoStart.Checked = line.Text.Trim().ToUpperInvariant() == "TRUE";
+                                UseAutoStart = line.Text.Trim().ToUpperInvariant() == "TRUE";
                                 break;
                             }
                         case "SHOWABOUTATSTARTUP":
@@ -1273,7 +1275,7 @@ namespace SLXEditor
                 settingsFile.WriteLine(" PreferObjectName       " + (PreferObjectName ? "True" : "False"));
                 settingsFile.WriteLine(" InfiniteScrolling      " + (InfiniteScrolling ? "True" : "False"));
                 settingsFile.WriteLine(" ShowRandomButton       " + (ShowRandomButton ? "True" : "False"));
-                settingsFile.WriteLine(" UseAutostart           " + editorForm.checkAutoStart.Checked.ToString());
+                settingsFile.WriteLine(" UseAutostart           " + (UseAutoStart ? "True" : "False"));
                 settingsFile.WriteLine(" GridSize               " + GridSize.ToString());
                 settingsFile.WriteLine(" GridColor              " + (GridColor == Color.Empty ? "(Invisible)" : ColorTranslator.ToHtml(GridColor)));
                 settingsFile.WriteLine(" TriggerAreaColor       " + CurrentTriggerAreaColor.ToString());

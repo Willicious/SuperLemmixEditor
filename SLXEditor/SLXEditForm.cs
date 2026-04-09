@@ -117,6 +117,8 @@ namespace SLXEditor
             ResetLevelImage();
             MoveControlsOnFormResize();
 
+            checkAutoStart.Checked = curSettings.UseAutoStart;
+
             if (!curSettings.UseTooltipBotton)
                 toolTipButton.Active = false;
 
@@ -234,6 +236,7 @@ namespace SLXEditor
         {
             try
             {
+                curSettings.UseAutoStart = checkAutoStart.Checked;
                 curSettings.WriteSettingsToFile();
 
                 Utility.DeleteFile(C.AppPathTempLevel + LevelFileExtension());
