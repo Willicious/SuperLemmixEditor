@@ -1667,6 +1667,9 @@ namespace SLXEditor
             if (curSettings.ShowAboutAtStartup)
                 ShowAboutSLXEditor();
 
+            if (curSettings.OpenTemplatesAtStartup)
+                OpenTemplatesLoader();
+
             SetMetaDataPanel();
             MoveControlsOnFormResize();
             UpdateMissingPiecesMenuItems();

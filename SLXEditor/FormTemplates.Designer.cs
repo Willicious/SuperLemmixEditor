@@ -29,6 +29,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTemplates));
             this.panelTemplate = new System.Windows.Forms.Panel();
+            this.btnSetAsDefault = new System.Windows.Forms.Button();
             this.rtSkillSetData = new System.Windows.Forms.RichTextBox();
             this.rtLevelData = new System.Windows.Forms.RichTextBox();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -36,7 +37,7 @@
             this.labelTitle = new System.Windows.Forms.Label();
             this.picPreview = new System.Windows.Forms.PictureBox();
             this.listTemplates = new System.Windows.Forms.ListBox();
-            this.btnSetAsDefault = new System.Windows.Forms.Button();
+            this.checkOpenTemplatesAtStartup = new System.Windows.Forms.CheckBox();
             this.panelTemplate.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
             this.SuspendLayout();
@@ -52,8 +53,18 @@
             this.panelTemplate.Controls.Add(this.picPreview);
             this.panelTemplate.Location = new System.Drawing.Point(364, 26);
             this.panelTemplate.Name = "panelTemplate";
-            this.panelTemplate.Size = new System.Drawing.Size(939, 381);
+            this.panelTemplate.Size = new System.Drawing.Size(939, 384);
             this.panelTemplate.TabIndex = 0;
+            // 
+            // btnSetAsDefault
+            // 
+            this.btnSetAsDefault.Location = new System.Drawing.Point(247, 329);
+            this.btnSetAsDefault.Name = "btnSetAsDefault";
+            this.btnSetAsDefault.Size = new System.Drawing.Size(144, 44);
+            this.btnSetAsDefault.TabIndex = 7;
+            this.btnSetAsDefault.Text = "Set As Default";
+            this.btnSetAsDefault.UseVisualStyleBackColor = true;
+            this.btnSetAsDefault.Click += new System.EventHandler(this.btnSetAsDefault_Click);
             // 
             // rtSkillSetData
             // 
@@ -81,7 +92,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(396, 320);
+            this.btnDelete.Location = new System.Drawing.Point(397, 329);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(100, 44);
             this.btnDelete.TabIndex = 4;
@@ -91,7 +102,7 @@
             // 
             // btnLoadTemplate
             // 
-            this.btnLoadTemplate.Location = new System.Drawing.Point(0, 320);
+            this.btnLoadTemplate.Location = new System.Drawing.Point(1, 329);
             this.btnLoadTemplate.Name = "btnLoadTemplate";
             this.btnLoadTemplate.Size = new System.Drawing.Size(240, 44);
             this.btnLoadTemplate.TabIndex = 2;
@@ -114,7 +125,7 @@
             // 
             this.picPreview.Location = new System.Drawing.Point(0, 34);
             this.picPreview.Name = "picPreview";
-            this.picPreview.Size = new System.Drawing.Size(496, 277);
+            this.picPreview.Size = new System.Drawing.Size(496, 290);
             this.picPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPreview.TabIndex = 0;
             this.picPreview.TabStop = false;
@@ -125,37 +136,40 @@
             this.listTemplates.ItemHeight = 20;
             this.listTemplates.Location = new System.Drawing.Point(36, 26);
             this.listTemplates.Name = "listTemplates";
-            this.listTemplates.Size = new System.Drawing.Size(311, 364);
+            this.listTemplates.Size = new System.Drawing.Size(311, 324);
             this.listTemplates.TabIndex = 1;
             this.listTemplates.SelectedIndexChanged += new System.EventHandler(this.listTemplates_SelectedIndexChanged);
             // 
-            // btnSetAsDefault
+            // checkOpenTemplatesAtStartup
             // 
-            this.btnSetAsDefault.Location = new System.Drawing.Point(247, 320);
-            this.btnSetAsDefault.Name = "btnSetAsDefault";
-            this.btnSetAsDefault.Size = new System.Drawing.Size(144, 44);
-            this.btnSetAsDefault.TabIndex = 7;
-            this.btnSetAsDefault.Text = "Set As Default";
-            this.btnSetAsDefault.UseVisualStyleBackColor = true;
-            this.btnSetAsDefault.Click += new System.EventHandler(this.btnSetAsDefault_Click);
+            this.checkOpenTemplatesAtStartup.AutoSize = true;
+            this.checkOpenTemplatesAtStartup.Location = new System.Drawing.Point(36, 366);
+            this.checkOpenTemplatesAtStartup.Name = "checkOpenTemplatesAtStartup";
+            this.checkOpenTemplatesAtStartup.Size = new System.Drawing.Size(270, 24);
+            this.checkOpenTemplatesAtStartup.TabIndex = 2;
+            this.checkOpenTemplatesAtStartup.Text = "Open Template Loader at startup";
+            this.checkOpenTemplatesAtStartup.UseVisualStyleBackColor = true;
+            this.checkOpenTemplatesAtStartup.CheckedChanged += new System.EventHandler(this.checkOpenTemplatesAtStartup_CheckedChanged);
             // 
             // FormTemplates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1315, 406);
+            this.ClientSize = new System.Drawing.Size(1315, 407);
+            this.Controls.Add(this.checkOpenTemplatesAtStartup);
             this.Controls.Add(this.listTemplates);
             this.Controls.Add(this.panelTemplate);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormTemplates";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Templates";
+            this.Text = "Template Loader";
             this.Load += new System.EventHandler(this.FormTemplates_Load);
             this.panelTemplate.ResumeLayout(false);
             this.panelTemplate.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -170,5 +184,6 @@
         private System.Windows.Forms.RichTextBox rtSkillSetData;
         private System.Windows.Forms.ListBox listTemplates;
         private System.Windows.Forms.Button btnSetAsDefault;
+        private System.Windows.Forms.CheckBox checkOpenTemplatesAtStartup;
     }
 }
