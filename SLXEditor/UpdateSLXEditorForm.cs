@@ -503,7 +503,7 @@ namespace SLXEditor
             btnStyleRandom.Visible = showRandom ? true : false;
             comboPieceStyle.Top = 0;
             comboPieceStyle.Left = showRandom ? btnStyleRandom.Right + 5 : 5;
-            comboPieceStyle.Width = showRandom ? 200 : 265;
+            comboPieceStyle.Width = showRandom ? 193 : 265;
 
             btnTerrain.Top = 0;
             btnSteel.Top = 0;
