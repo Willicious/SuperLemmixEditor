@@ -110,24 +110,51 @@ namespace SLXEditor
 
             WriteBoldText(richTextBox, $"================ Version {C.Version} Updates ================\n");
 
-            WriteBoldText(richTextBox, "\n• INI Exporter/Batch Exporter\n");
-            richTextBox.AppendText(" • Exporting now supports mixed tilesets (as long as each level piece is linked to a corresponding RetroLemmini style piece in SLXEditorTranslationTables.ini)\n");
-            richTextBox.AppendText(" • Batch Export reports unlinked pieces (on a per-level basis)\n");
-            richTextBox.AppendText(" • Batch Export Bugfix - Grouped pieces are ungrouped before exporting (original level is not affected)\n");
-            richTextBox.AppendText(" • When adding a piece link in the INI Exporter, if the translation table for the selected piece doesn't exist, it is created automatically\n");
-            richTextBox.AppendText(" • Release Rate is converted to RetroLemmini-compatible value when exporting\n");
+            WriteBoldText(richTextBox, "\n• Templates\n");
+            richTextBox.AppendText(" • It's now possible to create, save and load level templates.\n");
+            richTextBox.AppendText(" • From the Template Loader, choose a template to use as default. This template will then be loaded when opening the Editor or creating a new level.\n");
+            richTextBox.AppendText(" • The Template Loader is shown on startup by default. This can be toggled on/off at any time.\n");
 
-            WriteBoldText(richTextBox, "\n• SuperLemmix-Specific Format (.sxlv)\n");
-            richTextBox.AppendText(" • File browser defaults to 'All Levels' (as opposed to .sxlv) when opening a level\n");
+            WriteBoldText(richTextBox, "\n• Crop Level Width/Height\n");
+            richTextBox.AppendText(" • Added a new Crop rectangle which makes it much quicker and easier to adjust level width and height to fit the layout.\n");
+            richTextBox.AppendText(" • This has full hotkey support (X to toggle the Crop rectangle, Enter to apply, Esc to cancel.\n");
+            richTextBox.AppendText(" • Note that some Editor features (such as dragging pieces) become unavailable when the Crop rectangle is active.\n");
 
-            WriteBoldText(richTextBox, "\n• Cleanse Levels\n");
-            richTextBox.AppendText(" • Bugfix - Cleansing to existing ext (.nxlv/.sxlv) no longer throws an exception\n");
-            richTextBox.AppendText(" • Bugfix - Progress form is linked to main form and kept on top. This is to prevent unhandled exceptions when focusing a different app during a cleanse\n");
-            richTextBox.AppendText(" • Highlight erasers/groups is disabled when cleansing (it must be manually re-enabled afterwards if necessary)\n");
+            WriteBoldText(richTextBox, "\n• Cycle Select Pieces\n");
+            richTextBox.AppendText(" • Shift + LMB (by default) cycles through pieces within 16px of the cursor, so that each subsequent click grabs the piece at the next-highest index.\n");
+
+            WriteBoldText(richTextBox, "\n• Show/Hide Steel\n");
+            richTextBox.AppendText(" • Added menu item and hotkey support for Show/Hide Steel (Ctrl + F2 by default).\n");
+
+            WriteBoldText(richTextBox, "\n• Control Hints\n");
+            richTextBox.AppendText(" • When the mouse is hovered over a control, information about that control is now displayed in the status bar. This can be toggled on/off in Settings.\n");
+
+            WriteBoldText(richTextBox, "\n• Pieces List\n");
+            richTextBox.AppendText(" • Added a 'Pieces List' window which displays all pieces currently active in the level.\n");
+            richTextBox.AppendText(" • From here, pieces can be selected, moved behind/in front of other pieces, and deleted.\n");
+
+            WriteBoldText(richTextBox, "\n• Style Manager\n");
+            richTextBox.AppendText(" • Added 'Remove' button so that styles can be removed from the list.\n");
+            richTextBox.AppendText(" • Bugfix - 'Sort Alphabetically' becomes available only when multiple items are selected.\n");
+
+            WriteBoldText(richTextBox, "\n• Piece Browser - Auto-replace selected pieces\n");
+            richTextBox.AppendText(" • Pressing [Ctrl] or [Shift] whilst clicking-to-add a piece from the Piece Browser will directly replace any currently-selected piece in the Level Arranger. Note that this only works if a single piece is selected.\n");
+            richTextBox.AppendText(" • Pressing [Alt] whilst clicking-to-add a piece from the Piece Browser will add that piece to the same X/Y co-ordinates as any currently-selected piece in the Level Arranger. Again, this only works if a single piece is selected.\n");
+
+            WriteBoldText(richTextBox, "\n• Misc UI\n");
+            richTextBox.AppendText(" • Improved/fixed layout of corner text (in both docked and windowed Level Arranger).\n");
+            richTextBox.AppendText(" • Piece selection is now preserved on Undo/Redo.\n");
+            richTextBox.AppendText(" • Increased maximum number of dropdown items in Main & Piece Style combos.\n");
+            richTextBox.AppendText(" • Updated some default hotkeys (Level Arranger is now Ctrl + L, Piece Browser is Ctrl + B, Expand All Tabs is Ctrl + Space).\n");
+            richTextBox.AppendText(" • Removed support for 'classic hotkeys'.\n");
+            richTextBox.AppendText(" • 'Missing Pieces' menu item is now only shown when relevant.\n");
 
             WriteBoldText(richTextBox, "\n• Bugfixes\n");
-            richTextBox.AppendText(" • 'Steel Type' radio button is updated correctly when opening a level with Steel Type set to 'Always'\n");
-            richTextBox.AppendText(" • 'Save As Image' sanitizes invalid characters when saving\n");
+            richTextBox.AppendText(" • 'Select Pieces Below' (Alt + LMB by default) re-triggers selection correctly, even if used whilst a piece is already selected.\n");
+            richTextBox.AppendText(" • Grid is now drawn to its own layer rather than the background layer (so, it's visible even if backgrounds are toggled off).\n");
+            richTextBox.AppendText(" • Enhanced support for non-English locales.\n");
+            richTextBox.AppendText(" • Fixed repeat renderings when auto-resizing the form.\n");
+            richTextBox.AppendText(" • 'Use Auto Screen Start' is now written to/from a setting object rather that directly to/from the checkbox.\n");
 
             // =======================
             // All Features
@@ -142,6 +169,7 @@ namespace SLXEditor
 
             WriteBoldText(richTextBox, "\n• New SuperLemmix-Specific Format (.sxlv)\n");
             richTextBox.AppendText(" • It's now possible to file-associate SuperLemmix levels with the SuperLemmix Editor, and NeoLemmix Levels with the NeoLemmix Editor. The SuperLemmix Format (.sxlv) will always be preferred as the default format unless NeoLemmix Mode is active. You can still choose to save to .nxlv as long as the level does not contain any SuperLemmix-specific features\n");
+            richTextBox.AppendText(" • File browser defaults to 'All Levels' (as opposed to .sxlv) when opening a level\n");
 
             WriteBoldText(richTextBox, "\n• Added support for new 'Steel Type' level property\n");
             richTextBox.AppendText(" • It's now possible to set steel as 'only where visible (NeoLemmix-style)' or 'always steel' on a per-level basis (supported in SuperLemmix 3.0)\n");
@@ -152,12 +180,15 @@ namespace SLXEditor
             WriteBoldText(richTextBox, "\n• Refresh Rulers\n");
             richTextBox.AppendText(" • Refresh Styles now also refreshes rulers\n");
 
-            WriteBoldText(richTextBox, "\n• Batch Exporter\n");
-            richTextBox.AppendText(" • Use the batch exporter to convert levels to the following formats: SuperLemmix (.sxlv), NeoLemmix (.nxlv), RetroLemmini (.rlv) and Lemmini (.ini)\n");
-
-            WriteBoldText(richTextBox, "\n• INI Exporter\n");
+            WriteBoldText(richTextBox, "\n• INI Exporter/Batch Exporter\n");
             richTextBox.AppendText(" • Export individual levels to RetroLemmini (.rlv) and Lemmini (.ini)\n");
             richTextBox.AppendText(" • Create translation tables to link SuperLemmix style pieces to their (Retro)Lemmini counterparts\n");
+            richTextBox.AppendText(" • Use the batch exporter to convert levels to the following formats: SuperLemmix (.sxlv), NeoLemmix (.nxlv), RetroLemmini (.rlv) and Lemmini (.ini)\n");
+            richTextBox.AppendText(" • Exporting now supports mixed tilesets (as long as each level piece is linked to a corresponding RetroLemmini style piece in SLXEditorTranslationTables.ini)\n");
+            richTextBox.AppendText(" • Batch Export reports unlinked pieces (on a per-level basis)\n");
+            richTextBox.AppendText(" • Batch Export Bugfix - Grouped pieces are ungrouped before exporting (original level is not affected)\n");
+            richTextBox.AppendText(" • When adding a piece link in the INI Exporter, if the translation table for the selected piece doesn't exist, it is created automatically\n");
+            richTextBox.AppendText(" • Release Rate is converted to RetroLemmini-compatible value when exporting\n");
 
             WriteBoldText(richTextBox, "\n• Style Manager\n");
             richTextBox.AppendText(" • Added a style manager to create/edit the style list\n");
@@ -177,6 +208,9 @@ namespace SLXEditor
             richTextBox.AppendText(" • It's now possible to save to either .sxlv or .nxlv when cleansing\n");
             richTextBox.AppendText(" • It's now possible to delete deprecated pieces\n");
             richTextBox.AppendText(" • A more complete list of errors is now shown (Missing Pieces, Deprecated Pieces, No Lemmings/Exits) and a .txt report is generated in the target level folder\n");
+            richTextBox.AppendText(" • Bugfix - Cleansing to existing ext (.nxlv/.sxlv) no longer throws an exception\n");
+            richTextBox.AppendText(" • Bugfix - Progress form is linked to main form and kept on top. This is to prevent unhandled exceptions when focusing a different app during a cleanse\n");
+            richTextBox.AppendText(" • Highlight erasers/groups is disabled when cleansing (it must be manually re-enabled afterwards if necessary)\n");
 
             WriteBoldText(richTextBox, "\n• Validate Levels\n");
             richTextBox.AppendText(" • Bugfix - \"Edit Level\" button is not shown if validator opens when cleansing\n");
@@ -203,6 +237,8 @@ namespace SLXEditor
             richTextBox.AppendText(" • Cursor is correctly reset when clicking status bar buttons\n");
             richTextBox.AppendText(" • The Editor now closes if the 'styles' folder cannot be found\n");
             richTextBox.AppendText(" • Many other general improvements, typo fixes, tweaks, spit and polish\n");
+            richTextBox.AppendText(" • 'Steel Type' radio button is updated correctly when opening a level with Steel Type set to 'Always'\n");
+            richTextBox.AppendText(" • 'Save As Image' sanitizes invalid characters when saving\n");
 
             WriteBoldText(richTextBox, $"\n\n================ NLEditor -> SLXEditor Updates ================\n");
 
