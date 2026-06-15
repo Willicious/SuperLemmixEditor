@@ -513,6 +513,9 @@ namespace SLXEditor
                                 case "FORCELEFT":
                                     objType = C.OBJ.FORCE_FIELD;
                                     break;
+                                case "ANIMATION":
+                                case "ANIMATIONONCE":
+                                case "BACKGROUND":
                                 case "DECORATION":
                                     objType = C.OBJ.DECORATION;
                                     break;

@@ -251,6 +251,9 @@ namespace SLXEditor
                             case "FORCERIGHT": triggerEffect = "FORCEFIELD"; break;
                             case "ADDSKILL": triggerEffect = "PERMASKILLASSIGNER"; break;
                             case "REMOVESKILLS": triggerEffect = "PERMASKILLREMOVER"; break;
+                            case "ANIMATIONONCE":
+                            case "ANIMATION":
+                            case "BACKGROUND": triggerEffect = "DECORATION"; break;
                         }
                     }
 
