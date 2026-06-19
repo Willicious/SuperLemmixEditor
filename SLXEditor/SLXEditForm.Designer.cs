@@ -3892,7 +3892,7 @@
             this.MinimumSize = new System.Drawing.Size(1300, 700);
             this.Name = "SLXEditForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "  SuperLemmix Editor";
+            this.Text = C.AppCaption;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Activated += new System.EventHandler(this.SLXEditForm_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SLXEditForm_FormClosing);

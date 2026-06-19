@@ -7,6 +7,8 @@ namespace SLXEditor
 {
     public static class C // for Constants
     {
+        public static string AppCaption = "  SuperLemmix Editor";
+
         public static string Version
         {
             get

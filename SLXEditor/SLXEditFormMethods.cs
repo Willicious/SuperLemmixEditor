@@ -628,7 +628,7 @@ Ladderer=10";
             picLevel.Image = curRenderer.CreateLevelImage();
 
             UpdateSpecialLemmingCounter();
-            this.Text = "  SuperLemmix Editor";
+            this.Text = C.AppCaption;
 
             if (curSettings.DefaultTemplate != string.Empty)
                 LoadLevelFromDefaultTemplate();
@@ -690,7 +690,7 @@ Ladderer=10";
             UpdateSpecialLemmingCounter();
 
             string name = Path.GetFileName(CurLevel.FilePathToSave);
-            this.Text = "  SuperLemmix Editor" + (string.IsNullOrEmpty(name) ? "" : " - " + name);
+            this.Text = C.AppCaption + (string.IsNullOrEmpty(name) ? "" : " - " + name);
         }
 
         /// <summary>
