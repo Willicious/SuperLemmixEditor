@@ -110,6 +110,22 @@ namespace SLXEditor
 
             WriteBoldText(richTextBox, $"================ Version {C.Version} Updates ================\n");
 
+            WriteBoldText(richTextBox, "\n• Previous/Next Level Buttons\n");
+            richTextBox.AppendText(" • Added '<<' and '>>' buttons for navigating between levels in the current directory.\n");
+
+            WriteBoldText(richTextBox, "\n• Piece Search\n");
+            richTextBox.AppendText(" • 'Background' and 'Animation' objects are recognised as 'Decoration'.\n");
+            richTextBox.AppendText(" • Added support for 'Paint' objects.\n");
+
+            WriteBoldText(richTextBox, "\n• Misc UI\n");
+            richTextBox.AppendText(" • 'Random' button is enabled by default.\n");
+            richTextBox.AppendText(" • Bugfix - Corrected width of piece style combo when 'Random' button is enabled.\n");
+
+            // =======================
+            // All Features
+            // =======================
+            WriteBoldText(richTextBox, $"\n\n================ Previous Updates ================\n");
+
             WriteBoldText(richTextBox, "\n• Templates\n");
             richTextBox.AppendText(" • It's now possible to create, save and load level templates.\n");
             richTextBox.AppendText(" • From the Template Loader, choose a template to use as default. This template will then be loaded when opening the Editor or creating a new level.\n");
@@ -134,35 +150,14 @@ namespace SLXEditor
             richTextBox.AppendText(" • From here, pieces can be selected, moved behind/in front of other pieces, and deleted.\n");
 
             WriteBoldText(richTextBox, "\n• Style Manager\n");
+            richTextBox.AppendText(" • Added a Style Manager to edit styles.ini from within the Editor.\n");
             richTextBox.AppendText(" • Added 'Remove' button so that styles can be removed from the list.\n");
             richTextBox.AppendText(" • Bugfix - 'Sort Alphabetically' becomes available only when multiple items are selected.\n");
 
-            WriteBoldText(richTextBox, "\n• Piece Browser - Auto-replace selected pieces\n");
-            richTextBox.AppendText(" • Pressing [Ctrl] or [Shift] whilst clicking-to-add a piece from the Piece Browser will directly replace any currently-selected piece in the Level Arranger. Note that this only works if a single piece is selected.\n");
-            richTextBox.AppendText(" • Pressing [Alt] whilst clicking-to-add a piece from the Piece Browser will add that piece to the same X/Y co-ordinates as any currently-selected piece in the Level Arranger. Again, this only works if a single piece is selected.\n");
-
-            WriteBoldText(richTextBox, "\n• Misc UI\n");
-            richTextBox.AppendText(" • Improved/fixed layout of corner text (in both docked and windowed Level Arranger).\n");
-            richTextBox.AppendText(" • Piece selection is now preserved on Undo/Redo.\n");
-            richTextBox.AppendText(" • Increased maximum number of dropdown items in Main & Piece Style combos.\n");
-            richTextBox.AppendText(" • Updated some default hotkeys (Level Arranger is now Ctrl + L, Piece Browser is Ctrl + B, Expand All Tabs is Ctrl + Space).\n");
-            richTextBox.AppendText(" • Removed support for 'classic hotkeys'.\n");
-            richTextBox.AppendText(" • 'Missing Pieces' menu item is now only shown when relevant.\n");
-
-            WriteBoldText(richTextBox, "\n• Bugfixes\n");
-            richTextBox.AppendText(" • 'Select Pieces Below' (Alt + LMB by default) re-triggers selection correctly, even if used whilst a piece is already selected.\n");
-            richTextBox.AppendText(" • Grid is now drawn to its own layer rather than the background layer (so, it's visible even if backgrounds are toggled off).\n");
-            richTextBox.AppendText(" • Enhanced support for non-English locales.\n");
-            richTextBox.AppendText(" • Fixed repeat renderings when auto-resizing the form.\n");
-            richTextBox.AppendText(" • 'Use Auto Screen Start' is now written to/from a setting object rather that directly to/from the checkbox.\n");
-
-            // =======================
-            // All Features
-            // =======================
-            WriteBoldText(richTextBox, $"\n\n================ Previous Updates ================\n");
-
             WriteBoldText(richTextBox, "\n• Piece Browser\n");
             richTextBox.AppendText(" • Added a 'Random' button to the Piece Browser which, when clicked, randomized the piece style selection. It's possible to specify which styles are Randomized in the Style Manager; if no styles are specified, the entire list is randomized\n");
+            richTextBox.AppendText(" • Pressing [Ctrl] or [Shift] whilst clicking-to-add a piece from the Piece Browser will directly replace any currently-selected piece in the Level Arranger. Note that this only works if a single piece is selected.\n");
+            richTextBox.AppendText(" • Pressing [Alt] whilst clicking-to-add a piece from the Piece Browser will add that piece to the same X/Y co-ordinates as any currently-selected piece in the Level Arranger. Again, this only works if a single piece is selected.\n");
 
             WriteBoldText(richTextBox, "\n• Default Author Name\n");
             richTextBox.AppendText(" • Added a setting which automatically applies a default author name when a new level is created\n");
@@ -190,9 +185,6 @@ namespace SLXEditor
             richTextBox.AppendText(" • When adding a piece link in the INI Exporter, if the translation table for the selected piece doesn't exist, it is created automatically\n");
             richTextBox.AppendText(" • Release Rate is converted to RetroLemmini-compatible value when exporting\n");
 
-            WriteBoldText(richTextBox, "\n• Style Manager\n");
-            richTextBox.AppendText(" • Added a style manager to create/edit the style list\n");
-
             WriteBoldText(richTextBox, "\n• NeoLemmix 12.14 Objects\n");
             richTextBox.AppendText(" • Added support for NeoLemmix 12.14 objects (Portals, De-Neutralizer, Skill De-Assigner)\n");
 
@@ -215,12 +207,19 @@ namespace SLXEditor
             WriteBoldText(richTextBox, "\n• Validate Levels\n");
             richTextBox.AppendText(" • Bugfix - \"Edit Level\" button is not shown if validator opens when cleansing\n");
 
-            WriteBoldText(richTextBox, "\n• UI\n");
+            WriteBoldText(richTextBox, "\n• Misc UI\n");
             richTextBox.AppendText(" • Improved Entrance Hatch arrow rendering\n");
             richTextBox.AppendText(" • Steel now has its own selection rectangle colour\n");
             richTextBox.AppendText(" • Added zoom factor indicator to corner text\n");
             richTextBox.AppendText(" • It's now possible to switch between Release Rate & Spawn Interval\n");
             richTextBox.AppendText(" • Improved layout of piece data & 'Load Style' button in Pieces tab\n");
+            richTextBox.AppendText(" • Improved/fixed layout of corner text (in both docked and windowed Level Arranger).\n");
+            richTextBox.AppendText(" • Piece selection is now preserved on Undo/Redo.\n");
+            richTextBox.AppendText(" • Increased maximum number of dropdown items in Main & Piece Style combos.\n");
+            richTextBox.AppendText(" • Updated some default hotkeys (Level Arranger is now Ctrl + L, Piece Browser is Ctrl + B, Expand All Tabs is Ctrl + Space).\n");
+            richTextBox.AppendText(" • Removed support for 'classic hotkeys'.\n");
+            richTextBox.AppendText(" • 'Missing Pieces' menu item is now only shown when relevant.\n");
+
 
             WriteBoldText(richTextBox, "\n• Bugfixes\n");
             richTextBox.AppendText(" • No Overwrite checkbox is once again available for all pieces (except Rulers)\n");
@@ -239,6 +238,12 @@ namespace SLXEditor
             richTextBox.AppendText(" • Many other general improvements, typo fixes, tweaks, spit and polish\n");
             richTextBox.AppendText(" • 'Steel Type' radio button is updated correctly when opening a level with Steel Type set to 'Always'\n");
             richTextBox.AppendText(" • 'Save As Image' sanitizes invalid characters when saving\n");
+            richTextBox.AppendText(" • 'Select Pieces Below' (Alt + LMB by default) re-triggers selection correctly, even if used whilst a piece is already selected.\n");
+            richTextBox.AppendText(" • Grid is now drawn to its own layer rather than the background layer (so, it's visible even if backgrounds are toggled off).\n");
+            richTextBox.AppendText(" • Enhanced support for non-English locales.\n");
+            richTextBox.AppendText(" • Fixed repeat renderings when auto-resizing the form.\n");
+            richTextBox.AppendText(" • 'Use Auto Screen Start' is now written to/from a setting object rather that directly to/from the checkbox.\n");
+
 
             WriteBoldText(richTextBox, $"\n\n================ NLEditor -> SLXEditor Updates ================\n");
 
