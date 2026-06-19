@@ -441,6 +441,14 @@ namespace SLXEditor
             scrollPicLevelHoriz.Top = this.Height - 178;
             scrollPicLevelVert.Left = this.Width - 30;
 
+            btnNextLevel.Left = this.Width - btnNextLevel.Width - 20;
+            lblLevel.Left = btnNextLevel.Left - lblLevel.Width - 2;
+            btnPreviousLevel.Left = lblLevel.Left - btnPreviousLevel.Width - 4;
+
+            int levelButtonsWidth = btnNextLevel.Width + lblLevel.Width + btnPreviousLevel.Width + 26;
+            statusBar.Width = this.Width - statusBar.Left - levelButtonsWidth - 6;
+
+
             RepositionPicLevel();
 
             foreach (TabControl tabControl in this.Controls.OfType<TabControl>())

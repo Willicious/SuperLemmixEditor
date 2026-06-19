@@ -316,6 +316,9 @@
             this.picDragNewPiece = new System.Windows.Forms.PictureBox();
             this.lblHint = new System.Windows.Forms.Label();
             this.txtFocus = new SLXEditor.FocusTextBox();
+            this.btnPreviousLevel = new System.Windows.Forms.Button();
+            this.btnNextLevel = new System.Windows.Forms.Button();
+            this.lblLevel = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLevel)).BeginInit();
             this.tabProperties.SuspendLayout();
@@ -3830,6 +3833,35 @@
             this.txtFocus.TabStop = false;
             this.txtFocus.Text = "asdf";
             // 
+            // btnPreviousLevel
+            // 
+            this.btnPreviousLevel.Location = new System.Drawing.Point(1319, 3);
+            this.btnPreviousLevel.Name = "btnPreviousLevel";
+            this.btnPreviousLevel.Size = new System.Drawing.Size(48, 38);
+            this.btnPreviousLevel.TabIndex = 90;
+            this.btnPreviousLevel.Text = "<<";
+            this.btnPreviousLevel.UseVisualStyleBackColor = true;
+            this.btnPreviousLevel.Click += new System.EventHandler(this.btnPreviousLevel_Click);
+            // 
+            // btnNextLevel
+            // 
+            this.btnNextLevel.Location = new System.Drawing.Point(1422, 3);
+            this.btnNextLevel.Name = "btnNextLevel";
+            this.btnNextLevel.Size = new System.Drawing.Size(48, 38);
+            this.btnNextLevel.TabIndex = 91;
+            this.btnNextLevel.Text = ">>";
+            this.btnNextLevel.UseVisualStyleBackColor = true;
+            this.btnNextLevel.Click += new System.EventHandler(this.btnNextLevel_Click);
+            // 
+            // lblLevel
+            // 
+            this.lblLevel.AutoSize = true;
+            this.lblLevel.Location = new System.Drawing.Point(1371, 12);
+            this.lblLevel.Name = "lblLevel";
+            this.lblLevel.Size = new System.Drawing.Size(46, 20);
+            this.lblLevel.TabIndex = 92;
+            this.lblLevel.Text = "Level";
+            // 
             // SLXEditForm
             // 
             this.AllowDrop = true;
@@ -3837,6 +3869,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1478, 1049);
+            this.Controls.Add(this.lblLevel);
+            this.Controls.Add(this.btnNextLevel);
+            this.Controls.Add(this.btnPreviousLevel);
             this.Controls.Add(this.lblHint);
             this.Controls.Add(this.statusBar);
             this.Controls.Add(this.picDragNewPiece);
@@ -4236,6 +4271,9 @@
         private System.Windows.Forms.ToolStripMenuItem steelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openPiecesListToolStripMenuItem;
         private System.Windows.Forms.Button btnShowPiecesList;
+        private System.Windows.Forms.Button btnPreviousLevel;
+        private System.Windows.Forms.Button btnNextLevel;
+        private System.Windows.Forms.Label lblLevel;
     }
 }
 

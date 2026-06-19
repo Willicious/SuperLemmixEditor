@@ -1862,5 +1862,15 @@ namespace SLXEditor
         {
             OpenPiecesList();
         }
+
+        private void btnPreviousLevel_Click(object sender, EventArgs e)
+        {
+            LoadPreviousLevel();
+        }
+
+        private void btnNextLevel_Click(object sender, EventArgs e)
+        {
+            LoadNextLevel();
+        }
     }
 }
