@@ -91,6 +91,7 @@ namespace SLXEditor
         public bool InfiniteScrolling { get; private set; }
         public bool UseGridForPieces { get; private set; }
         public bool UseSpawnInterval { get; private set; }
+        public bool KeepPlaytestReplays { get; set; }
         public bool ValidateWhenSaving { get; private set; }
         public bool Autosave { get; private set; }
         public bool RemoveOldAutosaves { get; private set; }
@@ -135,6 +136,7 @@ namespace SLXEditor
             gridSize = 8;
             GridColor = Color.MidnightBlue;
             customMove = 64;
+            KeepPlaytestReplays = true;
             ValidateWhenSaving = true;
             Autosave = true;
             autosaveFrequency = 5;
@@ -183,13 +185,13 @@ namespace SLXEditor
         public void OpenSettingsWindow()
         {
             int formWidth = 650;
-            int formHeight = 470;
+            int formHeight = 500;
             int columnLeft = 30;
             int columnRight = 340;
             int groupBoxTop = 20;
             int groupBoxColumnLeft = 16;
             int groupBoxColumnRight = 208;
-            int buttonsTop = 420;
+            int buttonsTop = 450;
 
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
@@ -224,7 +226,7 @@ namespace SLXEditor
             groupEditorMode.Top = 60;
             groupEditorMode.Left = columnLeft;
             groupEditorMode.Width = 280;
-            groupEditorMode.Height = 50;
+            groupEditorMode.Height = 80;
 
             RadioButton radSuperLemmixMode = new RadioButton();
             radSuperLemmixMode.Name = "radSuperLemmixMode";
@@ -256,93 +258,26 @@ namespace SLXEditor
             radAutoMode.Left = groupBoxColumnLeft + radSuperLemmixMode.Width + radNeoLemmixMode.Width - 10;
             radAutoMode.CheckedChanged += new EventHandler(EditorMode_CheckedChanged);
 
+            CheckBox checkKeepPlaytestReplays = new CheckBox();
+            checkKeepPlaytestReplays.Name = "checkKeepPlaytestReplays";
+            checkKeepPlaytestReplays.AutoSize = true;
+            checkKeepPlaytestReplays.CheckAlign = ContentAlignment.MiddleLeft;
+            checkKeepPlaytestReplays.Checked = KeepPlaytestReplays;
+            checkKeepPlaytestReplays.Text = "Keep Playtest Replays";
+            checkKeepPlaytestReplays.Top = groupBoxTop + 30;
+            checkKeepPlaytestReplays.Left = groupBoxColumnLeft;
+            checkKeepPlaytestReplays.CheckedChanged += new EventHandler(checkKeepPlaytestReplays_CheckedChanged);
+
             groupEditorMode.Controls.Add(radSuperLemmixMode);
             groupEditorMode.Controls.Add(radNeoLemmixMode);
             groupEditorMode.Controls.Add(radAutoMode);
-
-            // ======================= Piece Browser Mode GroupBox ======================== //
-
-            GroupBox groupPieceBrowserMode = new GroupBox();
-            groupPieceBrowserMode.Text = "Piece Browser Mode";
-            groupPieceBrowserMode.Top = 130;
-            groupPieceBrowserMode.Left = columnLeft;
-            groupPieceBrowserMode.Width = 280;
-            groupPieceBrowserMode.Height = 140;
-
-            RadioButton radShowPieceData = new RadioButton();
-            radShowPieceData.Name = "radShowPieceData";
-            radShowPieceData.AutoSize = true;
-            radShowPieceData.Width = 80;
-            radShowPieceData.CheckAlign = ContentAlignment.MiddleLeft;
-            radShowPieceData.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowData;
-            radShowPieceData.Text = "Data";
-            radShowPieceData.Top = groupBoxTop;
-            radShowPieceData.Left = groupBoxColumnLeft;
-            radShowPieceData.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
-
-            RadioButton radShowPieceDescriptions = new RadioButton();
-            radShowPieceDescriptions.Name = "radShowPieceDescriptions";
-            radShowPieceDescriptions.AutoSize = true;
-            radShowPieceDescriptions.Width = 80;
-            radShowPieceDescriptions.CheckAlign = ContentAlignment.MiddleLeft;
-            radShowPieceDescriptions.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowDescriptions;
-            radShowPieceDescriptions.Text = "Descriptions";
-            radShowPieceDescriptions.Top = groupBoxTop;
-            radShowPieceDescriptions.Left = groupBoxColumnLeft + radShowPieceData.Width - 16;
-            radShowPieceDescriptions.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
-
-            RadioButton radShowPiecesOnly = new RadioButton();
-            radShowPiecesOnly.Name = "radShowPiecesOnly";
-            radShowPiecesOnly.AutoSize = true;
-            radShowPiecesOnly.CheckAlign = ContentAlignment.MiddleLeft;
-            radShowPiecesOnly.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowPiecesOnly;
-            radShowPiecesOnly.Text = "Pieces Only";
-            radShowPiecesOnly.Top = groupBoxTop;
-            radShowPiecesOnly.Left = groupBoxColumnLeft + radShowPieceData.Width + radShowPieceDescriptions.Width;
-            radShowPiecesOnly.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
-
-            CheckBox checkPreferObjectName = new CheckBox();
-            checkPreferObjectName.Name = "checkPreferObjectName";
-            checkPreferObjectName.AutoSize = true;
-            checkPreferObjectName.CheckAlign = ContentAlignment.MiddleLeft;
-            checkPreferObjectName.Checked = PreferObjectName;
-            checkPreferObjectName.Text = "Prefer piece name to object type";
-            checkPreferObjectName.Top = groupBoxTop + 30;
-            checkPreferObjectName.Left = groupBoxColumnLeft;
-            checkPreferObjectName.CheckedChanged += new EventHandler(checkPreferObjectName_CheckedChanged);
-
-            CheckBox checkInfiniteScrolling = new CheckBox();
-            checkInfiniteScrolling.Name = "checkInfiniteScrolling";
-            checkInfiniteScrolling.AutoSize = true;
-            checkInfiniteScrolling.CheckAlign = ContentAlignment.MiddleLeft;
-            checkInfiniteScrolling.Checked = InfiniteScrolling;
-            checkInfiniteScrolling.Text = "Infinite Scrolling";
-            checkInfiniteScrolling.Top = groupBoxTop + 60;
-            checkInfiniteScrolling.Left = groupBoxColumnLeft;
-            checkInfiniteScrolling.CheckedChanged += new EventHandler(checkInfiniteScrolling_CheckedChanged);
-            
-            CheckBox checkShowRandomButton = new CheckBox();
-            checkShowRandomButton.Name = "checkShowRandomButton";
-            checkShowRandomButton.AutoSize = true;
-            checkShowRandomButton.CheckAlign = ContentAlignment.MiddleLeft;
-            checkShowRandomButton.Checked = ShowRandomButton;
-            checkShowRandomButton.Text = "Show Random Style Button";
-            checkShowRandomButton.Top = groupBoxTop + 90;
-            checkShowRandomButton.Left = groupBoxColumnLeft;
-            checkShowRandomButton.CheckedChanged += new EventHandler(showRandomButton_CheckedChanged);
-
-            groupPieceBrowserMode.Controls.Add(radShowPiecesOnly);
-            groupPieceBrowserMode.Controls.Add(radShowPieceDescriptions);
-            groupPieceBrowserMode.Controls.Add(radShowPieceData);
-            groupPieceBrowserMode.Controls.Add(checkPreferObjectName);
-            groupPieceBrowserMode.Controls.Add(checkInfiniteScrolling);
-            groupPieceBrowserMode.Controls.Add(checkShowRandomButton);
+            groupEditorMode.Controls.Add(checkKeepPlaytestReplays);
 
             // =========================== Saving Options GroupBox =========================== //
 
             GroupBox groupSavingOptions = new GroupBox();
             groupSavingOptions.Text = "Level Saving Options";
-            groupSavingOptions.Top = 290;
+            groupSavingOptions.Top = 160;
             groupSavingOptions.Left = columnLeft;
             groupSavingOptions.Width = 280;
             groupSavingOptions.Height = 110;
@@ -419,45 +354,89 @@ namespace SLXEditor
             groupSavingOptions.Controls.Add(checkDeleteAutosaves);
             groupSavingOptions.Controls.Add(numAutosavesToKeep);
 
-            // ========================== Spawn Interval GroupBox ========================== //
+            // ======================= Piece Browser Mode GroupBox ======================== //
 
-            GroupBox groupSpawnInterval = new GroupBox();
-            groupSpawnInterval.Text = "Spawn Interval / Release Rate";
-            groupSpawnInterval.Top = 40;
-            groupSpawnInterval.Left = columnRight;
-            groupSpawnInterval.Width = 280;
-            groupSpawnInterval.Height = 50;
+            GroupBox groupPieceBrowserMode = new GroupBox();
+            groupPieceBrowserMode.Text = "Piece Browser Mode";
+            groupPieceBrowserMode.Top = 290;
+            groupPieceBrowserMode.Left = columnLeft;
+            groupPieceBrowserMode.Width = 280;
+            groupPieceBrowserMode.Height = 140;
 
-            RadioButton radUseSpawnInterval = new RadioButton();
-            radUseSpawnInterval.Name = "radUseSpawnInterval";
-            radUseSpawnInterval.AutoSize = true;
-            radUseSpawnInterval.Width = 130;
-            radUseSpawnInterval.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            radUseSpawnInterval.Checked = UseSpawnInterval;
-            radUseSpawnInterval.Text = "Spawn Interval";
-            radUseSpawnInterval.Top = groupBoxTop;
-            radUseSpawnInterval.Left = groupBoxColumnLeft;
-            radUseSpawnInterval.CheckedChanged += new EventHandler(UseSpawnInterval_CheckedChanged);
+            RadioButton radShowPieceData = new RadioButton();
+            radShowPieceData.Name = "radShowPieceData";
+            radShowPieceData.AutoSize = true;
+            radShowPieceData.Width = 80;
+            radShowPieceData.CheckAlign = ContentAlignment.MiddleLeft;
+            radShowPieceData.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowData;
+            radShowPieceData.Text = "Data";
+            radShowPieceData.Top = groupBoxTop;
+            radShowPieceData.Left = groupBoxColumnLeft;
+            radShowPieceData.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
 
-            RadioButton radUseReleaseRate = new RadioButton();
-            radUseReleaseRate.Name = "radUseReleaseRate";
-            radUseReleaseRate.AutoSize = true;
-            radUseReleaseRate.Width = 130;
-            radUseReleaseRate.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            radUseReleaseRate.Checked = !UseSpawnInterval;
-            radUseReleaseRate.Text = "Release Rate";
-            radUseReleaseRate.Top = groupBoxTop;
-            radUseReleaseRate.Left = groupBoxColumnLeft + radUseSpawnInterval.Width - 16;
-            radUseReleaseRate.CheckedChanged += new EventHandler(UseSpawnInterval_CheckedChanged);
+            RadioButton radShowPieceDescriptions = new RadioButton();
+            radShowPieceDescriptions.Name = "radShowPieceDescriptions";
+            radShowPieceDescriptions.AutoSize = true;
+            radShowPieceDescriptions.Width = 80;
+            radShowPieceDescriptions.CheckAlign = ContentAlignment.MiddleLeft;
+            radShowPieceDescriptions.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowDescriptions;
+            radShowPieceDescriptions.Text = "Descriptions";
+            radShowPieceDescriptions.Top = groupBoxTop;
+            radShowPieceDescriptions.Left = groupBoxColumnLeft + radShowPieceData.Width - 16;
+            radShowPieceDescriptions.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
 
-            groupSpawnInterval.Controls.Add(radUseSpawnInterval);
-            groupSpawnInterval.Controls.Add(radUseReleaseRate);
+            RadioButton radShowPiecesOnly = new RadioButton();
+            radShowPiecesOnly.Name = "radShowPiecesOnly";
+            radShowPiecesOnly.AutoSize = true;
+            radShowPiecesOnly.CheckAlign = ContentAlignment.MiddleLeft;
+            radShowPiecesOnly.Checked = CurrentPieceBrowserMode == PieceBrowserMode.ShowPiecesOnly;
+            radShowPiecesOnly.Text = "Pieces Only";
+            radShowPiecesOnly.Top = groupBoxTop;
+            radShowPiecesOnly.Left = groupBoxColumnLeft + radShowPieceData.Width + radShowPieceDescriptions.Width;
+            radShowPiecesOnly.CheckedChanged += new EventHandler(PieceBrowserMode_CheckedChanged);
+
+            CheckBox checkPreferObjectName = new CheckBox();
+            checkPreferObjectName.Name = "checkPreferObjectName";
+            checkPreferObjectName.AutoSize = true;
+            checkPreferObjectName.CheckAlign = ContentAlignment.MiddleLeft;
+            checkPreferObjectName.Checked = PreferObjectName;
+            checkPreferObjectName.Text = "Prefer piece name to object type";
+            checkPreferObjectName.Top = groupBoxTop + 30;
+            checkPreferObjectName.Left = groupBoxColumnLeft;
+            checkPreferObjectName.CheckedChanged += new EventHandler(checkPreferObjectName_CheckedChanged);
+
+            CheckBox checkInfiniteScrolling = new CheckBox();
+            checkInfiniteScrolling.Name = "checkInfiniteScrolling";
+            checkInfiniteScrolling.AutoSize = true;
+            checkInfiniteScrolling.CheckAlign = ContentAlignment.MiddleLeft;
+            checkInfiniteScrolling.Checked = InfiniteScrolling;
+            checkInfiniteScrolling.Text = "Infinite Scrolling";
+            checkInfiniteScrolling.Top = groupBoxTop + 60;
+            checkInfiniteScrolling.Left = groupBoxColumnLeft;
+            checkInfiniteScrolling.CheckedChanged += new EventHandler(checkInfiniteScrolling_CheckedChanged);
+
+            CheckBox checkShowRandomButton = new CheckBox();
+            checkShowRandomButton.Name = "checkShowRandomButton";
+            checkShowRandomButton.AutoSize = true;
+            checkShowRandomButton.CheckAlign = ContentAlignment.MiddleLeft;
+            checkShowRandomButton.Checked = ShowRandomButton;
+            checkShowRandomButton.Text = "Show Random Style Button";
+            checkShowRandomButton.Top = groupBoxTop + 90;
+            checkShowRandomButton.Left = groupBoxColumnLeft;
+            checkShowRandomButton.CheckedChanged += new EventHandler(showRandomButton_CheckedChanged);
+
+            groupPieceBrowserMode.Controls.Add(radShowPiecesOnly);
+            groupPieceBrowserMode.Controls.Add(radShowPieceDescriptions);
+            groupPieceBrowserMode.Controls.Add(radShowPieceData);
+            groupPieceBrowserMode.Controls.Add(checkPreferObjectName);
+            groupPieceBrowserMode.Controls.Add(checkInfiniteScrolling);
+            groupPieceBrowserMode.Controls.Add(checkShowRandomButton);
 
             // ========================== Snap-to-Grid GroupBox ========================== //
 
             GroupBox groupSnapToGrid = new GroupBox();
             groupSnapToGrid.Text = "Snap Pieces to Grid";
-            groupSnapToGrid.Top = 110;
+            groupSnapToGrid.Top = 60;
             groupSnapToGrid.Left = columnRight;
             groupSnapToGrid.Width = 280;
             groupSnapToGrid.Height = 80;
@@ -514,7 +493,7 @@ namespace SLXEditor
 
             GroupBox groupCustomMove = new GroupBox();
             groupCustomMove.Text = "Custom move selected pieces";
-            groupCustomMove.Top = 210;
+            groupCustomMove.Top = 160;
             groupCustomMove.Left = columnRight;
             groupCustomMove.Width = 280;
             groupCustomMove.Height = 50;
@@ -545,7 +524,7 @@ namespace SLXEditor
 
             GroupBox groupTriggerAreaColor = new GroupBox();
             groupTriggerAreaColor.Text = "Trigger Area Color";
-            groupTriggerAreaColor.Top = 280;
+            groupTriggerAreaColor.Top = 230;
             groupTriggerAreaColor.Left = columnRight;
             groupTriggerAreaColor.Width = 280;
             groupTriggerAreaColor.Height = 50;
@@ -572,13 +551,47 @@ namespace SLXEditor
             groupTriggerAreaColor.Controls.Add(lblTriggerAreaColor);
             groupTriggerAreaColor.Controls.Add(comboTriggerAreaColor);
 
+            // ========================== Spawn Interval GroupBox ========================== //
+
+            GroupBox groupSpawnInterval = new GroupBox();
+            groupSpawnInterval.Text = "Spawn Interval / Release Rate";
+            groupSpawnInterval.Top = 300;
+            groupSpawnInterval.Left = columnRight;
+            groupSpawnInterval.Width = 280;
+            groupSpawnInterval.Height = 50;
+
+            RadioButton radUseSpawnInterval = new RadioButton();
+            radUseSpawnInterval.Name = "radUseSpawnInterval";
+            radUseSpawnInterval.AutoSize = true;
+            radUseSpawnInterval.Width = 130;
+            radUseSpawnInterval.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radUseSpawnInterval.Checked = UseSpawnInterval;
+            radUseSpawnInterval.Text = "Spawn Interval";
+            radUseSpawnInterval.Top = groupBoxTop;
+            radUseSpawnInterval.Left = groupBoxColumnLeft;
+            radUseSpawnInterval.CheckedChanged += new EventHandler(UseSpawnInterval_CheckedChanged);
+
+            RadioButton radUseReleaseRate = new RadioButton();
+            radUseReleaseRate.Name = "radUseReleaseRate";
+            radUseReleaseRate.AutoSize = true;
+            radUseReleaseRate.Width = 130;
+            radUseReleaseRate.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            radUseReleaseRate.Checked = !UseSpawnInterval;
+            radUseReleaseRate.Text = "Release Rate";
+            radUseReleaseRate.Top = groupBoxTop;
+            radUseReleaseRate.Left = groupBoxColumnLeft + radUseSpawnInterval.Width - 16;
+            radUseReleaseRate.CheckedChanged += new EventHandler(UseSpawnInterval_CheckedChanged);
+
+            groupSpawnInterval.Controls.Add(radUseSpawnInterval);
+            groupSpawnInterval.Controls.Add(radUseReleaseRate);
+
             // ========================== Control Hints GroupBox ========================== //
 
             GroupBox groupControlHints = new GroupBox();
             groupControlHints.Text = "Control Hints";
-            groupControlHints.Top = 350;
+            groupControlHints.Top = 370;
             groupControlHints.Left = columnRight;
-            groupControlHints.Width = 280;
+            groupControlHints.Width = 300;
             groupControlHints.Height = 50;
 
             CheckBox checkShowControlHints = new CheckBox();
@@ -830,6 +843,12 @@ namespace SLXEditor
             {
                 btnSaveAndClose.Focus();
             }
+        }
+
+        private void checkKeepPlaytestReplays_CheckedChanged(object sender, EventArgs e)
+        {
+            KeepPlaytestReplays = ((sender as CheckBox).CheckState == CheckState.Checked);
+            settingChanged = true;
         }
 
         private void checkValidateWhenSaving_CheckedChanged(object sender, EventArgs e)
@@ -1095,6 +1114,11 @@ namespace SLXEditor
                                 customMove = line.Value;
                                 break;
                             }
+                        case "KEEPPLAYTESTREPLAYS":
+                            {
+                                KeepPlaytestReplays = (line.Text.Trim().ToUpperInvariant() == "TRUE");
+                                break;
+                            }
                         case "VALIDATEWHENSAVING":
                             {
                                 ValidateWhenSaving = (line.Text.Trim().ToUpperInvariant() == "TRUE");
@@ -1276,6 +1300,7 @@ namespace SLXEditor
                 settingsFile.WriteLine(" DefaultAuthorName      " + DefaultAuthorName);
                 settingsFile.WriteLine(" DefaultTemplate        " + DefaultTemplate);
                 settingsFile.WriteLine(" OpenTemplatesAtStartup " + (OpenTemplatesAtStartup ? "True" : "False"));
+                settingsFile.WriteLine(" KeepPlaytestReplays    " + (KeepPlaytestReplays ? "True" : "False"));
                 settingsFile.WriteLine(" ValidateWhenSaving     " + (ValidateWhenSaving ? "True" : "False"));
                 settingsFile.WriteLine(" Autosave               " + AutosaveFrequency.ToString());
                 settingsFile.WriteLine(" AutosaveLimit          " + KeepAutosaveCount.ToString());

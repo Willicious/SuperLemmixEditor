@@ -239,8 +239,7 @@ namespace SLXEditor
                 curSettings.UseAutoStart = checkAutoStart.Checked;
                 curSettings.WriteSettingsToFile();
 
-                Utility.DeleteFile(C.AppPathTempLevel + LevelFileExtension());
-                Utility.DeleteFile(Path.ChangeExtension(C.AppPathTempLevel, ".nxsv"));
+                ClearDirectory();
 
                 if (e.CloseReason.In(CloseReason.UserClosing, CloseReason.ApplicationExitCall))
                 {
