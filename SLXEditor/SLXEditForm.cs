@@ -237,7 +237,7 @@ namespace SLXEditor
             try
             {
                 curSettings.UseAutoStart = checkAutoStart.Checked;
-                curSettings.WriteSettingsToFile();
+                curSettings.SaveSettings();
 
                 ClearDirectory();
 
@@ -1737,7 +1737,7 @@ namespace SLXEditor
 
                 curSettings.RecentLevels.Remove(filename);
                 UpdateRecentLevelsMenu();
-                curSettings.WriteSettingsToFile();
+                curSettings.SaveSettings();
 
                 return;
             }

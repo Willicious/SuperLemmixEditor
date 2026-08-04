@@ -671,7 +671,7 @@ Ladderer=10";
             if (!string.IsNullOrEmpty(level.FilePathToSave))
             {
                 curSettings.RecentLevels.Add(level.FilePathToSave);
-                curSettings.WriteSettingsToFile();
+                curSettings.SaveSettings();
                 UpdateRecentLevelsMenu();
             }
 
@@ -763,7 +763,7 @@ Ladderer=10";
         private void ClearRecentLevels()
         {
             curSettings.RecentLevels.Clear();
-            curSettings.WriteSettingsToFile();
+            curSettings.SaveSettings();
             UpdateRecentLevelsMenu();
         }
 
@@ -1221,7 +1221,7 @@ Ladderer=10";
 
             // Update settings
             curSettings.AllTabsExpanded = allTabsExpanded;
-            curSettings.WriteSettingsToFile();
+            curSettings.SaveSettings();
         }
 
         private void ExpandAllTabs()
@@ -2918,7 +2918,7 @@ Ladderer=10";
             BmpModify.HighlightErasers = !BmpModify.HighlightErasers;
             highlightEraserPiecesToolStripMenuItem.Checked = BmpModify.HighlightErasers;
             picLevel.SetImage(curRenderer.CreateLevelImage());
-            curSettings.WriteSettingsToFile();
+            curSettings.SaveSettings();
         }
 
         private void ToggleClearPhysics()

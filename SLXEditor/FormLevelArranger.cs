@@ -174,7 +174,7 @@ namespace SLXEditor
             curSettings.LevelArranger.IsMaximized = this.WindowState == FormWindowState.Maximized;
             curSettings.LevelArranger.Location = this.Location;
             curSettings.LevelArranger.Size = this.Size;
-            curSettings.WriteSettingsToFile();
+            curSettings.SaveSettings();
 
             ReturnPicLevelToMainForm();
             mainForm = null;

@@ -982,7 +982,7 @@ namespace SLXEditor
 
                     if (result == DialogResult.Yes)
                     {
-                        WriteSettingsToFile();
+                        SaveSettings();
                     }
                     else if (result == DialogResult.No)
                     {
@@ -1000,7 +1000,7 @@ namespace SLXEditor
             }
             else
             {
-                WriteSettingsToFile();
+                SaveSettings();
             }
         }
 
@@ -1012,7 +1012,7 @@ namespace SLXEditor
             editorForm.MoveControlsOnFormResize();
             editorForm.LoadPiecesIntoPictureBox();
 
-            WriteSettingsToFile();
+            SaveSettings();
         }
 
         /// <summary>
@@ -1292,7 +1292,7 @@ namespace SLXEditor
         /// <summary>
         /// Saves the user's current editor settings to SLXEditorSettings.ini. 
         /// </summary>
-        public void WriteSettingsToFile()
+        public void SaveSettings()
         {
             try
             {
