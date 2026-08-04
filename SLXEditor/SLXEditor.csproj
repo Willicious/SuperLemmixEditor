@@ -167,6 +167,7 @@
     <Compile Include="LevelPieceGadget.cs" />
     <Compile Include="LevelPieceTerrain.cs" />
     <Compile Include="LevelPieceTerrainGroup.cs" />
+    <Compile Include="RecentLevels.cs" />
     <Compile Include="SLXTextDataNode.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DisplaySettings.cs" />

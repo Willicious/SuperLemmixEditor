@@ -668,6 +668,13 @@ Ladderer=10";
             if (level == null)
                 return;
 
+            if (!string.IsNullOrEmpty(level.FilePathToSave))
+            {
+                curSettings.RecentLevels.Add(level.FilePathToSave);
+                curSettings.WriteSettingsToFile();
+                UpdateRecentLevelsMenu();
+            }
+
             LevelDirectory = Path.GetDirectoryName(level.FilePathToSave);
             
             CurLevel = level;
@@ -748,6 +755,16 @@ Ladderer=10";
         public void RefreshLevel()
         {
             picLevel.Image = curRenderer.CreateLevelImage();
+        }
+
+        /// <summary>
+        /// Clears the recent levels list and updates the menu
+        /// </summary>
+        private void ClearRecentLevels()
+        {
+            curSettings.RecentLevels.Clear();
+            curSettings.WriteSettingsToFile();
+            UpdateRecentLevelsMenu();
         }
 
         /// <summary>
