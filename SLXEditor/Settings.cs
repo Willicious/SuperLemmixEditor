@@ -1006,7 +1006,7 @@ namespace SLXEditor
 
         public void ReloadSettings()
         {
-            ReadSettingsFromFile();
+            LoadSettings();
 
             editorForm.ToggleSnapToGrid();
             editorForm.MoveControlsOnFormResize();
@@ -1018,7 +1018,7 @@ namespace SLXEditor
         /// <summary>
         /// Reads the users editor settings from SLXEditorSettings.ini.
         /// </summary>
-        public void ReadSettingsFromFile()
+        public void LoadSettings()
         {
             SetDefault();
 

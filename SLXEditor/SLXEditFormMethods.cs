@@ -25,7 +25,7 @@ namespace SLXEditor
         /// </summary>
         private void InitializeSettings()
         {
-            curSettings.ReadSettingsFromFile();
+            curSettings.LoadSettings();
 
             snapToGridToolStripMenuItem.Checked = curSettings.UseGridForPieces;
             highlightGroupedPiecesToolStripMenuItem.Checked = BmpModify.HighlightGroups;
