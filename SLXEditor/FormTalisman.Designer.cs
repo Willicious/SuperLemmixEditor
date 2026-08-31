@@ -43,6 +43,8 @@
             this.butTalismanCancel = new System.Windows.Forms.Button();
             this.listRequirements = new System.Windows.Forms.ListBox();
             this.cmbRequirementSkill = new System.Windows.Forms.ComboBox();
+            this.lblMin = new System.Windows.Forms.Label();
+            this.lblMax = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numReqValue1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numReqValue2)).BeginInit();
             this.SuspendLayout();
@@ -61,7 +63,7 @@
             // 
             this.cmbRequirementTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbRequirementTypes.FormattingEnabled = true;
-            this.cmbRequirementTypes.Location = new System.Drawing.Point(22, 129);
+            this.cmbRequirementTypes.Location = new System.Drawing.Point(22, 133);
             this.cmbRequirementTypes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbRequirementTypes.Name = "cmbRequirementTypes";
             this.cmbRequirementTypes.Size = new System.Drawing.Size(249, 28);
@@ -70,7 +72,7 @@
             // 
             // numReqValue1
             // 
-            this.numReqValue1.Location = new System.Drawing.Point(279, 129);
+            this.numReqValue1.Location = new System.Drawing.Point(279, 133);
             this.numReqValue1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numReqValue1.Name = "numReqValue1";
             this.numReqValue1.Size = new System.Drawing.Size(162, 26);
@@ -78,7 +80,7 @@
             // 
             // numReqValue2
             // 
-            this.numReqValue2.Location = new System.Drawing.Point(364, 129);
+            this.numReqValue2.Location = new System.Drawing.Point(364, 133);
             this.numReqValue2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numReqValue2.Name = "numReqValue2";
             this.numReqValue2.Size = new System.Drawing.Size(78, 26);
@@ -87,7 +89,7 @@
             // 
             // butRequirementDelete
             // 
-            this.butRequirementDelete.Location = new System.Drawing.Point(91, 394);
+            this.butRequirementDelete.Location = new System.Drawing.Point(91, 439);
             this.butRequirementDelete.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.butRequirementDelete.Name = "butRequirementDelete";
             this.butRequirementDelete.Size = new System.Drawing.Size(289, 40);
@@ -98,7 +100,7 @@
             // 
             // butRequirementAdd
             // 
-            this.butRequirementAdd.Location = new System.Drawing.Point(91, 170);
+            this.butRequirementAdd.Location = new System.Drawing.Point(91, 188);
             this.butRequirementAdd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.butRequirementAdd.Name = "butRequirementAdd";
             this.butRequirementAdd.Size = new System.Drawing.Size(289, 40);
@@ -167,7 +169,7 @@
             // 
             // butTalismanSave
             // 
-            this.butTalismanSave.Location = new System.Drawing.Point(22, 444);
+            this.butTalismanSave.Location = new System.Drawing.Point(22, 489);
             this.butTalismanSave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.butTalismanSave.Name = "butTalismanSave";
             this.butTalismanSave.Size = new System.Drawing.Size(218, 37);
@@ -178,7 +180,7 @@
             // 
             // butTalismanCancel
             // 
-            this.butTalismanCancel.Location = new System.Drawing.Point(244, 444);
+            this.butTalismanCancel.Location = new System.Drawing.Point(244, 489);
             this.butTalismanCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.butTalismanCancel.Name = "butTalismanCancel";
             this.butTalismanCancel.Size = new System.Drawing.Size(198, 37);
@@ -193,7 +195,7 @@
             this.listRequirements.ItemHeight = 20;
             this.listRequirements.Items.AddRange(new object[] {
             "No requirement..."});
-            this.listRequirements.Location = new System.Drawing.Point(22, 220);
+            this.listRequirements.Location = new System.Drawing.Point(22, 255);
             this.listRequirements.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listRequirements.Name = "listRequirements";
             this.listRequirements.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
@@ -204,18 +206,40 @@
             // 
             this.cmbRequirementSkill.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbRequirementSkill.FormattingEnabled = true;
-            this.cmbRequirementSkill.Location = new System.Drawing.Point(280, 128);
+            this.cmbRequirementSkill.Location = new System.Drawing.Point(280, 133);
             this.cmbRequirementSkill.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbRequirementSkill.Name = "cmbRequirementSkill";
             this.cmbRequirementSkill.Size = new System.Drawing.Size(162, 28);
             this.cmbRequirementSkill.TabIndex = 22;
             this.cmbRequirementSkill.Visible = false;
             // 
+            // lblMin
+            // 
+            this.lblMin.AutoSize = true;
+            this.lblMin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMin.Location = new System.Drawing.Point(296, 164);
+            this.lblMin.Name = "lblMin";
+            this.lblMin.Size = new System.Drawing.Size(34, 20);
+            this.lblMin.TabIndex = 23;
+            this.lblMin.Text = "Min";
+            this.lblMin.Visible = false;
+            // 
+            // lblMax
+            // 
+            this.lblMax.AutoSize = true;
+            this.lblMax.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMax.Location = new System.Drawing.Point(381, 164);
+            this.lblMax.Name = "lblMax";
+            this.lblMax.Size = new System.Drawing.Size(38, 20);
+            this.lblMax.TabIndex = 24;
+            this.lblMax.Text = "Max";
+            this.lblMax.Visible = false;
+            // 
             // FormTalisman
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(462, 495);
+            this.ClientSize = new System.Drawing.Size(462, 547);
             this.Controls.Add(this.butRequirementAdd);
             this.Controls.Add(this.cmbRequirementSkill);
             this.Controls.Add(this.listRequirements);
@@ -231,6 +255,8 @@
             this.Controls.Add(this.numReqValue1);
             this.Controls.Add(this.cmbRequirementTypes);
             this.Controls.Add(this.lblTalismanTitle);
+            this.Controls.Add(this.lblMax);
+            this.Controls.Add(this.lblMin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -267,5 +293,7 @@
         private System.Windows.Forms.Button butTalismanCancel;
         private System.Windows.Forms.ListBox listRequirements;
         private System.Windows.Forms.ComboBox cmbRequirementSkill;
+        private System.Windows.Forms.Label lblMin;
+        private System.Windows.Forms.Label lblMax;
     }
 }

@@ -9,12 +9,16 @@ namespace SLXEditor
         {
             AwardType = C.TalismanType.Bronze;
             Requirements = new Dictionary<C.TalismanReq, int>();
+            SkillMaximum = new Dictionary<C.Skill, int>();
+            SkillMinimum = new Dictionary<C.Skill, int>();
             Title = string.Empty;
             ID = -1;
         }
 
         public C.TalismanType AwardType { get; set; }
         public Dictionary<C.TalismanReq, int> Requirements { get; set; }
+        public Dictionary<C.Skill, int> SkillMaximum { get; set; }
+        public Dictionary<C.Skill, int> SkillMinimum { get; set; }
         public string Title { get; set; }
         public int ID { get; set; }
 
@@ -22,8 +26,10 @@ namespace SLXEditor
         {
             if (!this.Title.Equals(otherTalisman.Title))
                 return false;
+
             if (this.AwardType != otherTalisman.AwardType)
                 return false;
+
             if (this.Requirements.Count != otherTalisman.Requirements.Count)
                 return false;
 
@@ -31,7 +37,32 @@ namespace SLXEditor
             {
                 if (!otherTalisman.Requirements.ContainsKey(requirement))
                     return false;
+
                 if (this.Requirements[requirement] != otherTalisman.Requirements[requirement])
+                    return false;
+            }
+
+            if (this.SkillMinimum.Count != otherTalisman.SkillMinimum.Count)
+                return false;
+
+            foreach (C.Skill skill in this.SkillMinimum.Keys)
+            {
+                if (!otherTalisman.SkillMinimum.ContainsKey(skill))
+                    return false;
+
+                if (this.SkillMinimum[skill] != otherTalisman.SkillMinimum[skill])
+                    return false;
+            }
+
+            if (this.SkillMaximum.Count != otherTalisman.SkillMaximum.Count)
+                return false;
+
+            foreach (C.Skill skill in this.SkillMaximum.Keys)
+            {
+                if (!otherTalisman.SkillMaximum.ContainsKey(skill))
+                    return false;
+
+                if (this.SkillMaximum[skill] != otherTalisman.SkillMaximum[skill])
                     return false;
             }
 

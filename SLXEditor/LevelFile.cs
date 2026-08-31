@@ -478,6 +478,9 @@ namespace SLXEditor
             return curLevel.GadgetList.Count(gad => gad.ObjType == C.OBJ.COLLECTIBLE);
         }
 
+        /// <summary>
+        /// Loads talisman from level 
+        /// </summary>
         private static void LoadTalisman(Level level, SLXTextDataNode node)
         {
             Talisman talisman = new Talisman();
@@ -486,23 +489,50 @@ namespace SLXEditor
             talisman.AwardType = Utility.ParseEnum<C.TalismanType>(node["COLOR"].Value);
             talisman.ID = node["ID"].ValueInt;
 
+            // Load normal requirements
             foreach (KeyValuePair<C.TalismanReq, string> pair in C.TalismanKeys)
             {
                 if (pair.Key == C.TalismanReq.UseOnlySkill)
                     continue;
-                else if (node.HasChildWithKey(pair.Value))
+
+                if (node.HasChildWithKey(pair.Value))
                     talisman.Requirements[pair.Key] = node[pair.Value].ValueInt;
             }
 
+            // Load individual skill minimums/maximums
+            foreach (string skillName in C.TalismanSkills)
+            {
+                C.Skill skill = (C.Skill)Enum.Parse(typeof(C.Skill), skillName);
+
+                string maximumKey = skillName.ToUpperInvariant() + "_MAXIMUM";
+                string limitKey = skillName.ToUpperInvariant() + "_LIMIT";
+                string minimumKey = skillName.ToUpperInvariant() + "_MINIMUM";
+
+                // Prefer the _MAXIMUM key, but retain cross-compatibility with the _LIMIT key for NL levels
+                if (node.HasChildWithKey(maximumKey))
+                    talisman.SkillMaximum[skill] = node[maximumKey].ValueInt;
+                else if (node.HasChildWithKey(limitKey))
+                    talisman.SkillMaximum[skill] = node[limitKey].ValueInt;
+
+                if (node.HasChildWithKey(minimumKey))
+                    talisman.SkillMinimum[skill] = node[minimumKey].ValueInt;
+            }
+
+            // Load 'Use Only Skill'
             if (node.HasChildWithKey(C.TalismanKeys[C.TalismanReq.UseOnlySkill]))
             {
-                string allowedSkill = node[C.TalismanKeys[C.TalismanReq.UseOnlySkill]].Value;
+                string allowedSkill =
+                    node[C.TalismanKeys[C.TalismanReq.UseOnlySkill]].Value;
+
                 for (int i = 0; i < C.TalismanSkills.Count; i++)
-                    if (allowedSkill.ToUpperInvariant() == C.TalismanSkills[i].ToUpperInvariant())
+                {
+                    if (allowedSkill.ToUpperInvariant() ==
+                        C.TalismanSkills[i].ToUpperInvariant())
                     {
                         talisman.Requirements[C.TalismanReq.UseOnlySkill] = i;
                         break;
                     }
+                }
             }
 
             level.Talismans.Add(talisman);
@@ -607,6 +637,7 @@ namespace SLXEditor
 
             curLevel.PrepareForSave();
 
+            string levelFormat = Path.GetExtension(filePath).ToLowerInvariant();
             TextWriter textFile = new StreamWriter(filePath, true);
 
             textFile.WriteLine("# ----------------------------- ");
@@ -702,7 +733,7 @@ namespace SLXEditor
                 textFile.WriteLine(" ");
             }
 
-            curLevel.Talismans.ForEach(tal => WriteTalisman(textFile, tal));
+            curLevel.Talismans.ForEach(tal => WriteTalisman(textFile, tal, levelFormat));
 
             textFile.WriteLine("#     Interactive objects       ");
             textFile.WriteLine("# ----------------------------- ");
@@ -1030,26 +1061,59 @@ namespace SLXEditor
             textFile.WriteLine(prefix + " ");
         }
 
+
         /// <summary>
-        /// Writes aa talisman in a text file.
+        /// Writes a talisman in a text file.
         /// </summary>
-        static private void WriteTalisman(TextWriter textFile, Talisman talisman)
+        static private void WriteTalisman(TextWriter textFile, Talisman talisman, string format)
         {
             textFile.WriteLine(" $TALISMAN ");
             textFile.WriteLine("   TITLE " + talisman.Title);
             textFile.WriteLine("   ID " + talisman.ID);
             textFile.WriteLine("   COLOR " + talisman.AwardType.ToString());
+
+            // Write normal requirements
             foreach (C.TalismanReq requirement in talisman.Requirements.Keys)
             {
                 if (requirement == C.TalismanReq.UseOnlySkill)
                 {
-                    textFile.WriteLine("   " + C.TalismanKeys[requirement] + " " + C.TalismanSkills[talisman.Requirements[requirement]]);
+                    textFile.WriteLine(
+                        "   " + C.TalismanKeys[requirement] + " " +
+                        C.TalismanSkills[talisman.Requirements[requirement]]);
                 }
                 else
                 {
-                    textFile.WriteLine("   " + C.TalismanKeys[requirement] + " " + talisman.Requirements[requirement].ToString());
+                    textFile.WriteLine(
+                        "   " + C.TalismanKeys[requirement] + " " +
+                        talisman.Requirements[requirement].ToString());
                 }
             }
+
+            // Write individual skill minimums/maximums together
+            foreach (C.Skill skill in talisman.SkillMinimum.Keys
+                         .Union(talisman.SkillMaximum.Keys))
+            {
+                if (talisman.SkillMinimum.ContainsKey(skill) &&
+                    talisman.SkillMinimum[skill] > 0)
+                {
+                    int minimum = Math.Min(talisman.SkillMinimum[skill], 10);
+
+                    textFile.WriteLine(
+                        "   " + skill.ToString().ToUpperInvariant() + "_MINIMUM " +
+                        minimum);
+                }
+
+                if (talisman.SkillMaximum.ContainsKey(skill) &&
+                    talisman.SkillMaximum[skill] > 0)
+                {
+                    bool isNeo = format == ".nxlv";
+
+                    textFile.WriteLine(
+                        "   " + skill.ToString().ToUpperInvariant() + (isNeo ? "_LIMIT " : "_MAXIMUM ") +
+                        talisman.SkillMaximum[skill]);
+                }
+            }
+
             textFile.WriteLine(" $END ");
             textFile.WriteLine(" ");
         }

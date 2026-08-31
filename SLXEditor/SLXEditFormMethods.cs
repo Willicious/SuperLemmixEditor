@@ -596,7 +596,6 @@ Ladderer=10";
             {
                 lbTalismans.Items.Add(talisman);
             }
-
         }
 
         /// <summary>

@@ -29,8 +29,22 @@ namespace SLXEditor
             talisman.AwardType = oldTalisman.AwardType;
             talisman.Title = (string)oldTalisman.Title.Clone();
             talisman.Requirements = new Dictionary<C.TalismanReq, int>(oldTalisman.Requirements);
+            talisman.SkillMinimum = new Dictionary<C.Skill, int>(oldTalisman.SkillMinimum);
+            talisman.SkillMaximum = new Dictionary<C.Skill, int>(oldTalisman.SkillMaximum);
 
             SetFormTexts(level);
+        }
+
+        class TalismanRequirementOption
+        {
+            public C.TalismanReq Requirement { get; set; }
+            public C.Skill? Skill { get; set; }
+            public string Text { get; set; }
+
+            public override string ToString()
+            {
+                return Text;
+            }
         }
 
         private void SetFormTexts(Level level)
@@ -44,92 +58,57 @@ namespace SLXEditor
 
             WriteRequirementList();
 
-            // Filter TalismanReqArray to include only skills present in skillset
-            var filteredRequirements = C.TalismanReqArray.Cast<C.TalismanReq>()
-                .Where(req => IsSkillRequirementRelevant(level, req))
-                .ToList();
+            cmbRequirementTypes.Items.Clear();
 
-            // Check if the skillset is empty
-            bool hasIndividualSkills = filteredRequirements.Any(req => req >= C.TalismanReq.SkillWalker && req <= C.TalismanReq.SkillCloner);
-
-            // Filter out skill-related talismans if the skillset is empty
-            if (!hasIndividualSkills)
+            // Add normal requirements
+            foreach (C.TalismanReq requirement in C.TalismanReqArray.Cast<C.TalismanReq>())
             {
-                filteredRequirements.Remove(C.TalismanReq.SkillTotal);
-                filteredRequirements.Remove(C.TalismanReq.SkillTypes);
-                filteredRequirements.Remove(C.TalismanReq.SkillEachLimit);
-                filteredRequirements.Remove(C.TalismanReq.UseOnlySkill);
+                if (requirement == C.TalismanReq.IndividualSkillLimits)
+                    continue;
+
+                if (SLXEditForm.isNeoLemmixOnly &&
+                    (requirement == C.TalismanReq.ClassicMode ||
+                     requirement == C.TalismanReq.KillZombies ||
+                     requirement == C.TalismanReq.NoPause))
+                    continue;
+
+                cmbRequirementTypes.Items.Add(new TalismanRequirementOption
+                {
+                    Requirement = requirement,
+                    Skill = null,
+                    Text = C.TalismanReqText[requirement]
+                });
             }
 
-            if (SLXEditForm.isNeoLemmixOnly)
+            // Add individual skill requirements
+            foreach (string skillName in C.TalismanSkills)
             {
-                filteredRequirements.Remove(C.TalismanReq.ClassicMode);
-                filteredRequirements.Remove(C.TalismanReq.KillZombies);
-                filteredRequirements.Remove(C.TalismanReq.NoPause);
-            }
+                C.Skill skill = (C.Skill)Enum.Parse(typeof(C.Skill), skillName);
 
-            foreach (C.TalismanReq requirement in filteredRequirements)
-            {
-                cmbRequirementTypes.Items.Add(C.TalismanReqText[requirement]);
+                if (LevelFile.IsSkillRequired(level, skill))
+                {
+                    cmbRequirementTypes.Items.Add(new TalismanRequirementOption
+                    {
+                        Requirement = C.TalismanReq.IndividualSkillLimits,
+                        Skill = skill,
+                        Text = "Set " + skillName + " Limits"
+                    });
+                }
             }
 
             if (cmbRequirementTypes.Items.Count > 0)
-            {
-                cmbRequirementTypes.Text = cmbRequirementTypes.Items[0].ToString();
-            }
+                cmbRequirementTypes.SelectedIndex = 0;
 
-            cmbRequirementSkill.Items.Clear(); // Clear any existing items
+            // Populate the Use Only Skill dropdown
+            cmbRequirementSkill.Items.Clear();
+
             foreach (string skill in C.TalismanSkills)
             {
-                // Use skill string directly with IsSkillRequired
                 if (LevelFile.IsSkillRequired(level, (C.Skill)Enum.Parse(typeof(C.Skill), skill)))
                 {
                     cmbRequirementSkill.Items.Add(skill);
                 }
             }
-        }
-
-        private bool IsSkillRequirementRelevant(Level level, C.TalismanReq requirement)
-        {
-            // Map TalismanReq to corresponding skills where applicable
-            var skillMapping = new Dictionary<C.TalismanReq, C.Skill>
-            {
-                { C.TalismanReq.SkillWalker, C.Skill.Walker },
-                { C.TalismanReq.SkillJumper, C.Skill.Jumper },
-                { C.TalismanReq.SkillShimmier, C.Skill.Shimmier },
-                { C.TalismanReq.SkillBallooner, C.Skill.Ballooner },
-                { C.TalismanReq.SkillSlider, C.Skill.Slider },
-                { C.TalismanReq.SkillClimber, C.Skill.Climber },
-                { C.TalismanReq.SkillSwimmer, C.Skill.Swimmer },
-                { C.TalismanReq.SkillFloater, C.Skill.Floater },
-                { C.TalismanReq.SkillGlider, C.Skill.Glider },
-                { C.TalismanReq.SkillDisarmer, C.Skill.Disarmer },
-                { C.TalismanReq.SkillTimebomber, C.Skill.Timebomber },
-                { C.TalismanReq.SkillBomber, C.Skill.Bomber },
-                { C.TalismanReq.SkillFreezer, C.Skill.Freezer },
-                { C.TalismanReq.SkillStoner, C.Skill.Stoner },
-                { C.TalismanReq.SkillBlocker, C.Skill.Blocker },
-                { C.TalismanReq.SkillLadderer, C.Skill.Ladderer },
-                { C.TalismanReq.SkillPlatformer, C.Skill.Platformer },
-                { C.TalismanReq.SkillBuilder, C.Skill.Builder },
-                { C.TalismanReq.SkillStacker, C.Skill.Stacker },
-                { C.TalismanReq.SkillSpearer, C.Skill.Spearer },
-                { C.TalismanReq.SkillGrenader, C.Skill.Grenader },
-                { C.TalismanReq.SkillLaserer, C.Skill.Laserer },
-                { C.TalismanReq.SkillBasher, C.Skill.Basher },
-                { C.TalismanReq.SkillFencer, C.Skill.Fencer },
-                { C.TalismanReq.SkillMiner, C.Skill.Miner },
-                { C.TalismanReq.SkillDigger, C.Skill.Digger },
-                { C.TalismanReq.SkillCloner, C.Skill.Cloner }
-            };
-
-            if (skillMapping.ContainsKey(requirement))
-            {
-                return LevelFile.IsSkillRequired(level, skillMapping[requirement]);
-            }
-
-            // Return true for non-skill-related requirements
-            return true;
         }
 
         bool isNewTalisman;
@@ -144,17 +123,48 @@ namespace SLXEditor
         private void WriteRequirementList()
         {
             listRequirements.Items.Clear();
-            if (talisman.Requirements.Count == 0)
+
+            bool hasRequirements = talisman.Requirements.Count > 0 ||
+                                   talisman.SkillMinimum.Count > 0 ||
+                                   talisman.SkillMaximum.Count > 0;
+
+            if (!hasRequirements)
             {
                 listRequirements.Items.Add("No requirements...");
+                return;
             }
-            else
+
+            // Write normal requirements
+            foreach (C.TalismanReq requirement in talisman.Requirements.Keys)
             {
-                foreach (C.TalismanReq requirement in talisman.Requirements.Keys)
-                {
-                    string text = talisman.GetRequirementText(requirement);
-                    listRequirements.Items.Add(text);
-                }
+                string text = talisman.GetRequirementText(requirement);
+                listRequirements.Items.Add(text);
+            }
+
+            // Write individual skill limits
+            foreach (C.Skill skill in talisman.SkillMinimum.Keys
+                         .Union(talisman.SkillMaximum.Keys))
+            {
+                int minimum = talisman.SkillMinimum.ContainsKey(skill)
+                    ? talisman.SkillMinimum[skill]
+                    : 0;
+
+                int maximum = talisman.SkillMaximum.ContainsKey(skill)
+                    ? talisman.SkillMaximum[skill]
+                    : 0;
+
+                string skillName = skill.ToString();
+
+                string limitText;
+
+                if (minimum > 0 && maximum > 0)
+                    limitText = minimum + "-" + maximum;
+                else if (maximum > 0)
+                    limitText = "0-" + maximum;
+                else
+                    limitText = minimum + "+";
+
+                listRequirements.Items.Add("Set " + skillName + " Limits: " + limitText);
             }
         }
 
@@ -163,13 +173,41 @@ namespace SLXEditor
         /// </summary>
         private void butRequirementAdd_Click(object sender, EventArgs e)
         {
-            string reqText = cmbRequirementTypes.Text;
-            if (string.IsNullOrWhiteSpace(reqText))
+            TalismanRequirementOption option = cmbRequirementTypes.SelectedItem as TalismanRequirementOption;
+
+            if (option == null)
                 return;
 
-            // Add new requirement to talisman
-            C.TalismanReq newReq = C.TalismanReqText.First(pair => pair.Value.Equals(reqText)).Key;
+            C.TalismanReq requirement = option.Requirement;
+
+            // Individual skill minimum/maximum
+            if (requirement == C.TalismanReq.IndividualSkillLimits)
+            {
+                if (!option.Skill.HasValue)
+                    return;
+
+                C.Skill skill = option.Skill.Value;
+
+                int minimum = (int)numReqValue1.Value;
+                int maximum = (int)numReqValue2.Value;
+
+                if (minimum > 0)
+                    talisman.SkillMinimum[skill] = minimum;
+                else
+                    talisman.SkillMinimum.Remove(skill);
+
+                if (maximum > 0)
+                    talisman.SkillMaximum[skill] = maximum;
+                else
+                    talisman.SkillMaximum.Remove(skill);
+
+                WriteRequirementList();
+                return;
+            }
+
+            // All other requirements
             int value = 0;
+
             if (numReqValue2.Visible)
             {
                 value = (int)((numReqValue1.Value * 60 + numReqValue2.Value) * 17);
@@ -181,25 +219,53 @@ namespace SLXEditor
             else if (cmbRequirementSkill.Visible)
             {
                 string selectedSkill = cmbRequirementSkill.SelectedItem?.ToString();
+
                 if (!string.IsNullOrEmpty(selectedSkill))
-                {
-                    value = C.TalismanSkills.IndexOf(selectedSkill); // Get the correct index from full list
-                }
+                    value = C.TalismanSkills.IndexOf(selectedSkill);
             }
-            talisman.Requirements[newReq] = value;
+
+            talisman.Requirements[requirement] = value;
 
             WriteRequirementList();
         }
 
         /// <summary>
-        /// Deltes the selected requirements.
+        /// Deletes the selected requirements.
         /// </summary>
         private void butRequirementDelete_Click(object sender, EventArgs e)
         {
             foreach (var listItem in listRequirements.SelectedItems)
             {
-                var requirement = talisman.Requirements.First(pair => talisman.GetRequirementText(pair.Key).Equals(listItem.ToString()));
-                talisman.Requirements.Remove(requirement.Key);
+                string itemText = listItem.ToString();
+
+                // Check for an individual skill limit
+                foreach (C.Skill skill in C.TalismanSkills
+                             .Select(skillName => (C.Skill)Enum.Parse(typeof(C.Skill), skillName)))
+                {
+                    string skillName = skill.ToString();
+
+                    if (itemText.StartsWith("Set " + skillName + " Limits:"))
+                    {
+                        talisman.SkillMinimum.Remove(skill);
+                        talisman.SkillMaximum.Remove(skill);
+                        break;
+                    }
+                }
+
+                // Check for a normal requirement
+                C.TalismanReq? requirementToRemove = null;
+
+                foreach (C.TalismanReq requirement in talisman.Requirements.Keys)
+                {
+                    if (talisman.GetRequirementText(requirement) == itemText)
+                    {
+                        requirementToRemove = requirement;
+                        break;
+                    }
+                }
+
+                if (requirementToRemove.HasValue)
+                    talisman.Requirements.Remove(requirementToRemove.Value);
             }
 
             WriteRequirementList();
@@ -292,22 +358,28 @@ namespace SLXEditor
         /// </summary>
         private void cmbRequirementTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!C.TalismanReqText.ContainsValue(cmbRequirementTypes.Text))
+            TalismanRequirementOption option = cmbRequirementTypes.SelectedItem as TalismanRequirementOption;
+
+            if (option == null)
                 return;
 
-            C.TalismanReq requirement = C.TalismanReqText.First(pair => pair.Value.Equals(cmbRequirementTypes.Text)).Key;
+            C.TalismanReq requirement = option.Requirement;
 
             // Set visibility
             numReqValue1.Visible = (requirement != C.TalismanReq.UseOnlySkill &&
                                     requirement != C.TalismanReq.KillZombies  &&
                                     requirement != C.TalismanReq.ClassicMode  &&
                                     requirement != C.TalismanReq.NoPause);
-            numReqValue2.Visible = (requirement == C.TalismanReq.TimeLimit);
+            numReqValue2.Visible = (requirement == C.TalismanReq.TimeLimit) ||
+                                   (requirement == C.TalismanReq.IndividualSkillLimits);
 
             if (numReqValue2.Visible)
                 numReqValue1.Width = numReqValue2.Width;
             else
                 numReqValue1.Width = cmbRequirementSkill.Width;      
+
+            lblMin.Visible = (requirement == C.TalismanReq.IndividualSkillLimits);
+            lblMax.Visible = (requirement == C.TalismanReq.IndividualSkillLimits);
 
             cmbRequirementSkill.Visible = (requirement == C.TalismanReq.UseOnlySkill);
 
@@ -329,13 +401,24 @@ namespace SLXEditor
                 case C.TalismanReq.SkillTypes:
                     numReqValue1.Maximum = 10;
                     break;
+                case C.TalismanReq.IndividualSkillLimits:
+                    numReqValue1.Maximum = 10;
+                    numReqValue2.Maximum = 999;
+                    break;
                 default:
                     numReqValue1.Maximum = 99;
                     break;
             }
 
             // Set initial values, possible according to existing requirement
-            if (talisman.Requirements.ContainsKey(requirement))
+            if (requirement == C.TalismanReq.IndividualSkillLimits)
+            {
+                C.Skill skill = option.Skill.Value;
+
+                numReqValue1.Value = talisman.SkillMinimum.ContainsKey(skill) ? talisman.SkillMinimum[skill] : 0;
+                numReqValue2.Value = talisman.SkillMaximum.ContainsKey(skill) ? talisman.SkillMaximum[skill] : 0;
+            }
+            else if (talisman.Requirements.ContainsKey(requirement))
             {
                 if (requirement == C.TalismanReq.TimeLimit)
                 {
