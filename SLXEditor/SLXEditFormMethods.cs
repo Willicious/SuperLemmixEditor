@@ -260,6 +260,8 @@ namespace SLXEditor
                         numeric.Value = skillValue;
                     }
                 }
+
+                CommitLevelChanges(); // Update the level's skillset based on the new values
             }
             catch (Exception ex)
             {
