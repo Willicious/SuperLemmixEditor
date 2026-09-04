@@ -513,8 +513,6 @@ namespace SLXEditor
                                 case "FORCELEFT":
                                     objType = C.OBJ.FORCE_FIELD;
                                     break;
-                                case "ANIMATION":
-                                case "ANIMATIONONCE":
                                 case "BACKGROUND":
                                 case "DECORATION":
                                     objType = C.OBJ.DECORATION;
@@ -539,6 +537,12 @@ namespace SLXEditor
                                     break;
                                 case "SKILLASSIGNER":
                                     objType = C.OBJ.SKILL_ASSIGNER;
+                                    break;
+                                case "ANIMATION":
+                                case "ANIMATIONONCE":
+                                    objType = C.OBJ.NONE;
+                                    break;
+                                default: objType = C.OBJ.NONE;
                                     break;
                             }
                             break;

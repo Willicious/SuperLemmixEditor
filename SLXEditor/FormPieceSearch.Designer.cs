@@ -227,7 +227,9 @@
             "SkillAssigner",
             "PermaSkillAssigner",
             "PermaSkillRemover",
+            "Animation",
             "Decoration",
+            "Background",
             "Paint"});
             this.cbTriggerEffect.Location = new System.Drawing.Point(131, 180);
             this.cbTriggerEffect.Name = "cbTriggerEffect";
