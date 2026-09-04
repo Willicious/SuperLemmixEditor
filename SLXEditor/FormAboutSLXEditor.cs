@@ -108,28 +108,34 @@ namespace SLXEditor
             // (Delete and merge these into 'all features' below with each update)  
             // =======================
 
-            WriteBoldText(richTextBox, $"================ Version {C.Version} Updates ================\n");
+            WriteBoldText(richTextBox, $"Version {C.Version} Updates\n");
 
-            WriteBoldText(richTextBox, "\n• Previous/Next Level Buttons\n");
-            richTextBox.AppendText(" • Added '<<' and '>>' buttons for navigating between levels in the current directory.\n");
+            WriteBoldText(richTextBox, "\n• Talismans\n");
+            richTextBox.AppendText(" • Added support for Minimum Skill Limit talisman. This specifies a minimum amount that the player should use (up to 10) of a particular skill.\n");
 
-            WriteBoldText(richTextBox, "\n• Piece Search\n");
-            richTextBox.AppendText(" • 'Background' and 'Animation' objects are recognised as 'Decoration'.\n");
-            richTextBox.AppendText(" • Added support for 'Paint' objects.\n");
+            WriteBoldText(richTextBox, "\n• Keep Playtest Replays\n");
+            richTextBox.AppendText(" • Option added to keep playtest replays. If checked, replays generated when playtesting a level will be saved to the 'Auto_Playtest' folder. If unchecked, this folder will be deleted when the Editor is closed.\n");
 
-            WriteBoldText(richTextBox, "\n• Misc UI\n");
-            richTextBox.AppendText(" • 'Random' button is enabled by default.\n");
-            richTextBox.AppendText(" • Bugfix - Corrected width of piece style combo when 'Random' button is enabled.\n");
+            WriteBoldText(richTextBox, "\n• Open Recent\n");
+            richTextBox.AppendText(" • Recent levels can now be opened via File > Open Recent.\n");
+
+            WriteBoldText(richTextBox, "\n• Bugfixes\n");
+            richTextBox.AppendText(" • Applying a Custom Skillset immediately commits the skillset to the active level.\n");
+            richTextBox.AppendText(" • 'Animation' objects are recognised as 'No Effect'.\n");
 
             // =======================
             // All Features
             // =======================
-            WriteBoldText(richTextBox, $"\n\n================ Previous Updates ================\n");
+
+            WriteBoldText(richTextBox, $"\n\nPrevious Updates\n");
 
             WriteBoldText(richTextBox, "\n• Templates\n");
             richTextBox.AppendText(" • It's now possible to create, save and load level templates.\n");
             richTextBox.AppendText(" • From the Template Loader, choose a template to use as default. This template will then be loaded when opening the Editor or creating a new level.\n");
             richTextBox.AppendText(" • The Template Loader is shown on startup by default. This can be toggled on/off at any time.\n");
+
+            WriteBoldText(richTextBox, "\n• Previous/Next Level Buttons\n");
+            richTextBox.AppendText(" • Added '<<' and '>>' buttons for navigating between levels in the current directory.\n");
 
             WriteBoldText(richTextBox, "\n• Crop Level Width/Height\n");
             richTextBox.AppendText(" • Added a new Crop rectangle which makes it much quicker and easier to adjust level width and height to fit the layout.\n");
@@ -148,6 +154,10 @@ namespace SLXEditor
             WriteBoldText(richTextBox, "\n• Pieces List\n");
             richTextBox.AppendText(" • Added a 'Pieces List' window which displays all pieces currently active in the level.\n");
             richTextBox.AppendText(" • From here, pieces can be selected, moved behind/in front of other pieces, and deleted.\n");
+
+            WriteBoldText(richTextBox, "\n• Piece Search\n");
+            richTextBox.AppendText(" • 'Background' objects are recognised as 'Decoration'.\n");
+            richTextBox.AppendText(" • Added support for 'Paint' objects.\n");
 
             WriteBoldText(richTextBox, "\n• Style Manager\n");
             richTextBox.AppendText(" • Added a Style Manager to edit styles.ini from within the Editor.\n");
@@ -219,7 +229,8 @@ namespace SLXEditor
             richTextBox.AppendText(" • Updated some default hotkeys (Level Arranger is now Ctrl + L, Piece Browser is Ctrl + B, Expand All Tabs is Ctrl + Space).\n");
             richTextBox.AppendText(" • Removed support for 'classic hotkeys'.\n");
             richTextBox.AppendText(" • 'Missing Pieces' menu item is now only shown when relevant.\n");
-
+            richTextBox.AppendText(" • 'Random' button is enabled by default.\n");
+            richTextBox.AppendText(" • Corrected width of piece style combo when 'Random' button is enabled.\n");
 
             WriteBoldText(richTextBox, "\n• Bugfixes\n");
             richTextBox.AppendText(" • No Overwrite checkbox is once again available for all pieces (except Rulers)\n");
@@ -245,7 +256,7 @@ namespace SLXEditor
             richTextBox.AppendText(" • 'Use Auto Screen Start' is now written to/from a setting object rather that directly to/from the checkbox.\n");
 
 
-            WriteBoldText(richTextBox, $"\n\n================ NLEditor -> SLXEditor Updates ================\n");
+            WriteBoldText(richTextBox, $"\n\nNLEditor -> SLXEditor Updates\n");
 
             // =======================
             // Piece Browser
@@ -438,7 +449,7 @@ namespace SLXEditor
             WriteBoldText(richTextBox, "• Bugfix - Missing Piece Handling");
             richTextBox.AppendText(" - Levels with missing pieces no longer create multiple popups; instead, a status bar is used to inform the player that the level has missing pieces\n");
 
-            WriteBoldText(richTextBox, "• Bugfixes - UI\n");
+            WriteBoldText(richTextBox, "• UI\n");
             richTextBox.AppendText(" • All secondary windows can now be closed using the [Esc] key\n");
             richTextBox.AppendText(" • Increased minimum selectable grid size to 2px\n");
             richTextBox.AppendText(" • Settings form now stays on top when active\n");
@@ -447,13 +458,13 @@ namespace SLXEditor
             richTextBox.AppendText(" • Character limits increased to SLX Player UI limits: Title (62), Author (60), Talisman Title (54)\n");
             richTextBox.AppendText(" • Cursor anchor is now correctly preserved when zooming in and out\n");
 
-            WriteBoldText(richTextBox, "• Bugfix - Cursor Zoom");
+            WriteBoldText(richTextBox, "• Cursor Zoom");
             richTextBox.AppendText(" - Cursor anchor is now correctly preserved when zooming in and out\n");
 
-            WriteBoldText(richTextBox, "• Bugfix - Preview/Postview Text");
+            WriteBoldText(richTextBox, "• Preview/Postview Text");
             richTextBox.AppendText(" - Text is now displayed centred for better previewing\n");
 
-            WriteBoldText(richTextBox, "• Bugfix - Flipped/Inverted/Rotated Pieces\n");
+            WriteBoldText(richTextBox, "• Flipped/Inverted/Rotated Pieces\n");
             richTextBox.AppendText(" • Fixed trigger area repositionings for flipped/inverted/rotated objects\n");
             richTextBox.AppendText(" • When flipping a hatch horizontally, the Flip Offset value is calculated and written to the level file so the Player can match its position as seen in the Editor)\n");
         }
