@@ -68,13 +68,13 @@ namespace SLXEditor
         }
 
         static readonly Dictionary<string, C.StyleColor> KeyToStyleColorDict = new Dictionary<string, C.StyleColor>
-      {
-        { "BACKGROUND", C.StyleColor.BACKGROUND },
-        { "MASK", C.StyleColor.MASK },
-        { "ONE_WAYS", C.StyleColor.ONE_WAY_WALL },
-        { "PICKUP_BORDER", C.StyleColor.PICKUP_BORDER },
-        { "PICKUP_INSIDE", C.StyleColor.PICKUP_INSIDE }
-      };
+        {
+            { "BACKGROUND", C.StyleColor.BACKGROUND },
+            { "MASK", C.StyleColor.MASK },
+            { "ONE_WAYS", C.StyleColor.ONE_WAY_WALL },
+            { "PICKUP_BORDER", C.StyleColor.PICKUP_BORDER },
+            { "PICKUP_INSIDE", C.StyleColor.PICKUP_INSIDE }
+        };
 
 
         /// <summary>
