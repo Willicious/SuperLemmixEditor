@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace SLXEditor
             Rectangle triggerArea = new Rectangle(C.LEM_OFFSET_X, C.LEM_OFFSET_Y, 1, 1);
             ImageLibrary.AddNewImage(imageKey, image, C.OBJ.LEMMING, triggerArea, C.Resize.None);
         }
+
         public static void AddRulersToLibrary()
         {
             Rectangle triggerArea = new Rectangle(0, 0, 0, 0);
@@ -50,9 +52,16 @@ namespace SLXEditor
                 string name = Path.GetFileNameWithoutExtension(file);
 
                 using (Bitmap img = new Bitmap(file))
+                using (Bitmap argbImg = new Bitmap(img.Width, img.Height, PixelFormat.Format32bppArgb)) // Normalize to 32bpp ARGB format
                 {
+                    using (Graphics g = Graphics.FromImage(argbImg))
+                    {
+                        g.DrawImageUnscaled(img, 0, 0);
+                    }
+
                     string key = "rulers\\" + name;
-                    ImageLibrary.AddNewImage(key, img, C.OBJ.RULER, triggerArea, C.Resize.None);
+
+                    ImageLibrary.AddNewImage(key, argbImg, C.OBJ.RULER, triggerArea, C.Resize.None);
                     ImageLibrary.RegisterRuler(key);
                 }
             }
