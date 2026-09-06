@@ -33,6 +33,9 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openRecentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openRecentSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.clearRecentLevelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -319,9 +322,6 @@
             this.btnPreviousLevel = new System.Windows.Forms.Button();
             this.btnNextLevel = new System.Windows.Forms.Button();
             this.lblLevel = new System.Windows.Forms.Label();
-            this.openRecentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openRecentSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.clearRecentLevelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLevel)).BeginInit();
             this.tabProperties.SuspendLayout();
@@ -441,6 +441,27 @@
             this.loadToolStripMenuItem.Size = new System.Drawing.Size(354, 34);
             this.loadToolStripMenuItem.Text = "Open";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            // 
+            // openRecentToolStripMenuItem
+            // 
+            this.openRecentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openRecentSeparator,
+            this.clearRecentLevelsToolStripMenuItem});
+            this.openRecentToolStripMenuItem.Name = "openRecentToolStripMenuItem";
+            this.openRecentToolStripMenuItem.Size = new System.Drawing.Size(354, 34);
+            this.openRecentToolStripMenuItem.Text = "Open Recent";
+            // 
+            // openRecentSeparator
+            // 
+            this.openRecentSeparator.Name = "openRecentSeparator";
+            this.openRecentSeparator.Size = new System.Drawing.Size(259, 6);
+            // 
+            // clearRecentLevelsToolStripMenuItem
+            // 
+            this.clearRecentLevelsToolStripMenuItem.Name = "clearRecentLevelsToolStripMenuItem";
+            this.clearRecentLevelsToolStripMenuItem.Size = new System.Drawing.Size(262, 34);
+            this.clearRecentLevelsToolStripMenuItem.Text = "Clear Recent Levels";
+            this.clearRecentLevelsToolStripMenuItem.Click += new System.EventHandler(this.clearRecentLevelsToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -1697,7 +1718,7 @@
             // checkInvincibility
             // 
             this.checkInvincibility.AutoSize = true;
-            this.checkInvincibility.Location = new System.Drawing.Point(96, 608);
+            this.checkInvincibility.Location = new System.Drawing.Point(107, 624);
             this.checkInvincibility.Name = "checkInvincibility";
             this.checkInvincibility.Size = new System.Drawing.Size(170, 24);
             this.checkInvincibility.TabIndex = 54;
@@ -1739,7 +1760,7 @@
             // 
             // btnPairTeleporter
             // 
-            this.btnPairTeleporter.Location = new System.Drawing.Point(116, 602);
+            this.btnPairTeleporter.Location = new System.Drawing.Point(118, 567);
             this.btnPairTeleporter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnPairTeleporter.Name = "btnPairTeleporter";
             this.btnPairTeleporter.Size = new System.Drawing.Size(150, 34);
@@ -1997,7 +2018,7 @@
             "W",
             "W-NW",
             "N-NW"});
-            this.comboDecorationDirection.Location = new System.Drawing.Point(185, 607);
+            this.comboDecorationDirection.Location = new System.Drawing.Point(90, 569);
             this.comboDecorationDirection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboDecorationDirection.Name = "comboDecorationDirection";
             this.comboDecorationDirection.Size = new System.Drawing.Size(97, 28);
@@ -2007,7 +2028,7 @@
             // 
             // lblDecorationDirection
             // 
-            this.lblDecorationDirection.Location = new System.Drawing.Point(92, 610);
+            this.lblDecorationDirection.Location = new System.Drawing.Point(13, 575);
             this.lblDecorationDirection.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDecorationDirection.Name = "lblDecorationDirection";
             this.lblDecorationDirection.Size = new System.Drawing.Size(76, 26);
@@ -2017,7 +2038,7 @@
             // 
             // lblDecorationSpeed
             // 
-            this.lblDecorationSpeed.Location = new System.Drawing.Point(110, 644);
+            this.lblDecorationSpeed.Location = new System.Drawing.Point(223, 574);
             this.lblDecorationSpeed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDecorationSpeed.Name = "lblDecorationSpeed";
             this.lblDecorationSpeed.Size = new System.Drawing.Size(64, 23);
@@ -2231,7 +2252,7 @@
             0,
             0,
             0});
-            this.numDecorationSpeed.Location = new System.Drawing.Point(184, 641);
+            this.numDecorationSpeed.Location = new System.Drawing.Point(295, 573);
             this.numDecorationSpeed.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numDecorationSpeed.Maximum = new decimal(new int[] {
             999,
@@ -3865,27 +3886,6 @@
             this.lblLevel.Size = new System.Drawing.Size(46, 20);
             this.lblLevel.TabIndex = 92;
             this.lblLevel.Text = "Level";
-            // 
-            // openRecentToolStripMenuItem
-            // 
-            this.openRecentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openRecentSeparator,
-            this.clearRecentLevelsToolStripMenuItem});
-            this.openRecentToolStripMenuItem.Name = "openRecentToolStripMenuItem";
-            this.openRecentToolStripMenuItem.Size = new System.Drawing.Size(354, 34);
-            this.openRecentToolStripMenuItem.Text = "Open Recent";
-            // 
-            // openRecentSeparator
-            // 
-            this.openRecentSeparator.Name = "openRecentSeparator";
-            this.openRecentSeparator.Size = new System.Drawing.Size(267, 6);
-            // 
-            // clearRecentLevelsToolStripMenuItem
-            // 
-            this.clearRecentLevelsToolStripMenuItem.Name = "clearRecentLevelsToolStripMenuItem";
-            this.clearRecentLevelsToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.clearRecentLevelsToolStripMenuItem.Text = "Clear Recent Levels";
-            this.clearRecentLevelsToolStripMenuItem.Click += new System.EventHandler(this.clearRecentLevelsToolStripMenuItem_Click);
             // 
             // SLXEditForm
             // 
