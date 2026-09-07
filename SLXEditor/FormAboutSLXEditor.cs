@@ -110,6 +110,16 @@ namespace SLXEditor
 
             WriteBoldText(richTextBox, $"Version {C.Version} Updates\n");
 
+            //WriteBoldText(richTextBox, "\n• Template Bold Text\n");
+            //richTextBox.AppendText(" • Template Text.\n");
+
+            WriteBoldText(richTextBox, "\n• Bugfixes\n");
+            richTextBox.AppendText(" • Rulers can now be fully opaque without causing an exception due to lack of alpha channel.\n");
+            richTextBox.AppendText(" • Piece data is correctly updated after adding a ruler.\n");
+            richTextBox.AppendText(" • Piece Search - Piece data is correctly updated after adding a piece.\n");
+            richTextBox.AppendText(" • Piece Search - Trigger Effect combo now fits all items, no need for scrolling.\n");
+            richTextBox.AppendText(" • Pieces tab controls are properly positioned with no overlap.\n");
+
             WriteBoldText(richTextBox, "\n• Talismans\n");
             richTextBox.AppendText(" • Added support for Minimum Skill Limit talisman. This specifies a minimum amount that the player should use (up to 10) of a particular skill.\n");
 
