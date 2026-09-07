@@ -135,6 +135,7 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.numSI = new SLXEditor.NumUpDownOverwrite();
             this.tabPieces = new System.Windows.Forms.TabPage();
+            this.checkInvincibility = new System.Windows.Forms.CheckBox();
             this.btnShowPiecesList = new System.Windows.Forms.Button();
             this.panelPieceMetaData = new System.Windows.Forms.Panel();
             this.lblPieceSize = new System.Windows.Forms.Label();
@@ -143,7 +144,6 @@
             this.lblPieceName = new System.Windows.Forms.Label();
             this.btnLoadStyle = new System.Windows.Forms.Button();
             this.checkRival = new System.Windows.Forms.CheckBox();
-            this.checkInvincibility = new System.Windows.Forms.CheckBox();
             this.checkDigger = new System.Windows.Forms.CheckBox();
             this.checkSpearer = new System.Windows.Forms.CheckBox();
             this.checkBallooner = new System.Windows.Forms.CheckBox();
@@ -400,7 +400,7 @@
             this.optionsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1478, 33);
+            this.menuStrip.Size = new System.Drawing.Size(985, 36);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -423,7 +423,7 @@
             this.toolStripSeparator11,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 32);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
@@ -607,7 +607,7 @@
             this.groupToolStripMenuItem,
             this.ungroupToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 29);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 32);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // undoToolStripMenuItem
@@ -712,7 +712,7 @@
             this.backgroundToolStripMenuItem,
             this.deprecatedPiecesToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(65, 32);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // openLevelWindowToolStripMenuItem
@@ -881,7 +881,7 @@
             this.toolStripSeparator2,
             this.aboutToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(69, 29);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(69, 32);
             this.optionsToolStripMenuItem.Text = "Tools";
             // 
             // showMissingPiecesToolStripMenuItem
@@ -1561,11 +1561,11 @@
             // 
             // tabPieces
             // 
+            this.tabPieces.Controls.Add(this.checkInvincibility);
             this.tabPieces.Controls.Add(this.btnShowPiecesList);
             this.tabPieces.Controls.Add(this.panelPieceMetaData);
             this.tabPieces.Controls.Add(this.btnLoadStyle);
             this.tabPieces.Controls.Add(this.checkRival);
-            this.tabPieces.Controls.Add(this.checkInvincibility);
             this.tabPieces.Controls.Add(this.checkDigger);
             this.tabPieces.Controls.Add(this.checkSpearer);
             this.tabPieces.Controls.Add(this.checkBallooner);
@@ -1631,6 +1631,17 @@
             this.tabPieces.TabIndex = 1;
             this.tabPieces.Text = "Pieces";
             this.tabPieces.UseVisualStyleBackColor = true;
+            // 
+            // checkInvincibility
+            // 
+            this.checkInvincibility.AutoSize = true;
+            this.checkInvincibility.Location = new System.Drawing.Point(107, 594);
+            this.checkInvincibility.Name = "checkInvincibility";
+            this.checkInvincibility.Size = new System.Drawing.Size(170, 24);
+            this.checkInvincibility.TabIndex = 54;
+            this.checkInvincibility.Text = "Activate Invincibility";
+            this.checkInvincibility.UseVisualStyleBackColor = true;
+            this.checkInvincibility.Visible = false;
             // 
             // btnShowPiecesList
             // 
@@ -1715,17 +1726,6 @@
             this.checkRival.UseVisualStyleBackColor = true;
             this.checkRival.CheckedChanged += new System.EventHandler(this.checkSkill_CheckedChanged);
             // 
-            // checkInvincibility
-            // 
-            this.checkInvincibility.AutoSize = true;
-            this.checkInvincibility.Location = new System.Drawing.Point(107, 624);
-            this.checkInvincibility.Name = "checkInvincibility";
-            this.checkInvincibility.Size = new System.Drawing.Size(170, 24);
-            this.checkInvincibility.TabIndex = 54;
-            this.checkInvincibility.Text = "Activate Invincibility";
-            this.checkInvincibility.UseVisualStyleBackColor = true;
-            this.checkInvincibility.Visible = false;
-            // 
             // checkDigger
             // 
             this.checkDigger.Location = new System.Drawing.Point(259, 507);
@@ -1760,7 +1760,7 @@
             // 
             // btnPairTeleporter
             // 
-            this.btnPairTeleporter.Location = new System.Drawing.Point(118, 567);
+            this.btnPairTeleporter.Location = new System.Drawing.Point(229, 645);
             this.btnPairTeleporter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnPairTeleporter.Name = "btnPairTeleporter";
             this.btnPairTeleporter.Size = new System.Drawing.Size(150, 34);
@@ -1916,10 +1916,11 @@
             // 
             // lblCountdown
             // 
-            this.lblCountdown.Location = new System.Drawing.Point(82, 574);
+            this.lblCountdown.AutoSize = true;
+            this.lblCountdown.Location = new System.Drawing.Point(209, 617);
             this.lblCountdown.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCountdown.Name = "lblCountdown";
-            this.lblCountdown.Size = new System.Drawing.Size(92, 23);
+            this.lblCountdown.Size = new System.Drawing.Size(90, 20);
             this.lblCountdown.TabIndex = 53;
             this.lblCountdown.Text = "Countdown";
             this.lblCountdown.Visible = false;
@@ -2018,7 +2019,7 @@
             "W",
             "W-NW",
             "N-NW"});
-            this.comboDecorationDirection.Location = new System.Drawing.Point(90, 569);
+            this.comboDecorationDirection.Location = new System.Drawing.Point(95, 563);
             this.comboDecorationDirection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboDecorationDirection.Name = "comboDecorationDirection";
             this.comboDecorationDirection.Size = new System.Drawing.Size(97, 28);
@@ -2028,20 +2029,22 @@
             // 
             // lblDecorationDirection
             // 
-            this.lblDecorationDirection.Location = new System.Drawing.Point(13, 575);
+            this.lblDecorationDirection.AutoSize = true;
+            this.lblDecorationDirection.Location = new System.Drawing.Point(13, 565);
             this.lblDecorationDirection.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDecorationDirection.Name = "lblDecorationDirection";
-            this.lblDecorationDirection.Size = new System.Drawing.Size(76, 26);
+            this.lblDecorationDirection.Size = new System.Drawing.Size(72, 20);
             this.lblDecorationDirection.TabIndex = 44;
             this.lblDecorationDirection.Text = "Direction";
             this.lblDecorationDirection.Visible = false;
             // 
             // lblDecorationSpeed
             // 
-            this.lblDecorationSpeed.Location = new System.Drawing.Point(223, 574);
+            this.lblDecorationSpeed.AutoSize = true;
+            this.lblDecorationSpeed.Location = new System.Drawing.Point(205, 568);
             this.lblDecorationSpeed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDecorationSpeed.Name = "lblDecorationSpeed";
-            this.lblDecorationSpeed.Size = new System.Drawing.Size(64, 23);
+            this.lblDecorationSpeed.Size = new System.Drawing.Size(56, 20);
             this.lblDecorationSpeed.TabIndex = 46;
             this.lblDecorationSpeed.Text = "Speed";
             this.lblDecorationSpeed.Visible = false;
@@ -2124,20 +2127,22 @@
             // 
             // lblResizeHeight
             // 
-            this.lblResizeHeight.Location = new System.Drawing.Point(95, 644);
+            this.lblResizeHeight.AutoSize = true;
+            this.lblResizeHeight.Location = new System.Drawing.Point(11, 656);
             this.lblResizeHeight.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResizeHeight.Name = "lblResizeHeight";
-            this.lblResizeHeight.Size = new System.Drawing.Size(69, 23);
+            this.lblResizeHeight.Size = new System.Drawing.Size(56, 20);
             this.lblResizeHeight.TabIndex = 50;
             this.lblResizeHeight.Text = "Height";
             this.lblResizeHeight.Visible = false;
             // 
             // lblResizeWidth
             // 
-            this.lblResizeWidth.Location = new System.Drawing.Point(95, 612);
+            this.lblResizeWidth.AutoSize = true;
+            this.lblResizeWidth.Location = new System.Drawing.Point(13, 623);
             this.lblResizeWidth.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResizeWidth.Name = "lblResizeWidth";
-            this.lblResizeWidth.Size = new System.Drawing.Size(69, 23);
+            this.lblResizeWidth.Size = new System.Drawing.Size(50, 20);
             this.lblResizeWidth.TabIndex = 48;
             this.lblResizeWidth.Text = "Width";
             this.lblResizeWidth.Visible = false;
@@ -2220,7 +2225,7 @@
             // 
             // numCountdown
             // 
-            this.numCountdown.Location = new System.Drawing.Point(185, 572);
+            this.numCountdown.Location = new System.Drawing.Point(309, 614);
             this.numCountdown.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numCountdown.Maximum = new decimal(new int[] {
             99,
@@ -2252,7 +2257,7 @@
             0,
             0,
             0});
-            this.numDecorationSpeed.Location = new System.Drawing.Point(295, 573);
+            this.numDecorationSpeed.Location = new System.Drawing.Point(277, 568);
             this.numDecorationSpeed.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numDecorationSpeed.Maximum = new decimal(new int[] {
             999,
@@ -2317,7 +2322,7 @@
             0,
             0,
             0});
-            this.numResizeHeight.Location = new System.Drawing.Point(185, 641);
+            this.numResizeHeight.Location = new System.Drawing.Point(86, 654);
             this.numResizeHeight.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numResizeHeight.Maximum = new decimal(new int[] {
             160,
@@ -2348,7 +2353,7 @@
             0,
             0,
             0});
-            this.numResizeWidth.Location = new System.Drawing.Point(185, 607);
+            this.numResizeWidth.Location = new System.Drawing.Point(86, 621);
             this.numResizeWidth.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numResizeWidth.Maximum = new decimal(new int[] {
             320,
@@ -3893,7 +3898,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1478, 1049);
+            this.ClientSize = new System.Drawing.Size(985, 699);
             this.Controls.Add(this.lblLevel);
             this.Controls.Add(this.btnNextLevel);
             this.Controls.Add(this.btnPreviousLevel);

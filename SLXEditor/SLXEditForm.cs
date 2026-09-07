@@ -1670,6 +1670,7 @@ namespace SLXEditor
                 OpenTemplatesLoader();
 
             SetMetaDataPanel();
+            PositionPieceControls();
             MoveControlsOnFormResize();
             UpdateMissingPiecesMenuItems();
             LinkControlsToMouseEvents(this);

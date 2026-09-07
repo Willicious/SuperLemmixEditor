@@ -478,6 +478,43 @@ namespace SLXEditor
             panelPieceMetaData.Width = tabPieces.Width - 5;
         }
 
+        private void PositionPieceControls()
+        {
+            int tabCenter = tabPieces.Left + tabPieces.Width / 2;
+            int controlsTop = checkCloner.Bottom + 8;
+
+            comboDecorationDirection.Top = controlsTop;
+            comboDecorationDirection.Left = tabCenter;
+            lblDecorationDirection.Top = comboDecorationDirection.Top + 4;
+            lblDecorationDirection.Left = tabCenter - lblDecorationDirection.Width - 4;
+
+            numDecorationSpeed.Top = comboDecorationDirection.Bottom + 8;
+            numDecorationSpeed.Left = tabCenter;
+            lblDecorationSpeed.Top = numDecorationSpeed.Top + 2;
+            lblDecorationSpeed.Left = tabCenter - lblDecorationSpeed.Width - 4;
+
+            numResizeWidth.Top = numDecorationSpeed.Bottom + 8;
+            numResizeWidth.Left = tabCenter;
+            lblResizeWidth.Top = numResizeWidth.Top + 2;
+            lblResizeWidth.Left = tabCenter - lblResizeWidth.Width - 4;
+
+            numResizeHeight.Top = numResizeWidth.Bottom + 8;
+            numResizeHeight.Left = tabCenter;
+            lblResizeHeight.Top = numResizeHeight.Top + 2;
+            lblResizeHeight.Left = tabCenter - lblResizeHeight.Width - 4;
+
+            btnPairTeleporter.Top = numResizeWidth.Top;
+            btnPairTeleporter.Left = tabCenter - btnPairTeleporter.Width / 2;
+
+            checkInvincibility.Top = numResizeWidth.Top;
+            checkInvincibility.Left = tabCenter - checkInvincibility.Width / 2;
+
+            numCountdown.Top = numResizeWidth.Top;
+            numCountdown.Left = tabCenter;
+            lblCountdown.Top = lblResizeWidth.Top;
+            lblCountdown.Left = tabCenter - lblCountdown.Width - 4;
+        }
+
         /// <summary>
         /// Repositions the controls after resizing the main form.
         /// </summary>
@@ -492,7 +529,6 @@ namespace SLXEditor
 
             int levelButtonsWidth = btnNextLevel.Width + lblLevel.Width + btnPreviousLevel.Width + 26;
             statusBar.Width = this.Width - statusBar.Left - levelButtonsWidth - 6;
-
 
             RepositionPicLevel();
 
