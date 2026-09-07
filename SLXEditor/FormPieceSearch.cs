@@ -29,6 +29,7 @@ namespace SLXEditor
             this.curStyle = curStyle;
 
             check_CurrentStyleOnly.Checked = false;
+            cbTriggerEffect.MaxDropDownItems = cbTriggerEffect.Items.Count; // Fit all items in the dropdown without scrolling
         }
 
         private void FilterSearchResults()
