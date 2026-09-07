@@ -469,6 +469,15 @@ namespace SLXEditor
             openRecentToolStripMenuItem.Enabled = curSettings.RecentLevels.Levels.Count > 0;
         }
 
+        private void SetMetaDataPanel()
+        {
+            panelPieceMetaData.ForeColor = Color.SteelBlue;
+            btnLoadStyle.Top = tabProperties.Height - btnLoadStyle.Height - 38;
+            panelPieceMetaData.Top = btnLoadStyle.Top - panelPieceMetaData.Height;
+            panelPieceMetaData.Left = tabPieces.Left;
+            panelPieceMetaData.Width = tabPieces.Width - 5;
+        }
+
         /// <summary>
         /// Repositions the controls after resizing the main form.
         /// </summary>
