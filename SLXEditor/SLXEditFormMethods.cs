@@ -1089,6 +1089,7 @@ Ladderer=10";
                 {
                     AddNewPieceToLevel(newPiece, curRenderer.GetCenterPoint());
                     MaybeOpenPiecesTab();
+                    UpdatePieceMetaData();
                 }
                 catch (Exception ex)
                 {
@@ -1118,6 +1119,7 @@ Ladderer=10";
             Point pos = curRenderer.GetCenterPoint();
             AddNewPieceToLevel(pieceKey, pos);
             MaybeOpenPiecesTab();
+            UpdatePieceMetaData();
         }
 
         private void OpenLevelArrangerWindow()
