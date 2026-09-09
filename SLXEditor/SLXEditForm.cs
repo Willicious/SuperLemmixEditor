@@ -236,7 +236,6 @@ namespace SLXEditor
         {
             try
             {
-                curSettings.UseAutoStart = checkAutoStart.Checked;
                 curSettings.SaveSettings();
 
                 ClearDirectory();

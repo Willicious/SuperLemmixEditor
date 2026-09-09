@@ -189,13 +189,13 @@ namespace SLXEditor
         public void OpenSettingsWindow()
         {
             int formWidth = 650;
-            int formHeight = 500;
+            int formHeight = 470;
             int columnLeft = 30;
             int columnRight = 340;
             int groupBoxTop = 20;
             int groupBoxColumnLeft = 16;
             int groupBoxColumnRight = 208;
-            int buttonsTop = 450;
+            int buttonsTop = 420;
 
             settingsForm = new EscExitForm();
             settingsForm.StartPosition = FormStartPosition.CenterScreen;
@@ -230,7 +230,7 @@ namespace SLXEditor
             groupEditorMode.Top = 60;
             groupEditorMode.Left = columnLeft;
             groupEditorMode.Width = 280;
-            groupEditorMode.Height = 80;
+            groupEditorMode.Height = 50;
 
             RadioButton radSuperLemmixMode = new RadioButton();
             radSuperLemmixMode.Name = "radSuperLemmixMode";
@@ -262,26 +262,15 @@ namespace SLXEditor
             radAutoMode.Left = groupBoxColumnLeft + radSuperLemmixMode.Width + radNeoLemmixMode.Width - 10;
             radAutoMode.CheckedChanged += new EventHandler(EditorMode_CheckedChanged);
 
-            CheckBox checkKeepPlaytestReplays = new CheckBox();
-            checkKeepPlaytestReplays.Name = "checkKeepPlaytestReplays";
-            checkKeepPlaytestReplays.AutoSize = true;
-            checkKeepPlaytestReplays.CheckAlign = ContentAlignment.MiddleLeft;
-            checkKeepPlaytestReplays.Checked = KeepPlaytestReplays;
-            checkKeepPlaytestReplays.Text = "Keep Playtest Replays";
-            checkKeepPlaytestReplays.Top = groupBoxTop + 30;
-            checkKeepPlaytestReplays.Left = groupBoxColumnLeft;
-            checkKeepPlaytestReplays.CheckedChanged += new EventHandler(checkKeepPlaytestReplays_CheckedChanged);
-
             groupEditorMode.Controls.Add(radSuperLemmixMode);
             groupEditorMode.Controls.Add(radNeoLemmixMode);
             groupEditorMode.Controls.Add(radAutoMode);
-            groupEditorMode.Controls.Add(checkKeepPlaytestReplays);
 
             // =========================== Saving Options GroupBox =========================== //
 
             GroupBox groupSavingOptions = new GroupBox();
             groupSavingOptions.Text = "Level Saving Options";
-            groupSavingOptions.Top = 160;
+            groupSavingOptions.Top = 130;
             groupSavingOptions.Left = columnLeft;
             groupSavingOptions.Width = 280;
             groupSavingOptions.Height = 110;
@@ -361,8 +350,8 @@ namespace SLXEditor
             // ======================= Piece Browser Mode GroupBox ======================== //
 
             GroupBox groupPieceBrowserMode = new GroupBox();
-            groupPieceBrowserMode.Text = "Piece Browser Mode";
-            groupPieceBrowserMode.Top = 290;
+            groupPieceBrowserMode.Text = "Piece Browser";
+            groupPieceBrowserMode.Top = 260;
             groupPieceBrowserMode.Left = columnLeft;
             groupPieceBrowserMode.Width = 280;
             groupPieceBrowserMode.Height = 140;
@@ -436,10 +425,10 @@ namespace SLXEditor
             groupPieceBrowserMode.Controls.Add(checkInfiniteScrolling);
             groupPieceBrowserMode.Controls.Add(checkShowRandomButton);
 
-            // ========================== Snap-to-Grid GroupBox ========================== //
+            // ========================== Grid Settings GroupBox ========================== //
 
             GroupBox groupSnapToGrid = new GroupBox();
-            groupSnapToGrid.Text = "Snap Pieces to Grid";
+            groupSnapToGrid.Text = "Grid Settings";
             groupSnapToGrid.Top = 60;
             groupSnapToGrid.Left = columnRight;
             groupSnapToGrid.Width = 280;
@@ -493,14 +482,14 @@ namespace SLXEditor
             groupSnapToGrid.Controls.Add(lblGridColor);
             groupSnapToGrid.Controls.Add(comboGridColor);
 
-            // ========================== Custom Move GroupBox =========================== //
+            // ========================== Other Settings GroupBox =========================== //
 
-            GroupBox groupCustomMove = new GroupBox();
-            groupCustomMove.Text = "Custom move selected pieces";
-            groupCustomMove.Top = 160;
-            groupCustomMove.Left = columnRight;
-            groupCustomMove.Width = 280;
-            groupCustomMove.Height = 50;
+            GroupBox groupOtherSettings = new GroupBox();
+            groupOtherSettings.Text = "Other Settings";
+            groupOtherSettings.Top = 160;
+            groupOtherSettings.Left = columnRight;
+            groupOtherSettings.Width = 280;
+            groupOtherSettings.Height = 200;
 
             Label lblCustomMove = new Label();
             lblCustomMove.Text = "Custom move amount in pixels:";
@@ -521,22 +510,10 @@ namespace SLXEditor
             numCustomMove.ValueChanged += new EventHandler(numCustomMove_ValueChanged);
             numCustomMove.KeyDown += new KeyEventHandler(numUpDown_KeyDown);
 
-            groupCustomMove.Controls.Add(lblCustomMove);
-            groupCustomMove.Controls.Add(numCustomMove);
-
-            // ========================== Trigger Area Color GroupBox ========================== //
-
-            GroupBox groupTriggerAreaColor = new GroupBox();
-            groupTriggerAreaColor.Text = "Trigger Area Color";
-            groupTriggerAreaColor.Top = 230;
-            groupTriggerAreaColor.Left = columnRight;
-            groupTriggerAreaColor.Width = 280;
-            groupTriggerAreaColor.Height = 50;
-
             Label lblTriggerAreaColor = new Label();
             lblTriggerAreaColor.Name = "lblTriggerAreaColor";
             lblTriggerAreaColor.Text = "Choose trigger area color:";
-            lblTriggerAreaColor.Top = groupBoxTop;
+            lblTriggerAreaColor.Top = groupBoxTop + 30;
             lblTriggerAreaColor.Left = groupBoxColumnLeft;
             lblTriggerAreaColor.AutoSize = true;
             lblTriggerAreaColor.Enabled = true;
@@ -552,18 +529,6 @@ namespace SLXEditor
             comboTriggerAreaColor.SelectedItem = CurrentTriggerAreaColor.ToString();
             comboTriggerAreaColor.SelectedIndexChanged += new EventHandler(comboTriggerAreaColor_IndexChanged);
 
-            groupTriggerAreaColor.Controls.Add(lblTriggerAreaColor);
-            groupTriggerAreaColor.Controls.Add(comboTriggerAreaColor);
-
-            // ========================== Spawn Interval GroupBox ========================== //
-
-            GroupBox groupSpawnInterval = new GroupBox();
-            groupSpawnInterval.Text = "Spawn Interval / Release Rate";
-            groupSpawnInterval.Top = 300;
-            groupSpawnInterval.Left = columnRight;
-            groupSpawnInterval.Width = 280;
-            groupSpawnInterval.Height = 50;
-
             RadioButton radUseSpawnInterval = new RadioButton();
             radUseSpawnInterval.Name = "radUseSpawnInterval";
             radUseSpawnInterval.AutoSize = true;
@@ -571,7 +536,7 @@ namespace SLXEditor
             radUseSpawnInterval.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             radUseSpawnInterval.Checked = UseSpawnInterval;
             radUseSpawnInterval.Text = "Spawn Interval";
-            radUseSpawnInterval.Top = groupBoxTop;
+            radUseSpawnInterval.Top = groupBoxTop + 60;
             radUseSpawnInterval.Left = groupBoxColumnLeft;
             radUseSpawnInterval.CheckedChanged += new EventHandler(UseSpawnInterval_CheckedChanged);
 
@@ -582,21 +547,29 @@ namespace SLXEditor
             radUseReleaseRate.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
             radUseReleaseRate.Checked = !UseSpawnInterval;
             radUseReleaseRate.Text = "Release Rate";
-            radUseReleaseRate.Top = groupBoxTop;
+            radUseReleaseRate.Top = radUseSpawnInterval.Top;
             radUseReleaseRate.Left = groupBoxColumnLeft + radUseSpawnInterval.Width - 16;
             radUseReleaseRate.CheckedChanged += new EventHandler(UseSpawnInterval_CheckedChanged);
 
-            groupSpawnInterval.Controls.Add(radUseSpawnInterval);
-            groupSpawnInterval.Controls.Add(radUseReleaseRate);
+            CheckBox checkUseAutoStart = new CheckBox();
+            checkUseAutoStart.Name = "checkUseAutoStart";
+            checkUseAutoStart.AutoSize = true;
+            checkUseAutoStart.CheckAlign = ContentAlignment.MiddleLeft;
+            checkUseAutoStart.Checked = UseAutoStart;
+            checkUseAutoStart.Text = "Always Use Auto Screen Start";
+            checkUseAutoStart.Top = groupBoxTop + 90;
+            checkUseAutoStart.Left = groupBoxColumnLeft;
+            checkUseAutoStart.CheckedChanged += new EventHandler(checkUseAutoStart_CheckedChanged);
 
-            // ========================== Control Hints GroupBox ========================== //
-
-            GroupBox groupControlHints = new GroupBox();
-            groupControlHints.Text = "Control Hints";
-            groupControlHints.Top = 370;
-            groupControlHints.Left = columnRight;
-            groupControlHints.Width = 300;
-            groupControlHints.Height = 50;
+            CheckBox checkKeepPlaytestReplays = new CheckBox();
+            checkKeepPlaytestReplays.Name = "checkKeepPlaytestReplays";
+            checkKeepPlaytestReplays.AutoSize = true;
+            checkKeepPlaytestReplays.CheckAlign = ContentAlignment.MiddleLeft;
+            checkKeepPlaytestReplays.Checked = KeepPlaytestReplays;
+            checkKeepPlaytestReplays.Text = "Keep Playtest Replays";
+            checkKeepPlaytestReplays.Top = groupBoxTop + 120;
+            checkKeepPlaytestReplays.Left = groupBoxColumnLeft;
+            checkKeepPlaytestReplays.CheckedChanged += new EventHandler(checkKeepPlaytestReplays_CheckedChanged);
 
             CheckBox checkShowControlHints = new CheckBox();
             checkShowControlHints.Name = "checkShowControlHints";
@@ -604,11 +577,19 @@ namespace SLXEditor
             checkShowControlHints.CheckAlign = ContentAlignment.MiddleLeft;
             checkShowControlHints.Checked = ShowControlHints;
             checkShowControlHints.Text = "Show Control Hints in Status Bar";
-            checkShowControlHints.Top = groupBoxTop;
+            checkShowControlHints.Top = groupBoxTop + 150;
             checkShowControlHints.Left = groupBoxColumnLeft;
             checkShowControlHints.CheckedChanged += new EventHandler(checkShowControlHints_CheckedChanged);
 
-            groupControlHints.Controls.Add(checkShowControlHints);
+            groupOtherSettings.Controls.Add(lblCustomMove);
+            groupOtherSettings.Controls.Add(numCustomMove);
+            groupOtherSettings.Controls.Add(lblTriggerAreaColor);
+            groupOtherSettings.Controls.Add(comboTriggerAreaColor);
+            groupOtherSettings.Controls.Add(radUseSpawnInterval);
+            groupOtherSettings.Controls.Add(radUseReleaseRate);
+            groupOtherSettings.Controls.Add(checkUseAutoStart);
+            groupOtherSettings.Controls.Add(checkKeepPlaytestReplays);
+            groupOtherSettings.Controls.Add(checkShowControlHints);
 
             // ========================== Save And Close Button ========================== //
 
@@ -640,12 +621,9 @@ namespace SLXEditor
 
             settingsForm.Controls.Add(groupEditorMode);
             settingsForm.Controls.Add(groupPieceBrowserMode);
-            settingsForm.Controls.Add(groupCustomMove);
-            settingsForm.Controls.Add(groupSnapToGrid);
-            settingsForm.Controls.Add(groupTriggerAreaColor);
-            settingsForm.Controls.Add(groupSpawnInterval);
-            settingsForm.Controls.Add(groupControlHints);
             settingsForm.Controls.Add(groupSavingOptions);
+            settingsForm.Controls.Add(groupSnapToGrid);
+            settingsForm.Controls.Add(groupOtherSettings);
 
             settingsForm.Controls.Add(btnSaveAndClose);
             settingsForm.Controls.Add(btnCancel);
@@ -847,6 +825,17 @@ namespace SLXEditor
             {
                 btnSaveAndClose.Focus();
             }
+        }
+
+        private void checkUseAutoStart_CheckedChanged(object sender, EventArgs e)
+        {
+            UseAutoStart = ((sender as CheckBox).CheckState == CheckState.Checked);
+            settingChanged = true;
+
+            bool autoStartActive = editorForm.checkAutoStart.Checked;
+
+            if (!autoStartActive) 
+                editorForm.checkAutoStart.Checked = UseAutoStart;
         }
 
         private void checkKeepPlaytestReplays_CheckedChanged(object sender, EventArgs e)

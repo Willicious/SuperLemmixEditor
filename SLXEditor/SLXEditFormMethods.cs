@@ -617,6 +617,9 @@ Ladderer=10";
                 curRenderer.Dispose();
             curRenderer = new Renderer(CurLevel, picLevel, curSettings);
 
+            if (curSettings.UseAutoStart)
+                CurLevel.AutoStartPos = true;
+
             oldLevelList = new List<Level>();
             oldLevelList.Add(CurLevel.Clone());
             curOldLevelIndex = 0;
