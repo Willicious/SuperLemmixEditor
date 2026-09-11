@@ -84,7 +84,7 @@ namespace SLXEditor
             var displayTabItems = new Dictionary<C.DisplayType, ToolStripMenuItem>()
                 {
                     { C.DisplayType.Background, backgroundToolStripMenuItem },
-                    { C.DisplayType.ClearPhysics, clearPhysicsToolStripMenuItem },
+                    { C.DisplayType.PhysicsView, physicsViewToolStripMenuItem },
                     { C.DisplayType.Objects, objectToolStripMenuItem },
                     { C.DisplayType.ScreenStart, screenStartToolStripMenuItem },
                     { C.DisplayType.Terrain, terrainToolStripMenuItem },
@@ -389,9 +389,9 @@ namespace SLXEditor
             HighlightEraserPieces();
         }
 
-        private void clearPhysicsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void physicsViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ToggleClearPhysics();
+            TogglePhysicsView();
         }
 
         private void terrainToolStripMenuItem_Click(object sender, EventArgs e)

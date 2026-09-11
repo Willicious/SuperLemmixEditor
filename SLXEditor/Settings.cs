@@ -175,7 +175,7 @@ namespace SLXEditor
             DisplaySettings.SetDisplayed(C.DisplayType.ScreenStart, false);
             DisplaySettings.SetDisplayed(C.DisplayType.Triggers, false);
             DisplaySettings.SetDisplayed(C.DisplayType.Rulers, true);
-            DisplaySettings.SetDisplayed(C.DisplayType.ClearPhysics, false);
+            DisplaySettings.SetDisplayed(C.DisplayType.PhysicsView, false);
             DisplaySettings.SetDisplayed(C.DisplayType.Deprecated, false);
 
             RecentLevels.Clear();

@@ -2918,9 +2918,9 @@ Ladderer=10";
             curSettings.SaveSettings();
         }
 
-        private void ToggleClearPhysics()
+        private void TogglePhysicsView()
         {
-            DisplaySettings.ChangeDisplayed(C.DisplayType.ClearPhysics);
+            DisplaySettings.ChangeDisplayed(C.DisplayType.PhysicsView);
             picLevel.SetImage(curRenderer.CreateLevelImage());
         }
 
@@ -3181,7 +3181,7 @@ Ladderer=10";
             AddHotkey(HotkeyName.HotkeyCleanseLevels, () => ShowCleanseLevelsDialog());
             AddHotkey(HotkeyName.HotkeyHighlightGroupedPieces, () => HighlightGroupedPieces());
             AddHotkey(HotkeyName.HotkeyHighlightEraserPieces, () => HighlightEraserPieces());
-            AddHotkey(HotkeyName.HotkeyToggleClearPhysics, () => ToggleClearPhysics());
+            AddHotkey(HotkeyName.HotkeyTogglePhysicsView, () => TogglePhysicsView());
             AddHotkey(HotkeyName.HotkeyToggleTerrain, () => ToggleTerrain());
             AddHotkey(HotkeyName.HotkeyToggleSteel, () => ToggleSteel());
             AddHotkey(HotkeyName.HotkeyToggleObjects, () => ToggleObjects());
@@ -3356,8 +3356,8 @@ Ladderer=10";
             highlightEraserPiecesToolStripMenuItem.ShortcutKeyDisplayString =
                 FormatHotkeyString(HotkeyName.HotkeyHighlightEraserPieces);
 
-            clearPhysicsToolStripMenuItem.ShortcutKeyDisplayString =
-                FormatHotkeyString(HotkeyName.HotkeyToggleClearPhysics);
+            physicsViewToolStripMenuItem.ShortcutKeyDisplayString =
+                FormatHotkeyString(HotkeyName.HotkeyTogglePhysicsView);
 
             terrainToolStripMenuItem.ShortcutKeyDisplayString =
                 FormatHotkeyString(HotkeyName.HotkeyToggleTerrain);

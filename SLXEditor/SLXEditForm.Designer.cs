@@ -74,7 +74,7 @@
             this.highlightGroupedPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.highlightEraserPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.clearPhysicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.physicsViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.terrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.steelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -701,7 +701,7 @@
             this.highlightGroupedPiecesToolStripMenuItem,
             this.highlightEraserPiecesToolStripMenuItem,
             this.toolStripSeparator7,
-            this.clearPhysicsToolStripMenuItem,
+            this.physicsViewToolStripMenuItem,
             this.toolStripSeparator8,
             this.terrainToolStripMenuItem,
             this.steelToolStripMenuItem,
@@ -775,14 +775,14 @@
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(457, 6);
             // 
-            // clearPhysicsToolStripMenuItem
+            // physicsViewToolStripMenuItem
             // 
-            this.clearPhysicsToolStripMenuItem.CheckOnClick = true;
-            this.clearPhysicsToolStripMenuItem.Name = "clearPhysicsToolStripMenuItem";
-            this.clearPhysicsToolStripMenuItem.ShortcutKeyDisplayString = "F1";
-            this.clearPhysicsToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.clearPhysicsToolStripMenuItem.Text = "Clear Physics Mode";
-            this.clearPhysicsToolStripMenuItem.Click += new System.EventHandler(this.clearPhysicsToolStripMenuItem_Click);
+            this.physicsViewToolStripMenuItem.CheckOnClick = true;
+            this.physicsViewToolStripMenuItem.Name = "physicsViewToolStripMenuItem";
+            this.physicsViewToolStripMenuItem.ShortcutKeyDisplayString = "F1";
+            this.physicsViewToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.physicsViewToolStripMenuItem.Text = "Physics View";
+            this.physicsViewToolStripMenuItem.Click += new System.EventHandler(this.physicsViewToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 
@@ -4025,7 +4025,7 @@
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clearPhysicsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem physicsViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem terrainToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem objectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem triggerAreasToolStripMenuItem;

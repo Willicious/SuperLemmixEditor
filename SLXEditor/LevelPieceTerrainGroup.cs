@@ -35,15 +35,15 @@ namespace SLXEditor
             Bitmap groupImage;
             using (Renderer groupRenderer = new Renderer())
             {
-                bool oldClearPhysics = DisplaySettings.IsDisplayed(C.DisplayType.ClearPhysics);
+                bool oldPhysicsView = DisplaySettings.IsDisplayed(C.DisplayType.PhysicsView);
 
-                if (oldClearPhysics)
-                    DisplaySettings.ChangeDisplayed(C.DisplayType.ClearPhysics);
+                if (oldPhysicsView)
+                    DisplaySettings.ChangeDisplayed(C.DisplayType.PhysicsView);
 
                 groupImage = groupRenderer.CreateTerrainGroupImage(terrainPieces);
 
-                if (oldClearPhysics)
-                    DisplaySettings.ChangeDisplayed(C.DisplayType.ClearPhysics);
+                if (oldPhysicsView)
+                    DisplaySettings.ChangeDisplayed(C.DisplayType.PhysicsView);
             }
 
             Rectangle cropRect = groupImage.GetCropTransparentRectangle();
