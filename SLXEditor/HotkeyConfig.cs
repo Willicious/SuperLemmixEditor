@@ -623,14 +623,9 @@ namespace SLXEditor
 
                 // Lookup the hotkey
                 HotkeyData hotkey = AllHotkeys.FirstOrDefault(h => h.Name.ToString() == name);
-                if (hotkey == null)
-                {
-                    invalidKey = $"Unknown hotkey '{name}'";
-                    return true;
-                }
 
                 // Special case for HotkeySelectPieces if needed
-                if (hotkey.Name == HotkeyName.HotkeySelectPieces)
+                if (hotkey != null && hotkey.Name == HotkeyName.HotkeySelectPieces)
                 {
                     foundSelectPieces = true;
                     Keys baseKey = parsedKey & ~Keys.Modifiers;
@@ -658,7 +653,7 @@ namespace SLXEditor
                 }
 
                 // Check for mandatory mouse buttons
-                if (hotkey.RequiresMouseButton)
+                if (hotkey != null && hotkey.RequiresMouseButton)
                 {
                     Keys baseKey = parsedKey & ~Keys.Modifiers;
                     if (!MouseKeys.Contains(baseKey))
