@@ -656,11 +656,28 @@ namespace SLXEditor
         /// </summary>
         private void MoveSelectedOneToTop()
         {
+            //  Move all selected terrain pieces towards the top of the list
             int endTerrIndex = GetMoveTopEndIndex(TerrainList);
             TerrainList = MoveSelectedAllToTop(TerrainList, endTerrIndex);
 
-            int endGadgetIndex = GetMoveTopEndIndex(GadgetList);
-            GadgetList = MoveSelectedAllToTop(GadgetList, endGadgetIndex);
+            // Sort hatches and gadgets separately so that hatches only ever move by 1 index (other gadgets must be overlapping to only move by 1)
+            List<GadgetPiece> hatches = GadgetList.FindAll(item => item.ObjType == C.OBJ.HATCH);
+            List<GadgetPiece> gadgets = GadgetList.FindAll(item => item.ObjType != C.OBJ.HATCH);
+
+            for (int i = 1; i < hatches.Count; i++)
+            {
+                if (hatches[i].IsSelected)
+                {
+                    GadgetPiece hatch = hatches[i];
+                    hatches[i] = hatches[i - 1];
+                    hatches[i - 1] = hatch;
+                }
+            }
+
+            int endGadgetIndex = GetMoveTopEndIndex(gadgets);
+            gadgets = MoveSelectedAllToTop(gadgets, endGadgetIndex);
+
+            GadgetList = hatches.Concat(gadgets).ToList();
         }
 
         /// <summary>
@@ -668,11 +685,28 @@ namespace SLXEditor
         /// </summary>
         private void MoveSelectedOneToBottom()
         {
+            //  Move all selected terrain pieces towards the bottom of the list
             int startTerrIndex = GetMoveBottomStartIndex(TerrainList);
             TerrainList = MoveSelectedAllToBottom(TerrainList, startTerrIndex);
 
-            int startGadgetIndex = GetMoveBottomStartIndex(GadgetList);
-            GadgetList = MoveSelectedAllToBottom(GadgetList, startGadgetIndex);
+            // Sort hatches and gadgets separately so that hatches only ever move by 1 index (other gadgets must be overlapping to only move by 1)
+            List<GadgetPiece> hatches = GadgetList.FindAll(item => item.ObjType == C.OBJ.HATCH);
+            List<GadgetPiece> gadgets = GadgetList.FindAll(item => item.ObjType != C.OBJ.HATCH);
+
+            for (int i = hatches.Count - 2; i >= 0; i--)
+            {
+                if (hatches[i].IsSelected)
+                {
+                    GadgetPiece hatch = hatches[i];
+                    hatches[i] = hatches[i + 1];
+                    hatches[i + 1] = hatch;
+                }
+            }
+
+            int startGadgetIndex = GetMoveBottomStartIndex(gadgets);
+            gadgets = MoveSelectedAllToBottom(gadgets, startGadgetIndex);
+
+            GadgetList = hatches.Concat(gadgets).ToList();
         }
 
         /// <summary>
