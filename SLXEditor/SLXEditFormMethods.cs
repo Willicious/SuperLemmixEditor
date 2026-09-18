@@ -2105,7 +2105,8 @@ Ladderer=10";
                         break;
                     case C.SelectPieceType.Backgrounds:
                         string[] splitKey = pieceKey.Split('/', '\\');
-                        CurLevel.Background = new Background(pieceCurStyle, splitKey[2]);
+                        Style backgroundStyle = StyleList.Find(sty => sty.NameInDirectory.Equals(splitKey[0]));
+                        CurLevel.Background = new Background(backgroundStyle, splitKey[2]);
                         UpdateBackgroundImage();
                         picLevel.SetImage(curRenderer.CombineLayers());
                         break;

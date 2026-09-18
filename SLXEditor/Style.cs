@@ -109,21 +109,98 @@ namespace SLXEditor
         }
 
         /// <summary>
-        /// Writes all pieces in AppPath/StyleName/backgrounds to the list of BackgroundNames.
+        /// Add available backgrounds to the list.
         /// </summary>
+        private void AddBackground(string primaryPath, string secondaryPath, string fileName)
+        {
+            string image = Path.Combine(primaryPath, fileName);
+
+            if (!File.Exists(image))
+            {
+                if (secondaryPath == null)
+                    return;
+                
+                image = Path.Combine(secondaryPath, fileName);
+            }
+
+            if (File.Exists(image))
+                backgroundKeys.Add(ImageLibrary.CreatePieceKey(image));
+        }
+
         private void SearchDirectoryForBackgrounds()
         {
+            // Load first the style-specific backgrounds
             string directoryPath = C.AppPathStyles + NameInDirectory + C.DirSep + "backgrounds";
 
             if (Directory.Exists(directoryPath))
             {
                 backgroundKeys = Directory.GetFiles(directoryPath, "*.png", SearchOption.TopDirectoryOnly)
-                                       .Select(file => ImageLibrary.CreatePieceKey(file))
-                                       .ToList();
+                    .Select(file => ImageLibrary.CreatePieceKey(file))
+                    .ToList();
             }
-            else // use empty list
+            else
             {
                 backgroundKeys = new List<string>();
+            }
+
+            // Load now the special backgrounds into the list
+            string pathSpecial = C.AppPathStyles + "special" + C.DirSep + "backgrounds";
+            string pathTiles = C.AppPathStyles + "proxima_tile" + C.DirSep + "backgrounds";
+
+            if (!Directory.Exists(pathSpecial) && !Directory.Exists(pathTiles))
+                return;
+
+            // Add the global backgrounds from "special"
+            AddBackground(pathSpecial, null, "amiga_blue.png");
+            AddBackground(pathSpecial, null, "dos_black.png");
+
+            // Add specific tiles to the OG styles - try "special" and "proxima_tile" for these
+            switch (NameInDirectory.ToLowerInvariant())
+            {
+                case "ohno_brick":
+                case "slx_brick":
+                    AddBackground(pathSpecial, pathTiles, "red.png");
+                    break;
+
+                case "ohno_bubble":
+                case "slx_bubble":
+                    AddBackground(pathSpecial, pathTiles, "purple.png");
+                    break;
+
+                case "ohno_rock":
+                case "slx_rock":
+                    AddBackground(pathSpecial, pathTiles, "olive.png");
+                    AddBackground(pathSpecial, pathTiles, "purple.png");
+                    break;
+
+                case "ohno_snow":
+                case "slx_snow":
+                case "orig_crystal":
+                case "slx_crystal":
+                    AddBackground(pathSpecial, pathTiles, "blue.png");
+                    break;
+
+                case "orig_dirt":
+                case "slx_dirt":
+                    AddBackground(pathSpecial, pathTiles, "brown.png");
+                    break;
+
+                case "orig_fire":
+                case "slx_fire":
+                    AddBackground(pathSpecial, pathTiles, "red.png");
+                    break;
+
+                case "orig_marble":
+                case "slx_marble":
+                    AddBackground(pathSpecial, pathTiles, "indigo.png");
+                    AddBackground(pathSpecial, pathTiles, "purple.png");
+                    break;
+
+                case "orig_pillar":
+                case "slx_pillar":
+                    AddBackground(pathSpecial, pathTiles, "brown.png");
+                    AddBackground(pathSpecial, pathTiles, "olive.png");
+                    break;
             }
         }
 
