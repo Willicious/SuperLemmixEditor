@@ -133,6 +133,7 @@ namespace SLXEditor
                 pieceCurStyle = null;
             }
             LoadPiecesIntoPictureBox();
+            SetPieceHighlight();
 
             dragNewPieceTimer = new Timer();
             dragNewPieceTimer.Tick += new EventHandler((object sender, EventArgs e) => UpdateNewPiecePicBox());
@@ -169,7 +170,8 @@ namespace SLXEditor
         Style pieceCurStyle;
         int pieceStartIndex;
         C.SelectPieceType pieceDoDisplayKind;
-
+        private int selectedPieceBrowserIndex = -1;
+        private string selectedPieceKey = string.Empty;
         string dragNewPieceKey;
         Timer dragNewPieceTimer;
 
@@ -1899,6 +1901,11 @@ namespace SLXEditor
         private void clearRecentLevelsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ClearRecentLevels();
+        }
+
+        private void lblPieceHighlight_Click(object sender, EventArgs e)
+        {
+            lblPieceHighlight.Visible = false;
         }
     }
 }

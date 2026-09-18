@@ -298,6 +298,7 @@
             this.tabSkillsExp = new System.Windows.Forms.TabControl();
             this.tabExtrasExp = new System.Windows.Forms.TabControl();
             this.panelPieceBrowser = new System.Windows.Forms.Panel();
+            this.lblPieceHighlight = new System.Windows.Forms.Label();
             this.btnStyleRandom = new System.Windows.Forms.Button();
             this.picPiece7 = new System.Windows.Forms.PictureBox();
             this.btnSteel = new System.Windows.Forms.Button();
@@ -400,7 +401,7 @@
             this.optionsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(985, 36);
+            this.menuStrip.Size = new System.Drawing.Size(1436, 33);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -423,7 +424,7 @@
             this.toolStripSeparator11,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 32);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
@@ -607,7 +608,7 @@
             this.groupToolStripMenuItem,
             this.ungroupToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 32);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 29);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // undoToolStripMenuItem
@@ -712,7 +713,7 @@
             this.backgroundToolStripMenuItem,
             this.deprecatedPiecesToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(65, 32);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // openLevelWindowToolStripMenuItem
@@ -881,7 +882,7 @@
             this.toolStripSeparator2,
             this.aboutToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(69, 32);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(69, 29);
             this.optionsToolStripMenuItem.Text = "Tools";
             // 
             // showMissingPiecesToolStripMenuItem
@@ -3571,6 +3572,7 @@
             // panelPieceBrowser
             // 
             this.panelPieceBrowser.BackColor = System.Drawing.Color.Transparent;
+            this.panelPieceBrowser.Controls.Add(this.lblPieceHighlight);
             this.panelPieceBrowser.Controls.Add(this.btnStyleRandom);
             this.panelPieceBrowser.Controls.Add(this.picPiece7);
             this.panelPieceBrowser.Controls.Add(this.btnSteel);
@@ -3595,6 +3597,20 @@
             this.panelPieceBrowser.Name = "panelPieceBrowser";
             this.panelPieceBrowser.Size = new System.Drawing.Size(1454, 176);
             this.panelPieceBrowser.TabIndex = 67;
+            // 
+            // lblPieceHighlight
+            // 
+            this.lblPieceHighlight.AutoSize = true;
+            this.lblPieceHighlight.BackColor = System.Drawing.Color.Lime;
+            this.lblPieceHighlight.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPieceHighlight.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lblPieceHighlight.Location = new System.Drawing.Point(1187, 82);
+            this.lblPieceHighlight.Name = "lblPieceHighlight";
+            this.lblPieceHighlight.Size = new System.Drawing.Size(39, 37);
+            this.lblPieceHighlight.TabIndex = 88;
+            this.lblPieceHighlight.Text = "X";
+            this.lblPieceHighlight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPieceHighlight.Click += new System.EventHandler(this.lblPieceHighlight_Click);
             // 
             // btnStyleRandom
             // 
@@ -3898,7 +3914,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(985, 699);
+            this.ClientSize = new System.Drawing.Size(1436, 1056);
             this.Controls.Add(this.lblLevel);
             this.Controls.Add(this.btnNextLevel);
             this.Controls.Add(this.btnPreviousLevel);
@@ -4307,6 +4323,7 @@
         private System.Windows.Forms.ToolStripMenuItem openRecentToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator openRecentSeparator;
         private System.Windows.Forms.ToolStripMenuItem clearRecentLevelsToolStripMenuItem;
+        private System.Windows.Forms.Label lblPieceHighlight;
     }
 }
 
