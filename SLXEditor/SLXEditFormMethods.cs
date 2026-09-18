@@ -1076,6 +1076,7 @@ Ladderer=10";
                 if (style != null)
                 {   // Set style based on its user-friendly name
                     comboPieceStyle.Text = style.NameInEditor;
+                    SelectPieceInBrowser(searchForm.NewPiece);
                 }
                 else
                 {
@@ -2069,6 +2070,67 @@ Ladderer=10";
             }
 
             return pieceList[(pieceStartIndex + actualPicPieceIndex) % pieceList.Count];
+        }
+
+        /// <summary>
+        /// Select a specific piece in the Piece Browser from its key
+        /// </summary>
+        private bool SelectPieceInBrowser(string pieceKey)
+        {
+            if (pieceCurStyle == null || string.IsNullOrEmpty(pieceKey))
+                return false;
+
+            List<string> pieceKeys = null;
+            C.SelectPieceType displayKind;
+
+            if (pieceKey.StartsWith("rulers\\", StringComparison.OrdinalIgnoreCase))
+            {
+                displayKind = C.SelectPieceType.Rulers;
+                pieceKeys = new List<string>(ImageLibrary.RulerKeys);
+            }
+            else if (pieceCurStyle.TerrainKeys.Contains(pieceKey))
+            {
+                displayKind = C.SelectPieceType.Terrain;
+                pieceKeys = pieceCurStyle.TerrainKeys;
+            }
+            else if (pieceCurStyle.SteelKeys.Contains(pieceKey))
+            {
+                displayKind = C.SelectPieceType.Steel;
+                pieceKeys = pieceCurStyle.SteelKeys;
+            }
+            else if (pieceCurStyle.ObjectKeys.Contains(pieceKey))
+            {
+                displayKind = C.SelectPieceType.Objects;
+                pieceKeys = pieceCurStyle.ObjectKeys;
+            }
+            else if (pieceCurStyle.BackgroundKeys.Contains(pieceKey))
+            {
+                displayKind = C.SelectPieceType.Backgrounds;
+                pieceKeys = pieceCurStyle.BackgroundKeys;
+            }
+            else return false;
+
+            int index = pieceKeys.IndexOf(pieceKey);
+
+            if (index < 0)
+                return false;
+
+            pieceDoDisplayKind = displayKind;
+
+            if (curSettings.InfiniteScrolling)
+            {
+                int middleIndex = picPieceList.Count / 2;
+                pieceStartIndex = (index - middleIndex + pieceKeys.Count) % pieceKeys.Count;
+            }
+            else
+            {
+                int maxIndex = Math.Max(0, pieceKeys.Count - picPieceList.Count);
+                int middleIndex = picPieceList.Count / 2;
+                pieceStartIndex = Math.Max(0, Math.Min(index - middleIndex, maxIndex));
+            }
+
+            LoadPiecesIntoPictureBox();
+            return true;
         }
 
         private void AddPieceViaHotkey(int hotkeyIndex)

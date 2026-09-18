@@ -17,6 +17,14 @@ namespace SLXEditor
 
         private List<string> cachedSearchResults = null;
 
+        public event Action<string> StyleSelected;
+        public event Action<string> PieceSelected;
+
+        string newStylePath = string.Empty;
+        string newPiece = string.Empty;
+
+        public string NewPiece => newPiece;
+
         public FormPieceSearch(string rootPath, Style curStyle)
         {
             // Explicitly set the directory in case the Editor has been opened via a level file
@@ -41,16 +49,18 @@ namespace SLXEditor
         private void SetControlsActive(bool allowUserInput)
         {
             if (allowUserInput)
-            {   
+            {
                 //progressBar.Visible = false;
-                lblSearchingStyles.Visible = false;
+                lblFilterResults.Text = "Filter results:";
+                panelSearchFilters.Enabled = true;
 
                 this.Cursor = Cursors.Default;
             }
             else
             {
                 //progressBar.Visible = true;
-                lblSearchingStyles.Visible = true;
+                lblFilterResults.Text = "Generating results. Please wait...";
+                panelSearchFilters.Enabled = false;
 
                 this.Cursor = Cursors.WaitCursor;
             }
@@ -253,8 +263,8 @@ namespace SLXEditor
                             case "ADDSKILL": triggerEffect = "PERMASKILLASSIGNER"; break;
                             case "REMOVESKILLS": triggerEffect = "PERMASKILLREMOVER"; break;
                             case "ANIMATIONONCE":
-                            case "BACKGROUND": triggerEffect = "DECORATION"; break;
                             case "ANIMATION": triggerEffect = "ANIMATION"; break;
+                            case "BACKGROUND": triggerEffect = "DECORATION"; break;
                         }
                     }
 
@@ -370,28 +380,43 @@ namespace SLXEditor
             lblMetaData.Text = $"Style: {style}\nSubfolder: {subfolder}\nPiece: {piece}\nSize: {size}";
         }
 
-        private void btnLoadStyle_Click(object sender, EventArgs e)
+        private void btnLoadPiece_Click(object sender, EventArgs e)
         {
-            LoadStyleOrAddPiece(true, false);
+            LoadPiece();
         }
 
         private void btnAddPiece_Click(object sender, EventArgs e)
         {
-            LoadStyleOrAddPiece(false, true);
+            AddPiece();
         }
 
-        public event Action<string> StyleSelected;
-        public event Action<string> PieceSelected;
-        private void LoadStyleOrAddPiece(bool loadStyle, bool addPiece)
+        private bool SetNewPiece()
         {
             if (listBoxSearchResults.SelectedItem == null)
             {
-                MessageBox.Show("Please select a piece first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                MessageBox.Show("Please select a piece first.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
 
-            string selectedResult = listBoxSearchResults.SelectedItem.ToString();
-            string[] parts = selectedResult.Split('\\'); // Assuming format: "style\\subfolder\\piece"
+            newPiece = listBoxSearchResults.SelectedItem.ToString().Replace(".png", "").ToLowerInvariant();
+
+            if (string.IsNullOrWhiteSpace(newPiece))
+            {
+                MessageBox.Show("Invalid piece key.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void LoadPiece()
+        {
+            if (!SetNewPiece())
+                return;
+
+            string[] parts = newPiece.Split('\\');
             if (parts.Length < 3)
             {
                 MessageBox.Show("Invalid result format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -400,8 +425,7 @@ namespace SLXEditor
 
             try
             {
-                string newStylePath = parts[0].ToLowerInvariant(); // Normalize to lowercase
-                string newPiece = selectedResult.Replace(".png", "").ToLowerInvariant(); // Normalize to lowercase
+                newStylePath = parts[0].ToLowerInvariant(); // Normalize to lowercase
 
                 // Validate newStylePath
                 if (string.IsNullOrWhiteSpace(newStylePath))
@@ -410,29 +434,27 @@ namespace SLXEditor
                     return;
                 }
 
-                // Validate newPiece
-                if (string.IsNullOrWhiteSpace(newPiece))
-                {
-                    MessageBox.Show("Invalid piece key.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                // Trigger the event to notify SLXEditForm
-                if (loadStyle) StyleSelected?.Invoke(newStylePath);
-                if (addPiece) PieceSelected?.Invoke(newPiece);
+                // Trigger the event to notify NLEditForm
+                StyleSelected?.Invoke(newStylePath);
 
                 // Update label
                 lblCurrentStyle.Text = curStyle?.NameInEditor;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while processing the selection.\n\n" +
-                                $"Selected Result: {selectedResult}\n" +
-                                $"Style Path: {parts[0]}\n" +
-                                $"Piece Key: {selectedResult.Replace(".png", "")}\n\n" +
-                                $"Exception: {ex.Message}\n{ex.StackTrace}",
+                MessageBox.Show($"An error occurred while processing the selection.\n\n",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void AddPiece()
+        {
+            if (!SetNewPiece())
+                return;
+
+            PieceSelected?.Invoke(newPiece);
+
+            lblCurrentStyle.Text = curStyle?.NameInEditor;
         }
 
         private void FormPieceSearch_Load(object sender, EventArgs e)
@@ -443,8 +465,7 @@ namespace SLXEditor
 
             this.Location = new Point(leftPos, topPos);
 
-            lblSearchingStyles.Left = btnClearFilters.Left +
-                                     (btnClearFilters.Width - lblSearchingStyles.Width) / 2;
+            lblButtonHint.Visible = false;
         }
 
         private void ResetUI()
@@ -565,6 +586,29 @@ namespace SLXEditor
         private void btnClose_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void ButtonMouseEnter(object sender, EventArgs e)
+        {
+            if (listBoxSearchResults.SelectedItem == null)
+                return;
+
+            if (sender is Button button)
+            {
+                if (button == btnLoadPiece)
+                    lblButtonHint.Text = $"Load this piece's style to the Piece Browser and highlight the piece without adding it to the level";
+                else if (button == btnAddPiece)
+                    lblButtonHint.Text = "Add this piece to the level without changing the current style";
+
+                lblButtonHint.Left = btnLoadPiece.Right - lblButtonHint.Width;
+                lblButtonHint.Visible = true;
+            }
+        }
+
+        private void ButtonMouseLeave(object sender, EventArgs e)
+        {
+            lblButtonHint.Text = "";
+            lblButtonHint.Visible = false;
         }
     }
 }
