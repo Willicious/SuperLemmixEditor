@@ -1135,10 +1135,10 @@ Ladderer=10";
                 return;
             }
 
-            // Create the pop-out window and pass pic_Level to it
+            // Create the pop-out window and pass picLevel to it
             levelArrangerWindow = new FormLevelArranger(picLevel, this, curRenderer, curSettings);
 
-            // Don't reposition pic_Level when zooming from within the Arrange Window
+            // Don't reposition picLevel when zooming from within the Arrange Window
             repositionAfterZooming = false;
 
             // Subscribe to the PicLevelReturned event to handle re-parenting
@@ -1148,11 +1148,11 @@ Ladderer=10";
                 {
                     repositionAfterZooming = true;
                     
-                    // Re-parent pic_Level back to the main form
+                    // Re-parent picLevel back to the main form
                     picLevel.Dock = DockStyle.None;
                     this.Controls.Add(picLevel);
 
-                    // Reset the position of pic_Level
+                    // Reset the position of picLevel
                     RepositionPicLevel();
                     picLevel.Image = curRenderer.CreateLevelImage();
 
@@ -2208,7 +2208,7 @@ Ladderer=10";
         /// </summary>
         private void LevelSelectSinglePiece()
         {
-            // Check whether MouseStartPos is actually in pic_Level
+            // Check whether MouseStartPos is actually in picLevel
             if (!curRenderer.IsPointInLevelArea() || curRenderer.GetMousePosInLevel() == null)
             {
                 CurLevel.UnselectAll();

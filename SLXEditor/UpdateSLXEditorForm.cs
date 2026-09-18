@@ -651,7 +651,7 @@ namespace SLXEditor
         }
 
         /// <summary>
-        /// Positions pic_Level at the correct place and resizes it accordingly.
+        /// Positions picLevel at the correct place and resizes it accordingly.
         /// </summary>
         private void RepositionPicLevel()
         {
@@ -662,7 +662,7 @@ namespace SLXEditor
 
             Size newPicLevelSize = new Size(this.Width - 276, this.Height - 178);
 
-            // Check for scroll bars. This method resizes pic_Level accordingly (if necessary).
+            // Check for scroll bars. This method resizes picLevel accordingly (if necessary).
             newPicLevelSize = CheckEnableLevelScrollbars(newPicLevelSize);
 
             picLevel.Size = newPicLevelSize;
@@ -813,7 +813,7 @@ namespace SLXEditor
 
             picPiece.Click += new EventHandler(picPieces_Click);
             picPiece.MouseDown += new MouseEventHandler(picPieces_MouseDown);
-            picPiece.MouseUp += new MouseEventHandler(pic_Level_MouseUp);
+            picPiece.MouseUp += new MouseEventHandler(picLevel_MouseUp);
 
             panelPieceBrowser.Controls.Add(picPiece);
 
