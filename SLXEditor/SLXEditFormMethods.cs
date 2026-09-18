@@ -1956,6 +1956,8 @@ Ladderer=10";
             if (comboPieceStyle.Items.Cast<string>().Contains(lblPieceStyle.Text))
             {
                 comboPieceStyle.Text = lblPieceStyle.Text;
+                selectedPieceKey = CurLevel.SelectionList().First().Key;
+                SelectPieceInBrowser(selectedPieceKey);
             }
             else
             {
@@ -1967,7 +1969,10 @@ Ladderer=10";
         {
             if (CurLevel == null)
                 return;
-            
+
+            // Always clear highlight when updating metadata
+            lblPieceHighlight.Visible = false;
+
             LevelPiece currentPiece;
             string pieceName;
             string pieceStyle;
@@ -1975,7 +1980,9 @@ Ladderer=10";
             string pieceSize;
 
             if (CurLevel.SelectionList().Count == 1)
+            {
                 currentPiece = CurLevel.SelectionList().First();
+            }
             else
             {
                 panelPieceMetaData.Enabled = false;
