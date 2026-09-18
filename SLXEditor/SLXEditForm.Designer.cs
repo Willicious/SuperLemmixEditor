@@ -3611,6 +3611,8 @@
             this.lblPieceHighlight.Text = "X";
             this.lblPieceHighlight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblPieceHighlight.Click += new System.EventHandler(this.lblPieceHighlight_Click);
+            this.lblPieceHighlight.MouseEnter += new System.EventHandler(this.lblPieceHighlight_MouseEnter);
+            this.lblPieceHighlight.MouseLeave += new System.EventHandler(this.lblPieceHighlight_MouseLeave);
             // 
             // btnStyleRandom
             // 
