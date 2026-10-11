@@ -11,7 +11,8 @@ namespace SLXEditor
     {
         private Keys selectedKey;
         private ListViewItem selectedItem;
-        private bool DoCheckForDuplicates = true;
+        private bool DoCheckForDuplicates;
+        private bool hasUnsavedChanges;
 
         private readonly List<Keys> defaultKeyList = new List<Keys>()
         {
@@ -33,13 +34,10 @@ namespace SLXEditor
         public FormHotkeys()
         {
             InitializeComponent();
-            GetMouseMandatoryHotkeys();
-            SetItemNames();
-        }
-
-        private void FormHotkeys_Load(object sender, EventArgs e)
-        {
             KeyPreview = true;
+
+            DoCheckForDuplicates = true;
+            hasUnsavedChanges = false;
         }
 
         private void FormHotkeys_Shown(object sender, EventArgs e)
@@ -56,7 +54,10 @@ namespace SLXEditor
 
             // Show the "Edited" label if defaults have been loaded
             if (HotkeyConfig.DefaultHotkeysLoaded)
-                UpdateCaption();
+            {
+                hasUnsavedChanges = true;
+                UpdateEditedLabel();
+            }
         }
 
         private void listViewHotkeys_Click(object sender, EventArgs e)
@@ -250,7 +251,8 @@ namespace SLXEditor
         {
             UpdateChosenKey();
             UpdateListview();
-            UpdateCaption();
+            hasUnsavedChanges = true;
+            UpdateEditedLabel();
         }
 
         private void btnClearAllKeys_Click(object sender, EventArgs e)
@@ -263,7 +265,8 @@ namespace SLXEditor
             HotkeyConfig.GetDefaultHotkeys();
             LoadHotkeysToListView();
             ResetUI();
-            UpdateCaption();
+            hasUnsavedChanges = true;
+            UpdateEditedLabel();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -271,7 +274,8 @@ namespace SLXEditor
             WriteToHotkeyConfig();
             HotkeyConfig.SaveHotkeysToIniFile();
             ResetUI();
-            UpdateCaption(true);
+            hasUnsavedChanges = false;
+            UpdateEditedLabel();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -281,7 +285,7 @@ namespace SLXEditor
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            if (lblEditedSaved.Visible && lblEditedSaved.ForeColor == Color.DarkViolet)
+            if (hasUnsavedChanges)
             {
                 // Ask the user if they want to save
                 DialogResult result = MessageBox.Show("Do you want to save the current configuration?",
@@ -303,22 +307,22 @@ namespace SLXEditor
             Close();
         }
 
-        private void UpdateCaption(bool isSaved = false)
+        private void UpdateEditedLabel()
         {
             lblEditedSaved.Visible = true;
 
-            if (isSaved)
-            {
-                lblEditedSaved.ForeColor = Color.MediumSeaGreen;
-                lblEditedSaved.Text = "Hotkey Configuration saved successfully!";
-                this.Text = "SLX Editor - Hotkey Configuration";
-            }
-            else
+            if (hasUnsavedChanges)
             {
                 lblEditedSaved.ForeColor = Color.DarkViolet;
                 lblEditedSaved.Text = "Hotkey Configuration edited...";
-                this.Text = "SLX Editor - Hotkey Configuration - [Edited]";
-            }  
+                Text = "SLX Editor - Hotkey Configuration - [Edited]";
+            }
+            else
+            {
+                lblEditedSaved.ForeColor = Color.MediumSeaGreen;
+                lblEditedSaved.Text = "Hotkey Configuration saved successfully!";
+                Text = "SLX Editor - Hotkey Configuration";
+            }
         }
 
         private void UpdateComboBox(Keys key)
@@ -389,7 +393,8 @@ namespace SLXEditor
                 selectedItem.SubItems[1].Text = "<Unassigned>";
                 ResetComponents();
                 ResetUI();
-                UpdateCaption();
+                hasUnsavedChanges = true;
+                UpdateEditedLabel();
             }
         }
 
@@ -405,7 +410,8 @@ namespace SLXEditor
 
             ResetComponents();
             ResetUI();
-            UpdateCaption();
+            hasUnsavedChanges = true;
+            UpdateEditedLabel();
         }
 
         private void ClearHighlights()
@@ -576,8 +582,9 @@ namespace SLXEditor
             lblDuplicateDetected.Visible = false;
             lblDuplicateAction.Visible = false;
             lblDuplicateAction.Text = "";
-            lblEditedSaved.Visible = false;
-            lblEditedSaved.Text = "";
+
+            if (!hasUnsavedChanges)
+                lblEditedSaved.Visible = false;
 
             // Reset buttons
             btnAssignChosenKey.Enabled = false;
@@ -612,8 +619,9 @@ namespace SLXEditor
             lblDuplicateDetected.Visible = false;
             lblDuplicateAction.Visible = false;
             lblDuplicateAction.Text = "";
-            lblEditedSaved.Visible = false;
-            lblEditedSaved.Text = "";
+
+            if (!hasUnsavedChanges)
+                lblEditedSaved.Visible = false;
 
             // Set buttons
             btnAssignChosenKey.Enabled = false;
@@ -682,8 +690,8 @@ namespace SLXEditor
                 listViewHotkeys.Focus();
             }
 
-            // Rebuild mandatory mouse items after populating
             GetMouseMandatoryHotkeys();
+            SetItemNames();
         }
 
         private void GetMouseMandatoryHotkeys()
