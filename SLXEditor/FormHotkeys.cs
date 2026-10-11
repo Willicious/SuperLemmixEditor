@@ -204,6 +204,11 @@ namespace SLXEditor
             HandleListenedInput(sender, e, listenedKey);
         }
 
+        private void btnClearKey_Click(object sender, EventArgs e)
+        {
+            ClearCurrentKey();
+        }
+
         private void btnListen_Click(object sender, EventArgs e)
         {
             ClearHighlights();
@@ -251,8 +256,6 @@ namespace SLXEditor
         private void btnClearAllKeys_Click(object sender, EventArgs e)
         {
             ClearAllKeys();
-            ResetUI();
-            UpdateCaption();
         }
 
         private void btnLoadDefault_Click(object sender, EventArgs e)
@@ -378,14 +381,31 @@ namespace SLXEditor
             }
         }
 
+        private void ClearCurrentKey()
+        {
+            if (listViewHotkeys.SelectedItems.Count > 0)
+            {
+                selectedItem = listViewHotkeys.SelectedItems[0];
+                selectedItem.SubItems[1].Text = "<Unassigned>";
+                ResetComponents();
+                ResetUI();
+                UpdateCaption();
+            }
+        }
+
         private void ClearAllKeys()
         {
             foreach (ListViewItem item in listViewHotkeys.Items)
             {
+                if (item.SubItems[0].Text.Equals("Select/Drag Pieces"))
+                    continue;
+
                 item.SubItems[1].Text = "<Unassigned>";
             }
 
             ResetComponents();
+            ResetUI();
+            UpdateCaption();
         }
 
         private void ClearHighlights()
@@ -484,8 +504,9 @@ namespace SLXEditor
         private void ResetUI()
         {
             DoCheckForDuplicates = false;
+            int selectedItems = listViewHotkeys.SelectedItems.Count;
 
-            if (listViewHotkeys.SelectedItems.Count > 0)
+            if (selectedItems > 0)
             {
                 ClearHighlights();
                 selectedItem = listViewHotkeys.SelectedItems[0];
@@ -524,15 +545,21 @@ namespace SLXEditor
                 {
                     SetUIForSelectPiecesHotkey();
                 }
+                else if (selectedItems == 1) // Enable Clear Key button for all other hotkeys
+                {
+                    btnClearKey.Enabled = selectedItem.SubItems[1].Text != "<Unassigned>";
+                }
             }
 
             DoCheckForDuplicates = true;
         }
 
         private void ResetComponents()
-        {           
+        {
             // Reset labels
-            lblActionToBeAssigned.Text = selectedItem.SubItems[0].Text;
+            string keyText = selectedItem.SubItems[0].Text;
+            lblActionToBeAssigned.Font = new Font("Microsoft Sans Serif", keyText.Length > 40 ? 8 : 10);
+            lblActionToBeAssigned.Text = keyText;
             lblCurrentHotkey.Text = selectedItem.SubItems[1].Text;
             lblListening.Visible = false;
             lblAddModifier.Visible = true;
@@ -554,6 +581,7 @@ namespace SLXEditor
 
             // Reset buttons
             btnAssignChosenKey.Enabled = false;
+            btnClearKey.Enabled = false;
             btnCancel.Enabled = false;
             btnListen.Enabled = true;
 
