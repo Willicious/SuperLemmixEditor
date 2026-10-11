@@ -34,7 +34,7 @@ namespace SLXEditor
         {
             InitializeComponent();
             GetMouseMandatoryHotkeys();
-            SetSubItemNames();
+            SetItemNames();
         }
 
         private void FormHotkeys_Load(object sender, EventArgs e)
@@ -617,15 +617,15 @@ namespace SLXEditor
             return null; // No duplicates found
         }
 
-        private void SetSubItemNames()
+        private void SetItemNames()
         {
             // Iterate through the items in the ListView
             foreach (ListViewItem item in listViewHotkeys.Items)
             {
                 if (item.SubItems.Count > 1)
                 {
-                    // Set the Name of SubItem[1] to its Text value
-                    item.SubItems[1].Name = item.SubItems[1].Text;
+                    // Set the Name of the item to its SubItems[0].Text value
+                    item.Name = item.SubItems[0].Text;
                 }
             }
         }
