@@ -84,17 +84,17 @@
             this.screenStartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deprecatedPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.snapToGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showMissingPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sepMissingPieces = new System.Windows.Forms.ToolStripSeparator();
             this.searchPiecesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.snapToGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.refreshStylesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.styleManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -714,7 +714,9 @@
             this.rulersToolStripMenuItem,
             this.screenStartToolStripMenuItem,
             this.backgroundToolStripMenuItem,
-            this.deprecatedPiecesToolStripMenuItem});
+            this.deprecatedPiecesToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.snapToGridToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
             this.viewToolStripMenuItem.Text = "View";
@@ -870,6 +872,19 @@
             this.deprecatedPiecesToolStripMenuItem.Text = "Show Deprecated";
             this.deprecatedPiecesToolStripMenuItem.Click += new System.EventHandler(this.deprecatedPiecesToolStripMenuItem_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(457, 6);
+            // 
+            // snapToGridToolStripMenuItem
+            // 
+            this.snapToGridToolStripMenuItem.Name = "snapToGridToolStripMenuItem";
+            this.snapToGridToolStripMenuItem.ShortcutKeyDisplayString = "F9";
+            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
+            this.snapToGridToolStripMenuItem.Text = "Snap to Grid";
+            this.snapToGridToolStripMenuItem.Click += new System.EventHandler(this.snapToGridToolStripMenuItem_Click);
+            // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -880,8 +895,7 @@
             this.hotkeysToolStripMenuItem,
             this.toolStripSeparator5,
             this.refreshStylesToolStripMenuItem,
-            this.styleManagerToolStripMenuItem,
-            this.toolStripSeparator2});
+            this.styleManagerToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(69, 29);
             this.optionsToolStripMenuItem.Text = "Tools";
@@ -906,14 +920,6 @@
             this.searchPiecesToolStripMenuItem.Size = new System.Drawing.Size(347, 34);
             this.searchPiecesToolStripMenuItem.Text = "Search Pieces";
             this.searchPiecesToolStripMenuItem.Click += new System.EventHandler(this.searchPiecesToolStripMenuItem_Click);
-            // 
-            // snapToGridToolStripMenuItem
-            // 
-            this.snapToGridToolStripMenuItem.Name = "snapToGridToolStripMenuItem";
-            this.snapToGridToolStripMenuItem.ShortcutKeyDisplayString = "F9";
-            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(408, 34);
-            this.snapToGridToolStripMenuItem.Text = "Snap to Grid";
-            this.snapToGridToolStripMenuItem.Click += new System.EventHandler(this.snapToGridToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
@@ -951,11 +957,6 @@
             this.styleManagerToolStripMenuItem.Size = new System.Drawing.Size(347, 34);
             this.styleManagerToolStripMenuItem.Text = "Style Manager";
             this.styleManagerToolStripMenuItem.Click += new System.EventHandler(this.styleManagerToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(344, 6);
             // 
             // helpToolStripMenuItem
             // 
@@ -4233,11 +4234,9 @@
         private System.Windows.Forms.CheckBox checkLadderer;
         private System.Windows.Forms.Label lblLadderer;
         private NumUpDownOverwrite numLadderer;
-        private System.Windows.Forms.ToolStripMenuItem snapToGridToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem playLevelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem validateLevelToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         public System.Windows.Forms.CheckBox checkAutoStart;
         private System.Windows.Forms.CheckBox checkSuperlemming;
         private NumUpDownOverwrite numCountdown;
@@ -4345,6 +4344,8 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem snapToGridToolStripMenuItem;
     }
 }
 
