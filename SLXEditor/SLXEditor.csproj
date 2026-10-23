@@ -167,6 +167,7 @@
     <Compile Include="LevelPieceGadget.cs" />
     <Compile Include="LevelPieceTerrain.cs" />
     <Compile Include="LevelPieceTerrainGroup.cs" />
+    <Compile Include="OnlineUpdater.cs" />
     <Compile Include="RecentLevels.cs" />
     <Compile Include="SLXTextDataNode.cs" />
     <Compile Include="Constants.cs" />
@@ -332,6 +333,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$line = (Select-String -Path '$(ProjectDir)Properties\AssemblyInfo.cs' -Pattern '^\s*\[assembly:\s*AssemblyVersion\(').Line; $v = $line.Split([char]34)[1]; $p = $v.Split('.'); if ([int]$p[2] -gt 0) { $v = $p[0] + '.' + $p[1] + '.' + $p[2] } else { $v = $p[0] + '.' + $p[1] }; $f = '$(ProjectDir)..\Test\latest-version.txt'; if (!(Test-Path $f) -or (Get-Content $f -Raw).Trim() -ne $v) { Set-Content -Path $f -Value $v -NoNewline -Encoding ASCII }"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

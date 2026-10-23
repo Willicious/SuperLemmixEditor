@@ -1677,11 +1677,7 @@ namespace SLXEditor
             LinkControlsToMouseEvents(this);
             UpdateRecentLevelsMenu();
             UpdateControlTags();
-        }
-
-        private void whatsNewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAboutSLXEditor();
+            MaybeUpdateEditor();
         }
 
         private void btnSearchPieces_Click(object sender, EventArgs e)
@@ -1916,6 +1912,11 @@ namespace SLXEditor
         private void lblPieceHighlight_MouseLeave(object sender, EventArgs e)
         {
             lblPieceHighlight.BackColor = Color.Lime;
+        }
+
+        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckForUpdates();
         }
     }
 }

@@ -3221,6 +3221,115 @@ Ladderer=10";
             lblPieceHighlight.Tag = "Click to clear the highlight";
         }
 
+        private async void MaybeUpdateEditor()
+        {
+            try
+            {
+                var updater = new OnlineUpdater(curSettings);
+                OnlineUpdater.UpdateResult result = await updater.CheckForUpdate();
+
+                if (result != OnlineUpdater.UpdateResult.UpdateAvailable)
+                    return;
+
+                DialogResult answer = MessageBox.Show(
+                    "A new version of SLXEditor is available. Would you like to update now?\n\n" +
+                    "SLXEditor will close and restart when the update is installed.",
+                    "Update Available",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Information);
+
+                if (answer == DialogResult.No)
+                    return;
+
+                result = await updater.DownloadAndInstallUpdate();
+
+                if (result == OnlineUpdater.UpdateResult.UpdateStarted)
+                    Application.Exit();
+                else
+                    MessageBox.Show(
+                        "The update could not be installed. Please try again later.",
+                        "Update Failed",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+            }
+            catch
+            {
+                // Don't interrupt startup if the update check fails.
+            }
+
+            curSettings.LastUpdateCheck = DateTime.Now;
+            curSettings.SaveSettings();
+        }
+
+        private async void CheckForUpdates()
+        {
+            checkForUpdatesToolStripMenuItem.Enabled = false;
+
+            try
+            {
+                var updater = new OnlineUpdater(curSettings);
+                OnlineUpdater.UpdateResult result = await updater.CheckForUpdate(true);
+
+                switch (result)
+                {
+                    case OnlineUpdater.UpdateResult.CheckFailed:
+                        MessageBox.Show(
+                            "Unable to check for updates. Please try again later.",
+                            "Check for Updates",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        break;
+
+                    case OnlineUpdater.UpdateResult.UpToDate:
+                        MessageBox.Show(
+                            "You are already using the latest version of SLXEditor.",
+                            "Check for Updates",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Asterisk);
+                        break;
+
+                    case OnlineUpdater.UpdateResult.UpdateAvailable:
+                        DialogResult answer = MessageBox.Show(
+                            "A new version of SLXEditor is available. Would you like to update now?\n\n" +
+                            "SLXEditor will close and restart automatically when the update is complete.",
+                            "Update Available",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Information);
+
+                        if (answer == DialogResult.No)
+                        {
+                            result = OnlineUpdater.UpdateResult.UpdateDeclined;
+                            break;
+                        }
+
+                        result = await updater.DownloadAndInstallUpdate();
+
+                        if (result == OnlineUpdater.UpdateResult.UpdateStarted)
+                            Application.Exit();
+                        else
+                            MessageBox.Show(
+                                "The update could not be installed. Please try again later.",
+                                "Update Failed",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "An error occurred while checking for updates:\n" + ex.Message,
+                    "Update Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (!IsDisposed && !Disposing)
+                    checkForUpdatesToolStripMenuItem.Enabled = true;
+            }
+        }
+
         private void SetHotkeys()
         {
             HotkeyConfig.GetDefaultHotkeys();
