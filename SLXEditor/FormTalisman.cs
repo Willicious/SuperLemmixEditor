@@ -276,7 +276,9 @@ namespace SLXEditor
         /// </summary>
         private void butTalismanSave_Click(object sender, EventArgs e)
         {
-            if (talisman.Requirements.Count == 0)
+            if (talisman.Requirements.Count == 0 &&
+                talisman.SkillMinimum.Count == 0 &&
+                talisman.SkillMaximum.Count == 0)
             {
                 // Alert user that the talisman has no requirement
                 if (MessageBox.Show(
