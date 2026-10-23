@@ -798,7 +798,7 @@
             this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
             this.terrainToolStripMenuItem.ShortcutKeyDisplayString = "F2";
             this.terrainToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.terrainToolStripMenuItem.Text = "Show/Hide Terrain";
+            this.terrainToolStripMenuItem.Text = "Show Terrain";
             this.terrainToolStripMenuItem.Click += new System.EventHandler(this.terrainToolStripMenuItem_Click);
             // 
             // steelToolStripMenuItem
@@ -808,7 +808,7 @@
             this.steelToolStripMenuItem.Name = "steelToolStripMenuItem";
             this.steelToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F2";
             this.steelToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.steelToolStripMenuItem.Text = "Show/Hide Steel";
+            this.steelToolStripMenuItem.Text = "Show Steel";
             this.steelToolStripMenuItem.Click += new System.EventHandler(this.steelToolStripMenuItem_Click);
             // 
             // objectToolStripMenuItem
@@ -819,7 +819,7 @@
             this.objectToolStripMenuItem.Name = "objectToolStripMenuItem";
             this.objectToolStripMenuItem.ShortcutKeyDisplayString = "F3";
             this.objectToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.objectToolStripMenuItem.Text = "Show/Hide Objects";
+            this.objectToolStripMenuItem.Text = "Show Objects";
             this.objectToolStripMenuItem.Click += new System.EventHandler(this.objectToolStripMenuItem_Click);
             // 
             // triggerAreasToolStripMenuItem
@@ -828,7 +828,7 @@
             this.triggerAreasToolStripMenuItem.Name = "triggerAreasToolStripMenuItem";
             this.triggerAreasToolStripMenuItem.ShortcutKeyDisplayString = "F4";
             this.triggerAreasToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.triggerAreasToolStripMenuItem.Text = "Show/Hide Triggers";
+            this.triggerAreasToolStripMenuItem.Text = "Show Triggers";
             this.triggerAreasToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.triggerAreasToolStripMenuItem.Click += new System.EventHandler(this.triggerAreasToolStripMenuItem_Click);
             // 
@@ -837,7 +837,7 @@
             this.rulersToolStripMenuItem.Name = "rulersToolStripMenuItem";
             this.rulersToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F4";
             this.rulersToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.rulersToolStripMenuItem.Text = "Show/Hide Rulers";
+            this.rulersToolStripMenuItem.Text = "Show Rulers";
             this.rulersToolStripMenuItem.Click += new System.EventHandler(this.rulersToolStripMenuItem_Click);
             // 
             // screenStartToolStripMenuItem
@@ -846,7 +846,7 @@
             this.screenStartToolStripMenuItem.Name = "screenStartToolStripMenuItem";
             this.screenStartToolStripMenuItem.ShortcutKeyDisplayString = "F5";
             this.screenStartToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.screenStartToolStripMenuItem.Text = "Show/Hide Screen Start";
+            this.screenStartToolStripMenuItem.Text = "Show Screen Start";
             this.screenStartToolStripMenuItem.Click += new System.EventHandler(this.screenStartToolStripMenuItem_Click);
             // 
             // backgroundToolStripMenuItem
@@ -855,7 +855,7 @@
             this.backgroundToolStripMenuItem.Name = "backgroundToolStripMenuItem";
             this.backgroundToolStripMenuItem.ShortcutKeyDisplayString = "F6";
             this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.backgroundToolStripMenuItem.Text = "Show/Hide Background";
+            this.backgroundToolStripMenuItem.Text = "Show Background";
             this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
             // 
             // deprecatedPiecesToolStripMenuItem
@@ -864,7 +864,7 @@
             this.deprecatedPiecesToolStripMenuItem.Name = "deprecatedPiecesToolStripMenuItem";
             this.deprecatedPiecesToolStripMenuItem.ShortcutKeyDisplayString = "F7";
             this.deprecatedPiecesToolStripMenuItem.Size = new System.Drawing.Size(460, 34);
-            this.deprecatedPiecesToolStripMenuItem.Text = "Show/Hide Deprecated";
+            this.deprecatedPiecesToolStripMenuItem.Text = "Show Deprecated";
             this.deprecatedPiecesToolStripMenuItem.Click += new System.EventHandler(this.deprecatedPiecesToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
