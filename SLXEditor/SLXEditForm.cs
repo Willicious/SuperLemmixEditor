@@ -1743,8 +1743,16 @@ namespace SLXEditor
             LoadNewLevel(filename);
         }
 
+        private bool EditingText()
+        {
+            return ActiveControl == txtLevelTitle || ActiveControl == txtLevelAuthor;
+        }
+
         private void ComboMouseEnter(object sender, EventArgs e)
         {
+            if (EditingText())
+                return;
+
             // Focus the combo if the mouse is hovered over it to allow wheel interaction
             if (sender is ComboBox combo)
             {
@@ -1763,7 +1771,9 @@ namespace SLXEditor
                     if (!combo.DroppedDown && !combo.Bounds.Contains(PointToClient(MousePosition)))
                     {
                         HandlePieceBrowserWindowCombo(false);
-                        PullFocusFromTextInputs();
+
+                        if (!EditingText())
+                            PullFocusFromTextInputs();
                     }
                 }));
             }
