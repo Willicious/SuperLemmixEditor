@@ -1674,7 +1674,7 @@ namespace SLXEditor
             PositionPieceControls();
             MoveControlsOnFormResize();
             UpdateMissingPiecesMenuItems();
-            LinkControlsToMouseEvents(this);
+            LinkControlsToEventHandlers(this);
             UpdateRecentLevelsMenu();
             UpdateControlTags();
             MaybeUpdateEditor();
@@ -1741,6 +1741,12 @@ namespace SLXEditor
             }
 
             LoadNewLevel(filename);
+        }
+
+        private void TextKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                PullFocusFromTextInputs();
         }
 
         private bool EditingText()

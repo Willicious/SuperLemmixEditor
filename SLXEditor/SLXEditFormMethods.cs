@@ -3073,9 +3073,9 @@ Ladderer=10";
         }
 
         /// <summary>
-        /// This automatically links all controls to the mouse events that show hints in the hint label
+        /// This links all controls to the event handlers that show hints in the hint label, plus a few others
         /// </summary>
-        private void LinkControlsToMouseEvents(Control parent)
+        private void LinkControlsToEventHandlers(Control parent)
         {
             foreach (Control ctrl in parent.Controls)
             {
@@ -3092,10 +3092,11 @@ Ladderer=10";
                     ctrl.Enter += Control_MouseEnter;
                     ctrl.MouseMove += Control_MouseEnter;
                     ctrl.MouseLeave += Control_MouseLeave;
+                    ctrl.KeyDown += TextKeyDown;
                 }
 
                 if (ctrl.HasChildren)
-                    LinkControlsToMouseEvents(ctrl);
+                    LinkControlsToEventHandlers(ctrl);
             }
         }
 

@@ -321,10 +321,10 @@
             this.txtFocusPieceBrowser = new SLXEditor.FocusTextBox();
             this.picDragNewPiece = new System.Windows.Forms.PictureBox();
             this.lblHint = new System.Windows.Forms.Label();
-            this.txtFocus = new SLXEditor.FocusTextBox();
             this.btnPreviousLevel = new System.Windows.Forms.Button();
             this.btnNextLevel = new System.Windows.Forms.Button();
             this.lblLevel = new System.Windows.Forms.Label();
+            this.txtFocus = new SLXEditor.FocusTextBox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLevel)).BeginInit();
             this.tabProperties.SuspendLayout();
@@ -1152,6 +1152,7 @@
             this.txtLevelID.Name = "txtLevelID";
             this.txtLevelID.Size = new System.Drawing.Size(224, 26);
             this.txtLevelID.TabIndex = 29;
+            this.txtLevelID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextKeyDown);
             this.txtLevelID.Leave += new System.EventHandler(this.textbox_Leave);
             // 
             // lblLevelID
@@ -1522,6 +1523,7 @@
             this.txtLevelAuthor.Name = "txtLevelAuthor";
             this.txtLevelAuthor.Size = new System.Drawing.Size(302, 26);
             this.txtLevelAuthor.TabIndex = 3;
+            this.txtLevelAuthor.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextKeyDown);
             this.txtLevelAuthor.Leave += new System.EventHandler(this.textbox_Leave);
             // 
             // lblAuthor
@@ -1542,6 +1544,7 @@
             this.txtLevelTitle.Name = "txtLevelTitle";
             this.txtLevelTitle.Size = new System.Drawing.Size(302, 26);
             this.txtLevelTitle.TabIndex = 1;
+            this.txtLevelTitle.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextKeyDown);
             this.txtLevelTitle.Leave += new System.EventHandler(this.textbox_Leave);
             // 
             // lblTitle
@@ -3889,16 +3892,6 @@
             this.lblHint.Text = "Shows hints when hovering over a control";
             this.lblHint.Visible = false;
             // 
-            // txtFocus
-            // 
-            this.txtFocus.Location = new System.Drawing.Point(-150, 2);
-            this.txtFocus.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtFocus.Name = "txtFocus";
-            this.txtFocus.Size = new System.Drawing.Size(58, 26);
-            this.txtFocus.TabIndex = 37;
-            this.txtFocus.TabStop = false;
-            this.txtFocus.Text = "asdf";
-            // 
             // btnPreviousLevel
             // 
             this.btnPreviousLevel.Location = new System.Drawing.Point(1319, 3);
@@ -3927,6 +3920,16 @@
             this.lblLevel.Size = new System.Drawing.Size(46, 20);
             this.lblLevel.TabIndex = 92;
             this.lblLevel.Text = "Level";
+            // 
+            // txtFocus
+            // 
+            this.txtFocus.Location = new System.Drawing.Point(-150, 2);
+            this.txtFocus.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtFocus.Name = "txtFocus";
+            this.txtFocus.Size = new System.Drawing.Size(58, 26);
+            this.txtFocus.TabIndex = 37;
+            this.txtFocus.TabStop = false;
+            this.txtFocus.Text = "asdf";
             // 
             // SLXEditForm
             // 
