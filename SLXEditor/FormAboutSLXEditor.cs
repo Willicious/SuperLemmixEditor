@@ -113,25 +113,37 @@ namespace SLXEditor
             //WriteBoldText(richTextBox, "\n• Template Bold Text\n");
             //richTextBox.AppendText(" • Template Text.\n");
 
+            WriteBoldText(richTextBox, "\n• Online Updates\n");
+            richTextBox.AppendText(" • The Editor can now check online for updates! This happens automatically once per week when starting the Editor, or can be done manually using 'Help > Check For Updates...'\n");
+
+            WriteBoldText(richTextBox, "\n• Global/Special Backgrounds\n");
+            richTextBox.AppendText(" • The background tiles from 'special' (amiga_blue and dos_black) are now available globally.\n");
+            richTextBox.AppendText(" • The background tiles from 'proxima_tile' are matched to their associated 'orig_*' and 'ohno_*' styles.\n");
+            richTextBox.AppendText(" • PLEASE NOTE - The tiles previously in CE versions of 'orig_*' and 'ohno_*' have now been removed to avoid duplication. They can still be accessed from these styles as before, but now point to the relevant background tile in 'proxima_tile'. This is to ensure cross-compatibility with the NeoLemmix styles.\n");
+
+            WriteBoldText(richTextBox, "\n• Hotkey Config\n");
+            richTextBox.AppendText(" • Added 'Clear Current Key' button.\n");
+            richTextBox.AppendText(" • Bugfix - 'Edited' label persists until changes have been saved successfully.\n");
+
+            WriteBoldText(richTextBox, "\n• Piece Highlight\n");
+            richTextBox.AppendText(" • When loading a style from a selected piece (from the button on the Pieces tab), the piece is now highlighted in the Piece Browser.\n");
+
+            WriteBoldText(richTextBox, "\n• Piece Search\n");
+            richTextBox.AppendText(" • Added a 'Load Piece' button. When clicked, the relevant style is loaded and the selected piece is highlighted in the Piece Browser.\n");
+
+            WriteBoldText(richTextBox, "\n• Misc UI\n");
+            richTextBox.AppendText(" • Added default title 'Untitled' when creating a new level.\n");
+            richTextBox.AppendText(" • Added setting for 'Always Use Auto Screen Start'.\n");
+            richTextBox.AppendText(" • Added control hints for various buttons/controls.\n");
+            richTextBox.AppendText(" • Moved 'Snap to Grid' to 'View' menu.\n");
+            richTextBox.AppendText(" • Moved 'About' to 'Help' menu.\n");
+
             WriteBoldText(richTextBox, "\n• Bugfixes\n");
-            richTextBox.AppendText(" • Rulers can now be fully opaque without causing an exception due to lack of alpha channel.\n");
-            richTextBox.AppendText(" • Piece data is correctly updated after adding a ruler.\n");
-            richTextBox.AppendText(" • Piece Search - Piece data is correctly updated after adding a piece.\n");
-            richTextBox.AppendText(" • Piece Search - Trigger Effect combo now fits all items, no need for scrolling.\n");
-            richTextBox.AppendText(" • Pieces tab controls are properly positioned with no overlap.\n");
-
-            WriteBoldText(richTextBox, "\n• Talismans\n");
-            richTextBox.AppendText(" • Added support for Minimum Skill Limit talisman. This specifies a minimum amount that the player should use (up to 10) of a particular skill.\n");
-
-            WriteBoldText(richTextBox, "\n• Keep Playtest Replays\n");
-            richTextBox.AppendText(" • Option added to keep playtest replays. If checked, replays generated when playtesting a level will be saved to the 'Auto_Playtest' folder. If unchecked, this folder will be deleted when the Editor is closed.\n");
-
-            WriteBoldText(richTextBox, "\n• Open Recent\n");
-            richTextBox.AppendText(" • Recent levels can now be opened via File > Open Recent.\n");
-
-            WriteBoldText(richTextBox, "\n• Bugfixes\n");
-            richTextBox.AppendText(" • Applying a Custom Skillset immediately commits the skillset to the active level.\n");
-            richTextBox.AppendText(" • 'Animation' objects are recognised as 'No Effect'.\n");
+            richTextBox.AppendText(" • Talisman dialog accounts for Skill Min/Max when saving. This prevents the erroneous 'has no requirements' popup.\n");
+            richTextBox.AppendText(" • Unknown hotkey strings are tolerated (and ignored/replaced with default).\n");
+            richTextBox.AppendText(" • Entrance Hatches are only ever moved by 1 index when using Draw Sooner/Later.\n");
+            richTextBox.AppendText(" • When settings can't be saved for any reason, the Editor fails silently and logs the error rather than crashing.\n");
+            richTextBox.AppendText(" • Combos no longer pull focus from text inputs when the text is actually being edited.\n");
 
             // =======================
             // All Features
@@ -146,6 +158,9 @@ namespace SLXEditor
 
             WriteBoldText(richTextBox, "\n• Previous/Next Level Buttons\n");
             richTextBox.AppendText(" • Added '<<' and '>>' buttons for navigating between levels in the current directory.\n");
+
+            WriteBoldText(richTextBox, "\n• Open Recent\n");
+            richTextBox.AppendText(" • Recent levels can now be opened via File > Open Recent.\n");
 
             WriteBoldText(richTextBox, "\n• Crop Level Width/Height\n");
             richTextBox.AppendText(" • Added a new Crop rectangle which makes it much quicker and easier to adjust level width and height to fit the layout.\n");
@@ -195,6 +210,9 @@ namespace SLXEditor
             WriteBoldText(richTextBox, "\n• Refresh Rulers\n");
             richTextBox.AppendText(" • Refresh Styles now also refreshes rulers\n");
 
+            WriteBoldText(richTextBox, "\n• Keep Playtest Replays\n");
+            richTextBox.AppendText(" • Option added to keep playtest replays. If checked, replays generated when playtesting a level will be saved to the 'Auto_Playtest' folder. If unchecked, this folder will be deleted when the Editor is closed.\n");
+
             WriteBoldText(richTextBox, "\n• INI Exporter/Batch Exporter\n");
             richTextBox.AppendText(" • Export individual levels to RetroLemmini (.rlv) and Lemmini (.ini)\n");
             richTextBox.AppendText(" • Create translation tables to link SuperLemmix style pieces to their (Retro)Lemmini counterparts\n");
@@ -204,6 +222,9 @@ namespace SLXEditor
             richTextBox.AppendText(" • Batch Export Bugfix - Grouped pieces are ungrouped before exporting (original level is not affected)\n");
             richTextBox.AppendText(" • When adding a piece link in the INI Exporter, if the translation table for the selected piece doesn't exist, it is created automatically\n");
             richTextBox.AppendText(" • Release Rate is converted to RetroLemmini-compatible value when exporting\n");
+
+            WriteBoldText(richTextBox, "\n• Talismans\n");
+            richTextBox.AppendText(" • Added support for Minimum Skill Limit talisman. This specifies a minimum amount that the player should use (up to 10) of a particular skill.\n");
 
             WriteBoldText(richTextBox, "\n• NeoLemmix 12.14 Objects\n");
             richTextBox.AppendText(" • Added support for NeoLemmix 12.14 objects (Portals, De-Neutralizer, Skill De-Assigner)\n");
@@ -264,7 +285,13 @@ namespace SLXEditor
             richTextBox.AppendText(" • Enhanced support for non-English locales.\n");
             richTextBox.AppendText(" • Fixed repeat renderings when auto-resizing the form.\n");
             richTextBox.AppendText(" • 'Use Auto Screen Start' is now written to/from a setting object rather that directly to/from the checkbox.\n");
-
+            richTextBox.AppendText(" • Applying a Custom Skillset immediately commits the skillset to the active level.\n");
+            richTextBox.AppendText(" • 'Animation' objects are recognised as 'No Effect'.\n");
+            richTextBox.AppendText(" • Rulers can now be fully opaque without causing an exception due to lack of alpha channel.\n");
+            richTextBox.AppendText(" • Piece data is correctly updated after adding a ruler.\n");
+            richTextBox.AppendText(" • Piece Search - Piece data is correctly updated after adding a piece.\n");
+            richTextBox.AppendText(" • Piece Search - Trigger Effect combo now fits all items, no need for scrolling.\n");
+            richTextBox.AppendText(" • Pieces tab controls are properly positioned with no overlap.\n");
 
             WriteBoldText(richTextBox, $"\n\nNLEditor -> SLXEditor Updates\n");
 
